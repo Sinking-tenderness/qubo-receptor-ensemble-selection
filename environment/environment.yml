@@ -1,0 +1,18 @@
+name: qubo-receptor-ensemble
+channels:
+  - conda-forge
+dependencies:
+  - python=3.11
+  - jupyterlab
+  - matplotlib
+  - numpy
+  - pandas
+  - pytest
+  - rdkit
+  - scikit-learn
+  - scipy
+  - seaborn
+  - pip
+  - pip:
+      - -e ..
+

@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "qubo-receptor-ensemble-selection"
+version = "0.1.0"
+description = "QUBO-guided sparse receptor ensemble selection for virtual screening"
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+authors = [{ name = "Sinking-tenderness" }]
+dependencies = [
+  "numpy",
+  "pandas",
+  "scikit-learn",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+

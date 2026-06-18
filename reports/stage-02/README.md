@@ -1,0 +1,11 @@
+# Stage 2: Molecular Docking and Virtual Screening
+
+Planned deliverables:
+
+- target and crystal-structure selection rationale
+- receptor and ligand preparation protocol
+- redocking validation and pose RMSD
+- active/decoy screening results
+- ROC-AUC, PR-AUC, EF1%, EF5%, and BEDROC with uncertainty
+- limitations, failure analysis, and reproducibility notes
+

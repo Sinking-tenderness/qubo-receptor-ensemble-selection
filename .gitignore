@@ -1,0 +1,61 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+build/
+dist/
+
+# Environments and secrets
+.env
+.env.*
+!.env.example
+.venv/
+venv/
+env/
+*.key
+*.pem
+
+# Editors and operating systems
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Local research data
+data/raw/
+data/processed/
+receptors/raw/
+receptors/prepared/
+ligands/raw/
+ligands/prepared/
+
+# Large molecular files and trajectories
+*.dcd
+*.xtc
+*.trr
+*.nc
+*.mdcrd
+*.h5
+*.hdf5
+
+# Generated docking and experiment output
+results/docking/
+results/runs/
+logs/
+*.log
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+*.bak
+
