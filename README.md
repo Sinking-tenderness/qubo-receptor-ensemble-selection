@@ -66,7 +66,19 @@ trajectories, credentials, and machine-specific files are not committed.
 Every experiment should instead record source identifiers, download dates,
 software versions, parameters, random seeds, failures, and generated manifests.
 
+## Incremental workflow
+
+Each completed teaching or research module should end with a focused commit:
+
+1. run the smallest relevant validation or test;
+2. update documentation and experiment manifests;
+3. review `git status` and the intended diff;
+4. commit only the files belonging to that module;
+5. push the commit to GitHub.
+
+See [the Stage 2 GitHub handoff](reports/stage-02/GITHUB_WORKFLOW_PROMPT.md)
+for instructions that can be given to the teaching conversation.
+
 ## License
 
 MIT License. See [LICENSE](LICENSE).
-
