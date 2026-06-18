@@ -76,8 +76,8 @@ Each completed teaching or research module should end with a focused commit:
 4. commit only the files belonging to that module;
 5. push the commit to GitHub.
 
-See [the Stage 2 GitHub handoff](reports/stage-02/GITHUB_WORKFLOW_PROMPT.md)
-for instructions that can be given to the teaching conversation.
+See [the Stage 2 teaching prompt](reports/stage-02/STAGE_02_TEACHING_PROMPT.md)
+for the complete teaching plan with GitHub checkpoints at coherent milestones.
 
 ## License
 
