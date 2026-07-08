@@ -1,0 +1,14 @@
+receptor = receptors/prepared/1AQ1_A_receptor.pdbqt
+ligand = ligands/prepared/1AQ1_STU_A_299.pdbqt
+
+center_x = 0.52
+center_y = 27.06
+center_z = 8.97
+
+size_x = 18
+size_y = 18
+size_z = 16
+
+exhaustiveness = 16
+num_modes = 10
+seed = 20260708

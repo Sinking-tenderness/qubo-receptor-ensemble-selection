@@ -17,6 +17,7 @@ dist/
 .venv/
 venv/
 env/
+environment/bin/
 *.key
 *.pem
 
@@ -58,4 +59,3 @@ tmp/
 temp/
 *.tmp
 *.bak
-

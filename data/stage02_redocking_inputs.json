@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.0",
+  "manifest_id": "stage02-cdk2-1aq1-redocking-inputs-v1",
+  "downloaded_on": "2026-07-01",
+  "target": {
+    "target_id": "CDK2_HUMAN",
+    "protein_name": "Cyclin-dependent kinase 2",
+    "gene_name": "CDK2",
+    "organism": "Homo sapiens",
+    "uniprot_accession": "P24941"
+  },
+  "receptor": {
+    "receptor_id": "CDK2_1AQ1_A_raw",
+    "pdb_id": "1AQ1",
+    "chain_id": "A",
+    "experimental_method": "X-RAY DIFFRACTION",
+    "resolution_angstrom": 2.0,
+    "source_url": "https://files.rcsb.org/download/1AQ1.pdb",
+    "local_path": "receptors/raw/1AQ1.pdb",
+    "size_bytes": 227853,
+    "sha256": "6EF163DDCF3E3298B6C0982DC8C06E89C61B9D6705FB34CED7E142A0313D764D",
+    "structure_audit": {
+      "missing_residue_ranges": [
+        "A:37-43",
+        "A:149-161"
+      ],
+      "crystal_water_atom_count": 125,
+      "other_hetatm_atom_count_excluding_stu_and_water": 0,
+      "alternate_location_atom_count": 0,
+      "stu_pocket_cutoff_angstrom": 5.0,
+      "stu_pocket_residue_count": 21
+    }
+  },
+  "reference_ligand": {
+    "ligand_id": "STU_1AQ1_A_299_reference",
+    "chemical_component_id": "STU",
+    "name": "Staurosporine",
+    "pdb_auth_asym_id": "A",
+    "pdb_auth_seq_id": 299,
+    "formula": "C28H26N4O3",
+    "molecular_weight": 466.531,
+    "source_url": "https://models.rcsb.org/v1/1AQ1/ligand?auth_asym_id=A&auth_seq_id=299&encoding=sdf",
+    "local_path": "ligands/raw/1AQ1_STU_A_299.sdf",
+    "size_bytes": 4091,
+    "raw_sha256": "7086CC6FF54A582A9E8ACAAD593A42C7E00D0A123C7366C4510B395FAAC98E5F",
+    "molblock_sha256_lf_normalized": "92179A671812942500C2CD8E94DFFAD2324F40AEDA92776767641F8F47BD0548",
+    "rdkit_audit": {
+      "parsed": true,
+      "atom_count": 35,
+      "heavy_atom_count": 35,
+      "formal_charge": 0,
+      "conformer_count": 1,
+      "assigned_chiral_centers": [
+        "1:R",
+        "3:R",
+        "4:R",
+        "5:S"
+      ]
+    },
+    "dynamic_source_note": "The RCSB ModelServer appends job ID, timestamp, and timing metadata. The complete raw-file hash may change between downloads even when the mol block is unchanged."
+  }
+}

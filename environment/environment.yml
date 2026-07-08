@@ -5,14 +5,16 @@ dependencies:
   - python=3.11
   - jupyterlab
   - matplotlib
+  - meeko=0.7.1
   - numpy
   - pandas
+  - prody=2.4.1
   - pytest
-  - rdkit
+  - rdkit=2026.03.1
   - scikit-learn
   - scipy
   - seaborn
+  - setuptools<81
   - pip
   - pip:
       - -e ..
-
