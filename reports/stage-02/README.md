@@ -9,3 +9,7 @@ Planned deliverables:
 - ROC-AUC, PR-AUC, EF1%, EF5%, and BEDROC with uncertainty
 - limitations, failure analysis, and reproducibility notes
 
+Current records:
+
+- `1AQ1_STU_redocking_record.md`
+- `dude_cdk2_ligand_preparation_record.md`
