@@ -11,3 +11,5 @@ Stage 2 ligand preparation scripts:
 - `batch_prepare_ligand_pdbqt.py`: convert prepared SDF ligands to Vina PDBQT.
 - `batch_vina_docking.py`: run Vina for a ligand PDBQT manifest and write a
   long docking score table.
+- `evaluate_virtual_screening.py`: convert docking scores into per-ligand
+  rankings and basic enrichment metrics.

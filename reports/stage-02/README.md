@@ -14,3 +14,4 @@ Current records:
 - `1AQ1_STU_redocking_record.md`
 - `dude_cdk2_ligand_preparation_record.md`
 - `dude_cdk2_batch_docking_record.md`
+- `dude_cdk2_basic_metrics_record.md`

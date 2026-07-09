@@ -50,6 +50,7 @@ ligands/prepared/
 
 # Generated docking and experiment output
 results/docking/
+results/metrics/
 results/runs/
 logs/
 *.log
