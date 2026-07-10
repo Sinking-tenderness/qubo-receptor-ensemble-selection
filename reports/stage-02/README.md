@@ -22,3 +22,4 @@ Current records:
 - `stage02_report_draft.md`
 - `dude_cdk2_score_matrix_interface_record.md`
 - `cdk2_1hcl_alignment_record.md`
+- `cdk2_1hcl_receptor_preparation_record.md`

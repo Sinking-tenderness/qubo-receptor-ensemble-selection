@@ -23,3 +23,5 @@ Stage 2 ligand preparation scripts:
   ligand-by-receptor score tables and matrices.
 - `align_receptor_structure.py`: rigidly align receptor PDB coordinates to a
   shared reference frame using sequence-matched C-alpha atoms.
+- `prepare_receptor.py`: select a receptor chain and alternate locations,
+  invoke Meeko through the active Python environment, and audit Vina PDBQT.
