@@ -137,6 +137,15 @@ def build_parser() -> argparse.ArgumentParser:
         "--wanted-altloc",
         help="Explicit Meeko choices such as A:131=A,A:264=A",
     )
+    parser.add_argument(
+        "--meeko-default-altloc",
+        help="Default alternate location passed to Meeko, e.g. A or 1",
+    )
+    parser.add_argument(
+        "--allow-bad-res",
+        action="store_true",
+        help="Ask Meeko to delete residues with incomplete templates; audit before use",
+    )
     parser.add_argument("--protein-only-output", type=Path, required=True)
     parser.add_argument("--prepared-pdb-output", type=Path, required=True)
     parser.add_argument("--pdbqt-output", type=Path, required=True)
@@ -172,6 +181,8 @@ def main() -> int:
         "chain": args.chain,
         "prody_altloc": args.prody_altloc,
         "wanted_altloc": args.wanted_altloc,
+        "meeko_default_altloc": args.meeko_default_altloc,
+        "allow_bad_res": args.allow_bad_res,
         "charge_model": args.charge_model,
         "python_version": sys.version.split()[0],
         "meeko_version": importlib.metadata.version("meeko"),
@@ -205,6 +216,10 @@ def main() -> int:
         ]
         if args.wanted_altloc:
             command.extend(["--wanted_altloc", args.wanted_altloc])
+        if args.meeko_default_altloc:
+            command.extend(["--default_altloc", args.meeko_default_altloc])
+        if args.allow_bad_res:
+            command.append("--allow_bad_res")
         summary["meeko_command"] = command
 
         completed = subprocess.run(
@@ -228,8 +243,16 @@ def main() -> int:
             raise RuntimeError("protein-only PDB still contains HETATM records")
         if pdbqt_audit["hetatm_record_count"] != 0:
             raise RuntimeError("receptor PDBQT contains HETATM records")
-        if pdbqt_audit["residue_count"] != protein_only_audit["residue_count"]:
+        if (
+            pdbqt_audit["residue_count"] != protein_only_audit["residue_count"]
+            and not args.allow_bad_res
+        ):
             raise RuntimeError("residue count changed during receptor parameterization")
+        summary["residue_count_change"] = {
+            "input_protein_only": protein_only_audit["residue_count"],
+            "output_pdbqt": pdbqt_audit["residue_count"],
+            "allowed_by_allow_bad_res": args.allow_bad_res,
+        }
 
         summary["outputs"] = {
             "protein_only_pdb": {
