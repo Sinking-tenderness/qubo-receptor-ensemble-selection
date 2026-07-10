@@ -17,3 +17,5 @@ Stage 2 ligand preparation scripts:
   top-ranked molecules for structural inspection.
 - `prepare_pose_inspection.py`: extract selected Vina poses and write a PyMOL
   inspection script.
+- `analyze_pose_contacts.py`: summarize simple receptor-ligand contact geometry
+  for selected docked poses.
