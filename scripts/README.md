@@ -13,3 +13,5 @@ Stage 2 ligand preparation scripts:
   long docking score table.
 - `evaluate_virtual_screening.py`: convert docking scores into per-ligand
   rankings and basic enrichment metrics.
+- `analyze_top_hits.py`: merge rankings with ligand properties and flag
+  top-ranked molecules for structural inspection.
