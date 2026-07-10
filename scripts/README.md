@@ -15,3 +15,5 @@ Stage 2 ligand preparation scripts:
   rankings and basic enrichment metrics.
 - `analyze_top_hits.py`: merge rankings with ligand properties and flag
   top-ranked molecules for structural inspection.
+- `prepare_pose_inspection.py`: extract selected Vina poses and write a PyMOL
+  inspection script.

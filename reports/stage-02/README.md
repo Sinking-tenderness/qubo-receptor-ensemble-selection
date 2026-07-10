@@ -17,3 +17,4 @@ Current records:
 - `dude_cdk2_basic_metrics_record.md`
 - `dude_cdk2_uncertainty_metrics_record.md`
 - `dude_cdk2_top_hits_record.md`
+- `dude_cdk2_pose_inspection_record.md`

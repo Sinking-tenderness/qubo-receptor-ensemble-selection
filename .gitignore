@@ -51,6 +51,7 @@ ligands/prepared/
 # Generated docking and experiment output
 results/docking/
 results/metrics/
+results/pose_inspection/
 results/runs/
 logs/
 *.log
