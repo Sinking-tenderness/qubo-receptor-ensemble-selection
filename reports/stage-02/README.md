@@ -19,3 +19,4 @@ Current records:
 - `dude_cdk2_top_hits_record.md`
 - `dude_cdk2_pose_inspection_record.md`
 - `dude_cdk2_pose_contacts_record.md`
+- `stage02_report_draft.md`
