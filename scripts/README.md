@@ -19,3 +19,5 @@ Stage 2 ligand preparation scripts:
   inspection script.
 - `analyze_pose_contacts.py`: summarize simple receptor-ligand contact geometry
   for selected docked poses.
+- `build_score_matrix.py`: convert long docking results into representative
+  ligand-by-receptor score tables and matrices.
