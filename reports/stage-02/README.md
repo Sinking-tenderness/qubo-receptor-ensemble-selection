@@ -21,3 +21,4 @@ Current records:
 - `dude_cdk2_pose_contacts_record.md`
 - `stage02_report_draft.md`
 - `dude_cdk2_score_matrix_interface_record.md`
+- `cdk2_1hcl_alignment_record.md`

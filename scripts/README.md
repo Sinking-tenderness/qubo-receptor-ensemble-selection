@@ -21,3 +21,5 @@ Stage 2 ligand preparation scripts:
   for selected docked poses.
 - `build_score_matrix.py`: convert long docking results into representative
   ligand-by-receptor score tables and matrices.
+- `align_receptor_structure.py`: rigidly align receptor PDB coordinates to a
+  shared reference frame using sequence-matched C-alpha atoms.
