@@ -43,8 +43,17 @@ the reproducibility record.
 - Most common count: 3623/4096.
 - Best sampled energy: `-1.7852025544430559`.
 
+### Seed 20260713
+
+- Grid: 15 x 15.
+- Shots: 4096.
+- Most common bitstring: `101`.
+- Selected subset: `1AQ1 + 1JVP`.
+- Most common count: 3610/4096.
+- Best sampled energy: `-1.7852025544430559`.
+
 The sampled optimum matches the exact and simulated-annealing solution. This
-is evidence that a quantum circuit simulation can solve the current toy QUBO,
+across three independent seeds. This is evidence that a quantum circuit simulation can solve the current toy QUBO,
 not evidence of quantum advantage or a real QPU execution.
 
 ## Reproducibility
