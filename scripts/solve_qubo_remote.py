@@ -16,6 +16,20 @@ except ImportError:
     from solve_qubo_with_ocean import load_bqm
 
 
+def credential_source() -> str | None:
+    if os.environ.get("DWAVE_API_TOKEN"):
+        return "environment"
+    try:
+        from dwave.cloud.config import load_config
+
+        config = load_config()
+        if config.get("token"):
+            return "dwave_config"
+    except Exception:
+        return None
+    return None
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--qubo-json", type=Path, required=True)
@@ -32,22 +46,22 @@ def main() -> int:
     )
     args = parser.parse_args()
 
-    token_present = bool(os.environ.get("DWAVE_API_TOKEN"))
+    source = credential_source()
     result: dict[str, object] = {
         "qubo_json": str(args.qubo_json),
         "sampler": args.sampler,
         "dimod_version": dimod.__version__,
         "run_remote": args.run_remote,
-        "token_present": token_present,
+        "credential_source": source,
         "credentials_written": False,
     }
     if not args.run_remote:
         result["status"] = "dry_run"
         result["message"] = "Pass --run-remote with configured D-Wave credentials to submit."
     else:
-        if not token_present:
+        if source is None:
             raise RuntimeError(
-                "DWAVE_API_TOKEN is not set; refusing to submit without credentials"
+                "No D-Wave credentials found in DWAVE_API_TOKEN or dwave.conf; refusing to submit"
             )
         bqm, variables = load_bqm(args.qubo_json)
         if args.sampler == "leap_hybrid":

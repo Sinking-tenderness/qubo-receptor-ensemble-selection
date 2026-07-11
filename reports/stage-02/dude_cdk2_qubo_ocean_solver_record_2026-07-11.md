@@ -41,7 +41,7 @@ The current verified remote result is therefore only:
 
 ```text
 status = dry_run
-token_present = false
+credential_source = null
 credentials_written = false
 ```
 
