@@ -50,6 +50,38 @@ def collect_scores(
     return output
 
 
+def normalize_rows_by_train_minmax(
+    train_rows: list[dict[str, str]],
+    other_rows: list[list[dict[str, str]]],
+    receptor_ids: list[str],
+) -> tuple[list[dict[str, object]], list[list[dict[str, object]]]]:
+    """Normalize each receptor score using train extrema only.
+
+    Lower Vina scores remain better. Test and validation values are transformed
+    with statistics fitted on train, so no held-out score distribution is used
+    to choose the receptor subset.
+    """
+    bounds: dict[str, tuple[float, float]] = {}
+    for receptor_id in receptor_ids:
+        values = [float(row[receptor_id]) for row in train_rows]
+        bounds[receptor_id] = (min(values), max(values))
+
+    def transform(rows: list[dict[str, str]]) -> list[dict[str, object]]:
+        output: list[dict[str, object]] = []
+        for row in rows:
+            transformed: dict[str, object] = dict(row)
+            for receptor_id in receptor_ids:
+                lower, upper = bounds[receptor_id]
+                value = float(row[receptor_id])
+                transformed[receptor_id] = (
+                    0.0 if upper == lower else (value - lower) / (upper - lower)
+                )
+            output.append(transformed)
+        return output
+
+    return transform(train_rows), [transform(rows) for rows in other_rows]
+
+
 def ranked_metric_values(records: dict[str, dict[str, object]]) -> dict[str, float]:
     ranked_ids = sorted(records, key=lambda ligand_id: (-float(records[ligand_id]["score"]), ligand_id))
     ranked = [
@@ -139,6 +171,12 @@ def main() -> int:
         default="roc_auc",
     )
     parser.add_argument("--aggregation", choices=["min_score", "mean_score"], default="mean_score")
+    parser.add_argument(
+        "--score-normalization",
+        choices=["raw", "train_minmax"],
+        default="raw",
+        help="Normalize receptor scores using train extrema before selection and evaluation.",
+    )
     args = parser.parse_args()
     if args.folds < 3:
         raise ValueError("at least three folds are required")
@@ -154,11 +192,23 @@ def main() -> int:
 
     for outer_fold in range(args.folds):
         validation_fold = (outer_fold + 1) % args.folds
-        train_rows = [row for row in matrix_rows if folds[row["ligand_id"]] not in {outer_fold, validation_fold}]
-        validation_rows = [row for row in matrix_rows if folds[row["ligand_id"]] == validation_fold]
-        test_rows = [row for row in matrix_rows if folds[row["ligand_id"]] == outer_fold]
+        raw_train_rows = [row for row in matrix_rows if folds[row["ligand_id"]] not in {outer_fold, validation_fold}]
+        raw_validation_rows = [row for row in matrix_rows if folds[row["ligand_id"]] == validation_fold]
+        raw_test_rows = [row for row in matrix_rows if folds[row["ligand_id"]] == outer_fold]
+        if args.score_normalization == "train_minmax":
+            train_rows, normalized = normalize_rows_by_train_minmax(
+                raw_train_rows, [raw_validation_rows, raw_test_rows], args.receptor
+            )
+            validation_rows, test_rows = normalized
+        else:
+            train_rows, validation_rows, test_rows = raw_train_rows, raw_validation_rows, raw_test_rows
+        train_ids = {row["ligand_id"] for row in raw_train_rows}
+        validation_ids = {row["ligand_id"] for row in raw_validation_rows}
         split_manifest = [
-            {"ligand_id": row["ligand_id"], "split": "train" if row in train_rows else "validation" if row in validation_rows else "test"}
+            {
+                "ligand_id": row["ligand_id"],
+                "split": "train" if row["ligand_id"] in train_ids else "validation" if row["ligand_id"] in validation_ids else "test",
+            }
             for row in matrix_rows
         ]
         by_split = validate_inputs(matrix_rows, split_manifest, args.receptor)
@@ -211,6 +261,7 @@ def main() -> int:
         "utility_metric": args.utility_metric,
         "validation_metric": args.validation_metric,
         "aggregation": args.aggregation,
+        "score_normalization": args.score_normalization,
         "protocol": "outer test fold is never used for selection; next fold is validation; remaining folds are train",
         "fold_results": fold_results,
         "aggregate_out_of_fold_metrics": aggregate,

@@ -29,3 +29,5 @@ Current records:
 - `cdk2_expanded_pool_validation_and_qaoa_2026-07-11.md`
 - `cdk2_benchmark_30a_30d_final_validation_2026-07-11.md`
 - `docking_search_and_scaffold_validation_2026-07-11.md`
+- `eight_receptor_normalized_cv_2026-07-11.md`
+- `cdk2_100a_100d_final_validation_2026-07-12.md`

@@ -40,3 +40,11 @@ Stage 2 ligand preparation scripts:
   scaffold-disjoint train/validation/test split.
 - `batch_vina_docking_parallel.py`: run controlled parallel Vina jobs with
   per-ligand checkpoints and resume support.
+- `extend_score_matrix.py`: merge new raw docking tables into an existing
+  ligand-by-receptor matrix with ID and label checks.
+- `cross_validate_scaffold_ensemble.py`: run scaffold-group outer CV for
+  receptor subset selection.
+- `aggregate_repeated_cv.py`: aggregate repeated out-of-fold scores and paired
+  bootstrap deltas.
+- `batch_prepare_ligand_pdbqt_parallel.py`: prepare Meeko PDBQT files with
+  resumable controlled parallel workers.
