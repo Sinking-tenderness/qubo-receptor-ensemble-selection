@@ -23,3 +23,6 @@ Current records:
 - `dude_cdk2_score_matrix_interface_record.md`
 - `cdk2_1hcl_alignment_record.md`
 - `cdk2_1hcl_receptor_preparation_record.md`
+- `progress_since_last_meeting_2026-07-10.md`
+- `dude_cdk2_two_receptor_comparison_record.md`
+- `cdk2_receptor_ensemble_mvp_record_2026-07-11.md`

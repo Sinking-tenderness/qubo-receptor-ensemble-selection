@@ -25,3 +25,7 @@ Stage 2 ligand preparation scripts:
   shared reference frame using sequence-matched C-alpha atoms.
 - `prepare_receptor.py`: select a receptor chain and alternate locations,
   invoke Meeko through the active Python environment, and audit Vina PDBQT.
+- `compare_receptor_screening.py`: compare two receptor score tables and
+  calculate score correlation, active coverage, and simple ensemble baselines.
+- `run_receptor_ensemble_mvp.py`: run leakage-aware train/validation/test
+  receptor-subset selection and held-out QUBO baseline comparison.
