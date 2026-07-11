@@ -36,3 +36,7 @@ Stage 2 ligand preparation scripts:
   rewards active coverage and penalizes decoy exposure.
 - `cross_validate_discriminative_qubo.py`: evaluate that fixed objective under
   outer cross-validation without tuning on the test fold.
+- `split_ligand_scaffold.py`: create a deterministic Bemis-Murcko
+  scaffold-disjoint train/validation/test split.
+- `batch_vina_docking_parallel.py`: run controlled parallel Vina jobs with
+  per-ligand checkpoints and resume support.

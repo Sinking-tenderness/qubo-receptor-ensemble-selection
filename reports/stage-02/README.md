@@ -28,3 +28,4 @@ Current records:
 - `cdk2_receptor_ensemble_mvp_record_2026-07-11.md`
 - `cdk2_expanded_pool_validation_and_qaoa_2026-07-11.md`
 - `cdk2_benchmark_30a_30d_final_validation_2026-07-11.md`
+- `docking_search_and_scaffold_validation_2026-07-11.md`
