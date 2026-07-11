@@ -124,6 +124,7 @@ def select_validation_tuned_qubo(
     redundancy_weights: list[float],
     utility_metric: str,
     validation_metric: str,
+    validation_aggregation: str,
 ) -> dict[str, object]:
     trials: list[dict[str, object]] = []
     for coverage_weight, overlap_weight, redundancy_weight in itertools.product(
@@ -138,7 +139,9 @@ def select_validation_tuned_qubo(
             redundancy_weight,
             utility_metric,
         )
-        validation_metrics = metrics_for_subset(validation_rows, subset, "min_score")
+        validation_metrics = metrics_for_subset(
+            validation_rows, subset, validation_aggregation
+        )
         trials.append(
             {
                 "subset": list(subset),
@@ -176,6 +179,12 @@ def main() -> int:
         choices=["roc_auc", "pr_auc_average_precision", "bedroc_alpha_20"],
         default="roc_auc",
     )
+    parser.add_argument(
+        "--qubo-aggregation",
+        choices=["min_score", "mean_score"],
+        default="min_score",
+        help="Aggregation used when selecting QUBO weights on validation.",
+    )
     args = parser.parse_args()
 
     matrix_rows = read_csv(args.matrix)
@@ -196,13 +205,14 @@ def main() -> int:
         parse_grid(args.redundancy_grid),
         args.utility_metric,
         args.validation_metric,
+        args.qubo_aggregation,
     )
     qubo_subset = tuple(tuned["chosen"]["subset"])
     methods: list[tuple[str, tuple[str, ...], str]] = [
         ("single_best_train", (choose_train_best(by_split["train"], args.receptor, 1, "min_score")[0],), "min_score"),
         ("train_best_min_score", train_best_min, "min_score"),
         ("train_best_mean_score", train_best_mean, "mean_score"),
-        ("qubo_validation_tuned", qubo_subset, "min_score"),
+        ("qubo_validation_tuned", qubo_subset, args.qubo_aggregation),
         ("all_receptors_min_score", tuple(args.receptor), "min_score"),
         ("all_receptors_mean_score", tuple(args.receptor), "mean_score"),
     ]
@@ -245,6 +255,7 @@ def main() -> int:
             "test_used_only_for_final_evaluation": True,
             "validation_metric": args.validation_metric,
             "utility_metric": args.utility_metric,
+            "qubo_validation_aggregation": args.qubo_aggregation,
         },
         "selected_methods": {
             "single_best_train": [methods[0][1][0]],

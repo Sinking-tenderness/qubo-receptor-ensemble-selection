@@ -29,3 +29,6 @@ Stage 2 ligand preparation scripts:
   calculate score correlation, active coverage, and simple ensemble baselines.
 - `run_receptor_ensemble_mvp.py`: run leakage-aware train/validation/test
   receptor-subset selection and held-out QUBO baseline comparison.
+- `repeat_ensemble_mvp.py`: repeat the MVP over fixed stratified split seeds.
+- `cross_validate_ensemble_mvp.py`: run outer stratified cross-validation,
+  paired bootstrap uncertainty, and QUBO-vs-single out-of-fold comparison.

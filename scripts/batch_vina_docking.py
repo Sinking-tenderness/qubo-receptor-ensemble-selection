@@ -184,6 +184,7 @@ def build_vina_command(
         config["exhaustiveness"],
         "--num_modes",
         config["num_modes"],
+        *( ["--cpu", config["cpu"]] if config.get("cpu") else [] ),
         "--seed",
         str(seed),
         "--out",

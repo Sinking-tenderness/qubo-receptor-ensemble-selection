@@ -1,0 +1,11 @@
+# Fast, uniform expansion protocol for receptor-pool triage.
+# Results from this protocol are not mixed with the exhaustiveness=16 baseline.
+center_x = 0.52
+center_y = 27.06
+center_z = 8.97
+size_x = 18
+size_y = 18
+size_z = 16
+exhaustiveness = 1
+num_modes = 1
+cpu = 8

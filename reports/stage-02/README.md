@@ -26,3 +26,4 @@ Current records:
 - `progress_since_last_meeting_2026-07-10.md`
 - `dude_cdk2_two_receptor_comparison_record.md`
 - `cdk2_receptor_ensemble_mvp_record_2026-07-11.md`
+- `cdk2_expanded_pool_validation_and_qaoa_2026-07-11.md`
