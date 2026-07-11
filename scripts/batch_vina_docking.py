@@ -240,6 +240,10 @@ def build_parser() -> argparse.ArgumentParser:
 
 def main() -> int:
     args = build_parser().parse_args()
+    if not args.vina_exe.is_file():
+        raise FileNotFoundError(f"Vina executable not found: {args.vina_exe}")
+    if not args.receptor.is_file():
+        raise FileNotFoundError(f"receptor PDBQT not found: {args.receptor}")
     rows = read_manifest(args.manifest)
     config = read_vina_config(args.config)
     vina_version = get_vina_version(args.vina_exe)
