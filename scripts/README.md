@@ -32,3 +32,7 @@ Stage 2 ligand preparation scripts:
 - `repeat_ensemble_mvp.py`: repeat the MVP over fixed stratified split seeds.
 - `cross_validate_ensemble_mvp.py`: run outer stratified cross-validation,
   paired bootstrap uncertainty, and QUBO-vs-single out-of-fold comparison.
+- `solve_discriminative_coverage_qubo.py`: build a fixed-weight QUBO that
+  rewards active coverage and penalizes decoy exposure.
+- `cross_validate_discriminative_qubo.py`: evaluate that fixed objective under
+  outer cross-validation without tuning on the test fold.
