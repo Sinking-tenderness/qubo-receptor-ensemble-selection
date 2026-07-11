@@ -5,6 +5,9 @@ dependencies:
   - python=3.11
   - jupyterlab
   - matplotlib
+  - dimod=0.12.22
+  - dwave-samplers=1.7.0
+  - dwave-system=1.24.0
   - meeko=0.7.1
   - numpy
   - pandas
