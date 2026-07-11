@@ -38,13 +38,34 @@ def build_qubo(
     redundancy_weight: float,
     count_weight: float,
     size_weight: float,
+    utility_metric: str = "roc_auc",
+    utility_normalization: str = "none",
 ) -> dict[str, object]:
     utilities: dict[str, float] = {}
     train_scores: dict[str, list[float]] = {}
     for receptor_id in receptor_ids:
         data = train_data(rows, receptor_id)
-        utilities[receptor_id] = float(ranked_metrics_with_ids(data)["roc_auc"])
+        metrics = ranked_metrics_with_ids(data)
+        metric_key = {
+            "roc_auc": "roc_auc",
+            "bedroc": "bedroc_alpha_20",
+            "ef5": "EF5%",
+        }[utility_metric]
+        utilities[receptor_id] = float(metrics[metric_key])
         train_scores[receptor_id] = [float(row[receptor_id]) for row in rows]
+
+    if utility_normalization == "minmax":
+        minimum = min(utilities.values())
+        maximum = max(utilities.values())
+        if maximum == minimum:
+            utilities = {receptor_id: 0.5 for receptor_id in utilities}
+        else:
+            utilities = {
+                receptor_id: (value - minimum) / (maximum - minimum)
+                for receptor_id, value in utilities.items()
+            }
+    elif utility_normalization != "none":
+        raise ValueError(f"unsupported utility normalization: {utility_normalization}")
 
     redundancy: dict[str, float] = {}
     for first, second in itertools.combinations(receptor_ids, 2):
@@ -64,6 +85,8 @@ def build_qubo(
 
     return {
         "target_size": target_size,
+        "utility_metric": utility_metric,
+        "utility_normalization": utility_normalization,
         "weights": {
             "redundancy": redundancy_weight,
             "count": count_weight,
@@ -101,6 +124,16 @@ def main() -> int:
     parser.add_argument("--redundancy-weight", type=float, default=0.25)
     parser.add_argument("--count-weight", type=float, default=0.10)
     parser.add_argument("--size-weight", type=float, default=1.0)
+    parser.add_argument(
+        "--utility-metric",
+        choices=["roc_auc", "bedroc", "ef5"],
+        default="roc_auc",
+    )
+    parser.add_argument(
+        "--utility-normalization",
+        choices=["none", "minmax"],
+        default="none",
+    )
     args = parser.parse_args()
 
     matrix_rows = read_csv(args.matrix)
@@ -121,6 +154,8 @@ def main() -> int:
         args.redundancy_weight,
         args.count_weight,
         args.size_weight,
+        args.utility_metric,
+        args.utility_normalization,
     )
     candidates = []
     for size in range(len(args.receptor) + 1):

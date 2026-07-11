@@ -27,6 +27,16 @@ def main() -> int:
     )
     parser.add_argument("--count-weight", type=float, default=0.10)
     parser.add_argument("--size-weight", type=float, default=1.0)
+    parser.add_argument(
+        "--utility-metric",
+        choices=["roc_auc", "bedroc", "ef5"],
+        default="roc_auc",
+    )
+    parser.add_argument(
+        "--utility-normalization",
+        choices=["none", "minmax"],
+        default="none",
+    )
     args = parser.parse_args()
 
     matrix_rows = read_csv(args.matrix)
@@ -49,6 +59,8 @@ def main() -> int:
                 redundancy_weight,
                 args.count_weight,
                 args.size_weight,
+                args.utility_metric,
+                args.utility_normalization,
             )
             candidates = []
             for size in range(len(args.receptor) + 1):
@@ -77,6 +89,8 @@ def main() -> int:
             "count": args.count_weight,
             "size": args.size_weight,
         },
+        "utility_metric": args.utility_metric,
+        "utility_normalization": args.utility_normalization,
         "results": results,
     }
     args.output.parent.mkdir(parents=True, exist_ok=True)
