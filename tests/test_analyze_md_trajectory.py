@@ -3,9 +3,11 @@ import pytest
 
 from scripts.analyze_md_trajectory import (
     direct_rmsd_angstrom,
+    distribution_summary,
     finite_summary,
     load_config,
     per_atom_rmsf_angstrom,
+    window_trend_summary,
 )
 
 
@@ -28,6 +30,18 @@ def test_finite_summary_rejects_non_finite_values():
         finite_summary(np.array([1.0, np.nan]))
 
 
+def test_distribution_summary_has_no_time_ordered_final_field():
+    summary = distribution_summary(np.array([1.0, 2.0, 3.0]))
+    assert summary["median"] == pytest.approx(2.0)
+    assert "final" not in summary
+
+
+def test_window_trend_summary_reports_slope_per_ns():
+    summary = window_trend_summary(np.array([1.0, 1.2, 1.4]), frame_interval_ps=100.0)
+    assert summary["linear_slope_angstrom_per_ns"] == pytest.approx(2.0)
+    assert summary["final_minus_first"] == pytest.approx(0.4)
+
+
 def test_load_config_requires_complete_output_paths(tmp_path):
     config_path = tmp_path / "config.json"
     config_path.write_text(
@@ -39,6 +53,7 @@ def test_load_config_requires_complete_output_paths(tmp_path):
           "inputs": {"topology_pdb": "topology.pdb", "trajectory_glob": "*.dcd"},
           "frame_interval_ps": 20.0,
           "expected_frame_count": 100,
+          "late_window_frame_count": 25,
           "alignment_selection": "protein and backbone",
           "pocket_residue_numbers": [10],
           "outputs": {"summary_json": "summary.json"},

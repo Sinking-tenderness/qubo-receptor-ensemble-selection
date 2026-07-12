@@ -19,6 +19,7 @@ REQUIRED_CONFIG_KEYS = {
     "inputs",
     "frame_interval_ps",
     "expected_frame_count",
+    "late_window_frame_count",
     "alignment_selection",
     "pocket_residue_numbers",
     "outputs",
@@ -46,6 +47,9 @@ def load_config(path: Path) -> dict[str, object]:
         raise ValueError("frame_interval_ps must be positive")
     if int(config["expected_frame_count"]) <= 0:
         raise ValueError("expected_frame_count must be positive")
+    late_window_frame_count = int(config["late_window_frame_count"])
+    if not 2 <= late_window_frame_count <= int(config["expected_frame_count"]):
+        raise ValueError("late_window_frame_count must be between 2 and expected_frame_count")
     inputs = config["inputs"]
     outputs = config["outputs"]
     if not isinstance(inputs, dict) or not REQUIRED_INPUT_KEYS.issubset(inputs):
@@ -96,6 +100,36 @@ def finite_summary(values: np.ndarray) -> dict[str, float]:
         "minimum": round(float(values.min()), 6),
         "maximum": round(float(values.max()), 6),
         "final": round(float(values[-1]), 6),
+    }
+
+
+def distribution_summary(values: np.ndarray) -> dict[str, float]:
+    if values.ndim != 1 or not len(values) or not np.all(np.isfinite(values)):
+        raise ValueError("distribution values must be a finite one-dimensional array")
+    return {
+        "mean": round(float(values.mean()), 6),
+        "sample_sd": round(float(values.std(ddof=1)), 6) if len(values) > 1 else 0.0,
+        "median": round(float(np.median(values)), 6),
+        "percentile_95": round(float(np.percentile(values, 95)), 6),
+        "minimum": round(float(values.min()), 6),
+        "maximum": round(float(values.max()), 6),
+    }
+
+
+def window_trend_summary(values: np.ndarray, frame_interval_ps: float) -> dict[str, float]:
+    if values.ndim != 1 or len(values) < 2 or not np.all(np.isfinite(values)):
+        raise ValueError("window values must contain at least two finite observations")
+    time_ns = np.arange(len(values), dtype=float) * frame_interval_ps / 1000.0
+    slope = float(np.polyfit(time_ns, values, 1)[0])
+    return {
+        "mean": round(float(values.mean()), 6),
+        "sample_sd": round(float(values.std(ddof=1)), 6),
+        "minimum": round(float(values.min()), 6),
+        "maximum": round(float(values.max()), 6),
+        "first": round(float(values[0]), 6),
+        "final": round(float(values[-1]), 6),
+        "final_minus_first": round(float(values[-1] - values[0]), 6),
+        "linear_slope_angstrom_per_ns": round(slope, 6),
     }
 
 
@@ -173,6 +207,7 @@ def main() -> int:
         raise RuntimeError("trajectory QC produced a non-finite metric")
 
     frame_interval_ps = float(config["frame_interval_ps"])
+    late_window_frame_count = int(config["late_window_frame_count"])
     frame_rows = [
         {
             "frame_index": index,
@@ -237,8 +272,25 @@ def main() -> int:
         "aligned_backbone_rmsd_angstrom": finite_summary(backbone_rmsd),
         "aligned_ca_rmsd_angstrom": finite_summary(ca_rmsd),
         "aligned_pocket_ca_rmsd_angstrom": finite_summary(pocket_rmsd),
-        "ca_rmsf_angstrom": finite_summary(ca_rmsf),
-        "pocket_ca_rmsf_angstrom": finite_summary(pocket_ca_rmsf),
+        "late_window": {
+            "frame_count": late_window_frame_count,
+            "first_frame_time_ps": round(
+                (trajectory.n_frames - late_window_frame_count + 1) * frame_interval_ps, 4
+            ),
+            "last_frame_time_ps": round(trajectory.n_frames * frame_interval_ps, 4),
+            "sample_span_ps": round((late_window_frame_count - 1) * frame_interval_ps, 4),
+            "aligned_backbone_rmsd_angstrom": window_trend_summary(
+                backbone_rmsd[-late_window_frame_count:], frame_interval_ps
+            ),
+            "aligned_ca_rmsd_angstrom": window_trend_summary(
+                ca_rmsd[-late_window_frame_count:], frame_interval_ps
+            ),
+            "aligned_pocket_ca_rmsd_angstrom": window_trend_summary(
+                pocket_rmsd[-late_window_frame_count:], frame_interval_ps
+            ),
+        },
+        "ca_rmsf_angstrom": distribution_summary(ca_rmsf),
+        "pocket_ca_rmsf_angstrom": distribution_summary(pocket_ca_rmsf),
         "top_10_ca_rmsf_residues": top_flexible,
         "top_10_pocket_ca_rmsf_residues": top_flexible_pocket,
         "outputs": {key: path.as_posix() for key, path in output_paths.items()},

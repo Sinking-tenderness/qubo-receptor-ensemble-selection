@@ -9,6 +9,7 @@
   },
   "frame_interval_ps": 20.0,
   "expected_frame_count": 100,
+  "late_window_frame_count": 25,
   "alignment_selection": "protein and backbone",
   "pocket_residue_numbers": [10, 11, 12, 13, 18, 31, 33, 64, 80, 81, 82, 83, 84, 85, 86, 131, 132, 133, 134, 144, 145],
   "outputs": {
