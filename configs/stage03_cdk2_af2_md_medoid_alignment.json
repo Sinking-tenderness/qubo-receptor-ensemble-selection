@@ -1,0 +1,23 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage03-cdk2-af2-apo-2ns-medoid-alignment-v1",
+  "clustering_experiment_id": "stage03-cdk2-af2-apo-2ns-pocket-clustering-v1",
+  "purpose": "Rigidly align the eight MD medoids to the 1AQ1 chain-A coordinate frame and remove old MD hydrogens before standardized receptor preparation.",
+  "inputs": {
+    "clustering_summary": "results/runs/stage03_cdk2_af2_md_cuda/trajectory_clustering/summary.json",
+    "medoid_manifest": "results/runs/stage03_cdk2_af2_md_cuda/trajectory_clustering/medoid_manifest.csv",
+    "reference_pdb": "receptors/raw/1AQ1.pdb"
+  },
+  "reference_pdb_sha256": "6EF163DDCF3E3298B6C0982DC8C06E89C61B9D6705FB34CED7E142A0313D764D",
+  "reference_chain": "A",
+  "mobile_chain": "A",
+  "expected_medoid_count": 8,
+  "expected_mobile_residue_count": 298,
+  "pocket_residue_numbers": [10, 11, 12, 13, 18, 31, 33, 64, 80, 81, 82, 83, 84, 85, 86, 131, 132, 133, 134, 144, 145],
+  "outputs": {
+    "aligned_heavy_directory": "results/runs/stage03_cdk2_af2_md_cuda/medoid_receptors/aligned_heavy",
+    "alignment_manifest_csv": "results/runs/stage03_cdk2_af2_md_cuda/medoid_receptors/alignment_manifest.csv",
+    "summary_json": "results/runs/stage03_cdk2_af2_md_cuda/medoid_receptors/alignment_summary.json"
+  },
+  "interpretation_boundary": "These outputs are aligned heavy-atom protein structures. They have not yet been protonated, charged, converted to PDBQT, redocked, or validated for virtual screening."
+}

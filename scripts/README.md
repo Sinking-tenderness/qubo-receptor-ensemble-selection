@@ -72,3 +72,5 @@ Stage 2 ligand preparation scripts:
   backbone, pocket, and per-residue trajectory quality metrics.
 - `cluster_md_pocket_frames.py`: cluster aligned MD frames from invariant
   pocket-distance features and export representative medoid PDB structures.
+- `align_md_medoid_receptors.py`: align MD medoids to a crystal reference and
+  export audited protein-only heavy-atom structures for receptor preparation.
