@@ -1,0 +1,40 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage03-cdk2-af2-apo-cuda-production-2ns-v1",
+  "parent_protocol": "configs/stage03_cdk2_af2_md_pilot.json",
+  "parent_equilibration": "stage03-cdk2-af2-apo-cuda-equilibration-v1",
+  "purpose": "Resumable 2 ns NPT production pilot for trajectory, frame-analysis, and pocket-clustering pipeline validation. It is not a converged CDK2 conformational ensemble claim.",
+  "inputs": {
+    "system_xml": "results/runs/stage03_cdk2_af2_md_cuda/system.xml",
+    "topology_pdb": "results/runs/stage03_cdk2_af2_md_cuda/equilibrated_state.pdb",
+    "equilibrated_state_xml": "results/runs/stage03_cdk2_af2_md_cuda/equilibrated_state.xml"
+  },
+  "platform": {
+    "name": "CUDA",
+    "precision": "mixed",
+    "device_note": "NVIDIA RTX 4090 with CUDA 12.9 runtime."
+  },
+  "dynamics": {
+    "temperature_kelvin": 300.0,
+    "pressure_bar": 1.0,
+    "timestep_fs": 2.0,
+    "friction_per_ps": 1.0,
+    "production_duration_ns": 2.0,
+    "metrics_interval_ps": 10.0,
+    "frame_interval_ps": 20.0,
+    "checkpoint_interval_ps": 100.0,
+    "barostat_frequency_steps": 25,
+    "seed": 20260713
+  },
+  "outputs": {
+    "run_directory": "results/runs/stage03_cdk2_af2_md_cuda/production_2ns",
+    "progress_json": "results/runs/stage03_cdk2_af2_md_cuda/production_2ns/progress.json",
+    "metrics_csv": "results/runs/stage03_cdk2_af2_md_cuda/production_2ns/metrics.csv",
+    "manifest": "results/runs/stage03_cdk2_af2_md_cuda/production_2ns/manifest.json",
+    "checkpoint": "results/runs/stage03_cdk2_af2_md_cuda/production_2ns/production.chk",
+    "final_state_xml": "results/runs/stage03_cdk2_af2_md_cuda/production_2ns/final_state.xml",
+    "final_pdb": "results/runs/stage03_cdk2_af2_md_cuda/production_2ns/final_state.pdb",
+    "trajectory_prefix": "cdk2_af2_production"
+  },
+  "interpretation_boundary": "The approximately 100 saved frames are time-correlated observations from one short trajectory. They must be aligned, quality-controlled, and clustered before representative receptor conformers are selected."
+}

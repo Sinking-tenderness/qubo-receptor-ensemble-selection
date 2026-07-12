@@ -66,3 +66,5 @@ Stage 2 ligand preparation scripts:
   NVT/NPT numerical checks before starting the documented MD pilot.
 - `run_openmm_equilibration.py`: run resumable minimization, NVT, and NPT with
   stage checkpoints, progress records, and an auditable final state.
+- `run_openmm_production.py`: run a resumable NPT production pilot as durable
+  DCD chunks with metrics, checkpoints, and a final state manifest.
