@@ -1,0 +1,48 @@
+{
+  "reference_path": "receptors\\raw\\1AQ1.pdb",
+  "reference_sha256": "6EF163DDCF3E3298B6C0982DC8C06E89C61B9D6705FB34CED7E142A0313D764D",
+  "reference_chain": "A",
+  "mobile_path": "receptors\\raw\\1HCL.pdb",
+  "mobile_sha256": "4C44CC9DE5EB61B5AD197F7D3058FA59327D7EA3C721C3CA3945CC8C3D41F9AE",
+  "mobile_chain": "A",
+  "output_path": "receptors\\aligned\\1HCL_A_to_1AQ1_A.pdb",
+  "output_sha256": "D60C8A340167A35D06FA9DD6059BE062AAA7DF54056FF8BCAA373C2E328A840F",
+  "matched_ca_count": 277,
+  "residue_name_mismatches_excluded": [],
+  "rmsd_before_angstrom": 133.18756230118805,
+  "rmsd_after_angstrom": 0.6664490607349505,
+  "rotation_determinant": 1.0000000000000002,
+  "rotation_matrix_row_vector_convention": [
+    [
+      -0.015552317671543957,
+      0.9991610762329456,
+      -0.03788494629882934
+    ],
+    [
+      -0.006183494743543242,
+      -0.03798491453007885,
+      -0.999259180923998
+    ],
+    [
+      -0.9998599350948114,
+      -0.015306534851638616,
+      0.006769060720337473
+    ]
+  ],
+  "translation_vector_angstrom": [
+    83.56330197347876,
+    -69.98824491293435,
+    112.23914045557399
+  ],
+  "mobile_coordinate_record_counts": {
+    "atom_records": 2372,
+    "hetatm_records": 180,
+    "total_coordinate_records": 2552
+  },
+  "output_coordinate_record_counts": {
+    "atom_records": 2372,
+    "hetatm_records": 180,
+    "total_coordinate_records": 2552
+  },
+  "method": "sequence-matched C-alpha Kabsch rigid-body alignment"
+}

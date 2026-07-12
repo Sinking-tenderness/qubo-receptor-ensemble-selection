@@ -1,0 +1,11 @@
+{
+  "conformer_id": "CDK2_AF_P24941_F1_v6",
+  "conformer_pdb": "receptors/aligned/AF-P24941-F1-model_v6_to_1AQ1_A.pdb",
+  "reference_pdb": "receptors/raw/1AQ1.pdb",
+  "reference_ligand": "STU:A",
+  "pocket_cutoff_angstrom": 5.0,
+  "reference_pocket_residue_count": 21,
+  "present_residue_count": 21,
+  "pocket_ca_rmsd_to_reference_angstrom": 0.8202,
+  "interpretation_note": "Distances are geometry proxies in a shared coordinate frame, not interaction energies or experimental binding evidence."
+}

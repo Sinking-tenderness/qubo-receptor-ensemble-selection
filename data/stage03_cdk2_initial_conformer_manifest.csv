@@ -1,0 +1,10 @@
+conformer_id,source_type,pdb_path,chain,source_identifier,selection_role
+CDK2_1AQ1_reference,crystal,receptors/raw/1AQ1.pdb,A,1AQ1,reference_holo
+CDK2_1H00_aligned,crystal,receptors/aligned/1H00_A_to_1AQ1_A.pdb,A,1H00,crystal_conformer
+CDK2_1HCL_aligned,crystal,receptors/aligned/1HCL_A_to_1AQ1_A.pdb,A,1HCL,crystal_conformer
+CDK2_1JVP_aligned,crystal,receptors/aligned/1JVP_P_to_1AQ1_A.pdb,P,1JVP,crystal_conformer
+CDK2_1Y8Y_aligned,crystal,receptors/aligned/1Y8Y_A_to_1AQ1_A.pdb,A,1Y8Y,crystal_conformer
+CDK2_2C68_aligned,crystal,receptors/aligned/2C68_A_to_1AQ1_A.pdb,A,2C68,crystal_conformer
+CDK2_2C69_aligned,crystal,receptors/aligned/2C69_A_to_1AQ1_A.pdb,A,2C69,crystal_conformer
+CDK2_3RKB_aligned,crystal,receptors/aligned/3RKB_A_to_1AQ1_A.pdb,A,3RKB,crystal_conformer
+CDK2_AF_P24941_F1_v6,alphafold,receptors/aligned/AF-P24941-F1-model_v6_to_1AQ1_A.pdb,A,AF-P24941-F1,af2_apo_like

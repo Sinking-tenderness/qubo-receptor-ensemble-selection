@@ -1,0 +1,13 @@
+{
+  "conformer_count": 9,
+  "pocket_residue_count": 21,
+  "feature_count_excluding_metadata": 105,
+  "feature_schema": [
+    "present",
+    "min_distance_to_reference_ligand_angstrom",
+    "sidechain_centroid_x",
+    "sidechain_centroid_y",
+    "sidechain_centroid_z"
+  ],
+  "interpretation_note": "This matrix contains pocket geometry proxies. It is not a ligand interaction matrix and must not be used as an activity label."
+}

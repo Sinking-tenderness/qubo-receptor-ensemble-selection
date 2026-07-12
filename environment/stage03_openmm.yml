@@ -1,0 +1,11 @@
+name: qubo-receptor-md
+channels:
+  - conda-forge
+dependencies:
+  - python=3.11
+  - openmm=8.5
+  - pdbfixer
+  - mdtraj
+  - numpy
+  - pandas
+  - pip

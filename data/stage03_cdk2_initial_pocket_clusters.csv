@@ -1,0 +1,10 @@
+conformer_id,source_type,cluster_id,is_cluster_medoid,mean_distance_to_cluster_members
+CDK2_1AQ1_reference,crystal,1,True,0.0
+CDK2_1H00_aligned,crystal,0,True,8.325988
+CDK2_1HCL_aligned,crystal,2,False,7.42114
+CDK2_1JVP_aligned,crystal,0,False,8.342376
+CDK2_1Y8Y_aligned,crystal,2,False,7.280032
+CDK2_2C68_aligned,crystal,2,False,6.856083
+CDK2_2C69_aligned,crystal,2,True,6.782653
+CDK2_3RKB_aligned,crystal,0,False,9.30097
+CDK2_AF_P24941_F1_v6,alphafold,0,False,10.736581

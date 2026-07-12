@@ -1,0 +1,90 @@
+{
+  "status": "ok",
+  "input_pdb": "receptors\\aligned\\AF-P24941-F1-model_v6_to_1AQ1_A.pdb",
+  "input_sha256": "1AF07AC0294F8E505D233C67515E005BFBF81018704BE5AA129B28CCF27F12B2",
+  "chain": "A",
+  "prody_altloc": "A",
+  "wanted_altloc": null,
+  "meeko_default_altloc": null,
+  "allow_bad_res": false,
+  "charge_model": "gasteiger",
+  "python_version": "3.11.15",
+  "meeko_version": "0.7.1",
+  "prody_version": "2.4.1",
+  "cleaning": {
+    "parsed_atom_count": 2398,
+    "selected_protein_atom_count": 2398,
+    "selected_residue_count": 298,
+    "selected_chains": [
+      "A"
+    ]
+  },
+  "meeko_command": [
+    "C:\\Users\\MM\\anaconda3\\envs\\qubo-receptor-ensemble\\python.exe",
+    "-m",
+    "meeko.cli.mk_prepare_receptor",
+    "-i",
+    "receptors\\prepared\\AF-P24941-F1-model_v6_to_1AQ1_A_protein_only.pdb",
+    "-o",
+    "receptors\\prepared\\AF-P24941-F1-model_v6_to_1AQ1_A_receptor",
+    "-p",
+    "--write_pdb",
+    "receptors\\prepared\\AF-P24941-F1-model_v6_to_1AQ1_A_receptor.pdb",
+    "--charge_model",
+    "gasteiger"
+  ],
+  "meeko_return_code": 0,
+  "meeko_stdout": "\nFiles written:\n  receptors\\prepared\\AF-P24941-F1-model_v6_to_1AQ1_A_receptor.pdb <-- processed receptor PDB\nreceptors\\prepared\\AF-P24941-F1-model_v6_to_1AQ1_A_receptor.pdbqt <-- static (i.e., rigid) receptor input file\n",
+  "meeko_stderr": "C:\\Users\\MM\\anaconda3\\envs\\qubo-receptor-ensemble\\Lib\\site-packages\\prody\\utilities\\misctools.py:424: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.\n  import pkg_resources\n@> 2398 atoms and 1 coordinate set(s) were parsed in 0.04s.\n",
+  "residue_count_change": {
+    "input_protein_only": 298,
+    "output_pdbqt": 298,
+    "allowed_by_allow_bad_res": false
+  },
+  "outputs": {
+    "protein_only_pdb": {
+      "path": "receptors\\prepared\\AF-P24941-F1-model_v6_to_1AQ1_A_protein_only.pdb",
+      "sha256": "229385BD33474E21819298062A962924E3C8878E60FAE92B9162C80A5C6FE659",
+      "audit": {
+        "coordinate_record_count": 2398,
+        "atom_record_count": 2398,
+        "hetatm_record_count": 0,
+        "residue_count": 298,
+        "hydrogen_count": 0
+      }
+    },
+    "prepared_pdb": {
+      "path": "receptors\\prepared\\AF-P24941-F1-model_v6_to_1AQ1_A_receptor.pdb",
+      "sha256": "81EDB5D524EAA273ED530003004278E15C63B9CDC44D8B87136A81057EDA301F",
+      "audit": {
+        "coordinate_record_count": 4846,
+        "atom_record_count": 4846,
+        "hetatm_record_count": 0,
+        "residue_count": 298,
+        "hydrogen_count": 2448
+      }
+    },
+    "receptor_pdbqt": {
+      "path": "receptors\\prepared\\AF-P24941-F1-model_v6_to_1AQ1_A_receptor.pdbqt",
+      "sha256": "92D47512FA65E461BDCC9BCBF3FCECB87E5D1B7A8ADE5C1C945B21F801C8DF91",
+      "audit": {
+        "coordinate_record_count": 2912,
+        "atom_record_count": 2912,
+        "hetatm_record_count": 0,
+        "residue_count": 298,
+        "hydrogen_like_atom_count": 514,
+        "charge_min": -0.549,
+        "charge_max": 0.345,
+        "autodock_atom_types": [
+          "A",
+          "C",
+          "HD",
+          "N",
+          "NA",
+          "OA",
+          "SA"
+        ]
+      }
+    }
+  }
+}

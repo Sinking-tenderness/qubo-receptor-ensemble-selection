@@ -1,0 +1,28 @@
+{
+  "schema_version": "1.0",
+  "source": "AlphaFold Protein Structure Database official API",
+  "downloaded_utc": "2026-07-12T01:24:45+00:00",
+  "api_url": "https://alphafold.ebi.ac.uk/api/prediction/P24941",
+  "uniprot_accession": "P24941",
+  "entry_id": "AF-P24941-F1",
+  "model_entity_id": "AF-P24941-F1",
+  "model_created_date": "2025-08-01T00:00:00Z",
+  "model_version": 6,
+  "pdb_url": "https://alphafold.ebi.ac.uk/files/AF-P24941-F1-model_v6.pdb",
+  "cif_url": "https://alphafold.ebi.ac.uk/files/AF-P24941-F1-model_v6.cif",
+  "plddt_json_url": "https://alphafold.ebi.ac.uk/files/AF-P24941-F1-confidence_v6.json",
+  "pae_json_url": "https://alphafold.ebi.ac.uk/files/AF-P24941-F1-predicted_aligned_error_v6.json",
+  "local_pdb_path": "receptors/raw/alphafold/AF-P24941-F1-model_v6.pdb",
+  "pdb_sha256": "9037CF07EADCBAD383095070D147C3961B0EDC24845F115A33F4A7DB185C1211",
+  "pdb_audit": {
+    "atom_count": 2398,
+    "residue_count": 298,
+    "chain_ids": [
+      "A"
+    ],
+    "plddt_mean": 88.546,
+    "plddt_min": 40.31,
+    "plddt_max": 98.88
+  },
+  "interpretation_note": "AlphaFold pLDDT is a confidence signal, not evidence of a ligand-bound pocket state."
+}

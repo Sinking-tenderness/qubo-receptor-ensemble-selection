@@ -48,3 +48,13 @@ Stage 2 ligand preparation scripts:
   bootstrap deltas.
 - `batch_prepare_ligand_pdbqt_parallel.py`: prepare Meeko PDBQT files with
   resumable controlled parallel workers.
+- `download_alphafold_structure.py`: download a canonical official AlphaFold
+  DB model and write a source, version, SHA-256, and pLDDT audit manifest.
+- `extract_pocket_features.py`: calculate aligned pocket geometry proxies from
+  a reference co-crystal ligand and a candidate conformer.
+- `extract_pocket_features_batch.py`: apply the pocket feature schema to an
+  auditable crystal, AF2, or MD conformer manifest.
+- `build_pocket_feature_matrix.py`: combine per-conformer residue geometry into
+  a wide matrix for pocket clustering and later train-only selection features.
+- `cluster_pocket_conformers.py`: create a structure-only pocket clustering and
+  medoid baseline without using ligand activity labels.

@@ -1,0 +1,12 @@
+{
+  "conformer_count": 9,
+  "n_clusters": 3,
+  "geometry_feature_count": 84,
+  "cluster_medoids": {
+    "0": "CDK2_1H00_aligned",
+    "1": "CDK2_1AQ1_reference",
+    "2": "CDK2_2C69_aligned"
+  },
+  "method": "median imputation, standard scaling, Ward agglomerative clustering, Euclidean medoid",
+  "interpretation_note": "This is a structure-only clustering baseline. It does not optimize virtual-screening performance."
+}

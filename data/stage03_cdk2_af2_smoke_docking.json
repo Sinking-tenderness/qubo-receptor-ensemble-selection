@@ -1,0 +1,39 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage03-cdk2-af2-smoke-2a2d-v1",
+  "purpose": "Verify that the aligned AlphaFold receptor, shared docking box, Vina invocation, pose output, and score parsing run end to end. This is not a virtual-screening evaluation.",
+  "receptor_id": "CDK2_AF2_P24941_F1_v6_aligned",
+  "receptor_pdbqt": "receptors/prepared/AF-P24941-F1-model_v6_to_1AQ1_A_receptor.pdbqt",
+  "ligand_manifest": "data/processed/dude_cdk2_benchmark_100a_100d_pdbqt_manifest.csv",
+  "vina_executable": "environment/bin/vina_1.2.7_win.exe",
+  "vina_version": "AutoDock Vina v1.2.7",
+  "config": "configs/cdk2_speed_benchmark_e1_cpu1.txt",
+  "docking_parameters": {
+    "center": [0.52, 27.06, 8.97],
+    "size": [18, 18, 16],
+    "exhaustiveness": 1,
+    "num_modes": 1,
+    "cpu_per_worker": 1,
+    "workers": 4,
+    "max_total_cpu": 4,
+    "base_seed": 20260802,
+    "sample_per_label": 2,
+    "sample_seed": 20260802
+  },
+  "selected_ligands": [
+    {"ligand_id": "CDK2_A0029", "label": "active", "seed": 20260802, "docking_score": -9.739, "runtime_seconds": 31.321},
+    {"ligand_id": "CDK2_A0071", "label": "active", "seed": 20260803, "docking_score": -8.306, "runtime_seconds": 18.545},
+    {"ligand_id": "CDK2_D0004", "label": "decoy", "seed": 20260804, "docking_score": -8.005, "runtime_seconds": 20.511},
+    {"ligand_id": "CDK2_D0026", "label": "decoy", "seed": 20260805, "docking_score": -7.547, "runtime_seconds": 11.024}
+  ],
+  "result": {
+    "selected_ligand_count": 4,
+    "successful_ligand_count": 4,
+    "failed_ligand_count": 0,
+    "representative_pose_rank": 1,
+    "long_score_table": "results/metrics/stage03_af2_smoke_long.csv",
+    "pose_directory": "results/docking/stage03_af2_smoke",
+    "log_directory": "logs/stage03_af2_smoke"
+  },
+  "interpretation_note": "The sample is intentionally too small for ROC-AUC, EF, BEDROC, or any statement about AlphaFold screening utility. It only validates the technical docking path."
+}
