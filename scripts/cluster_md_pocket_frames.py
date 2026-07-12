@@ -177,6 +177,35 @@ def silhouette_from_distances(labels: np.ndarray, distances: np.ndarray) -> floa
     return float(values.mean())
 
 
+def temporal_cluster_diagnostics(
+    labels: np.ndarray, frame_interval_ps: float
+) -> list[dict[str, object]]:
+    if labels.ndim != 1 or not len(labels) or frame_interval_ps <= 0.0:
+        raise ValueError("temporal diagnostics require labels and a positive frame interval")
+    rows: list[dict[str, object]] = []
+    for cluster_id in sorted(set(int(value) for value in labels)):
+        indices = np.flatnonzero(labels == cluster_id)
+        split_points = np.flatnonzero(np.diff(indices) > 1) + 1
+        runs = np.split(indices, split_points)
+        longest_run = max(runs, key=len)
+        rows.append({
+            "cluster_id": cluster_id,
+            "cluster_size": len(indices),
+            "occupancy_fraction": round(float(len(indices) / len(labels)), 6),
+            "first_member_frame_index": int(indices[0]),
+            "last_member_frame_index": int(indices[-1]),
+            "first_member_time_ps": round(float((indices[0] + 1) * frame_interval_ps), 4),
+            "last_member_time_ps": round(float((indices[-1] + 1) * frame_interval_ps), 4),
+            "contiguous_run_count": len(runs),
+            "longest_contiguous_run_frame_count": len(longest_run),
+            "longest_contiguous_run_sample_span_ps": round(
+                float((len(longest_run) - 1) * frame_interval_ps), 4
+            ),
+            "revisited_after_exit": len(runs) > 1,
+        })
+    return rows
+
+
 def write_csv(path: Path, rows: list[dict[str, object]]) -> None:
     if not rows:
         raise ValueError("cannot write an empty CSV")
@@ -349,6 +378,8 @@ def main() -> int:
     selected_labels = labels_by_count[selected_count]
     selected_medoids = medoid_indices(selected_labels, frame_distances)
     frame_interval_ps = float(config["frame_interval_ps"])
+    temporal_rows = temporal_cluster_diagnostics(selected_labels, frame_interval_ps)
+    temporal_by_cluster = {int(row["cluster_id"]): row for row in temporal_rows}
     assignment_rows: list[dict[str, object]] = []
     for frame_index, label in enumerate(selected_labels):
         cluster_id = int(label)
@@ -394,6 +425,7 @@ def main() -> int:
         pdb_path = medoid_directory / f"{conformer_id}_{time_ps:07.1f}ps.pdb"
         trajectory[frame_index].save_pdb(str(pdb_path), force_overwrite=True)
         cluster_size = int(np.sum(selected_labels == cluster_id))
+        temporal = temporal_by_cluster[cluster_id]
         medoid_rows.append({
             "conformer_id": conformer_id,
             "source_type": "md_cluster_medoid",
@@ -403,6 +435,16 @@ def main() -> int:
             "frame_index": frame_index,
             "frame_number": frame_number,
             "time_ps": round(time_ps, 4),
+            "first_member_time_ps": temporal["first_member_time_ps"],
+            "last_member_time_ps": temporal["last_member_time_ps"],
+            "contiguous_run_count": temporal["contiguous_run_count"],
+            "longest_contiguous_run_frame_count": temporal[
+                "longest_contiguous_run_frame_count"
+            ],
+            "longest_contiguous_run_sample_span_ps": temporal[
+                "longest_contiguous_run_sample_span_ps"
+            ],
+            "revisited_after_exit": temporal["revisited_after_exit"],
             "pdb_path": pdb_path.as_posix(),
             "pdb_sha256": sha256(pdb_path),
             "preparation_status": "raw_md_medoid_requires_1AQ1_alignment_and_standard_receptor_preparation",
@@ -460,6 +502,16 @@ def main() -> int:
         "selected_smallest_cluster_size": selected_diagnostic["smallest_cluster_size"],
         "selected_largest_cluster_size": selected_diagnostic["largest_cluster_size"],
         "selected_singleton_cluster_count": selected_diagnostic["singleton_cluster_count"],
+        "selected_temporal_diagnostics": {
+            "adjacent_frame_transition_count": int(np.sum(np.diff(selected_labels) != 0)),
+            "adjacent_frame_same_cluster_fraction": round(
+                float(np.mean(np.diff(selected_labels) == 0)), 6
+            ),
+            "clusters_revisited_after_exit": sum(
+                bool(row["revisited_after_exit"]) for row in temporal_rows
+            ),
+            "per_cluster": temporal_rows,
+        },
         "medoids": medoid_rows,
         "outputs": {
             **{key: path.as_posix() for key, path in output_files.items()},

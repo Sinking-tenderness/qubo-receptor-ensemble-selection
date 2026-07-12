@@ -7,6 +7,7 @@ from scripts.cluster_md_pocket_frames import (
     relabel_by_medoid_time,
     silhouette_from_distances,
     standardize_features,
+    temporal_cluster_diagnostics,
 )
 
 
@@ -46,3 +47,16 @@ def test_silhouette_is_high_for_well_separated_clusters():
         [10.0, 9.0, 1.0, 0.0],
     ])
     assert silhouette_from_distances(labels, distances) > 0.85
+
+
+def test_temporal_diagnostics_detect_revisited_cluster():
+    labels = np.array([0, 0, 1, 1, 0, 2])
+    rows = temporal_cluster_diagnostics(labels, frame_interval_ps=20.0)
+    cluster_zero = rows[0]
+    assert cluster_zero["cluster_size"] == 3
+    assert cluster_zero["first_member_time_ps"] == pytest.approx(20.0)
+    assert cluster_zero["last_member_time_ps"] == pytest.approx(100.0)
+    assert cluster_zero["contiguous_run_count"] == 2
+    assert cluster_zero["longest_contiguous_run_frame_count"] == 2
+    assert cluster_zero["longest_contiguous_run_sample_span_ps"] == pytest.approx(20.0)
+    assert cluster_zero["revisited_after_exit"] is True
