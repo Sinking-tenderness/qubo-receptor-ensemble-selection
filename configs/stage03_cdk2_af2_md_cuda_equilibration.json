@@ -1,0 +1,40 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage03-cdk2-af2-apo-cuda-equilibration-v1",
+  "parent_protocol": "configs/stage03_cdk2_af2_md_pilot.json",
+  "purpose": "Resumable 100 ps NVT plus 500 ps NPT equilibration for the CDK2 AF2 apo-like pilot. The output is a candidate production starting state, not a sampled receptor conformer pool.",
+  "inputs": {
+    "system_xml": "results/runs/stage03_cdk2_af2_md_cuda/system.xml",
+    "solvated_pdb": "results/runs/stage03_cdk2_af2_md_cuda/solvated_system.pdb"
+  },
+  "platform": {
+    "name": "CUDA",
+    "precision": "mixed",
+    "device_note": "NVIDIA RTX 4090 with a CUDA 12.9 runtime compatible with the host driver."
+  },
+  "dynamics": {
+    "temperature_kelvin": 300.0,
+    "pressure_bar": 1.0,
+    "timestep_fs": 2.0,
+    "friction_per_ps": 1.0,
+    "minimization_tolerance_kj_per_mol_nm": 10.0,
+    "minimization_max_iterations": 500,
+    "nvt_duration_ps": 100.0,
+    "npt_duration_ps": 500.0,
+    "checkpoint_interval_ps": 10.0,
+    "barostat_frequency_steps": 25,
+    "seed": 20260712
+  },
+  "outputs": {
+    "progress_json": "results/runs/stage03_cdk2_af2_md_cuda/equilibration_progress.json",
+    "metrics_csv": "results/runs/stage03_cdk2_af2_md_cuda/equilibration_metrics.csv",
+    "manifest": "results/runs/stage03_cdk2_af2_md_cuda/equilibration_manifest.json",
+    "minimized_state_xml": "results/runs/stage03_cdk2_af2_md_cuda/minimized_state.xml",
+    "nvt_checkpoint": "results/runs/stage03_cdk2_af2_md_cuda/nvt.chk",
+    "nvt_final_state_xml": "results/runs/stage03_cdk2_af2_md_cuda/nvt_final_state.xml",
+    "npt_checkpoint": "results/runs/stage03_cdk2_af2_md_cuda/npt.chk",
+    "final_state_xml": "results/runs/stage03_cdk2_af2_md_cuda/equilibrated_state.xml",
+    "final_pdb": "results/runs/stage03_cdk2_af2_md_cuda/equilibrated_state.pdb"
+  },
+  "interpretation_boundary": "Completion provides a documented candidate starting state for the 2 ns production pilot. Equilibrium must still be assessed from late-window temperature, volume, energy, and protein-structure trends; completion alone does not prove equilibrium or conformational convergence."
+}

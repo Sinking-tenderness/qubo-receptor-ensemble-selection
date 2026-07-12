@@ -64,3 +64,5 @@ Stage 2 ligand preparation scripts:
   throughput without writing an MD trajectory.
 - `run_openmm_equilibration_smoke.py`: run bounded minimization plus short
   NVT/NPT numerical checks before starting the documented MD pilot.
+- `run_openmm_equilibration.py`: run resumable minimization, NVT, and NPT with
+  stage checkpoints, progress records, and an auditable final state.
