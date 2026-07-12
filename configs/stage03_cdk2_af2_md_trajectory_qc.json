@@ -1,0 +1,22 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage03-cdk2-af2-apo-2ns-trajectory-qc-v1",
+  "production_experiment_id": "stage03-cdk2-af2-apo-cuda-production-2ns-v1",
+  "purpose": "Align and quality-control the 100-frame CDK2 production pilot before pocket-feature clustering. This does not select receptor conformers or evaluate virtual-screening utility.",
+  "inputs": {
+    "topology_pdb": "results/runs/stage03_cdk2_af2_md_cuda/equilibrated_state.pdb",
+    "trajectory_glob": "results/runs/stage03_cdk2_af2_md_cuda/production_2ns/*.dcd"
+  },
+  "frame_interval_ps": 20.0,
+  "expected_frame_count": 100,
+  "alignment_selection": "protein and backbone",
+  "pocket_residue_numbers": [10, 11, 12, 13, 18, 31, 33, 64, 80, 81, 82, 83, 84, 85, 86, 131, 132, 133, 134, 144, 145],
+  "outputs": {
+    "frame_metrics_csv": "results/runs/stage03_cdk2_af2_md_cuda/trajectory_qc/frame_metrics.csv",
+    "residue_rmsf_csv": "results/runs/stage03_cdk2_af2_md_cuda/trajectory_qc/residue_ca_rmsf.csv",
+    "summary_json": "results/runs/stage03_cdk2_af2_md_cuda/trajectory_qc/summary.json",
+    "aligned_protein_pdb": "results/runs/stage03_cdk2_af2_md_cuda/trajectory_qc/aligned_protein_topology.pdb",
+    "aligned_protein_dcd": "results/runs/stage03_cdk2_af2_md_cuda/trajectory_qc/aligned_protein.dcd"
+  },
+  "interpretation_boundary": "Aligned RMSD and RMSF describe motion in one short, time-correlated trajectory. They are quality-control and clustering inputs, not evidence of conformational convergence, binding competence, or screening enrichment."
+}

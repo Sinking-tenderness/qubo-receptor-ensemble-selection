@@ -68,3 +68,5 @@ Stage 2 ligand preparation scripts:
   stage checkpoints, progress records, and an auditable final state.
 - `run_openmm_production.py`: run a resumable NPT production pilot as durable
   DCD chunks with metrics, checkpoints, and a final state manifest.
+- `analyze_md_trajectory.py`: align chunked MD coordinates and calculate
+  backbone, pocket, and per-residue trajectory quality metrics.
