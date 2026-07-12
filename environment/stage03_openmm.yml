@@ -8,4 +8,5 @@ dependencies:
   - mdtraj=1.11.1
   - numpy
   - pandas
+  - scipy
   - pip

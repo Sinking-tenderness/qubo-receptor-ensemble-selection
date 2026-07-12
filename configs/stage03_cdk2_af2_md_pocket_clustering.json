@@ -1,0 +1,32 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage03-cdk2-af2-apo-2ns-pocket-clustering-v1",
+  "trajectory_qc_experiment_id": "stage03-cdk2-af2-apo-2ns-trajectory-qc-v1",
+  "purpose": "Reduce 100 correlated CDK2 AF2 MD frames to a structure-only medoid pool before receptor preparation and docking. No ligand activity labels or docking scores are used.",
+  "conformer_id_prefix": "CDK2_AF2_MD2NS",
+  "inputs": {
+    "trajectory_qc_summary": "results/runs/stage03_cdk2_af2_md_cuda/trajectory_qc/summary.json",
+    "aligned_protein_pdb": "results/runs/stage03_cdk2_af2_md_cuda/trajectory_qc/aligned_protein_topology.pdb",
+    "aligned_protein_dcd": "results/runs/stage03_cdk2_af2_md_cuda/trajectory_qc/aligned_protein.dcd"
+  },
+  "protein_chain_id": "A",
+  "frame_interval_ps": 20.0,
+  "expected_frame_count": 100,
+  "pocket_residue_numbers": [10, 11, 12, 13, 18, 31, 33, 64, 80, 81, 82, 83, 84, 85, 86, 131, 132, 133, 134, 144, 145],
+  "features": {
+    "include_ca_pairwise_distances": true,
+    "include_sidechain_heavy_centroid_pairwise_distances": true,
+    "minimum_feature_sd_angstrom": 0.01
+  },
+  "candidate_cluster_counts": [2, 3, 4, 5, 6, 7, 8, 9, 10],
+  "selected_cluster_count": 8,
+  "outputs": {
+    "feature_matrix_csv": "results/runs/stage03_cdk2_af2_md_cuda/trajectory_clustering/pocket_distance_features.csv",
+    "cluster_diagnostics_csv": "results/runs/stage03_cdk2_af2_md_cuda/trajectory_clustering/cluster_diagnostics.csv",
+    "frame_assignments_csv": "results/runs/stage03_cdk2_af2_md_cuda/trajectory_clustering/frame_assignments.csv",
+    "medoid_manifest_csv": "results/runs/stage03_cdk2_af2_md_cuda/trajectory_clustering/medoid_manifest.csv",
+    "summary_json": "results/runs/stage03_cdk2_af2_md_cuda/trajectory_clustering/summary.json",
+    "medoid_directory": "results/runs/stage03_cdk2_af2_md_cuda/trajectory_clustering/medoids"
+  },
+  "interpretation_boundary": "The selected medoids are structurally representative frames from one short, correlated trajectory. They are candidate receptor conformers, not independent samples, validated docking structures, or evidence of screening improvement."
+}
