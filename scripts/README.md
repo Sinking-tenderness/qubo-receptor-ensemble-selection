@@ -62,3 +62,5 @@ Stage 2 ligand preparation scripts:
   versioned protocol without running minimization or dynamics.
 - `benchmark_openmm_platform.py`: measure fixed-step CPU, OpenCL, or CUDA OpenMM
   throughput without writing an MD trajectory.
+- `run_openmm_equilibration_smoke.py`: run bounded minimization plus short
+  NVT/NPT numerical checks before starting the documented MD pilot.
