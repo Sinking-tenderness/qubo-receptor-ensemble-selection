@@ -1,0 +1,30 @@
+{
+  "schema_version": "1.0",
+  "operation": "fixed-step OpenMM throughput benchmark; no trajectory file was written",
+  "system_xml": "results/runs/stage03_cdk2_af2_md_pilot/system.xml",
+  "positions_pdb": "results/runs/stage03_cdk2_af2_md_pilot/solvated_system.pdb",
+  "openmm_version": "8.5.2.dev-36a30cb",
+  "platform": "CPU",
+  "requested_properties": {
+    "Threads": "8"
+  },
+  "resolved_properties": {
+    "Threads": "8",
+    "DeterministicForces": "false"
+  },
+  "system_atom_count": 46071,
+  "warmup_steps": 100,
+  "benchmark_steps": 1000,
+  "timestep_fs": 2.0,
+  "temperature_kelvin": 300.0,
+  "friction_per_ps": 1.0,
+  "seed": 20260712,
+  "elapsed_seconds": 75.447378,
+  "steps_per_second": 13.2543,
+  "nanoseconds_per_day": 2.290338,
+  "potential_energy_kj_per_mol": {
+    "after_warmup": -587861.093905,
+    "after_benchmark": -677774.852988
+  },
+  "interpretation_note": "A finite short benchmark verifies platform execution and estimates throughput. It is not an equilibration, stability, or sampling assessment."
+}

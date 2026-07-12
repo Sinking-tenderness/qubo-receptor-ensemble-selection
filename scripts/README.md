@@ -58,3 +58,7 @@ Stage 2 ligand preparation scripts:
   a wide matrix for pocket clustering and later train-only selection features.
 - `cluster_pocket_conformers.py`: create a structure-only pocket clustering and
   medoid baseline without using ligand activity labels.
+- `build_openmm_system.py`: build and audit a solvated OpenMM system from a
+  versioned protocol without running minimization or dynamics.
+- `benchmark_openmm_platform.py`: measure fixed-step CPU, OpenCL, or CUDA OpenMM
+  throughput without writing an MD trajectory.

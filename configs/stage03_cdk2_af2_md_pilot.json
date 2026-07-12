@@ -1,0 +1,57 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage03-cdk2-af2-apo-md-pilot-v1",
+  "purpose": "Technical MD pilot for system construction, runtime estimation, and downstream frame-processing validation. It is not a claim of converged CDK2 conformational sampling.",
+  "starting_structure": {
+    "conformer_id": "CDK2_AF_P24941_F1_v6",
+    "pdb_path": "receptors/aligned/AF-P24941-F1-model_v6_to_1AQ1_A.pdb",
+    "chain_id": "A",
+    "state_description": "complete AlphaFold apo-like prediction aligned to the 1AQ1 docking reference frame",
+    "ligands_retained": false,
+    "crystal_waters_retained": false,
+    "metals_retained": false,
+    "cofactors_retained": false
+  },
+  "protonation": {
+    "target_ph": 7.0,
+    "method": "OpenMM Modeller.addHydrogens with force-field templates",
+    "limitation": "This is a model-based protonation assignment. Histidine and other ionizable states require later pocket-specific review."
+  },
+  "force_field": {
+    "protein_and_water_xml": [
+      "amber14-all.xml",
+      "amber14/tip3pfb.xml"
+    ],
+    "water_geometry_model": "tip3p",
+    "nonbonded_method": "PME",
+    "nonbonded_cutoff_nm": 1.0,
+    "constraints": "HBonds"
+  },
+  "solvation": {
+    "padding_nm": 1.0,
+    "ionic_strength_molar": 0.15,
+    "positive_ion": "Na+",
+    "negative_ion": "Cl-",
+    "neutralize": true
+  },
+  "dynamics": {
+    "temperature_kelvin": 300.0,
+    "pressure_bar": 1.0,
+    "timestep_fs": 2.0,
+    "friction_per_ps": 1.0,
+    "minimization_tolerance_kj_per_mol_nm": 10.0,
+    "minimization_max_iterations": 0,
+    "nvt_duration_ps": 100.0,
+    "npt_duration_ps": 500.0,
+    "pilot_production_duration_ns": 2.0,
+    "frame_stride_ps": 20.0,
+    "seed": 20260712
+  },
+  "planned_outputs": {
+    "system_manifest": "data/stage03_cdk2_af2_md_pilot_system_build.json",
+    "solvated_pdb": "results/runs/stage03_cdk2_af2_md_pilot/solvated_system.pdb",
+    "system_xml": "results/runs/stage03_cdk2_af2_md_pilot/system.xml",
+    "trajectory_directory": "results/runs/stage03_cdk2_af2_md_pilot"
+  },
+  "sampling_boundary": "Run one 2 ns pilot only after the system-build audit passes. Use the pilot to estimate runtime and inspect basic stability. Do not use it as evidence of converged conformational sampling or to tune on the Stage 2 test set."
+}

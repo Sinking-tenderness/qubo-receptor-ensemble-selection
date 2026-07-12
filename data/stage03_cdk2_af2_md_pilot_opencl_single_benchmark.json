@@ -1,0 +1,35 @@
+{
+  "schema_version": "1.0",
+  "operation": "fixed-step OpenMM throughput benchmark; no trajectory file was written",
+  "system_xml": "results/runs/stage03_cdk2_af2_md_pilot/system.xml",
+  "positions_pdb": "results/runs/stage03_cdk2_af2_md_pilot/solvated_system.pdb",
+  "openmm_version": "8.5.2.dev-36a30cb",
+  "platform": "OpenCL",
+  "requested_properties": {
+    "Precision": "single"
+  },
+  "resolved_properties": {
+    "DeviceIndex": "0",
+    "DeviceName": "Intel(R) Iris(R) Xe Graphics",
+    "OpenCLPlatformIndex": "0",
+    "OpenCLPlatformName": "Intel(R) OpenCL Graphics",
+    "Precision": "single",
+    "UseCpuPme": "false",
+    "DisablePmeStream": "false"
+  },
+  "system_atom_count": 46071,
+  "warmup_steps": 100,
+  "benchmark_steps": 1000,
+  "timestep_fs": 2.0,
+  "temperature_kelvin": 300.0,
+  "friction_per_ps": 1.0,
+  "seed": 20260712,
+  "elapsed_seconds": 11.037132,
+  "steps_per_second": 90.6032,
+  "nanoseconds_per_day": 15.65624,
+  "potential_energy_kj_per_mol": {
+    "after_warmup": -589036.070241,
+    "after_benchmark": -677359.497976
+  },
+  "interpretation_note": "A finite short benchmark verifies platform execution and estimates throughput. It is not an equilibration, stability, or sampling assessment."
+}

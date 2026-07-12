@@ -1,0 +1,32 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage03-cdk2-af2-apo-md-pilot-v1",
+  "status": "ok",
+  "operation": "solvated OpenMM system build only; no minimization, equilibration, or production dynamics were run",
+  "protocol_path": "configs/stage03_cdk2_af2_md_pilot.json",
+  "input_pdb": "receptors/aligned/AF-P24941-F1-model_v6_to_1AQ1_A.pdb",
+  "input_pdb_sha256": "1AF07AC0294F8E505D233C67515E005BFBF81018704BE5AA129B28CCF27F12B2",
+  "openmm_version": "8.5.2.dev-36a30cb",
+  "input_topology": {
+    "chain_count": 1,
+    "residue_count": 298,
+    "atom_count": 2398,
+    "water_residue_count": 0,
+    "sodium_ion_count": 0,
+    "chloride_ion_count": 0
+  },
+  "solvated_topology": {
+    "chain_count": 3,
+    "residue_count": 14091,
+    "atom_count": 46071,
+    "water_residue_count": 13715,
+    "sodium_ion_count": 37,
+    "chloride_ion_count": 41
+  },
+  "outputs": {
+    "solvated_pdb": "results/runs/stage03_cdk2_af2_md_pilot/solvated_system.pdb",
+    "solvated_pdb_sha256": "378F38F83D085AD48CAC7473BD810BB854CC6B71739967B39379C6D9DBABC90C",
+    "system_xml": "results/runs/stage03_cdk2_af2_md_pilot/system.xml",
+    "system_xml_sha256": "CA70FACCD89C880A12782F83EC21A3EFF49C21DA4CE04D21A9A64AC261604AFF"
+  }
+}
