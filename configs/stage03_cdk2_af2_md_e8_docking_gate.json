@@ -1,0 +1,52 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage03-cdk2-af2-md-8r-2a2d-e8-docking-gate-v1",
+  "purpose": "Validate exhaustiveness 8 across all eight prepared MD medoid receptors with four fixed ligands while measuring four-worker one-CPU throughput.",
+  "inputs": {
+    "receptor_preparation_summary": "results/runs/stage03_cdk2_af2_md_cuda/medoid_receptors/preparation_summary.json",
+    "receptor_preparation_manifest": "results/runs/stage03_cdk2_af2_md_cuda/medoid_receptors/preparation_manifest.csv",
+    "ligand_manifest": "data/processed/dude_cdk2_benchmark_100a_100d_pdbqt_manifest.csv",
+    "parent_af2_smoke_json": "data/stage03_cdk2_af2_smoke_docking.json",
+    "vina_executable": "environment/bin/vina_1.2.7_win.exe",
+    "vina_config": "configs/cdk2_speed_benchmark_e8_cpu1.txt",
+    "parallel_runner": "scripts/batch_vina_docking_parallel.py",
+    "score_matrix_module": "scripts/build_score_matrix.py"
+  },
+  "input_sha256": {
+    "receptor_preparation_summary": "B3B3185C9F442CB1DE6995F75083E06526B7DB332DD7AEE4F868090AA93EB537",
+    "receptor_preparation_manifest": "21DFAD19DB59B168C89D1369EFB540499ED68DF98E6B3EFF6C9EE26EC6A6EA78",
+    "ligand_manifest": "77151A6F298389B74A5F34BE4D70A68D728DC6B8BBE084A98DA12BE4E55141EB",
+    "parent_af2_smoke_json": "3956B9E04C3C0F2B2A270304F0A552E2C19DBD32E39AB546555CAFA3E80B5985",
+    "vina_executable": "E0C4B2715E0C1A74F6E92D0F3BE0328AC97542EAFBC111E6B1EFAD897A73CCE5",
+    "vina_config": "CDEE042901307213372ECF91A5B3BA0A962CE9AC1B86618F7B18D6293E8F4719",
+    "parallel_runner": "D30E87EFCDDA77F545CE16D4208581660DEA2EC79C07E45AD2516CB45ACB9556",
+    "score_matrix_module": "F9301E06EBB125EA508B955CCBC685D6B48038D191AB90903D5928E2E161775A"
+  },
+  "expected_receptor_count": 8,
+  "ligands": [
+    {"ligand_id": "CDK2_A0029", "label": "active", "pdbqt_sha256": "4F46E8EE4536C93488F28E9DF6074D0C1C8981CBC06FF8099193D4EDFDF24F9F"},
+    {"ligand_id": "CDK2_A0071", "label": "active", "pdbqt_sha256": "BFB6373732B9C99C8ACCA6CC6FAF5C2A1D45DB377D18557AB70B4732B356F655"},
+    {"ligand_id": "CDK2_D0004", "label": "decoy", "pdbqt_sha256": "73F6BE66DE7DB1F7BCCFA9792F5E28BB7A2B7098C409ECE271528C45DDB4F074"},
+    {"ligand_id": "CDK2_D0026", "label": "decoy", "pdbqt_sha256": "5AA4E67EC54736AB9290DF20BD20D5CC566C91BA24E7784A5CDF23A2512C1B54"}
+  ],
+  "docking": {
+    "workers": 4,
+    "max_total_cpu": 4,
+    "base_seed": 20260821,
+    "representative_method": "pose_rank_1"
+  },
+  "search_quality_warnings": {
+    "flag_nonnegative_scores": true,
+    "maximum_delta_from_parent_af2_kcal_per_mol": 5.0
+  },
+  "outputs": {
+    "run_directory": "results/runs/stage03_cdk2_af2_md_e8_docking_gate",
+    "selected_ligand_manifest_csv": "results/runs/stage03_cdk2_af2_md_e8_docking_gate/selected_ligands.csv",
+    "receptor_run_manifest_csv": "results/runs/stage03_cdk2_af2_md_e8_docking_gate/receptor_runs.csv",
+    "combined_raw_scores_csv": "results/runs/stage03_cdk2_af2_md_e8_docking_gate/raw_scores.csv",
+    "representative_long_csv": "results/runs/stage03_cdk2_af2_md_e8_docking_gate/representative_scores.csv",
+    "score_matrix_csv": "results/runs/stage03_cdk2_af2_md_e8_docking_gate/score_matrix.csv",
+    "summary_json": "results/runs/stage03_cdk2_af2_md_e8_docking_gate/summary.json"
+  },
+  "interpretation_boundary": "Exhaustiveness 8 with four ligands is an all-receptor search and throughput gate. These scores must not be used to claim enrichment, receptor superiority, QUBO improvement, or biological activity."
+}
