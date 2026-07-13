@@ -74,7 +74,10 @@ reported separately as a low-temporal-support exploratory receptor.
 - Medoid manifest SHA-256:
   `AFEDEDDEE6CA5AF03F1E217AD01DD878BABA2E77915494ACBF744A72C7D81769`
 - Final clustering summary SHA-256:
-  `FAE3A81C34EAEF12011ACF987176EACFB98EBDBF101511CC75CAC3D6016B10EE`
+  `E9CCB9998D3A6204602E5C1983C1F7B373E612B7B99ACEE7824B2C2ABDA164D5`
+
+Two consecutive regenerations produced this same summary hash after JSON keys
+were written deterministically. The reproducibility comparison had no diff.
 
 ## Decision
 
