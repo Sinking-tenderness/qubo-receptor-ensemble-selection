@@ -1,0 +1,26 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage03-cdk2-af2-apo-2ns-receptor-preparation-v1",
+  "alignment_experiment_id": "stage03-cdk2-af2-apo-2ns-medoid-alignment-v1",
+  "purpose": "Apply the validated C01 Meeko receptor-preparation protocol consistently to all eight aligned MD medoids.",
+  "inputs": {
+    "alignment_summary": "results/runs/stage03_cdk2_af2_md_cuda/medoid_receptors/alignment_summary.json",
+    "alignment_manifest": "results/runs/stage03_cdk2_af2_md_cuda/medoid_receptors/alignment_manifest.csv",
+    "pilot_summary": "results/runs/stage03_cdk2_af2_md_cuda/medoid_receptors/preparation_pilot/CDK2_AF2_MD2NS_C01_F005/preparation_summary.json",
+    "prepare_receptor_script": "scripts/prepare_receptor.py"
+  },
+  "alignment_summary_sha256": "620A9F0DEA0839D1BDFAECAFF0E9D9C9A17DF098EF23843B193B24F34D4B1220",
+  "alignment_manifest_sha256": "FDC78D913C126097C94EB4EEC5AFE2C27F1B95380AB989A351806EE69E0BB724",
+  "pilot_conformer_id": "CDK2_AF2_MD2NS_C01_F005",
+  "expected_receptor_count": 8,
+  "expected_residue_count": 298,
+  "chain": "A",
+  "charge_model": "gasteiger",
+  "expected_autodock_atom_types": ["A", "C", "HD", "N", "NA", "OA", "SA"],
+  "outputs": {
+    "prepared_directory": "results/runs/stage03_cdk2_af2_md_cuda/medoid_receptors/prepared",
+    "preparation_manifest_csv": "results/runs/stage03_cdk2_af2_md_cuda/medoid_receptors/preparation_manifest.csv",
+    "summary_json": "results/runs/stage03_cdk2_af2_md_cuda/medoid_receptors/preparation_summary.json"
+  },
+  "interpretation_boundary": "Successful parameterization only establishes consistent rigid Vina receptor inputs. It does not establish pose reproduction, ligand ranking, enrichment, or biological validity."
+}

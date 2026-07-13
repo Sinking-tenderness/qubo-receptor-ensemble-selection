@@ -74,3 +74,5 @@ Stage 2 ligand preparation scripts:
   pocket-distance features and export representative medoid PDB structures.
 - `align_md_medoid_receptors.py`: align MD medoids to a crystal reference and
   export audited protein-only heavy-atom structures for receptor preparation.
+- `batch_prepare_md_receptors.py`: apply one audited Meeko protocol to all MD
+  medoids while preserving per-receptor failures and parameterization audits.
