@@ -78,3 +78,5 @@ Stage 2 ligand preparation scripts:
   medoids while preserving per-receptor failures and parameterization audits.
 - `run_md_receptor_docking_gate.py`: run a fixed four-ligand Vina execution
   gate across prepared MD receptors and build a parent-referenced score matrix.
+- `run_vina_search_robustness.py`: compare paired exhaustiveness-4 and
+  exhaustiveness-8 scores across fixed receptor-ligand cases and random seeds.

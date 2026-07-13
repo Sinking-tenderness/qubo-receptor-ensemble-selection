@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage03-cdk2-af2-md-e4-e8-search-robustness-v1",
+  "purpose": "Test whether exhaustiveness 4 remains stable across four receptor-ligand cases and three random seeds when compared with paired exhaustiveness 8 runs.",
+  "inputs": {
+    "receptor_manifest": "results/runs/stage03_cdk2_af2_md_cuda/medoid_receptors/preparation_manifest.csv",
+    "ligand_manifest": "data/processed/dude_cdk2_benchmark_100a_100d_pdbqt_manifest.csv",
+    "vina_executable": "environment/bin/vina_1.2.7_win.exe",
+    "exhaustiveness4_config": "configs/cdk2_speed_benchmark_e4_cpu4.txt",
+    "exhaustiveness8_config": "configs/cdk2_speed_benchmark_e8_cpu4.txt"
+  },
+  "input_sha256": {
+    "receptor_manifest": "21DFAD19DB59B168C89D1369EFB540499ED68DF98E6B3EFF6C9EE26EC6A6EA78",
+    "ligand_manifest": "77151A6F298389B74A5F34BE4D70A68D728DC6B8BBE084A98DA12BE4E55141EB",
+    "vina_executable": "E0C4B2715E0C1A74F6E92D0F3BE0328AC97542EAFBC111E6B1EFAD897A73CCE5",
+    "exhaustiveness4_config": "A128516F1751FC1C42CDBD0F414F0E7ECE8E32C7FA856F4EB9CAF9E4AC54BDCF",
+    "exhaustiveness8_config": "DC301D199B1D7CCFD6E7E20E18BD7A781C4618F4725DE39E449D27B800996FCE"
+  },
+  "cases": [
+    {
+      "case_id": "C00_A0029",
+      "receptor_id": "CDK2_AF2_MD2NS_C00_F001",
+      "receptor_pdbqt_sha256": "6A4E82CD76D3893F417CEC917CF2A5D71D0BA3FDC3BED413408E965822AB1B90",
+      "ligand_id": "CDK2_A0029",
+      "label": "active",
+      "ligand_pdbqt_sha256": "4F46E8EE4536C93488F28E9DF6074D0C1C8981CBC06FF8099193D4EDFDF24F9F"
+    },
+    {
+      "case_id": "C03_D0004",
+      "receptor_id": "CDK2_AF2_MD2NS_C03_F041",
+      "receptor_pdbqt_sha256": "10411A22D854CAACA446BC6FAF6CB355CF9623BC67D3EABEB4DA1C8C86F9A023",
+      "ligand_id": "CDK2_D0004",
+      "label": "decoy",
+      "ligand_pdbqt_sha256": "73F6BE66DE7DB1F7BCCFA9792F5E28BB7A2B7098C409ECE271528C45DDB4F074"
+    },
+    {
+      "case_id": "C05_D0026",
+      "receptor_id": "CDK2_AF2_MD2NS_C05_F074",
+      "receptor_pdbqt_sha256": "07B111D9B7D6BE60CCF8D5F994ECF83F1CD6BA11E1B0835C27B584F58964BF04",
+      "ligand_id": "CDK2_D0026",
+      "label": "decoy",
+      "ligand_pdbqt_sha256": "5AA4E67EC54736AB9290DF20BD20D5CC566C91BA24E7784A5CDF23A2512C1B54"
+    },
+    {
+      "case_id": "C07_A0071",
+      "receptor_id": "CDK2_AF2_MD2NS_C07_F095",
+      "receptor_pdbqt_sha256": "A211BE33F465652555C5826BF8329D2E0D81F77E15775F93FF234EF2C199FB44",
+      "ligand_id": "CDK2_A0071",
+      "label": "active",
+      "ligand_pdbqt_sha256": "BFB6373732B9C99C8ACCA6CC6FAF5C2A1D45DB377D18557AB70B4732B356F655"
+    }
+  ],
+  "seeds": [20260821, 20260822, 20260823],
+  "execution": {
+    "max_total_cpu": 4
+  },
+  "acceptance_thresholds": {
+    "flag_nonnegative_scores": true,
+    "maximum_e4_seed_range_kcal_per_mol": 1.0,
+    "maximum_paired_e4_e8_delta_kcal_per_mol": 0.5
+  },
+  "outputs": {
+    "run_directory": "results/runs/stage03_cdk2_af2_md_search_robustness",
+    "raw_runs_csv": "results/runs/stage03_cdk2_af2_md_search_robustness/raw_runs.csv",
+    "case_summary_csv": "results/runs/stage03_cdk2_af2_md_search_robustness/case_summary.csv",
+    "summary_json": "results/runs/stage03_cdk2_af2_md_search_robustness/summary.json"
+  },
+  "interpretation_boundary": "This 24-run pilot evaluates search stability only. Passing does not establish enrichment, receptor superiority, QUBO benefit, biological activity, or equivalence across the full ligand benchmark."
+}
