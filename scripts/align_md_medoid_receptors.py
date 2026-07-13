@@ -354,9 +354,10 @@ def main() -> int:
     }
     summary_path.parent.mkdir(parents=True, exist_ok=True)
     summary_path.write_text(
-        json.dumps(summary, indent=2, ensure_ascii=True) + "\n", encoding="ascii"
+        json.dumps(summary, indent=2, ensure_ascii=True, sort_keys=True) + "\n",
+        encoding="ascii",
     )
-    print(json.dumps(summary, indent=2, ensure_ascii=True))
+    print(json.dumps(summary, indent=2, ensure_ascii=True, sort_keys=True))
     return 0
 
 

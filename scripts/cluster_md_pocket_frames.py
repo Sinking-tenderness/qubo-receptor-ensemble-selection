@@ -37,14 +37,14 @@ REQUIRED_INPUT_KEYS = {
     "aligned_protein_pdb",
     "aligned_protein_dcd",
 }
-REQUIRED_OUTPUT_KEYS = {
+OUTPUT_FILE_KEYS = (
     "feature_matrix_csv",
     "cluster_diagnostics_csv",
     "frame_assignments_csv",
     "medoid_manifest_csv",
     "summary_json",
-    "medoid_directory",
-}
+)
+REQUIRED_OUTPUT_KEYS = {*OUTPUT_FILE_KEYS, "medoid_directory"}
 
 
 def load_config(path: Path) -> dict[str, object]:
@@ -240,9 +240,7 @@ def main() -> int:
     for path in input_paths.values():
         if not path.is_file():
             raise FileNotFoundError(path)
-    output_files = {
-        key: Path(str(outputs[key])) for key in REQUIRED_OUTPUT_KEYS if key != "medoid_directory"
-    }
+    output_files = {key: Path(str(outputs[key])) for key in OUTPUT_FILE_KEYS}
     medoid_directory = Path(str(outputs["medoid_directory"]))
     existing = [path for path in output_files.values() if path.exists()]
     existing_medoids = list(medoid_directory.glob("*.pdb")) if medoid_directory.exists() else []
@@ -525,9 +523,10 @@ def main() -> int:
         "interpretation_note": config["interpretation_boundary"],
     }
     output_files["summary_json"].write_text(
-        json.dumps(summary, indent=2, ensure_ascii=True) + "\n", encoding="ascii"
+        json.dumps(summary, indent=2, ensure_ascii=True, sort_keys=True) + "\n",
+        encoding="ascii",
     )
-    print(json.dumps(summary, indent=2, ensure_ascii=True))
+    print(json.dumps(summary, indent=2, ensure_ascii=True, sort_keys=True))
     return 0
 
 
