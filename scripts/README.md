@@ -76,3 +76,5 @@ Stage 2 ligand preparation scripts:
   export audited protein-only heavy-atom structures for receptor preparation.
 - `batch_prepare_md_receptors.py`: apply one audited Meeko protocol to all MD
   medoids while preserving per-receptor failures and parameterization audits.
+- `run_md_receptor_docking_gate.py`: run a fixed four-ligand Vina execution
+  gate across prepared MD receptors and build a parent-referenced score matrix.
