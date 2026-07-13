@@ -2,6 +2,7 @@ import pytest
 
 from scripts.run_md_receptor_ligand_benchmark import (
     annotate_search_warnings,
+    portable_manifest_path,
     score_table_is_complete,
 )
 
@@ -23,6 +24,11 @@ def test_score_table_is_complete_rejects_failed_rows(tmp_path):
         encoding="utf-8",
     )
     assert score_table_is_complete(table, {"A", "B"}) is False
+
+
+def test_portable_manifest_path_normalizes_windows_separators():
+    path = portable_manifest_path(r"results\runs\receptor.pdbqt")
+    assert path.as_posix() == "results/runs/receptor.pdbqt"
 
 
 def test_annotate_search_warnings_uses_each_ligand_median():

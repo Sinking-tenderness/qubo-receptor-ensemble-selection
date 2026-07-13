@@ -63,6 +63,11 @@ def read_csv(path: Path) -> list[dict[str, str]]:
     return rows
 
 
+def portable_manifest_path(value: str) -> Path:
+    """Interpret repository-relative manifest paths on Windows or POSIX."""
+    return Path(value.replace("\\", "/"))
+
+
 def write_csv(path: Path, rows: list[dict[str, object] | dict[str, str]]) -> None:
     if not rows:
         raise ValueError(f"cannot write empty CSV: {path}")
@@ -136,12 +141,16 @@ def audit_ligands(
         ligand_id = row["ligand_id"]
         if row.get("pdbqt_status") != "ok":
             raise ValueError(f"ligand PDBQT preparation did not pass: {ligand_id}")
-        path = Path(row["pdbqt_path"])
+        path = portable_manifest_path(row["pdbqt_path"])
         if not path.is_file():
             raise FileNotFoundError(path)
         label = row["label"]
         observed_labels[label] = observed_labels.get(label, 0) + 1
-        audited.append({**row, "pdbqt_sha256": file_sha256(path)})
+        audited.append({
+            **row,
+            "pdbqt_path": path.as_posix(),
+            "pdbqt_sha256": file_sha256(path),
+        })
     normalized_expected = {key: int(value) for key, value in expected_label_counts.items()}
     if observed_labels != normalized_expected:
         raise ValueError(
@@ -263,11 +272,12 @@ def main() -> int:
         receptor_id = row["conformer_id"]
         if row.get("preparation_status") != "ok":
             raise ValueError(f"receptor preparation did not pass: {receptor_id}")
-        path = Path(row["receptor_pdbqt_path"])
+        path = portable_manifest_path(row["receptor_pdbqt_path"])
         if not path.is_file():
             raise FileNotFoundError(path)
         if file_sha256(path) != row["receptor_pdbqt_sha256"].upper():
             raise ValueError(f"receptor PDBQT SHA-256 differs: {receptor_id}")
+        row["receptor_pdbqt_path"] = path.as_posix()
 
     ligand_rows = audit_ligands(
         read_csv(input_paths["ligand_manifest"]),
