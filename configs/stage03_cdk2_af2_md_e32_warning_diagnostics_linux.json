@@ -1,0 +1,101 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage03-cdk2-af2-md-e32-warning-diagnostics-linux-v1",
+  "purpose": "Diagnose the five warning pairs from the uniform exhaustiveness-32 matrix with three paired seeds at exhaustiveness 32 and 64 before choosing a final matrix protocol.",
+  "inputs": {
+    "receptor_manifest": "results/runs/stage03_cdk2_af2_md_cuda/medoid_receptors/preparation_manifest.csv",
+    "ligand_manifest": "data/processed/dude_cdk2_benchmark_30a_30d_pdbqt_manifest.csv",
+    "source_warning_table": "results/runs/stage03_cdk2_af2_md_30a30d_e32_linux/search_warnings.csv",
+    "vina_executable": "environment/bin/vina_1.2.7_linux_x86_64"
+  },
+  "input_sha256": {
+    "receptor_manifest": "21DFAD19DB59B168C89D1369EFB540499ED68DF98E6B3EFF6C9EE26EC6A6EA78",
+    "ligand_manifest": "25FAF555976E0EB31E0C3421EE7B0294E6329FA6B7F0299A43A9D6BBB8E7E183",
+    "source_warning_table": "B8E7295A6ABF8979F6F309E7649E222E358CF9FF0E6F091AD65698010DD36041",
+    "vina_executable": "F31F774F723BBA7BBE6E9D1C47577020EEA9A8DA16424284C043D22593570644"
+  },
+  "search_protocols": [
+    {
+      "protocol_id": "e32",
+      "config_path": "configs/cdk2_speed_benchmark_e32_cpu4.txt",
+      "config_sha256": "0E841BE2B7E0200AB334EC09D5B57F7030472668C167E3D1E1B6F88C60E7135C",
+      "expected_exhaustiveness": 32
+    },
+    {
+      "protocol_id": "e64",
+      "config_path": "configs/cdk2_speed_benchmark_e64_cpu4.txt",
+      "config_sha256": "7EC679BDA4C613E8BAE6952B4BAC3EAAA59E7D6FDE2BB90182181F42B69917E4",
+      "expected_exhaustiveness": 64
+    }
+  ],
+  "cases": [
+    {
+      "case_id": "C00_A0009",
+      "receptor_id": "CDK2_AF2_MD2NS_C00_F001",
+      "receptor_pdbqt_sha256": "6A4E82CD76D3893F417CEC917CF2A5D71D0BA3FDC3BED413408E965822AB1B90",
+      "ligand_id": "CDK2_A0009",
+      "label": "active",
+      "ligand_pdbqt_sha256": "CDD235CE602E2C78E72FC0E7C5F7231E2AF200BA9C1E682055182D4BEFC81867",
+      "source_score": 1.551,
+      "source_seed": 20260909
+    },
+    {
+      "case_id": "C01_A0012",
+      "receptor_id": "CDK2_AF2_MD2NS_C01_F005",
+      "receptor_pdbqt_sha256": "72188E1B98B0C64A4348138FEDF6D50B3839A006A41EA85BF6FC7516D797E1DC",
+      "ligand_id": "CDK2_A0012",
+      "label": "active",
+      "ligand_pdbqt_sha256": "F64CB458C5BFCBB99FD8A935EF052100D6203954C1FA5248655B79DCE642A27B",
+      "source_score": 4.79,
+      "source_seed": 20260912
+    },
+    {
+      "case_id": "C07_A0012",
+      "receptor_id": "CDK2_AF2_MD2NS_C07_F095",
+      "receptor_pdbqt_sha256": "A211BE33F465652555C5826BF8329D2E0D81F77E15775F93FF234EF2C199FB44",
+      "ligand_id": "CDK2_A0012",
+      "label": "active",
+      "ligand_pdbqt_sha256": "F64CB458C5BFCBB99FD8A935EF052100D6203954C1FA5248655B79DCE642A27B",
+      "source_score": 16.53,
+      "source_seed": 20260912
+    },
+    {
+      "case_id": "C07_A0013",
+      "receptor_id": "CDK2_AF2_MD2NS_C07_F095",
+      "receptor_pdbqt_sha256": "A211BE33F465652555C5826BF8329D2E0D81F77E15775F93FF234EF2C199FB44",
+      "ligand_id": "CDK2_A0013",
+      "label": "active",
+      "ligand_pdbqt_sha256": "9FB5EC98D82D781E3ACD4D5E1EF4A536F53BCB94B6FB8E2886D476D140CDAF92",
+      "source_score": 163.5,
+      "source_seed": 20260913
+    },
+    {
+      "case_id": "C03_D0016",
+      "receptor_id": "CDK2_AF2_MD2NS_C03_F041",
+      "receptor_pdbqt_sha256": "10411A22D854CAACA446BC6FAF6CB355CF9623BC67D3EABEB4DA1C8C86F9A023",
+      "ligand_id": "CDK2_D0016",
+      "label": "decoy",
+      "ligand_pdbqt_sha256": "E62F0D16E797859BF2B83F141F4D0C1ABD6A1F49A0D8C2527C6A1F21DB4550DF",
+      "source_score": 70.78,
+      "source_seed": 20260946
+    }
+  ],
+  "seed_offsets": [0, 100000, 200000],
+  "execution": {
+    "workers": 8,
+    "max_total_cpu": 32
+  },
+  "acceptance_thresholds": {
+    "flag_nonnegative_high_protocol_scores": true,
+    "source_reproduction_tolerance_kcal_per_mol": 0.001,
+    "maximum_high_protocol_seed_range_kcal_per_mol": 1.0,
+    "maximum_paired_protocol_delta_kcal_per_mol": 1.0
+  },
+  "outputs": {
+    "run_directory": "results/runs/stage03_cdk2_af2_md_e32_warning_diagnostics_linux",
+    "raw_runs_csv": "results/runs/stage03_cdk2_af2_md_e32_warning_diagnostics_linux/raw_runs.csv",
+    "case_summary_csv": "results/runs/stage03_cdk2_af2_md_e32_warning_diagnostics_linux/case_summary.csv",
+    "summary_json": "results/runs/stage03_cdk2_af2_md_e32_warning_diagnostics_linux/summary.json"
+  },
+  "interpretation_boundary": "This 30-run diagnostic distinguishes stochastic search instability from persistent unfavorable placement for five flagged pairs. It does not authorize selective score replacement, validate a full score matrix, establish binding free energy, or demonstrate QUBO benefit."
+}

@@ -80,5 +80,7 @@ Stage 2 ligand preparation scripts:
   gate across prepared MD receptors and build a parent-referenced score matrix.
 - `run_vina_search_robustness.py`: compare paired exhaustiveness-4 and
   exhaustiveness-8 scores across fixed receptor-ligand cases and random seeds.
+- `run_vina_warning_diagnostics.py`: rerun a fixed source warning table across
+  paired search protocols and seeds without modifying the source score matrix.
 - `run_md_receptor_ligand_benchmark.py`: run a resumable audited ligand
   benchmark across all prepared MD medoid receptors and build a score matrix.
