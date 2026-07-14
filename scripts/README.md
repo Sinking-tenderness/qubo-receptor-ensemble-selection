@@ -82,5 +82,7 @@ Stage 2 ligand preparation scripts:
   exhaustiveness-8 scores across fixed receptor-ligand cases and random seeds.
 - `run_vina_warning_diagnostics.py`: rerun a fixed source warning table across
   paired search protocols and seeds without modifying the source score matrix.
+- `aggregate_vina_seed_replicates.py`: combine complete seeded score matrices
+  into minimum and median matrices with per-pair seed-stability warnings.
 - `run_md_receptor_ligand_benchmark.py`: run a resumable audited ligand
   benchmark across all prepared MD medoid receptors and build a score matrix.

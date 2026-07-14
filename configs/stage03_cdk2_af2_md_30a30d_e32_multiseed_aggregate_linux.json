@@ -1,0 +1,51 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage03-cdk2-af2-md-8r-30a30d-e32-three-seed-aggregate-linux-v1",
+  "purpose": "Aggregate three complete exhaustiveness-32 seed replicates uniformly across all 480 receptor-ligand pairs while auditing seed stability and retaining minimum and median score matrices.",
+  "source_runs": [
+    {
+      "replicate_id": "seed0",
+      "config_path": "configs/stage03_cdk2_af2_md_30a30d_e32_benchmark_linux.json",
+      "config_sha256": "D7564046330114DE3BE01927F095E83A74BA68455F487161DE6A493832EA371B",
+      "expected_experiment_id": "stage03-cdk2-af2-md-8r-30a30d-e32-linux-v1",
+      "expected_base_seed": 20260901
+    },
+    {
+      "replicate_id": "seed1",
+      "config_path": "configs/stage03_cdk2_af2_md_30a30d_e32_seed1_benchmark_linux.json",
+      "config_sha256": "59C53E7F9C39C1074E333837A8EAA1999849C904775AB21C0BAF09962627DA6D",
+      "expected_experiment_id": "stage03-cdk2-af2-md-8r-30a30d-e32-seed1-linux-v1",
+      "expected_base_seed": 20360901
+    },
+    {
+      "replicate_id": "seed2",
+      "config_path": "configs/stage03_cdk2_af2_md_30a30d_e32_seed2_benchmark_linux.json",
+      "config_sha256": "6CEAA2E0EDE74DA2E616582B564E67A5A2F45BA7650F208913D7CC9E6A2C6A1A",
+      "expected_experiment_id": "stage03-cdk2-af2-md-8r-30a30d-e32-seed2-linux-v1",
+      "expected_base_seed": 20460901
+    }
+  ],
+  "expected_receptor_count": 8,
+  "expected_ligand_count": 60,
+  "expected_label_counts": {
+    "active": 30,
+    "decoy": 30
+  },
+  "aggregation": {
+    "primary_method": "minimum_score",
+    "sensitivity_method": "median_score",
+    "maximum_seed_range_kcal_per_mol": 1.0,
+    "maximum_minimum_median_delta_kcal_per_mol": 1.0,
+    "minimum_favorable_replicates": 2,
+    "flag_nonnegative_minimum_score": true
+  },
+  "outputs": {
+    "run_directory": "results/runs/stage03_cdk2_af2_md_30a30d_e32_multiseed_aggregate_linux",
+    "aggregate_long_csv": "results/runs/stage03_cdk2_af2_md_30a30d_e32_multiseed_aggregate_linux/aggregate_scores.csv",
+    "minimum_score_matrix_csv": "results/runs/stage03_cdk2_af2_md_30a30d_e32_multiseed_aggregate_linux/minimum_score_matrix.csv",
+    "median_score_matrix_csv": "results/runs/stage03_cdk2_af2_md_30a30d_e32_multiseed_aggregate_linux/median_score_matrix.csv",
+    "seed_stability_warnings_csv": "results/runs/stage03_cdk2_af2_md_30a30d_e32_multiseed_aggregate_linux/seed_stability_warnings.csv",
+    "summary_json": "results/runs/stage03_cdk2_af2_md_30a30d_e32_multiseed_aggregate_linux/summary.json"
+  },
+  "interpretation_boundary": "The minimum matrix represents a uniform best-of-three search protocol and the median matrix is a robustness sensitivity result. Seed warnings must be reviewed before enrichment or QUBO analysis. Neither matrix estimates binding free energy or biological activity."
+}
