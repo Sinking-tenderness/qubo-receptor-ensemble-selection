@@ -1,0 +1,51 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage03-cdk2-af2-md-8r-100a100d-e32-three-seed-aggregate-linux-v1",
+  "purpose": "Aggregate three complete 100-active/100-decoy exhaustiveness-32 seed replicates with median score as the preregistered primary matrix and minimum score as sensitivity.",
+  "source_runs": [
+    {
+      "replicate_id": "seed0",
+      "config_path": "configs/stage03_cdk2_af2_md_100a100d_e32_seed0_benchmark_linux.json",
+      "config_sha256": "184957B2944183D2D81F1728F32364E5D7233FA93B20FF19BE46169F4054C6F5",
+      "expected_experiment_id": "stage03-cdk2-af2-md-8r-100a100d-e32-seed0-linux-v1",
+      "expected_base_seed": 20260901
+    },
+    {
+      "replicate_id": "seed1",
+      "config_path": "configs/stage03_cdk2_af2_md_100a100d_e32_seed1_benchmark_linux.json",
+      "config_sha256": "6AE0B54466A215FF36E59340296A8C55F5C124A6F022DC875E3036BF08EA5F66",
+      "expected_experiment_id": "stage03-cdk2-af2-md-8r-100a100d-e32-seed1-linux-v1",
+      "expected_base_seed": 20360901
+    },
+    {
+      "replicate_id": "seed2",
+      "config_path": "configs/stage03_cdk2_af2_md_100a100d_e32_seed2_benchmark_linux.json",
+      "config_sha256": "34AAA34F3F2419229D8B10DFAB9F24A8FF73A053BEC9C2C7D90430A88D065A66",
+      "expected_experiment_id": "stage03-cdk2-af2-md-8r-100a100d-e32-seed2-linux-v1",
+      "expected_base_seed": 20460901
+    }
+  ],
+  "expected_receptor_count": 8,
+  "expected_ligand_count": 200,
+  "expected_label_counts": {
+    "active": 100,
+    "decoy": 100
+  },
+  "aggregation": {
+    "primary_method": "median_score",
+    "sensitivity_method": "minimum_score",
+    "maximum_seed_range_kcal_per_mol": 1.0,
+    "maximum_minimum_median_delta_kcal_per_mol": 1.0,
+    "minimum_favorable_replicates": 2,
+    "flag_nonnegative_minimum_score": true
+  },
+  "outputs": {
+    "run_directory": "results/runs/stage03_cdk2_af2_md_100a100d_e32_multiseed_aggregate_linux",
+    "aggregate_long_csv": "results/runs/stage03_cdk2_af2_md_100a100d_e32_multiseed_aggregate_linux/aggregate_scores.csv",
+    "minimum_score_matrix_csv": "results/runs/stage03_cdk2_af2_md_100a100d_e32_multiseed_aggregate_linux/minimum_score_matrix.csv",
+    "median_score_matrix_csv": "results/runs/stage03_cdk2_af2_md_100a100d_e32_multiseed_aggregate_linux/median_score_matrix.csv",
+    "seed_stability_warnings_csv": "results/runs/stage03_cdk2_af2_md_100a100d_e32_multiseed_aggregate_linux/seed_stability_warnings.csv",
+    "summary_json": "results/runs/stage03_cdk2_af2_md_100a100d_e32_multiseed_aggregate_linux/summary.json"
+  },
+  "interpretation_boundary": "The median matrix is the preregistered primary search result and the minimum matrix is sensitivity only. Seed warnings must be reviewed before cross-validation or QUBO analysis. Neither matrix estimates binding free energy or biological activity."
+}

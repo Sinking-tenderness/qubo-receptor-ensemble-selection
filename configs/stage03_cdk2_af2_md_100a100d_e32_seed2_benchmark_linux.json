@@ -1,0 +1,48 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage03-cdk2-af2-md-8r-100a100d-e32-seed2-linux-v1",
+  "purpose": "Build seed replicate two of the complete 100-active/100-decoy exhaustiveness-32 MD receptor score matrix.",
+  "inputs": {
+    "receptor_manifest": "results/runs/stage03_cdk2_af2_md_cuda/medoid_receptors/preparation_manifest.csv",
+    "ligand_manifest": "data/processed/dude_cdk2_benchmark_100a_100d_pdbqt_manifest.csv",
+    "vina_executable": "environment/bin/vina_1.2.7_linux_x86_64",
+    "vina_config": "configs/cdk2_speed_benchmark_e32_cpu4.txt",
+    "parallel_runner": "scripts/batch_vina_docking_parallel.py",
+    "score_matrix_module": "scripts/build_score_matrix.py"
+  },
+  "input_sha256": {
+    "receptor_manifest": "21DFAD19DB59B168C89D1369EFB540499ED68DF98E6B3EFF6C9EE26EC6A6EA78",
+    "ligand_manifest": "77151A6F298389B74A5F34BE4D70A68D728DC6B8BBE084A98DA12BE4E55141EB",
+    "vina_executable": "F31F774F723BBA7BBE6E9D1C47577020EEA9A8DA16424284C043D22593570644",
+    "vina_config": "0E841BE2B7E0200AB334EC09D5B57F7030472668C167E3D1E1B6F88C60E7135C",
+    "parallel_runner": "D30E87EFCDDA77F545CE16D4208581660DEA2EC79C07E45AD2516CB45ACB9556",
+    "score_matrix_module": "F9301E06EBB125EA508B955CCBC685D6B48038D191AB90903D5928E2E161775A"
+  },
+  "expected_receptor_count": 8,
+  "expected_ligand_count": 200,
+  "expected_label_counts": {
+    "active": 100,
+    "decoy": 100
+  },
+  "docking": {
+    "workers": 8,
+    "max_total_cpu": 32,
+    "base_seed": 20460901,
+    "representative_method": "pose_rank_1"
+  },
+  "search_quality_warnings": {
+    "flag_nonnegative_scores": true,
+    "maximum_delta_from_ligand_median_kcal_per_mol": 5.0
+  },
+  "outputs": {
+    "run_directory": "results/runs/stage03_cdk2_af2_md_100a100d_e32_seed2_linux",
+    "audited_ligand_manifest_csv": "results/runs/stage03_cdk2_af2_md_100a100d_e32_seed2_linux/audited_ligands.csv",
+    "receptor_run_manifest_csv": "results/runs/stage03_cdk2_af2_md_100a100d_e32_seed2_linux/receptor_runs.csv",
+    "combined_raw_scores_csv": "results/runs/stage03_cdk2_af2_md_100a100d_e32_seed2_linux/raw_scores.csv",
+    "representative_long_csv": "results/runs/stage03_cdk2_af2_md_100a100d_e32_seed2_linux/representative_scores.csv",
+    "score_matrix_csv": "results/runs/stage03_cdk2_af2_md_100a100d_e32_seed2_linux/score_matrix.csv",
+    "search_warnings_csv": "results/runs/stage03_cdk2_af2_md_100a100d_e32_seed2_linux/search_warnings.csv",
+    "summary_json": "results/runs/stage03_cdk2_af2_md_100a100d_e32_seed2_linux/summary.json"
+  },
+  "interpretation_boundary": "This is one of three complete seeded search replicates. It is not interpreted alone and is not a binding-free-energy or biological-activity estimate."
+}

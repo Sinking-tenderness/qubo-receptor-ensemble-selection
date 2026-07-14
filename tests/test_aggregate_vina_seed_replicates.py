@@ -74,6 +74,22 @@ def test_aggregate_replicates_flags_single_favorable_outlier():
     )
 
 
+def test_aggregate_replicates_can_designate_median_as_primary():
+    settings = aggregation_settings()
+    settings["primary_method"] = "median_score"
+    settings["sensitivity_method"] = "minimum_score"
+    sources = [
+        source("seed0", 10, [("A", "active", 5.0)]),
+        source("seed1", 20, [("A", "active", -8.0)]),
+        source("seed2", 30, [("A", "active", -7.9)]),
+    ]
+    row = aggregate_replicates(sources, [("A", "R1")], settings)[0]
+    assert row["minimum_score"] == -8.0
+    assert row["median_score"] == -7.9
+    assert row["primary_score"] == -7.9
+    assert row["primary_method"] == "median_score"
+
+
 def test_build_wide_matrix_uses_requested_aggregate_score():
     rows = [
         {

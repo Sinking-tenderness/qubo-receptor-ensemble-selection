@@ -100,10 +100,15 @@ def load_config(path: Path) -> dict[str, object]:
         raise ValueError("expected receptor and ligand counts must be positive")
     if not isinstance(aggregation, dict):
         raise ValueError("aggregation must be a JSON object")
-    if aggregation.get("primary_method") != "minimum_score":
-        raise ValueError("primary_method must be minimum_score")
-    if aggregation.get("sensitivity_method") != "median_score":
-        raise ValueError("sensitivity_method must be median_score")
+    methods = {
+        str(aggregation.get("primary_method", "")),
+        str(aggregation.get("sensitivity_method", "")),
+    }
+    if methods != {"minimum_score", "median_score"}:
+        raise ValueError(
+            "primary_method and sensitivity_method must assign minimum_score "
+            "and median_score exactly once"
+        )
     for key in (
         "maximum_seed_range_kcal_per_mol",
         "maximum_minimum_median_delta_kcal_per_mol",
@@ -284,7 +289,11 @@ def aggregate_replicates(
                 "favorable_replicate_count": favorable_count,
                 "replicate_count": len(scores),
                 "best_replicate_id": sources[best_index]["replicate_id"],
-                "primary_score": minimum_score,
+                "primary_score": (
+                    minimum_score
+                    if aggregation["primary_method"] == "minimum_score"
+                    else median_score
+                ),
                 "primary_method": aggregation["primary_method"],
                 "seed_stability_warning": bool(reasons),
                 "seed_stability_warning_reasons": ";".join(reasons),
