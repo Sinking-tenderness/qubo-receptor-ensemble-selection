@@ -108,10 +108,17 @@ This 60-ligand gate passes the MD conformer pool to larger-scale evaluation:
 It does not pass to a QUBO performance claim. The current validation and test
 sets are too small, and the fixed size-2 baselines do not beat C07 consistently.
 
-The 30A/30D ligand IDs are an exact subset of the prepared 100A/100D manifest.
-The next experiment should therefore preserve the completed 60-ligand scores
-and dock only the remaining 140 ligands for each of the three fixed e32 seeds.
-After constructing the complete three-seed median 100A/100D matrix, use
-scaffold-aware outer cross-validation and compare single-best, all-receptor,
-random, clustering, greedy/exhaustive, and any new structural/contact QUBO
-objective. QUBO coefficients must be selected on training folds only.
+The ligand IDs in the 30A/30D and 100A/100D manifests are dataset-local
+sequential identifiers, not stable molecular identifiers. Comparing
+`source_molecule_id` and canonical SMILES found only five shared molecules, all
+active, and no shared decoys. The five shared molecules were embedded with
+different seeds and their PDBQT files were not byte-identical, although their
+atom-count, atom-type, torsion, and charge-summary fields agreed.
+
+The completed 60-ligand scores therefore cannot be inserted into the
+100A/100D matrix. The next experiment must dock all 200 ligands against all
+eight receptors for each of the three fixed e32 seeds. After constructing the
+complete three-seed median matrix, use scaffold-aware outer cross-validation
+and compare single-best, all-receptor, random, clustering, greedy/exhaustive,
+and any new structural/contact QUBO objective. QUBO coefficients must be
+selected on training folds only.
