@@ -240,9 +240,22 @@ def clean_expected_artifacts(
                     path.unlink()
 
 
+def receptor_provenance_fields(row: dict[str, str]) -> dict[str, str]:
+    """Normalize optional provenance fields across MD and non-MD manifests."""
+    return {
+        "source_type": row.get("source_type", "unspecified"),
+        "temporal_support_role": row.get("temporal_support_role", "not_applicable"),
+    }
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--config", type=Path, required=True)
+    parser.add_argument(
+        "--audit-only",
+        action="store_true",
+        help="verify all input hashes and manifests without creating outputs or running Vina",
+    )
     mode = parser.add_mutually_exclusive_group()
     mode.add_argument("--resume", action="store_true")
     mode.add_argument("--overwrite", action="store_true")
@@ -289,6 +302,29 @@ def main() -> int:
         expected_label_counts,
     )
     expected_ligand_ids = {row["ligand_id"] for row in ligand_rows}
+    if args.audit_only:
+        audit_summary = {
+            "schema_version": "1.0",
+            "experiment_id": config["experiment_id"],
+            "status": "audit_only_ok",
+            "config": {"path": args.config.as_posix(), "sha256": file_sha256(args.config)},
+            "inputs": {
+                key: {"path": path.as_posix(), "sha256": file_sha256(path)}
+                for key, path in input_paths.items()
+            },
+            "receptor_count": len(receptor_rows),
+            "receptor_ids": [row["conformer_id"] for row in receptor_rows],
+            "ligand_count": len(ligand_rows),
+            "label_counts": {key: int(value) for key, value in expected_label_counts.items()},
+            "expected_receptor_ligand_pairs": len(receptor_rows) * len(ligand_rows),
+            "locked_test_manifest_rows": sum(
+                row.get("benchmark_split") == "test" for row in ligand_rows
+            ),
+            "outputs_created": 0,
+            "vina_jobs_started": 0,
+        }
+        print(json.dumps(audit_summary, indent=2, sort_keys=True), flush=True)
+        return 0
     output_paths = {key: Path(str(value)) for key, value in outputs.items()}
     run_directory = output_paths["run_directory"]
     core_outputs = [path for key, path in output_paths.items() if key != "run_directory"]
@@ -348,7 +384,7 @@ def main() -> int:
             )
         run_rows.append({
             "receptor_id": receptor_id,
-            "temporal_support_role": receptor["temporal_support_role"],
+            **receptor_provenance_fields(receptor),
             "receptor_pdbqt_path": receptor["receptor_pdbqt_path"],
             "receptor_pdbqt_sha256": receptor["receptor_pdbqt_sha256"],
             "status": status,

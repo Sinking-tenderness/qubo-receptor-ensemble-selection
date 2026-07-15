@@ -127,10 +127,10 @@ No single seed or selectively rerun cell may replace a primary matrix value.
   `2A7A94C668E9B7DAA3956543DE571A8A67DBDACFABA63A7421998BF28833EA5D`
 - MD development-subset summary SHA-256:
   `B842405793268B95DE5571E2671A99C4E0883EC3F8A4A34F86F0C7CD2604BF66`
-- Selective remote-input archive: 170 files comprising two manifests, eight
-  receptor PDBQTs, and 160 development-ligand PDBQTs; zero locked-test rows;
-  SHA-256:
-  `0FC508D3AB597A073B49E1F37B02839401EA18D17766CE8B155EEFCAF296135E`
+- Selective remote-input archive: 171 files comprising two manifests, eight
+  receptor PDBQTs, 160 development-ligand PDBQTs, and the hash-pinned official
+  Vina 1.2.7 Linux x86-64 executable; zero locked-test rows; SHA-256:
+  `F991A0C35D030C3B1140AAC2C169B093AF7A91075B96049D3C487714D48C0400`
 
 Each locally generated summary was reproduced with an identical SHA-256 on a
 second run in the `qubo-receptor-ensemble` environment.

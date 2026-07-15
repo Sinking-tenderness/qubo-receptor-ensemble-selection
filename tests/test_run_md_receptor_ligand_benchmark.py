@@ -4,6 +4,7 @@ from scripts.run_md_receptor_ligand_benchmark import (
     annotate_search_warnings,
     audit_ligands,
     portable_manifest_path,
+    receptor_provenance_fields,
     score_table_is_complete,
 )
 
@@ -60,3 +61,10 @@ def test_audit_ligands_rejects_recorded_pdbqt_hash_mismatch(tmp_path):
 
     with pytest.raises(ValueError, match="SHA-256 differs"):
         audit_ligands(rows, 1, {"active": 1})
+
+
+def test_receptor_provenance_fields_supports_non_md_manifest():
+    assert receptor_provenance_fields({"source_type": "crystal"}) == {
+        "source_type": "crystal",
+        "temporal_support_role": "not_applicable",
+    }
