@@ -1,0 +1,31 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage04-cdk2-md-8r-development-matrix-subset-v1",
+  "purpose": "Materialize development-only primary and sensitivity matrices from the existing 200-ligand MD aggregate without parsing or evaluating receptor scores for the 40 locked-test rows.",
+  "inputs": {
+    "development_ligand_manifest": "data/processed/stage04_cdk2_development_80a80d_pdbqt_manifest.csv",
+    "primary_matrix": "results/runs/stage03_cdk2_af2_md_100a100d_e32_multiseed_aggregate_linux/median_score_matrix.csv",
+    "sensitivity_matrix": "results/runs/stage03_cdk2_af2_md_100a100d_e32_multiseed_aggregate_linux/minimum_score_matrix.csv"
+  },
+  "input_sha256": {
+    "development_ligand_manifest": "7F8A28CF7867A8442F1539A246148787093E2F4BF25C2EB569500F68C74BFE8E",
+    "primary_matrix": "0DF7BFEE1EC74180D59DBBD2326FC1C8A057D3591BC8406EC218525A8FD89DDB",
+    "sensitivity_matrix": "D327199B9C68B1C5ADDB5031A6706E1BC685D4048FB93D3306C91D236D313AFB"
+  },
+  "expected": {
+    "source_ligand_count": 200,
+    "development_ligand_count": 160,
+    "skipped_locked_ligand_count": 40,
+    "receptor_count": 8,
+    "development_label_counts": {
+      "active": 80,
+      "decoy": 80
+    }
+  },
+  "outputs": {
+    "primary_development_matrix_csv": "data/processed/stage04_cdk2_md_development_median_score_matrix.csv",
+    "sensitivity_development_matrix_csv": "data/processed/stage04_cdk2_md_development_minimum_score_matrix.csv",
+    "summary_json": "data/stage04_cdk2_md_development_matrix_subset_summary.json"
+  },
+  "interpretation_boundary": "This operation performs ID-based row subsetting only. It does not rank ligands, calculate metrics, fit or tune a model, select receptors, or parse receptor score cells belonging to the locked test rows."
+}

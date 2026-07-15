@@ -85,4 +85,11 @@ Stage 2 ligand preparation scripts:
 - `aggregate_vina_seed_replicates.py`: combine complete seeded score matrices
   into minimum and median matrices with per-pair seed-stability warnings.
 - `run_md_receptor_ligand_benchmark.py`: run a resumable audited ligand
-  benchmark across all prepared MD medoid receptors and build a score matrix.
+  benchmark across a prepared receptor manifest and build a score matrix.
+- `build_expanded_structural_receptor_pool.py`: integrity-gate aligned crystal,
+  AF2, and MD receptors and build label-independent invariant pocket-clustering
+  baselines.
+- `build_development_ligand_manifest.py`: materialize a hash-pinned train plus
+  validation PDBQT manifest while excluding the locked test split.
+- `subset_score_matrices_to_development.py`: subset existing aggregate matrices
+  by development ligand ID without parsing locked-test receptor score cells.

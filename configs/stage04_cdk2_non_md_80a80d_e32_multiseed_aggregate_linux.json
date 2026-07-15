@@ -1,0 +1,51 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage04-cdk2-non-md-8r-development-80a80d-e32-three-seed-aggregate-linux-v1",
+  "purpose": "Aggregate the three paired development-only e32 non-MD receptor replicates with median score as primary and minimum score as sensitivity, without opening the locked test split.",
+  "source_runs": [
+    {
+      "replicate_id": "seed0",
+      "config_path": "configs/stage04_cdk2_non_md_80a80d_e32_seed0_benchmark_linux.json",
+      "config_sha256": "6AE662B7CE2CCF95CBE9749473D3D127909A9534072F348F91805911E36362BC",
+      "expected_experiment_id": "stage04-cdk2-non-md-8r-development-80a80d-e32-seed0-linux-v1",
+      "expected_base_seed": 20260901
+    },
+    {
+      "replicate_id": "seed1",
+      "config_path": "configs/stage04_cdk2_non_md_80a80d_e32_seed1_benchmark_linux.json",
+      "config_sha256": "F06446FED643C8DDA8BC10BFEA02FC02C2252C8C83D6449159064BB8FBAB1095",
+      "expected_experiment_id": "stage04-cdk2-non-md-8r-development-80a80d-e32-seed1-linux-v1",
+      "expected_base_seed": 20360901
+    },
+    {
+      "replicate_id": "seed2",
+      "config_path": "configs/stage04_cdk2_non_md_80a80d_e32_seed2_benchmark_linux.json",
+      "config_sha256": "56EBCB03E8C9AA3CE2B4548841F0CD327597C1C3B9FC98C09A46F2E448CD0365",
+      "expected_experiment_id": "stage04-cdk2-non-md-8r-development-80a80d-e32-seed2-linux-v1",
+      "expected_base_seed": 20460901
+    }
+  ],
+  "expected_receptor_count": 8,
+  "expected_ligand_count": 160,
+  "expected_label_counts": {
+    "active": 80,
+    "decoy": 80
+  },
+  "aggregation": {
+    "primary_method": "median_score",
+    "sensitivity_method": "minimum_score",
+    "maximum_seed_range_kcal_per_mol": 1.0,
+    "maximum_minimum_median_delta_kcal_per_mol": 1.0,
+    "minimum_favorable_replicates": 2,
+    "flag_nonnegative_minimum_score": true
+  },
+  "outputs": {
+    "run_directory": "results/runs/stage04_cdk2_non_md_80a80d_e32_multiseed_aggregate_linux",
+    "aggregate_long_csv": "results/runs/stage04_cdk2_non_md_80a80d_e32_multiseed_aggregate_linux/aggregate_scores.csv",
+    "minimum_score_matrix_csv": "results/runs/stage04_cdk2_non_md_80a80d_e32_multiseed_aggregate_linux/minimum_score_matrix.csv",
+    "median_score_matrix_csv": "results/runs/stage04_cdk2_non_md_80a80d_e32_multiseed_aggregate_linux/median_score_matrix.csv",
+    "seed_stability_warnings_csv": "results/runs/stage04_cdk2_non_md_80a80d_e32_multiseed_aggregate_linux/seed_stability_warnings.csv",
+    "summary_json": "results/runs/stage04_cdk2_non_md_80a80d_e32_multiseed_aggregate_linux/summary.json"
+  },
+  "interpretation_boundary": "The median matrix is primary and the minimum matrix is sensitivity only. All 160 ligands belong to the pre-existing development split; no locked-test ligand is docked or evaluated. Seed warnings must be retained, and neither matrix estimates binding free energy or biological activity."
+}

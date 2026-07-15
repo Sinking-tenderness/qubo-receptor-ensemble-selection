@@ -1,0 +1,49 @@
+{
+  "config_path": "configs/stage04_cdk2_md_development_matrix_subset.json",
+  "config_sha256": "846C7F525C1CF26026E3B425D12A632CAE3F6CFBA2EF959034BBFEC4C3621787",
+  "counts": {
+    "development_labels": {
+      "active": 80,
+      "decoy": 80
+    },
+    "development_ligands": 160,
+    "receptors": 8,
+    "skipped_locked_ligands": 40,
+    "source_ligands": 200
+  },
+  "experiment_id": "stage04-cdk2-md-8r-development-matrix-subset-v1",
+  "input_sha256": {
+    "development_ligand_manifest": "7F8A28CF7867A8442F1539A246148787093E2F4BF25C2EB569500F68C74BFE8E",
+    "primary_matrix": "0DF7BFEE1EC74180D59DBBD2326FC1C8A057D3591BC8406EC218525A8FD89DDB",
+    "sensitivity_matrix": "D327199B9C68B1C5ADDB5031A6706E1BC685D4048FB93D3306C91D236D313AFB"
+  },
+  "integrity": {
+    "locked_receptor_score_cells_parsed": 0,
+    "primary_and_sensitivity_skipped_counts_match": true,
+    "ranking_metrics_calculated": 0,
+    "receptor_selection_performed": false
+  },
+  "interpretation_boundary": "This operation performs ID-based row subsetting only. It does not rank ligands, calculate metrics, fit or tune a model, select receptors, or parse receptor score cells belonging to the locked test rows.",
+  "operation": "ID-only development row subset with locked score cells skipped before numeric parsing",
+  "output_sha256": {
+    "primary_development_matrix_csv": "D410983B187A50CB8AC0DECF9BA667AF49E794F10A03763D7DE29A5CBF842399",
+    "sensitivity_development_matrix_csv": "2A7A94C668E9B7DAA3956543DE571A8A67DBDACFABA63A7421998BF28833EA5D"
+  },
+  "outputs": {
+    "primary_development_matrix_csv": "data/processed/stage04_cdk2_md_development_median_score_matrix.csv",
+    "sensitivity_development_matrix_csv": "data/processed/stage04_cdk2_md_development_minimum_score_matrix.csv",
+    "summary_json": "data/stage04_cdk2_md_development_matrix_subset_summary.json"
+  },
+  "receptor_ids": [
+    "CDK2_AF2_MD2NS_C00_F001",
+    "CDK2_AF2_MD2NS_C01_F005",
+    "CDK2_AF2_MD2NS_C02_F031",
+    "CDK2_AF2_MD2NS_C03_F041",
+    "CDK2_AF2_MD2NS_C04_F066",
+    "CDK2_AF2_MD2NS_C05_F074",
+    "CDK2_AF2_MD2NS_C06_F077",
+    "CDK2_AF2_MD2NS_C07_F095"
+  ],
+  "schema_version": "1.0",
+  "status": "ok"
+}

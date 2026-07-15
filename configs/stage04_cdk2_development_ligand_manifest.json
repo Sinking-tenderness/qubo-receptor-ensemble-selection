@@ -1,0 +1,42 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage04-cdk2-development-80a80d-pdbqt-manifest-v1",
+  "purpose": "Create a hash-pinned PDBQT manifest for the 160 previously assigned development ligands while excluding the locked 40-ligand test split from all new docking.",
+  "inputs": {
+    "full_pdbqt_manifest": "data/processed/dude_cdk2_benchmark_100a_100d_pdbqt_manifest.csv",
+    "scaffold_split_manifest": "data/processed/dude_cdk2_benchmark_100a_100d_scaffold_split_manifest.csv",
+    "scaffold_split_summary": "data/processed/dude_cdk2_benchmark_100a_100d_scaffold_split_summary.json"
+  },
+  "input_sha256": {
+    "full_pdbqt_manifest": "77151A6F298389B74A5F34BE4D70A68D728DC6B8BBE084A98DA12BE4E55141EB",
+    "scaffold_split_manifest": "2F3D68B16856EB8C9310E0A2D15283B95CBBA4D6E3A83E548385371C6440C167",
+    "scaffold_split_summary": "4DFA7626F47D2B6450E670C2903A2A69ECAC3B894DBD48D3B3AA7FBE97659DAE"
+  },
+  "development_splits": [
+    "train",
+    "validation"
+  ],
+  "locked_split": "test",
+  "expected": {
+    "total_ligand_count": 200,
+    "development_ligand_count": 160,
+    "locked_ligand_count": 40,
+    "total_label_counts": {
+      "active": 100,
+      "decoy": 100
+    },
+    "development_label_counts": {
+      "active": 80,
+      "decoy": 80
+    },
+    "locked_label_counts": {
+      "active": 20,
+      "decoy": 20
+    }
+  },
+  "outputs": {
+    "development_pdbqt_manifest_csv": "data/processed/stage04_cdk2_development_80a80d_pdbqt_manifest.csv",
+    "summary_json": "data/stage04_cdk2_development_ligand_manifest_summary.json"
+  },
+  "interpretation_boundary": "This operation preserves the existing scaffold assignments and only materializes train plus validation PDBQT inputs. It does not resplit ligands, read docking scores, fit a model, tune a receptor subset, or expose the locked test ligands to new docking."
+}

@@ -1,0 +1,188 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage04-cdk2-expanded-structural-receptor-pool-v1",
+  "purpose": "Combine aligned experimental, AlphaFold, and MD-medoid CDK2 structures into a label-independent receptor pool with fixed file hashes, pocket-completeness gating, invariant geometry features, and structural clustering baselines.",
+  "inputs": {
+    "md_alignment_manifest": "results/runs/stage03_cdk2_af2_md_cuda/medoid_receptors/alignment_manifest.csv",
+    "md_preparation_manifest": "results/runs/stage03_cdk2_af2_md_cuda/medoid_receptors/preparation_manifest.csv"
+  },
+  "input_sha256": {
+    "md_alignment_manifest": "FDC78D913C126097C94EB4EEC5AFE2C27F1B95380AB989A351806EE69E0BB724",
+    "md_preparation_manifest": "21DFAD19DB59B168C89D1369EFB540499ED68DF98E6B3EFF6C9EE26EC6A6EA78"
+  },
+  "initial_candidates": [
+    {
+      "conformer_id": "CDK2_1AQ1_reference",
+      "source_type": "crystal",
+      "pdb_path": "receptors/raw/1AQ1.pdb",
+      "pdb_sha256": "6EF163DDCF3E3298B6C0982DC8C06E89C61B9D6705FB34CED7E142A0313D764D",
+      "chain": "A",
+      "selected_altloc": "A",
+      "source_identifier": "1AQ1",
+      "receptor_pdbqt_path": "receptors/prepared/1AQ1_A_receptor.pdbqt",
+      "receptor_pdbqt_sha256": "129974030D4F2EC11044B897A70BE381E02C45129E306250953CF4A372F23DC6"
+    },
+    {
+      "conformer_id": "CDK2_1H00_aligned",
+      "source_type": "crystal",
+      "pdb_path": "receptors/aligned/1H00_A_to_1AQ1_A.pdb",
+      "pdb_sha256": "BA6E9BADA51A33637724C9F58394105499955F6D5B2E7CE97C9614C6F902333A",
+      "chain": "A",
+      "selected_altloc": "A",
+      "source_identifier": "1H00",
+      "receptor_pdbqt_path": "receptors/prepared/1H00_A_aligned_receptor.pdbqt",
+      "receptor_pdbqt_sha256": "DDEEAAE8068D3AC295528287A8C9EE07174BEE32572635112464A1907DD211BE"
+    },
+    {
+      "conformer_id": "CDK2_1HCL_aligned",
+      "source_type": "crystal",
+      "pdb_path": "receptors/aligned/1HCL_A_to_1AQ1_A.pdb",
+      "pdb_sha256": "D60C8A340167A35D06FA9DD6059BE062AAA7DF54056FF8BCAA373C2E328A840F",
+      "chain": "A",
+      "selected_altloc": "A",
+      "source_identifier": "1HCL",
+      "receptor_pdbqt_path": "receptors/prepared/1HCL_A_receptor.pdbqt",
+      "receptor_pdbqt_sha256": "7EF5D6623DA1728703E8F1F24961B9FB56E6F50B820A9A7373915D60232B0CF9"
+    },
+    {
+      "conformer_id": "CDK2_1JVP_aligned",
+      "source_type": "crystal",
+      "pdb_path": "receptors/aligned/1JVP_P_to_1AQ1_A.pdb",
+      "pdb_sha256": "88BA5BFEAC79E536615C36181AE8E522F8AA73075FF763258E715851AF19D08D",
+      "chain": "P",
+      "selected_altloc": "1",
+      "source_identifier": "1JVP",
+      "receptor_pdbqt_path": "receptors/prepared/1JVP_P_aligned_receptor.pdbqt",
+      "receptor_pdbqt_sha256": "E8763B6A9A50C4E9CBB0538C17C07848E18BE79410FE85F0CD4C97F6874470F2"
+    },
+    {
+      "conformer_id": "CDK2_1Y8Y_aligned",
+      "source_type": "crystal",
+      "pdb_path": "receptors/aligned/1Y8Y_A_to_1AQ1_A.pdb",
+      "pdb_sha256": "9156A5961D068EB1AB4A6D043EE46BE4424D270263E37B1E177ECE7E69288C0E",
+      "chain": "A",
+      "selected_altloc": "A",
+      "source_identifier": "1Y8Y",
+      "receptor_pdbqt_path": "receptors/prepared/1Y8Y_A_aligned_receptor.pdbqt",
+      "receptor_pdbqt_sha256": "38B9DA9CAF97D9C428CB574F926C226DB6FF2EDFFB1ABAB8A8D7259C4F2FA58F"
+    },
+    {
+      "conformer_id": "CDK2_2C68_aligned",
+      "source_type": "crystal",
+      "pdb_path": "receptors/aligned/2C68_A_to_1AQ1_A.pdb",
+      "pdb_sha256": "0F9F6400E526BAA56B1F10EFC367460F9494D94FBB1705BCB6AB7BC4E8A5C33C",
+      "chain": "A",
+      "selected_altloc": "A",
+      "source_identifier": "2C68",
+      "receptor_pdbqt_path": "receptors/prepared/2C68_A_aligned_receptor.pdbqt",
+      "receptor_pdbqt_sha256": "C960F18A11F9FE9786F45BEE3DC0BD79B627AAA230366A729E16DAAE3D584CBF"
+    },
+    {
+      "conformer_id": "CDK2_2C69_aligned",
+      "source_type": "crystal",
+      "pdb_path": "receptors/aligned/2C69_A_to_1AQ1_A.pdb",
+      "pdb_sha256": "0979BC2504E791AB0B0598E12D71A205AEB3603D8BCFF09BE3BC6E35D42DD0A5",
+      "chain": "A",
+      "selected_altloc": "A",
+      "source_identifier": "2C69",
+      "receptor_pdbqt_path": "receptors/prepared/2C69_A_aligned_receptor.pdbqt",
+      "receptor_pdbqt_sha256": "46AAD9AE3CCB1B9B1D423C103A5A24F7941880B0B33241D00845A9A6EA120E82"
+    },
+    {
+      "conformer_id": "CDK2_3RKB_aligned",
+      "source_type": "crystal",
+      "pdb_path": "receptors/aligned/3RKB_A_to_1AQ1_A.pdb",
+      "pdb_sha256": "EE4C75ADA2EDE3C6F0F8C8E856F6E56042C1B90D859901E6AAC7818877C143C9",
+      "chain": "A",
+      "selected_altloc": "A",
+      "source_identifier": "3RKB",
+      "receptor_pdbqt_path": "receptors/prepared/3RKB_A_aligned_receptor.pdbqt",
+      "receptor_pdbqt_sha256": "3CA7C29781BF85D627EC92112B008DCDACCA8D295DE13A20E4E469BE435E9F26"
+    },
+    {
+      "conformer_id": "CDK2_AF_P24941_F1_v6",
+      "source_type": "alphafold",
+      "pdb_path": "receptors/aligned/AF-P24941-F1-model_v6_to_1AQ1_A.pdb",
+      "pdb_sha256": "1AF07AC0294F8E505D233C67515E005BFBF81018704BE5AA129B28CCF27F12B2",
+      "chain": "A",
+      "selected_altloc": "A",
+      "source_identifier": "AF-P24941-F1",
+      "receptor_pdbqt_path": "receptors/prepared/AF-P24941-F1-model_v6_to_1AQ1_A_receptor.pdbqt",
+      "receptor_pdbqt_sha256": "92D47512FA65E461BDCC9BCBF3FCECB87E5D1B7A8ADE5C1C945B21F801C8DF91"
+    }
+  ],
+  "reference_conformer_id": "CDK2_1AQ1_reference",
+  "pocket_residue_numbers": [
+    10,
+    11,
+    12,
+    13,
+    18,
+    31,
+    33,
+    64,
+    80,
+    81,
+    82,
+    83,
+    84,
+    85,
+    86,
+    131,
+    132,
+    133,
+    134,
+    144,
+    145
+  ],
+  "eligibility": {
+    "require_all_reference_pocket_residues": true,
+    "require_reference_residue_name_match": true,
+    "require_receptor_pdbqt": true,
+    "require_zero_pdbqt_hetatm": true,
+    "expected_autodock_atom_types": [
+      "A",
+      "C",
+      "HD",
+      "N",
+      "NA",
+      "OA",
+      "SA"
+    ]
+  },
+  "features": {
+    "include_ca_pairwise_distances": true,
+    "include_sidechain_heavy_centroid_pairwise_distances": true,
+    "minimum_feature_sd_angstrom": 0.01
+  },
+  "cluster_counts": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+  ],
+  "expected": {
+    "initial_candidate_count": 9,
+    "md_candidate_count": 8,
+    "total_candidate_count": 17,
+    "eligible_candidate_count": 16,
+    "excluded_candidate_ids": [
+      "CDK2_1H00_aligned"
+    ],
+    "non_md_e32_candidate_count": 8
+  },
+  "outputs": {
+    "candidate_audit_csv": "data/processed/stage04_cdk2_expanded_receptor_candidate_audit.csv",
+    "eligible_pool_manifest_csv": "data/processed/stage04_cdk2_expanded_receptor_pool_manifest.csv",
+    "non_md_e32_receptor_manifest_csv": "data/processed/stage04_cdk2_non_md_e32_receptor_manifest.csv",
+    "feature_matrix_csv": "data/processed/stage04_cdk2_expanded_pocket_distance_features.csv",
+    "pairwise_distances_csv": "data/processed/stage04_cdk2_expanded_structural_distances.csv",
+    "cluster_assignments_csv": "data/processed/stage04_cdk2_expanded_structural_clusters.csv",
+    "summary_json": "data/stage04_cdk2_expanded_structural_pool_summary.json"
+  },
+  "interpretation_boundary": "Eligibility and clustering use only receptor file integrity, pocket completeness, and invariant protein geometry. No active/decoy label, ligand identity, docking score, enrichment metric, or QUBO result may influence inclusion, exclusion, distance, clustering, or medoid selection. Structural diversity is a prerequisite and baseline, not proof of screening complementarity."
+}

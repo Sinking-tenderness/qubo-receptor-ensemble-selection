@@ -1,0 +1,49 @@
+{
+  "config_path": "configs/stage04_cdk2_development_ligand_manifest.json",
+  "config_sha256": "4CFD149CAD37D8BDF361F7AC1F26159F096F26938185B8C2C31D3337F38FAD5A",
+  "counts": {
+    "development": 160,
+    "development_labels": {
+      "active": 80,
+      "decoy": 80
+    },
+    "locked": 40,
+    "locked_labels": {
+      "active": 20,
+      "decoy": 20
+    },
+    "total": 200
+  },
+  "experiment_id": "stage04-cdk2-development-80a80d-pdbqt-manifest-v1",
+  "input_sha256": {
+    "full_pdbqt_manifest": "77151A6F298389B74A5F34BE4D70A68D728DC6B8BBE084A98DA12BE4E55141EB",
+    "scaffold_split_manifest": "2F3D68B16856EB8C9310E0A2D15283B95CBBA4D6E3A83E548385371C6440C167",
+    "scaffold_split_summary": "4DFA7626F47D2B6450E670C2903A2A69ECAC3B894DBD48D3B3AA7FBE97659DAE"
+  },
+  "integrity": {
+    "development_ligand_ids_sha256": "FEBF2ADCE452AE5C18A9B49C58F0989D00F9DA8A0D87C679F34DE3F100372E45",
+    "docking_score_files_read": 0,
+    "locked_ligand_ids_sha256": "D7813CFB6BAF966380952EF07E27C17ACE7E70CEC4587410F509346FBABAD5E4",
+    "locked_test_ligands_written_to_docking_manifest": 0,
+    "per_ligand_pdbqt_sha256_recorded": true
+  },
+  "interpretation_boundary": "This operation preserves the existing scaffold assignments and only materializes train plus validation PDBQT inputs. It does not resplit ligands, read docking scores, fit a model, tune a receptor subset, or expose the locked test ligands to new docking.",
+  "operation": "materialize existing train and validation PDBQT rows while excluding locked test",
+  "output_sha256": {
+    "development_pdbqt_manifest_csv": "7F8A28CF7867A8442F1539A246148787093E2F4BF25C2EB569500F68C74BFE8E"
+  },
+  "outputs": {
+    "development_pdbqt_manifest_csv": "data/processed/stage04_cdk2_development_80a80d_pdbqt_manifest.csv",
+    "summary_json": "data/stage04_cdk2_development_ligand_manifest_summary.json"
+  },
+  "schema_version": "1.0",
+  "splits": {
+    "development": [
+      "train",
+      "validation"
+    ],
+    "locked": "test",
+    "scaffold_disjoint": true
+  },
+  "status": "ok"
+}

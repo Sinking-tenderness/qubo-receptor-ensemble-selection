@@ -2,6 +2,7 @@ import pytest
 
 from scripts.run_md_receptor_ligand_benchmark import (
     annotate_search_warnings,
+    audit_ligands,
     portable_manifest_path,
     score_table_is_complete,
 )
@@ -44,3 +45,18 @@ def test_annotate_search_warnings_uses_each_ligand_median():
     assert annotated[2]["search_quality_warning_reasons"] == (
         "nonnegative_vina_score;large_unfavorable_delta_from_ligand_median"
     )
+
+
+def test_audit_ligands_rejects_recorded_pdbqt_hash_mismatch(tmp_path):
+    path = tmp_path / "ligand.pdbqt"
+    path.write_text("ATOM\n", encoding="ascii")
+    rows = [{
+        "ligand_id": "A",
+        "label": "active",
+        "pdbqt_status": "ok",
+        "pdbqt_path": path.as_posix(),
+        "pdbqt_sha256": "0" * 64,
+    }]
+
+    with pytest.raises(ValueError, match="SHA-256 differs"):
+        audit_ligands(rows, 1, {"active": 1})

@@ -1,4 +1,4 @@
-"""Run a resumable ligand benchmark across prepared MD medoid receptors."""
+"""Run a resumable ligand benchmark across a prepared receptor manifest."""
 
 from __future__ import annotations
 
@@ -144,12 +144,16 @@ def audit_ligands(
         path = portable_manifest_path(row["pdbqt_path"])
         if not path.is_file():
             raise FileNotFoundError(path)
+        actual_hash = file_sha256(path)
+        recorded_hash = row.get("pdbqt_sha256", "").strip().upper()
+        if recorded_hash and recorded_hash != actual_hash:
+            raise ValueError(f"ligand PDBQT SHA-256 differs for {ligand_id}")
         label = row["label"]
         observed_labels[label] = observed_labels.get(label, 0) + 1
         audited.append({
             **row,
             "pdbqt_path": path.as_posix(),
-            "pdbqt_sha256": file_sha256(path),
+            "pdbqt_sha256": actual_hash,
         })
     normalized_expected = {key: int(value) for key, value in expected_label_counts.items()}
     if observed_labels != normalized_expected:
