@@ -1,0 +1,134 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage03-cdk2-af2-md-8r-100a100d-e64-high-risk-diagnostics-linux-v1",
+  "purpose": "Rerun the eight exhaustiveness-32 aggregate pairs with a minimum-to-median delta above 1 kcal/mol at exhaustiveness 64, using the same three ligand-specific seeds, to distinguish insufficient search from persistent seed instability.",
+  "inputs": {
+    "receptor_manifest": "results/runs/stage03_cdk2_af2_md_cuda/medoid_receptors/preparation_manifest.csv",
+    "ligand_manifest": "data/processed/dude_cdk2_benchmark_100a_100d_pdbqt_manifest.csv",
+    "aggregate_scores": "results/runs/stage03_cdk2_af2_md_100a100d_e32_multiseed_aggregate_linux/aggregate_scores.csv",
+    "vina_executable": "environment/bin/vina_1.2.7_linux_x86_64"
+  },
+  "input_sha256": {
+    "receptor_manifest": "21DFAD19DB59B168C89D1369EFB540499ED68DF98E6B3EFF6C9EE26EC6A6EA78",
+    "ligand_manifest": "77151A6F298389B74A5F34BE4D70A68D728DC6B8BBE084A98DA12BE4E55141EB",
+    "aggregate_scores": "89B87DDAD1B26C50BD8AD980652089B6A14B7385B81416501C9DD5C972BC77BD",
+    "vina_executable": "F31F774F723BBA7BBE6E9D1C47577020EEA9A8DA16424284C043D22593570644"
+  },
+  "search_protocols": [
+    {
+      "protocol_id": "e32",
+      "config_path": "configs/cdk2_speed_benchmark_e32_cpu4.txt",
+      "config_sha256": "0E841BE2B7E0200AB334EC09D5B57F7030472668C167E3D1E1B6F88C60E7135C",
+      "expected_exhaustiveness": 32
+    },
+    {
+      "protocol_id": "e64",
+      "config_path": "configs/cdk2_speed_benchmark_e64_cpu4.txt",
+      "config_sha256": "7EC679BDA4C613E8BAE6952B4BAC3EAAA59E7D6FDE2BB90182181F42B69917E4",
+      "expected_exhaustiveness": 64
+    }
+  ],
+  "selection": {
+    "warning_reasons_any": [
+      "minimum_median_delta_exceeded"
+    ],
+    "expected_case_count": 8
+  },
+  "expected_cases": [
+    {
+      "case_id": "C00_D0016",
+      "receptor_id": "CDK2_AF2_MD2NS_C00_F001",
+      "receptor_pdbqt_sha256": "6A4E82CD76D3893F417CEC917CF2A5D71D0BA3FDC3BED413408E965822AB1B90",
+      "ligand_id": "CDK2_D0016",
+      "ligand_pdbqt_sha256": "085366BFA60AC8CB00CE7A76D9DE1B980299AE4C10233320A0C0690AC6C3B2FF",
+      "label": "decoy"
+    },
+    {
+      "case_id": "C00_D0023",
+      "receptor_id": "CDK2_AF2_MD2NS_C00_F001",
+      "receptor_pdbqt_sha256": "6A4E82CD76D3893F417CEC917CF2A5D71D0BA3FDC3BED413408E965822AB1B90",
+      "ligand_id": "CDK2_D0023",
+      "ligand_pdbqt_sha256": "E0F72A2584FF9323EF9DD103C792C968FE9791350CB34E1C19B30F03A0414914",
+      "label": "decoy"
+    },
+    {
+      "case_id": "C00_D0093",
+      "receptor_id": "CDK2_AF2_MD2NS_C00_F001",
+      "receptor_pdbqt_sha256": "6A4E82CD76D3893F417CEC917CF2A5D71D0BA3FDC3BED413408E965822AB1B90",
+      "ligand_id": "CDK2_D0093",
+      "ligand_pdbqt_sha256": "5E7BEF9D93F8ED98346B5D9C3F4ACBF98569872CBE83B0E4ACE14EB6DC869CDE",
+      "label": "decoy"
+    },
+    {
+      "case_id": "C01_D0054",
+      "receptor_id": "CDK2_AF2_MD2NS_C01_F005",
+      "receptor_pdbqt_sha256": "72188E1B98B0C64A4348138FEDF6D50B3839A006A41EA85BF6FC7516D797E1DC",
+      "ligand_id": "CDK2_D0054",
+      "ligand_pdbqt_sha256": "EE4FCF97929A5CB392608183930306EE8849951559EE26DE11364B3EE7B520C2",
+      "label": "decoy"
+    },
+    {
+      "case_id": "C03_A0088",
+      "receptor_id": "CDK2_AF2_MD2NS_C03_F041",
+      "receptor_pdbqt_sha256": "10411A22D854CAACA446BC6FAF6CB355CF9623BC67D3EABEB4DA1C8C86F9A023",
+      "ligand_id": "CDK2_A0088",
+      "ligand_pdbqt_sha256": "37790F74F1C9013BCA7A2C51CCDA34E2D3EC4C8C803789ABF61F7B83FE2A1FCB",
+      "label": "active"
+    },
+    {
+      "case_id": "C03_D0016",
+      "receptor_id": "CDK2_AF2_MD2NS_C03_F041",
+      "receptor_pdbqt_sha256": "10411A22D854CAACA446BC6FAF6CB355CF9623BC67D3EABEB4DA1C8C86F9A023",
+      "ligand_id": "CDK2_D0016",
+      "ligand_pdbqt_sha256": "085366BFA60AC8CB00CE7A76D9DE1B980299AE4C10233320A0C0690AC6C3B2FF",
+      "label": "decoy"
+    },
+    {
+      "case_id": "C06_D0046",
+      "receptor_id": "CDK2_AF2_MD2NS_C06_F077",
+      "receptor_pdbqt_sha256": "ECFC7BF4ADFD56E78EAE5F3A121C419612457B0EABA52DA7928627F53C0FE84E",
+      "ligand_id": "CDK2_D0046",
+      "ligand_pdbqt_sha256": "5AA4B4D8E9BFFC5702FC881ED82CFBC20D26F7FFBE1502595D45D146DACA8156",
+      "label": "decoy"
+    },
+    {
+      "case_id": "C07_A0048",
+      "receptor_id": "CDK2_AF2_MD2NS_C07_F095",
+      "receptor_pdbqt_sha256": "A211BE33F465652555C5826BF8329D2E0D81F77E15775F93FF234EF2C199FB44",
+      "ligand_id": "CDK2_A0048",
+      "ligand_pdbqt_sha256": "62744AE74FBAF7C28F46531573BDDAF0F622326E5C29120C9DFD997FC97680A5",
+      "label": "active"
+    }
+  ],
+  "seed_replicates": [
+    {
+      "replicate_id": "seed0",
+      "base_seed": 20260901
+    },
+    {
+      "replicate_id": "seed1",
+      "base_seed": 20360901
+    },
+    {
+      "replicate_id": "seed2",
+      "base_seed": 20460901
+    }
+  ],
+  "execution": {
+    "workers": 8,
+    "max_total_cpu": 32
+  },
+  "acceptance_thresholds": {
+    "minimum_favorable_replicates": 2,
+    "maximum_seed_range_kcal_per_mol": 1.0,
+    "maximum_minimum_median_delta_kcal_per_mol": 1.0,
+    "flag_nonnegative_median_score": true
+  },
+  "outputs": {
+    "run_directory": "results/runs/stage03_cdk2_af2_md_100a100d_e64_high_risk_diagnostics_linux",
+    "raw_runs_csv": "results/runs/stage03_cdk2_af2_md_100a100d_e64_high_risk_diagnostics_linux/raw_runs.csv",
+    "case_summary_csv": "results/runs/stage03_cdk2_af2_md_100a100d_e64_high_risk_diagnostics_linux/case_summary.csv",
+    "summary_json": "results/runs/stage03_cdk2_af2_md_100a100d_e64_high_risk_diagnostics_linux/summary.json"
+  },
+  "interpretation_boundary": "This 24-run same-seed e64 diagnostic evaluates whether the eight selected e32 aggregate warnings are reduced by stronger search. Its scores are diagnostic only and must not selectively replace cells in the preregistered e32 median primary matrix or e32 minimum sensitivity matrix. It does not establish binding free energy, biological activity, screening generalization, or QUBO benefit."
+}
