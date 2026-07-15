@@ -1,0 +1,106 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage03-cdk2-af2-md-8r-100a100d-selection-validation-gate-v1",
+  "purpose": "Use the locked scaffold-disjoint train and validation splits to select a sparse receptor-ensemble candidate while keeping all test metrics uncomputed.",
+  "inputs": {
+    "primary_matrix": "results/runs/stage03_cdk2_af2_md_100a100d_e32_multiseed_aggregate_linux/median_score_matrix.csv",
+    "sensitivity_matrix": "results/runs/stage03_cdk2_af2_md_100a100d_e32_multiseed_aggregate_linux/minimum_score_matrix.csv",
+    "warning_table": "results/runs/stage03_cdk2_af2_md_100a100d_e32_multiseed_aggregate_linux/seed_stability_warnings.csv",
+    "aggregate_summary": "results/runs/stage03_cdk2_af2_md_100a100d_e32_multiseed_aggregate_linux/summary.json",
+    "split_manifest": "data/processed/dude_cdk2_benchmark_100a_100d_scaffold_split_manifest.csv",
+    "split_summary": "data/processed/dude_cdk2_benchmark_100a_100d_scaffold_split_summary.json"
+  },
+  "input_sha256": {
+    "primary_matrix": "0DF7BFEE1EC74180D59DBBD2326FC1C8A057D3591BC8406EC218525A8FD89DDB",
+    "sensitivity_matrix": "D327199B9C68B1C5ADDB5031A6706E1BC685D4048FB93D3306C91D236D313AFB",
+    "warning_table": "06792C5F9BDBA63A9C9E676F7D208DB9C6AFF063A10B5DC2DEF273D975747582",
+    "aggregate_summary": "F9C9EB2453D1A0BA686FBC9FAFEBE20833938E9D8D1E575DCA75494B65F1E12A",
+    "split_manifest": "2F3D68B16856EB8C9310E0A2D15283B95CBBA4D6E3A83E548385371C6440C167",
+    "split_summary": "4DFA7626F47D2B6450E670C2903A2A69ECAC3B894DBD48D3B3AA7FBE97659DAE"
+  },
+  "receptor_ids": [
+    "CDK2_AF2_MD2NS_C00_F001",
+    "CDK2_AF2_MD2NS_C01_F005",
+    "CDK2_AF2_MD2NS_C02_F031",
+    "CDK2_AF2_MD2NS_C03_F041",
+    "CDK2_AF2_MD2NS_C04_F066",
+    "CDK2_AF2_MD2NS_C05_F074",
+    "CDK2_AF2_MD2NS_C06_F077",
+    "CDK2_AF2_MD2NS_C07_F095"
+  ],
+  "expected": {
+    "ligand_count": 200,
+    "label_counts": {
+      "active": 100,
+      "decoy": 100
+    },
+    "split_label_counts": {
+      "validation": {
+        "active": 20,
+        "decoy": 20
+      },
+      "test": {
+        "active": 20,
+        "decoy": 20
+      },
+      "train": {
+        "active": 60,
+        "decoy": 60
+      }
+    },
+    "seed_warning_count": 61
+  },
+  "selection": {
+    "selection_split": "train",
+    "tuning_split": "validation",
+    "locked_split": "test",
+    "evaluate_locked_test": false,
+    "score_normalization": "train_minmax",
+    "subset_sizes": [
+      2,
+      3
+    ],
+    "aggregation_methods": [
+      "min_score",
+      "mean_score"
+    ],
+    "utility_metric": "bedroc",
+    "train_selection_metric": "bedroc_alpha_20",
+    "validation_metric": "bedroc_alpha_20",
+    "validation_tie_breakers": [
+      "pr_auc_average_precision",
+      "roc_auc"
+    ],
+    "coverage_fraction": 0.1,
+    "size_penalty": 10.0,
+    "weight_grids": {
+      "coverage": [
+        0.0,
+        0.25,
+        0.5,
+        1.0
+      ],
+      "overlap": [
+        0.0,
+        0.25,
+        0.5,
+        1.0
+      ],
+      "redundancy": [
+        0.0,
+        0.25,
+        0.5,
+        1.0
+      ]
+    }
+  },
+  "outputs": {
+    "run_directory": "results/runs/stage03_cdk2_af2_md_100a100d_selection_validation_gate",
+    "receptor_metrics_csv": "results/runs/stage03_cdk2_af2_md_100a100d_selection_validation_gate/receptor_metrics.csv",
+    "baseline_comparison_csv": "results/runs/stage03_cdk2_af2_md_100a100d_selection_validation_gate/baseline_comparison.csv",
+    "qubo_trials_csv": "results/runs/stage03_cdk2_af2_md_100a100d_selection_validation_gate/qubo_trials.csv",
+    "candidate_protocol_json": "results/runs/stage03_cdk2_af2_md_100a100d_selection_validation_gate/candidate_protocol.json",
+    "summary_json": "results/runs/stage03_cdk2_af2_md_100a100d_selection_validation_gate/summary.json"
+  },
+  "interpretation_boundary": "This gate selects one candidate protocol from train and validation only. It is an engineering and scientific MVP for sparse receptor selection, not evidence of binding free energy accuracy, biological activity, quantum advantage, or test-set generalization. The locked test split must remain unevaluated until the candidate protocol hash is reviewed and frozen."
+}
