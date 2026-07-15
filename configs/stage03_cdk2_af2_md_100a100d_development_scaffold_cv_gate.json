@@ -1,0 +1,133 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage03-cdk2-af2-md-8r-100a100d-development-scaffold-cv-gate-v1",
+  "purpose": "Compare scale-normalized coverage and discriminative receptor QUBOs against classical baselines by nested scaffold cross-validation on the 160 development ligands while keeping the 40-ligand final test split locked.",
+  "inputs": {
+    "primary_matrix": "results/runs/stage03_cdk2_af2_md_100a100d_e32_multiseed_aggregate_linux/median_score_matrix.csv",
+    "sensitivity_matrix": "results/runs/stage03_cdk2_af2_md_100a100d_e32_multiseed_aggregate_linux/minimum_score_matrix.csv",
+    "warning_table": "results/runs/stage03_cdk2_af2_md_100a100d_e32_multiseed_aggregate_linux/seed_stability_warnings.csv",
+    "aggregate_summary": "results/runs/stage03_cdk2_af2_md_100a100d_e32_multiseed_aggregate_linux/summary.json",
+    "split_manifest": "data/processed/dude_cdk2_benchmark_100a_100d_scaffold_split_manifest.csv",
+    "split_summary": "data/processed/dude_cdk2_benchmark_100a_100d_scaffold_split_summary.json"
+  },
+  "input_sha256": {
+    "primary_matrix": "0DF7BFEE1EC74180D59DBBD2326FC1C8A057D3591BC8406EC218525A8FD89DDB",
+    "sensitivity_matrix": "D327199B9C68B1C5ADDB5031A6706E1BC685D4048FB93D3306C91D236D313AFB",
+    "warning_table": "06792C5F9BDBA63A9C9E676F7D208DB9C6AFF063A10B5DC2DEF273D975747582",
+    "aggregate_summary": "F9C9EB2453D1A0BA686FBC9FAFEBE20833938E9D8D1E575DCA75494B65F1E12A",
+    "split_manifest": "2F3D68B16856EB8C9310E0A2D15283B95CBBA4D6E3A83E548385371C6440C167",
+    "split_summary": "4DFA7626F47D2B6450E670C2903A2A69ECAC3B894DBD48D3B3AA7FBE97659DAE"
+  },
+  "receptor_ids": [
+    "CDK2_AF2_MD2NS_C00_F001",
+    "CDK2_AF2_MD2NS_C01_F005",
+    "CDK2_AF2_MD2NS_C02_F031",
+    "CDK2_AF2_MD2NS_C03_F041",
+    "CDK2_AF2_MD2NS_C04_F066",
+    "CDK2_AF2_MD2NS_C05_F074",
+    "CDK2_AF2_MD2NS_C06_F077",
+    "CDK2_AF2_MD2NS_C07_F095"
+  ],
+  "expected": {
+    "ligand_count": 200,
+    "development_ligand_count": 160,
+    "locked_test_ligand_count": 40,
+    "label_counts": {
+      "active": 100,
+      "decoy": 100
+    },
+    "split_label_counts": {
+      "validation": {
+        "active": 20,
+        "decoy": 20
+      },
+      "test": {
+        "active": 20,
+        "decoy": 20
+      },
+      "train": {
+        "active": 60,
+        "decoy": 60
+      }
+    },
+    "seed_warning_count": 61
+  },
+  "cross_validation": {
+    "development_splits": [
+      "train",
+      "validation"
+    ],
+    "locked_split": "test",
+    "evaluate_locked_test": false,
+    "fold_count": 4,
+    "fold_seed": 20261002,
+    "score_normalization": "train_minmax",
+    "inner_selection_metric": "bedroc_alpha_20",
+    "inner_tie_breakers": [
+      "pr_auc_average_precision",
+      "roc_auc"
+    ],
+    "bootstrap_iterations": 5000,
+    "bootstrap_seed": 20261003
+  },
+  "model": {
+    "utility_metric": "bedroc",
+    "coverage_fraction": 0.1,
+    "subset_sizes": [
+      1,
+      2,
+      3
+    ],
+    "aggregation_methods": [
+      "min_score",
+      "mean_score"
+    ],
+    "size_penalty": 20.0,
+    "families": [
+      "coverage_qubo",
+      "discriminative_qubo"
+    ],
+    "weight_grids": {
+      "active_coverage": [
+        0.0,
+        1.0,
+        2.0
+      ],
+      "decoy_exposure_discriminative": [
+        0.5,
+        1.0,
+        2.0
+      ],
+      "active_overlap": [
+        0.0,
+        1.0,
+        2.0
+      ],
+      "redundancy": [
+        0.0,
+        1.0,
+        2.0
+      ]
+    }
+  },
+  "acceptance": {
+    "comparison_method": "single_best",
+    "minimum_primary_bedroc_delta": 0.02,
+    "minimum_primary_roc_auc_delta": 0.0,
+    "minimum_primary_pr_auc_delta": 0.0,
+    "minimum_primary_bedroc_bootstrap_ci95_low": 0.0,
+    "minimum_sensitivity_bedroc_delta": 0.0,
+    "test_release_requires_manual_review": true
+  },
+  "outputs": {
+    "run_directory": "results/runs/stage03_cdk2_af2_md_100a100d_development_scaffold_cv_gate",
+    "fold_assignments_csv": "results/runs/stage03_cdk2_af2_md_100a100d_development_scaffold_cv_gate/fold_assignments.csv",
+    "outer_fold_results_csv": "results/runs/stage03_cdk2_af2_md_100a100d_development_scaffold_cv_gate/outer_fold_results.csv",
+    "method_metrics_csv": "results/runs/stage03_cdk2_af2_md_100a100d_development_scaffold_cv_gate/method_metrics.csv",
+    "oof_scores_csv": "results/runs/stage03_cdk2_af2_md_100a100d_development_scaffold_cv_gate/oof_scores.csv",
+    "final_tuning_trials_csv": "results/runs/stage03_cdk2_af2_md_100a100d_development_scaffold_cv_gate/final_tuning_trials.csv",
+    "candidate_protocol_json": "results/runs/stage03_cdk2_af2_md_100a100d_development_scaffold_cv_gate/candidate_protocol.json",
+    "summary_json": "results/runs/stage03_cdk2_af2_md_100a100d_development_scaffold_cv_gate/summary.json"
+  },
+  "interpretation_boundary": "This nested scaffold cross-validation gate uses only the 160 development ligands. It may nominate but cannot validate a final receptor subset. The 40 locked test ligands remain unavailable to every fit, tuning, ranking, metric, and bootstrap operation until the preregistered acceptance criteria pass and the candidate protocol is manually reviewed."
+}
