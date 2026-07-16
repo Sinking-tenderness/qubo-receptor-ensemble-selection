@@ -152,7 +152,7 @@ def build_coefficients(
         "active_overlap",
         "redundancy",
     }
-    optional_weights = {"ensemble_pair_utility"}
+    optional_weights = {"ensemble_pair_utility", "stability"}
     if not required_weights.issubset(weights) or not set(weights).issubset(
         required_weights | optional_weights
     ):
@@ -168,6 +168,8 @@ def build_coefficients(
     redundancy = normalized["redundancy"]
     pair_ensemble_utility = normalized.get("pair_ensemble_utility", {})
     pair_utility_weight = float(weights.get("ensemble_pair_utility", 0.0))
+    stability = normalized.get("stability", {})
+    stability_weight = float(weights.get("stability", 0.0))
 
     linear = {
         receptor_id: (
@@ -176,6 +178,7 @@ def build_coefficients(
             * float(active_coverage[receptor_id])
             + float(weights["decoy_exposure"])
             * float(decoy_exposure[receptor_id])
+            - stability_weight * float(stability.get(receptor_id, 0.0))
             + size_penalty * (1 - 2 * target_size)
         )
         for receptor_id in receptor_ids

@@ -112,3 +112,27 @@ def test_pair_ensemble_utility_can_reward_a_complementary_pair():
 
     assert subset == ("R1", "R2")
     assert energy == pytest.approx(-1.0)
+
+
+def test_stability_term_can_reward_a_stable_receptor():
+    terms = {
+        "normalized": {
+            "utility": {"R1": 0.0, "R2": 0.0},
+            "active_coverage": {"R1": 0.0, "R2": 0.0},
+            "decoy_exposure": {"R1": 0.0, "R2": 0.0},
+            "active_overlap": {"R1__R2": 0.0},
+            "redundancy": {"R1__R2": 0.0},
+            "stability": {"R1": 1.0, "R2": 0.0},
+        }
+    }
+    weights = {
+        "active_coverage": 0.0,
+        "decoy_exposure": 0.0,
+        "active_overlap": 0.0,
+        "redundancy": 0.0,
+        "stability": 1.0,
+    }
+    subset, energy, _ = exact_select(terms, ["R1", "R2"], 1, weights, 10.0)
+
+    assert subset == ("R1",)
+    assert energy == pytest.approx(-1.0)

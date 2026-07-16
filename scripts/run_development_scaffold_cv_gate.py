@@ -17,6 +17,7 @@ try:
     from .normalized_receptor_qubo import (
         build_normalized_terms,
         exact_select,
+        minmax_terms,
     )
     from .prepare_receptor import file_sha256
     from .run_receptor_selection_validation_gate import (
@@ -32,7 +33,11 @@ try:
 except ImportError:
     from compare_receptor_screening import ranked_metrics_with_ids
     from cross_validate_ensemble_mvp import paired_bootstrap_delta
-    from normalized_receptor_qubo import build_normalized_terms, exact_select
+    from normalized_receptor_qubo import (
+        build_normalized_terms,
+        exact_select,
+        minmax_terms,
+    )
     from prepare_receptor import file_sha256
     from run_receptor_selection_validation_gate import (
         choose_exhaustive_train_best,
@@ -192,6 +197,7 @@ def load_config(path: Path) -> dict[str, object]:
                 "coverage_qubo",
                 "discriminative_qubo",
                 "pair_bedroc_qubo",
+                "stability_qubo",
             }
             for value in family_names
         )
@@ -221,6 +227,10 @@ def load_config(path: Path) -> dict[str, object]:
             or any(float(value) <= 0.0 for value in values)
         ):
             raise ValueError("pair ensemble utility grid is invalid")
+    if "stability_qubo" in family_names:
+        stability_weight = model.get("stability_weight")
+        if stability_weight is None or float(stability_weight) <= 0.0:
+            raise ValueError("stability_weight must be positive")
     if not isinstance(acceptance, dict):
         raise ValueError("acceptance must be an object")
     if acceptance.get("comparison_method") != "single_best":
@@ -325,7 +335,11 @@ def candidate_configs(model: dict[str, object], family: str) -> list[dict[str, o
         ]
         decoy_values = (
             [0.0]
-            if family in {"coverage_qubo", "pair_bedroc_qubo"}
+            if family in {
+                "coverage_qubo",
+                "pair_bedroc_qubo",
+                "stability_qubo",
+            }
             else [
                 float(value)
                 for value in grids["decoy_exposure_discriminative"]
@@ -336,17 +350,30 @@ def candidate_configs(model: dict[str, object], family: str) -> list[dict[str, o
             if family != "pair_bedroc_qubo" or size == 1
             else [float(value) for value in grids["ensemble_pair_utility"]]
         )
+        stability_values = (
+            [float(model["stability_weight"])]
+            if family == "stability_qubo"
+            else [0.0]
+        )
         aggregations = (
             ["min_score"]
             if size == 1
             else [str(value) for value in model["aggregation_methods"]]
         )
-        for active, decoy, overlap, redundancy, pair_utility in itertools.product(
+        for (
+            active,
+            decoy,
+            overlap,
+            redundancy,
+            pair_utility,
+            stability,
+        ) in itertools.product(
             [float(value) for value in grids["active_coverage"]],
             decoy_values,
             overlap_values,
             redundancy_values,
             pair_utility_values,
+            stability_values,
         ):
             weights = {
                 "active_coverage": active,
@@ -356,6 +383,8 @@ def candidate_configs(model: dict[str, object], family: str) -> list[dict[str, o
             }
             if family == "pair_bedroc_qubo":
                 weights["ensemble_pair_utility"] = pair_utility
+            if family == "stability_qubo":
+                weights["stability"] = stability
             for aggregation in aggregations:
                 output.append(
                     {
@@ -416,6 +445,36 @@ def make_context(
     return output
 
 
+def attach_inner_fold_stability_term(
+    context: dict[str, object],
+    inner_contexts: list[dict[str, object]],
+    receptor_ids: list[str],
+) -> None:
+    if not inner_contexts:
+        raise ValueError("stability requires at least one inner context")
+    raw_stability = {
+        receptor_id: (
+            statistics.fmean(
+                float(inner["terms"]["normalized"]["utility"][receptor_id])
+                for inner in inner_contexts
+            )
+            - statistics.pstdev(
+                [
+                    float(
+                        inner["terms"]["normalized"]["utility"][receptor_id]
+                    )
+                    for inner in inner_contexts
+                ]
+            )
+        )
+        for receptor_id in receptor_ids
+    }
+    context["terms"]["raw"]["stability"] = raw_stability
+    context["terms"]["normalized"]["stability"] = minmax_terms(
+        raw_stability
+    )
+
+
 def fit_config(
     config: dict[str, object],
     context: dict[str, object],
@@ -427,6 +486,7 @@ def fit_config(
         "coverage_qubo",
         "discriminative_qubo",
         "pair_bedroc_qubo",
+        "stability_qubo",
     }:
         subset, energy, coefficients = exact_select(
             context["terms"],
@@ -527,6 +587,7 @@ def tune_configs(
         "coverage_qubo": 4,
         "discriminative_qubo": 5,
         "pair_bedroc_qubo": 6,
+        "stability_qubo": 7,
     }
     metric_order = [
         str(cv["inner_selection_metric"]),
@@ -613,6 +674,10 @@ def method_configs(
     if "pair_bedroc_qubo" in [str(value) for value in model["families"]]:
         output["pair_bedroc_qubo"] = candidate_configs(
             model, "pair_bedroc_qubo"
+        )
+    if "stability_qubo" in [str(value) for value in model["families"]]:
+        output["stability_qubo"] = candidate_configs(
+            model, "stability_qubo"
         )
     return output
 
@@ -786,6 +851,10 @@ def main() -> int:
             receptor_ids,
             model,
         )
+        if "stability_qubo" in [str(value) for value in model["families"]]:
+            attach_inner_fold_stability_term(
+                outer_context, inner_contexts, receptor_ids
+            )
         for method in methods:
             selected_trial, _ = tune_configs(
                 configurations[method],
@@ -928,6 +997,10 @@ def main() -> int:
         receptor_ids,
         model,
     )
+    if "stability_qubo" in [str(value) for value in model["families"]]:
+        attach_inner_fold_stability_term(
+            full_context, final_contexts, receptor_ids
+        )
     final_config = final_selected_trial["config"]
     final_subset, final_fit_details = fit_config(
         final_config, full_context, receptor_ids, model

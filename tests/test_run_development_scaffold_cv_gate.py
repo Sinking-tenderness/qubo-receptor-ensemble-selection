@@ -17,6 +17,9 @@ EXPANDED_CONFIG_PATH = Path(
 PAIR_CONFIG_PATH = Path(
     "configs/stage04_cdk2_expanded16_pair_bedroc_development_scaffold_cv_gate.json"
 )
+STABILITY_CONFIG_PATH = Path(
+    "configs/stage04_cdk2_expanded16_stability_development_scaffold_cv_gate.json"
+)
 
 
 def test_fixed_development_cv_config_preregisters_test_lock_and_pass_rule():
@@ -168,3 +171,17 @@ def test_pair_bedroc_config_adds_pair_family_without_unlocking_test():
     methods = method_configs(config["model"], 16)
     assert "pair_bedroc_qubo" in methods
     assert len(methods["pair_bedroc_qubo"]) == 327
+
+
+def test_stability_config_uses_inner_contexts_and_keeps_test_locked():
+    config = load_config(STABILITY_CONFIG_PATH)
+
+    assert config["model"]["stability_weight"] == 1.0
+    assert "stability_qubo" in config["model"]["families"]
+    assert config["cross_validation"]["evaluate_locked_test"] is False
+    methods = method_configs(config["model"], 16)
+    assert len(methods["stability_qubo"]) == 111
+    assert all(
+        trial["weights"]["stability"] == 1.0
+        for trial in methods["stability_qubo"]
+    )
