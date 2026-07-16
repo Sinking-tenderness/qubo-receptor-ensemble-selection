@@ -16,3 +16,14 @@ def test_vina_scores_are_ranked_from_most_negative_to_least_negative() -> None:
         "decoy",
         "active_second",
     ]
+
+
+def test_equal_scores_use_ligand_id_as_a_deterministic_tie_breaker() -> None:
+    data = {
+        "Z_ligand": {"label": "active", "score": -5.0},
+        "A_ligand": {"label": "decoy", "score": -5.0},
+    }
+    assert ranked_metrics_with_ids(data)["top10_ligand_ids"] == [
+        "A_ligand",
+        "Z_ligand",
+    ]

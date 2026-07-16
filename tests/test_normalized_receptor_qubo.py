@@ -52,3 +52,24 @@ def test_decoy_exposure_penalty_changes_size_one_exact_solution():
     assert subset == ("R2",)
     assert energy == pytest.approx(-1.0)
     assert coefficients["target_size"] == 1
+    assert coefficients["exact_search"]["states_evaluated"] == 2
+
+
+def test_exact_select_falls_back_and_rejects_an_insufficient_size_penalty():
+    terms = {
+        "normalized": {
+            "utility": {"R1": 0.0, "R2": 0.0},
+            "active_coverage": {"R1": 0.0, "R2": 0.0},
+            "decoy_exposure": {"R1": 0.0, "R2": 0.0},
+            "active_overlap": {"R1__R2": 1.0},
+            "redundancy": {"R1__R2": 0.0},
+        }
+    }
+    weights = {
+        "active_coverage": 0.0,
+        "decoy_exposure": 0.0,
+        "active_overlap": 2.0,
+        "redundancy": 0.0,
+    }
+    with pytest.raises(ValueError, match="size penalty failed"):
+        exact_select(terms, ["R1", "R2"], 2, weights, 0.1)

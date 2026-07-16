@@ -188,17 +188,17 @@ def build_coefficients(
 def coefficient_energy(
     subset: tuple[str, ...], coefficients: dict[str, object]
 ) -> float:
-    selected = set(subset)
     value = float(coefficients["constant"])
     value += sum(
         float(coefficients["linear"][receptor_id])
-        for receptor_id in selected
+        for receptor_id in subset
     )
-    value += sum(
-        float(coefficient)
-        for key, coefficient in coefficients["quadratic"].items()
-        if all(receptor_id in selected for receptor_id in key.split("__"))
-    )
+    quadratic = coefficients["quadratic"]
+    for first, second in itertools.combinations(subset, 2):
+        key = f"{first}__{second}"
+        if key not in quadratic:
+            key = f"{second}__{first}"
+        value += float(quadratic[key])
     return float(value)
 
 
@@ -212,6 +212,47 @@ def exact_select(
     coefficients = build_coefficients(
         terms, receptor_ids, target_size, weights, size_penalty
     )
+
+    # The cardinality penalty is zero at the requested size.  Enumerate that
+    # small slice first, then certify it against every other cardinality with
+    # a conservative lower bound.  Fall back to all 2**n states when the
+    # bound is inconclusive, preserving the exact QUBO semantics.
+    target_candidates = [
+        (subset, coefficient_energy(subset, coefficients))
+        for subset in itertools.combinations(receptor_ids, target_size)
+    ]
+    target_subset, target_energy = min(
+        target_candidates, key=lambda item: (item[1], item[0])
+    )
+    penalty_linear = size_penalty * (1 - 2 * target_size)
+    objective_linear = sorted(
+        float(coefficients["linear"][receptor_id]) - penalty_linear
+        for receptor_id in receptor_ids
+    )
+    negative_quadratic_floor = sum(
+        min(0.0, float(value) - 2.0 * size_penalty)
+        for value in coefficients["quadratic"].values()
+    )
+    lower_bounds = {
+        size: (
+            size_penalty * (size - target_size) ** 2
+            + sum(objective_linear[:size])
+            + negative_quadratic_floor
+        )
+        for size in range(len(receptor_ids) + 1)
+        if size != target_size
+    }
+    if all(target_energy < bound for bound in lower_bounds.values()):
+        coefficients["exact_search"] = {
+            "method": "target_cardinality_with_global_lower_bound_certificate",
+            "states_evaluated": len(target_candidates),
+            "full_state_count": 2 ** len(receptor_ids),
+            "minimum_outside_cardinality_lower_bound": min(
+                lower_bounds.values()
+            ),
+        }
+        return target_subset, float(target_energy), coefficients
+
     candidates = [
         (subset, coefficient_energy(subset, coefficients))
         for size in range(len(receptor_ids) + 1)
@@ -222,4 +263,12 @@ def exact_select(
         raise ValueError(
             "size penalty failed to enforce the requested receptor budget"
         )
+    coefficients["exact_search"] = {
+        "method": "full_state_enumeration_after_inconclusive_bound",
+        "states_evaluated": len(candidates),
+        "full_state_count": 2 ** len(receptor_ids),
+        "minimum_outside_cardinality_lower_bound": min(
+            lower_bounds.values()
+        ),
+    }
     return subset, float(energy), coefficients

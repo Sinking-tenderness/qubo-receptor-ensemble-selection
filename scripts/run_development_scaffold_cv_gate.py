@@ -134,6 +134,8 @@ def load_config(path: Path) -> dict[str, object]:
         raise ValueError("development_splits must be train and validation")
     if cv.get("locked_split") != "test" or cv.get("evaluate_locked_test") is not False:
         raise ValueError("the final test split must remain locked")
+    if not isinstance(cv.get("matrices_exclude_locked_split", False), bool):
+        raise ValueError("matrices_exclude_locked_split must be boolean")
     if int(cv.get("fold_count", 0)) < 3:
         raise ValueError("fold_count must be at least three")
     if int(cv.get("fold_seed", 0)) <= 0:
@@ -527,7 +529,11 @@ def collect_scores(
     return output
 
 
-def method_configs(model: dict[str, object]) -> dict[str, list[dict[str, object]]]:
+def method_configs(
+    model: dict[str, object], receptor_count: int
+) -> dict[str, list[dict[str, object]]]:
+    if receptor_count < 1:
+        raise ValueError("receptor_count must be positive")
     subset_sizes = [int(value) for value in model["subset_sizes"]]
     aggregations = [str(value) for value in model["aggregation_methods"]]
     classical = {
@@ -554,7 +560,7 @@ def method_configs(model: dict[str, object]) -> dict[str, list[dict[str, object]
         "all_receptors": [
             {
                 "family": "all_receptors",
-                "target_size": 8,
+                "target_size": receptor_count,
                 "aggregation": aggregation,
             }
             for aggregation in aggregations
@@ -617,9 +623,15 @@ def main() -> int:
     split_summary = json.loads(
         input_paths["split_summary"].read_text(encoding="ascii")
     )
-    if int(aggregate_summary.get("receptor_ligand_pair_count", 0)) != int(
-        expected["ligand_count"]
-    ) * len(receptor_ids):
+    matrices_exclude_locked = bool(cv.get("matrices_exclude_locked_split", False))
+    matrix_ligand_count = int(
+        expected[
+            "development_ligand_count" if matrices_exclude_locked else "ligand_count"
+        ]
+    )
+    if int(aggregate_summary.get("receptor_ligand_pair_count", 0)) != (
+        matrix_ligand_count * len(receptor_ids)
+    ):
         raise ValueError("aggregate receptor-ligand pair count differs")
     if split_summary.get("scaffold_disjoint") is not True:
         raise ValueError("input split is not scaffold-disjoint")
@@ -628,6 +640,7 @@ def main() -> int:
     sensitivity_rows = read_csv(input_paths["sensitivity_matrix"])
     split_rows = read_csv(input_paths["split_manifest"])
     warning_rows = read_csv(input_paths["warning_table"])
+    development_splits = set(str(value) for value in cv["development_splits"])
     audit = validate_dataset(
         primary_rows,
         sensitivity_rows,
@@ -635,8 +648,8 @@ def main() -> int:
         warning_rows,
         receptor_ids,
         expected,
+        development_splits if matrices_exclude_locked else None,
     )
-    development_splits = set(str(value) for value in cv["development_splits"])
     development_manifest = [
         row for row in split_rows if row["split"] in development_splits
     ]
@@ -686,7 +699,7 @@ def main() -> int:
     if development_ids != set(assignments):
         raise ValueError("development matrix and fold IDs differ")
 
-    configurations = method_configs(model)
+    configurations = method_configs(model, len(receptor_ids))
     methods = list(configurations)
     primary_oof = {method: {} for method in methods}
     sensitivity_oof = {method: {} for method in methods}

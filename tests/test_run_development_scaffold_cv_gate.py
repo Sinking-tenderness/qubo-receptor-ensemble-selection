@@ -4,11 +4,15 @@ from scripts.run_development_scaffold_cv_gate import (
     candidate_configs,
     load_config,
     make_scaffold_folds,
+    method_configs,
 )
 
 
 CONFIG_PATH = Path(
     "configs/stage03_cdk2_af2_md_100a100d_development_scaffold_cv_gate.json"
+)
+EXPANDED_CONFIG_PATH = Path(
+    "configs/stage04_cdk2_expanded16_development_scaffold_cv_gate.json"
 )
 
 
@@ -104,3 +108,24 @@ def test_preregistered_qubo_grid_has_expected_family_sizes():
         config["weights"]["decoy_exposure"] > 0.0
         for config in discriminative
     )
+
+
+def test_expanded_config_preserves_gate_and_excludes_locked_scores():
+    config = load_config(EXPANDED_CONFIG_PATH)
+    assert len(config["receptor_ids"]) == 16
+    assert config["cross_validation"]["matrices_exclude_locked_split"] is True
+    assert config["cross_validation"]["evaluate_locked_test"] is False
+    assert config["model"]["subset_sizes"] == [1, 2, 3]
+    assert config["acceptance"]["minimum_primary_bedroc_delta"] == 0.02
+    assert method_configs(config["model"], 16)["all_receptors"] == [
+        {
+            "family": "all_receptors",
+            "target_size": 16,
+            "aggregation": "min_score",
+        },
+        {
+            "family": "all_receptors",
+            "target_size": 16,
+            "aggregation": "mean_score",
+        },
+    ]

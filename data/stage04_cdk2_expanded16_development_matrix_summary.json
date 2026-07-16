@@ -1,0 +1,63 @@
+{
+  "config": {
+    "path": "configs/stage04_cdk2_expanded16_development_matrix_merge.json",
+    "sha256": "3B2D674D7399ADCC46BD012A8A26B8C5D7A5902669CA37B7E8E3CD28FC3E8AE8"
+  },
+  "experiment_id": "stage04-cdk2-expanded16-development-matrix-merge-v1",
+  "input_sha256": {
+    "development_ligand_manifest": "7F8A28CF7867A8442F1539A246148787093E2F4BF25C2EB569500F68C74BFE8E",
+    "expanded_receptor_manifest": "C70185C8A2F52AA5175966F690B060320FD47B0C33B2EF12828A672FA757CB81",
+    "md_primary_matrix": "D410983B187A50CB8AC0DECF9BA667AF49E794F10A03763D7DE29A5CBF842399",
+    "md_sensitivity_matrix": "2A7A94C668E9B7DAA3956543DE571A8A67DBDACFABA63A7421998BF28833EA5D",
+    "md_warning_table": "06792C5F9BDBA63A9C9E676F7D208DB9C6AFF063A10B5DC2DEF273D975747582",
+    "non_md_primary_matrix": "3712D81B97EAF1092DEDC1107AC970E96B23262C1BF7AB6E1F51CA3BF72EF9E6",
+    "non_md_sensitivity_matrix": "2EAB577796DEF3F6A01E129B4CD26D8DB7FDE9084B1889D878A1211F1246F459",
+    "non_md_warning_table": "58709EBF13BA17041C82E80AB09527AD01B55BB8F486B4F8458951BEF245BC9C"
+  },
+  "interpretation_boundary": "This is an ID-aligned merge of pre-existing development matrices. It does not calculate ranking metrics, fit a receptor subset, inspect locked-test scores, or replace warning cells. Median remains primary and minimum remains sensitivity only.",
+  "label_counts": {
+    "active": 80,
+    "decoy": 80
+  },
+  "ligand_count": 160,
+  "locked_test_score_rows": 0,
+  "output_sha256": {
+    "primary_matrix_csv": "CAB398C59AC49088ABE6065A58E216D46DC205BE862F0D0A8E57050CC45D96E4",
+    "sensitivity_matrix_csv": "EF4B68E764ADFA976AA365D04E8D97715D30F8208135C33E43D3AAB15B6EDED5",
+    "warning_table_csv": "33D6BD1B6CCFD083AF0BF2DED3212138BB9BDCECF6C0D20D5E8E3324A7AF366D"
+  },
+  "outputs": {
+    "primary_matrix_csv": "data/processed/stage04_cdk2_expanded16_development_median_score_matrix.csv",
+    "sensitivity_matrix_csv": "data/processed/stage04_cdk2_expanded16_development_minimum_score_matrix.csv",
+    "summary_json": "data/stage04_cdk2_expanded16_development_matrix_summary.json",
+    "warning_table_csv": "data/processed/stage04_cdk2_expanded16_development_seed_stability_warnings.csv"
+  },
+  "receptor_count": 16,
+  "receptor_ids": [
+    "CDK2_1AQ1_reference",
+    "CDK2_1HCL_aligned",
+    "CDK2_1JVP_aligned",
+    "CDK2_1Y8Y_aligned",
+    "CDK2_2C68_aligned",
+    "CDK2_2C69_aligned",
+    "CDK2_3RKB_aligned",
+    "CDK2_AF2_MD2NS_C00_F001",
+    "CDK2_AF2_MD2NS_C01_F005",
+    "CDK2_AF2_MD2NS_C02_F031",
+    "CDK2_AF2_MD2NS_C03_F041",
+    "CDK2_AF2_MD2NS_C04_F066",
+    "CDK2_AF2_MD2NS_C05_F074",
+    "CDK2_AF2_MD2NS_C06_F077",
+    "CDK2_AF2_MD2NS_C07_F095",
+    "CDK2_AF_P24941_F1_v6"
+  ],
+  "receptor_ligand_pair_count": 2560,
+  "schema_version": "1.0",
+  "seed_stability_warning_count": 72,
+  "status": "ok_with_seed_stability_warning",
+  "warning_counts": {
+    "md_development": 49,
+    "md_locked_rows_skipped": 12,
+    "non_md_development": 23
+  }
+}

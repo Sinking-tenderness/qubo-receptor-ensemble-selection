@@ -43,7 +43,10 @@ def read_rank1(path: Path) -> dict[str, dict[str, object]]:
 
 def ranked_metrics_with_ids(data: dict[str, dict[str, object]], score_key: str = "score") -> dict[str, object]:
     # Vina scores are lower-is-better, so ascending docking score is the ranking order.
-    ranked_ids = sorted(data, key=lambda ligand_id: float(data[ligand_id][score_key]))
+    ranked_ids = sorted(
+        data,
+        key=lambda ligand_id: (float(data[ligand_id][score_key]), ligand_id),
+    )
     ranked = [
         {
             "label": data[ligand_id]["label"],

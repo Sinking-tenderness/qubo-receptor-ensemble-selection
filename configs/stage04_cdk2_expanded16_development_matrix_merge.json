@@ -1,0 +1,46 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage04-cdk2-expanded16-development-matrix-merge-v1",
+  "purpose": "Merge the eight-MD and eight-non-MD median/minimum score matrices on the same 160 development ligands, preserving all development-set seed warnings and keeping locked-test scores absent.",
+  "inputs": {
+    "development_ligand_manifest": "data/processed/stage04_cdk2_development_80a80d_pdbqt_manifest.csv",
+    "expanded_receptor_manifest": "data/processed/stage04_cdk2_expanded_receptor_pool_manifest.csv",
+    "md_primary_matrix": "data/processed/stage04_cdk2_md_development_median_score_matrix.csv",
+    "md_sensitivity_matrix": "data/processed/stage04_cdk2_md_development_minimum_score_matrix.csv",
+    "md_warning_table": "results/runs/stage03_cdk2_af2_md_100a100d_e32_multiseed_aggregate_linux/seed_stability_warnings.csv",
+    "non_md_primary_matrix": "results/runs/stage04_cdk2_non_md_80a80d_e32_multiseed_aggregate_linux/median_score_matrix.csv",
+    "non_md_sensitivity_matrix": "results/runs/stage04_cdk2_non_md_80a80d_e32_multiseed_aggregate_linux/minimum_score_matrix.csv",
+    "non_md_warning_table": "results/runs/stage04_cdk2_non_md_80a80d_e32_multiseed_aggregate_linux/seed_stability_warnings.csv"
+  },
+  "input_sha256": {
+    "development_ligand_manifest": "7F8A28CF7867A8442F1539A246148787093E2F4BF25C2EB569500F68C74BFE8E",
+    "expanded_receptor_manifest": "C70185C8A2F52AA5175966F690B060320FD47B0C33B2EF12828A672FA757CB81",
+    "md_primary_matrix": "D410983B187A50CB8AC0DECF9BA667AF49E794F10A03763D7DE29A5CBF842399",
+    "md_sensitivity_matrix": "2A7A94C668E9B7DAA3956543DE571A8A67DBDACFABA63A7421998BF28833EA5D",
+    "md_warning_table": "06792C5F9BDBA63A9C9E676F7D208DB9C6AFF063A10B5DC2DEF273D975747582",
+    "non_md_primary_matrix": "3712D81B97EAF1092DEDC1107AC970E96B23262C1BF7AB6E1F51CA3BF72EF9E6",
+    "non_md_sensitivity_matrix": "2EAB577796DEF3F6A01E129B4CD26D8DB7FDE9084B1889D878A1211F1246F459",
+    "non_md_warning_table": "58709EBF13BA17041C82E80AB09527AD01B55BB8F486B4F8458951BEF245BC9C"
+  },
+  "expected": {
+    "development_ligand_count": 160,
+    "development_label_counts": {
+      "active": 80,
+      "decoy": 80
+    },
+    "md_receptor_count": 8,
+    "non_md_receptor_count": 8,
+    "expanded_receptor_count": 16,
+    "md_development_warning_count": 49,
+    "md_locked_warning_rows_skipped": 12,
+    "non_md_development_warning_count": 23,
+    "combined_development_warning_count": 72
+  },
+  "outputs": {
+    "primary_matrix_csv": "data/processed/stage04_cdk2_expanded16_development_median_score_matrix.csv",
+    "sensitivity_matrix_csv": "data/processed/stage04_cdk2_expanded16_development_minimum_score_matrix.csv",
+    "warning_table_csv": "data/processed/stage04_cdk2_expanded16_development_seed_stability_warnings.csv",
+    "summary_json": "data/stage04_cdk2_expanded16_development_matrix_summary.json"
+  },
+  "interpretation_boundary": "This is an ID-aligned merge of pre-existing development matrices. It does not calculate ranking metrics, fit a receptor subset, inspect locked-test scores, or replace warning cells. Median remains primary and minimum remains sensitivity only."
+}

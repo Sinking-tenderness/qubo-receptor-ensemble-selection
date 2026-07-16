@@ -197,6 +197,7 @@ def validate_dataset(
     warning_rows: list[dict[str, str]],
     receptor_ids: list[str],
     expected: dict[str, object],
+    matrix_splits: set[str] | None = None,
 ) -> dict[str, object]:
     def unique_lookup(
         rows: list[dict[str, str]], name: str
@@ -209,13 +210,33 @@ def validate_dataset(
     primary = unique_lookup(primary_rows, "primary matrix")
     sensitivity = unique_lookup(sensitivity_rows, "sensitivity matrix")
     splits = unique_lookup(split_rows, "split manifest")
-    expected_count = int(expected["ligand_count"])
-    if len(primary) != expected_count or set(primary) != set(sensitivity) or set(primary) != set(splits):
+    if len(splits) != int(expected["ligand_count"]):
+        raise ValueError("split manifest ligand count differs")
+    expected_matrix_ids = (
+        set(splits)
+        if matrix_splits is None
+        else {
+            ligand_id
+            for ligand_id, row in splits.items()
+            if row["split"] in matrix_splits
+        }
+    )
+    if (
+        set(primary) != set(sensitivity)
+        or set(primary) != expected_matrix_ids
+    ):
         raise ValueError("matrix and split ligand ID sets differ")
-    expected_labels = {
-        str(key): int(value)
-        for key, value in dict(expected["label_counts"]).items()
-    }
+    if matrix_splits is None:
+        expected_labels = {
+            str(key): int(value)
+            for key, value in dict(expected["label_counts"]).items()
+        }
+    else:
+        expected_labels: dict[str, int] = {}
+        expected_split_counts = dict(expected["split_label_counts"])
+        for split in matrix_splits:
+            for label, count in dict(expected_split_counts[split]).items():
+                expected_labels[str(label)] = expected_labels.get(str(label), 0) + int(count)
     observed_labels: dict[str, int] = {}
     for ligand_id, row in primary.items():
         label = row["label"]

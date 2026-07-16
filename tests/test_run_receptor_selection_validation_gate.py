@@ -109,6 +109,46 @@ def test_dataset_audit_partitions_visible_splits_without_returning_test_scores()
     assert audit["warning_by_split"] == {"train": 1}
 
 
+def test_dataset_audit_accepts_development_only_score_matrices():
+    rows = matrix_rows()
+    development = [row for row in rows if row["split"] != "test"]
+    primary = [
+        {key: value for key, value in row.items() if key != "split"}
+        for row in development
+    ]
+    split_rows = [
+        {
+            "ligand_id": row["ligand_id"],
+            "label": row["label"],
+            "split": row["split"],
+        }
+        for row in rows
+    ]
+    expected = {
+        "ligand_count": 6,
+        "label_counts": {"active": 3, "decoy": 3},
+        "split_label_counts": {
+            "train": {"active": 1, "decoy": 1},
+            "validation": {"active": 1, "decoy": 1},
+            "test": {"active": 1, "decoy": 1},
+        },
+        "seed_warning_count": 1,
+    }
+
+    audit = validate_dataset(
+        primary,
+        [dict(row) for row in primary],
+        split_rows,
+        [{"ligand_id": "TA", "receptor_id": "R1"}],
+        ["R1", "R2"],
+        expected,
+        {"train", "validation"},
+    )
+
+    assert sum(len(rows) for rows in audit["primary_visible"].values()) == 4
+    assert audit["warning_by_split"] == {"train": 1}
+
+
 def qubo_rows():
     labels = ["active"] * 4 + ["decoy"] * 4
     score_columns = {
