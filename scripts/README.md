@@ -46,6 +46,8 @@ Stage 2 ligand preparation scripts:
   receptor subset selection.
 - `aggregate_repeated_cv.py`: aggregate repeated out-of-fold scores and paired
   bootstrap deltas.
+- `run_repeated_development_scaffold_cv.py`: derive, resume, independently
+  audit, and aggregate repeated development-only scaffold-CV gates.
 - `batch_prepare_ligand_pdbqt_parallel.py`: prepare Meeko PDBQT files with
   resumable controlled parallel workers.
 - `download_alphafold_structure.py`: download a canonical official AlphaFold
