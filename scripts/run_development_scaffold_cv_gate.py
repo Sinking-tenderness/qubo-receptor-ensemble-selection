@@ -626,6 +626,7 @@ def flatten_outer_result(row: dict[str, object]) -> dict[str, object]:
         "target_size": len(row["subset"]),
         "aggregation": row["selected_config"]["aggregation"],
         "selected_config": json.dumps(row["selected_config"], sort_keys=True),
+        "inner_subsets": json.dumps(row["inner_subsets"]),
     }
     for matrix_name in ("primary", "sensitivity"):
         for key, value in row[f"{matrix_name}_outer_metrics"].items():
@@ -825,6 +826,7 @@ def main() -> int:
                     "inner_selection_metric_std": selected_trial[
                         "selection_metric_std"
                     ],
+                    "inner_subsets": selected_trial["inner_subsets"],
                     "subset": list(subset),
                     "fit_details": fit_details,
                     "primary_outer_metrics": primary_metrics,

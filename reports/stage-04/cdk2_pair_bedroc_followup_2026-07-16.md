@@ -101,13 +101,39 @@ The independent audit reported:
 - Maximum bootstrap reproduction difference: `1.11e-16`.
 - All QUBO solves used the exact cardinality lower-bound certificate.
 
+## Selection Stability
+
+The outer fold subsets have mean pairwise Jaccard similarity `0.58333` and
+minimum Jaccard `0.50000`. The 12 inner fits have lower mean Jaccard
+similarity `0.39192`, with a minimum of `0.0`. Mean outer-to-inner Jaccard is
+`0.63889`.
+
+Using the preregistered stability definition of outer selection frequency at
+least `0.75` and inner selection frequency at least `0.50`, the stable core is:
+
+```text
+CDK2_2C68_aligned
+CDK2_AF2_MD2NS_C06_F077
+```
+
+Both receptors are selected in all four outer folds. The third receptor is
+unstable: `1AQ1`, `3RKB`, and the AF2 parent each appear in only one outer fold.
+Pair-BEDROC QUBO and coverage-QUBO have identical outer subsets, although
+their inner subset frequencies differ slightly. This points to fold-level
+selection instability as a more relevant next target than another pair reward.
+
+Stability audit output:
+`results/runs/stage04_cdk2_expanded16_pair_bedroc_development_scaffold_cv_gate/selection_stability.json`
+
 | Output | SHA-256 |
 |---|---|
-| `summary.json` | `67A453A00ABEC33BD0430A09C2FBFE2CC12309B34DC51074C03D26465A6CD091` |
-| `candidate_protocol.json` | `DBB37926B76BCE8D2D6484B8DAE02093D1D273ADEA0D9A658BEB2A8080182AB9` |
+| `summary.json` | `278AA3440785346C7BA1E114B2379CDD6AF9115964BDF39C2703C9E1D4A9DAD1` |
+| `candidate_protocol.json` | `89A710F1B39618AF4D08DA5F0ADA881A2480FD2D01D424EFFFF2CE74C6E61B66` |
 | `method_metrics.csv` | `7C4AC22251FDE2BFFA7B44224964E8F84383EB2BEFC55DFCECBE51A3412BB015` |
 | `oof_scores.csv` | `7C198D07BCD01ED9D408C635BA0B8E6C47F62B399DCE4F460FA0414F4DA3BABD` |
-| `independent_audit.json` | `D0845D8C8F516145C9B28ADF733BB08B661C5680F8F6F2CE210CA5EA436D283A` |
+| `outer_fold_results.csv` | `F1A2E635066258A82B9F08C2F46A6981E9A5928CC20D907946BA07376F52A7C5` |
+| `independent_audit.json` | `30374734BF77AA51DFE1A860C64C17B1D5B1D1335EEF35D959766388583B8D4B` |
+| `selection_stability.json` | `253F929C90B0B414750B2212C491E27C8E8F7438CCFD66E099AECB0071EEC3E8` |
 
 ## Interpretation
 
