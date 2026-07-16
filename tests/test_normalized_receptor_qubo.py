@@ -22,6 +22,9 @@ def test_build_normalized_terms_scales_every_term_family():
     terms = build_normalized_terms(rows, ["R1", "R2"], 0.5, "bedroc")
     for values in terms["normalized"].values():
         assert all(0.0 <= value <= 1.0 for value in values.values())
+    assert set(terms["normalized"]["pair_ensemble_utility"]) == {
+        "R1__R2"
+    }
     assert set(terms["active_ids"]) == {"R1", "R2"}
     assert set(terms["decoy_ids"]) == {"R1", "R2"}
 
@@ -73,3 +76,39 @@ def test_exact_select_falls_back_and_rejects_an_insufficient_size_penalty():
     }
     with pytest.raises(ValueError, match="size penalty failed"):
         exact_select(terms, ["R1", "R2"], 2, weights, 0.1)
+
+
+def test_pair_ensemble_utility_can_reward_a_complementary_pair():
+    terms = {
+        "normalized": {
+            "utility": {"R1": 0.0, "R2": 0.0, "R3": 0.0},
+            "active_coverage": {"R1": 0.0, "R2": 0.0, "R3": 0.0},
+            "decoy_exposure": {"R1": 0.0, "R2": 0.0, "R3": 0.0},
+            "active_overlap": {
+                "R1__R2": 0.0,
+                "R1__R3": 0.0,
+                "R2__R3": 0.0,
+            },
+            "redundancy": {
+                "R1__R2": 0.0,
+                "R1__R3": 0.0,
+                "R2__R3": 0.0,
+            },
+            "pair_ensemble_utility": {
+                "R1__R2": 1.0,
+                "R1__R3": 0.0,
+                "R2__R3": 0.0,
+            },
+        }
+    }
+    weights = {
+        "active_coverage": 0.0,
+        "decoy_exposure": 0.0,
+        "active_overlap": 0.0,
+        "redundancy": 0.0,
+        "ensemble_pair_utility": 1.0,
+    }
+    subset, energy, _ = exact_select(terms, ["R1", "R2", "R3"], 2, weights, 10.0)
+
+    assert subset == ("R1", "R2")
+    assert energy == pytest.approx(-1.0)

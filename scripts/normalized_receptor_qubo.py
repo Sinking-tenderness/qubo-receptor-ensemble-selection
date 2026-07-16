@@ -85,6 +85,7 @@ def build_normalized_terms(
     }
     redundancy_raw: dict[str, float] = {}
     active_overlap_raw: dict[str, float] = {}
+    pair_ensemble_utility_raw: dict[str, float] = {}
     for first, second in itertools.combinations(receptor_ids, 2):
         key = f"{first}__{second}"
         correlation = float(
@@ -96,6 +97,16 @@ def build_normalized_terms(
         active_overlap_raw[key] = (
             len(active_sets[first] & active_sets[second]) / active_total
         )
+        pair_data = {
+            str(row["ligand_id"]): {
+                "label": row["label"],
+                "score": (float(row[first]) + float(row[second])) / 2.0,
+            }
+            for row in rows
+        }
+        pair_ensemble_utility_raw[key] = float(
+            ranked_metrics_with_ids(pair_data)["bedroc_alpha_20"]
+        )
 
     raw = {
         "utility": utility_raw,
@@ -103,6 +114,7 @@ def build_normalized_terms(
         "decoy_exposure": decoy_exposure_raw,
         "redundancy": redundancy_raw,
         "active_overlap": active_overlap_raw,
+        "pair_ensemble_utility": pair_ensemble_utility_raw,
     }
     normalized = {
         name: minmax_terms(values) for name, values in raw.items()
@@ -140,7 +152,10 @@ def build_coefficients(
         "active_overlap",
         "redundancy",
     }
-    if set(weights) != required_weights:
+    optional_weights = {"ensemble_pair_utility"}
+    if not required_weights.issubset(weights) or not set(weights).issubset(
+        required_weights | optional_weights
+    ):
         raise ValueError("QUBO weights do not match the required terms")
     if any(float(value) < 0.0 for value in weights.values()):
         raise ValueError("QUBO weights must be nonnegative")
@@ -151,6 +166,8 @@ def build_coefficients(
     decoy_exposure = normalized["decoy_exposure"]
     active_overlap = normalized["active_overlap"]
     redundancy = normalized["redundancy"]
+    pair_ensemble_utility = normalized.get("pair_ensemble_utility", {})
+    pair_utility_weight = float(weights.get("ensemble_pair_utility", 0.0))
 
     linear = {
         receptor_id: (
@@ -167,6 +184,8 @@ def build_coefficients(
         key: (
             float(weights["active_overlap"]) * float(active_overlap[key])
             + float(weights["redundancy"]) * float(redundancy[key])
+            - pair_utility_weight
+            * float(pair_ensemble_utility.get(key, 0.0))
             + 2.0 * size_penalty
         )
         for key in active_overlap
@@ -229,15 +248,15 @@ def exact_select(
         float(coefficients["linear"][receptor_id]) - penalty_linear
         for receptor_id in receptor_ids
     )
-    negative_quadratic_floor = sum(
-        min(0.0, float(value) - 2.0 * size_penalty)
+    objective_quadratic = sorted(
+        float(value) - 2.0 * size_penalty
         for value in coefficients["quadratic"].values()
     )
     lower_bounds = {
         size: (
             size_penalty * (size - target_size) ** 2
             + sum(objective_linear[:size])
-            + negative_quadratic_floor
+            + sum(objective_quadratic[: size * (size - 1) // 2])
         )
         for size in range(len(receptor_ids) + 1)
         if size != target_size

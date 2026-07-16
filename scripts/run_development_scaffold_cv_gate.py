@@ -178,8 +178,25 @@ def load_config(path: Path) -> dict[str, object]:
         raise ValueError("aggregation_methods is invalid")
     if float(model.get("size_penalty", 0.0)) <= 0.0:
         raise ValueError("size_penalty must be positive")
-    if model.get("families") != ["coverage_qubo", "discriminative_qubo"]:
-        raise ValueError("both preregistered QUBO families are required")
+    families = model.get("families")
+    family_names = (
+        [str(value) for value in families]
+        if isinstance(families, list)
+        else []
+    )
+    if (
+        not {"coverage_qubo", "discriminative_qubo"}.issubset(family_names)
+        or any(
+            value
+            not in {
+                "coverage_qubo",
+                "discriminative_qubo",
+                "pair_bedroc_qubo",
+            }
+            for value in family_names
+        )
+    ):
+        raise ValueError("unsupported or incomplete QUBO families")
     grids = model.get("weight_grids")
     if not isinstance(grids, dict):
         raise ValueError("weight_grids must be an object")
@@ -196,6 +213,14 @@ def load_config(path: Path) -> dict[str, object]:
             or any(float(value) < 0.0 for value in values)
         ):
             raise ValueError(f"weight grid {key} is invalid")
+    if "pair_bedroc_qubo" in family_names:
+        values = grids.get("ensemble_pair_utility")
+        if (
+            not isinstance(values, list)
+            or not values
+            or any(float(value) <= 0.0 for value in values)
+        ):
+            raise ValueError("pair ensemble utility grid is invalid")
     if not isinstance(acceptance, dict):
         raise ValueError("acceptance must be an object")
     if acceptance.get("comparison_method") != "single_best":
@@ -300,22 +325,28 @@ def candidate_configs(model: dict[str, object], family: str) -> list[dict[str, o
         ]
         decoy_values = (
             [0.0]
-            if family == "coverage_qubo"
+            if family in {"coverage_qubo", "pair_bedroc_qubo"}
             else [
                 float(value)
                 for value in grids["decoy_exposure_discriminative"]
             ]
+        )
+        pair_utility_values = (
+            [0.0]
+            if family != "pair_bedroc_qubo" or size == 1
+            else [float(value) for value in grids["ensemble_pair_utility"]]
         )
         aggregations = (
             ["min_score"]
             if size == 1
             else [str(value) for value in model["aggregation_methods"]]
         )
-        for active, decoy, overlap, redundancy in itertools.product(
+        for active, decoy, overlap, redundancy, pair_utility in itertools.product(
             [float(value) for value in grids["active_coverage"]],
             decoy_values,
             overlap_values,
             redundancy_values,
+            pair_utility_values,
         ):
             weights = {
                 "active_coverage": active,
@@ -323,6 +354,8 @@ def candidate_configs(model: dict[str, object], family: str) -> list[dict[str, o
                 "active_overlap": overlap,
                 "redundancy": redundancy,
             }
+            if family == "pair_bedroc_qubo":
+                weights["ensemble_pair_utility"] = pair_utility
             for aggregation in aggregations:
                 output.append(
                     {
@@ -369,7 +402,7 @@ def make_context(
         float(model["coverage_fraction"]),
         str(model["utility_metric"]),
     )
-    return {
+    output = {
         "train_ids": sorted(train_ids),
         "validation_ids": sorted(validation_ids),
         "primary_train": primary_train,
@@ -380,6 +413,7 @@ def make_context(
         "sensitivity_bounds": sensitivity_bounds,
         "terms": terms,
     }
+    return output
 
 
 def fit_config(
@@ -389,7 +423,11 @@ def fit_config(
     model: dict[str, object],
 ) -> tuple[tuple[str, ...], dict[str, object]]:
     kind = str(config["family"])
-    if kind in {"coverage_qubo", "discriminative_qubo"}:
+    if kind in {
+        "coverage_qubo",
+        "discriminative_qubo",
+        "pair_bedroc_qubo",
+    }:
         subset, energy, coefficients = exact_select(
             context["terms"],
             receptor_ids,
@@ -439,9 +477,10 @@ def mean_metric_rows(rows: list[dict[str, object]]) -> dict[str, float]:
         "EF5%",
         "EF10%",
     )
-    return {
+    output = {
         key: statistics.fmean(float(row[key]) for row in rows) for key in keys
     }
+    return output
 
 
 def tune_configs(
@@ -487,6 +526,7 @@ def tune_configs(
         "all_receptors": 3,
         "coverage_qubo": 4,
         "discriminative_qubo": 5,
+        "pair_bedroc_qubo": 6,
     }
     metric_order = [
         str(cv["inner_selection_metric"]),
@@ -548,7 +588,7 @@ def method_configs(
         ]
         for family in ("exhaustive", "greedy")
     }
-    return {
+    output = {
         "single_best": [
             {
                 "family": "single_best",
@@ -570,6 +610,11 @@ def method_configs(
             model, "discriminative_qubo"
         ),
     }
+    if "pair_bedroc_qubo" in [str(value) for value in model["families"]]:
+        output["pair_bedroc_qubo"] = candidate_configs(
+            model, "pair_bedroc_qubo"
+        )
+    return output
 
 
 def flatten_outer_result(row: dict[str, object]) -> dict[str, object]:
@@ -795,9 +840,14 @@ def main() -> int:
         method: compact_metrics(ranked_metrics_with_ids(records))
         for method, records in sensitivity_oof.items()
     }
-    family_order = {"coverage_qubo": 0, "discriminative_qubo": 1}
+    family_order = {
+        family: index
+        for index, family in enumerate(
+            [str(value) for value in model["families"]]
+        )
+    }
     selected_family = min(
-        ("coverage_qubo", "discriminative_qubo"),
+        [str(value) for value in model["families"]],
         key=lambda family: (
             -float(primary_metrics[family]["bedroc_alpha_20"]),
             -float(primary_metrics[family]["pr_auc_average_precision"]),
