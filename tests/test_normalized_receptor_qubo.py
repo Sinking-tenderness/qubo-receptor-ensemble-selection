@@ -136,3 +136,64 @@ def test_stability_term_can_reward_a_stable_receptor():
 
     assert subset == ("R1",)
     assert energy == pytest.approx(-1.0)
+
+
+def test_required_receptors_are_hard_constrained_during_exact_selection():
+    terms = {
+        "normalized": {
+            "utility": {"R1": 0.0, "R2": 1.0, "R3": 0.0},
+            "active_coverage": {"R1": 0.0, "R2": 0.0, "R3": 0.0},
+            "decoy_exposure": {"R1": 0.0, "R2": 0.0, "R3": 0.0},
+            "active_overlap": {
+                "R1__R2": 0.0,
+                "R1__R3": 0.0,
+                "R2__R3": 0.0,
+            },
+            "redundancy": {
+                "R1__R2": 0.0,
+                "R1__R3": 0.0,
+                "R2__R3": 0.0,
+            },
+        }
+    }
+    weights = {
+        "active_coverage": 0.0,
+        "decoy_exposure": 0.0,
+        "active_overlap": 0.0,
+        "redundancy": 0.0,
+    }
+    subset, _, coefficients = exact_select(
+        terms,
+        ["R1", "R2", "R3"],
+        2,
+        weights,
+        10.0,
+        ("R1",),
+    )
+    assert subset == ("R1", "R2")
+    assert coefficients["exact_search"]["method"] == (
+        "required_receptor_constrained_cardinality_enumeration"
+    )
+    assert coefficients["exact_search"]["states_evaluated"] == 2
+
+
+def test_required_receptors_validate_budget_and_pool():
+    terms = {
+        "normalized": {
+            "utility": {"R1": 0.0, "R2": 0.0},
+            "active_coverage": {"R1": 0.0, "R2": 0.0},
+            "decoy_exposure": {"R1": 0.0, "R2": 0.0},
+            "active_overlap": {"R1__R2": 0.0},
+            "redundancy": {"R1__R2": 0.0},
+        }
+    }
+    weights = {
+        "active_coverage": 0.0,
+        "decoy_exposure": 0.0,
+        "active_overlap": 0.0,
+        "redundancy": 0.0,
+    }
+    with pytest.raises(ValueError, match="absent"):
+        exact_select(terms, ["R1", "R2"], 1, weights, 10.0, ("R9",))
+    with pytest.raises(ValueError, match="exceeds"):
+        exact_select(terms, ["R1", "R2"], 1, weights, 10.0, ("R1", "R2"))

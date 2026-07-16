@@ -230,10 +230,35 @@ def exact_select(
     target_size: int,
     weights: dict[str, float],
     size_penalty: float,
+    required_receptors: tuple[str, ...] = (),
 ) -> tuple[tuple[str, ...], float, dict[str, object]]:
     coefficients = build_coefficients(
         terms, receptor_ids, target_size, weights, size_penalty
     )
+
+    required = tuple(sorted(set(required_receptors)))
+    if any(receptor_id not in receptor_ids for receptor_id in required):
+        raise ValueError("required receptor is absent from the receptor pool")
+    if len(required) > target_size:
+        raise ValueError("required receptor count exceeds target size")
+    if required:
+        target_candidates = [
+            (subset, coefficient_energy(subset, coefficients))
+            for subset in itertools.combinations(receptor_ids, target_size)
+            if set(required).issubset(subset)
+        ]
+        if not target_candidates:
+            raise ValueError("no target-size subset satisfies required receptors")
+        subset, energy = min(
+            target_candidates, key=lambda item: (item[1], item[0])
+        )
+        coefficients["exact_search"] = {
+            "method": "required_receptor_constrained_cardinality_enumeration",
+            "required_receptors": list(required),
+            "states_evaluated": len(target_candidates),
+            "full_state_count": 2 ** len(receptor_ids),
+        }
+        return subset, float(energy), coefficients
 
     # The cardinality penalty is zero at the requested size.  Enumerate that
     # small slice first, then certify it against every other cardinality with

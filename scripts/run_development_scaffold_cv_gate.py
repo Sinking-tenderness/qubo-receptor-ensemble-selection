@@ -93,6 +93,57 @@ METRIC_KEYS = {
 }
 
 
+def stable_receptors_from_inner_subsets(
+    inner_subsets: list[list[str]] | list[tuple[str, ...]],
+    receptor_ids: list[str],
+    minimum_frequency: float,
+) -> tuple[str, ...]:
+    """Return receptors selected in at least the requested inner-fold fraction."""
+    if not inner_subsets:
+        raise ValueError("inner_subsets must not be empty")
+    if not 0.0 < minimum_frequency <= 1.0:
+        raise ValueError("minimum_frequency must be in (0, 1]")
+    receptor_set = set(receptor_ids)
+    if len(receptor_set) != len(receptor_ids):
+        raise ValueError("receptor_ids must be unique")
+    counts = {receptor_id: 0 for receptor_id in receptor_ids}
+    for subset in inner_subsets:
+        values = tuple(str(value) for value in subset)
+        if len(values) != len(set(values)):
+            raise ValueError("inner subset contains duplicate receptors")
+        if not set(values).issubset(receptor_set):
+            raise ValueError("inner subset contains an unknown receptor")
+        for receptor_id in values:
+            counts[receptor_id] += 1
+    denominator = len(inner_subsets)
+    return tuple(
+        receptor_id
+        for receptor_id in receptor_ids
+        if counts[receptor_id] / denominator >= minimum_frequency - 1e-12
+    )
+
+
+def add_consensus_constraints(
+    configs: list[dict[str, object]],
+    required_receptors: tuple[str, ...],
+) -> list[dict[str, object]]:
+    """Copy candidate configs and attach a fixed consensus receptor set."""
+    constrained = [
+        {
+            **config,
+            "weights": dict(config.get("weights", {})),
+            "required_receptors": list(required_receptors),
+        }
+        for config in configs
+        if int(config["target_size"]) >= len(required_receptors)
+    ]
+    if not constrained:
+        raise ValueError(
+            "consensus receptors exceed every configured subset budget"
+        )
+    return constrained
+
+
 def load_config(path: Path) -> dict[str, object]:
     config = json.loads(path.read_text(encoding="ascii"))
     if not isinstance(config, dict):
@@ -198,6 +249,7 @@ def load_config(path: Path) -> dict[str, object]:
                 "discriminative_qubo",
                 "pair_bedroc_qubo",
                 "stability_qubo",
+                "consensus_qubo",
             }
             for value in family_names
         )
@@ -231,6 +283,22 @@ def load_config(path: Path) -> dict[str, object]:
         stability_weight = model.get("stability_weight")
         if stability_weight is None or float(stability_weight) <= 0.0:
             raise ValueError("stability_weight must be positive")
+    if "consensus_qubo" in family_names:
+        minimum_frequency = model.get("consensus_min_inner_frequency")
+        if minimum_frequency is None or not 0.0 < float(minimum_frequency) <= 1.0:
+            raise ValueError("consensus_min_inner_frequency must be in (0, 1]")
+        consensus_sizes = model.get("consensus_subset_sizes")
+        if (
+            not isinstance(consensus_sizes, list)
+            or not consensus_sizes
+            or any(
+                not 2 <= int(value) < len(receptors)
+                for value in consensus_sizes
+            )
+            or len(set(int(value) for value in consensus_sizes))
+            != len(consensus_sizes)
+        ):
+            raise ValueError("consensus_subset_sizes must be unique sizes >= 2")
     if not isinstance(acceptance, dict):
         raise ValueError("acceptance must be an object")
     if acceptance.get("comparison_method") != "single_best":
@@ -326,7 +394,12 @@ def candidate_configs(model: dict[str, object], family: str) -> list[dict[str, o
     grids = model["weight_grids"]
     assert isinstance(grids, dict)
     output: list[dict[str, object]] = []
-    for size in [int(value) for value in model["subset_sizes"]]:
+    configured_sizes = (
+        model["consensus_subset_sizes"]
+        if family == "consensus_qubo"
+        else model["subset_sizes"]
+    )
+    for size in [int(value) for value in configured_sizes]:
         overlap_values = [0.0] if size == 1 else [
             float(value) for value in grids["active_overlap"]
         ]
@@ -339,6 +412,7 @@ def candidate_configs(model: dict[str, object], family: str) -> list[dict[str, o
                 "coverage_qubo",
                 "pair_bedroc_qubo",
                 "stability_qubo",
+                "consensus_qubo",
             }
             else [
                 float(value)
@@ -487,6 +561,7 @@ def fit_config(
         "discriminative_qubo",
         "pair_bedroc_qubo",
         "stability_qubo",
+        "consensus_qubo",
     }:
         subset, energy, coefficients = exact_select(
             context["terms"],
@@ -494,6 +569,7 @@ def fit_config(
             int(config["target_size"]),
             dict(config["weights"]),
             float(model["size_penalty"]),
+            tuple(str(value) for value in config.get("required_receptors", [])),
         )
         return subset, {"energy": energy, "coefficients": coefficients}
     if kind == "exhaustive":
@@ -588,6 +664,7 @@ def tune_configs(
         "discriminative_qubo": 5,
         "pair_bedroc_qubo": 6,
         "stability_qubo": 7,
+        "consensus_qubo": 8,
     }
     metric_order = [
         str(cv["inner_selection_metric"]),
@@ -679,6 +756,10 @@ def method_configs(
         output["stability_qubo"] = candidate_configs(
             model, "stability_qubo"
         )
+    if "consensus_qubo" in [str(value) for value in model["families"]]:
+        output["consensus_qubo"] = candidate_configs(
+            model, "consensus_qubo"
+        )
     return output
 
 
@@ -692,6 +773,15 @@ def flatten_outer_result(row: dict[str, object]) -> dict[str, object]:
         "aggregation": row["selected_config"]["aggregation"],
         "selected_config": json.dumps(row["selected_config"], sort_keys=True),
         "inner_subsets": json.dumps(row["inner_subsets"]),
+        "consensus_required_receptors": json.dumps(
+            row.get("consensus_required_receptors", [])
+        ),
+        "consensus_reference_config": json.dumps(
+            row.get("consensus_reference_config")
+        ),
+        "consensus_reference_inner_subsets": json.dumps(
+            row.get("consensus_reference_inner_subsets", [])
+        ),
     }
     for matrix_name in ("primary", "sensitivity"):
         for key, value in row[f"{matrix_name}_outer_metrics"].items():
@@ -855,9 +945,37 @@ def main() -> int:
             attach_inner_fold_stability_term(
                 outer_context, inner_contexts, receptor_ids
             )
+        consensus_required_receptors: tuple[str, ...] = ()
+        consensus_reference_trial: dict[str, object] | None = None
+        consensus_reference_inner_subsets: list[list[str]] = []
+        if "consensus_qubo" in [str(value) for value in model["families"]]:
+            consensus_reference_trial, _ = tune_configs(
+                configurations["coverage_qubo"],
+                inner_contexts,
+                receptor_ids,
+                model,
+                cv,
+            )
+            consensus_reference_trial_config = consensus_reference_trial[
+                "config"
+            ]
+            consensus_reference_inner_subsets = [
+                list(subset)
+                for subset in consensus_reference_trial["inner_subsets"]
+            ]
+            consensus_required_receptors = stable_receptors_from_inner_subsets(
+                consensus_reference_inner_subsets,
+                receptor_ids,
+                float(model["consensus_min_inner_frequency"]),
+            )
         for method in methods:
+            method_candidates = configurations[method]
+            if method == "consensus_qubo":
+                method_candidates = add_consensus_constraints(
+                    method_candidates, consensus_required_receptors
+                )
             selected_trial, _ = tune_configs(
-                configurations[method],
+                method_candidates,
                 inner_contexts,
                 receptor_ids,
                 model,
@@ -896,6 +1014,22 @@ def main() -> int:
                         "selection_metric_std"
                     ],
                     "inner_subsets": selected_trial["inner_subsets"],
+                    "consensus_required_receptors": list(
+                        consensus_required_receptors
+                        if method == "consensus_qubo"
+                        else ()
+                    ),
+                    "consensus_reference_config": (
+                        consensus_reference_trial_config
+                        if method == "consensus_qubo"
+                        and consensus_reference_trial is not None
+                        else None
+                    ),
+                    "consensus_reference_inner_subsets": (
+                        consensus_reference_inner_subsets
+                        if method == "consensus_qubo"
+                        else []
+                    ),
                     "subset": list(subset),
                     "fit_details": fit_details,
                     "primary_outer_metrics": primary_metrics,
@@ -1001,10 +1135,48 @@ def main() -> int:
         attach_inner_fold_stability_term(
             full_context, final_contexts, receptor_ids
         )
+    final_consensus_required_receptors: tuple[str, ...] = ()
+    final_consensus_reference_config: dict[str, object] | None = None
+    final_consensus_reference_inner_subsets: list[list[str]] = []
+    if selected_family == "consensus_qubo":
+        final_consensus_reference_trial, _ = tune_configs(
+            configurations["coverage_qubo"],
+            final_contexts,
+            receptor_ids,
+            model,
+            cv,
+        )
+        final_consensus_reference_config = final_consensus_reference_trial[
+            "config"
+        ]
+        final_consensus_reference_inner_subsets = [
+            list(subset)
+            for subset in final_consensus_reference_trial["inner_subsets"]
+        ]
+        final_consensus_required_receptors = stable_receptors_from_inner_subsets(
+            final_consensus_reference_inner_subsets,
+            receptor_ids,
+            float(model["consensus_min_inner_frequency"]),
+        )
+        consensus_final_configs = add_consensus_constraints(
+            configurations["consensus_qubo"],
+            final_consensus_required_receptors,
+        )
+        final_selected_trial, final_trials = tune_configs(
+            consensus_final_configs,
+            final_contexts,
+            receptor_ids,
+            model,
+            cv,
+        )
     final_config = final_selected_trial["config"]
     final_subset, final_fit_details = fit_config(
         final_config, full_context, receptor_ids, model
     )
+    if selected_family == "consensus_qubo":
+        final_config["consensus_reference_config"] = (
+            final_consensus_reference_config
+        )
 
     implementation_path = Path(__file__)
     implementation_record = {
@@ -1056,6 +1228,13 @@ def main() -> int:
             "config": final_config,
             "subset": list(final_subset),
             "fit_details": final_fit_details,
+            "consensus_required_receptors": list(
+                final_consensus_required_receptors
+            ),
+            "consensus_reference_config": final_consensus_reference_config,
+            "consensus_reference_inner_subsets": (
+                final_consensus_reference_inner_subsets
+            ),
             "development_ligand_count": len(development_ids),
         },
         "test_evaluated": False,
@@ -1118,6 +1297,9 @@ def main() -> int:
                 "target_size": row["config"]["target_size"],
                 "aggregation": row["config"]["aggregation"],
                 "weights": json.dumps(row["config"].get("weights", {}), sort_keys=True),
+                "required_receptors": json.dumps(
+                    row["config"].get("required_receptors", [])
+                ),
                 "selection_metric_std": row["selection_metric_std"],
                 **{
                     f"mean_validation_{key}": value

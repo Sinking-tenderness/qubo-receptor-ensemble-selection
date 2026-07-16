@@ -154,6 +154,46 @@ def collect_exact_search_records(value: object) -> list[dict[str, object]]:
     return output
 
 
+def audit_consensus_constraints(
+    outer_rows: list[dict[str, str]], minimum_frequency: float
+) -> bool:
+    """Verify consensus rows independently from the gate implementation."""
+    consensus_rows = [
+        row for row in outer_rows if row.get("method") == "consensus_qubo"
+    ]
+    for row in consensus_rows:
+        required = set(json.loads(row["consensus_required_receptors"]))
+        selected = set(row["subset"].split("+"))
+        reference_inner_subsets = json.loads(
+            row["consensus_reference_inner_subsets"]
+        )
+        reference_config = json.loads(row["consensus_reference_config"])
+        if not reference_inner_subsets:
+            return False
+        counts = defaultdict(int)
+        for subset in reference_inner_subsets:
+            values = set(str(value) for value in subset)
+            for receptor_id in values:
+                counts[receptor_id] += 1
+        expected = {
+            receptor_id
+            for receptor_id, count in counts.items()
+            if count / len(reference_inner_subsets)
+            >= minimum_frequency - 1e-12
+        }
+        selected_config = json.loads(row["selected_config"])
+        config_required = set(selected_config.get("required_receptors", []))
+        if (
+            required != expected
+            or reference_config.get("family") != "coverage_qubo"
+            or config_required != required
+            or not required.issubset(selected)
+            or len(required) > int(row["target_size"])
+        ):
+            return False
+    return True
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--config", type=Path, required=True)
@@ -328,6 +368,10 @@ def main() -> int:
             summary["test_lock"]["scores_evaluated"] is False
         ),
         "exact_search_audited": bool(exact_search_records),
+        "consensus_constraints_audited": audit_consensus_constraints(
+            outer_rows,
+            float(config["model"].get("consensus_min_inner_frequency", 0.0)),
+        ),
     }
     result = {
         "schema_version": "1.0",

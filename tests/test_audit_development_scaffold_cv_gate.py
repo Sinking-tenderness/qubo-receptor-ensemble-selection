@@ -1,6 +1,7 @@
 import pytest
 
 from scripts.audit_development_scaffold_cv_gate import (
+    audit_consensus_constraints,
     independent_metrics,
     percentile,
 )
@@ -22,3 +23,19 @@ def test_independent_metrics_rebuild_rank_based_screening_metrics():
 
 def test_percentile_uses_linear_interpolation():
     assert percentile([0.0, 10.0], 0.25) == pytest.approx(2.5)
+
+
+def test_audit_consensus_constraints_rebuilds_frequency_rule():
+    row = {
+        "method": "consensus_qubo",
+        "consensus_required_receptors": '["R1"]',
+        "subset": "R1+R2",
+        "target_size": "2",
+        "inner_subsets": '[["R1", "R2"], ["R1", "R3"], ["R1", "R4"]]',
+        "consensus_reference_inner_subsets": (
+            '[["R1", "R2"], ["R1", "R3"], ["R1", "R4"]]'
+        ),
+        "consensus_reference_config": '{"family": "coverage_qubo"}',
+        "selected_config": '{"required_receptors": ["R1"]}',
+    }
+    assert audit_consensus_constraints([row], 2.0 / 3.0)

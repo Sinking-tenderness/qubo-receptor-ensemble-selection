@@ -1,10 +1,14 @@
 from pathlib import Path
 
+import pytest
+
 from scripts.run_development_scaffold_cv_gate import (
+    add_consensus_constraints,
     candidate_configs,
     load_config,
     make_scaffold_folds,
     method_configs,
+    stable_receptors_from_inner_subsets,
 )
 
 
@@ -19,6 +23,9 @@ PAIR_CONFIG_PATH = Path(
 )
 STABILITY_CONFIG_PATH = Path(
     "configs/stage04_cdk2_expanded16_stability_development_scaffold_cv_gate.json"
+)
+CONSENSUS_CONFIG_PATH = Path(
+    "configs/stage04_cdk2_expanded16_consensus_development_scaffold_cv_gate.json"
 )
 
 
@@ -185,3 +192,46 @@ def test_stability_config_uses_inner_contexts_and_keeps_test_locked():
         trial["weights"]["stability"] == 1.0
         for trial in methods["stability_qubo"]
     )
+
+
+def test_consensus_receptors_require_two_of_three_inner_selections():
+    receptors = ["R1", "R2", "R3", "R4"]
+    required = stable_receptors_from_inner_subsets(
+        [["R1", "R2"], ["R1", "R3"], ["R1", "R4"]],
+        receptors,
+        2.0 / 3.0,
+    )
+    assert required == ("R1",)
+
+
+def test_consensus_candidate_grid_uses_only_two_and_three_receptor_budgets():
+    model = dict(load_config(EXPANDED_CONFIG_PATH)["model"])
+    model["families"] = [
+        "coverage_qubo",
+        "discriminative_qubo",
+        "consensus_qubo",
+    ]
+    model["consensus_min_inner_frequency"] = 2.0 / 3.0
+    model["consensus_subset_sizes"] = [2, 3]
+    candidates = candidate_configs(model, "consensus_qubo")
+    assert {candidate["target_size"] for candidate in candidates} == {2, 3}
+    assert all(
+        candidate["weights"]["decoy_exposure"] == 0.0
+        for candidate in candidates
+    )
+    constrained = add_consensus_constraints(candidates[:1], ("R1", "R2"))
+    assert constrained[0]["required_receptors"] == ["R1", "R2"]
+    assert "required_receptors" not in candidates[0]
+    constrained = add_consensus_constraints(candidates, ("R1", "R2", "R3"))
+    assert {candidate["target_size"] for candidate in constrained} == {3}
+
+
+def test_consensus_config_preregisters_inner_frequency_and_keeps_test_locked():
+    config = load_config(CONSENSUS_CONFIG_PATH)
+    assert config["model"]["consensus_subset_sizes"] == [2, 3]
+    assert config["model"]["consensus_min_inner_frequency"] == pytest.approx(
+        2.0 / 3.0
+    )
+    assert "consensus_qubo" in config["model"]["families"]
+    assert config["cross_validation"]["evaluate_locked_test"] is False
+    assert config["cross_validation"]["matrices_exclude_locked_split"] is True
