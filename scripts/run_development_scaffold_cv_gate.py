@@ -123,6 +123,35 @@ def stable_receptors_from_inner_subsets(
     )
 
 
+def consensus_core_from_inner_subsets(
+    inner_subsets: list[list[str]] | list[tuple[str, ...]],
+    receptor_ids: list[str],
+    minimum_frequency: float,
+    core_size: int,
+) -> tuple[str, ...]:
+    """Select a fixed-size, frequency-qualified core from inner subsets."""
+    if core_size < 1:
+        raise ValueError("core_size must be positive")
+    stable = set(
+        stable_receptors_from_inner_subsets(
+            inner_subsets, receptor_ids, minimum_frequency
+        )
+    )
+    if len(stable) < core_size:
+        raise ValueError(
+            "inner consensus does not contain enough receptors for the core"
+        )
+    counts = {receptor_id: 0 for receptor_id in receptor_ids}
+    for subset in inner_subsets:
+        for receptor_id in set(str(value) for value in subset):
+            counts[receptor_id] += 1
+    return tuple(
+        sorted(stable, key=lambda receptor_id: (-counts[receptor_id], receptor_id))[
+            :core_size
+        ]
+    )
+
+
 def add_consensus_constraints(
     configs: list[dict[str, object]],
     required_receptors: tuple[str, ...],
@@ -250,6 +279,7 @@ def load_config(path: Path) -> dict[str, object]:
                 "pair_bedroc_qubo",
                 "stability_qubo",
                 "consensus_qubo",
+                "core_plus_one_qubo",
             }
             for value in family_names
         )
@@ -283,10 +313,11 @@ def load_config(path: Path) -> dict[str, object]:
         stability_weight = model.get("stability_weight")
         if stability_weight is None or float(stability_weight) <= 0.0:
             raise ValueError("stability_weight must be positive")
-    if "consensus_qubo" in family_names:
+    if {"consensus_qubo", "core_plus_one_qubo"} & set(family_names):
         minimum_frequency = model.get("consensus_min_inner_frequency")
         if minimum_frequency is None or not 0.0 < float(minimum_frequency) <= 1.0:
             raise ValueError("consensus_min_inner_frequency must be in (0, 1]")
+    if "consensus_qubo" in family_names:
         consensus_sizes = model.get("consensus_subset_sizes")
         if (
             not isinstance(consensus_sizes, list)
@@ -299,6 +330,19 @@ def load_config(path: Path) -> dict[str, object]:
             != len(consensus_sizes)
         ):
             raise ValueError("consensus_subset_sizes must be unique sizes >= 2")
+    if "core_plus_one_qubo" in family_names:
+        core_size = model.get("consensus_core_size")
+        subset_size = model.get("core_plus_one_subset_size")
+        if core_size is None or int(core_size) < 1:
+            raise ValueError("consensus_core_size must be positive")
+        if (
+            subset_size is None
+            or int(subset_size) != int(core_size) + 1
+            or int(subset_size) >= len(receptors)
+        ):
+            raise ValueError(
+                "core_plus_one_subset_size must equal core size plus one"
+            )
     if not isinstance(acceptance, dict):
         raise ValueError("acceptance must be an object")
     if acceptance.get("comparison_method") != "single_best":
@@ -397,6 +441,8 @@ def candidate_configs(model: dict[str, object], family: str) -> list[dict[str, o
     configured_sizes = (
         model["consensus_subset_sizes"]
         if family == "consensus_qubo"
+        else [model["core_plus_one_subset_size"]]
+        if family == "core_plus_one_qubo"
         else model["subset_sizes"]
     )
     for size in [int(value) for value in configured_sizes]:
@@ -413,6 +459,7 @@ def candidate_configs(model: dict[str, object], family: str) -> list[dict[str, o
                 "pair_bedroc_qubo",
                 "stability_qubo",
                 "consensus_qubo",
+                "core_plus_one_qubo",
             }
             else [
                 float(value)
@@ -562,6 +609,7 @@ def fit_config(
         "pair_bedroc_qubo",
         "stability_qubo",
         "consensus_qubo",
+        "core_plus_one_qubo",
     }:
         subset, energy, coefficients = exact_select(
             context["terms"],
@@ -665,6 +713,7 @@ def tune_configs(
         "pair_bedroc_qubo": 6,
         "stability_qubo": 7,
         "consensus_qubo": 8,
+        "core_plus_one_qubo": 9,
     }
     metric_order = [
         str(cv["inner_selection_metric"]),
@@ -759,6 +808,10 @@ def method_configs(
     if "consensus_qubo" in [str(value) for value in model["families"]]:
         output["consensus_qubo"] = candidate_configs(
             model, "consensus_qubo"
+        )
+    if "core_plus_one_qubo" in [str(value) for value in model["families"]]:
+        output["core_plus_one_qubo"] = candidate_configs(
+            model, "core_plus_one_qubo"
         )
     return output
 
@@ -945,10 +998,13 @@ def main() -> int:
             attach_inner_fold_stability_term(
                 outer_context, inner_contexts, receptor_ids
             )
-        consensus_required_receptors: tuple[str, ...] = ()
         consensus_reference_trial: dict[str, object] | None = None
         consensus_reference_inner_subsets: list[list[str]] = []
-        if "consensus_qubo" in [str(value) for value in model["families"]]:
+        configured_families = [str(value) for value in model["families"]]
+        if {
+            "consensus_qubo",
+            "core_plus_one_qubo",
+        } & set(configured_families):
             consensus_reference_trial, _ = tune_configs(
                 configurations["coverage_qubo"],
                 inner_contexts,
@@ -963,16 +1019,29 @@ def main() -> int:
                 list(subset)
                 for subset in consensus_reference_trial["inner_subsets"]
             ]
-            consensus_required_receptors = stable_receptors_from_inner_subsets(
-                consensus_reference_inner_subsets,
-                receptor_ids,
-                float(model["consensus_min_inner_frequency"]),
-            )
         for method in methods:
             method_candidates = configurations[method]
-            if method == "consensus_qubo":
+            method_required_receptors: tuple[str, ...] = ()
+            if method in {"consensus_qubo", "core_plus_one_qubo"}:
+                if method == "consensus_qubo":
+                    method_required_receptors = (
+                        stable_receptors_from_inner_subsets(
+                            consensus_reference_inner_subsets,
+                            receptor_ids,
+                            float(model["consensus_min_inner_frequency"]),
+                        )
+                    )
+                else:
+                    method_required_receptors = (
+                        consensus_core_from_inner_subsets(
+                            consensus_reference_inner_subsets,
+                            receptor_ids,
+                            float(model["consensus_min_inner_frequency"]),
+                            int(model["consensus_core_size"]),
+                        )
+                    )
                 method_candidates = add_consensus_constraints(
-                    method_candidates, consensus_required_receptors
+                    method_candidates, method_required_receptors
                 )
             selected_trial, _ = tune_configs(
                 method_candidates,
@@ -1015,19 +1084,19 @@ def main() -> int:
                     ],
                     "inner_subsets": selected_trial["inner_subsets"],
                     "consensus_required_receptors": list(
-                        consensus_required_receptors
-                        if method == "consensus_qubo"
+                        method_required_receptors
+                        if method in {"consensus_qubo", "core_plus_one_qubo"}
                         else ()
                     ),
                     "consensus_reference_config": (
                         consensus_reference_trial_config
-                        if method == "consensus_qubo"
+                        if method in {"consensus_qubo", "core_plus_one_qubo"}
                         and consensus_reference_trial is not None
                         else None
                     ),
                     "consensus_reference_inner_subsets": (
                         consensus_reference_inner_subsets
-                        if method == "consensus_qubo"
+                        if method in {"consensus_qubo", "core_plus_one_qubo"}
                         else []
                     ),
                     "subset": list(subset),
@@ -1138,7 +1207,7 @@ def main() -> int:
     final_consensus_required_receptors: tuple[str, ...] = ()
     final_consensus_reference_config: dict[str, object] | None = None
     final_consensus_reference_inner_subsets: list[list[str]] = []
-    if selected_family == "consensus_qubo":
+    if selected_family in {"consensus_qubo", "core_plus_one_qubo"}:
         final_consensus_reference_trial, _ = tune_configs(
             configurations["coverage_qubo"],
             final_contexts,
@@ -1153,13 +1222,25 @@ def main() -> int:
             list(subset)
             for subset in final_consensus_reference_trial["inner_subsets"]
         ]
-        final_consensus_required_receptors = stable_receptors_from_inner_subsets(
-            final_consensus_reference_inner_subsets,
-            receptor_ids,
-            float(model["consensus_min_inner_frequency"]),
-        )
+        if selected_family == "consensus_qubo":
+            final_consensus_required_receptors = (
+                stable_receptors_from_inner_subsets(
+                    final_consensus_reference_inner_subsets,
+                    receptor_ids,
+                    float(model["consensus_min_inner_frequency"]),
+                )
+            )
+        else:
+            final_consensus_required_receptors = (
+                consensus_core_from_inner_subsets(
+                    final_consensus_reference_inner_subsets,
+                    receptor_ids,
+                    float(model["consensus_min_inner_frequency"]),
+                    int(model["consensus_core_size"]),
+                )
+            )
         consensus_final_configs = add_consensus_constraints(
-            configurations["consensus_qubo"],
+            configurations[selected_family],
             final_consensus_required_receptors,
         )
         final_selected_trial, final_trials = tune_configs(
@@ -1173,7 +1254,7 @@ def main() -> int:
     final_subset, final_fit_details = fit_config(
         final_config, full_context, receptor_ids, model
     )
-    if selected_family == "consensus_qubo":
+    if selected_family in {"consensus_qubo", "core_plus_one_qubo"}:
         final_config["consensus_reference_config"] = (
             final_consensus_reference_config
         )

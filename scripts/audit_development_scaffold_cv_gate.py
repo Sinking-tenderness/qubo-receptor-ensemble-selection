@@ -155,11 +155,15 @@ def collect_exact_search_records(value: object) -> list[dict[str, object]]:
 
 
 def audit_consensus_constraints(
-    outer_rows: list[dict[str, str]], minimum_frequency: float
+    outer_rows: list[dict[str, str]],
+    minimum_frequency: float,
+    core_size: int = 0,
 ) -> bool:
-    """Verify consensus rows independently from the gate implementation."""
+    """Verify consensus and core-plus-one rows independently."""
     consensus_rows = [
-        row for row in outer_rows if row.get("method") == "consensus_qubo"
+        row
+        for row in outer_rows
+        if row.get("method") in {"consensus_qubo", "core_plus_one_qubo"}
     ]
     for row in consensus_rows:
         required = set(json.loads(row["consensus_required_receptors"]))
@@ -183,12 +187,32 @@ def audit_consensus_constraints(
         }
         selected_config = json.loads(row["selected_config"])
         config_required = set(selected_config.get("required_receptors", []))
+        family = selected_config.get("family")
+        if family == "core_plus_one_qubo":
+            if core_size < 1:
+                return False
+            qualified = {
+                receptor_id
+                for receptor_id, count in counts.items()
+                if count / len(reference_inner_subsets)
+                >= minimum_frequency - 1e-12
+            }
+            expected = set(
+                sorted(
+                    qualified,
+                    key=lambda receptor_id: (-counts[receptor_id], receptor_id),
+                )[:core_size]
+            )
         if (
             required != expected
             or reference_config.get("family") != "coverage_qubo"
             or config_required != required
             or not required.issubset(selected)
             or len(required) > int(row["target_size"])
+            or (
+                family == "core_plus_one_qubo"
+                and len(required) != core_size
+            )
         ):
             return False
     return True
@@ -371,6 +395,7 @@ def main() -> int:
         "consensus_constraints_audited": audit_consensus_constraints(
             outer_rows,
             float(config["model"].get("consensus_min_inner_frequency", 0.0)),
+            int(config["model"].get("consensus_core_size", 0)),
         ),
     }
     result = {

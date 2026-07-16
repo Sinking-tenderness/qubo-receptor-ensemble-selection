@@ -5,6 +5,7 @@ import pytest
 from scripts.run_development_scaffold_cv_gate import (
     add_consensus_constraints,
     candidate_configs,
+    consensus_core_from_inner_subsets,
     load_config,
     make_scaffold_folds,
     method_configs,
@@ -26,6 +27,9 @@ STABILITY_CONFIG_PATH = Path(
 )
 CONSENSUS_CONFIG_PATH = Path(
     "configs/stage04_cdk2_expanded16_consensus_development_scaffold_cv_gate.json"
+)
+CORE_PLUS_ONE_CONFIG_PATH = Path(
+    "configs/stage04_cdk2_expanded16_core_plus_one_development_scaffold_cv_gate.json"
 )
 
 
@@ -235,3 +239,18 @@ def test_consensus_config_preregisters_inner_frequency_and_keeps_test_locked():
     assert "consensus_qubo" in config["model"]["families"]
     assert config["cross_validation"]["evaluate_locked_test"] is False
     assert config["cross_validation"]["matrices_exclude_locked_split"] is True
+
+
+def test_core_plus_one_selects_two_qualified_receptors_and_one_residual_slot():
+    receptors = ["R1", "R2", "R3", "R4"]
+    core = consensus_core_from_inner_subsets(
+        [["R1", "R2"], ["R1", "R2"], ["R1", "R3"]],
+        receptors,
+        2.0 / 3.0,
+        2,
+    )
+    assert core == ("R1", "R2")
+    model = dict(load_config(CORE_PLUS_ONE_CONFIG_PATH)["model"])
+    methods = method_configs(model, 16)
+    assert {candidate["target_size"] for candidate in methods["core_plus_one_qubo"]} == {3}
+    assert len(methods["core_plus_one_qubo"]) == 54

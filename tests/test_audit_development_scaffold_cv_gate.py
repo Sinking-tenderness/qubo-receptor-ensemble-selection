@@ -39,3 +39,22 @@ def test_audit_consensus_constraints_rebuilds_frequency_rule():
         "selected_config": '{"required_receptors": ["R1"]}',
     }
     assert audit_consensus_constraints([row], 2.0 / 3.0)
+
+
+def test_audit_core_plus_one_rebuilds_fixed_core_and_residual_budget():
+    row = {
+        "method": "core_plus_one_qubo",
+        "consensus_required_receptors": '["R1", "R2"]',
+        "subset": "R1+R2+R4",
+        "target_size": "3",
+        "inner_subsets": '[["R1", "R2"], ["R1", "R2"], ["R1", "R3"]]',
+        "consensus_reference_inner_subsets": (
+            '[["R1", "R2"], ["R1", "R2"], ["R1", "R3"]]'
+        ),
+        "consensus_reference_config": '{"family": "coverage_qubo"}',
+        "selected_config": (
+            '{"family": "core_plus_one_qubo", '
+            '"required_receptors": ["R1", "R2"]}'
+        ),
+    }
+    assert audit_consensus_constraints([row], 2.0 / 3.0, 2)
