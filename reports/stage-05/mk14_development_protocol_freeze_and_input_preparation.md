@@ -112,5 +112,12 @@ three seed runs with checkpoint resume enabled, aggregate each receptor-ligand
 score by the frozen median rule, and calculate train and validation metrics
 separately. Any receptor-subset or QUBO objective must be fitted on train only.
 
+The post-run aggregation entry point is
+`scripts/aggregate_seed_replicates.py` with configuration
+`configs/stage05_mk14_development_seed_aggregation.json`. It rejects incomplete
+or failed seed matrices, changed run configurations, mismatched output hashes,
+unexpected ligand roles, and any test row before writing the primary median
+matrix and minimum-score sensitivity matrix.
+
 No MAPK14 development enrichment, receptor superiority, subset benefit, QUBO
 advantage, or test performance is claimed at this checkpoint.

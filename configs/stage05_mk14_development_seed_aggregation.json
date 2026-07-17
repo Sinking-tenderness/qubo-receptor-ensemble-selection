@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage05-mk14-development-e16-three-seed-aggregation-v1",
+  "purpose": "Aggregate three paired MAPK14 development docking seeds by the frozen median rule and retain the minimum-score sensitivity analysis.",
+  "ligand_manifest": {
+    "path": "data/processed/stage05_mk14_development_120a120d_pdbqt_manifest.csv",
+    "sha256": "28BB94E6DE6E7BC2CB0C83E1C1787A89C098853BF73F935FAE4AAED3D70C2B43"
+  },
+  "seed_runs": [
+    {
+      "seed_id": "seed0",
+      "base_seed": 20260801,
+      "config_path": "configs/stage05_mk14_development_e16_seed0_linux.json",
+      "config_sha256": "82265D23C11B59DD381C0A803D2DD4FDBDEAE59FA41870A86EA33F07375E7E39",
+      "summary_path": "results/runs/stage05_mk14_development_e16_seed0_linux/summary.json",
+      "representative_scores_path": "results/runs/stage05_mk14_development_e16_seed0_linux/representative_scores.csv"
+    },
+    {
+      "seed_id": "seed1",
+      "base_seed": 20260802,
+      "config_path": "configs/stage05_mk14_development_e16_seed1_linux.json",
+      "config_sha256": "02C00E90702A8FCE77330EEE43178091E78F8F9880E95C69A18222C5454361ED",
+      "summary_path": "results/runs/stage05_mk14_development_e16_seed1_linux/summary.json",
+      "representative_scores_path": "results/runs/stage05_mk14_development_e16_seed1_linux/representative_scores.csv"
+    },
+    {
+      "seed_id": "seed2",
+      "base_seed": 20260803,
+      "config_path": "configs/stage05_mk14_development_e16_seed2_linux.json",
+      "config_sha256": "7879087E978D93172EABF423BA17EF9CFD93F672309774BE6E8605BE3FCDD5C1",
+      "summary_path": "results/runs/stage05_mk14_development_e16_seed2_linux/summary.json",
+      "representative_scores_path": "results/runs/stage05_mk14_development_e16_seed2_linux/representative_scores.csv"
+    }
+  ],
+  "expected": {
+    "seed_count": 3,
+    "receptor_count": 4,
+    "ligand_count": 240,
+    "receptor_ligand_pairs_per_seed": 960,
+    "allowed_selection_roles": ["development_train", "development_validation"],
+    "role_label_counts": {
+      "development_train:active": 80,
+      "development_train:decoy": 80,
+      "development_validation:active": 40,
+      "development_validation:decoy": 40
+    }
+  },
+  "aggregation": {
+    "representative_method": "pose_rank_1",
+    "primary": "median representative score across three paired seeds",
+    "sensitivity": "minimum representative score across three paired seeds",
+    "score_direction": "lower is better; ranking score is the negated docking score"
+  },
+  "outputs": {
+    "aggregated_long_csv": "results/runs/stage05_mk14_development_e16_aggregated/aggregated_seed_scores.csv",
+    "primary_median_matrix_csv": "results/runs/stage05_mk14_development_e16_aggregated/primary_median_score_matrix.csv",
+    "sensitivity_minimum_matrix_csv": "results/runs/stage05_mk14_development_e16_aggregated/sensitivity_minimum_score_matrix.csv",
+    "summary_json": "results/runs/stage05_mk14_development_e16_aggregated/summary.json"
+  },
+  "interpretation_boundary": "Aggregation creates audited development score matrices. It does not calculate enrichment, fit a receptor subset, release test ligands, or establish QUBO benefit."
+}
