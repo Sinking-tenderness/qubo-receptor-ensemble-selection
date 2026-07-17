@@ -1,0 +1,5 @@
+conformer_id,source_type,cluster_id,is_cluster_medoid,mean_distance_to_cluster_members
+MK14_2QD9_reference,crystal,1,True,0.0
+MK14_3KQ7_aligned,crystal,2,True,0.0
+MK14_1A9U_aligned,crystal,0,True,7.351053
+MK14_3K3J_aligned,crystal,0,False,7.351053

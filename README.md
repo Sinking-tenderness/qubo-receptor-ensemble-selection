@@ -16,9 +16,16 @@ introduce ensemble docking, molecular docking, or ligand-pose QUBO methods.
 
 ## Current status
 
-Stage 2 is in progress: molecular docking and virtual-screening foundations.
-The first milestone is a reproducible single-receptor baseline with redocking,
-active/decoy screening, and ROC-AUC, EF1%, EF5%, and BEDROC evaluation.
+Stage 4 CDK2 development and its preregistered locked-test evaluation are
+complete. The fixed single-receptor protocol achieved ROC-AUC 0.806 on the
+independent 40-ligand CDK2 test; that test set is now permanently consumed and
+must not be reused for fitting.
+
+Stage 5 is in progress on the independent MAPK14/p38alpha target. Target intake,
+four-structure alignment and pocket auditing, receptor preparation, and a
+four-case common-box redocking gate are complete. All four top-ranked
+co-crystal poses have symmetry-corrected heavy-atom RMSD below 2 A. MAPK14
+active/decoy screening and receptor-subset evaluation have not yet been run.
 
 ## Planned milestones
 

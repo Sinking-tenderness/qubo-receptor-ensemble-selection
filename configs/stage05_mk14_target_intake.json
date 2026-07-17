@@ -1,0 +1,121 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage05-mk14-external-validation-target-intake-v1",
+  "purpose": "Establish MAPK14/p38alpha as an independent target-level validation domain using hash-pinned DUD-E ligands and a small co-crystal pool spanning the DUD-E reference choices and an explicit DFG-out structure.",
+  "target": {
+    "target_id": "MK14_HUMAN",
+    "protein_name": "Mitogen-activated protein kinase 14",
+    "gene_name": "MAPK14",
+    "organism": "Homo sapiens",
+    "uniprot_accession": "Q16539",
+    "selection_reason": "Large DUD-E benchmark, wild-type human high-resolution reference structures, and experimentally observed ATP-site and DFG-out conformations provide a clean target-level test of receptor complementarity without reusing the consumed CDK2 split."
+  },
+  "dude": {
+    "target_id": "MK14",
+    "target_url": "https://dude.docking.org/targets/mk14",
+    "actives": {
+      "path": "data/raw/dude/mk14/actives_final.ism",
+      "source_url": "https://dude.docking.org/targets/mk14/actives_final.ism",
+      "sha256": "99BF2C5FA182107B9AC5EAD018EB29F8955D35BE2B673BFE46EA3B44F7AD93BB",
+      "expected_count": 578,
+      "expected_unique_id_count": 578,
+      "expected_duplicate_id_count": 0,
+      "expected_max_id_multiplicity": 1
+    },
+    "decoys": {
+      "path": "data/raw/dude/mk14/decoys_final.ism",
+      "source_url": "https://dude.docking.org/targets/mk14/decoys_final.ism",
+      "sha256": "ACF4FD4039B73E825FBDF162A0758A488921C032BD2B0E91F1462C0EAB30838D",
+      "expected_count": 35850,
+      "expected_unique_id_count": 35812,
+      "expected_duplicate_id_count": 37,
+      "expected_max_id_multiplicity": 3
+    },
+    "pdb_blessed": {
+      "path": "data/raw/dude/mk14/pdb_blessed.txt",
+      "source_url": "https://dude.docking.org/targets/mk14/pdb_blessed.txt",
+      "sha256": "B44D0F18A047FCBF6AF606A623A7EA5FAC28E95DF7663D939C6B02B105A00F7D"
+    },
+    "pdb_selection": {
+      "path": "data/raw/dude/mk14/pdb_selection.txt",
+      "source_url": "https://dude.docking.org/targets/mk14/pdb_selection.txt",
+      "sha256": "5646C17A5746C11F10830FC6F5300AB7B011E68993447C4F90B01E8EC0909391"
+    }
+  },
+  "structures": [
+    {
+      "structure_id": "2QD9",
+      "role": "dude_reference_dfg1",
+      "conformation_note": "DUD-E primary reference: good enrichment and 1.70 A resolution; activation loop unresolved but the modeled fragments point away from the pocket.",
+      "chain": "A",
+      "pdb": {
+        "path": "receptors/raw/mk14/2QD9.pdb",
+        "source_url": "https://files.rcsb.org/download/2QD9.pdb",
+        "sha256": "BDA572D8710F5E841A77F46DAB6D98053B152DFC5484B9D043CC3EC5EC8A01D6"
+      },
+      "target_ligand": {
+        "residue_name": "LGF",
+        "residue_number": 361,
+        "sdf_path": "ligands/raw/mk14/2QD9_LGF_A_361.sdf",
+        "source_url": "https://models.rcsb.org/v1/2QD9/ligand?auth_asym_id=A&auth_seq_id=361&encoding=sdf",
+        "sdf_sha256": "8A56585AD68FC0707E07F0246BB2D110B6931D02C0B841B62A25004D5FD289AB"
+      }
+    },
+    {
+      "structure_id": "3KQ7",
+      "role": "dude_secondary_dfg2",
+      "conformation_note": "DUD-E secondary choice: decent enrichment, high resolution, and a resolved activation-site loop.",
+      "chain": "A",
+      "pdb": {
+        "path": "receptors/raw/mk14/3KQ7.pdb",
+        "source_url": "https://files.rcsb.org/download/3KQ7.pdb",
+        "sha256": "7B554C71F2522613A390681CFAEFD02325F301548CAAC9482553D5132F089AF9"
+      },
+      "target_ligand": {
+        "residue_name": "KQ7",
+        "residue_number": 361,
+        "sdf_path": "ligands/raw/mk14/3KQ7_KQ7_A_361.sdf",
+        "source_url": "https://models.rcsb.org/v1/3KQ7/ligand?auth_asym_id=A&auth_seq_id=361&encoding=sdf",
+        "sdf_sha256": "EDF41393E5C7A91E1B368A2878D6D25D4BC68075CC16D4FBA0E1C0FB19B776D1"
+      }
+    },
+    {
+      "structure_id": "1A9U",
+      "role": "orthosteric_atp_site",
+      "conformation_note": "Wild-type human p38alpha bound to SB203580 in the ATP site; 2.50 A resolution and no mutation.",
+      "chain": "A",
+      "pdb": {
+        "path": "receptors/raw/mk14/1A9U.pdb",
+        "source_url": "https://files.rcsb.org/download/1A9U.pdb",
+        "sha256": "C6FA08F3C26C99B8B8EE78862129103D2EE5EA937160D32E5148777093C05074"
+      },
+      "target_ligand": {
+        "residue_name": "SB2",
+        "residue_number": 800,
+        "sdf_path": "ligands/raw/mk14/1A9U_SB2_A_800.sdf",
+        "source_url": "https://models.rcsb.org/v1/1A9U/ligand?auth_asym_id=A&auth_seq_id=800&encoding=sdf",
+        "sdf_sha256": "DB5A5B5F7194671455EBB1DB8AE67A6DF3740623DCDDD2FFC030C9AF80B0B3E7"
+      }
+    },
+    {
+      "structure_id": "3K3J",
+      "role": "dfg_out",
+      "conformation_note": "Wild-type human p38alpha bound to the DFG-out inhibitor PF-00416121; 2.00 A resolution and no mutation.",
+      "chain": "A",
+      "pdb": {
+        "path": "receptors/raw/mk14/3K3J.pdb",
+        "source_url": "https://files.rcsb.org/download/3K3J.pdb",
+        "sha256": "B14FD182E931979459A3E3BD6D25F516ADF6B15FC3927EEB2023CB136D7D1E11"
+      },
+      "target_ligand": {
+        "residue_name": "F4C",
+        "residue_number": 361,
+        "sdf_path": "ligands/raw/mk14/3K3J_F4C_A_361.sdf",
+        "source_url": "https://models.rcsb.org/v1/3K3J/ligand?auth_asym_id=A&auth_seq_id=361&encoding=sdf",
+        "sdf_sha256": "A7B6AD3BEBB13209777E37D73EB686DDBDB6D9AB86DE25B15B6A5D2798D69504"
+      }
+    }
+  ],
+  "output_json": "data/stage05_mk14_external_validation_inputs.json",
+  "interpretation_boundary": "This intake gate establishes file identity and chemical/structural parseability only. It does not claim that every structure is docking-ready, that the four conformers are nonredundant, that DUD-E decoys are experimentally inactive, or that MAPK14 will favor a QUBO ensemble. Alignment, receptor preparation, redocking, scaffold splitting, and development-only model selection remain separate gates."
+}

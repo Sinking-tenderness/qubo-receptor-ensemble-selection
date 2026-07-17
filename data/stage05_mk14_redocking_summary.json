@@ -1,0 +1,71 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage05-mk14-four-crystal-common-box-redocking-v1",
+  "status": "ok",
+  "target": "MAPK14_HUMAN",
+  "reference_coordinate_frame": "2QD9 chain A",
+  "input_gate": {
+    "manifest": "data/stage05_mk14_external_validation_inputs.json",
+    "manifest_sha256": "41B88984252EFB63A87D5A89EB3E37A6F83C2AF5659B07EA45667A30DFABEB08"
+  },
+  "common_box": {
+    "derivation": "union of four aligned co-crystal ligand heavy-atom extents with at least 4 angstrom padding per side, rounded upward",
+    "center_angstrom": [-0.49, 3.26, 21.83],
+    "size_angstrom": [22.0, 24.0, 30.0]
+  },
+  "vina": {
+    "version": "1.2.7",
+    "scoring": "vina",
+    "exhaustiveness": 32,
+    "cpu": 8,
+    "num_modes": 20,
+    "energy_range_kcal_per_mol": 6,
+    "seed": 20260717
+  },
+  "rmsd": {
+    "definition": "symmetry-corrected heavy-atom RMSD in the fixed receptor coordinate frame without post-docking rigid-body alignment",
+    "success_threshold_angstrom": 2.0
+  },
+  "case_count": 4,
+  "top_ranked_success_count": 4,
+  "any_pose_success_count": 4,
+  "cases": [
+    {
+      "case_id": "MK14_2QD9_LGF",
+      "pose_count": 20,
+      "top_ranked_affinity_kcal_per_mol": -10.413,
+      "top_ranked_rmsd_angstrom": 1.618393,
+      "best_rmsd_pose_rank": 14,
+      "best_rmsd_angstrom": 1.200997
+    },
+    {
+      "case_id": "MK14_1A9U_SB2",
+      "pose_count": 19,
+      "top_ranked_affinity_kcal_per_mol": -9.309,
+      "top_ranked_rmsd_angstrom": 0.470516,
+      "best_rmsd_pose_rank": 1,
+      "best_rmsd_angstrom": 0.470516
+    },
+    {
+      "case_id": "MK14_3K3J_F4C",
+      "pose_count": 20,
+      "top_ranked_affinity_kcal_per_mol": -10.991,
+      "top_ranked_rmsd_angstrom": 0.471236,
+      "best_rmsd_pose_rank": 1,
+      "best_rmsd_angstrom": 0.471236
+    },
+    {
+      "case_id": "MK14_3KQ7_KQ7",
+      "pose_count": 20,
+      "top_ranked_affinity_kcal_per_mol": -12.749,
+      "top_ranked_rmsd_angstrom": 1.185616,
+      "best_rmsd_pose_rank": 2,
+      "best_rmsd_angstrom": 1.144444
+    }
+  ],
+  "outputs": {
+    "receptor_preparation_manifest": "data/processed/stage05_mk14_receptor_preparation_manifest.csv",
+    "redocking_results": "data/processed/stage05_mk14_redocking_results.csv"
+  },
+  "interpretation_boundary": "The four-case gate validates co-crystal pose reproduction under one common search box. It does not validate affinity prediction, active-decoy enrichment, receptor subset selection, QUBO benefit, or target-level generalization."
+}

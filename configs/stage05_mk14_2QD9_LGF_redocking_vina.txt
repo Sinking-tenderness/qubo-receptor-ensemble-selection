@@ -1,0 +1,16 @@
+receptor = results/runs/stage05_mk14_receptor_preparation/MK14_2QD9_reference/MK14_2QD9_reference_receptor.pdbqt
+ligand = results/runs/stage05_mk14_redocking/prepared_ligands/2QD9_LGF_A_361.pdbqt
+
+center_x = -0.49
+center_y = 3.26
+center_z = 21.83
+
+size_x = 22
+size_y = 24
+size_z = 30
+
+exhaustiveness = 32
+cpu = 8
+num_modes = 20
+energy_range = 6
+seed = 20260717

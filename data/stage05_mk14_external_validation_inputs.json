@@ -1,0 +1,402 @@
+{
+  "config": {
+    "path": "configs/stage05_mk14_target_intake.json",
+    "sha256": "82EB6CCC7E87F3E9C49843297D22CA52563E97DF0EF2202F591A590F8E2C82D9"
+  },
+  "dude": {
+    "actives": {
+      "charged_molecule_count": 0,
+      "duplicate_canonical_row_count": 0,
+      "duplicate_source_molecule_id_count": 0,
+      "duplicate_source_molecule_ids": [],
+      "duplicate_source_molecule_row_count": 0,
+      "heavy_atom_count_max": 44,
+      "heavy_atom_count_min": 11,
+      "maximum_source_id_multiplicity": 1,
+      "molecular_weight_max": 599.6920000000001,
+      "molecular_weight_min": 147.177,
+      "multi_fragment_molecule_count": 0,
+      "path": "data/raw/dude/mk14/actives_final.ism",
+      "rdkit_failure_count": 0,
+      "rdkit_parsed_count": 578,
+      "recommended_internal_id_rule": "target_label_plus_source_line_number; preserve source molecule ID as metadata",
+      "row_count": 578,
+      "sha256": "99BF2C5FA182107B9AC5EAD018EB29F8955D35BE2B673BFE46EA3B44F7AD93BB",
+      "source_url": "https://dude.docking.org/targets/mk14/actives_final.ism",
+      "unique_canonical_smiles_count": 578,
+      "unique_source_molecule_id_count": 578
+    },
+    "decoys": {
+      "charged_molecule_count": 13692,
+      "duplicate_canonical_row_count": 2,
+      "duplicate_source_molecule_id_count": 37,
+      "duplicate_source_molecule_ids": [
+        "C00648838",
+        "C00987186",
+        "C00987204",
+        "C02268632",
+        "C02277498",
+        "C02955745",
+        "C05248533",
+        "C05341607",
+        "C06089020",
+        "C08773274",
+        "C09124062",
+        "C09124348",
+        "C09124567",
+        "C09243044",
+        "C09357909",
+        "C13397046",
+        "C17886947",
+        "C18244972",
+        "C20547150",
+        "C38932189",
+        "C38966169",
+        "C38966278",
+        "C38971605",
+        "C38971606",
+        "C38975141",
+        "C38975792",
+        "C38980307",
+        "C38980367",
+        "C38981368",
+        "C38984474",
+        "C39732716",
+        "C39769534",
+        "C39884081",
+        "C53627417",
+        "C53627426",
+        "C53627448",
+        "C63097156"
+      ],
+      "duplicate_source_molecule_row_count": 75,
+      "heavy_atom_count_max": 45,
+      "heavy_atom_count_min": 6,
+      "maximum_source_id_multiplicity": 3,
+      "molecular_weight_max": 633.3540000000002,
+      "molecular_weight_min": 114.18799999999999,
+      "multi_fragment_molecule_count": 0,
+      "path": "data/raw/dude/mk14/decoys_final.ism",
+      "rdkit_failure_count": 0,
+      "rdkit_parsed_count": 35850,
+      "recommended_internal_id_rule": "target_label_plus_source_line_number; preserve source molecule ID as metadata",
+      "row_count": 35850,
+      "sha256": "ACF4FD4039B73E825FBDF162A0758A488921C032BD2B0E91F1462C0EAB30838D",
+      "source_url": "https://dude.docking.org/targets/mk14/decoys_final.ism",
+      "unique_canonical_smiles_count": 35848,
+      "unique_source_molecule_id_count": 35812
+    },
+    "selection_records": {
+      "pdb_blessed": {
+        "path": "data/raw/dude/mk14/pdb_blessed.txt",
+        "sha256": "B44D0F18A047FCBF6AF606A623A7EA5FAC28E95DF7663D939C6B02B105A00F7D",
+        "source_url": "https://dude.docking.org/targets/mk14/pdb_blessed.txt"
+      },
+      "pdb_selection": {
+        "path": "data/raw/dude/mk14/pdb_selection.txt",
+        "sha256": "5646C17A5746C11F10830FC6F5300AB7B011E68993447C4F90B01E8EC0909391",
+        "source_url": "https://dude.docking.org/targets/mk14/pdb_selection.txt"
+      }
+    },
+    "target_id": "MK14",
+    "target_url": "https://dude.docking.org/targets/mk14"
+  },
+  "experiment_id": "stage05-mk14-external-validation-target-intake-v1",
+  "gate": {
+    "all_raw_hashes_match": true,
+    "all_smiles_parsed": true,
+    "all_target_ligands_match_pdb_sdf_heavy_atoms": true,
+    "ready_for_alignment_and_redocking": true,
+    "structure_count": 4
+  },
+  "implementation": {
+    "path": "scripts/audit_external_target_intake.py",
+    "sha256": "12EB2730A2BB1130D5A21E0D8969124B4AD38320C2E408C00264613982115B9E"
+  },
+  "interpretation_boundary": "This intake gate establishes file identity and chemical/structural parseability only. It does not claim that every structure is docking-ready, that the four conformers are nonredundant, that DUD-E decoys are experimentally inactive, or that MAPK14 will favor a QUBO ensemble. Alignment, receptor preparation, redocking, scaffold splitting, and development-only model selection remain separate gates.",
+  "operation": "external target raw-data and co-crystal intake audit",
+  "schema_version": "1.0",
+  "status": "ok",
+  "structures": [
+    {
+      "chain": "A",
+      "conformation_note": "DUD-E primary reference: good enrichment and 1.70 A resolution; activation loop unresolved but the modeled fragments point away from the pocket.",
+      "pdb_audit": {
+        "alternate_location_coordinate_count": 0,
+        "experimental_method": "X-RAY DIFFRACTION",
+        "nonwater_hetero_groups": [
+          {
+            "atom_count": 40,
+            "chain": "A",
+            "is_target_ligand": true,
+            "residue_name": "LGF",
+            "residue_number": 361
+          }
+        ],
+        "path": "receptors/raw/mk14/2QD9.pdb",
+        "protein_atom_count": 2671,
+        "protein_chains": [
+          "A"
+        ],
+        "protein_residue_count": 330,
+        "remark_465_line_count": 43,
+        "resolution_angstrom": 1.7,
+        "sha256": "BDA572D8710F5E841A77F46DAB6D98053B152DFC5484B9D043CC3EC5EC8A01D6",
+        "water_atom_count": 139
+      },
+      "pdb_source_url": "https://files.rcsb.org/download/2QD9.pdb",
+      "role": "dude_reference_dfg1",
+      "structure_id": "2QD9",
+      "target_ligand": {
+        "pdb_coordinate_atom_count": 40,
+        "residue_name": "LGF",
+        "residue_number": 361,
+        "sdf_audit": {
+          "assigned_chiral_centers": [
+            "36:R"
+          ],
+          "atom_count": 40,
+          "conformer_count": 1,
+          "coordinate_span_angstrom": {
+            "x": 8.077,
+            "y": 7.366,
+            "z": 17.450000000000003
+          },
+          "formal_charge": 0,
+          "heavy_atom_count": 40,
+          "molblock_sha256_lf_normalized": "2C7A602CF823E75EC7738FCFE13FF423CCC7F71E0E9DCD720E910201D8F5DF53",
+          "nonzero_z_span": true,
+          "parsed_molecule_count": 1,
+          "path": "ligands/raw/mk14/2QD9_LGF_A_361.sdf",
+          "raw_sha256": "8A56585AD68FC0707E07F0246BB2D110B6931D02C0B841B62A25004D5FD289AB",
+          "rdkit_conformer_is_3d": true,
+          "source_dimension_tag": "unspecified",
+          "source_program_line": "  ModelServer 0.9.13"
+        },
+        "source_url": "https://models.rcsb.org/v1/2QD9/ligand?auth_asym_id=A&auth_seq_id=361&encoding=sdf"
+      }
+    },
+    {
+      "chain": "A",
+      "conformation_note": "DUD-E secondary choice: decent enrichment, high resolution, and a resolved activation-site loop.",
+      "pdb_audit": {
+        "alternate_location_coordinate_count": 36,
+        "experimental_method": "X-RAY DIFFRACTION",
+        "nonwater_hetero_groups": [
+          {
+            "atom_count": 4,
+            "chain": "A",
+            "is_target_ligand": false,
+            "residue_name": "ACT",
+            "residue_number": 362
+          },
+          {
+            "atom_count": 4,
+            "chain": "A",
+            "is_target_ligand": false,
+            "residue_name": "ACT",
+            "residue_number": 363
+          },
+          {
+            "atom_count": 4,
+            "chain": "A",
+            "is_target_ligand": false,
+            "residue_name": "ACT",
+            "residue_number": 364
+          },
+          {
+            "atom_count": 4,
+            "chain": "A",
+            "is_target_ligand": false,
+            "residue_name": "ACT",
+            "residue_number": 365
+          },
+          {
+            "atom_count": 4,
+            "chain": "A",
+            "is_target_ligand": false,
+            "residue_name": "ACT",
+            "residue_number": 366
+          },
+          {
+            "atom_count": 40,
+            "chain": "A",
+            "is_target_ligand": true,
+            "residue_name": "KQ7",
+            "residue_number": 361
+          }
+        ],
+        "path": "receptors/raw/mk14/3KQ7.pdb",
+        "protein_atom_count": 2826,
+        "protein_chains": [
+          "A"
+        ],
+        "protein_residue_count": 348,
+        "remark_465_line_count": 39,
+        "resolution_angstrom": 1.8,
+        "sha256": "7B554C71F2522613A390681CFAEFD02325F301548CAAC9482553D5132F089AF9",
+        "water_atom_count": 389
+      },
+      "pdb_source_url": "https://files.rcsb.org/download/3KQ7.pdb",
+      "role": "dude_secondary_dfg2",
+      "structure_id": "3KQ7",
+      "target_ligand": {
+        "pdb_coordinate_atom_count": 40,
+        "residue_name": "KQ7",
+        "residue_number": 361,
+        "sdf_audit": {
+          "assigned_chiral_centers": [
+            "34:S"
+          ],
+          "atom_count": 40,
+          "conformer_count": 1,
+          "coordinate_span_angstrom": {
+            "x": 14.149999999999999,
+            "y": 9.57,
+            "z": 13.982999999999997
+          },
+          "formal_charge": 0,
+          "heavy_atom_count": 40,
+          "molblock_sha256_lf_normalized": "D7DF88E9521762D161561AFBE7BFBA4B75AD4A50F87D870F530BE6DBDDAC3577",
+          "nonzero_z_span": true,
+          "parsed_molecule_count": 1,
+          "path": "ligands/raw/mk14/3KQ7_KQ7_A_361.sdf",
+          "raw_sha256": "EDF41393E5C7A91E1B368A2878D6D25D4BC68075CC16D4FBA0E1C0FB19B776D1",
+          "rdkit_conformer_is_3d": true,
+          "source_dimension_tag": "unspecified",
+          "source_program_line": "  ModelServer 0.9.13"
+        },
+        "source_url": "https://models.rcsb.org/v1/3KQ7/ligand?auth_asym_id=A&auth_seq_id=361&encoding=sdf"
+      }
+    },
+    {
+      "chain": "A",
+      "conformation_note": "Wild-type human p38alpha bound to SB203580 in the ATP site; 2.50 A resolution and no mutation.",
+      "pdb_audit": {
+        "alternate_location_coordinate_count": 0,
+        "experimental_method": "X-RAY DIFFRACTION",
+        "nonwater_hetero_groups": [
+          {
+            "atom_count": 27,
+            "chain": "A",
+            "is_target_ligand": true,
+            "residue_name": "SB2",
+            "residue_number": 800
+          }
+        ],
+        "path": "receptors/raw/mk14/1A9U.pdb",
+        "protein_atom_count": 2833,
+        "protein_chains": [
+          "A"
+        ],
+        "protein_residue_count": 351,
+        "remark_465_line_count": 35,
+        "resolution_angstrom": 2.5,
+        "sha256": "C6FA08F3C26C99B8B8EE78862129103D2EE5EA937160D32E5148777093C05074",
+        "water_atom_count": 90
+      },
+      "pdb_source_url": "https://files.rcsb.org/download/1A9U.pdb",
+      "role": "orthosteric_atp_site",
+      "structure_id": "1A9U",
+      "target_ligand": {
+        "pdb_coordinate_atom_count": 27,
+        "residue_name": "SB2",
+        "residue_number": 800,
+        "sdf_audit": {
+          "assigned_chiral_centers": [
+            "2:S"
+          ],
+          "atom_count": 27,
+          "conformer_count": 1,
+          "coordinate_span_angstrom": {
+            "x": 9.295,
+            "y": 12.992,
+            "z": 3.1400000000000006
+          },
+          "formal_charge": 0,
+          "heavy_atom_count": 27,
+          "molblock_sha256_lf_normalized": "CCF4350ED5099741BBEC3D41CB0A93351394334CE13889FE74F9152280220CCE",
+          "nonzero_z_span": true,
+          "parsed_molecule_count": 1,
+          "path": "ligands/raw/mk14/1A9U_SB2_A_800.sdf",
+          "raw_sha256": "DB5A5B5F7194671455EBB1DB8AE67A6DF3740623DCDDD2FFC030C9AF80B0B3E7",
+          "rdkit_conformer_is_3d": true,
+          "source_dimension_tag": "unspecified",
+          "source_program_line": "  ModelServer 0.9.13"
+        },
+        "source_url": "https://models.rcsb.org/v1/1A9U/ligand?auth_asym_id=A&auth_seq_id=800&encoding=sdf"
+      }
+    },
+    {
+      "chain": "A",
+      "conformation_note": "Wild-type human p38alpha bound to the DFG-out inhibitor PF-00416121; 2.00 A resolution and no mutation.",
+      "pdb_audit": {
+        "alternate_location_coordinate_count": 0,
+        "experimental_method": "X-RAY DIFFRACTION",
+        "nonwater_hetero_groups": [
+          {
+            "atom_count": 34,
+            "chain": "A",
+            "is_target_ligand": true,
+            "residue_name": "F4C",
+            "residue_number": 361
+          },
+          {
+            "atom_count": 19,
+            "chain": "A",
+            "is_target_ligand": false,
+            "residue_name": "I46",
+            "residue_number": 362
+          }
+        ],
+        "path": "receptors/raw/mk14/3K3J.pdb",
+        "protein_atom_count": 2659,
+        "protein_chains": [
+          "A"
+        ],
+        "protein_residue_count": 329,
+        "remark_465_line_count": 40,
+        "resolution_angstrom": 2.0,
+        "sha256": "B14FD182E931979459A3E3BD6D25F516ADF6B15FC3927EEB2023CB136D7D1E11",
+        "water_atom_count": 153
+      },
+      "pdb_source_url": "https://files.rcsb.org/download/3K3J.pdb",
+      "role": "dfg_out",
+      "structure_id": "3K3J",
+      "target_ligand": {
+        "pdb_coordinate_atom_count": 34,
+        "residue_name": "F4C",
+        "residue_number": 361,
+        "sdf_audit": {
+          "assigned_chiral_centers": [],
+          "atom_count": 34,
+          "conformer_count": 1,
+          "coordinate_span_angstrom": {
+            "x": 11.745999999999999,
+            "y": 9.185,
+            "z": 9.735
+          },
+          "formal_charge": 0,
+          "heavy_atom_count": 34,
+          "molblock_sha256_lf_normalized": "0BA0DC2B048428A4812307E02A479B449F1A43F1D2CE4BE2BAC2859547194E5F",
+          "nonzero_z_span": true,
+          "parsed_molecule_count": 1,
+          "path": "ligands/raw/mk14/3K3J_F4C_A_361.sdf",
+          "raw_sha256": "A7B6AD3BEBB13209777E37D73EB686DDBDB6D9AB86DE25B15B6A5D2798D69504",
+          "rdkit_conformer_is_3d": true,
+          "source_dimension_tag": "unspecified",
+          "source_program_line": "  ModelServer 0.9.13"
+        },
+        "source_url": "https://models.rcsb.org/v1/3K3J/ligand?auth_asym_id=A&auth_seq_id=361&encoding=sdf"
+      }
+    }
+  ],
+  "target": {
+    "gene_name": "MAPK14",
+    "organism": "Homo sapiens",
+    "protein_name": "Mitogen-activated protein kinase 14",
+    "selection_reason": "Large DUD-E benchmark, wild-type human high-resolution reference structures, and experimentally observed ATP-site and DFG-out conformations provide a clean target-level test of receptor complementarity without reusing the consumed CDK2 split.",
+    "target_id": "MK14_HUMAN",
+    "uniprot_accession": "Q16539"
+  }
+}
