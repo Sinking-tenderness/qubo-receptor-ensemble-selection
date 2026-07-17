@@ -108,3 +108,6 @@ Stage 2 ligand preparation scripts:
   reliability criteria to hash-pinned candidates and fail closed to a
   development-only single-best protocol when no QUBO candidate passes every
   check.
+- `materialize_single_best_protocol.py`: refit the fail-closed method on the
+  complete development set, fix one receptor ID and PDBQT hash, summarize
+  repeated-fold selection stability, and preserve a zero-score-cell test lock.

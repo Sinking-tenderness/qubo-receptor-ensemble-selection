@@ -84,10 +84,11 @@ showing that the apparent benefit depends strongly on scaffold partitioning.
 6. Do not release a QUBO subset unless a later preregistered candidate passes
    every repeated-CV reliability check.
 
-This is an executable model-selection rule, but the current selector is not a
-test-release command. A separate pre-test materialization step must record the
-specific full-development receptor refit and its hashes before a one-time test
-evaluation can be authorized.
+This is an executable model-selection rule, but the selector is not a
+test-release command. The required pre-test materialization was completed on
+2026-07-17 and fixed `CDK2_AF2_MD2NS_C06_F077`; see
+`reports/stage-04/cdk2_single_best_protocol_materialization_record.md`. Test
+release remains unauthorized.
 
 ## Interpretation
 

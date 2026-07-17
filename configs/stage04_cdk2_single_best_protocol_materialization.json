@@ -1,0 +1,82 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage04-cdk2-single-best-protocol-materialization-v1",
+  "purpose": "Materialize the fail-closed single-best method as one fixed CDK2 receptor using development data only, while retaining an auditable zero-overlap lock on the 40 test ligands.",
+  "upstream_selector": {
+    "path": "results/runs/stage04_cdk2_reliable_protocol_selector/summary.json",
+    "sha256": "C8B96818AABB39F9C079E9C3C47DDE1E9EEB0AC909B27204B3E46B3793781AAB",
+    "protocol_id": "single_best_fail_closed_v1"
+  },
+  "stability_evidence": {
+    "path": "results/runs/stage04_cdk2_core_plus_two_repeated_scaffold_cv/summary.json",
+    "sha256": "E20E735F709570B47FF7937FA2B9B3C9DCC681C4806947AE137D24D126122FB8"
+  },
+  "inputs": {
+    "primary_matrix": "data/processed/stage04_cdk2_expanded16_development_median_score_matrix.csv",
+    "receptor_manifest": "data/processed/stage04_cdk2_expanded_receptor_pool_manifest.csv",
+    "sensitivity_matrix": "data/processed/stage04_cdk2_expanded16_development_minimum_score_matrix.csv",
+    "split_manifest": "data/processed/dude_cdk2_benchmark_100a_100d_scaffold_split_manifest.csv"
+  },
+  "input_sha256": {
+    "primary_matrix": "CAB398C59AC49088ABE6065A58E216D46DC205BE862F0D0A8E57050CC45D96E4",
+    "receptor_manifest": "C70185C8A2F52AA5175966F690B060320FD47B0C33B2EF12828A672FA757CB81",
+    "sensitivity_matrix": "EF4B68E764ADFA976AA365D04E8D97715D30F8208135C33E43D3AAB15B6EDED5",
+    "split_manifest": "2F3D68B16856EB8C9310E0A2D15283B95CBBA4D6E3A83E548385371C6440C167"
+  },
+  "receptor_ids": [
+    "CDK2_1AQ1_reference",
+    "CDK2_1HCL_aligned",
+    "CDK2_1JVP_aligned",
+    "CDK2_1Y8Y_aligned",
+    "CDK2_2C68_aligned",
+    "CDK2_2C69_aligned",
+    "CDK2_3RKB_aligned",
+    "CDK2_AF2_MD2NS_C00_F001",
+    "CDK2_AF2_MD2NS_C01_F005",
+    "CDK2_AF2_MD2NS_C02_F031",
+    "CDK2_AF2_MD2NS_C03_F041",
+    "CDK2_AF2_MD2NS_C04_F066",
+    "CDK2_AF2_MD2NS_C05_F074",
+    "CDK2_AF2_MD2NS_C06_F077",
+    "CDK2_AF2_MD2NS_C07_F095",
+    "CDK2_AF_P24941_F1_v6"
+  ],
+  "expected": {
+    "development_ligand_count": 160,
+    "locked_test_ligand_count": 40,
+    "development_label_counts": {
+      "active": 80,
+      "decoy": 80
+    },
+    "locked_test_label_counts": {
+      "active": 20,
+      "decoy": 20
+    },
+    "stability_repeat_count": 5,
+    "stability_outer_fold_count": 4
+  },
+  "selection": {
+    "protocol_id": "single_best_fail_closed_v1",
+    "method": "single_best",
+    "aggregation": "min_score",
+    "selection_metric": "bedroc_alpha_20",
+    "tie_breakers": [
+      "pr_auc_average_precision",
+      "roc_auc",
+      "receptor_id"
+    ],
+    "score_direction": "lower_is_better",
+    "score_matrix_role": "across_seed_median_primary",
+    "sensitivity_matrix_role": "across_seed_minimum_audit_only",
+    "development_splits": [
+      "train",
+      "validation"
+    ],
+    "locked_split": "test"
+  },
+  "outputs": {
+    "receptor_ranking_csv": "results/runs/stage04_cdk2_single_best_protocol_materialization/receptor_ranking.csv",
+    "protocol_json": "results/runs/stage04_cdk2_single_best_protocol_materialization/protocol.json"
+  },
+  "interpretation_boundary": "This artifact fixes one receptor after method selection using development data only. Full-development metrics are refit metrics, not held-out performance. Outer-fold selection frequency is descriptive stability evidence, not a newly tuned acceptance gate. The locked test remains unevaluated and no biological or quantum advantage is claimed."
+}
