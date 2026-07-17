@@ -1,0 +1,28 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage04-cdk2-single-best-locked-test-release-audit-v1",
+  "purpose": "Independently verify the consumed release marker, fixed test IDs, deterministic rankings, reported metrics, output hashes, and bootstrap record structure without reading another receptor score column.",
+  "inputs": {
+    "release_summary": "results/runs/stage04_cdk2_single_best_locked_test_release/summary.json",
+    "release_marker": "results/runs/stage04_cdk2_single_best_locked_test_release/release_marker.json",
+    "primary_rankings": "results/runs/stage04_cdk2_single_best_locked_test_release/primary_test_rankings.csv",
+    "sensitivity_rankings": "results/runs/stage04_cdk2_single_best_locked_test_release/sensitivity_test_rankings.csv",
+    "split_manifest": "data/processed/dude_cdk2_benchmark_100a_100d_scaffold_split_manifest.csv"
+  },
+  "input_sha256": {
+    "release_summary": "9EA3417B458DD55CB4AB57A9EE7EF803117CD100F307916D5BFF17346BF70EA2",
+    "release_marker": "8D51FFE3F5C95172B04B6E91EE92F0B9D784CB6EDFB7F701D9477168FD2DDB03",
+    "primary_rankings": "CDFF90BF8EF4D73FF0BB2C77F7B56905F8A48AB0E12305C6A1D4214E596B3165",
+    "sensitivity_rankings": "3E513937667B92D84AE5D55FAE13A6870FE1060400F3DF36AB7B22B786CCA81E",
+    "split_manifest": "2F3D68B16856EB8C9310E0A2D15283B95CBBA4D6E3A83E548385371C6440C167"
+  },
+  "expected": {
+    "status": "locked_test_evaluated_once",
+    "receptor_id": "CDK2_AF2_MD2NS_C06_F077",
+    "locked_split": "test",
+    "test_ligand_count": 40,
+    "bootstrap_iterations": 5000
+  },
+  "output_json": "results/runs/stage04_cdk2_single_best_locked_test_release/independent_audit.json",
+  "interpretation_boundary": "This audit validates the released ranking artifacts and metric calculations. It does not reopen the source score matrices, compare another receptor, tune a threshold, or create new held-out evidence."
+}

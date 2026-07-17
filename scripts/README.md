@@ -114,3 +114,6 @@ Stage 2 ligand preparation scripts:
 - `release_locked_test_protocol.py`: consume explicit project-owner approval
   once, evaluate only the fixed receptor column on the locked split, calculate
   preregistered metrics and stratified bootstrap intervals, and refuse reruns.
+- `audit_locked_test_release.py`: independently rebuild released metrics from
+  the fixed ranking CSVs, verify test IDs, deterministic order, hashes, marker
+  state, and bootstrap record structure without reading another receptor.
