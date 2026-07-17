@@ -119,5 +119,10 @@ or failed seed matrices, changed run configurations, mismatched output hashes,
 unexpected ligand roles, and any test row before writing the primary median
 matrix and minimum-score sensitivity matrix.
 
+On Linux, `scripts/run_stage05_mk14_development_remote.sh` performs all three
+input audits, runs the seed replicates sequentially with `--resume`, and then
+invokes the frozen aggregation. Sequential seed execution prevents three
+16-worker runs from competing for the same CPU and memory allocation.
+
 No MAPK14 development enrichment, receptor superiority, subset benefit, QUBO
 advantage, or test performance is claimed at this checkpoint.
