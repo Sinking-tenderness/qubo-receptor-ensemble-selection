@@ -1,0 +1,32 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage04-cdk2-fixed3-mean-repeated-scaffold-cv-v1",
+  "purpose": "Measure whether fixed three-receptor mean-score coverage-QUBO is robust to five preregistered scaffold fold assignments without evaluating the locked test split.",
+  "base_config": "configs/stage04_cdk2_expanded16_fixed3_mean_development_scaffold_cv_gate.json",
+  "base_config_sha256": "D34B3794506BA8C423D1B9774038C30EBDA9F1D118C9081B63FB0C88C8F8EFE6",
+  "fold_seeds": [
+    20261002,
+    20261003,
+    20261004,
+    20261005,
+    20261006
+  ],
+  "methods": {
+    "baseline": "single_best",
+    "reference": "greedy",
+    "candidate": "coverage_qubo"
+  },
+  "aggregate_bootstrap": {
+    "iterations": 5000,
+    "seed": 20261024
+  },
+  "outputs": {
+    "run_directory": "results/runs/stage04_cdk2_fixed3_mean_repeated_scaffold_cv",
+    "derived_config_directory": "results/runs/stage04_cdk2_fixed3_mean_repeated_scaffold_cv/derived_configs",
+    "repeat_metrics_csv": "results/runs/stage04_cdk2_fixed3_mean_repeated_scaffold_cv/repeat_metrics.csv",
+    "outer_selections_csv": "results/runs/stage04_cdk2_fixed3_mean_repeated_scaffold_cv/outer_selections.csv",
+    "aggregate_oof_scores_csv": "results/runs/stage04_cdk2_fixed3_mean_repeated_scaffold_cv/aggregate_oof_scores.csv",
+    "summary_json": "results/runs/stage04_cdk2_fixed3_mean_repeated_scaffold_cv/summary.json"
+  },
+  "interpretation_boundary": "These repeats use different scaffold partitions of the same 160 development ligands. They assess partition robustness but are not an independent biological benchmark. Averaged OOF metrics are exploratory repeated-CV diagnostics. The 40 locked test ligands remain unavailable and no repeated-CV result alone authorizes test release."
+}

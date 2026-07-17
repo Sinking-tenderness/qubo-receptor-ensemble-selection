@@ -26,6 +26,24 @@ def test_repeated_protocol_preregisters_five_seeds_and_locked_base_config():
     assert base["cross_validation"]["evaluate_locked_test"] is False
 
 
+def test_repeated_protocol_accepts_the_one_core_candidate_family():
+    protocol = load_protocol(
+        Path("configs/stage04_cdk2_core_plus_two_repeated_scaffold_cv.json")
+    )
+    assert protocol["methods"]["candidate"] == "core_plus_two_qubo"
+
+
+def test_repeated_protocol_accepts_fixed_coverage_and_greedy_reference():
+    protocol = load_protocol(
+        Path("configs/stage04_cdk2_fixed2_mean_repeated_scaffold_cv.json")
+    )
+    assert protocol["methods"] == {
+        "baseline": "single_best",
+        "reference": "greedy",
+        "candidate": "coverage_qubo",
+    }
+
+
 def test_derived_repeat_changes_only_seed_identity_and_output_root():
     protocol = load_protocol(PROTOCOL_PATH)
     base_path = Path(protocol["base_config"])

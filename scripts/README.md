@@ -95,3 +95,16 @@ Stage 2 ligand preparation scripts:
   validation PDBQT manifest while excluding the locked test split.
 - `subset_score_matrices_to_development.py`: subset existing aggregate matrices
   by development ligand ID without parsing locked-test receptor score cells.
+- `run_development_scaffold_cv_gate.py`: tune receptor-selection baselines and
+  QUBO families inside nested development-only scaffold CV, refit the nominated
+  family on all development ligands, and keep the test split locked.
+- `audit_development_scaffold_cv_gate.py`: independently reproduce OOF metrics,
+  bootstrap intervals, fold isolation, and constrained-subset invariants from a
+  completed development scaffold-CV gate.
+- `run_repeated_development_scaffold_cv.py`: repeat an audited development gate
+  over fixed scaffold-fold seeds and aggregate feasibility, directional
+  consistency, OOF rankings, and receptor-selection frequencies.
+- `select_reliable_receptor_protocol.py`: apply preregistered repeated-CV
+  reliability criteria to hash-pinned candidates and fail closed to a
+  development-only single-best protocol when no QUBO candidate passes every
+  check.

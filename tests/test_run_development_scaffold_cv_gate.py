@@ -31,6 +31,12 @@ CONSENSUS_CONFIG_PATH = Path(
 CORE_PLUS_ONE_CONFIG_PATH = Path(
     "configs/stage04_cdk2_expanded16_core_plus_one_development_scaffold_cv_gate.json"
 )
+CORE_PLUS_TWO_CONFIG_PATH = Path(
+    "configs/stage04_cdk2_expanded16_core_plus_two_development_scaffold_cv_gate.json"
+)
+FIXED2_MEAN_CONFIG_PATH = Path(
+    "configs/stage04_cdk2_expanded16_fixed2_mean_development_scaffold_cv_gate.json"
+)
 
 
 def test_fixed_development_cv_config_preregisters_test_lock_and_pass_rule():
@@ -254,3 +260,18 @@ def test_core_plus_one_selects_two_qualified_receptors_and_one_residual_slot():
     methods = method_configs(model, 16)
     assert {candidate["target_size"] for candidate in methods["core_plus_one_qubo"]} == {3}
     assert len(methods["core_plus_one_qubo"]) == 54
+
+
+def test_core_plus_two_uses_one_core_and_two_residual_slots():
+    model = dict(load_config(CORE_PLUS_TWO_CONFIG_PATH)["model"])
+    methods = method_configs(model, 16)
+    assert {candidate["target_size"] for candidate in methods["core_plus_two_qubo"]} == {3}
+    assert len(methods["core_plus_two_qubo"]) == 54
+
+
+def test_fixed2_mean_config_reduces_coverage_model_selection_space():
+    config = load_config(FIXED2_MEAN_CONFIG_PATH)
+    methods = method_configs(config["model"], 16)
+    assert config["model"]["subset_sizes"] == [2]
+    assert config["model"]["aggregation_methods"] == ["mean_score"]
+    assert len(methods["coverage_qubo"]) == 27

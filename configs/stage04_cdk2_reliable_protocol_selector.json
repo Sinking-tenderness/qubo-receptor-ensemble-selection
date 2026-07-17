@@ -1,0 +1,63 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage04-cdk2-reliable-protocol-selector-v1",
+  "purpose": "Select a receptor protocol only when repeated development scaffold-CV evidence is feasible, directionally consistent, materially improved, and bootstrap-supported; otherwise fail closed to single-best.",
+  "baseline_method": "single_best",
+  "candidates": [
+    {
+      "candidate_id": "strict_two_core_plus_one",
+      "method": "core_plus_one_qubo",
+      "summary_path": "results/runs/stage04_cdk2_core_plus_one_repeated_scaffold_cv/summary.json",
+      "summary_sha256": "9F32D4A3008384495C6A56F4479334F085EACFFC9C98001E67DCA6EC271040EA"
+    },
+    {
+      "candidate_id": "one_core_plus_two",
+      "method": "core_plus_two_qubo",
+      "summary_path": "results/runs/stage04_cdk2_core_plus_two_repeated_scaffold_cv/summary.json",
+      "summary_sha256": "E20E735F709570B47FF7937FA2B9B3C9DCC681C4806947AE137D24D126122FB8"
+    },
+    {
+      "candidate_id": "unconstrained_coverage",
+      "method": "coverage_qubo",
+      "summary_path": "results/runs/stage04_cdk2_core_plus_two_repeated_scaffold_cv/summary.json",
+      "summary_sha256": "E20E735F709570B47FF7937FA2B9B3C9DCC681C4806947AE137D24D126122FB8"
+    },
+    {
+      "candidate_id": "fixed2_mean_coverage",
+      "method": "coverage_qubo",
+      "summary_path": "results/runs/stage04_cdk2_fixed2_mean_repeated_scaffold_cv/summary.json",
+      "summary_sha256": "602E17BA41AAE854EB9FABFA057012E8539EFBD86FF8767537AAC01B33705548"
+    },
+    {
+      "candidate_id": "fixed3_mean_coverage",
+      "method": "coverage_qubo",
+      "summary_path": "results/runs/stage04_cdk2_fixed3_mean_repeated_scaffold_cv/summary.json",
+      "summary_sha256": "660BA82E4F2D21810D3BA653B9E94BD0F420C2983A4FE59C28753099F9FAE62A"
+    }
+  ],
+  "criteria": {
+    "minimum_feasibility_fraction": 1.0,
+    "minimum_positive_primary_bedroc_fraction": 0.8,
+    "minimum_mean_primary_bedroc_delta": 0.02,
+    "minimum_mean_primary_roc_auc_delta": 0.0,
+    "minimum_mean_primary_pr_auc_delta": 0.0,
+    "minimum_mean_sensitivity_bedroc_delta": 0.0,
+    "minimum_aggregate_bedroc_bootstrap_ci95_low": 0.0
+  },
+  "bootstrap": {
+    "iterations": 5000,
+    "seed": 20261025
+  },
+  "fallback_protocol": {
+    "protocol_id": "single_best_fail_closed_v1",
+    "method": "single_best",
+    "aggregation": "min_score",
+    "selection_metric": "bedroc_alpha_20",
+    "selection_data": "development_only"
+  },
+  "outputs": {
+    "decision_table_csv": "results/runs/stage04_cdk2_reliable_protocol_selector/decision_table.csv",
+    "summary_json": "results/runs/stage04_cdk2_reliable_protocol_selector/summary.json"
+  },
+  "interpretation_boundary": "This selector makes a development-only fail-closed protocol decision. It does not evaluate the locked test split and cannot establish biological superiority. A QUBO candidate is nominated only if every preregistered reliability criterion passes; otherwise single-best remains the active protocol and QUBO stays experimental."
+}

@@ -163,7 +163,11 @@ def audit_consensus_constraints(
     consensus_rows = [
         row
         for row in outer_rows
-        if row.get("method") in {"consensus_qubo", "core_plus_one_qubo"}
+        if row.get("method") in {
+            "consensus_qubo",
+            "core_plus_one_qubo",
+            "core_plus_two_qubo",
+        }
     ]
     for row in consensus_rows:
         required = set(json.loads(row["consensus_required_receptors"]))
@@ -188,7 +192,7 @@ def audit_consensus_constraints(
         selected_config = json.loads(row["selected_config"])
         config_required = set(selected_config.get("required_receptors", []))
         family = selected_config.get("family")
-        if family == "core_plus_one_qubo":
+        if family in {"core_plus_one_qubo", "core_plus_two_qubo"}:
             if core_size < 1:
                 return False
             qualified = {
@@ -210,7 +214,7 @@ def audit_consensus_constraints(
             or not required.issubset(selected)
             or len(required) > int(row["target_size"])
             or (
-                family == "core_plus_one_qubo"
+                family in {"core_plus_one_qubo", "core_plus_two_qubo"}
                 and len(required) != core_size
             )
         ):

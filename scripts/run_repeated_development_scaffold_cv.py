@@ -82,8 +82,14 @@ def load_protocol(path: Path) -> dict[str, object]:
     if (
         not isinstance(methods, dict)
         or methods.get("baseline") != "single_best"
-        or methods.get("candidate") != "core_plus_one_qubo"
-        or methods.get("reference") != "coverage_qubo"
+        or methods.get("candidate")
+        not in {
+            "coverage_qubo",
+            "core_plus_one_qubo",
+            "core_plus_two_qubo",
+        }
+        or methods.get("reference") not in {"coverage_qubo", "greedy"}
+        or len(set(str(value) for value in methods.values())) != 3
     ):
         raise ValueError("repeated scaffold-CV methods are invalid")
     bootstrap = protocol["aggregate_bootstrap"]
@@ -120,8 +126,13 @@ def derive_gate_config(
         or derived["cross_validation"]["locked_split"] != "test"
     ):
         raise ValueError("base gate config does not keep test locked")
-    if "core_plus_one_qubo" not in derived["model"]["families"]:
-        raise ValueError("base gate config lacks core_plus_one_qubo")
+    candidate_families = {
+        "coverage_qubo",
+        "core_plus_one_qubo",
+        "core_plus_two_qubo",
+    }
+    if not candidate_families & set(derived["model"]["families"]):
+        raise ValueError("base gate config lacks the requested candidate family")
     derived["experiment_id"] = f"{base['experiment_id']}-fold-seed-{seed}"
     derived["purpose"] = (
         f"Repeated development-only scaffold-CV replicate with fold seed {seed}."
@@ -280,6 +291,8 @@ def collect_repeat_outputs(
     bootstrap_iterations: int,
     bootstrap_seed: int,
     minimum_bedroc_delta: float,
+    core_size: int,
+    target_size: int,
 ) -> dict[str, object]:
     method_names = [
         str(methods["baseline"]),
@@ -357,8 +370,8 @@ def collect_repeat_outputs(
             subset = list(outer["subset"])
             core = list(outer["consensus_required_receptors"])
             residual = [value for value in subset if value not in set(core)]
-            if len(core) != 2 or len(residual) != 1:
-                raise ValueError("core-plus-one outer selection is malformed")
+            if len(core) != core_size or len(residual) != target_size - core_size:
+                raise ValueError("fixed-core outer selection is malformed")
             outer_counts.update(subset)
             core_counts.update(core)
             residual_counts.update(residual)
@@ -367,7 +380,7 @@ def collect_repeat_outputs(
                     "fold_seed": seed,
                     "outer_fold": outer["outer_fold"],
                     "core": "+".join(core),
-                    "residual_receptor": residual[0],
+                    "residual_receptors": "+".join(residual),
                     "subset": "+".join(subset),
                     "primary_bedroc_alpha_20": outer[
                         "primary_outer_metrics"
@@ -562,12 +575,26 @@ def main() -> int:
 
     methods = {key: str(value) for key, value in protocol["methods"].items()}
     bootstrap = protocol["aggregate_bootstrap"]
+    if methods["candidate"] == "coverage_qubo":
+        core_size = 0
+        configured_sizes = [int(value) for value in base["model"]["subset_sizes"]]
+        if len(configured_sizes) != 1:
+            raise ValueError("repeated coverage candidate requires one fixed size")
+        target_size = configured_sizes[0]
+    elif methods["candidate"] == "core_plus_one_qubo":
+        core_size = int(base["model"]["consensus_core_size"])
+        target_size = int(base["model"]["core_plus_one_subset_size"])
+    else:
+        core_size = int(base["model"]["consensus_core_size"])
+        target_size = int(base["model"]["core_plus_two_subset_size"])
     aggregate = collect_repeat_outputs(
         repeat_records,
         methods,
         int(bootstrap["iterations"]),
         int(bootstrap["seed"]),
         float(base["acceptance"]["minimum_primary_bedroc_delta"]),
+        core_size,
+        target_size,
     )
     write_csv(outputs["repeat_metrics_csv"], aggregate["repeat_metric_rows"])
     write_csv(outputs["outer_selections_csv"], aggregate["outer_rows"])
@@ -627,6 +654,11 @@ def main() -> int:
         ),
         "execution_records": execution_records,
         "methods": methods,
+        "candidate_budget": {
+            "core_size": core_size,
+            "target_size": target_size,
+            "residual_size": target_size - core_size,
+        },
         "per_repeat": aggregate["per_repeat"],
         "aggregate_metrics": aggregate["aggregate_metrics"],
         "aggregate_paired_bootstrap": aggregate[
