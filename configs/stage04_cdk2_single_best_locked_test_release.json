@@ -1,0 +1,70 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage04-cdk2-single-best-locked-test-release-v1",
+  "purpose": "Consume project-owner approval for one descriptive evaluation of the fixed C06 single-best protocol on the 40-ligand locked test split, without receptor reselection or post-hoc acceptance thresholds.",
+  "authorization": {
+    "approved": true,
+    "approved_by": "project_owner",
+    "approved_on": "2026-07-17",
+    "authorization_id": "stage04-cdk2-locked-test-release-20260717-v1",
+    "scope": "one_time_fixed_protocol_test_evaluation"
+  },
+  "inputs": {
+    "materialized_protocol": "results/runs/stage04_cdk2_single_best_protocol_materialization/protocol.json",
+    "primary_score_matrix": "results/runs/stage03_cdk2_af2_md_100a100d_e32_multiseed_aggregate_linux/median_score_matrix.csv",
+    "sensitivity_score_matrix": "results/runs/stage03_cdk2_af2_md_100a100d_e32_multiseed_aggregate_linux/minimum_score_matrix.csv",
+    "source_summary": "results/runs/stage03_cdk2_af2_md_100a100d_e32_multiseed_aggregate_linux/summary.json",
+    "split_manifest": "data/processed/dude_cdk2_benchmark_100a_100d_scaffold_split_manifest.csv"
+  },
+  "input_sha256": {
+    "materialized_protocol": "E0FB629C37B5AE8EEBC97E3CBBF3E63CE8CC2A964B54053EE8076D1E2528C913",
+    "primary_score_matrix": "0DF7BFEE1EC74180D59DBBD2326FC1C8A057D3591BC8406EC218525A8FD89DDB",
+    "sensitivity_score_matrix": "D327199B9C68B1C5ADDB5031A6706E1BC685D4048FB93D3306C91D236D313AFB",
+    "source_summary": "F9C9EB2453D1A0BA686FBC9FAFEBE20833938E9D8D1E575DCA75494B65F1E12A",
+    "split_manifest": "2F3D68B16856EB8C9310E0A2D15283B95CBBA4D6E3A83E548385371C6440C167"
+  },
+  "fixed_protocol": {
+    "protocol_id": "single_best_fail_closed_v1",
+    "method": "single_best",
+    "receptor_id": "CDK2_AF2_MD2NS_C06_F077",
+    "receptor_pdbqt_sha256": "ECFC7BF4ADFD56E78EAE5F3A121C419612457B0EABA52DA7928627F53C0FE84E"
+  },
+  "expected": {
+    "total_ligand_count": 200,
+    "development_ligand_count": 160,
+    "locked_test_ligand_count": 40,
+    "locked_test_label_counts": {
+      "active": 20,
+      "decoy": 20
+    },
+    "source_receptor_count": 8
+  },
+  "evaluation": {
+    "locked_split": "test",
+    "ranking_order": [
+      "docking_score_ascending",
+      "ligand_id_ascending"
+    ],
+    "metrics": [
+      "roc_auc",
+      "pr_auc_average_precision",
+      "bedroc_alpha_20",
+      "EF1%",
+      "EF5%",
+      "EF10%"
+    ],
+    "bootstrap_method": "stratified_active_decoy_resampling_with_replacement",
+    "bootstrap_iterations": 5000,
+    "bootstrap_seed": 20261031,
+    "primary_matrix_role": "across_seed_median",
+    "sensitivity_matrix_role": "across_seed_minimum",
+    "acceptance_threshold": null
+  },
+  "outputs": {
+    "primary_rankings_csv": "results/runs/stage04_cdk2_single_best_locked_test_release/primary_test_rankings.csv",
+    "sensitivity_rankings_csv": "results/runs/stage04_cdk2_single_best_locked_test_release/sensitivity_test_rankings.csv",
+    "release_marker_json": "results/runs/stage04_cdk2_single_best_locked_test_release/release_marker.json",
+    "summary_json": "results/runs/stage04_cdk2_single_best_locked_test_release/summary.json"
+  },
+  "interpretation_boundary": "This is a one-time descriptive test evaluation of a receptor, artifact hash, ranking rule, metrics, and bootstrap scheme fixed before test scores were parsed. No acceptance threshold was introduced. The result estimates screening performance for this 40-ligand benchmark only and cannot establish binding affinity accuracy, biological superiority, or quantum advantage."
+}

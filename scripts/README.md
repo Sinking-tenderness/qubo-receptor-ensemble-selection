@@ -111,3 +111,6 @@ Stage 2 ligand preparation scripts:
 - `materialize_single_best_protocol.py`: refit the fail-closed method on the
   complete development set, fix one receptor ID and PDBQT hash, summarize
   repeated-fold selection stability, and preserve a zero-score-cell test lock.
+- `release_locked_test_protocol.py`: consume explicit project-owner approval
+  once, evaluate only the fixed receptor column on the locked split, calculate
+  preregistered metrics and stratified bootstrap intervals, and refuse reruns.
