@@ -1,0 +1,108 @@
+{
+  "schema_version": "1.0",
+  "authorization_id": "stage05-mk14-development-method-gate-preregistration-20260717-v1",
+  "created_on": "2026-07-17",
+  "target_id": "MK14",
+  "purpose": "Freeze MAPK14 development matrix admission, train-only method selection, validation evaluation, and QUBO promotion rules before docking scores or enrichment metrics are observed.",
+  "frozen_inputs": {
+    "receptor_manifest": {
+      "path": "data/processed/stage05_mk14_receptor_preparation_manifest.csv",
+      "sha256": "C18CD1AC7B64C0282E763E54CF44BBCA26B21056B6D34C24FF0D9D8B0FE3BD60"
+    },
+    "ligand_manifest": {
+      "path": "data/processed/stage05_mk14_development_120a120d_pdbqt_manifest.csv",
+      "sha256": "28BB94E6DE6E7BC2CB0C83E1C1787A89C098853BF73F935FAE4AAED3D70C2B43"
+    },
+    "seed_aggregation_config": {
+      "path": "configs/stage05_mk14_development_seed_aggregation.json",
+      "sha256": "14E6ED813A79686DEEBB4571135A8DEF164DDF1230DD28BF7B9962641EDBFB03"
+    }
+  },
+  "receptor_ids": [
+    "MK14_2QD9_reference",
+    "MK14_1A9U_aligned",
+    "MK14_3K3J_aligned",
+    "MK14_3KQ7_aligned"
+  ],
+  "data_roles": {
+    "train": {
+      "selection_role": "development_train",
+      "active": 80,
+      "decoy": 80,
+      "use": "inner scaffold cross-validation, QUBO hyperparameter selection, and final train refit"
+    },
+    "validation": {
+      "selection_role": "development_validation",
+      "active": 40,
+      "decoy": 40,
+      "use": "one evaluation of each train-selected method; no QUBO coefficient fitting"
+    },
+    "test": {
+      "status": "locked_unreleased",
+      "use": "prohibited until a separate manually authorized release"
+    }
+  },
+  "matrix_admission": {
+    "required_seed_count": 3,
+    "required_pairs_per_seed": 960,
+    "required_failed_pairs_per_seed": 0,
+    "required_development_test_rows": 0,
+    "representative_method": "pose_rank_1",
+    "primary_seed_aggregation": "median",
+    "sensitivity_seed_aggregation": "minimum",
+    "maximum_allowed_nonnegative_score_pairs": 0,
+    "maximum_allowed_seed_score_range_kcal_per_mol": 2.0,
+    "failure_action": "stop before all enrichment or subset metrics; run a label-blind search diagnostic without deleting or selectively replacing matrix cells"
+  },
+  "inner_selection": {
+    "data": "development_train only",
+    "fold_count": 4,
+    "fold_group": "non-chiral Murcko scaffold / frozen split_group_id",
+    "fold_seed": 20261101,
+    "score_normalization": "fit per-receptor min-max bounds on each inner-training fold only",
+    "selection_metric": "bedroc_alpha_20",
+    "tie_breakers": ["pr_auc_average_precision", "roc_auc"],
+    "coverage_fraction": 0.10,
+    "subset_sizes": [1, 2, 3],
+    "aggregation_methods": ["min_score", "mean_score"],
+    "size_penalty": 20.0,
+    "qubo_families": ["coverage_qubo", "discriminative_qubo"],
+    "weight_grids": {
+      "active_coverage": [0.0, 1.0, 2.0],
+      "decoy_exposure_discriminative": [0.5, 1.0, 2.0],
+      "active_overlap": [0.0, 1.0, 2.0],
+      "redundancy": [0.0, 1.0, 2.0]
+    }
+  },
+  "baselines": [
+    "single_best",
+    "exhaustive_train_selected_subset",
+    "greedy_train_selected_subset",
+    "all_receptors",
+    "exact_uniform_random_subset_distribution"
+  ],
+  "validation_gate": {
+    "comparison_method": "single_best",
+    "primary_metric": "bedroc_alpha_20",
+    "minimum_primary_bedroc_delta": 0.02,
+    "minimum_primary_roc_auc_delta": 0.0,
+    "minimum_primary_pr_auc_delta": 0.0,
+    "minimum_sensitivity_bedroc_delta": 0.0,
+    "bootstrap_iterations": 5000,
+    "bootstrap_seed": 20261102,
+    "minimum_primary_bedroc_bootstrap_ci95_low": 0.0,
+    "all_checks_required": true
+  },
+  "test_release": {
+    "automatic_release": false,
+    "manual_review_required": true,
+    "required_status": "development_gate_passed_test_locked",
+    "required_before_release": [
+      "freeze the selected receptor subset and aggregation",
+      "freeze QUBO coefficients and solver settings",
+      "freeze all reported metrics and bootstrap settings",
+      "commit a separate release authorization before reading test scores"
+    ]
+  },
+  "interpretation_boundary": "A passing development gate would nominate a MAPK14 QUBO protocol for one locked-test evaluation. It would not by itself prove biological activity, binding free-energy accuracy, general cross-target superiority, quantum advantage, or production virtual-screening value."
+}
