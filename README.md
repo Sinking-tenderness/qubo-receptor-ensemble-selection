@@ -27,8 +27,12 @@ four-case common-box redocking gate are complete. All four top-ranked
 co-crystal poses have symmetry-corrected heavy-atom RMSD below 2 A. A grouped
 scaffold/source-ID split is frozen with an unreleased test partition, and a
 train-only 4-active/4-decoy execution pilot completed all 32 four-receptor
-docking pairs. MAPK14 development-scale enrichment and receptor-subset
-evaluation have not yet been run.
+docking pairs. A train-only search-strength calibration selected
+exhaustiveness 16, and a balanced 120-active/120-decoy train/validation panel
+was prepared successfully. Three paired-seed development configurations each
+passed a 960-pair pre-execution audit with zero test rows. MAPK14
+development-scale enrichment and receptor-subset evaluation have not yet been
+run.
 
 ## Planned milestones
 

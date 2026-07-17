@@ -35,7 +35,11 @@ def read_rows(path: Path) -> list[dict[str, str]]:
 
 
 def sample_rows(
-    rows: list[dict[str, str]], source_split: str, count_per_label: int, seed: int
+    rows: list[dict[str, str]],
+    source_split: str,
+    count_per_label: int,
+    seed: int,
+    selection_role: str = "execution_smoke_only",
 ) -> list[dict[str, str]]:
     if count_per_label <= 0:
         raise ValueError("count_per_label must be positive")
@@ -54,7 +58,7 @@ def sample_rows(
         for row in candidates:
             if row["split_group_id"] in used_groups:
                 continue
-            row["pilot_role"] = "execution_smoke_only"
+            row["selection_role"] = selection_role
             label_selected.append(row)
             used_groups.add(row["split_group_id"])
             if len(label_selected) == count_per_label:
@@ -81,6 +85,7 @@ def main() -> int:
     parser.add_argument("--source-split", default="train")
     parser.add_argument("--count-per-label", type=int, required=True)
     parser.add_argument("--seed", type=int, required=True)
+    parser.add_argument("--selection-role", default="execution_smoke_only")
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--summary-output", type=Path, required=True)
     args = parser.parse_args()
@@ -88,7 +93,11 @@ def main() -> int:
         raise FileNotFoundError(args.input)
 
     selected = sample_rows(
-        read_rows(args.input), args.source_split, args.count_per_label, args.seed
+        read_rows(args.input),
+        args.source_split,
+        args.count_per_label,
+        args.seed,
+        args.selection_role,
     )
     write_csv(args.output, selected)
     summary = {
@@ -97,6 +106,7 @@ def main() -> int:
         "operation": "deterministic group-diverse split pilot selection",
         "input": {"path": args.input.as_posix(), "sha256": file_sha256(args.input)},
         "source_split": args.source_split,
+        "selection_role": args.selection_role,
         "seed": args.seed,
         "count_per_label": args.count_per_label,
         "row_count": len(selected),
@@ -108,8 +118,8 @@ def main() -> int:
         "selected_ligand_ids": [row["ligand_id"] for row in selected],
         "output": {"path": args.output.as_posix(), "sha256": file_sha256(args.output)},
         "interpretation_boundary": (
-            "This balanced train-only pilot validates execution and parsing. Its "
-            "metrics must not be interpreted as virtual-screening performance."
+            "The selected rows retain their locked source-split role. This selector "
+            "does not release or inspect the locked test partition."
         ),
     }
     args.summary_output.parent.mkdir(parents=True, exist_ok=True)

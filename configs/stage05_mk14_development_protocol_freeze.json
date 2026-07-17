@@ -1,0 +1,81 @@
+{
+  "schema_version": "1.0",
+  "authorization_id": "stage05-mk14-development-e16-protocol-freeze-20260717-v1",
+  "created_on": "2026-07-17",
+  "target_id": "MK14",
+  "purpose": "Freeze the MAPK14 development docking protocol before any 240-ligand receptor comparison or validation metric is observed.",
+  "search_calibration_evidence": {
+    "single_seed_ladder": {
+      "config": "configs/stage05_mk14_search_ladder_single_seed.json",
+      "config_sha256": "8C3BC27A2FE263153DEF5E1DE5E98634772EBDF6E0C864C0D92533BE3527FA74",
+      "summary": "results/runs/stage05_mk14_search_ladder_single_seed/summary.json",
+      "summary_sha256": "04E08BFF6355EDBCAAD4F91EC04F3BACE3DA942A6FA1211106BD9641308B896E",
+      "successful_runs": 12,
+      "maximum_e16_e32_delta_kcal_per_mol": 0.162
+    },
+    "multiseed_followup": {
+      "config": "configs/stage05_mk14_search_ladder_multiseed_followup.json",
+      "config_sha256": "2974773A64ECBAED2417D69D07118220D155462CD201FC6D2F609518B975FCB0",
+      "summary": "results/runs/stage05_mk14_search_ladder_multiseed_followup/summary.json",
+      "summary_sha256": "9588C9269380CC5C7CAF9BDDD375EC0CE808F0865A926AFBCA077F1CD9EDD6B2",
+      "successful_runs": 8,
+      "maximum_e16_e32_delta_kcal_per_mol": 0.22,
+      "maximum_e32_seed_range_kcal_per_mol": 0.074
+    }
+  },
+  "frozen_docking_protocol": {
+    "vina_version": "1.2.7",
+    "scoring": "vina",
+    "vina_config": "configs/stage05_mk14_search_ladder_e16_cpu2.txt",
+    "vina_config_sha256": "97CCBE12C38825D849C91BED4C8C7111564A24C38A7397CA2EDE8B19509A3F6E",
+    "center_angstrom": [-0.49, 3.26, 21.83],
+    "size_angstrom": [22.0, 24.0, 30.0],
+    "exhaustiveness": 16,
+    "num_modes": 1,
+    "cpu_per_vina_process": 2,
+    "base_seeds": [20260801, 20260802, 20260803],
+    "primary_seed_aggregation": "median representative score across three seeds",
+    "sensitivity_seed_aggregation": "minimum representative score across three seeds",
+    "representative_pose_score": "pose_rank_1"
+  },
+  "development_panel": {
+    "pdbqt_manifest": "data/processed/stage05_mk14_development_120a120d_pdbqt_manifest.csv",
+    "pdbqt_manifest_sha256": "28BB94E6DE6E7BC2CB0C83E1C1787A89C098853BF73F935FAE4AAED3D70C2B43",
+    "train": {"active": 80, "decoy": 80},
+    "validation": {"active": 40, "decoy": 40},
+    "test_rows": 0
+  },
+  "data_roles": {
+    "development_train": "fit receptor-selection and QUBO objectives",
+    "development_validation": "choose hyperparameters and compare development methods",
+    "test": "locked and prohibited until a separate release authorization"
+  },
+  "remote_execution": {
+    "workers": 16,
+    "max_total_cpu": 32,
+    "minimum_recommended_ram_gb": 64,
+    "gpu_required": false,
+    "note": "Official Vina 1.2.7 is CPU-based; prioritize CPU cores and RAM over GPU model."
+  },
+  "planned_metrics": [
+    "ROC-AUC",
+    "PR-AUC",
+    "BEDROC alpha=20",
+    "EF1%",
+    "EF5%",
+    "EF10%",
+    "active coverage"
+  ],
+  "test_status": "locked_unreleased",
+  "prohibited_changes_after_freeze": [
+    "search box",
+    "exhaustiveness",
+    "seed count or seed values",
+    "representative score definition",
+    "primary seed aggregation",
+    "development ligand identities",
+    "using validation labels to fit the QUBO objective",
+    "any test-set docking or metric calculation"
+  ],
+  "interpretation_boundary": "The freeze selects a reproducible development protocol from train-only search calibration. It does not establish enrichment, receptor superiority, QUBO benefit, biological activity, or test performance."
+}

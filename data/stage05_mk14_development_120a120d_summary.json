@@ -1,0 +1,27 @@
+{
+  "schema_version": "1.0",
+  "status": "ok",
+  "operation": "merge disjoint ligand manifests",
+  "inputs": [
+    {
+      "path": "data/processed/stage05_mk14_development_train_80a80d.csv",
+      "sha256": "3A2CDDE4A0DAB3DB11A3F5219C106E5900DFB42F4D7FAAE6064F547383058639"
+    },
+    {
+      "path": "data/processed/stage05_mk14_development_validation_40a40d.csv",
+      "sha256": "0C4D5C66EF2282C83F5BDB904003F934DFF9152D6884AC1C9F54F67E46F267E4"
+    }
+  ],
+  "row_count": 240,
+  "unique_ligand_count": 240,
+  "role_label_counts": {
+    "development_train:active": 80,
+    "development_train:decoy": 80,
+    "development_validation:active": 40,
+    "development_validation:decoy": 40
+  },
+  "output": {
+    "path": "data/processed/stage05_mk14_development_120a120d.csv",
+    "sha256": "8F106193C0EF95D362276E7A9DBC48729C378C8578489EEB9524D0E9A7E10251"
+  }
+}

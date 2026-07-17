@@ -1,0 +1,108 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage05-mk14-train-high-risk-e8-e16-e32-single-seed-ladder-v1",
+  "status": "ok",
+  "config": {
+    "path": "configs/stage05_mk14_search_ladder_single_seed.json",
+    "sha256": "8C3BC27A2FE263153DEF5E1DE5E98634772EBDF6E0C864C0D92533BE3527FA74"
+  },
+  "case_count": 4,
+  "protocols": [
+    {
+      "protocol_id": "e8",
+      "exhaustiveness": 8
+    },
+    {
+      "protocol_id": "e16",
+      "exhaustiveness": 16
+    },
+    {
+      "protocol_id": "e32",
+      "exhaustiveness": 32
+    }
+  ],
+  "seeds": [
+    20260726
+  ],
+  "expected_run_count": 12,
+  "successful_run_count": 12,
+  "failed_run_count": 0,
+  "penultimate_protocol": "e16",
+  "highest_protocol": "e32",
+  "stable_case_count": 4,
+  "provisional_minimum_exhaustiveness": 16,
+  "single_seed_boundary": true,
+  "case_summaries": [
+    {
+      "case_id": "2QD9_active_L000318_flexible",
+      "receptor_id": "MK14_2QD9_reference",
+      "ligand_id": "MK14_active_L000318",
+      "label": "active",
+      "expected_runs": 3,
+      "successful_runs": 3,
+      "e8_mean_score": -9.23,
+      "e16_mean_score": -9.23,
+      "e32_mean_score": -9.23,
+      "maximum_absolute_highest_pair_delta": 0.0,
+      "maximum_absolute_lowest_highest_delta": 0.0,
+      "penultimate_protocol_stable": true,
+      "stability_failure_reasons": ""
+    },
+    {
+      "case_id": "1A9U_decoy_L000178_charged",
+      "receptor_id": "MK14_1A9U_aligned",
+      "ligand_id": "MK14_decoy_L000178",
+      "label": "decoy",
+      "expected_runs": 3,
+      "successful_runs": 3,
+      "e8_mean_score": -8.841,
+      "e16_mean_score": -8.841,
+      "e32_mean_score": -9.003,
+      "maximum_absolute_highest_pair_delta": 0.162,
+      "maximum_absolute_lowest_highest_delta": 0.162,
+      "penultimate_protocol_stable": true,
+      "stability_failure_reasons": ""
+    },
+    {
+      "case_id": "3K3J_active_L000297_large",
+      "receptor_id": "MK14_3K3J_aligned",
+      "ligand_id": "MK14_active_L000297",
+      "label": "active",
+      "expected_runs": 3,
+      "successful_runs": 3,
+      "e8_mean_score": -12.26,
+      "e16_mean_score": -12.26,
+      "e32_mean_score": -12.26,
+      "maximum_absolute_highest_pair_delta": 0.0,
+      "maximum_absolute_lowest_highest_delta": 0.0,
+      "penultimate_protocol_stable": true,
+      "stability_failure_reasons": ""
+    },
+    {
+      "case_id": "3KQ7_decoy_L017349_strong",
+      "receptor_id": "MK14_3KQ7_aligned",
+      "ligand_id": "MK14_decoy_L017349",
+      "label": "decoy",
+      "expected_runs": 3,
+      "successful_runs": 3,
+      "e8_mean_score": -11.12,
+      "e16_mean_score": -11.12,
+      "e32_mean_score": -11.12,
+      "maximum_absolute_highest_pair_delta": 0.0,
+      "maximum_absolute_lowest_highest_delta": 0.0,
+      "penultimate_protocol_stable": true,
+      "stability_failure_reasons": ""
+    }
+  ],
+  "outputs": {
+    "raw_runs_csv": {
+      "path": "results/runs/stage05_mk14_search_ladder_single_seed/raw_runs.csv",
+      "sha256": "3E463A11019A76155FC1F76DC013DC87FF46A78C8137B175C0C6C65B029D7C39"
+    },
+    "case_summary_csv": {
+      "path": "results/runs/stage05_mk14_search_ladder_single_seed/case_summary.csv",
+      "sha256": "AD33A65F24EA510EE91F2E924522820077E0452B79151279CAFFE88ECFF70024"
+    }
+  },
+  "interpretation_note": "This train-only single-seed ladder is a search-strength calibration. It cannot establish seed stability, enrichment, receptor superiority, QUBO benefit, biological activity, or test performance. Cases with unstable e16-e32 scores require targeted multi-seed follow-up."
+}

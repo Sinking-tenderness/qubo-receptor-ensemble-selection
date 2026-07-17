@@ -1,0 +1,5 @@
+case_id,receptor_id,ligand_id,label,expected_runs,successful_runs,e8_mean_score,e16_mean_score,e32_mean_score,maximum_absolute_highest_pair_delta,maximum_absolute_lowest_highest_delta,penultimate_protocol_stable,stability_failure_reasons
+2QD9_active_L000318_flexible,MK14_2QD9_reference,MK14_active_L000318,active,3,3,-9.23,-9.23,-9.23,0.0,0.0,True,
+1A9U_decoy_L000178_charged,MK14_1A9U_aligned,MK14_decoy_L000178,decoy,3,3,-8.841,-8.841,-9.003,0.162,0.162,True,
+3K3J_active_L000297_large,MK14_3K3J_aligned,MK14_active_L000297,active,3,3,-12.26,-12.26,-12.26,0.0,0.0,True,
+3KQ7_decoy_L017349_strong,MK14_3KQ7_aligned,MK14_decoy_L017349,decoy,3,3,-11.12,-11.12,-11.12,0.0,0.0,True,

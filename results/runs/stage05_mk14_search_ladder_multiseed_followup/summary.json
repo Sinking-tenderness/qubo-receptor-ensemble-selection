@@ -1,0 +1,77 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage05-mk14-train-high-risk-e16-e32-multiseed-followup-v1",
+  "status": "ok",
+  "config": {
+    "path": "configs/stage05_mk14_search_ladder_multiseed_followup.json",
+    "sha256": "2974773A64ECBAED2417D69D07118220D155462CD201FC6D2F609518B975FCB0"
+  },
+  "case_count": 2,
+  "protocols": [
+    {
+      "protocol_id": "e16",
+      "exhaustiveness": 16
+    },
+    {
+      "protocol_id": "e32",
+      "exhaustiveness": 32
+    }
+  ],
+  "seeds": [
+    20260727,
+    20260728
+  ],
+  "expected_run_count": 8,
+  "successful_run_count": 8,
+  "failed_run_count": 0,
+  "penultimate_protocol": "e16",
+  "highest_protocol": "e32",
+  "stable_case_count": 2,
+  "provisional_minimum_exhaustiveness": 16,
+  "single_seed_boundary": false,
+  "case_summaries": [
+    {
+      "case_id": "2QD9_active_L000318_flexible",
+      "receptor_id": "MK14_2QD9_reference",
+      "ligand_id": "MK14_active_L000318",
+      "label": "active",
+      "expected_runs": 4,
+      "successful_runs": 4,
+      "e16_mean_score": -9.343,
+      "e16_seed_range": 0.134,
+      "e32_mean_score": -9.391,
+      "e32_seed_range": 0.04,
+      "maximum_absolute_highest_pair_delta": 0.095,
+      "maximum_absolute_lowest_highest_delta": 0.095,
+      "penultimate_protocol_stable": true,
+      "stability_failure_reasons": ""
+    },
+    {
+      "case_id": "1A9U_decoy_L000178_charged",
+      "receptor_id": "MK14_1A9U_aligned",
+      "ligand_id": "MK14_decoy_L000178",
+      "label": "decoy",
+      "expected_runs": 4,
+      "successful_runs": 4,
+      "e16_mean_score": -8.876,
+      "e16_seed_range": 0.146,
+      "e32_mean_score": -8.986,
+      "e32_seed_range": 0.074,
+      "maximum_absolute_highest_pair_delta": 0.22,
+      "maximum_absolute_lowest_highest_delta": 0.22,
+      "penultimate_protocol_stable": true,
+      "stability_failure_reasons": ""
+    }
+  ],
+  "outputs": {
+    "raw_runs_csv": {
+      "path": "results/runs/stage05_mk14_search_ladder_multiseed_followup/raw_runs.csv",
+      "sha256": "A6ADDD7138959D851EF0E19E49C5D7D9D2F966DE514FB4732EDE5209497FC8C7"
+    },
+    "case_summary_csv": {
+      "path": "results/runs/stage05_mk14_search_ladder_multiseed_followup/case_summary.csv",
+      "sha256": "AABFF228C80F095100197ABB98511C2B779471ABF41E7B1F6BCFBFBFD8ABDFB8"
+    }
+  },
+  "interpretation_note": "This targeted train-only follow-up evaluates e16-e32 paired-seed stability on two high-risk cases. It does not establish enrichment, receptor superiority, QUBO benefit, biological activity, or validation/test performance."
+}

@@ -287,9 +287,11 @@ def main() -> int:
         raise ValueError(f"expected {expected_receptors} receptors, got {len(receptor_rows)}")
     for row in receptor_rows:
         receptor_id = row["conformer_id"]
-        if row.get("preparation_status") != "ok":
+        preparation_status = row.get("preparation_status", row.get("status", ""))
+        if preparation_status != "ok":
             raise ValueError(f"receptor preparation did not pass: {receptor_id}")
-        path = portable_manifest_path(row["receptor_pdbqt_path"])
+        path_value = row.get("receptor_pdbqt_path", row.get("receptor_pdbqt", ""))
+        path = portable_manifest_path(path_value)
         if not path.is_file():
             raise FileNotFoundError(path)
         if file_sha256(path) != row["receptor_pdbqt_sha256"].upper():

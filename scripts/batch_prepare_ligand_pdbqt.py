@@ -4,12 +4,21 @@ from __future__ import annotations
 
 import argparse
 import csv
+import hashlib
 import subprocess
 import sys
 from pathlib import Path
 
 
 REQUIRED_COLUMNS = {"ligand_id", "label", "sdf_path", "prep_status"}
+
+
+def file_sha256(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as handle:
+        for block in iter(lambda: handle.read(1024 * 1024), b""):
+            digest.update(block)
+    return digest.hexdigest().upper()
 
 
 def validate_columns(fieldnames: list[str] | None) -> None:
@@ -172,6 +181,7 @@ def main() -> int:
                     "pdbqt_status": "ok",
                     "pdbqt_message": "meeko_ok",
                     "pdbqt_path": pdbqt_path.as_posix(),
+                    "pdbqt_sha256": file_sha256(pdbqt_path),
                     **parsed,
                 }
             )

@@ -1,0 +1,56 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage05-mk14-development-120a120d-input-preparation-v1",
+  "status": "ok",
+  "target_id": "MK14",
+  "locked_split_sha256": "20818CB9088DBFCB1098D57C9CBA1979B109F3CCE0C9A4D60B7D34D3BB64AE71",
+  "selection": {
+    "train": {
+      "path": "data/processed/stage05_mk14_development_train_80a80d.csv",
+      "sha256": "3A2CDDE4A0DAB3DB11A3F5219C106E5900DFB42F4D7FAAE6064F547383058639",
+      "active": 80,
+      "decoy": 80,
+      "unique_scaffolds": 160,
+      "seed": 20260729
+    },
+    "validation": {
+      "path": "data/processed/stage05_mk14_development_validation_40a40d.csv",
+      "sha256": "0C4D5C66EF2282C83F5BDB904003F934DFF9152D6884AC1C9F54F67E46F267E4",
+      "active": 40,
+      "decoy": 40,
+      "unique_scaffolds": 80,
+      "seed": 20260730
+    },
+    "combined": {
+      "path": "data/processed/stage05_mk14_development_120a120d.csv",
+      "sha256": "8F106193C0EF95D362276E7A9DBC48729C378C8578489EEB9524D0E9A7E10251",
+      "row_count": 240,
+      "test_rows": 0
+    }
+  },
+  "three_dimensional_preparation": {
+    "manifest": "data/processed/stage05_mk14_development_120a120d_3d_manifest.csv",
+    "manifest_sha256": "E076E9AF7824F321EFCE0AD83D0983E2218BEE9DF0D364DD727366CC8D2BF8D0",
+    "rdkit_success": 229,
+    "rdkit_warning": 11,
+    "rdkit_failed": 0,
+    "warning_definition": "3D embedding succeeded but MMFF94 did not converge within 500 iterations"
+  },
+  "pdbqt_preparation": {
+    "manifest": "data/processed/stage05_mk14_development_120a120d_pdbqt_manifest.csv",
+    "manifest_sha256": "28BB94E6DE6E7BC2CB0C83E1C1787A89C098853BF73F935FAE4AAED3D70C2B43",
+    "successful": 240,
+    "failed": 0,
+    "rows_with_sha256": 240,
+    "charged_ligands": 47,
+    "missing_files": 0
+  },
+  "role_label_audit": {
+    "development_train_active_ok": 80,
+    "development_train_decoy_ok": 80,
+    "development_validation_active_ok": 40,
+    "development_validation_decoy_ok": 40
+  },
+  "test_status": "locked_unreleased",
+  "interpretation_boundary": "Successful preparation establishes complete development inputs. It does not establish docking success, enrichment, receptor complementarity, QUBO benefit, or test performance."
+}

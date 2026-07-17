@@ -1,0 +1,3 @@
+case_id,receptor_id,ligand_id,label,expected_runs,successful_runs,e16_mean_score,e16_seed_range,e32_mean_score,e32_seed_range,maximum_absolute_highest_pair_delta,maximum_absolute_lowest_highest_delta,penultimate_protocol_stable,stability_failure_reasons
+2QD9_active_L000318_flexible,MK14_2QD9_reference,MK14_active_L000318,active,4,4,-9.343,0.134,-9.391,0.04,0.095,0.095,True,
+1A9U_decoy_L000178_charged,MK14_1A9U_aligned,MK14_decoy_L000178,decoy,4,4,-8.876,0.146,-8.986,0.074,0.22,0.22,True,

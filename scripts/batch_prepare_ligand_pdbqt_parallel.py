@@ -11,6 +11,7 @@ from pathlib import Path
 try:
     from .batch_prepare_ligand_pdbqt import (
         find_meeko_script,
+        file_sha256,
         parse_pdbqt,
         read_rows,
         run_meeko,
@@ -18,7 +19,7 @@ try:
         write_manifest,
     )
 except ImportError:
-    from batch_prepare_ligand_pdbqt import find_meeko_script, parse_pdbqt, read_rows, run_meeko, safe_filename, write_manifest
+    from batch_prepare_ligand_pdbqt import file_sha256, find_meeko_script, parse_pdbqt, read_rows, run_meeko, safe_filename, write_manifest
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -51,7 +52,14 @@ def prepare_one(
     completed = run_meeko(meeko_script, sdf_path, pdbqt_path)
     combined = "\n".join(part.strip() for part in (completed.stdout, completed.stderr) if part.strip())
     if completed.returncode == 0 and pdbqt_path.exists():
-        return {**row, "pdbqt_status": "ok", "pdbqt_message": "meeko_ok", "pdbqt_path": pdbqt_path.as_posix(), **parse_pdbqt(pdbqt_path)}
+        return {
+            **row,
+            "pdbqt_status": "ok",
+            "pdbqt_message": "meeko_ok",
+            "pdbqt_path": pdbqt_path.as_posix(),
+            "pdbqt_sha256": file_sha256(pdbqt_path),
+            **parse_pdbqt(pdbqt_path),
+        }
     return {**row, "pdbqt_status": "failed", "pdbqt_message": combined[-500:], "pdbqt_path": pdbqt_path.as_posix() if pdbqt_path.exists() else ""}
 
 
@@ -75,6 +83,7 @@ def main() -> int:
     for row in rows:
         old = existing.get(row["ligand_id"])
         if args.resume and old and old.get("pdbqt_status") == "ok" and Path(old.get("pdbqt_path", "")).exists():
+            old["pdbqt_sha256"] = file_sha256(Path(old["pdbqt_path"]))
             output[row["ligand_id"]] = old
         else:
             pending.append(row)

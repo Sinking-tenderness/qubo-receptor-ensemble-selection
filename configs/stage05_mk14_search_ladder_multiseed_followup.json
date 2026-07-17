@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage05-mk14-train-high-risk-e16-e32-multiseed-followup-v1",
+  "purpose": "Add two paired seeds for the flexible active and charged decoy cases before freezing e16 as the development-scale search strength.",
+  "inputs": {
+    "receptor_manifest": "data/processed/stage05_mk14_receptor_preparation_manifest.csv",
+    "ligand_manifest": "data/processed/stage05_mk14_train_execution_pilot_pdbqt_manifest.csv",
+    "vina_executable": "environment/bin/vina_1.2.7_win.exe"
+  },
+  "input_sha256": {
+    "receptor_manifest": "C18CD1AC7B64C0282E763E54CF44BBCA26B21056B6D34C24FF0D9D8B0FE3BD60",
+    "ligand_manifest": "66AFAED0E8CE573CA14CDB70F17C4863ED8B80B69DE784762B113086B70F4CD6",
+    "vina_executable": "E0C4B2715E0C1A74F6E92D0F3BE0328AC97542EAFBC111E6B1EFAD897A73CCE5"
+  },
+  "protocols": [
+    {
+      "protocol_id": "e16",
+      "exhaustiveness": 16,
+      "config_path": "configs/stage05_mk14_search_ladder_e16_cpu2.txt",
+      "config_sha256": "97CCBE12C38825D849C91BED4C8C7111564A24C38A7397CA2EDE8B19509A3F6E"
+    },
+    {
+      "protocol_id": "e32",
+      "exhaustiveness": 32,
+      "config_path": "configs/stage05_mk14_search_ladder_e32_cpu2.txt",
+      "config_sha256": "D7D8AE987F124B498230F0D328F66F2139612D9F92F324EA2838217F1A9E5F55"
+    }
+  ],
+  "cases": [
+    {
+      "case_id": "2QD9_active_L000318_flexible",
+      "case_reason": "eight QC rotatable bonds and broad common-box search on the DUD-E reference receptor",
+      "receptor_id": "MK14_2QD9_reference",
+      "receptor_pdbqt_sha256": "F34F05160C13A78113A31459569E09F2FD93632F5A4E57806AEF192B3BC3E036",
+      "ligand_id": "MK14_active_L000318",
+      "label": "active",
+      "ligand_pdbqt_sha256": "04A860C8E85F6436CD5409723E77EC25AC573BCA80A9F7642E83CD7EEBCB1FFA"
+    },
+    {
+      "case_id": "1A9U_decoy_L000178_charged",
+      "case_reason": "charge +1, nine torsional degrees of freedom, and the largest e16-e32 delta in the single-seed ladder",
+      "receptor_id": "MK14_1A9U_aligned",
+      "receptor_pdbqt_sha256": "1F4A5F9F9FCE03DB2E775B2774EAD31CE79A1280A659A154943923CF8116A2F2",
+      "ligand_id": "MK14_decoy_L000178",
+      "label": "decoy",
+      "ligand_pdbqt_sha256": "AE728DCB0C91BFEA1D64B6E1D48B5428D1B2A8C090C70E257C7C682A176A89E2"
+    }
+  ],
+  "seeds": [20260727, 20260728],
+  "execution": {
+    "workers": 2,
+    "max_total_cpu": 4
+  },
+  "acceptance_thresholds": {
+    "maximum_highest_pair_delta_kcal_per_mol": 0.5,
+    "maximum_highest_protocol_seed_range_kcal_per_mol": 0.5
+  },
+  "outputs": {
+    "run_directory": "results/runs/stage05_mk14_search_ladder_multiseed_followup",
+    "raw_runs_csv": "results/runs/stage05_mk14_search_ladder_multiseed_followup/raw_runs.csv",
+    "case_summary_csv": "results/runs/stage05_mk14_search_ladder_multiseed_followup/case_summary.csv",
+    "summary_json": "results/runs/stage05_mk14_search_ladder_multiseed_followup/summary.json"
+  },
+  "interpretation_boundary": "This targeted train-only follow-up evaluates e16-e32 paired-seed stability on two high-risk cases. It does not establish enrichment, receptor superiority, QUBO benefit, biological activity, or validation/test performance."
+}
