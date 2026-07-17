@@ -1,0 +1,34 @@
+{
+  "schema_version": "1.0",
+  "status": "ok",
+  "operation": "deterministic group-diverse split pilot selection",
+  "input": {
+    "path": "data/processed/stage05_mk14_grouped_scaffold_split.csv",
+    "sha256": "20818CB9088DBFCB1098D57C9CBA1979B109F3CCE0C9A4D60B7D34D3BB64AE71"
+  },
+  "source_split": "train",
+  "seed": 20260718,
+  "count_per_label": 4,
+  "row_count": 8,
+  "label_counts": {
+    "active": 4,
+    "decoy": 4
+  },
+  "unique_split_group_count": 8,
+  "unique_scaffold_count": 8,
+  "selected_ligand_ids": [
+    "MK14_active_L000215",
+    "MK14_active_L000255",
+    "MK14_active_L000297",
+    "MK14_active_L000318",
+    "MK14_decoy_L000178",
+    "MK14_decoy_L003607",
+    "MK14_decoy_L017349",
+    "MK14_decoy_L035465"
+  ],
+  "output": {
+    "path": "data/processed/stage05_mk14_train_execution_pilot_4a4d.csv",
+    "sha256": "6FE176A2749C45BAD4E9BD48E1318D661BCD84583E79B1D2852506309056A3B7"
+  },
+  "interpretation_boundary": "This balanced train-only pilot validates execution and parsing. Its metrics must not be interpreted as virtual-screening performance."
+}

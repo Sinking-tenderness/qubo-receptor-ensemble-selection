@@ -1,0 +1,23 @@
+{
+  "ligand_count": 8,
+  "receptor_count": 4,
+  "receptor_ids": [
+    "MK14_1A9U_aligned",
+    "MK14_2QD9_reference",
+    "MK14_3K3J_aligned",
+    "MK14_3KQ7_aligned"
+  ],
+  "long_row_count": 32,
+  "label_counts_in_long_rows": {
+    "active": 16,
+    "decoy": 16
+  },
+  "failed_ligand_receptor_pairs": 0,
+  "missing_scores_by_receptor": {
+    "MK14_1A9U_aligned": 0,
+    "MK14_2QD9_reference": 0,
+    "MK14_3K3J_aligned": 0,
+    "MK14_3KQ7_aligned": 0
+  },
+  "score_direction": "lower representative_score is better for Vina; ranking_score = -representative_score is higher-is-better"
+}

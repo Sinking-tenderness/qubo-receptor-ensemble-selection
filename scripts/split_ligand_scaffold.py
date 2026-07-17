@@ -6,7 +6,7 @@ import argparse
 import csv
 import json
 import random
-from collections import defaultdict
+from collections import Counter, defaultdict
 from pathlib import Path
 
 from rdkit import Chem
@@ -38,6 +38,8 @@ def scaffold_for_smiles(smiles: str) -> str:
     molecule = Chem.MolFromSmiles(smiles)
     if molecule is None:
         raise ValueError(f"cannot parse canonical_smiles: {smiles}")
+    molecule = Chem.Mol(molecule)
+    Chem.RemoveStereochemistry(molecule)
     scaffold = MurckoScaffold.MurckoScaffoldSmiles(mol=molecule, includeChirality=False)
     # Acyclic molecules have an empty Murcko scaffold. Keep them separate by
     # canonical SMILES rather than putting all acyclic molecules in one group.
@@ -52,23 +54,67 @@ def target_counts(rows: list[dict[str, str]], fractions: dict[str, float]) -> di
     }
 
 
+class DisjointSet:
+    def __init__(self, size: int) -> None:
+        self.parent = list(range(size))
+
+    def find(self, item: int) -> int:
+        while self.parent[item] != item:
+            self.parent[item] = self.parent[self.parent[item]]
+            item = self.parent[item]
+        return item
+
+    def union(self, left: int, right: int) -> None:
+        left_root = self.find(left)
+        right_root = self.find(right)
+        if left_root != right_root:
+            self.parent[right_root] = left_root
+
+
+def linked_groups(rows: list[dict[str, str]]) -> list[tuple[str, list[dict[str, str]]]]:
+    prepared: list[dict[str, str]] = []
+    disjoint_set = DisjointSet(len(rows))
+    scaffold_first: dict[str, int] = {}
+    source_id_first: dict[str, int] = {}
+    for index, input_row in enumerate(rows):
+        row = input_row.copy()
+        scaffold = scaffold_for_smiles(row["canonical_smiles"])
+        row["scaffold_smiles"] = scaffold
+        prepared.append(row)
+        if scaffold in scaffold_first:
+            disjoint_set.union(index, scaffold_first[scaffold])
+        else:
+            scaffold_first[scaffold] = index
+        source_id = row.get("source_molecule_id", "").strip()
+        if source_id:
+            if source_id in source_id_first:
+                disjoint_set.union(index, source_id_first[source_id])
+            else:
+                source_id_first[source_id] = index
+
+    components: dict[int, list[dict[str, str]]] = defaultdict(list)
+    for index, row in enumerate(prepared):
+        components[disjoint_set.find(index)].append(row)
+    output: list[tuple[str, list[dict[str, str]]]] = []
+    for component_rows in components.values():
+        component_id = min(row["ligand_id"] for row in component_rows)
+        for row in component_rows:
+            row["split_group_id"] = component_id
+        output.append((component_id, component_rows))
+    return output
+
+
 def assign_groups(rows: list[dict[str, str]], seed: int) -> list[dict[str, str]]:
     fractions = {"train": 0.60, "validation": 0.20, "test": 0.20}
     targets = target_counts(rows, fractions)
-    groups: dict[str, list[dict[str, str]]] = defaultdict(list)
-    for row in rows:
-        row = row.copy()
-        row["scaffold_smiles"] = scaffold_for_smiles(row["canonical_smiles"])
-        groups[row["scaffold_smiles"]].append(row)
-
     rng = random.Random(seed)
-    group_items = list(groups.items())
+    group_items = linked_groups(rows)
     rng.shuffle(group_items)
     group_items.sort(key=lambda item: len(item[1]), reverse=True)
     assigned: dict[str, list[dict[str, str]]] = {split: [] for split in SPLITS}
     counts = {split: {label: 0 for label in LABELS} for split in SPLITS}
 
-    for scaffold, group_rows in group_items:
+    for _, group_rows in group_items:
         group_counts = {label: sum(row["label"] == label for row in group_rows) for label in LABELS}
 
         def cost(split: str) -> tuple[float, float, str]:
@@ -108,15 +154,26 @@ def write_csv(path: Path, rows: list[dict[str, str]]) -> None:
 
 def build_summary(rows: list[dict[str, str]], seed: int) -> dict[str, object]:
     scaffold_splits: dict[str, set[str]] = defaultdict(set)
+    source_id_splits: dict[str, set[str]] = defaultdict(set)
+    group_sizes: Counter[str] = Counter()
     counts: dict[str, dict[str, int]] = {}
     for row in rows:
         scaffold_splits[row["scaffold_smiles"]].add(row["split"])
+        source_id = row.get("source_molecule_id", "").strip()
+        if source_id:
+            source_id_splits[source_id].add(row["split"])
+        group_sizes[row["split_group_id"]] += 1
         counts.setdefault(row["split"], {})[row["label"]] = (
             counts.setdefault(row["split"], {}).get(row["label"], 0) + 1
         )
     duplicated = {
         scaffold: sorted(splits)
         for scaffold, splits in scaffold_splits.items()
+        if len(splits) > 1
+    }
+    duplicated_source_ids = {
+        source_id: sorted(splits)
+        for source_id, splits in source_id_splits.items()
         if len(splits) > 1
     }
     return {
@@ -126,6 +183,10 @@ def build_summary(rows: list[dict[str, str]], seed: int) -> dict[str, object]:
         "counts": counts,
         "scaffold_disjoint": not duplicated,
         "scaffolds_in_multiple_splits": duplicated,
+        "source_id_disjoint": not duplicated_source_ids,
+        "source_ids_in_multiple_splits": duplicated_source_ids,
+        "split_group_count": len(group_sizes),
+        "largest_split_group_size": max(group_sizes.values(), default=0),
     }
 
 
@@ -139,8 +200,8 @@ def main() -> int:
 
     rows = assign_groups(read_rows(args.input), args.seed)
     summary = build_summary(rows, args.seed)
-    if not summary["scaffold_disjoint"]:
-        raise RuntimeError("scaffold leakage detected")
+    if not summary["scaffold_disjoint"] or not summary["source_id_disjoint"]:
+        raise RuntimeError("scaffold or source-ID leakage detected")
     write_csv(args.output, rows)
     args.summary_output.parent.mkdir(parents=True, exist_ok=True)
     args.summary_output.write_text(json.dumps(summary, indent=2) + "\n", encoding="ascii")

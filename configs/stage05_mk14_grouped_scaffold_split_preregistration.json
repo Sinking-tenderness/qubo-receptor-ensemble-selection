@@ -1,0 +1,66 @@
+{
+  "schema_version": "1.0",
+  "authorization_id": "stage05-mk14-grouped-scaffold-split-lock-20260717-v1",
+  "created_on": "2026-07-17",
+  "target_id": "MK14",
+  "purpose": "Freeze a leakage-controlled MAPK14 train/validation/test partition before receptor screening or QUBO development.",
+  "inputs": {
+    "ligand_manifest": {
+      "path": "data/processed/stage05_mk14_ligand_manifest.csv",
+      "sha256": "CFBE2B4D8AC9E0EDE3BA93C1055C6EC4478D95C0CFF3EEDF3BA2A0BE984A2071"
+    },
+    "ligand_qc": {
+      "path": "data/processed/stage05_mk14_ligand_qc.csv",
+      "sha256": "BD2DA94B7AFF4D7179E1FEEDE5025AA0587D0CCE405EA24208F22AC14C268D2C"
+    }
+  },
+  "split_protocol": {
+    "script": "scripts/split_ligand_scaffold.py",
+    "seed": 20260717,
+    "fractions": {
+      "train": 0.6,
+      "validation": 0.2,
+      "test": 0.2
+    },
+    "grouping": "connected components induced by non-chiral Murcko scaffold or shared source_molecule_id",
+    "acyclic_rule": "stereochemistry-stripped canonical SMILES",
+    "label_balance": "greedy group assignment toward per-label target counts"
+  },
+  "locked_split": {
+    "path": "data/processed/stage05_mk14_grouped_scaffold_split.csv",
+    "sha256": "20818CB9088DBFCB1098D57C9CBA1979B109F3CCE0C9A4D60B7D34D3BB64AE71",
+    "summary_path": "data/stage05_mk14_grouped_scaffold_split_summary.json",
+    "summary_sha256": "61829BBDF8885BDEB24652F5F731BB02865BFD9E83B3DC2D9335B7A4017C4ECD",
+    "row_count": 36428,
+    "scaffold_disjoint": true,
+    "source_id_disjoint": true,
+    "counts": {
+      "train": {
+        "active": 348,
+        "decoy": 21469
+      },
+      "validation": {
+        "active": 115,
+        "decoy": 7190
+      },
+      "test": {
+        "active": 115,
+        "decoy": 7191
+      }
+    }
+  },
+  "allowed_uses": {
+    "train": "pilot execution, receptor characterization, objective fitting, and model development",
+    "validation": "hyperparameter choice, protocol comparison, and development-stage selection only",
+    "test": "one final evaluation after receptor preparation, aggregation rule, QUBO objective, solver settings, and reporting metrics are frozen"
+  },
+  "test_status": "locked_unreleased",
+  "prohibited_before_test_release": [
+    "test-set docking",
+    "test-set metric computation",
+    "receptor selection using test labels or scores",
+    "QUBO coefficient fitting using test labels or scores",
+    "changing the split seed or group definitions after seeing validation results"
+  ],
+  "interpretation_boundary": "This file locks data roles and prevents leakage. It does not establish MAPK14 screening performance or external generalization."
+}

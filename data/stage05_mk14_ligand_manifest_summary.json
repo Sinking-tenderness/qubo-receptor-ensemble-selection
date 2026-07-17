@@ -1,0 +1,36 @@
+{
+  "schema_version": "1.0",
+  "status": "ok",
+  "operation": "lossless DUD-E ISM to line-addressable ligand manifest",
+  "target_id": "MK14",
+  "source": "DUD-E",
+  "inputs": {
+    "actives": {
+      "path": "data/raw/dude/mk14/actives_final.ism",
+      "sha256": "99BF2C5FA182107B9AC5EAD018EB29F8955D35BE2B673BFE46EA3B44F7AD93BB",
+      "row_count": 578
+    },
+    "decoys": {
+      "path": "data/raw/dude/mk14/decoys_final.ism",
+      "sha256": "ACF4FD4039B73E825FBDF162A0758A488921C032BD2B0E91F1462C0EAB30838D",
+      "row_count": 35850
+    }
+  },
+  "output": {
+    "path": "data/processed/stage05_mk14_ligand_manifest.csv",
+    "sha256": "CFBE2B4D8AC9E0EDE3BA93C1055C6EC4478D95C0CFF3EEDF3BA2A0BE984A2071",
+    "row_count": 36428
+  },
+  "label_counts": {
+    "active": 578,
+    "decoy": 35850
+  },
+  "duplicate_source_id_audit": {
+    "unique_label_source_id_count": 36390,
+    "duplicate_label_source_id_count": 37,
+    "rows_with_duplicate_label_source_id": 75,
+    "maximum_label_source_id_multiplicity": 3
+  },
+  "deduplication_applied": false,
+  "interpretation_note": "Every non-empty source row is retained. Ligand IDs encode target, label, and one-based source line number."
+}

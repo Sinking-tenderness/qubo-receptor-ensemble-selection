@@ -1,0 +1,9 @@
+target_id,ligand_id,label,MK14_1A9U_aligned,MK14_2QD9_reference,MK14_3K3J_aligned,MK14_3KQ7_aligned
+MK14,MK14_active_L000215,active,-8.955,-9.043,-9.789,-9.834
+MK14,MK14_active_L000255,active,-7.777,-6.712,-7.349,-6.644
+MK14,MK14_active_L000297,active,-11.03,-9.822,-12.3,-10.12
+MK14,MK14_active_L000318,active,-9.473,-9.283,-9.602,-10.38
+MK14,MK14_decoy_L000178,decoy,-8.935,-7.471,-9.385,-8.591
+MK14,MK14_decoy_L003607,decoy,-8.438,-8.636,-9.128,-9.351
+MK14,MK14_decoy_L017349,decoy,-10.38,-10.12,-10.6,-11.11
+MK14,MK14_decoy_L035465,decoy,-5.526,-6.097,-5.672,-6.538

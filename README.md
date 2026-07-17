@@ -24,8 +24,11 @@ must not be reused for fitting.
 Stage 5 is in progress on the independent MAPK14/p38alpha target. Target intake,
 four-structure alignment and pocket auditing, receptor preparation, and a
 four-case common-box redocking gate are complete. All four top-ranked
-co-crystal poses have symmetry-corrected heavy-atom RMSD below 2 A. MAPK14
-active/decoy screening and receptor-subset evaluation have not yet been run.
+co-crystal poses have symmetry-corrected heavy-atom RMSD below 2 A. A grouped
+scaffold/source-ID split is frozen with an unreleased test partition, and a
+train-only 4-active/4-decoy execution pilot completed all 32 four-receptor
+docking pairs. MAPK14 development-scale enrichment and receptor-subset
+evaluation have not yet been run.
 
 ## Planned milestones
 

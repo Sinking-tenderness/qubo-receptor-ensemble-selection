@@ -1,0 +1,25 @@
+{
+  "seed": 20260717,
+  "input_rows": 36428,
+  "scaffold_count": 22427,
+  "counts": {
+    "validation": {
+      "active": 115,
+      "decoy": 7190
+    },
+    "train": {
+      "active": 348,
+      "decoy": 21469
+    },
+    "test": {
+      "active": 115,
+      "decoy": 7191
+    }
+  },
+  "scaffold_disjoint": true,
+  "scaffolds_in_multiple_splits": {},
+  "source_id_disjoint": true,
+  "source_ids_in_multiple_splits": {},
+  "split_group_count": 22412,
+  "largest_split_group_size": 293
+}

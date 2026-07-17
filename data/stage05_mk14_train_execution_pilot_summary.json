@@ -1,0 +1,118 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage05-mk14-train-only-4a4d-four-receptor-execution-pilot-v1",
+  "status": "ok",
+  "target_id": "MK14",
+  "purpose": "Validate ligand preparation, four-receptor docking, checkpoint resume, score parsing, and matrix construction without estimating screening performance.",
+  "locked_split": {
+    "path": "data/processed/stage05_mk14_grouped_scaffold_split.csv",
+    "sha256": "20818CB9088DBFCB1098D57C9CBA1979B109F3CCE0C9A4D60B7D34D3BB64AE71",
+    "source_split": "train",
+    "test_status": "locked_unreleased"
+  },
+  "pilot_selection": {
+    "seed": 20260718,
+    "path": "data/processed/stage05_mk14_train_execution_pilot_4a4d.csv",
+    "sha256": "6FE176A2749C45BAD4E9BD48E1318D661BCD84583E79B1D2852506309056A3B7",
+    "active_count": 4,
+    "decoy_count": 4,
+    "unique_scaffold_count": 8,
+    "unique_split_group_count": 8,
+    "charged_active_count": 0,
+    "charged_decoy_count": 1,
+    "heavy_atom_count_range": [25, 40],
+    "rotatable_bond_range": [3, 9]
+  },
+  "ligand_preparation": {
+    "rdkit_3d_success_count": 8,
+    "meeko_pdbqt_success_count": 8,
+    "rdkit_3d_manifest": {
+      "path": "data/processed/stage05_mk14_train_execution_pilot_3d_manifest.csv",
+      "sha256": "ABB2C77707F3FAA0C5E26A263D8A3DB7336C0F3B7E50B40A7D459CB4963C86A7"
+    },
+    "pdbqt_manifest": {
+      "path": "data/processed/stage05_mk14_train_execution_pilot_pdbqt_manifest.csv",
+      "sha256": "66AFAED0E8CE573CA14CDB70F17C4863ED8B80B69DE784762B113086B70F4CD6"
+    }
+  },
+  "docking_protocol": {
+    "vina_version": "1.2.7",
+    "config": {
+      "path": "configs/stage05_mk14_train_execution_pilot_vina.txt",
+      "sha256": "C7251ACC7244A83A4E9D4F372DD766AF6422AD481A4A47C040CEE8EDF86A07C5"
+    },
+    "common_box_center_angstrom": [-0.49, 3.26, 21.83],
+    "common_box_size_angstrom": [22.0, 24.0, 30.0],
+    "exhaustiveness": 8,
+    "num_modes": 5,
+    "cpu_per_vina_process": 2,
+    "base_seed": 20260718,
+    "representative_score": "pose_rank_1"
+  },
+  "execution_audit": {
+    "requested_ligand_receptor_pairs": 32,
+    "successful_ligand_receptor_pairs": 32,
+    "failed_ligand_receptor_pairs_final": 0,
+    "missing_matrix_values": 0,
+    "initial_concurrency": {
+      "workers": 4,
+      "maximum_total_cpu": 8,
+      "observed_failure": "three 2QD9 jobs reported insufficient memory while grids were built concurrently"
+    },
+    "stable_concurrency": {
+      "workers": 2,
+      "maximum_total_cpu": 4,
+      "resume_verified": true
+    },
+    "local_memory_observation_gb": {
+      "total_physical": 15.71,
+      "free_at_diagnosis": 3.26
+    }
+  },
+  "receptor_execution": [
+    {
+      "receptor_id": "MK14_1A9U_aligned",
+      "ligand_count": 8,
+      "sum_per_ligand_runtime_minutes": 21.42,
+      "median_per_ligand_runtime_seconds": 161.0,
+      "top_score_range_kcal_per_mol": [-11.03, -5.526]
+    },
+    {
+      "receptor_id": "MK14_2QD9_reference",
+      "ligand_count": 8,
+      "sum_per_ligand_runtime_minutes": 28.8,
+      "median_per_ligand_runtime_seconds": 236.0,
+      "top_score_range_kcal_per_mol": [-10.12, -6.097]
+    },
+    {
+      "receptor_id": "MK14_3K3J_aligned",
+      "ligand_count": 8,
+      "sum_per_ligand_runtime_minutes": 22.29,
+      "median_per_ligand_runtime_seconds": 208.4,
+      "top_score_range_kcal_per_mol": [-12.3, -5.672]
+    },
+    {
+      "receptor_id": "MK14_3KQ7_aligned",
+      "ligand_count": 8,
+      "sum_per_ligand_runtime_minutes": 18.03,
+      "median_per_ligand_runtime_seconds": 149.4,
+      "top_score_range_kcal_per_mol": [-11.11, -6.538]
+    }
+  ],
+  "outputs": {
+    "representative_scores": {
+      "path": "data/processed/stage05_mk14_train_execution_pilot_representative_scores.csv",
+      "sha256": "89048869FF7CEF47C06D529AEE5AF2C30D54026C05ABE236D3986F6F3BA74693"
+    },
+    "score_matrix": {
+      "path": "data/processed/stage05_mk14_train_execution_pilot_score_matrix.csv",
+      "sha256": "D9DFEE3E4F7010AEAB0A6FB852B3F310F2EE455FF59D4EC4CD4C069C42065388"
+    },
+    "score_matrix_summary": {
+      "path": "data/stage05_mk14_train_execution_pilot_score_matrix_summary.json",
+      "sha256": "96B3A45DA0D4AE4299EA514B476AE78BC78917BEC1DDAB2845BD6B59FBBB8A30"
+    }
+  },
+  "diagnostic_observation": "MK14_decoy_L017349 received a strong score on all four receptors. This is a useful false-positive stress case, not evidence that the decoy is experimentally inactive or that a receptor performs poorly.",
+  "interpretation_boundary": "The eight-ligand balanced pilot is too small and intentionally distribution-shifted for ROC-AUC, PR-AUC, EF, BEDROC, receptor selection, or QUBO claims."
+}
