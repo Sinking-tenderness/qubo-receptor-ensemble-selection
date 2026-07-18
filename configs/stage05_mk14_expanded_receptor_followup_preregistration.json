@@ -1,0 +1,178 @@
+{
+  "schema_version": "1.0",
+  "authorization_id": "stage05-mk14-expanded-receptor-followup-preregistration-20260718-v1",
+  "created_on": "2026-07-18",
+  "target_id": "MK14",
+  "purpose": "Prospectively expand the MAPK14 receptor pool using label-independent structural evidence, add a matched linear top-k baseline, and require train-only QUBO non-degeneracy before any new validation evaluation.",
+  "upstream_failed_gate": {
+    "summary_path": "results/runs/stage05_mk14_development_method_gate/summary.json",
+    "summary_sha256": "879997EA61E564F052CFECBA5C301D4111F97F5FCA326777CFA5BFBFC1A228AE",
+    "required_status": "development_gate_failed_test_locked",
+    "observed_failure": "coverage-QUBO selected target_size=1 and was identical to single-best"
+  },
+  "data_boundary": {
+    "development_train": "available for future expanded-receptor docking and train-only method selection",
+    "previous_development_validation": "consumed_diagnostic_only; prohibited for tuning, promotion, or post-hoc receptor selection",
+    "test": "locked_unreleased",
+    "new_validation": "not yet sampled, prepared, docked, or authorized",
+    "labels_allowed_during_structural_selection": false,
+    "docking_scores_allowed_during_structural_selection": false
+  },
+  "rcsb_discovery": {
+    "uniprot_accession": "Q16539",
+    "experimental_method": "X-RAY DIFFRACTION",
+    "source": "RCSB PDB Search API and Data API",
+    "metadata_eligibility": {
+      "required_mutation_count": 0,
+      "maximum_resolution_angstrom": 2.5,
+      "minimum_reference_sequence_coverage": 0.9,
+      "minimum_sample_sequence_length": 330,
+      "maximum_sample_sequence_length": 420,
+      "require_same_chain_drug_like_nonpolymer": true,
+      "minimum_nonpolymer_formula_weight_kda": 0.18,
+      "maximum_nonpolymer_formula_weight_kda": 0.8,
+      "excluded_nonpolymer_ids": [
+        "ACT",
+        "CA",
+        "CD",
+        "CL",
+        "CO",
+        "DMS",
+        "EDO",
+        "GOL",
+        "K",
+        "MG",
+        "MN",
+        "NA",
+        "NI",
+        "PEG",
+        "PO4",
+        "SO4",
+        "ZN"
+      ]
+    }
+  },
+  "coordinate_eligibility": {
+    "reference_structure": "2QD9 chain A",
+    "reference_pocket_residue_numbers": [
+      30,
+      33,
+      34,
+      38,
+      49,
+      51,
+      52,
+      53,
+      71,
+      75,
+      84,
+      85,
+      86,
+      104,
+      105,
+      106,
+      107,
+      108,
+      109,
+      110,
+      111,
+      112,
+      115,
+      154,
+      155,
+      156,
+      157,
+      167,
+      168
+    ],
+    "required_anchor_residue_numbers": [
+      30,
+      38,
+      51,
+      53,
+      71,
+      75,
+      84,
+      86,
+      104,
+      106,
+      107,
+      108,
+      109,
+      167,
+      168
+    ],
+    "minimum_pocket_residue_fraction": 0.965,
+    "require_reference_residue_name_match": true,
+    "alignment": "proper-rotation Kabsch alignment using sequence-matched protein C-alpha atoms",
+    "require_drug_like_ligand_within_reference_pocket_angstrom": 6.0,
+    "alternate_location_rule": "highest occupancy, then blank, A, and lexical tie-break",
+    "structural_features": [
+      "pairwise pocket C-alpha distances",
+      "pairwise pocket side-chain heavy-atom centroid distances"
+    ]
+  },
+  "pool_expansion": {
+    "existing_receptor_ids": [
+      "MK14_2QD9_reference",
+      "MK14_1A9U_aligned",
+      "MK14_3K3J_aligned",
+      "MK14_3KQ7_aligned"
+    ],
+    "new_receptor_count": 4,
+    "final_receptor_count": 8,
+    "selection_rule": "deterministic max-min structural-distance selection seeded by the four existing receptors",
+    "minimum_eligible_new_candidate_count": 4,
+    "failure_action": "stop without ligand docking if fewer than four new candidates pass coordinate eligibility",
+    "co_crystal_redocking_required": true,
+    "maximum_redocking_heavy_atom_rmsd_angstrom": 2.0
+  },
+  "future_train_only_method_gate": {
+    "fold_count": 4,
+    "fold_group": "frozen split_group_id",
+    "fold_seed": 20261111,
+    "score_normalization": "fit per-receptor min-max bounds on each inner-training fold only",
+    "selection_metric": "bedroc_alpha_20",
+    "tie_breakers": [
+      "pr_auc_average_precision",
+      "roc_auc"
+    ],
+    "subset_sizes": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "aggregation_methods": [
+      "min_score",
+      "mean_score"
+    ],
+    "required_baselines": [
+      "single_best",
+      "linear_top_k_singleton_utility",
+      "exhaustive_train_selected_subset",
+      "greedy_train_selected_subset",
+      "all_receptors",
+      "exact_uniform_random_subset_distribution"
+    ],
+    "qubo_families": [
+      "coverage_qubo",
+      "discriminative_qubo"
+    ],
+    "train_only_non_degeneracy_gate": {
+      "minimum_selected_subset_size": 2,
+      "require_non_cardinality_quadratic_weight": true,
+      "minimum_mean_bedroc_delta_vs_matched_linear_top_k": 0.0,
+      "require_subset_or_ranking_difference_vs_matched_linear_top_k": true,
+      "all_checks_required": true,
+      "failure_action": "stop before sampling or docking a new validation panel"
+    }
+  },
+  "future_validation": {
+    "status": "not_authorized",
+    "authorization_condition": "a separate preregistration may be created only after structural eligibility, redocking, expanded train docking, and the train-only non-degeneracy gate all pass",
+    "reuse_previous_validation_for_promotion": false,
+    "automatic_test_release": false
+  },
+  "interpretation_boundary": "Structural expansion can create a meaningful combinatorial search space, but it cannot itself establish screening complementarity or QUBO benefit. A QUBO-specific claim additionally requires improvement over matched linear top-k, classical, random, and all-receptor baselines on untouched data."
+}

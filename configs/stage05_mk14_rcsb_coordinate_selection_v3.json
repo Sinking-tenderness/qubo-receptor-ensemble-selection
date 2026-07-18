@@ -1,0 +1,76 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage05-mk14-rcsb-coordinate-selection-v3",
+  "purpose": "Repeat label-independent MAPK14 coordinate selection after requiring every present standard amino-acid residue to have a complete heavy-atom template.",
+  "preregistration": {
+    "path": "configs/stage05_mk14_expanded_receptor_followup_preregistration.json",
+    "sha256": "8927604B67E803BBB86070876DF46403572CDFE53387A7C59FF3CA537064A2AE"
+  },
+  "preregistration_amendment": {
+    "path": "configs/stage05_mk14_expanded_receptor_followup_preregistration_amendment02.json",
+    "sha256": "D71CB03D274AEC9B51001409E8BEA684F67E6205CB03895EFC3FB3BD72B8894F"
+  },
+  "runtime": {
+    "conda_environment": "qubo-receptor-ensemble",
+    "python_version": "3.11.15",
+    "numpy_version": "1.26.4"
+  },
+  "inputs": {
+    "discovery_summary": {
+      "path": "data/stage05_mk14_rcsb_candidate_discovery_summary.json",
+      "sha256": "34A4719D6D3852F32B5BCA3D8E750093E292C1040E59CDBECD82FF5F0EB15674"
+    },
+    "candidate_metadata": {
+      "path": "data/processed/stage05_mk14_rcsb_candidate_metadata.csv",
+      "sha256": "26EC476E7018EC8A2FAAF4013847CAB7FEB6F723EB8CAF05741B935F5BAE9AF0"
+    },
+    "eligible_new_candidates": {
+      "path": "data/processed/stage05_mk14_rcsb_metadata_eligible_new_candidates.csv",
+      "sha256": "AAAE12ECCC36017F9B7CA968BFE7DC26FA5DD3C54053D6C58C361E67CF32A7F4"
+    },
+    "existing_aligned_manifest": {
+      "path": "data/processed/stage05_mk14_aligned_conformer_manifest.csv",
+      "sha256": "32E6B2694A35186FB5D7B7F673FA3455290EF2D1B6A297B1F3DFD4883038BEC2"
+    },
+    "reference_pdb": {
+      "path": "receptors/raw/mk14/2QD9.pdb",
+      "sha256": "BDA572D8710F5E841A77F46DAB6D98053B152DFC5484B9D043CC3EC5EC8A01D6"
+    }
+  },
+  "download": {
+    "url_template": "https://files.rcsb.org/download/{pdb_id}.pdb",
+    "workers": 8,
+    "timeout_seconds": 60,
+    "maximum_retries": 4,
+    "retry_backoff_seconds": 1.0
+  },
+  "coordinate_gate": {
+    "minimum_matched_ca_count": 300,
+    "maximum_aligned_global_ca_rmsd_angstrom": 3.0,
+    "minimum_variable_feature_sd_angstrom": 0.01,
+    "missing_pocket_feature_imputation": "reference_aligned_coordinates"
+  },
+  "preparation_readiness_gate": {
+    "minimum_chain_heavy_atoms_per_ca": 6.0,
+    "minimum_pocket_heavy_atom_completeness_fraction": 0.95,
+    "exclude_polymer_like_hetero_residues": true,
+    "polymer_backbone_atom_names": [
+      "N",
+      "CA",
+      "C",
+      "O"
+    ],
+    "exclude_incomplete_standard_amino_acid_residues": true
+  },
+  "outputs": {
+    "raw_pdb_directory": "results/runs/stage05_mk14_rcsb_coordinate_pool/raw",
+    "aligned_pdb_directory": "results/runs/stage05_mk14_rcsb_coordinate_pool_v3/aligned",
+    "coordinate_audit_csv": "data/processed/stage05_mk14_rcsb_coordinate_candidate_audit_v3.csv",
+    "eligible_pool_manifest_csv": "data/processed/stage05_mk14_rcsb_coordinate_eligible_pool_v3.csv",
+    "feature_matrix_csv": "data/processed/stage05_mk14_rcsb_pocket_distance_features_v3.csv",
+    "pairwise_distances_csv": "data/processed/stage05_mk14_rcsb_structural_distances_v3.csv",
+    "selected_expansion_manifest_csv": "data/processed/stage05_mk14_expanded8_structural_selection_v3.csv",
+    "summary_json": "data/stage05_mk14_rcsb_coordinate_selection_v3_summary.json"
+  },
+  "interpretation_boundary": "The v3 gate corrects preparation-readiness defects before any Vina execution or benchmark label/score use. Structural selection still cannot establish screening complementarity, enrichment, or QUBO benefit."
+}

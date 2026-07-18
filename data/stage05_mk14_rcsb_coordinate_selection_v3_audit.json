@@ -1,0 +1,60 @@
+{
+  "schema_version": "1.0",
+  "audit_id": "stage05-mk14-rcsb-coordinate-selection-v3-independent-audit",
+  "status": "independent_coordinate_selection_audit_ok",
+  "config": {
+    "path": "configs/stage05_mk14_rcsb_coordinate_selection_v3_audit.json",
+    "sha256": "FE3EF13F3D4777EE4D8F753F038C4673E3373234BE5BD698177E11920B3FB408"
+  },
+  "source_summary": {
+    "path": "data/stage05_mk14_rcsb_coordinate_selection_v3_summary.json",
+    "sha256": "94221AA0FAFF078C276D96C303932E5C905CBD7B1C3E24906B3DD63DE25A24AB"
+  },
+  "eligible_pool_count": 43,
+  "pairwise_distance_count": 903,
+  "existing_receptor_ids": [
+    "MK14_2QD9_reference",
+    "MK14_1A9U_aligned",
+    "MK14_3K3J_aligned",
+    "MK14_3KQ7_aligned"
+  ],
+  "independently_reconstructed_new_receptors": [
+    {
+      "selection_rank": 1,
+      "conformer_id": "MK14_2BAJ_aligned",
+      "minimum_standardized_distance_to_selected_pool": 1.648714223809538
+    },
+    {
+      "selection_rank": 2,
+      "conformer_id": "MK14_4F9W_aligned",
+      "minimum_standardized_distance_to_selected_pool": 1.4323697049174453
+    },
+    {
+      "selection_rank": 3,
+      "conformer_id": "MK14_3OCG_aligned",
+      "minimum_standardized_distance_to_selected_pool": 1.4255311045773316
+    },
+    {
+      "selection_rank": 4,
+      "conformer_id": "MK14_3MPT_aligned",
+      "minimum_standardized_distance_to_selected_pool": 1.3614278944509344
+    }
+  ],
+  "final_selected_receptor_ids": [
+    "MK14_2QD9_reference",
+    "MK14_1A9U_aligned",
+    "MK14_3K3J_aligned",
+    "MK14_3KQ7_aligned",
+    "MK14_2BAJ_aligned",
+    "MK14_4F9W_aligned",
+    "MK14_3OCG_aligned",
+    "MK14_3MPT_aligned"
+  ],
+  "data_boundary": {
+    "ligand_labels_read": 0,
+    "docking_scores_read": 0,
+    "previous_validation_rows_read": 0,
+    "test_rows_read": 0
+  },
+  "interpretation_boundary": "This audit verifies file identity, frozen data boundaries, and deterministic max-min reconstruction only. It does not validate docking or enrichment."
+}

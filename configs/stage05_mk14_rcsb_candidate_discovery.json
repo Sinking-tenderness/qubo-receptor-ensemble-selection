@@ -1,0 +1,30 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage05-mk14-rcsb-structural-candidate-discovery-v1",
+  "purpose": "Snapshot and audit all RCSB X-ray entries mapped to MAPK14 Q16539 using only preregistered metadata criteria, without ligand labels or docking scores.",
+  "preregistration": {
+    "path": "configs/stage05_mk14_expanded_receptor_followup_preregistration.json",
+    "sha256": "8927604B67E803BBB86070876DF46403572CDFE53387A7C59FF3CA537064A2AE"
+  },
+  "runtime": {
+    "conda_environment": "qubo-receptor-ensemble",
+    "python_version": "3.11.15"
+  },
+  "retrieved_on": "2026-07-18",
+  "rcsb": {
+    "search_endpoint": "https://search.rcsb.org/rcsbsearch/v2/query",
+    "graphql_endpoint": "https://data.rcsb.org/graphql",
+    "metadata_chunk_size": 40,
+    "request_timeout_seconds": 60,
+    "maximum_retries": 4,
+    "retry_backoff_seconds": 1.0
+  },
+  "outputs": {
+    "search_snapshot_json": "data/raw/rcsb/mk14/q16539_xray_search_snapshot_20260718.json",
+    "metadata_snapshot_json": "data/raw/rcsb/mk14/q16539_xray_metadata_snapshot_20260718.json",
+    "candidate_metadata_csv": "data/processed/stage05_mk14_rcsb_candidate_metadata.csv",
+    "eligible_new_candidates_csv": "data/processed/stage05_mk14_rcsb_metadata_eligible_new_candidates.csv",
+    "summary_json": "data/stage05_mk14_rcsb_candidate_discovery_summary.json"
+  },
+  "interpretation_boundary": "Metadata eligibility is label-independent and precedes coordinate download, pocket-completeness auditing, alignment, structural selection, receptor preparation, redocking, ligand docking, enrichment analysis, and QUBO fitting."
+}

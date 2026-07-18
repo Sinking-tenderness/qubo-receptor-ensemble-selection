@@ -1,0 +1,121 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage05-mk14-rcsb-coordinate-selection-v3",
+  "status": "expanded8_structural_selection_ok",
+  "config": {
+    "path": "configs/stage05_mk14_rcsb_coordinate_selection_v3.json",
+    "sha256": "30C3F718503DCD576C278A80482E62A9DC3BC2549B0C1F09AE7EE00720C4742B"
+  },
+  "preregistration": {
+    "path": "configs/stage05_mk14_expanded_receptor_followup_preregistration.json",
+    "sha256": "8927604B67E803BBB86070876DF46403572CDFE53387A7C59FF3CA537064A2AE"
+  },
+  "preregistration_amendment": {
+    "path": "configs/stage05_mk14_expanded_receptor_followup_preregistration_amendment02.json",
+    "sha256": "D71CB03D274AEC9B51001409E8BEA684F67E6205CB03895EFC3FB3BD72B8894F"
+  },
+  "preparation_readiness_gate": {
+    "minimum_chain_heavy_atoms_per_ca": 6.0,
+    "minimum_pocket_heavy_atom_completeness_fraction": 0.95,
+    "exclude_polymer_like_hetero_residues": true,
+    "polymer_backbone_atom_names": [
+      "N",
+      "CA",
+      "C",
+      "O"
+    ],
+    "exclude_incomplete_standard_amino_acid_residues": true
+  },
+  "runtime": {
+    "conda_environment": "qubo-receptor-ensemble",
+    "python_version": "3.11.15",
+    "numpy_version": "1.26.4"
+  },
+  "counts": {
+    "existing_seed_count": 4,
+    "new_metadata_candidate_count": 179,
+    "new_coordinate_eligible_count": 39,
+    "new_coordinate_excluded_count": 140,
+    "eligible_pool_count": 43,
+    "selected_new_count": 4,
+    "final_selected_pool_count": 8,
+    "raw_feature_count": 812,
+    "variable_feature_count": 812,
+    "pairwise_distance_count": 903
+  },
+  "coordinate_exclusion_reason_counts": {
+    "aligned_global_ca_rmsd_above_limit": 2,
+    "coordinate_file_unavailable": 14,
+    "incomplete_standard_amino_acid_residue": 93,
+    "missing_required_anchor_residue": 2,
+    "no_qualifying_ligand_in_reference_pocket": 14,
+    "pocket_heavy_atom_completeness_below_limit": 10,
+    "pocket_residue_fraction_below_limit": 56,
+    "pocket_residue_name_mismatch": 2,
+    "polymer_like_hetero_residue_in_chain": 13,
+    "protein_atom_to_ca_ratio_below_limit": 1,
+    "too_few_matched_ca": 2
+  },
+  "selected_new_receptors": [
+    {
+      "selection_rank": 1,
+      "conformer_id": "MK14_2BAJ_aligned",
+      "minimum_standardized_distance_to_selected_pool": 1.648714223809538
+    },
+    {
+      "selection_rank": 2,
+      "conformer_id": "MK14_4F9W_aligned",
+      "minimum_standardized_distance_to_selected_pool": 1.4323697049174453
+    },
+    {
+      "selection_rank": 3,
+      "conformer_id": "MK14_3OCG_aligned",
+      "minimum_standardized_distance_to_selected_pool": 1.4255311045773316
+    },
+    {
+      "selection_rank": 4,
+      "conformer_id": "MK14_3MPT_aligned",
+      "minimum_standardized_distance_to_selected_pool": 1.3614278944509344
+    }
+  ],
+  "selected_final_receptor_ids": [
+    "MK14_2QD9_reference",
+    "MK14_1A9U_aligned",
+    "MK14_3K3J_aligned",
+    "MK14_3KQ7_aligned",
+    "MK14_2BAJ_aligned",
+    "MK14_4F9W_aligned",
+    "MK14_3OCG_aligned",
+    "MK14_3MPT_aligned"
+  ],
+  "data_boundary": {
+    "ligand_labels_read": 0,
+    "docking_scores_read": 0,
+    "previous_validation_rows_read": 0,
+    "test_rows_read": 0
+  },
+  "outputs": {
+    "coordinate_audit_csv": {
+      "path": "data/processed/stage05_mk14_rcsb_coordinate_candidate_audit_v3.csv",
+      "sha256": "4369E7A3DD89BCD4EE41F1182F07648AAA73240A2EB3905E59A21D25C14548F9"
+    },
+    "eligible_pool_manifest_csv": {
+      "path": "data/processed/stage05_mk14_rcsb_coordinate_eligible_pool_v3.csv",
+      "sha256": "5E8C7E097E1B7E154CF722335932865FAE554A0F50D148DAC0D47594DDEB8CC6"
+    },
+    "feature_matrix_csv": {
+      "path": "data/processed/stage05_mk14_rcsb_pocket_distance_features_v3.csv",
+      "sha256": "D46ABA2CF0A6A194734F2048E39F4F92E7E575778B80934D6F50E42F69F075B5"
+    },
+    "pairwise_distances_csv": {
+      "path": "data/processed/stage05_mk14_rcsb_structural_distances_v3.csv",
+      "sha256": "E205B8E50C3096B48997F20AC0769EC8313416D2B0028FB3394DB08B0B3F2F62"
+    },
+    "selected_expansion_manifest_csv": {
+      "path": "data/processed/stage05_mk14_expanded8_structural_selection_v3.csv",
+      "sha256": "17769E5DEF367C7C5406B7AB75C670DEA151F54F2BC2FC9078C374FBEDB9F4FB"
+    }
+  },
+  "next_gate": "prepare the four new receptors and redock each selected co-crystal ligand before any benchmark docking",
+  "interpretation_boundary": "The v3 gate corrects preparation-readiness defects before any Vina execution or benchmark label/score use. Structural selection still cannot establish screening complementarity, enrichment, or QUBO benefit."
+}

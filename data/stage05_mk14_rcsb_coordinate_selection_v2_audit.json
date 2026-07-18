@@ -1,0 +1,60 @@
+{
+  "schema_version": "1.0",
+  "audit_id": "stage05-mk14-rcsb-coordinate-selection-v2-independent-audit",
+  "status": "independent_coordinate_selection_audit_ok",
+  "config": {
+    "path": "configs/stage05_mk14_rcsb_coordinate_selection_v2_audit.json",
+    "sha256": "0B056C1B42C58D190C65E20774A4A2B1BA0882232D42FAAFA7BBCB55574A2DDF"
+  },
+  "source_summary": {
+    "path": "data/stage05_mk14_rcsb_coordinate_selection_v2_summary.json",
+    "sha256": "C0BF00DE71F512504BC0C1315CCC15AC0C16B6CCE00746DDA70F82E3E16C3133"
+  },
+  "eligible_pool_count": 95,
+  "pairwise_distance_count": 4465,
+  "existing_receptor_ids": [
+    "MK14_2QD9_reference",
+    "MK14_1A9U_aligned",
+    "MK14_3K3J_aligned",
+    "MK14_3KQ7_aligned"
+  ],
+  "independently_reconstructed_new_receptors": [
+    {
+      "selection_rank": 1,
+      "conformer_id": "MK14_3UVR_aligned",
+      "minimum_standardized_distance_to_selected_pool": 1.8279682233500922
+    },
+    {
+      "selection_rank": 2,
+      "conformer_id": "MK14_5TBE_aligned",
+      "minimum_standardized_distance_to_selected_pool": 1.4626126066029603
+    },
+    {
+      "selection_rank": 3,
+      "conformer_id": "MK14_4AA0_aligned",
+      "minimum_standardized_distance_to_selected_pool": 1.4235176282733466
+    },
+    {
+      "selection_rank": 4,
+      "conformer_id": "MK14_1W82_aligned",
+      "minimum_standardized_distance_to_selected_pool": 1.396713086130112
+    }
+  ],
+  "final_selected_receptor_ids": [
+    "MK14_2QD9_reference",
+    "MK14_1A9U_aligned",
+    "MK14_3K3J_aligned",
+    "MK14_3KQ7_aligned",
+    "MK14_3UVR_aligned",
+    "MK14_5TBE_aligned",
+    "MK14_4AA0_aligned",
+    "MK14_1W82_aligned"
+  ],
+  "data_boundary": {
+    "ligand_labels_read": 0,
+    "docking_scores_read": 0,
+    "previous_validation_rows_read": 0,
+    "test_rows_read": 0
+  },
+  "interpretation_boundary": "This audit verifies file identity, frozen data boundaries, and deterministic max-min reconstruction only. It does not validate docking or enrichment."
+}

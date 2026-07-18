@@ -1,0 +1,37 @@
+{
+  "schema_version": "1.0",
+  "amendment_id": "stage05-mk14-expanded-receptor-followup-amendment02-20260718",
+  "created_on": "2026-07-18",
+  "original_preregistration_path": "configs/stage05_mk14_expanded_receptor_followup_preregistration.json",
+  "original_preregistration_sha256": "8927604B67E803BBB86070876DF46403572CDFE53387A7C59FF3CA537064A2AE",
+  "previous_amendment_path": "configs/stage05_mk14_expanded_receptor_followup_preregistration_amendment01.json",
+  "previous_amendment_sha256": "82D2FDE0736E30AEE3D7D5984465399778A20F1ED52BBE8DA122FCC6D9E913AC",
+  "trigger": {
+    "stage": "first v2 receptor-preparation case; before common-box admission or any Vina execution",
+    "observed_structure": "MK14_3UVR_aligned",
+    "observed_input_sha256": "A6AD784B63592E6D129114A8E22EEF19D1C258A1D680EFAFD595831CFE855F4E",
+    "finding": "Meeko template matching failed because TYR35 lacks seven side-chain heavy atoms, ARG220 lacks six, and LYS267 lacks four. TYR35 is adjacent to the frozen binding pocket.",
+    "consequence": "Deleting the three residues with allow_bad_res would introduce a receptor-preparation artifact, so the v2 selection is inadmissible for docking."
+  },
+  "scope": "Retain every amendment01 rule and additionally exclude a coordinate candidate when any present standard amino-acid residue lacks a heavy atom required by its standard residue template. Do not rebuild residues, use allow_bad_res, or substitute a receptor manually.",
+  "cumulative_preparation_readiness_gate": {
+    "minimum_chain_heavy_atoms_per_ca": 6.0,
+    "minimum_pocket_heavy_atom_completeness_fraction": 0.95,
+    "exclude_polymer_like_hetero_residues": true,
+    "polymer_backbone_atom_names": [
+      "N",
+      "CA",
+      "C",
+      "O"
+    ],
+    "exclude_incomplete_standard_amino_acid_residues": true
+  },
+  "data_boundary": {
+    "ligand_labels_read": 0,
+    "docking_scores_read": 0,
+    "previous_validation_rows_read": 0,
+    "test_rows_read": 0,
+    "vina_runs_completed": 0
+  },
+  "decision": "Run a separately versioned v3 coordinate selection across the complete metadata-eligible pool before attempting receptor preparation again."
+}

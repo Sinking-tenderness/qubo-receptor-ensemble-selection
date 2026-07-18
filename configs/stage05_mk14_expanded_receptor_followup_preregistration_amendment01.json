@@ -1,0 +1,34 @@
+{
+  "schema_version": "1.0",
+  "amendment_id": "stage05-mk14-expanded-receptor-followup-amendment01-20260718",
+  "created_on": "2026-07-18",
+  "original_preregistration_path": "configs/stage05_mk14_expanded_receptor_followup_preregistration.json",
+  "original_preregistration_sha256": "8927604B67E803BBB86070876DF46403572CDFE53387A7C59FF3CA537064A2AE",
+  "trigger": {
+    "stage": "post-coordinate-selection technical audit; before receptor preparation, redocking, expanded-train docking, or any new validation work",
+    "observed_structure": "MK14_1IAN_aligned",
+    "observed_input_sha256": "9960250A4200EB9828D59433A1E80E2CAD76D51BB57B6E7C2408006468AA90F0",
+    "finding": "The selected chain contains 328 C-alpha records and no other protein ATOM records. The original feature implementation consequently used each C-alpha coordinate as its missing side-chain centroid and created an artificial max-min distance.",
+    "consequence": "The v1 structural selection is technically inadmissible for docking and is retained only as a failed audit."
+  },
+  "scope": "Add docking-input completeness checks only. Metadata filters, pocket residues, anchors, alignment, feature definition, pool size, max-min rule, and all data-use boundaries remain unchanged.",
+  "added_preparation_readiness_gate": {
+    "minimum_chain_heavy_atoms_per_ca": 6.0,
+    "minimum_pocket_heavy_atom_completeness_fraction": 0.95,
+    "exclude_polymer_like_hetero_residues": true,
+    "polymer_backbone_atom_names": [
+      "N",
+      "CA",
+      "C",
+      "O"
+    ],
+    "rationale": "The frozen receptor preparation keeps non-hetero protein atoms only. A candidate must therefore contain an all-atom protein chain, retain at least 95 percent of reference-pocket heavy atoms, and contain no backbone-complete modified protein residue that this preparation would silently delete."
+  },
+  "data_boundary": {
+    "ligand_labels_read": 0,
+    "docking_scores_read": 0,
+    "previous_validation_rows_read": 0,
+    "test_rows_read": 0
+  },
+  "decision": "Run a separately versioned v2 coordinate selection. Do not substitute candidates manually and do not proceed to receptor preparation from the v1 selected manifest."
+}

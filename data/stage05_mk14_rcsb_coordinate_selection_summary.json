@@ -1,0 +1,101 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage05-mk14-rcsb-coordinate-selection-v1",
+  "status": "expanded8_structural_selection_ok",
+  "config": {
+    "path": "configs/stage05_mk14_rcsb_coordinate_selection.json",
+    "sha256": "9307B0C866540DF762D58E0B6CF62B936B3972E33AD4964C52C549608EE6E7B1"
+  },
+  "preregistration": {
+    "path": "configs/stage05_mk14_expanded_receptor_followup_preregistration.json",
+    "sha256": "8927604B67E803BBB86070876DF46403572CDFE53387A7C59FF3CA537064A2AE"
+  },
+  "runtime": {
+    "conda_environment": "qubo-receptor-ensemble",
+    "python_version": "3.11.15",
+    "numpy_version": "1.26.4"
+  },
+  "counts": {
+    "existing_seed_count": 4,
+    "new_metadata_candidate_count": 179,
+    "new_coordinate_eligible_count": 104,
+    "new_coordinate_excluded_count": 75,
+    "eligible_pool_count": 108,
+    "selected_new_count": 4,
+    "final_selected_pool_count": 8,
+    "raw_feature_count": 812,
+    "variable_feature_count": 812,
+    "pairwise_distance_count": 5778
+  },
+  "coordinate_exclusion_reason_counts": {
+    "aligned_global_ca_rmsd_above_limit": 2,
+    "coordinate_file_unavailable": 14,
+    "missing_required_anchor_residue": 2,
+    "no_qualifying_ligand_in_reference_pocket": 14,
+    "pocket_residue_fraction_below_limit": 56,
+    "pocket_residue_name_mismatch": 2,
+    "too_few_matched_ca": 2
+  },
+  "selected_new_receptors": [
+    {
+      "selection_rank": 1,
+      "conformer_id": "MK14_1IAN_aligned",
+      "minimum_standardized_distance_to_selected_pool": 2.82167374205805
+    },
+    {
+      "selection_rank": 2,
+      "conformer_id": "MK14_6ZQS_aligned",
+      "minimum_standardized_distance_to_selected_pool": 1.8574791334865615
+    },
+    {
+      "selection_rank": 3,
+      "conformer_id": "MK14_3UVR_aligned",
+      "minimum_standardized_distance_to_selected_pool": 1.7642127713128648
+    },
+    {
+      "selection_rank": 4,
+      "conformer_id": "MK14_5TBE_aligned",
+      "minimum_standardized_distance_to_selected_pool": 1.405045015340488
+    }
+  ],
+  "selected_final_receptor_ids": [
+    "MK14_2QD9_reference",
+    "MK14_1A9U_aligned",
+    "MK14_3K3J_aligned",
+    "MK14_3KQ7_aligned",
+    "MK14_1IAN_aligned",
+    "MK14_6ZQS_aligned",
+    "MK14_3UVR_aligned",
+    "MK14_5TBE_aligned"
+  ],
+  "data_boundary": {
+    "ligand_labels_read": 0,
+    "docking_scores_read": 0,
+    "previous_validation_rows_read": 0,
+    "test_rows_read": 0
+  },
+  "outputs": {
+    "coordinate_audit_csv": {
+      "path": "data/processed/stage05_mk14_rcsb_coordinate_candidate_audit.csv",
+      "sha256": "80F973FADAE5F5328A708244EF530B348B4EF406BA0EA89C9140CB52490EAF51"
+    },
+    "eligible_pool_manifest_csv": {
+      "path": "data/processed/stage05_mk14_rcsb_coordinate_eligible_pool.csv",
+      "sha256": "A85AAA9C01BBBDE656256296F1544315A3F921B98C1E14B6BD9EB30656823937"
+    },
+    "feature_matrix_csv": {
+      "path": "data/processed/stage05_mk14_rcsb_pocket_distance_features.csv",
+      "sha256": "5FA671F33614225017411B282E56D803DE6E69BED2E9F8BEEC77D201F9541FF5"
+    },
+    "pairwise_distances_csv": {
+      "path": "data/processed/stage05_mk14_rcsb_structural_distances.csv",
+      "sha256": "E5B6A3660961A0C6EE106161DE6F06CABDDEF591604C6EBEB1618CEB42E91E4F"
+    },
+    "selected_expansion_manifest_csv": {
+      "path": "data/processed/stage05_mk14_expanded8_structural_selection.csv",
+      "sha256": "C44DAF17BBDD0F20824536E5065BCE32D788F216268F400973B55DFBD96B8DB0"
+    }
+  },
+  "next_gate": "prepare the four new receptors and redock each selected co-crystal ligand before any benchmark docking",
+  "interpretation_boundary": "Coordinate eligibility and max-min selection use only receptor integrity, reference-pocket completeness, co-crystal pocket location, and invariant protein geometry. They do not use active/decoy labels, docking scores, enrichment metrics, or QUBO outcomes."
+}

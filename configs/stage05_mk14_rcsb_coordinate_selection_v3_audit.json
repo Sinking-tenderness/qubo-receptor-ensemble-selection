@@ -1,0 +1,34 @@
+{
+  "schema_version": "1.0",
+  "audit_id": "stage05-mk14-rcsb-coordinate-selection-v3-independent-audit",
+  "inputs": {
+    "selection_summary": {
+      "path": "data/stage05_mk14_rcsb_coordinate_selection_v3_summary.json",
+      "sha256": "94221AA0FAFF078C276D96C303932E5C905CBD7B1C3E24906B3DD63DE25A24AB"
+    },
+    "eligible_pool": {
+      "path": "data/processed/stage05_mk14_rcsb_coordinate_eligible_pool_v3.csv",
+      "sha256": "5E8C7E097E1B7E154CF722335932865FAE554A0F50D148DAC0D47594DDEB8CC6"
+    },
+    "pairwise_distances": {
+      "path": "data/processed/stage05_mk14_rcsb_structural_distances_v3.csv",
+      "sha256": "E205B8E50C3096B48997F20AC0769EC8313416D2B0028FB3394DB08B0B3F2F62"
+    },
+    "selected_manifest": {
+      "path": "data/processed/stage05_mk14_expanded8_structural_selection_v3.csv",
+      "sha256": "17769E5DEF367C7C5406B7AB75C670DEA151F54F2BC2FC9078C374FBEDB9F4FB"
+    }
+  },
+  "expected": {
+    "existing_receptor_ids": [
+      "MK14_2QD9_reference",
+      "MK14_1A9U_aligned",
+      "MK14_3K3J_aligned",
+      "MK14_3KQ7_aligned"
+    ],
+    "new_receptor_count": 4,
+    "eligible_pool_count": 43,
+    "final_selected_pool_count": 8
+  },
+  "output_json": "data/stage05_mk14_rcsb_coordinate_selection_v3_audit.json"
+}
