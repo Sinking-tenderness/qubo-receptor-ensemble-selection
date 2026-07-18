@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage05-mk14-expanded8-train160-e16-three-seed-aggregation-v1",
+  "purpose": "Aggregate three paired seeds for the complete eight-receptor MAPK14 development-train matrix under the revised common box.",
+  "ligand_manifest": {
+    "path": "data/processed/stage05_mk14_expanded_train_80a80d_pdbqt_manifest.csv",
+    "sha256": "54ABDDC4882E4F78B123B46084C235F21CBF7784D0171B8076E1F93433AEFB25"
+  },
+  "seed_runs": [
+    {
+      "seed_id": "seed0",
+      "base_seed": 20260801,
+      "config_path": "configs/stage05_mk14_expanded8_train160_e16_seed0_linux.json",
+      "config_sha256": "7BDCB7BFCF84A4588A81ED5441497CBBF121AC40E2D5219467DCECD5D15D8504",
+      "summary_path": "results/runs/stage05_mk14_expanded8_train160_e16_seed0_linux/summary.json",
+      "representative_scores_path": "results/runs/stage05_mk14_expanded8_train160_e16_seed0_linux/representative_scores.csv"
+    },
+    {
+      "seed_id": "seed1",
+      "base_seed": 20260802,
+      "config_path": "configs/stage05_mk14_expanded8_train160_e16_seed1_linux.json",
+      "config_sha256": "8A39CC1581D60E29C8F2EEEA4970B3D189FA0CE430E06C6146D53AD1727C0F46",
+      "summary_path": "results/runs/stage05_mk14_expanded8_train160_e16_seed1_linux/summary.json",
+      "representative_scores_path": "results/runs/stage05_mk14_expanded8_train160_e16_seed1_linux/representative_scores.csv"
+    },
+    {
+      "seed_id": "seed2",
+      "base_seed": 20260803,
+      "config_path": "configs/stage05_mk14_expanded8_train160_e16_seed2_linux.json",
+      "config_sha256": "BD1D6B907FA94EB6401951F17BA66939181A8D97664B994E0D1B8750D677F43B",
+      "summary_path": "results/runs/stage05_mk14_expanded8_train160_e16_seed2_linux/summary.json",
+      "representative_scores_path": "results/runs/stage05_mk14_expanded8_train160_e16_seed2_linux/representative_scores.csv"
+    }
+  ],
+  "expected": {
+    "seed_count": 3,
+    "receptor_count": 8,
+    "ligand_count": 160,
+    "receptor_ligand_pairs_per_seed": 1280,
+    "allowed_selection_roles": [
+      "development_train"
+    ],
+    "role_label_counts": {
+      "development_train:active": 80,
+      "development_train:decoy": 80
+    }
+  },
+  "aggregation": {
+    "representative_method": "pose_rank_1",
+    "primary": "median representative score across three paired seeds",
+    "sensitivity": "minimum representative score across three paired seeds",
+    "score_direction": "lower is better; ranking score is the negated docking score"
+  },
+  "outputs": {
+    "aggregated_long_csv": "results/runs/stage05_mk14_expanded8_train160_e16_aggregated/aggregated_seed_scores.csv",
+    "primary_median_matrix_csv": "results/runs/stage05_mk14_expanded8_train160_e16_aggregated/primary_median_score_matrix.csv",
+    "sensitivity_minimum_matrix_csv": "results/runs/stage05_mk14_expanded8_train160_e16_aggregated/sensitivity_minimum_score_matrix.csv",
+    "summary_json": "results/runs/stage05_mk14_expanded8_train160_e16_aggregated/summary.json"
+  },
+  "interpretation_boundary": "Aggregation creates train-only score matrices. It does not read validation/test rows, authorize validation, or establish QUBO benefit."
+}

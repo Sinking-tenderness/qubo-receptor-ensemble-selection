@@ -1,0 +1,43 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage05-mk14-expanded8-train160-input-build-v1",
+  "status": "expanded_train_inputs_ok",
+  "config": {
+    "path": "configs/stage05_mk14_expanded_train_input_build.json",
+    "sha256": "933B0FCF808A238AAED5D15BBD0D18A9F4E4609897E4307793B9E21331DD4D67"
+  },
+  "receptor_count": 8,
+  "receptor_ids": [
+    "MK14_2QD9_reference",
+    "MK14_1A9U_aligned",
+    "MK14_3K3J_aligned",
+    "MK14_3KQ7_aligned",
+    "MK14_2BAJ_aligned",
+    "MK14_4F9W_aligned",
+    "MK14_3OCG_aligned",
+    "MK14_3MPT_aligned"
+  ],
+  "train_ligand_count": 160,
+  "train_label_counts": {
+    "active": 80,
+    "decoy": 80
+  },
+  "output_selection_role_counts": {
+    "development_train": 160
+  },
+  "output_validation_rows": 0,
+  "output_test_rows": 0,
+  "source_validation_rows_excluded": 80,
+  "outputs": {
+    "receptor_manifest_csv": {
+      "path": "data/processed/stage05_mk14_expanded8_receptor_manifest.csv",
+      "sha256": "FBB92AB50C8AE00955D463E6E0F7ECBF2D3826E64878D3C00095BF5E0824124C"
+    },
+    "train_ligand_manifest_csv": {
+      "path": "data/processed/stage05_mk14_expanded_train_80a80d_pdbqt_manifest.csv",
+      "sha256": "54ABDDC4882E4F78B123B46084C235F21CBF7784D0171B8076E1F93433AEFB25"
+    }
+  },
+  "next_gate": "run three paired e16 seeds for 8 receptors x 160 development-train ligands using the revised common box",
+  "interpretation_boundary": "This materializes docking inputs only. It does not read validation/test scores, calculate enrichment, or establish QUBO benefit."
+}

@@ -1,0 +1,48 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage05-mk14-expanded8-train160-e16-remote-bundle-v1",
+  "status": "remote_bundle_ready_not_executed",
+  "preregistration": {
+    "path": "configs/stage05_mk14_expanded_train_docking_preregistration.json",
+    "sha256": "E53D7192340ED7BD80A212E7B283E22D0C7B7D3543F6CB483B9C25C9EDA3CB6E"
+  },
+  "input_summary": {
+    "path": "data/stage05_mk14_expanded_train_input_summary.json",
+    "sha256": "E7653F0820578964B997D9FF94F58FC835B52A3C95E15EE5E62D8F423BF392DA"
+  },
+  "bundle": {
+    "filename": "stage05_mk14_expanded8_train160_e16_remote_v1.tar.gz",
+    "local_path": "D:/\u91cf\u5b50\u00d7\u86cb\u767d\u8d28/stage05_mk14_expanded8_train160_e16_remote_v1.tar.gz",
+    "size_bytes": 2173740,
+    "sha256": "B4A103AACDB45DA21AF4E5A928229F3ABA35121748D9E5E70AA917F841695ED0",
+    "source_file_count": 189,
+    "archive_entry_count": 190,
+    "deterministic_replay_hash_unchanged": true,
+    "manifest_line_ending": "LF"
+  },
+  "workload": {
+    "receptor_count": 8,
+    "train_ligand_count": 160,
+    "active_count": 80,
+    "decoy_count": 80,
+    "seed_count": 3,
+    "pairs_per_seed": 1280,
+    "total_pairs": 3840,
+    "validation_rows": 0,
+    "test_rows": 0
+  },
+  "recommended_instance": {
+    "cpu_vcpus": 32,
+    "minimum_memory_gib": 32,
+    "gpu_required": false,
+    "estimated_wall_hours": 5.2,
+    "estimate_basis": "4651.353 seconds for 960 pairs per seed on the previous 32-vCPU run, scaled linearly to 1280 pairs x 3 seeds"
+  },
+  "remote_runner": {
+    "path": "scripts/run_stage05_mk14_expanded_train_remote.sh",
+    "sha256": "EDA8304A200D7D29537FF88654A6A03C44AE54C4BE15890DC39F95E3E4446879",
+    "resume_enabled": true,
+    "automatic_result_archive": "stage05_mk14_expanded8_train160_e16_core_results_v1.tar.gz"
+  },
+  "interpretation_boundary": "The bundle is audited and ready but has not been executed. It contains train ligands only and cannot establish QUBO benefit before docking, aggregation, and the train-only non-degeneracy gate pass."
+}

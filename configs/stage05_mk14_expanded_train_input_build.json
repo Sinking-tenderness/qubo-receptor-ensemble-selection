@@ -1,0 +1,53 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage05-mk14-expanded8-train160-input-build-v1",
+  "inputs": {
+    "existing_receptor_manifest": {
+      "path": "data/processed/stage05_mk14_receptor_preparation_manifest.csv",
+      "sha256": "C18CD1AC7B64C0282E763E54CF44BBCA26B21056B6D34C24FF0D9D8B0FE3BD60"
+    },
+    "new_receptor_manifest": {
+      "path": "data/processed/stage05_mk14_expanded_receptor_preparation_manifest_v4.csv",
+      "sha256": "3B9CCDF8FEB06E4BA9040457B28DDCF597C596D2F20D7FED70F8371DF3B72F72"
+    },
+    "development_ligand_pdbqt_manifest": {
+      "path": "data/processed/stage05_mk14_development_120a120d_pdbqt_manifest.csv",
+      "sha256": "28BB94E6DE6E7BC2CB0C83E1C1787A89C098853BF73F935FAE4AAED3D70C2B43"
+    },
+    "frozen_train_manifest": {
+      "path": "data/processed/stage05_mk14_development_train_80a80d.csv",
+      "sha256": "3A2CDDE4A0DAB3DB11A3F5219C106E5900DFB42F4D7FAAE6064F547383058639"
+    },
+    "redocking_summary": {
+      "path": "data/stage05_mk14_expanded_redocking_v4_summary.json",
+      "sha256": "AF6E22DA4D932A0463E7803946C2EEA166E5734B5A4AE1AA062FC708C2832611"
+    },
+    "redocking_audit": {
+      "path": "data/stage05_mk14_expanded_redocking_v4_audit.json",
+      "sha256": "BB33800DAAE1338F81486A0410315FC07E47D297267464361BF14552E2E7D7DF"
+    }
+  },
+  "expected": {
+    "receptor_ids": [
+      "MK14_2QD9_reference",
+      "MK14_1A9U_aligned",
+      "MK14_3K3J_aligned",
+      "MK14_3KQ7_aligned",
+      "MK14_2BAJ_aligned",
+      "MK14_4F9W_aligned",
+      "MK14_3OCG_aligned",
+      "MK14_3MPT_aligned"
+    ],
+    "train_ligand_count": 160,
+    "excluded_validation_ligand_count": 80,
+    "train_label_counts": {
+      "active": 80,
+      "decoy": 80
+    }
+  },
+  "outputs": {
+    "receptor_manifest_csv": "data/processed/stage05_mk14_expanded8_receptor_manifest.csv",
+    "train_ligand_manifest_csv": "data/processed/stage05_mk14_expanded_train_80a80d_pdbqt_manifest.csv",
+    "summary_json": "data/stage05_mk14_expanded_train_input_summary.json"
+  }
+}

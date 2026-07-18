@@ -1,0 +1,126 @@
+{
+  "schema_version": "1.0",
+  "authorization_id": "stage05-mk14-expanded8-train160-docking-preregistration-20260718-v1",
+  "created_on": "2026-07-18",
+  "purpose": "Recompute the complete eight-receptor MAPK14 development-train matrix under the revised common box before train-only QUBO non-degeneracy analysis.",
+  "upstream_gates": {
+    "structural_selection": {
+      "path": "data/stage05_mk14_rcsb_coordinate_selection_v3_summary.json",
+      "sha256": "94221AA0FAFF078C276D96C303932E5C905CBD7B1C3E24906B3DD63DE25A24AB",
+      "required_status": "expanded8_structural_selection_ok"
+    },
+    "redocking": {
+      "path": "data/stage05_mk14_expanded_redocking_v4_summary.json",
+      "sha256": "AF6E22DA4D932A0463E7803946C2EEA166E5734B5A4AE1AA062FC708C2832611",
+      "required_status": "expanded_redocking_gate_ok"
+    },
+    "redocking_audit": {
+      "path": "data/stage05_mk14_expanded_redocking_v4_audit.json",
+      "sha256": "BB33800DAAE1338F81486A0410315FC07E47D297267464361BF14552E2E7D7DF",
+      "required_status": "independent_expanded_redocking_audit_ok"
+    },
+    "input_build": {
+      "path": "data/stage05_mk14_expanded_train_input_summary.json",
+      "sha256": "E7653F0820578964B997D9FF94F58FC835B52A3C95E15EE5E62D8F423BF392DA",
+      "required_status": "expanded_train_inputs_ok"
+    }
+  },
+  "data_boundary": {
+    "development_train": "authorized: 80 actives and 80 decoys",
+    "consumed_development_validation": "prohibited from docking, metrics, tuning, or promotion in this follow-up",
+    "new_validation": "not sampled and not authorized",
+    "test": "locked_unreleased",
+    "allowed_selection_roles": [
+      "development_train"
+    ]
+  },
+  "protocol_consistency_decision": {
+    "old_development_box_size_z_angstrom": 30,
+    "revised_common_box_size_z_angstrom": 32,
+    "decision": "recompute all eight receptor columns; do not merge old z30 columns with new z32 columns",
+    "rationale": "The docking box is part of the search protocol. Recomputing every column prevents box size from becoming a receptor-specific variable."
+  },
+  "frozen_inputs": {
+    "receptor_manifest": {
+      "path": "data/processed/stage05_mk14_expanded8_receptor_manifest.csv",
+      "sha256": "FBB92AB50C8AE00955D463E6E0F7ECBF2D3826E64878D3C00095BF5E0824124C",
+      "row_count": 8
+    },
+    "train_ligand_manifest": {
+      "path": "data/processed/stage05_mk14_expanded_train_80a80d_pdbqt_manifest.csv",
+      "sha256": "54ABDDC4882E4F78B123B46084C235F21CBF7784D0171B8076E1F93433AEFB25",
+      "row_count": 160,
+      "active": 80,
+      "decoy": 80,
+      "validation_rows": 0,
+      "test_rows": 0
+    },
+    "vina_config": {
+      "path": "configs/stage05_mk14_expanded_train_e16_cpu2.txt",
+      "sha256": "840ABB59A7C153CC46C84DD0B93E61C77DB9CFFB7EC458D01DEE59E46673A85F"
+    }
+  },
+  "docking": {
+    "vina_version": "1.2.7",
+    "scoring": "vina",
+    "common_box_center_angstrom": [
+      -0.49,
+      3.26,
+      21.83
+    ],
+    "common_box_size_angstrom": [
+      22,
+      24,
+      32
+    ],
+    "exhaustiveness": 16,
+    "cpu_per_job": 2,
+    "num_modes": 1,
+    "representative_method": "pose_rank_1",
+    "paired_base_seeds": [
+      20260801,
+      20260802,
+      20260803
+    ],
+    "receptor_ligand_pairs_per_seed": 1280,
+    "total_receptor_ligand_pairs": 3840,
+    "remote_workers": 16,
+    "maximum_total_cpu": 32,
+    "resume_required": true
+  },
+  "aggregation": {
+    "primary": "median representative score across three paired seeds",
+    "sensitivity": "minimum representative score across three paired seeds",
+    "score_direction": "lower is better; ranking score is the negated docking score"
+  },
+  "matrix_admission": {
+    "required_seed_count": 3,
+    "required_failed_pairs_per_seed": 0,
+    "required_validation_rows": 0,
+    "required_test_rows": 0,
+    "maximum_allowed_nonnegative_score_pairs": 0,
+    "maximum_allowed_seed_score_range_kcal_per_mol": 2.0,
+    "failure_action": "stop before QUBO fitting and run label-blind search diagnostics without deleting or selectively replacing cells"
+  },
+  "authorized_post_docking_gate": {
+    "data": "development_train only",
+    "required_baselines": [
+      "single_best",
+      "linear_top_k_singleton_utility",
+      "exhaustive_train_selected_subset",
+      "greedy_train_selected_subset",
+      "all_receptors",
+      "exact_uniform_random_subset_distribution"
+    ],
+    "qubo_families": [
+      "coverage_qubo",
+      "discriminative_qubo"
+    ],
+    "minimum_selected_subset_size": 2,
+    "require_non_cardinality_quadratic_weight": true,
+    "minimum_mean_bedroc_delta_vs_matched_linear_top_k": 0.0,
+    "require_subset_or_ranking_difference_vs_matched_linear_top_k": true,
+    "failure_action": "stop before sampling or docking a new validation panel"
+  },
+  "interpretation_boundary": "This authorizes train-only score generation and non-degeneracy testing. It does not authorize validation reuse, test release, biological activity claims, affinity claims, QUBO benefit, or quantum advantage."
+}

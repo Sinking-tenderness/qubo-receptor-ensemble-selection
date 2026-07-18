@@ -1,0 +1,9 @@
+center_x = -0.49
+center_y = 3.26
+center_z = 21.83
+size_x = 22
+size_y = 24
+size_z = 32
+exhaustiveness = 16
+cpu = 2
+num_modes = 1
