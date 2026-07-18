@@ -1,0 +1,43 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage05-mk14-expanded8-train160-e32-diagnostic-independent-audit-v1",
+  "status": "independent_e32_diagnostic_audit_ok_matrix_rejected",
+  "config": {
+    "path": "configs/stage05_mk14_expanded_e32_diagnostic_audit.json",
+    "sha256": "B135642CA7DF15998897EB72B3B55DCA55192C58075A3FFEE26F3B9C5805E13E"
+  },
+  "source_archive": {
+    "filename": "stage05_mk14_expanded8_train160_e32_matrix_diagnostics_v1.tar.gz",
+    "sha256": "8F6F4D8E56B83B8C7EDF05FD47EA467B230025D7E4C85841C63970AFA5214154"
+  },
+  "run_count": 21,
+  "successful_run_count": 21,
+  "case_count": 7,
+  "rescued_case_count": 5,
+  "unresolved_case_count": 2,
+  "unresolved_case_ids": [
+    "L000348_2BAJ_seed_range",
+    "L000348_3KQ7_seed_range"
+  ],
+  "pose_separation": {
+    "L000348_2BAJ_seed_range": {
+      "heavy_atom_count": 33,
+      "maximum_fixed_order_rmsd_angstrom": 0.08823487938108121,
+      "interpretation": "same_pose_basin"
+    },
+    "L000348_3KQ7_seed_range": {
+      "heavy_atom_count": 33,
+      "maximum_fixed_order_rmsd_angstrom": 10.834898272515415,
+      "interpretation": "distinct_pose_basins"
+    }
+  },
+  "original_matrix_cells_replaced": 0,
+  "e16_primary_matrix_authorized": false,
+  "e16_sensitivity_matrix_authorized": false,
+  "qubo_fitted": false,
+  "enrichment_metrics_calculated": false,
+  "validation_rows_read": 0,
+  "test_rows_read": 0,
+  "next_action": "recompute the complete eight-receptor train matrix under one uniform stronger search protocol before QUBO fitting",
+  "interpretation_note": "This audit verifies execution, hashes, scores, and pose separation only. It preserves rejection of the e16 matrices and does not authorize selective cell replacement, enrichment calculation, QUBO fitting, validation sampling, test release, affinity claims, or quantum advantage."
+}

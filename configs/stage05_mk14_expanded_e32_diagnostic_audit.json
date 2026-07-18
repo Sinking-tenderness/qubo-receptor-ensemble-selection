@@ -1,0 +1,33 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage05-mk14-expanded8-train160-e32-diagnostic-independent-audit-v1",
+  "purpose": "Independently verify all targeted e32 artifacts and preserve the failed e16 matrix-rescue decision before selecting a uniform follow-up protocol.",
+  "inputs": {
+    "diagnostic_config": "configs/stage05_mk14_expanded_train_matrix_e32_diagnostics.json",
+    "diagnostic_summary": "results/runs/stage05_mk14_expanded8_train160_e32_matrix_diagnostics/summary.json",
+    "raw_runs": "results/runs/stage05_mk14_expanded8_train160_e32_matrix_diagnostics/raw_runs.csv",
+    "case_summary": "results/runs/stage05_mk14_expanded8_train160_e32_matrix_diagnostics/case_summary.csv"
+  },
+  "input_sha256": {
+    "diagnostic_config": "3424CC8087364B2DDD67DE0E01389CA586ACD17CC1C04798FB0A5061E118AEF8",
+    "diagnostic_summary": "60883DF036077119CD4069F9DCA7CCB03AD354B656F129BBCE4F1DE6EFB08906",
+    "raw_runs": "F373D96140A25D943C6733473E0FF459195A9404D56F8054B0A39D34327891B6",
+    "case_summary": "3B6582278F78A3477B6F82C72118B5A397EE0FBADDEECEA0F2D36D688121A041"
+  },
+  "source_archive": {
+    "filename": "stage05_mk14_expanded8_train160_e32_matrix_diagnostics_v1.tar.gz",
+    "sha256": "8F6F4D8E56B83B8C7EDF05FD47EA467B230025D7E4C85841C63970AFA5214154"
+  },
+  "expected": {
+    "case_count": 7,
+    "run_count": 21,
+    "successful_run_count": 21,
+    "rescued_case_count": 5,
+    "unresolved_case_count": 2,
+    "summary_status": "matrix_admission_rejected_after_e32_diagnostics"
+  },
+  "outputs": {
+    "summary_json": "data/stage05_mk14_expanded_e32_diagnostic_audit_summary.json"
+  },
+  "interpretation_boundary": "This audit verifies execution, hashes, scores, and pose separation only. It preserves rejection of the e16 matrices and does not authorize selective cell replacement, enrichment calculation, QUBO fitting, validation sampling, test release, affinity claims, or quantum advantage."
+}

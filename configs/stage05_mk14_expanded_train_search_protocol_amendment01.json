@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.0",
+  "amendment_id": "stage05-mk14-expanded-train-search-protocol-amendment01-20260718",
+  "created_on": "2026-07-18",
+  "original_preregistration": {
+    "path": "configs/stage05_mk14_expanded_train_docking_preregistration.json",
+    "sha256": "E53D7192340ED7BD80A212E7B283E22D0C7B7D3543F6CB483B9C25C9EDA3CB6E"
+  },
+  "trigger": {
+    "stage": "post-e16 matrix admission and label-independent e32 search diagnostics; before any enrichment metric, QUBO fit, validation sampling, or test release",
+    "diagnostic_audit_path": "data/stage05_mk14_expanded_e32_diagnostic_audit_summary.json",
+    "diagnostic_audit_sha256": "5FBA9C896FE87001FDE52DD81F56E26259C4F4307CCCCB1B4D006CCF8540E9C3",
+    "finding": "Five of seven flagged e16 pairs passed e32 rescue. L000348/2BAJ converged at e32 but differed from the e16 median by 2.16 kcal/mol, while L000348/3KQ7 retained one unfavorable alternate pose approximately 10.83 A from the other two e32 poses.",
+    "consequence": "The unchanged e16 primary and sensitivity matrices remain rejected. No e32 diagnostic score may selectively replace an e16 matrix cell."
+  },
+  "scope": "Increase only the global Vina search strength from e16 to e32 and replace the overly sensitive max-minus-min gate with a preregistered two-of-three robust-consensus gate. Receptor pool, ligand panel, labels, box, seeds, preparation, scoring, CPU per job, and QUBO non-degeneracy requirements remain unchanged.",
+  "uniform_e32_recomputation": {
+    "receptor_count": 8,
+    "ligand_count": 160,
+    "selection_role": "development_train",
+    "validation_rows": 0,
+    "test_rows": 0,
+    "paired_base_seeds": [20260801, 20260802, 20260803],
+    "receptor_ligand_pairs_per_seed": 1280,
+    "total_vina_jobs": 3840,
+    "exhaustiveness": 32,
+    "cpu_per_job": 2,
+    "workers": 16,
+    "maximum_total_cpu": 32,
+    "representative_method": "pose_rank_1",
+    "primary_aggregation": "median representative score across three paired seeds",
+    "sensitivity_aggregation": "minimum representative score across three paired seeds"
+  },
+  "e32_matrix_admission": {
+    "required_seed_count": 3,
+    "required_failed_pairs_per_seed": 0,
+    "required_validation_rows": 0,
+    "required_test_rows": 0,
+    "maximum_allowed_nonnegative_median_score_pairs": 0,
+    "consensus_definition": "a replicate agrees when its score is no more than 0.5 kcal/mol above the minimum score for that receptor-ligand pair",
+    "maximum_consensus_delta_kcal_per_mol": 0.5,
+    "minimum_consensus_replicates_per_pair": 2,
+    "maximum_allowed_median_minus_minimum_kcal_per_mol": 0.5,
+    "raw_maximum_minus_minimum_range": "reported as a sensitivity diagnostic but not a rejection criterion because one isolated unfavorable seed is tolerated by the frozen median aggregation",
+    "all_pairs_must_pass": true,
+    "failure_action": "stop before QUBO fitting; run label-independent e64 diagnostics on every failed consensus pair and do not selectively replace cells"
+  },
+  "post_admission_gate": {
+    "data": "development_train only",
+    "action": "run the unchanged train-only QUBO non-degeneracy gate from the original preregistration",
+    "minimum_selected_subset_size": 2,
+    "require_non_cardinality_quadratic_weight": true,
+    "minimum_mean_bedroc_delta_vs_matched_linear_top_k": 0.0,
+    "require_subset_or_ranking_difference_vs_matched_linear_top_k": true,
+    "validation_sampling_authorized_only_after_all_checks_pass": true
+  },
+  "data_boundary": {
+    "protocol_choice_used_ligand_labels": false,
+    "enrichment_metrics_calculated": false,
+    "qubo_fitted": false,
+    "previous_validation_reused": false,
+    "test_rows_read": 0
+  },
+  "interpretation_boundary": "This amendment repairs search reliability using label-independent evidence. It cannot establish enrichment, receptor complementarity, biological activity, affinity accuracy, QUBO benefit, test performance, or quantum advantage."
+}
