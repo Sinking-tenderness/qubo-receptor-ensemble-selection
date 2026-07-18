@@ -1,0 +1,68 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage05-mk14-development-e16-three-seed-aggregation-v1",
+  "status": "ok",
+  "config": {
+    "path": "configs/stage05_mk14_development_seed_aggregation.json",
+    "sha256": "14E6ED813A79686DEEBB4571135A8DEF164DDF1230DD28BF7B9962641EDBFB03"
+  },
+  "ligand_count": 240,
+  "receptor_count": 4,
+  "seed_count": 3,
+  "aggregated_pair_count": 960,
+  "locked_test_manifest_rows": 0,
+  "aggregation": {
+    "representative_method": "pose_rank_1",
+    "primary": "median representative score across three paired seeds",
+    "sensitivity": "minimum representative score across three paired seeds",
+    "score_direction": "lower is better; ranking score is the negated docking score"
+  },
+  "seed_evidence": [
+    {
+      "seed_id": "seed0",
+      "base_seed": 20260801,
+      "summary_path": "results/runs/stage05_mk14_development_e16_seed0_linux/summary.json",
+      "summary_sha256": "087FE055ED36DAAB111D8C3C49E1033BEBC05C5901B479C820F063F3D88D8A9D",
+      "representative_scores_path": "results/runs/stage05_mk14_development_e16_seed0_linux/representative_scores.csv",
+      "representative_scores_sha256": "4926CCCEC46C27A14D8B42DBF815A93F5A5552912981D02DE525713EB40081BC",
+      "search_quality_warning_count": 0
+    },
+    {
+      "seed_id": "seed1",
+      "base_seed": 20260802,
+      "summary_path": "results/runs/stage05_mk14_development_e16_seed1_linux/summary.json",
+      "summary_sha256": "80471306630F22FAA414A69675DE38C0B365A38975FC30909B3106C9888531B3",
+      "representative_scores_path": "results/runs/stage05_mk14_development_e16_seed1_linux/representative_scores.csv",
+      "representative_scores_sha256": "468AE43B0ED1DFCB336C55C31F0BB9D211DF01A738AD51C15660BDD3E1F38423",
+      "search_quality_warning_count": 0
+    },
+    {
+      "seed_id": "seed2",
+      "base_seed": 20260803,
+      "summary_path": "results/runs/stage05_mk14_development_e16_seed2_linux/summary.json",
+      "summary_sha256": "200F1D9105176B6E586B47385CF49C74EAE23F731E391EB18FDA6DFD8AEBB392",
+      "representative_scores_path": "results/runs/stage05_mk14_development_e16_seed2_linux/representative_scores.csv",
+      "representative_scores_sha256": "D420366CCF4D869FEE85F0B0C908B269825164D35350FC8CC43DD8313ED6C05B",
+      "search_quality_warning_count": 0
+    }
+  ],
+  "seed_score_range_kcal_per_mol": {
+    "median": 0.058000000000000274,
+    "maximum": 2.2970000000000006
+  },
+  "outputs": {
+    "aggregated_long_csv": {
+      "path": "results/runs/stage05_mk14_development_e16_aggregated/aggregated_seed_scores.csv",
+      "sha256": "653CC52FBCF346F0AF3C06556D3EFA9619D23FBB15074B646701C3A701FBDA44"
+    },
+    "primary_median_matrix_csv": {
+      "path": "results/runs/stage05_mk14_development_e16_aggregated/primary_median_score_matrix.csv",
+      "sha256": "921348DF346C0104438C245CD116A51222850E7E801E8E27884B7968E9786612"
+    },
+    "sensitivity_minimum_matrix_csv": {
+      "path": "results/runs/stage05_mk14_development_e16_aggregated/sensitivity_minimum_score_matrix.csv",
+      "sha256": "BEC4A92BCF439BD3558B7EC045AA84E72275B4765D2AED469F93E0750B20DD7E"
+    }
+  },
+  "interpretation_note": "Aggregation creates audited development score matrices. It does not calculate enrichment, fit a receptor subset, release test ligands, or establish QUBO benefit."
+}

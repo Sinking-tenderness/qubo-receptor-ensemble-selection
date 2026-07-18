@@ -1,0 +1,149 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage05-mk14-e16-matrix-admission-e32-rescue-v1",
+  "status": "matrix_admission_rescued",
+  "config": {
+    "path": "configs/stage05_mk14_e16_matrix_rescue_audit.json",
+    "sha256": "D4FC9E5449FF51F516F3E34C60DBA3EE9A94C43180D40AD533201B4863BF59DB"
+  },
+  "threshold_source": {
+    "path": "configs/stage05_mk14_search_ladder_multiseed_followup.json",
+    "sha256": "2974773A64ECBAED2417D69D07118220D155462CD201FC6D2F609518B975FCB0",
+    "field": "acceptance_thresholds.maximum_highest_protocol_seed_range_kcal_per_mol",
+    "value_kcal_per_mol": 0.5,
+    "note": "The 0.5 threshold was frozen during train-only search calibration before the 240-ligand development matrix was run."
+  },
+  "source_archives": {
+    "e16_aggregate_core": {
+      "filename": "stage05_mk14_e16_aggregate_core_v1.tar.gz",
+      "sha256": "98210382896DFA84CE26F8755A7F86C0F7C938672757B1262051637CEE7798AF"
+    },
+    "e32_diagnostics": {
+      "filename": "stage05_mk14_e32_diagnostics.tar.gz",
+      "sha256": "04F54BA529CC0A07D9CA4263065EFF871DA6CE5ACAEB935E8BC3D123D3C49F98"
+    }
+  },
+  "case_count": 2,
+  "case_results": [
+    {
+      "case_id": "L000290_2QD9_raw_range_flag",
+      "ligand_id": "MK14_active_L000290",
+      "receptor_id": "MK14_2QD9_reference",
+      "e16_scores": [
+        -9.327,
+        -9.393,
+        -7.096
+      ],
+      "e16_seed_range_kcal_per_mol": 2.2970000000000006,
+      "e16_median_score": -9.327,
+      "e16_minimum_score": -9.393,
+      "e32_scores": [
+        -9.196,
+        -9.394,
+        -9.294
+      ],
+      "e32_seed_range_kcal_per_mol": 0.1980000000000004,
+      "e32_median_score": -9.294,
+      "e32_minimum_score": -9.394,
+      "absolute_e16_e32_median_delta_kcal_per_mol": 0.032999999999999474,
+      "absolute_e16_e32_minimum_delta_kcal_per_mol": 0.0009999999999994458,
+      "acceptance_threshold_kcal_per_mol": 0.5,
+      "checks": {
+        "e32_seed_range_within_threshold": true,
+        "e16_e32_median_delta_within_threshold": true,
+        "e16_e32_minimum_delta_within_threshold": true
+      },
+      "rescue_passed": true,
+      "e32_evidence": [
+        {
+          "base_seed": 20260801,
+          "pose_path": "results/runs/stage05_mk14_e32_diagnostics/poses/MK14_active_L000290__MK14_2QD9_reference__seed20260801.pdbqt",
+          "pose_sha256": "A320B90A3A4B8E9CE0F4E3C0D4CD66E6911C585722637ABF198102F747CBAEC4",
+          "log_path": "results/runs/stage05_mk14_e32_diagnostics/logs/MK14_active_L000290__MK14_2QD9_reference__seed20260801.log",
+          "log_sha256": "5C02CC848195E3DF569B973E6BB5800DFD0DD97F6B38493E3929358EDDDDE208",
+          "score_kcal_per_mol": -9.196
+        },
+        {
+          "base_seed": 20260802,
+          "pose_path": "results/runs/stage05_mk14_e32_diagnostics/poses/MK14_active_L000290__MK14_2QD9_reference__seed20260802.pdbqt",
+          "pose_sha256": "24C395F99BBC3744C58830C68D8D462908DDC8222C6FE671A80B914ECF44D85E",
+          "log_path": "results/runs/stage05_mk14_e32_diagnostics/logs/MK14_active_L000290__MK14_2QD9_reference__seed20260802.log",
+          "log_sha256": "92C82254F30DBBDABEEA99799376ABA5ED31AFA0B2C9822498A3BE52C83EDDBB",
+          "score_kcal_per_mol": -9.394
+        },
+        {
+          "base_seed": 20260803,
+          "pose_path": "results/runs/stage05_mk14_e32_diagnostics/poses/MK14_active_L000290__MK14_2QD9_reference__seed20260803.pdbqt",
+          "pose_sha256": "DA08AD3BC956B5F6813A812195CA023C98BABC3983151D39363C63DA5547B8E7",
+          "log_path": "results/runs/stage05_mk14_e32_diagnostics/logs/MK14_active_L000290__MK14_2QD9_reference__seed20260803.log",
+          "log_sha256": "E5950AF1428C4D71EA33601117D5615F707318544A18624C08A166BA22960195",
+          "score_kcal_per_mol": -9.294
+        }
+      ]
+    },
+    {
+      "case_id": "L000491_3KQ7_raw_range_flag",
+      "ligand_id": "MK14_active_L000491",
+      "receptor_id": "MK14_3KQ7_aligned",
+      "e16_scores": [
+        -10.39,
+        -12.53,
+        -12.55
+      ],
+      "e16_seed_range_kcal_per_mol": 2.16,
+      "e16_median_score": -12.53,
+      "e16_minimum_score": -12.55,
+      "e32_scores": [
+        -12.539,
+        -12.557,
+        -12.532
+      ],
+      "e32_seed_range_kcal_per_mol": 0.025000000000000355,
+      "e32_median_score": -12.539,
+      "e32_minimum_score": -12.557,
+      "absolute_e16_e32_median_delta_kcal_per_mol": 0.009000000000000341,
+      "absolute_e16_e32_minimum_delta_kcal_per_mol": 0.006999999999999673,
+      "acceptance_threshold_kcal_per_mol": 0.5,
+      "checks": {
+        "e32_seed_range_within_threshold": true,
+        "e16_e32_median_delta_within_threshold": true,
+        "e16_e32_minimum_delta_within_threshold": true
+      },
+      "rescue_passed": true,
+      "e32_evidence": [
+        {
+          "base_seed": 20260801,
+          "pose_path": "results/runs/stage05_mk14_e32_diagnostics/poses/MK14_active_L000491__MK14_3KQ7_aligned__seed20260801.pdbqt",
+          "pose_sha256": "2B4663C61FF1D633567B93F94D38CBE94DBD5325D9EAA91AC68B6C42297AE7F2",
+          "log_path": "results/runs/stage05_mk14_e32_diagnostics/logs/MK14_active_L000491__MK14_3KQ7_aligned__seed20260801.log",
+          "log_sha256": "F1296A41B749EFC9F6790398AC714AE5797518C036C04B887C8FCFCD20EA6A9A",
+          "score_kcal_per_mol": -12.539
+        },
+        {
+          "base_seed": 20260802,
+          "pose_path": "results/runs/stage05_mk14_e32_diagnostics/poses/MK14_active_L000491__MK14_3KQ7_aligned__seed20260802.pdbqt",
+          "pose_sha256": "4FE7F8E58A8927DEF13F13486978DD9DC20CBFA95D5EFFB7D8CAF4EF99D539EF",
+          "log_path": "results/runs/stage05_mk14_e32_diagnostics/logs/MK14_active_L000491__MK14_3KQ7_aligned__seed20260802.log",
+          "log_sha256": "427A417B96E2469FC2B0C3394E0EF1797AC58076D60BEF8E519803B88A3C1953",
+          "score_kcal_per_mol": -12.557
+        },
+        {
+          "base_seed": 20260803,
+          "pose_path": "results/runs/stage05_mk14_e32_diagnostics/poses/MK14_active_L000491__MK14_3KQ7_aligned__seed20260803.pdbqt",
+          "pose_sha256": "D5BE2D9A36FE748FA0F1E292D31C9110FDAA3F68713058734429C6593BF172F0",
+          "log_path": "results/runs/stage05_mk14_e32_diagnostics/logs/MK14_active_L000491__MK14_3KQ7_aligned__seed20260803.log",
+          "log_sha256": "EC2015F3EC25E58206023AF0508787C6A7636EFB405892D39E1EB73849A82877",
+          "score_kcal_per_mol": -12.532
+        }
+      ]
+    }
+  ],
+  "all_cases_passed": true,
+  "original_raw_range_gate_passed": false,
+  "original_matrix_cells_replaced": 0,
+  "primary_matrix_authorized": true,
+  "sensitivity_matrix_authorized": true,
+  "enrichment_metrics_calculated": false,
+  "test_evaluated": false,
+  "interpretation_note": "A passing rescue authorizes the unchanged e16 median and minimum development matrices to enter preregistered train/validation analysis. It does not establish enrichment, receptor superiority, QUBO benefit, biological activity, test performance, or quantum advantage."
+}

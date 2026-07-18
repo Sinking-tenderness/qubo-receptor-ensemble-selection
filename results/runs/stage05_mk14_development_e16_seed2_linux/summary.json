@@ -1,0 +1,90 @@
+{
+  "config": {
+    "path": "configs/stage05_mk14_development_e16_seed2_linux.json",
+    "sha256": "7879087E978D93172EABF423BA17EF9CFD93F672309774BE6E8605BE3FCDD5C1"
+  },
+  "docking_parameters": {
+    "base_seed": 20260803,
+    "config_path": "configs/stage05_mk14_search_ladder_e16_cpu2.txt",
+    "max_total_cpu": 32,
+    "representative_method": "pose_rank_1",
+    "workers": 16
+  },
+  "expected_receptor_ligand_pairs": 960,
+  "experiment_id": "stage05-mk14-four-receptor-development-120a120d-e16-seed2-linux-v1",
+  "failed_receptor_ligand_pairs": 0,
+  "failed_receptor_runs": [],
+  "inputs": {
+    "ligand_manifest": {
+      "path": "data/processed/stage05_mk14_development_120a120d_pdbqt_manifest.csv",
+      "sha256": "28BB94E6DE6E7BC2CB0C83E1C1787A89C098853BF73F935FAE4AAED3D70C2B43"
+    },
+    "parallel_runner": {
+      "path": "scripts/batch_vina_docking_parallel.py",
+      "sha256": "D30E87EFCDDA77F545CE16D4208581660DEA2EC79C07E45AD2516CB45ACB9556"
+    },
+    "receptor_manifest": {
+      "path": "data/processed/stage05_mk14_receptor_preparation_manifest.csv",
+      "sha256": "C18CD1AC7B64C0282E763E54CF44BBCA26B21056B6D34C24FF0D9D8B0FE3BD60"
+    },
+    "score_matrix_module": {
+      "path": "scripts/build_score_matrix.py",
+      "sha256": "F9301E06EBB125EA508B955CCBC685D6B48038D191AB90903D5928E2E161775A"
+    },
+    "vina_config": {
+      "path": "configs/stage05_mk14_search_ladder_e16_cpu2.txt",
+      "sha256": "97CCBE12C38825D849C91BED4C8C7111564A24C38A7397CA2EDE8B19509A3F6E"
+    },
+    "vina_executable": {
+      "path": "environment/bin/vina_1.2.7_linux_x86_64",
+      "sha256": "F31F774F723BBA7BBE6E9D1C47577020EEA9A8DA16424284C043D22593570644"
+    }
+  },
+  "interpretation_note": "This is one of three paired development-only seed replicates. It contains no test ligands and is not interpreted alone.",
+  "label_counts": {
+    "active": 120,
+    "decoy": 120
+  },
+  "ligand_count": 240,
+  "measured_wall_runtime_seconds": 4565.562,
+  "observed_receptor_ligand_pairs": 960,
+  "outputs": {
+    "audited_ligand_manifest_csv": {
+      "path": "results/runs/stage05_mk14_development_e16_seed2_linux/audited_ligands.csv",
+      "sha256": "28BB94E6DE6E7BC2CB0C83E1C1787A89C098853BF73F935FAE4AAED3D70C2B43"
+    },
+    "combined_raw_scores_csv": {
+      "path": "results/runs/stage05_mk14_development_e16_seed2_linux/raw_scores.csv",
+      "sha256": "0DA6078738539AFCB4659E05E11B49B7766EFC8F4CBC30B09489F7487AE0D6D8"
+    },
+    "receptor_run_manifest_csv": {
+      "path": "results/runs/stage05_mk14_development_e16_seed2_linux/receptor_runs.csv",
+      "sha256": "ACE16195213ABD66235AA5A3377B7587E6BF6EC54A2B3077BE1E6987AA5A458D"
+    },
+    "representative_long_csv": {
+      "path": "results/runs/stage05_mk14_development_e16_seed2_linux/representative_scores.csv",
+      "sha256": "D420366CCF4D869FEE85F0B0C908B269825164D35350FC8CC43DD8313ED6C05B"
+    },
+    "score_matrix_csv": {
+      "path": "results/runs/stage05_mk14_development_e16_seed2_linux/score_matrix.csv",
+      "sha256": "0C1A59DA7A8917B1E25C0A5AAAB9679D457496562FAE636DB951A7232893A4BC"
+    }
+  },
+  "receptor_count": 4,
+  "schema_version": "1.0",
+  "score_range_kcal_per_mol": {
+    "maximum": -5.789,
+    "minimum": -14.41
+  },
+  "search_quality_warning_count": 0,
+  "search_quality_warning_reason_counts": {
+    "large_unfavorable_delta_from_ligand_median": 0,
+    "nonnegative_vina_score": 0
+  },
+  "search_quality_warning_thresholds": {
+    "flag_nonnegative_scores": true,
+    "maximum_delta_from_ligand_median_kcal_per_mol": 5.0
+  },
+  "status": "ok",
+  "successful_receptor_ligand_pairs": 960
+}

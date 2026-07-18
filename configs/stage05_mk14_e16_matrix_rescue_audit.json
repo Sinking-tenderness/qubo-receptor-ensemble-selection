@@ -1,0 +1,63 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage05-mk14-e16-matrix-admission-e32-rescue-v1",
+  "purpose": "Resolve the preregistered e16 raw seed-range failure using label-blind e32 diagnostics without replacing any development score cell or calculating enrichment metrics.",
+  "inputs": {
+    "aggregated_seed_scores_csv": "results/runs/stage05_mk14_development_e16_aggregated/aggregated_seed_scores.csv",
+    "aggregate_summary_json": "results/runs/stage05_mk14_development_e16_aggregated/summary.json",
+    "e32_diagnostic_directory": "results/runs/stage05_mk14_e32_diagnostics"
+  },
+  "input_sha256": {
+    "aggregated_seed_scores_csv": "653CC52FBCF346F0AF3C06556D3EFA9619D23FBB15074B646701C3A701FBDA44",
+    "aggregate_summary_json": "F114E3F1946474F10552061FF0B96FB58DAAC321BB2EE03401D41171917217A3",
+    "e32_config": "D7D8AE987F124B498230F0D328F66F2139612D9F92F324EA2838217F1A9E5F55"
+  },
+  "threshold_source": {
+    "path": "configs/stage05_mk14_search_ladder_multiseed_followup.json",
+    "sha256": "2974773A64ECBAED2417D69D07118220D155462CD201FC6D2F609518B975FCB0",
+    "field": "acceptance_thresholds.maximum_highest_protocol_seed_range_kcal_per_mol",
+    "value_kcal_per_mol": 0.5,
+    "note": "The 0.5 threshold was frozen during train-only search calibration before the 240-ligand development matrix was run."
+  },
+  "source_archives": {
+    "e16_aggregate_core": {
+      "filename": "stage05_mk14_e16_aggregate_core_v1.tar.gz",
+      "sha256": "98210382896DFA84CE26F8755A7F86C0F7C938672757B1262051637CEE7798AF"
+    },
+    "e32_diagnostics": {
+      "filename": "stage05_mk14_e32_diagnostics.tar.gz",
+      "sha256": "04F54BA529CC0A07D9CA4263065EFF871DA6CE5ACAEB935E8BC3D123D3C49F98"
+    }
+  },
+  "seed_records": [
+    {"seed_id": "seed0", "base_seed": 20260801},
+    {"seed_id": "seed1", "base_seed": 20260802},
+    {"seed_id": "seed2", "base_seed": 20260803}
+  ],
+  "cases": [
+    {
+      "case_id": "L000290_2QD9_raw_range_flag",
+      "ligand_id": "MK14_active_L000290",
+      "receptor_id": "MK14_2QD9_reference"
+    },
+    {
+      "case_id": "L000491_3KQ7_raw_range_flag",
+      "ligand_id": "MK14_active_L000491",
+      "receptor_id": "MK14_3KQ7_aligned"
+    }
+  ],
+  "acceptance": {
+    "maximum_score_delta_kcal_per_mol": 0.5,
+    "checks_required_for_every_case": [
+      "e32 seed range <= 0.5 kcal/mol",
+      "absolute e16-median versus e32-median delta <= 0.5 kcal/mol",
+      "absolute e16-minimum versus e32-minimum delta <= 0.5 kcal/mol"
+    ],
+    "original_matrix_cell_replacement_allowed": false,
+    "all_cases_must_pass": true
+  },
+  "outputs": {
+    "summary_json": "results/runs/stage05_mk14_e16_matrix_rescue_audit/summary.json"
+  },
+  "interpretation_boundary": "A passing rescue authorizes the unchanged e16 median and minimum development matrices to enter preregistered train/validation analysis. It does not establish enrichment, receptor superiority, QUBO benefit, biological activity, test performance, or quantum advantage."
+}
