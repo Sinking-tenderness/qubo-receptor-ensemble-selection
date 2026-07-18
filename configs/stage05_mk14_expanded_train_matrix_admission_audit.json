@@ -1,0 +1,22 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage05-mk14-expanded8-train160-e16-matrix-admission-v1",
+  "purpose": "Independently audit the expanded eight-receptor, train-only three-seed matrix before any enrichment or QUBO calculation.",
+  "inputs": {
+    "preregistration": "configs/stage05_mk14_expanded_train_docking_preregistration.json",
+    "aggregation_summary": "results/runs/stage05_mk14_expanded8_train160_e16_aggregated/summary.json"
+  },
+  "input_sha256": {
+    "preregistration": "E53D7192340ED7BD80A212E7B283E22D0C7B7D3543F6CB483B9C25C9EDA3CB6E",
+    "aggregation_summary": "3C4D58914C263C7C1B0C956154C5E11DAC36BE0A9519FF3229685E1D9BB702B5"
+  },
+  "source_archive": {
+    "filename": "stage05_mk14_expanded8_train160_e16_core_results_v1.tar.gz",
+    "sha256": "B3BCE3E08421CE1245E4EEF6786C0C97A4512DB1B7A367720354CB387DBAA45D"
+  },
+  "outputs": {
+    "summary_json": "data/stage05_mk14_expanded_train_matrix_admission_summary.json",
+    "flagged_pairs_csv": "data/processed/stage05_mk14_expanded_train_matrix_flagged_pairs.csv"
+  },
+  "interpretation_boundary": "This label-blind audit checks completeness, provenance, nonnegative scores, and paired-seed stability only. A rejection requires diagnostics before QUBO fitting and does not establish enrichment, receptor complementarity, biological activity, affinity accuracy, or quantum advantage."
+}

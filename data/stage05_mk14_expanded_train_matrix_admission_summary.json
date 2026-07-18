@@ -1,0 +1,56 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage05-mk14-expanded8-train160-e16-matrix-admission-v1",
+  "status": "matrix_admission_rejected_pending_label_blind_diagnostics",
+  "config": {
+    "path": "configs/stage05_mk14_expanded_train_matrix_admission_audit.json",
+    "sha256": "78280CA68C3E76919D1CA79EC6C4B071B567440988CE9D7AFD96207C5F77D460"
+  },
+  "source_archive": {
+    "filename": "stage05_mk14_expanded8_train160_e16_core_results_v1.tar.gz",
+    "sha256": "B3BCE3E08421CE1245E4EEF6786C0C97A4512DB1B7A367720354CB387DBAA45D"
+  },
+  "preregistration": {
+    "path": "configs/stage05_mk14_expanded_train_docking_preregistration.json",
+    "sha256": "E53D7192340ED7BD80A212E7B283E22D0C7B7D3543F6CB483B9C25C9EDA3CB6E"
+  },
+  "aggregation_summary": {
+    "path": "results/runs/stage05_mk14_expanded8_train160_e16_aggregated/summary.json",
+    "sha256": "3C4D58914C263C7C1B0C956154C5E11DAC36BE0A9519FF3229685E1D9BB702B5"
+  },
+  "thresholds": {
+    "required_seed_count": 3,
+    "required_failed_pairs_per_seed": 0,
+    "required_validation_rows": 0,
+    "required_test_rows": 0,
+    "maximum_allowed_nonnegative_score_pairs": 0,
+    "maximum_allowed_seed_score_range_kcal_per_mol": 2.0,
+    "failure_action": "stop before QUBO fitting and run label-blind search diagnostics without deleting or selectively replacing cells"
+  },
+  "audit": {
+    "aggregated_pair_count": 1280,
+    "ligand_count": 160,
+    "receptor_count": 8,
+    "seed_count": 3,
+    "nonnegative_seed_score_pair_count": 1,
+    "excessive_seed_range_pair_count": 7,
+    "flagged_pair_count": 7,
+    "seed_score_range_kcal_per_mol": {
+      "median": 0.05799999999999983,
+      "maximum": 9.9703
+    },
+    "admission_passed": false
+  },
+  "original_matrix_cells_replaced": 0,
+  "qubo_fitted": false,
+  "enrichment_metrics_calculated": false,
+  "validation_rows_read": 0,
+  "test_rows_read": 0,
+  "outputs": {
+    "flagged_pairs_csv": {
+      "path": "data/processed/stage05_mk14_expanded_train_matrix_flagged_pairs.csv",
+      "sha256": "329E9FAD4FB7A4056B82C1D37B8078B1FCBBDA16AF000914854DD8524F66B15E"
+    }
+  },
+  "interpretation_note": "This label-blind audit checks completeness, provenance, nonnegative scores, and paired-seed stability only. A rejection requires diagnostics before QUBO fitting and does not establish enrichment, receptor complementarity, biological activity, affinity accuracy, or quantum advantage."
+}

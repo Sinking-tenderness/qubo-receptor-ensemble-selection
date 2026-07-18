@@ -1,0 +1,8 @@
+ligand_id,receptor_id,selection_role,flag_reasons,minimum_seed_score,median_seed_score,maximum_seed_score,seed_score_range
+MK14_active_L000018,MK14_3KQ7_aligned,development_train,seed_score_range_exceeded,-11.37,-11.37,-9.23,2.139999999999999
+MK14_active_L000082,MK14_2BAJ_aligned,development_train,nonnegative_seed_score;seed_score_range_exceeded,-9.339,-9.227,0.6313,9.9703
+MK14_active_L000084,MK14_2BAJ_aligned,development_train,seed_score_range_exceeded,-13.02,-12.97,-10.42,2.5999999999999996
+MK14_active_L000348,MK14_2BAJ_aligned,development_train,seed_score_range_exceeded,-12.94,-10.78,-10.76,2.1799999999999997
+MK14_active_L000348,MK14_3KQ7_aligned,development_train,seed_score_range_exceeded,-13.14,-11.8,-10.37,2.7700000000000014
+MK14_active_L000365,MK14_2BAJ_aligned,development_train,seed_score_range_exceeded,-12.77,-12.75,-9.499,3.270999999999999
+MK14_decoy_L027360,MK14_2BAJ_aligned,development_train,seed_score_range_exceeded,-11.67,-11.54,-8.697,2.9730000000000008

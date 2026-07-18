@@ -1,0 +1,121 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage05-mk14-expanded8-train160-e32-matrix-diagnostics-v1",
+  "purpose": "Rerun every automatically flagged expanded-train matrix pair at e32 with the same three paired seeds, without replacing any e16 score cell or reading validation/test rows.",
+  "inputs": {
+    "preregistration": "configs/stage05_mk14_expanded_train_docking_preregistration.json",
+    "admission_summary": "data/stage05_mk14_expanded_train_matrix_admission_summary.json",
+    "flagged_pairs": "data/processed/stage05_mk14_expanded_train_matrix_flagged_pairs.csv",
+    "aggregation_summary": "results/runs/stage05_mk14_expanded8_train160_e16_aggregated/summary.json",
+    "aggregated_seed_scores": "results/runs/stage05_mk14_expanded8_train160_e16_aggregated/aggregated_seed_scores.csv",
+    "receptor_manifest": "data/processed/stage05_mk14_expanded8_receptor_manifest.csv",
+    "ligand_manifest": "data/processed/stage05_mk14_expanded_train_80a80d_pdbqt_manifest.csv",
+    "e16_config": "configs/stage05_mk14_expanded_train_e16_cpu2.txt",
+    "e32_config": "configs/stage05_mk14_expanded_train_e32_cpu2.txt",
+    "threshold_source": "configs/stage05_mk14_search_ladder_multiseed_followup.json",
+    "vina_executable": "environment/bin/vina_1.2.7_linux_x86_64"
+  },
+  "input_sha256": {
+    "preregistration": "E53D7192340ED7BD80A212E7B283E22D0C7B7D3543F6CB483B9C25C9EDA3CB6E",
+    "admission_summary": "8896D8F602F8F53F8C302B561D3B7841E9AD306DE8FBA016AF7D80E0AA0135B6",
+    "flagged_pairs": "329E9FAD4FB7A4056B82C1D37B8078B1FCBBDA16AF000914854DD8524F66B15E",
+    "aggregation_summary": "3C4D58914C263C7C1B0C956154C5E11DAC36BE0A9519FF3229685E1D9BB702B5",
+    "aggregated_seed_scores": "8434C2FB71DFEF87A5ABFE50247F59F7BB10ABF23C4B62D831111CCC0CE87229",
+    "receptor_manifest": "FBB92AB50C8AE00955D463E6E0F7ECBF2D3826E64878D3C00095BF5E0824124C",
+    "ligand_manifest": "54ABDDC4882E4F78B123B46084C235F21CBF7784D0171B8076E1F93433AEFB25",
+    "e16_config": "840ABB59A7C153CC46C84DD0B93E61C77DB9CFFB7EC458D01DEE59E46673A85F",
+    "e32_config": "66C74410ED27CB04671B8D56C12FF0BA83C57641C5FDB039BDB5203A8EBEE5ED",
+    "threshold_source": "2974773A64ECBAED2417D69D07118220D155462CD201FC6D2F609518B975FCB0",
+    "vina_executable": "F31F774F723BBA7BBE6E9D1C47577020EEA9A8DA16424284C043D22593570644"
+  },
+  "source_archive": {
+    "filename": "stage05_mk14_expanded8_train160_e16_core_results_v1.tar.gz",
+    "sha256": "B3BCE3E08421CE1245E4EEF6786C0C97A4512DB1B7A367720354CB387DBAA45D"
+  },
+  "selection": {
+    "rule": "include every aggregate pair with any nonnegative e16 seed score or e16 seed range greater than 2.0 kcal/mol",
+    "expected_case_count": 7,
+    "label_used_for_selection": false
+  },
+  "seed_replicates": [
+    {"replicate_id": "seed0", "base_seed": 20260801},
+    {"replicate_id": "seed1", "base_seed": 20260802},
+    {"replicate_id": "seed2", "base_seed": 20260803}
+  ],
+  "expected_cases": [
+    {
+      "case_id": "L000018_3KQ7_seed_range",
+      "ligand_id": "MK14_active_L000018",
+      "ligand_pdbqt_sha256": "3BE405887A7B0EEECCA9FA32901FA0C93DD76CA92A481837AEB25F469EF0B018",
+      "receptor_id": "MK14_3KQ7_aligned",
+      "receptor_pdbqt_sha256": "004DD1214FB3C4BEBD3BC9B08EF2D2F5385B6E5D11925B809E2B11C9A4F12246"
+    },
+    {
+      "case_id": "L000082_2BAJ_nonnegative_and_seed_range",
+      "ligand_id": "MK14_active_L000082",
+      "ligand_pdbqt_sha256": "CA604618171BBB5BABAB94F43EFB243573FE269816BB21D84894965CE41E6C11",
+      "receptor_id": "MK14_2BAJ_aligned",
+      "receptor_pdbqt_sha256": "BD88A69A7452AFE91ADC216442A8C5D297DAC4CFB1CC0A3FD0243EB17C1B72A8"
+    },
+    {
+      "case_id": "L000084_2BAJ_seed_range",
+      "ligand_id": "MK14_active_L000084",
+      "ligand_pdbqt_sha256": "A4FF09094A4E0EBD7325FB4402120774DABCC9D1F18934DE060CDD29A41F990E",
+      "receptor_id": "MK14_2BAJ_aligned",
+      "receptor_pdbqt_sha256": "BD88A69A7452AFE91ADC216442A8C5D297DAC4CFB1CC0A3FD0243EB17C1B72A8"
+    },
+    {
+      "case_id": "L000348_2BAJ_seed_range",
+      "ligand_id": "MK14_active_L000348",
+      "ligand_pdbqt_sha256": "3372A36572DBA71E92E1F08A2149851681BC45659E2D3F65CBC79D5BA8DA1C07",
+      "receptor_id": "MK14_2BAJ_aligned",
+      "receptor_pdbqt_sha256": "BD88A69A7452AFE91ADC216442A8C5D297DAC4CFB1CC0A3FD0243EB17C1B72A8"
+    },
+    {
+      "case_id": "L000348_3KQ7_seed_range",
+      "ligand_id": "MK14_active_L000348",
+      "ligand_pdbqt_sha256": "3372A36572DBA71E92E1F08A2149851681BC45659E2D3F65CBC79D5BA8DA1C07",
+      "receptor_id": "MK14_3KQ7_aligned",
+      "receptor_pdbqt_sha256": "004DD1214FB3C4BEBD3BC9B08EF2D2F5385B6E5D11925B809E2B11C9A4F12246"
+    },
+    {
+      "case_id": "L000365_2BAJ_seed_range",
+      "ligand_id": "MK14_active_L000365",
+      "ligand_pdbqt_sha256": "C6B4AF857995C7DF60E6F12BF1F1B5104C1FCC647CED70521A350F3C403170B0",
+      "receptor_id": "MK14_2BAJ_aligned",
+      "receptor_pdbqt_sha256": "BD88A69A7452AFE91ADC216442A8C5D297DAC4CFB1CC0A3FD0243EB17C1B72A8"
+    },
+    {
+      "case_id": "L027360_2BAJ_seed_range",
+      "ligand_id": "MK14_decoy_L027360",
+      "ligand_pdbqt_sha256": "6060BF1D899A730F13E2707D918EE1B66B02F391BD9579C6647F073C79358733",
+      "receptor_id": "MK14_2BAJ_aligned",
+      "receptor_pdbqt_sha256": "BD88A69A7452AFE91ADC216442A8C5D297DAC4CFB1CC0A3FD0243EB17C1B72A8"
+    }
+  ],
+  "execution": {
+    "workers": 16,
+    "max_total_cpu": 32,
+    "expected_vina_runs": 21
+  },
+  "acceptance": {
+    "threshold_source_path": "configs/stage05_mk14_search_ladder_multiseed_followup.json",
+    "threshold_source_field": "acceptance_thresholds.maximum_highest_protocol_seed_range_kcal_per_mol",
+    "maximum_score_delta_kcal_per_mol": 0.5,
+    "checks_required_for_every_case": [
+      "all three e32 paired-seed runs complete and negative",
+      "e32 seed range <= 0.5 kcal/mol",
+      "absolute e16-median versus e32-median delta <= 0.5 kcal/mol",
+      "absolute e16-minimum versus e32-minimum delta <= 0.5 kcal/mol"
+    ],
+    "all_cases_must_pass": true,
+    "original_e16_matrix_cell_replacement_allowed": false
+  },
+  "outputs": {
+    "run_directory": "results/runs/stage05_mk14_expanded8_train160_e32_matrix_diagnostics",
+    "raw_runs_csv": "results/runs/stage05_mk14_expanded8_train160_e32_matrix_diagnostics/raw_runs.csv",
+    "case_summary_csv": "results/runs/stage05_mk14_expanded8_train160_e32_matrix_diagnostics/case_summary.csv",
+    "summary_json": "results/runs/stage05_mk14_expanded8_train160_e32_matrix_diagnostics/summary.json"
+  },
+  "interpretation_boundary": "A complete passing diagnostic may authorize the unchanged robust e16 train matrices for the preregistered train-only non-degeneracy gate. It does not authorize score-cell replacement, validation sampling, test release, biological activity claims, affinity claims, QUBO benefit, or quantum advantage."
+}
