@@ -1,0 +1,591 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage05-mk14-eight-receptor-redocking-gate-v4",
+  "config": {
+    "path": "configs/stage05_mk14_expanded_redocking_gate_v4.json",
+    "sha256": "1415ABAFCC693D4894EDFA18667E1E2EFBA51846CF84B5758A4B0CB4E348AC7A"
+  },
+  "runtime": {
+    "conda_environment": "qubo-receptor-ensemble",
+    "python_version": "3.11.15",
+    "numpy_version": "1.26.4",
+    "scipy_version": "1.17.1",
+    "rdkit_version": "2026.3.1",
+    "meeko_version": "0.7.1",
+    "prody_version": "2.4.1"
+  },
+  "selection_summary": {
+    "path": "data/stage05_mk14_rcsb_coordinate_selection_v3_summary.json",
+    "sha256": "94221AA0FAFF078C276D96C303932E5C905CBD7B1C3E24906B3DD63DE25A24AB"
+  },
+  "selection_audit": {
+    "path": "data/stage05_mk14_rcsb_coordinate_selection_v3_audit.json",
+    "sha256": "D0E14D798272F14AA55C806E655292D8468E99D530EBA9943C920AF751256C09"
+  },
+  "protocol_amendment": {
+    "path": "configs/stage05_mk14_expanded_redocking_box_amendment01.json",
+    "sha256": "3B3CB03B1B86FCB0323428A046C744C1D7C680E539966996B0F14D5D61336DA7"
+  },
+  "receptor_count": 4,
+  "existing_revalidation_case_count": 4,
+  "total_redocking_case_count": 8,
+  "common_box": {
+    "origin": "geometry-only amendment after 2BAJ-1PP had 3.8575 A lower-z margin in the previous box",
+    "center_x": -0.49,
+    "center_y": 3.26,
+    "center_z": 21.83,
+    "size_x": 22,
+    "size_y": 24,
+    "size_z": 32,
+    "minimum_crystal_pose_margin_angstrom": 4.0
+  },
+  "case_preparation": [
+    {
+      "case_id": "2BAJ_1PP",
+      "conformer_id": "MK14_2BAJ_aligned",
+      "pdb_id": "2BAJ",
+      "chain": "A",
+      "ligand_resname": "1PP",
+      "ligand_resseq": 401,
+      "ligand_source_url": "https://models.rcsb.org/v1/2BAJ/ligand?auth_asym_id=A&auth_seq_id=401&encoding=sdf",
+      "raw_sdf_sha256": "3C844D64E97930FF53DD0FD9B8BE842A9E92804ADCF1C37C6CEB87B88C10E547",
+      "raw_sdf_molblock_sha256": "58D659D9EEDF3838A4A644DC8F231FB9BA75007BB36ADA34CD8CE3A00F2AAF15",
+      "common_sdf_sha256": "E280B895E518DC61BA07842A3F3A2D8D1BC67F0F58AC0827C46084B5BEF69985",
+      "explicit_h_sdf_sha256": "AE3D0247D3AD839270F65119792EDF49318819CDA6176014D9CCC9C48B096294",
+      "ligand_pdbqt_sha256": "9FA875292E7D451AAD25A2BC9625C3E9354E81BE122B1A1D5ACB974394BB4678",
+      "receptor_pdbqt_sha256": "BD88A69A7452AFE91ADC216442A8C5D297DAC4CFB1CC0A3FD0243EB17C1B72A8",
+      "alignment_summary_sha256": "30FC57E9F979EE8E4001AFEA398AEF606341A04045D883E860C603A050AC8E56",
+      "reference_coordinate_rmsd_angstrom": 0.0005062571444397305,
+      "reference_coordinate_max_distance_angstrom": 0.0008124038404640532,
+      "box_audit": {
+        "ligand_minimum_angstrom": [
+          -5.9231,
+          0.6101,
+          10.6875
+        ],
+        "ligand_maximum_angstrom": [
+          4.6178,
+          8.8498,
+          19.168
+        ],
+        "margins_angstrom": {
+          "x_lower": 5.5669,
+          "x_upper": 5.8922,
+          "y_lower": 9.3501,
+          "y_upper": 6.4102,
+          "z_lower": 4.857500000000002,
+          "z_upper": 18.662
+        },
+        "minimum_margin_angstrom": 4.857500000000002
+      },
+      "raw_sdf": "results/runs/stage05_mk14_expanded_redocking_v4/2BAJ_1PP/2BAJ_1PP_raw.sdf",
+      "common_sdf": "results/runs/stage05_mk14_expanded_redocking_v4/2BAJ_1PP/2BAJ_1PP_common_frame.sdf",
+      "explicit_h_sdf": "results/runs/stage05_mk14_expanded_redocking_v4/2BAJ_1PP/2BAJ_1PP_common_frame_explicitH.sdf",
+      "ligand_pdbqt": "results/runs/stage05_mk14_expanded_redocking_v4/2BAJ_1PP/2BAJ_1PP.pdbqt",
+      "receptor_pdbqt": "results/runs/stage05_mk14_expanded_redocking_v4/2BAJ_1PP/receptor/MK14_2BAJ_aligned_receptor.pdbqt",
+      "alignment_summary": "results/runs/stage05_mk14_expanded_redocking_v4/2BAJ_1PP/alignment_summary.json",
+      "ligand_pdbqt_audit": {
+        "pdbqt_atom_count": 29,
+        "pdbqt_atom_types": "A;C;Cl;HD;N;NA;OA",
+        "pdbqt_charge_min": -0.306,
+        "pdbqt_charge_max": 0.324,
+        "torsdof": "4"
+      }
+    },
+    {
+      "case_id": "4F9W_LM4",
+      "conformer_id": "MK14_4F9W_aligned",
+      "pdb_id": "4F9W",
+      "chain": "A",
+      "ligand_resname": "LM4",
+      "ligand_resseq": 403,
+      "ligand_source_url": "https://models.rcsb.org/v1/4F9W/ligand?auth_asym_id=A&auth_seq_id=403&encoding=sdf",
+      "raw_sdf_sha256": "7B7B1E0D026A063C23211A0EBD2DF05FF41A42B11D8C5D4DC0BEC5D5DA9109FD",
+      "raw_sdf_molblock_sha256": "AB72AC4B751F65B4CDBE981A2401B9DAD465FE704014CC70F07CC9D34AE7C753",
+      "common_sdf_sha256": "C2671C1483F2E0F82395AB24623359C17CB7A5007837B97E3FEC949CA745E0C4",
+      "explicit_h_sdf_sha256": "C22E2AA92D6B8250FD65915F61AD10E4D9274755062B0CEC8B27AC0C3D7064D4",
+      "ligand_pdbqt_sha256": "A3909250BC5F9111782F81E0BE7FFE7EB53119B7AE3714EE339E62C7F6592B37",
+      "receptor_pdbqt_sha256": "411FA4DB10C412809C060E23430A49FD3A444787F44320BF752E3372ECB80ECF",
+      "alignment_summary_sha256": "6D40E08562AAB067B3E50CAD1F19A2C04F989B507366D9752F3E4A022F9EEBE7",
+      "reference_coordinate_rmsd_angstrom": 0.0005110772935674868,
+      "reference_coordinate_max_distance_angstrom": 0.0008660254037834459,
+      "box_audit": {
+        "ligand_minimum_angstrom": [
+          -6.3072,
+          -3.0655,
+          15.1941
+        ],
+        "ligand_maximum_angstrom": [
+          1.0069,
+          4.6795,
+          24.2894
+        ],
+        "margins_angstrom": {
+          "x_lower": 5.1828,
+          "x_upper": 9.5031,
+          "y_lower": 5.6745,
+          "y_upper": 10.5805,
+          "z_lower": 9.364100000000002,
+          "z_upper": 13.540599999999998
+        },
+        "minimum_margin_angstrom": 5.1828
+      },
+      "raw_sdf": "results/runs/stage05_mk14_expanded_redocking_v4/4F9W_LM4/4F9W_LM4_raw.sdf",
+      "common_sdf": "results/runs/stage05_mk14_expanded_redocking_v4/4F9W_LM4/4F9W_LM4_common_frame.sdf",
+      "explicit_h_sdf": "results/runs/stage05_mk14_expanded_redocking_v4/4F9W_LM4/4F9W_LM4_common_frame_explicitH.sdf",
+      "ligand_pdbqt": "results/runs/stage05_mk14_expanded_redocking_v4/4F9W_LM4/4F9W_LM4.pdbqt",
+      "receptor_pdbqt": "results/runs/stage05_mk14_expanded_redocking_v4/4F9W_LM4/receptor/MK14_4F9W_aligned_receptor.pdbqt",
+      "alignment_summary": "results/runs/stage05_mk14_expanded_redocking_v4/4F9W_LM4/alignment_summary.json",
+      "ligand_pdbqt_audit": {
+        "pdbqt_atom_count": 25,
+        "pdbqt_atom_types": "A;C;N;NA",
+        "pdbqt_charge_min": -0.361,
+        "pdbqt_charge_max": 0.151,
+        "torsdof": "3"
+      }
+    },
+    {
+      "case_id": "3OCG_OCG",
+      "conformer_id": "MK14_3OCG_aligned",
+      "pdb_id": "3OCG",
+      "chain": "A",
+      "ligand_resname": "OCG",
+      "ligand_resseq": 361,
+      "ligand_source_url": "https://models.rcsb.org/v1/3OCG/ligand?auth_asym_id=A&auth_seq_id=361&encoding=sdf",
+      "raw_sdf_sha256": "39868802BD5E043DFCEB46268EE66293ABBD78D886CFAAFC6B90DE3F8E8500D0",
+      "raw_sdf_molblock_sha256": "1DEB47B2100A15AF9D7D63B7908CBA6F2A04ECD94D70B5ECFCA38243EAEAEE2E",
+      "common_sdf_sha256": "D0465A3B006A330F8C7CC7FFD0CDF47D3A04789F4AE995D446EA774B6590EEF6",
+      "explicit_h_sdf_sha256": "74722EF734A1D650203A68E3D58E10A40CC80EAA007121751A0886BA9CF93D32",
+      "ligand_pdbqt_sha256": "548D7F343F3CF79C2AA5B410AC61CAB3CEB15856CD0FD6387BAC930BC509E0EF",
+      "receptor_pdbqt_sha256": "9B472081B131B798A0B1D18C838D26800F3987EFEA000F354D70387A0E088B5E",
+      "alignment_summary_sha256": "518A4C43F7CFFA6C8F6812B3B35A10E8187D7601A240397F64DA3D8D6223674D",
+      "reference_coordinate_rmsd_angstrom": 0.00047888759989503626,
+      "reference_coordinate_max_distance_angstrom": 0.0008124038404628575,
+      "box_audit": {
+        "ligand_minimum_angstrom": [
+          -6.1472,
+          -2.8598,
+          12.0451
+        ],
+        "ligand_maximum_angstrom": [
+          0.9703,
+          4.785,
+          27.0883
+        ],
+        "margins_angstrom": {
+          "x_lower": 5.3428,
+          "x_upper": 9.5397,
+          "y_lower": 5.8802,
+          "y_upper": 10.475,
+          "z_lower": 6.215100000000001,
+          "z_upper": 10.741699999999998
+        },
+        "minimum_margin_angstrom": 5.3428
+      },
+      "raw_sdf": "results/runs/stage05_mk14_expanded_redocking_v4/3OCG_OCG/3OCG_OCG_raw.sdf",
+      "common_sdf": "results/runs/stage05_mk14_expanded_redocking_v4/3OCG_OCG/3OCG_OCG_common_frame.sdf",
+      "explicit_h_sdf": "results/runs/stage05_mk14_expanded_redocking_v4/3OCG_OCG/3OCG_OCG_common_frame_explicitH.sdf",
+      "ligand_pdbqt": "results/runs/stage05_mk14_expanded_redocking_v4/3OCG_OCG/3OCG_OCG.pdbqt",
+      "receptor_pdbqt": "results/runs/stage05_mk14_expanded_redocking_v4/3OCG_OCG/receptor/MK14_3OCG_aligned_receptor.pdbqt",
+      "alignment_summary": "results/runs/stage05_mk14_expanded_redocking_v4/3OCG_OCG/alignment_summary.json",
+      "ligand_pdbqt_audit": {
+        "pdbqt_atom_count": 34,
+        "pdbqt_atom_types": "A;C;HD;N;NA;OA",
+        "pdbqt_charge_min": -0.383,
+        "pdbqt_charge_max": 0.261,
+        "torsdof": "6"
+      }
+    },
+    {
+      "case_id": "3MPT_1GK",
+      "conformer_id": "MK14_3MPT_aligned",
+      "pdb_id": "3MPT",
+      "chain": "A",
+      "ligand_resname": "1GK",
+      "ligand_resseq": 361,
+      "ligand_source_url": "https://models.rcsb.org/v1/3MPT/ligand?auth_asym_id=A&auth_seq_id=361&encoding=sdf",
+      "raw_sdf_sha256": "9D4C9ECA61007DA60672D1580668493C5CAA90FF4B5EF3EFFC62A9ABC7A4C30F",
+      "raw_sdf_molblock_sha256": "D020F81729754A06FD979F6B1C159C1DACFADB945F5E0DADB1C386B46E20CD8A",
+      "common_sdf_sha256": "5993A38A0208619AB82472E7BB0C3014B1739F044E7FC136B3A80C923A11F4ED",
+      "explicit_h_sdf_sha256": "4E24E6C96D2C998451D479D632664C08BA00CFD8F81334A5A2D3E97D819F1116",
+      "ligand_pdbqt_sha256": "8EE93629BCC4D1EC726830DB716BB2312CAAD9CE5D5D84E10AA7890D06E62242",
+      "receptor_pdbqt_sha256": "57819252F68057F40F172D7B3EE6312134BF0E2F3E0214C0EBD2984C103C8EF4",
+      "alignment_summary_sha256": "C297D3F41DB7EC49758B1C520B9B45101A9324E86BA179DA7296F653E32E77EF",
+      "reference_coordinate_rmsd_angstrom": 0.00047912964570263807,
+      "reference_coordinate_max_distance_angstrom": 0.0007549834435265948,
+      "box_audit": {
+        "ligand_minimum_angstrom": [
+          -5.9077,
+          -3.1804,
+          16.5044
+        ],
+        "ligand_maximum_angstrom": [
+          0.4414,
+          2.9478,
+          28.0603
+        ],
+        "margins_angstrom": {
+          "x_lower": 5.5823,
+          "x_upper": 10.0686,
+          "y_lower": 5.5596,
+          "y_upper": 12.3122,
+          "z_lower": 10.674400000000002,
+          "z_upper": 9.769699999999997
+        },
+        "minimum_margin_angstrom": 5.5596
+      },
+      "raw_sdf": "results/runs/stage05_mk14_expanded_redocking_v4/3MPT_1GK/3MPT_1GK_raw.sdf",
+      "common_sdf": "results/runs/stage05_mk14_expanded_redocking_v4/3MPT_1GK/3MPT_1GK_common_frame.sdf",
+      "explicit_h_sdf": "results/runs/stage05_mk14_expanded_redocking_v4/3MPT_1GK/3MPT_1GK_common_frame_explicitH.sdf",
+      "ligand_pdbqt": "results/runs/stage05_mk14_expanded_redocking_v4/3MPT_1GK/3MPT_1GK.pdbqt",
+      "receptor_pdbqt": "results/runs/stage05_mk14_expanded_redocking_v4/3MPT_1GK/receptor/MK14_3MPT_aligned_receptor.pdbqt",
+      "alignment_summary": "results/runs/stage05_mk14_expanded_redocking_v4/3MPT_1GK/alignment_summary.json",
+      "ligand_pdbqt_audit": {
+        "pdbqt_atom_count": 25,
+        "pdbqt_atom_types": "A;C;HD;N;OA",
+        "pdbqt_charge_min": -0.467,
+        "pdbqt_charge_max": 0.268,
+        "torsdof": "5"
+      }
+    }
+  ],
+  "receptor_manifest": {
+    "path": "data/processed/stage05_mk14_expanded_receptor_preparation_manifest_v4.csv",
+    "sha256": "3B9CCDF8FEB06E4BA9040457B28DDCF597C596D2F20D7FED70F8371DF3B72F72"
+  },
+  "existing_case_revalidation_inputs": [
+    {
+      "case_id": "MK14_2QD9_LGF",
+      "conformer_id": "MK14_2QD9_reference",
+      "reference_ligand": "LGF",
+      "reference_sdf": "results/runs/stage05_mk14_redocking/reference_ligands/2QD9_LGF_A_361_common_frame.sdf",
+      "reference_sdf_sha256": "2F6E3F200B21039B60EF37750DFD7914C826C284A57472C5CFBBAC06FF7F7A57",
+      "ligand_pdbqt": "results/runs/stage05_mk14_redocking/prepared_ligands/2QD9_LGF_A_361.pdbqt",
+      "ligand_pdbqt_sha256": "56D639502BF9E5E940418C336BA9DD074F36043B89BCADD96E49ACC7028813E1",
+      "receptor_pdbqt": "results/runs/stage05_mk14_receptor_preparation/MK14_2QD9_reference/MK14_2QD9_reference_receptor.pdbqt",
+      "receptor_pdbqt_sha256": "F34F05160C13A78113A31459569E09F2FD93632F5A4E57806AEF192B3BC3E036",
+      "box_audit": {
+        "ligand_minimum_angstrom": [
+          -5.897,
+          -4.696,
+          14.951
+        ],
+        "ligand_maximum_angstrom": [
+          2.18,
+          2.67,
+          32.401
+        ],
+        "margins_angstrom": {
+          "x_lower": 5.593,
+          "x_upper": 8.33,
+          "y_lower": 4.0440000000000005,
+          "y_upper": 12.59,
+          "z_lower": 9.121000000000002,
+          "z_upper": 5.428999999999995
+        },
+        "minimum_margin_angstrom": 4.0440000000000005
+      }
+    },
+    {
+      "case_id": "MK14_1A9U_SB2",
+      "conformer_id": "MK14_1A9U_aligned",
+      "reference_ligand": "SB2",
+      "reference_sdf": "results/runs/stage05_mk14_redocking/reference_ligands/1A9U_SB2_A_800_common_frame.sdf",
+      "reference_sdf_sha256": "9B124B8C8C5C66BC4E35DA2F4AD702F177B5E95BA8D2C8C39E9AE3A12899DE89",
+      "ligand_pdbqt": "results/runs/stage05_mk14_redocking/prepared_ligands/1A9U_SB2_A_800.pdbqt",
+      "ligand_pdbqt_sha256": "BAAC1978607A1D3C21B6CF0516091EB6FA4A834C8739C62A3E96043D76EE14E7",
+      "receptor_pdbqt": "results/runs/stage05_mk14_receptor_preparation/MK14_1A9U_aligned/MK14_1A9U_aligned_receptor.pdbqt",
+      "receptor_pdbqt_sha256": "1F4A5F9F9FCE03DB2E775B2774EAD31CE79A1280A659A154943923CF8116A2F2",
+      "box_audit": {
+        "ligand_minimum_angstrom": [
+          -7.0031,
+          -1.4595,
+          15.4866
+        ],
+        "ligand_maximum_angstrom": [
+          -1.0369,
+          11.209,
+          23.8318
+        ],
+        "margins_angstrom": {
+          "x_lower": 4.4869,
+          "x_upper": 11.546899999999999,
+          "y_lower": 7.2805,
+          "y_upper": 4.051,
+          "z_lower": 9.656600000000001,
+          "z_upper": 13.998199999999997
+        },
+        "minimum_margin_angstrom": 4.051
+      }
+    },
+    {
+      "case_id": "MK14_3K3J_F4C",
+      "conformer_id": "MK14_3K3J_aligned",
+      "reference_ligand": "F4C",
+      "reference_sdf": "results/runs/stage05_mk14_redocking/reference_ligands/3K3J_F4C_A_361_common_frame.sdf",
+      "reference_sdf_sha256": "BCAFAB2F8D7DD0F4603803819EBF20E92FE39C1E5EC7574D6AB5C7F494D1D087",
+      "ligand_pdbqt": "results/runs/stage05_mk14_redocking/prepared_ligands/3K3J_F4C_A_361.pdbqt",
+      "ligand_pdbqt_sha256": "FA022CE25719A3ED8B901CCD609247F4153DF6071CB77C247D3338DD8A3D4624",
+      "receptor_pdbqt": "results/runs/stage05_mk14_receptor_preparation/MK14_3K3J_aligned/MK14_3K3J_aligned_receptor.pdbqt",
+      "receptor_pdbqt_sha256": "66F7EE8E48691B4ABE56660CB15B805AC5FD4AB6740C89AFD1943279B51B85B9",
+      "box_audit": {
+        "ligand_minimum_angstrom": [
+          -6.2802,
+          0.518,
+          11.2566
+        ],
+        "ligand_maximum_angstrom": [
+          5.4275,
+          9.7408,
+          20.979
+        ],
+        "margins_angstrom": {
+          "x_lower": 5.2098,
+          "x_upper": 5.0825,
+          "y_lower": 9.258000000000001,
+          "y_upper": 5.5192,
+          "z_lower": 5.426600000000002,
+          "z_upper": 16.851
+        },
+        "minimum_margin_angstrom": 5.0825
+      }
+    },
+    {
+      "case_id": "MK14_3KQ7_KQ7",
+      "conformer_id": "MK14_3KQ7_aligned",
+      "reference_ligand": "KQ7",
+      "reference_sdf": "results/runs/stage05_mk14_redocking/reference_ligands/3KQ7_KQ7_A_361_common_frame.sdf",
+      "reference_sdf_sha256": "3ECFF7A1A2C4C95DF2E3373D3FE6BD475E820A11D0CD153A3A17EC89792A48EE",
+      "ligand_pdbqt": "results/runs/stage05_mk14_redocking/prepared_ligands/3KQ7_KQ7_A_361.pdbqt",
+      "ligand_pdbqt_sha256": "43E1DF0B1E244E4EFA6E62E400E71385456B646D64C611DE5C6575E04DC55839",
+      "receptor_pdbqt": "results/runs/stage05_mk14_receptor_preparation/MK14_3KQ7_aligned/MK14_3KQ7_aligned_receptor.pdbqt",
+      "receptor_pdbqt_sha256": "004DD1214FB3C4BEBD3BC9B08EF2D2F5385B6E5D11925B809E2B11C9A4F12246",
+      "box_audit": {
+        "ligand_minimum_angstrom": [
+          -6.4125,
+          -1.7149,
+          11.7148
+        ],
+        "ligand_maximum_angstrom": [
+          6.0317,
+          5.3406,
+          29.8443
+        ],
+        "margins_angstrom": {
+          "x_lower": 5.077500000000001,
+          "x_upper": 4.4783,
+          "y_lower": 7.0251,
+          "y_upper": 9.9194,
+          "z_lower": 5.884800000000002,
+          "z_upper": 7.985699999999998
+        },
+        "minimum_margin_angstrom": 4.4783
+      }
+    }
+  ],
+  "data_boundary": {
+    "ligand_labels_read": 0,
+    "docking_scores_from_benchmark_read": 0,
+    "previous_validation_rows_read": 0,
+    "test_rows_read": 0
+  },
+  "status": "expanded_redocking_gate_ok",
+  "vina": {
+    "executable": "environment/bin/vina_1.2.7_win.exe",
+    "executable_sha256": "E0C4B2715E0C1A74F6E92D0F3BE0328AC97542EAFBC111E6B1EFAD897A73CCE5",
+    "parameters": {
+      "version": "1.2.7",
+      "scoring": "vina",
+      "exhaustiveness": 32,
+      "cpu": 8,
+      "num_modes": 20,
+      "energy_range": 6,
+      "seed": 20260717
+    }
+  },
+  "redocking_results": [
+    {
+      "case_id": "2BAJ_1PP",
+      "conformer_id": "MK14_2BAJ_aligned",
+      "reference_ligand": "1PP",
+      "reference_sdf": "results/runs/stage05_mk14_expanded_redocking_v4/2BAJ_1PP/2BAJ_1PP_common_frame.sdf",
+      "reference_sdf_sha256": "E280B895E518DC61BA07842A3F3A2D8D1BC67F0F58AC0827C46084B5BEF69985",
+      "ligand_pdbqt": "results/runs/stage05_mk14_expanded_redocking_v4/2BAJ_1PP/2BAJ_1PP.pdbqt",
+      "ligand_pdbqt_sha256": "9FA875292E7D451AAD25A2BC9625C3E9354E81BE122B1A1D5ACB974394BB4678",
+      "receptor_pdbqt": "results/runs/stage05_mk14_expanded_redocking_v4/2BAJ_1PP/receptor/MK14_2BAJ_aligned_receptor.pdbqt",
+      "receptor_pdbqt_sha256": "BD88A69A7452AFE91ADC216442A8C5D297DAC4CFB1CC0A3FD0243EB17C1B72A8",
+      "vina_config": "results/runs/stage05_mk14_expanded_redocking_v4/2BAJ_1PP/redocking_vina.txt",
+      "vina_config_sha256": "5EFF4247B303BD98206188C4A68E82598E4A27B7E36BED0E1981DAC6FB631191",
+      "docked_pdbqt": "results/runs/stage05_mk14_expanded_redocking_v4/2BAJ_1PP/2BAJ_1PP_redocked.pdbqt",
+      "docked_pdbqt_sha256": "8DB44DA67EEA8E11172A1D538224A14A308A07FA714BFEE7F7EF6F24BF755A7B",
+      "pose_count": 20,
+      "top_ranked_affinity_kcal_per_mol": -12.052,
+      "top_ranked_rmsd_angstrom": 0.448127,
+      "top_ranked_pose_success": true,
+      "best_rmsd_pose_rank": 1,
+      "best_rmsd_angstrom": 0.448127,
+      "any_pose_success": true
+    },
+    {
+      "case_id": "4F9W_LM4",
+      "conformer_id": "MK14_4F9W_aligned",
+      "reference_ligand": "LM4",
+      "reference_sdf": "results/runs/stage05_mk14_expanded_redocking_v4/4F9W_LM4/4F9W_LM4_common_frame.sdf",
+      "reference_sdf_sha256": "C2671C1483F2E0F82395AB24623359C17CB7A5007837B97E3FEC949CA745E0C4",
+      "ligand_pdbqt": "results/runs/stage05_mk14_expanded_redocking_v4/4F9W_LM4/4F9W_LM4.pdbqt",
+      "ligand_pdbqt_sha256": "A3909250BC5F9111782F81E0BE7FFE7EB53119B7AE3714EE339E62C7F6592B37",
+      "receptor_pdbqt": "results/runs/stage05_mk14_expanded_redocking_v4/4F9W_LM4/receptor/MK14_4F9W_aligned_receptor.pdbqt",
+      "receptor_pdbqt_sha256": "411FA4DB10C412809C060E23430A49FD3A444787F44320BF752E3372ECB80ECF",
+      "vina_config": "results/runs/stage05_mk14_expanded_redocking_v4/4F9W_LM4/redocking_vina.txt",
+      "vina_config_sha256": "AFAC8CE8ACE47924439A4FE7CCD375CCAD664398CD75F52E0A3329859DC398E6",
+      "docked_pdbqt": "results/runs/stage05_mk14_expanded_redocking_v4/4F9W_LM4/4F9W_LM4_redocked.pdbqt",
+      "docked_pdbqt_sha256": "C6D308DD63C059E1740606FDA4000B9512C73E11D9F16B49F2B9B66E4BF6921F",
+      "pose_count": 20,
+      "top_ranked_affinity_kcal_per_mol": -10.51,
+      "top_ranked_rmsd_angstrom": 0.315515,
+      "top_ranked_pose_success": true,
+      "best_rmsd_pose_rank": 1,
+      "best_rmsd_angstrom": 0.315515,
+      "any_pose_success": true
+    },
+    {
+      "case_id": "3OCG_OCG",
+      "conformer_id": "MK14_3OCG_aligned",
+      "reference_ligand": "OCG",
+      "reference_sdf": "results/runs/stage05_mk14_expanded_redocking_v4/3OCG_OCG/3OCG_OCG_common_frame.sdf",
+      "reference_sdf_sha256": "D0465A3B006A330F8C7CC7FFD0CDF47D3A04789F4AE995D446EA774B6590EEF6",
+      "ligand_pdbqt": "results/runs/stage05_mk14_expanded_redocking_v4/3OCG_OCG/3OCG_OCG.pdbqt",
+      "ligand_pdbqt_sha256": "548D7F343F3CF79C2AA5B410AC61CAB3CEB15856CD0FD6387BAC930BC509E0EF",
+      "receptor_pdbqt": "results/runs/stage05_mk14_expanded_redocking_v4/3OCG_OCG/receptor/MK14_3OCG_aligned_receptor.pdbqt",
+      "receptor_pdbqt_sha256": "9B472081B131B798A0B1D18C838D26800F3987EFEA000F354D70387A0E088B5E",
+      "vina_config": "results/runs/stage05_mk14_expanded_redocking_v4/3OCG_OCG/redocking_vina.txt",
+      "vina_config_sha256": "64D3688CD9C42894EAAFA4B962ABD2139298CE0605D39F3361728F99884BE2B0",
+      "docked_pdbqt": "results/runs/stage05_mk14_expanded_redocking_v4/3OCG_OCG/3OCG_OCG_redocked.pdbqt",
+      "docked_pdbqt_sha256": "BD9AAAB4A8905E4AA34D071E2DCAAC33A8ACFC203457282D2DE0E58783B1DE93",
+      "pose_count": 20,
+      "top_ranked_affinity_kcal_per_mol": -10.38,
+      "top_ranked_rmsd_angstrom": 0.729765,
+      "top_ranked_pose_success": true,
+      "best_rmsd_pose_rank": 1,
+      "best_rmsd_angstrom": 0.729765,
+      "any_pose_success": true
+    },
+    {
+      "case_id": "3MPT_1GK",
+      "conformer_id": "MK14_3MPT_aligned",
+      "reference_ligand": "1GK",
+      "reference_sdf": "results/runs/stage05_mk14_expanded_redocking_v4/3MPT_1GK/3MPT_1GK_common_frame.sdf",
+      "reference_sdf_sha256": "5993A38A0208619AB82472E7BB0C3014B1739F044E7FC136B3A80C923A11F4ED",
+      "ligand_pdbqt": "results/runs/stage05_mk14_expanded_redocking_v4/3MPT_1GK/3MPT_1GK.pdbqt",
+      "ligand_pdbqt_sha256": "8EE93629BCC4D1EC726830DB716BB2312CAAD9CE5D5D84E10AA7890D06E62242",
+      "receptor_pdbqt": "results/runs/stage05_mk14_expanded_redocking_v4/3MPT_1GK/receptor/MK14_3MPT_aligned_receptor.pdbqt",
+      "receptor_pdbqt_sha256": "57819252F68057F40F172D7B3EE6312134BF0E2F3E0214C0EBD2984C103C8EF4",
+      "vina_config": "results/runs/stage05_mk14_expanded_redocking_v4/3MPT_1GK/redocking_vina.txt",
+      "vina_config_sha256": "45D20ACFC945678C2B301C2086550E067E22CF6741A2DCEEFAE474535099307C",
+      "docked_pdbqt": "results/runs/stage05_mk14_expanded_redocking_v4/3MPT_1GK/3MPT_1GK_redocked.pdbqt",
+      "docked_pdbqt_sha256": "67668ADB29FA1A0DC34044082E863AC4FE91F4E7B868BD5D873C19F19ABD4928",
+      "pose_count": 20,
+      "top_ranked_affinity_kcal_per_mol": -8.314,
+      "top_ranked_rmsd_angstrom": 1.502126,
+      "top_ranked_pose_success": true,
+      "best_rmsd_pose_rank": 3,
+      "best_rmsd_angstrom": 0.583988,
+      "any_pose_success": true
+    },
+    {
+      "case_id": "MK14_2QD9_LGF",
+      "conformer_id": "MK14_2QD9_reference",
+      "reference_ligand": "LGF",
+      "reference_sdf": "results/runs/stage05_mk14_redocking/reference_ligands/2QD9_LGF_A_361_common_frame.sdf",
+      "reference_sdf_sha256": "2F6E3F200B21039B60EF37750DFD7914C826C284A57472C5CFBBAC06FF7F7A57",
+      "ligand_pdbqt": "results/runs/stage05_mk14_redocking/prepared_ligands/2QD9_LGF_A_361.pdbqt",
+      "ligand_pdbqt_sha256": "56D639502BF9E5E940418C336BA9DD074F36043B89BCADD96E49ACC7028813E1",
+      "receptor_pdbqt": "results/runs/stage05_mk14_receptor_preparation/MK14_2QD9_reference/MK14_2QD9_reference_receptor.pdbqt",
+      "receptor_pdbqt_sha256": "F34F05160C13A78113A31459569E09F2FD93632F5A4E57806AEF192B3BC3E036",
+      "vina_config": "results/runs/stage05_mk14_expanded_redocking_v4/MK14_2QD9_LGF/redocking_vina.txt",
+      "vina_config_sha256": "C3E7ADFA3E6C3C2DFF1CF2DA698BDC1D4FE6D8E798E6D0447438E2AA07C9296F",
+      "docked_pdbqt": "results/runs/stage05_mk14_expanded_redocking_v4/MK14_2QD9_LGF/MK14_2QD9_LGF_redocked.pdbqt",
+      "docked_pdbqt_sha256": "AA37E2645195650265B895552F53CC53855233DF0237278B5AD30DE17DE48CD7",
+      "pose_count": 20,
+      "top_ranked_affinity_kcal_per_mol": -10.415,
+      "top_ranked_rmsd_angstrom": 1.58189,
+      "top_ranked_pose_success": true,
+      "best_rmsd_pose_rank": 1,
+      "best_rmsd_angstrom": 1.58189,
+      "any_pose_success": true
+    },
+    {
+      "case_id": "MK14_1A9U_SB2",
+      "conformer_id": "MK14_1A9U_aligned",
+      "reference_ligand": "SB2",
+      "reference_sdf": "results/runs/stage05_mk14_redocking/reference_ligands/1A9U_SB2_A_800_common_frame.sdf",
+      "reference_sdf_sha256": "9B124B8C8C5C66BC4E35DA2F4AD702F177B5E95BA8D2C8C39E9AE3A12899DE89",
+      "ligand_pdbqt": "results/runs/stage05_mk14_redocking/prepared_ligands/1A9U_SB2_A_800.pdbqt",
+      "ligand_pdbqt_sha256": "BAAC1978607A1D3C21B6CF0516091EB6FA4A834C8739C62A3E96043D76EE14E7",
+      "receptor_pdbqt": "results/runs/stage05_mk14_receptor_preparation/MK14_1A9U_aligned/MK14_1A9U_aligned_receptor.pdbqt",
+      "receptor_pdbqt_sha256": "1F4A5F9F9FCE03DB2E775B2774EAD31CE79A1280A659A154943923CF8116A2F2",
+      "vina_config": "results/runs/stage05_mk14_expanded_redocking_v4/MK14_1A9U_SB2/redocking_vina.txt",
+      "vina_config_sha256": "5EAB4592CD29B2CF1DD27BB6C240B6704847D5E13EDCF82F456F291A2C045EA9",
+      "docked_pdbqt": "results/runs/stage05_mk14_expanded_redocking_v4/MK14_1A9U_SB2/MK14_1A9U_SB2_redocked.pdbqt",
+      "docked_pdbqt_sha256": "F5BE1E0CBDAD1783199DA16ED29E90B83E9814BC7D701B1066904F6247E9FC75",
+      "pose_count": 19,
+      "top_ranked_affinity_kcal_per_mol": -9.265,
+      "top_ranked_rmsd_angstrom": 0.469009,
+      "top_ranked_pose_success": true,
+      "best_rmsd_pose_rank": 2,
+      "best_rmsd_angstrom": 0.42085,
+      "any_pose_success": true
+    },
+    {
+      "case_id": "MK14_3K3J_F4C",
+      "conformer_id": "MK14_3K3J_aligned",
+      "reference_ligand": "F4C",
+      "reference_sdf": "results/runs/stage05_mk14_redocking/reference_ligands/3K3J_F4C_A_361_common_frame.sdf",
+      "reference_sdf_sha256": "BCAFAB2F8D7DD0F4603803819EBF20E92FE39C1E5EC7574D6AB5C7F494D1D087",
+      "ligand_pdbqt": "results/runs/stage05_mk14_redocking/prepared_ligands/3K3J_F4C_A_361.pdbqt",
+      "ligand_pdbqt_sha256": "FA022CE25719A3ED8B901CCD609247F4153DF6071CB77C247D3338DD8A3D4624",
+      "receptor_pdbqt": "results/runs/stage05_mk14_receptor_preparation/MK14_3K3J_aligned/MK14_3K3J_aligned_receptor.pdbqt",
+      "receptor_pdbqt_sha256": "66F7EE8E48691B4ABE56660CB15B805AC5FD4AB6740C89AFD1943279B51B85B9",
+      "vina_config": "results/runs/stage05_mk14_expanded_redocking_v4/MK14_3K3J_F4C/redocking_vina.txt",
+      "vina_config_sha256": "55C01DBDF252B9B10653F2B2F3307510F954129D9E51784ECCA5AA20A8C3A38D",
+      "docked_pdbqt": "results/runs/stage05_mk14_expanded_redocking_v4/MK14_3K3J_F4C/MK14_3K3J_F4C_redocked.pdbqt",
+      "docked_pdbqt_sha256": "52DD2EF212260F718603EA6614CDDC41496AC2D53276B811960CB06E0FE1AFA7",
+      "pose_count": 20,
+      "top_ranked_affinity_kcal_per_mol": -11.012,
+      "top_ranked_rmsd_angstrom": 0.495375,
+      "top_ranked_pose_success": true,
+      "best_rmsd_pose_rank": 1,
+      "best_rmsd_angstrom": 0.495375,
+      "any_pose_success": true
+    },
+    {
+      "case_id": "MK14_3KQ7_KQ7",
+      "conformer_id": "MK14_3KQ7_aligned",
+      "reference_ligand": "KQ7",
+      "reference_sdf": "results/runs/stage05_mk14_redocking/reference_ligands/3KQ7_KQ7_A_361_common_frame.sdf",
+      "reference_sdf_sha256": "3ECFF7A1A2C4C95DF2E3373D3FE6BD475E820A11D0CD153A3A17EC89792A48EE",
+      "ligand_pdbqt": "results/runs/stage05_mk14_redocking/prepared_ligands/3KQ7_KQ7_A_361.pdbqt",
+      "ligand_pdbqt_sha256": "43E1DF0B1E244E4EFA6E62E400E71385456B646D64C611DE5C6575E04DC55839",
+      "receptor_pdbqt": "results/runs/stage05_mk14_receptor_preparation/MK14_3KQ7_aligned/MK14_3KQ7_aligned_receptor.pdbqt",
+      "receptor_pdbqt_sha256": "004DD1214FB3C4BEBD3BC9B08EF2D2F5385B6E5D11925B809E2B11C9A4F12246",
+      "vina_config": "results/runs/stage05_mk14_expanded_redocking_v4/MK14_3KQ7_KQ7/redocking_vina.txt",
+      "vina_config_sha256": "57825B3E2282C83BF2C8E5A423A0ECF81EA2040F085752D8A9186D1563049D4F",
+      "docked_pdbqt": "results/runs/stage05_mk14_expanded_redocking_v4/MK14_3KQ7_KQ7/MK14_3KQ7_KQ7_redocked.pdbqt",
+      "docked_pdbqt_sha256": "35A0D4F8A035FE5DCE68116776391C8CBF9E315FA6209F1857CDDB2D4EE51F94",
+      "pose_count": 20,
+      "top_ranked_affinity_kcal_per_mol": -12.856,
+      "top_ranked_rmsd_angstrom": 1.137423,
+      "top_ranked_pose_success": true,
+      "best_rmsd_pose_rank": 1,
+      "best_rmsd_angstrom": 1.137423,
+      "any_pose_success": true
+    }
+  ],
+  "redocking_results_csv": {
+    "path": "data/processed/stage05_mk14_expanded_redocking_results_v4.csv",
+    "sha256": "EAFC1B2AB345648A01A121BC62212BF10A65F846AD014A10A38AC1900D53C80A"
+  },
+  "all_top_ranked_poses_within_threshold": true,
+  "next_gate": "dock the frozen development-train ligands against only the four new receptors and reuse the existing four-receptor scores",
+  "interpretation_boundary": "Passing redocking establishes pose reproduction for the configured co-crystal cases only. It does not establish affinity accuracy, virtual-screening enrichment, receptor complementarity, or QUBO benefit."
+}

@@ -1,0 +1,20 @@
+{
+  "schema_version": "1.0",
+  "audit_id": "stage05-mk14-expanded-redocking-v4-independent-audit",
+  "inputs": {
+    "summary": {
+      "path": "data/stage05_mk14_expanded_redocking_v4_summary.json",
+      "sha256": "AF6E22DA4D932A0463E7803946C2EEA166E5734B5A4AE1AA062FC708C2832611"
+    },
+    "redocking_results": {
+      "path": "data/processed/stage05_mk14_expanded_redocking_results_v4.csv",
+      "sha256": "EAFC1B2AB345648A01A121BC62212BF10A65F846AD014A10A38AC1900D53C80A"
+    }
+  },
+  "expected": {
+    "case_count": 8,
+    "maximum_top_ranked_rmsd_angstrom": 2.0,
+    "numeric_comparison_tolerance": 0.000001
+  },
+  "output_json": "data/stage05_mk14_expanded_redocking_v4_audit.json"
+}

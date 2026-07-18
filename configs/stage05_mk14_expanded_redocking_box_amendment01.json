@@ -1,0 +1,41 @@
+{
+  "schema_version": "1.0",
+  "amendment_id": "stage05-mk14-expanded-redocking-box-amendment01-20260718",
+  "created_on": "2026-07-18",
+  "trigger": {
+    "failed_summary_path": "data/stage05_mk14_expanded_redocking_v3_summary.json",
+    "failed_summary_sha256": "B9E0CD2676049BEA7DB68BDA9D53C7CAC0D837D8A76AD676FC2D6BB90E2DFAF7",
+    "failed_case": "2BAJ_1PP",
+    "observed_minimum_margin_angstrom": 3.8575,
+    "required_minimum_margin_angstrom": 4.0,
+    "stage": "all four new receptors and ligands prepared; before any Vina execution"
+  },
+  "change": {
+    "unchanged_center_angstrom": [
+      -0.49,
+      3.26,
+      21.83
+    ],
+    "old_size_angstrom": [
+      22,
+      24,
+      30
+    ],
+    "new_size_angstrom": [
+      22,
+      24,
+      32
+    ],
+    "volume_increase_fraction": 0.06666666666666667,
+    "rationale": "Increase only the z length by 2 A. This restores at least 4 A crystal-pose margin without shifting the common frame or changing x/y bounds."
+  },
+  "revalidation_requirement": "Run co-crystal redocking for all four existing and all four new receptors with the revised common box. All eight top-ranked poses must have symmetry-corrected heavy-atom RMSD at most 2 A before benchmark docking.",
+  "data_boundary": {
+    "ligand_labels_read": 0,
+    "benchmark_docking_scores_read": 0,
+    "previous_validation_rows_read": 0,
+    "test_rows_read": 0,
+    "vina_runs_completed_in_expansion_gate": 0
+  },
+  "interpretation_boundary": "The box expansion is determined only by aligned co-crystal geometry. It does not use enrichment or QUBO outcomes."
+}

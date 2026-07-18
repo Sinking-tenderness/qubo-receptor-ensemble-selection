@@ -1,0 +1,103 @@
+{
+  "schema_version": "1.0",
+  "audit_id": "stage05-mk14-expanded-redocking-v4-independent-audit",
+  "status": "independent_expanded_redocking_audit_ok",
+  "config": {
+    "path": "configs/stage05_mk14_expanded_redocking_v4_audit.json",
+    "sha256": "CD221471EB0A0E48C5C91DBC7BA16DD9017B783132398F0355BA9EE232BF60BD"
+  },
+  "source_summary": {
+    "path": "data/stage05_mk14_expanded_redocking_v4_summary.json",
+    "sha256": "AF6E22DA4D932A0463E7803946C2EEA166E5734B5A4AE1AA062FC708C2832611"
+  },
+  "redocking_results": {
+    "path": "data/processed/stage05_mk14_expanded_redocking_results_v4.csv",
+    "sha256": "EAFC1B2AB345648A01A121BC62212BF10A65F846AD014A10A38AC1900D53C80A"
+  },
+  "case_count": 8,
+  "minimum_crystal_pose_box_margin_angstrom": 4.0440000000000005,
+  "required_crystal_pose_box_margin_angstrom": 4.0,
+  "maximum_allowed_top_ranked_rmsd_angstrom": 2.0,
+  "maximum_observed_top_ranked_rmsd_angstrom": 1.58189,
+  "recomputed_cases": [
+    {
+      "case_id": "2BAJ_1PP",
+      "conformer_id": "MK14_2BAJ_aligned",
+      "pose_count": 20,
+      "top_ranked_affinity_kcal_per_mol": -12.052,
+      "top_ranked_rmsd_angstrom": 0.448127,
+      "best_rmsd_angstrom": 0.448127,
+      "top_ranked_pose_success": true
+    },
+    {
+      "case_id": "4F9W_LM4",
+      "conformer_id": "MK14_4F9W_aligned",
+      "pose_count": 20,
+      "top_ranked_affinity_kcal_per_mol": -10.51,
+      "top_ranked_rmsd_angstrom": 0.315515,
+      "best_rmsd_angstrom": 0.315515,
+      "top_ranked_pose_success": true
+    },
+    {
+      "case_id": "3OCG_OCG",
+      "conformer_id": "MK14_3OCG_aligned",
+      "pose_count": 20,
+      "top_ranked_affinity_kcal_per_mol": -10.38,
+      "top_ranked_rmsd_angstrom": 0.729765,
+      "best_rmsd_angstrom": 0.729765,
+      "top_ranked_pose_success": true
+    },
+    {
+      "case_id": "3MPT_1GK",
+      "conformer_id": "MK14_3MPT_aligned",
+      "pose_count": 20,
+      "top_ranked_affinity_kcal_per_mol": -8.314,
+      "top_ranked_rmsd_angstrom": 1.502126,
+      "best_rmsd_angstrom": 0.583988,
+      "top_ranked_pose_success": true
+    },
+    {
+      "case_id": "MK14_2QD9_LGF",
+      "conformer_id": "MK14_2QD9_reference",
+      "pose_count": 20,
+      "top_ranked_affinity_kcal_per_mol": -10.415,
+      "top_ranked_rmsd_angstrom": 1.58189,
+      "best_rmsd_angstrom": 1.58189,
+      "top_ranked_pose_success": true
+    },
+    {
+      "case_id": "MK14_1A9U_SB2",
+      "conformer_id": "MK14_1A9U_aligned",
+      "pose_count": 19,
+      "top_ranked_affinity_kcal_per_mol": -9.265,
+      "top_ranked_rmsd_angstrom": 0.469009,
+      "best_rmsd_angstrom": 0.42085,
+      "top_ranked_pose_success": true
+    },
+    {
+      "case_id": "MK14_3K3J_F4C",
+      "conformer_id": "MK14_3K3J_aligned",
+      "pose_count": 20,
+      "top_ranked_affinity_kcal_per_mol": -11.012,
+      "top_ranked_rmsd_angstrom": 0.495375,
+      "best_rmsd_angstrom": 0.495375,
+      "top_ranked_pose_success": true
+    },
+    {
+      "case_id": "MK14_3KQ7_KQ7",
+      "conformer_id": "MK14_3KQ7_aligned",
+      "pose_count": 20,
+      "top_ranked_affinity_kcal_per_mol": -12.856,
+      "top_ranked_rmsd_angstrom": 1.137423,
+      "best_rmsd_angstrom": 1.137423,
+      "top_ranked_pose_success": true
+    }
+  ],
+  "data_boundary": {
+    "ligand_labels_read": 0,
+    "docking_scores_from_benchmark_read": 0,
+    "previous_validation_rows_read": 0,
+    "test_rows_read": 0
+  },
+  "interpretation_boundary": "This audit verifies file identity, common-box margins, and redocking RMSD reproduction. It does not validate affinity ranking or enrichment."
+}

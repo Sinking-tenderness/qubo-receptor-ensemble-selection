@@ -1,0 +1,125 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage05-mk14-expanded-four-receptor-redocking-gate-v1",
+  "runtime": {
+    "conda_environment": "qubo-receptor-ensemble",
+    "python_version": "3.11.15",
+    "numpy_version": "1.26.4",
+    "scipy_version": "1.17.1",
+    "rdkit_version": "2026.3.1",
+    "meeko_version": "0.7.1",
+    "prody_version": "2.4.1"
+  },
+  "inputs": {
+    "selection_summary": {
+      "path": "data/stage05_mk14_rcsb_coordinate_selection_v2_summary.json",
+      "sha256": "C0BF00DE71F512504BC0C1315CCC15AC0C16B6CCE00746DDA70F82E3E16C3133"
+    },
+    "selection_audit": {
+      "path": "data/stage05_mk14_rcsb_coordinate_selection_v2_audit.json",
+      "sha256": "A90E2099A2A4A6D327802BD642DBC9918B1AEC38753B394FAA31D5E624E55F55"
+    },
+    "selected_manifest": {
+      "path": "data/processed/stage05_mk14_expanded8_structural_selection_v2.csv",
+      "sha256": "D10D2BDFFB4FACA176C88007017FB6E0EA4CAB1F6081606F818AD8F905C632E5"
+    },
+    "reference_pdb": {
+      "path": "receptors/raw/mk14/2QD9.pdb",
+      "sha256": "BDA572D8710F5E841A77F46DAB6D98053B152DFC5484B9D043CC3EC5EC8A01D6"
+    },
+    "prepare_receptor_script": {
+      "path": "scripts/prepare_receptor.py",
+      "sha256": "FFC7D1986B501AE90818024ED2441CB9AE0F37B27BF6F46C622B0C723711C580"
+    },
+    "transform_sdf_script": {
+      "path": "scripts/transform_sdf_coordinates.py",
+      "sha256": "31EA492C5E2955BF5AC0E39C28702795E275452C2F0B90135913DBF06599624F"
+    },
+    "evaluate_rmsd_script": {
+      "path": "scripts/evaluate_redocking_rmsd.py",
+      "sha256": "F761FE14374198DD314B78976349C413DC2FA0C90EDDDBE6595AA001EB3D86F5"
+    },
+    "vina_executable": {
+      "path": "environment/bin/vina_1.2.7_win.exe",
+      "sha256": "E0C4B2715E0C1A74F6E92D0F3BE0328AC97542EAFBC111E6B1EFAD897A73CCE5"
+    }
+  },
+  "cases": [
+    {
+      "conformer_id": "MK14_3UVR_aligned",
+      "pdb_id": "3UVR",
+      "chain": "A",
+      "selected_ligand_resname": "06F",
+      "selected_ligand_resseq": 361,
+      "selected_ligand_icode": "",
+      "selected_ligand_heavy_atom_count": 39
+    },
+    {
+      "conformer_id": "MK14_5TBE_aligned",
+      "pdb_id": "5TBE",
+      "chain": "A",
+      "selected_ligand_resname": "78L",
+      "selected_ligand_resseq": 401,
+      "selected_ligand_icode": "",
+      "selected_ligand_heavy_atom_count": 44
+    },
+    {
+      "conformer_id": "MK14_4AA0_aligned",
+      "pdb_id": "4AA0",
+      "chain": "A",
+      "selected_ligand_resname": "AA0",
+      "selected_ligand_resseq": 1353,
+      "selected_ligand_icode": "",
+      "selected_ligand_heavy_atom_count": 40
+    },
+    {
+      "conformer_id": "MK14_1W82_aligned",
+      "pdb_id": "1W82",
+      "chain": "A",
+      "selected_ligand_resname": "L10",
+      "selected_ligand_resseq": 1356,
+      "selected_ligand_icode": "",
+      "selected_ligand_heavy_atom_count": 26
+    }
+  ],
+  "ligand_download": {
+    "url_template": "https://models.rcsb.org/v1/{pdb_id}/ligand",
+    "timeout_seconds": 60,
+    "maximum_retries": 4,
+    "retry_backoff_seconds": 1.0
+  },
+  "reference_coordinate_gate": {
+    "comparison": "minimum-cost element-matched point-set RMSD in the fixed common frame; no rigid-body fitting",
+    "maximum_element_matched_rmsd_angstrom": 0.05
+  },
+  "common_box": {
+    "origin": "unchanged union box from the four previously redocking-approved MAPK14 co-crystal ligands",
+    "center_x": -0.49,
+    "center_y": 3.26,
+    "center_z": 21.83,
+    "size_x": 22,
+    "size_y": 24,
+    "size_z": 30,
+    "minimum_crystal_pose_margin_angstrom": 4.0
+  },
+  "vina_parameters": {
+    "version": "1.2.7",
+    "scoring": "vina",
+    "exhaustiveness": 32,
+    "cpu": 8,
+    "num_modes": 20,
+    "energy_range": 6,
+    "seed": 20260717
+  },
+  "redocking_gate": {
+    "rmsd_definition": "symmetry-corrected heavy-atom RMSD in the fixed receptor frame without post-docking pose alignment",
+    "maximum_top_ranked_rmsd_angstrom": 2.0,
+    "all_four_cases_required": true
+  },
+  "outputs": {
+    "run_root": "results/runs/stage05_mk14_expanded_redocking",
+    "receptor_manifest_csv": "data/processed/stage05_mk14_expanded_receptor_preparation_manifest.csv",
+    "redocking_results_csv": "data/processed/stage05_mk14_expanded_redocking_results.csv",
+    "summary_json": "data/stage05_mk14_expanded_redocking_summary.json"
+  }
+}

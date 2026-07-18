@@ -1,0 +1,48 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage05-mk14-expanded-four-receptor-redocking-gate-v1",
+  "status": "receptor_preparation_failed_before_vina",
+  "failed_case": "3UVR_06F",
+  "failed_conformer_id": "MK14_3UVR_aligned",
+  "input_aligned_pdb_sha256": "A6AD784B63592E6D129114A8E22EEF19D1C258A1D680EFAFD595831CFE855F4E",
+  "meeko_version": "0.7.1",
+  "allow_bad_res": false,
+  "template_failures": [
+    {
+      "residue": "TYR35",
+      "missing_heavy_atoms": [
+        "CG",
+        "CD1",
+        "CD2",
+        "CE1",
+        "CE2",
+        "CZ",
+        "OH"
+      ]
+    },
+    {
+      "residue": "ARG220",
+      "missing_heavy_atoms": [
+        "CG",
+        "CD",
+        "NE",
+        "CZ",
+        "NH1",
+        "NH2"
+      ]
+    },
+    {
+      "residue": "LYS267",
+      "missing_heavy_atoms": [
+        "CG",
+        "CD",
+        "CE",
+        "NZ"
+      ]
+    }
+  ],
+  "vina_runs_completed": 0,
+  "ligand_labels_read": 0,
+  "benchmark_docking_scores_read": 0,
+  "decision": "Do not use allow_bad_res. Add a standard-amino-acid heavy-atom completeness gate and rerun structural selection as v3."
+}
