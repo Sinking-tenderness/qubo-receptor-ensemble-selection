@@ -1,0 +1,38 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage05-mk14-development-method-gate-independent-audit-v1",
+  "purpose": "Independently reproduce MAPK14 validation metrics, exact random-subset tables, paired bootstrap, and the fail-closed gate decision without reading test scores.",
+  "inputs": {
+    "execution_config": {
+      "path": "configs/stage05_mk14_development_method_gate_execution.json",
+      "sha256": "B44F5CC632985FEEBCBEB26C8FC88180712AF42AC228D803573BDCA4FF233287"
+    },
+    "summary": {
+      "path": "results/runs/stage05_mk14_development_method_gate/summary.json",
+      "sha256": "879997EA61E564F052CFECBA5C301D4111F97F5FCA326777CFA5BFBFC1A228AE"
+    },
+    "candidate_protocol": {
+      "path": "results/runs/stage05_mk14_development_method_gate/candidate_protocol.json",
+      "sha256": "B81A248E1C7603D91B1B80ADB737C7E59498EB946163644B93D82EA6C67DDAA3"
+    },
+    "validation_metrics": {
+      "path": "results/runs/stage05_mk14_development_method_gate/validation_metrics.csv",
+      "sha256": "3D155BA9E45078CE10AA1DEA9013A8506DC0A0153958E685DFE22318B61B29E0"
+    },
+    "validation_scores": {
+      "path": "results/runs/stage05_mk14_development_method_gate/validation_scores.csv",
+      "sha256": "6C1AE8EF871F6E8ADA44AD2436AAA97E9C718A0834B543AD9410FB982F46B5B3"
+    },
+    "exact_random_subsets": {
+      "path": "results/runs/stage05_mk14_development_method_gate/exact_random_subsets.csv",
+      "sha256": "24D480909D79A350EB9D4BCE4AE22D05B19726C739CEEAE29981961B77C4996F"
+    },
+    "exact_random_summary": {
+      "path": "results/runs/stage05_mk14_development_method_gate/exact_random_subset_summary.csv",
+      "sha256": "200E24E9AEF0DB28A2D7985B037AB2A3D56B6663819DB18A847C47C5F94DF2B1"
+    }
+  },
+  "numeric_tolerance": 1e-12,
+  "output_json": "results/runs/stage05_mk14_development_method_gate/independent_audit.json",
+  "interpretation_boundary": "This audit verifies deterministic calculations and the locked-test boundary. It cannot turn a failed development gate into a passing result or establish biological or quantum advantage."
+}

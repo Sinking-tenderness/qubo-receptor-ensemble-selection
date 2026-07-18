@@ -1,0 +1,87 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage05-mk14-development-method-gate-independent-audit-v1",
+  "status": "independent_audit_ok",
+  "config": {
+    "path": "configs/stage05_mk14_development_method_gate_audit.json",
+    "sha256": "12DBAD17756BECE2FC0911F7CF2E8B4D3B121EC4280751C28A7DD0EA228FBF9C"
+  },
+  "implementation": {
+    "path": "scripts/audit_stage05_mk14_method_gate.py",
+    "sha256": "3D58F65BCDA7978C8ACA9A2BFA89FDE7600ECA8994D2E236596E63BBBFC1DD21"
+  },
+  "input_sha256": {
+    "execution_config": "B44F5CC632985FEEBCBEB26C8FC88180712AF42AC228D803573BDCA4FF233287",
+    "summary": "879997EA61E564F052CFECBA5C301D4111F97F5FCA326777CFA5BFBFC1A228AE",
+    "candidate_protocol": "B81A248E1C7603D91B1B80ADB737C7E59498EB946163644B93D82EA6C67DDAA3",
+    "validation_metrics": "3D155BA9E45078CE10AA1DEA9013A8506DC0A0153958E685DFE22318B61B29E0",
+    "validation_scores": "6C1AE8EF871F6E8ADA44AD2436AAA97E9C718A0834B543AD9410FB982F46B5B3",
+    "exact_random_subsets": "24D480909D79A350EB9D4BCE4AE22D05B19726C739CEEAE29981961B77C4996F",
+    "exact_random_summary": "200E24E9AEF0DB28A2D7985B037AB2A3D56B6663819DB18A847C47C5F94DF2B1"
+  },
+  "runtime": {
+    "conda_environment": "qubo-receptor-ensemble",
+    "python_version": "3.11.15",
+    "numpy_version": "1.26.4",
+    "scipy_version": "1.17.1",
+    "python_executable": "C:\\Users\\MM\\anaconda3\\envs\\qubo-receptor-ensemble\\python.exe"
+  },
+  "checks": {
+    "all_input_hashes_match": true,
+    "all_summary_output_hashes_match": true,
+    "validation_score_group_count": 12,
+    "validation_rows_per_group": 80,
+    "validation_label_counts_per_group": {
+      "active": 40,
+      "decoy": 40
+    },
+    "test_rows_observed": 0,
+    "all_validation_metrics_reproduced": true,
+    "paired_bootstrap_reproduced": true,
+    "exact_random_detail_rows_reproduced": 48,
+    "exact_random_summary_groups_reproduced": 10,
+    "gate_decision_reproduced": true
+  },
+  "recomputed_gate": {
+    "selected_qubo_family": "coverage_qubo",
+    "deltas": {
+      "primary_bedroc": 0.0,
+      "primary_roc_auc": 0.0,
+      "primary_pr_auc": 0.0,
+      "sensitivity_bedroc": 0.0
+    },
+    "paired_bootstrap": {
+      "roc_auc": {
+        "mean_delta": 0.0,
+        "ci95_low": 0.0,
+        "ci95_high": 0.0,
+        "n_bootstrap_used": 5000,
+        "n_bootstrap_skipped": 0
+      },
+      "pr_auc_average_precision": {
+        "mean_delta": 0.0,
+        "ci95_low": 0.0,
+        "ci95_high": 0.0,
+        "n_bootstrap_used": 5000,
+        "n_bootstrap_skipped": 0
+      },
+      "bedroc_alpha_20": {
+        "mean_delta": 0.0,
+        "ci95_low": 0.0,
+        "ci95_high": 0.0,
+        "n_bootstrap_used": 5000,
+        "n_bootstrap_skipped": 0
+      }
+    },
+    "acceptance_checks": {
+      "primary_bedroc_delta": false,
+      "primary_roc_auc_delta": true,
+      "primary_pr_auc_delta": true,
+      "sensitivity_bedroc_delta": true,
+      "primary_bedroc_bootstrap_ci95_low": true
+    },
+    "gate_passed": false,
+    "status": "development_gate_failed_test_locked"
+  },
+  "interpretation_boundary": "This audit verifies deterministic calculations and the locked-test boundary. It cannot turn a failed development gate into a passing result or establish biological or quantum advantage."
+}

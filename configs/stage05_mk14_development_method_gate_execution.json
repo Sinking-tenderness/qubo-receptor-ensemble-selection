@@ -1,0 +1,58 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage05-mk14-development-train-validation-method-gate-v1",
+  "purpose": "Execute the preregistered MAPK14 train-only receptor-subset selection and one-time development-validation gate while keeping test ligands locked and unavailable.",
+  "runtime": {
+    "conda_environment": "qubo-receptor-ensemble",
+    "python_version": "3.11.15",
+    "numpy_version": "1.26.4",
+    "scipy_version": "1.17.1"
+  },
+  "preregistration": {
+    "path": "configs/stage05_mk14_development_method_gate_preregistration.json",
+    "sha256": "1F2D81BE000A13F4B1E0EA867299073663C784B3BE1E41BBA52AAABCCB1CCD23"
+  },
+  "inputs": {
+    "receptor_manifest": {
+      "path": "data/processed/stage05_mk14_receptor_preparation_manifest.csv",
+      "sha256": "C18CD1AC7B64C0282E763E54CF44BBCA26B21056B6D34C24FF0D9D8B0FE3BD60"
+    },
+    "ligand_manifest": {
+      "path": "data/processed/stage05_mk14_development_120a120d_pdbqt_manifest.csv",
+      "sha256": "28BB94E6DE6E7BC2CB0C83E1C1787A89C098853BF73F935FAE4AAED3D70C2B43"
+    },
+    "seed_aggregation_config": {
+      "path": "configs/stage05_mk14_development_seed_aggregation.json",
+      "sha256": "14E6ED813A79686DEEBB4571135A8DEF164DDF1230DD28BF7B9962641EDBFB03"
+    },
+    "aggregate_summary": {
+      "path": "results/runs/stage05_mk14_development_e16_aggregated/summary.json",
+      "sha256": "F114E3F1946474F10552061FF0B96FB58DAAC321BB2EE03401D41171917217A3"
+    },
+    "matrix_rescue_summary": {
+      "path": "results/runs/stage05_mk14_e16_matrix_rescue_audit/summary.json",
+      "sha256": "51283A625594618078E81AEC9E239D64DF684FD05F1BE24BF14FF673FB492731"
+    },
+    "primary_matrix": {
+      "path": "results/runs/stage05_mk14_development_e16_aggregated/primary_median_score_matrix.csv",
+      "sha256": "921348DF346C0104438C245CD116A51222850E7E801E8E27884B7968E9786612"
+    },
+    "sensitivity_matrix": {
+      "path": "results/runs/stage05_mk14_development_e16_aggregated/sensitivity_minimum_score_matrix.csv",
+      "sha256": "BEC4A92BCF439BD3558B7EC045AA84E72275B4765D2AED469F93E0750B20DD7E"
+    }
+  },
+  "outputs": {
+    "run_directory": "results/runs/stage05_mk14_development_method_gate",
+    "fold_assignments_csv": "results/runs/stage05_mk14_development_method_gate/train_fold_assignments.csv",
+    "inner_cv_trials_csv": "results/runs/stage05_mk14_development_method_gate/inner_cv_trials.csv",
+    "selected_methods_csv": "results/runs/stage05_mk14_development_method_gate/train_selected_methods.csv",
+    "validation_metrics_csv": "results/runs/stage05_mk14_development_method_gate/validation_metrics.csv",
+    "validation_scores_csv": "results/runs/stage05_mk14_development_method_gate/validation_scores.csv",
+    "exact_random_subsets_csv": "results/runs/stage05_mk14_development_method_gate/exact_random_subsets.csv",
+    "exact_random_summary_csv": "results/runs/stage05_mk14_development_method_gate/exact_random_subset_summary.csv",
+    "candidate_protocol_json": "results/runs/stage05_mk14_development_method_gate/candidate_protocol.json",
+    "summary_json": "results/runs/stage05_mk14_development_method_gate/summary.json"
+  },
+  "interpretation_boundary": "This execution may pass or reject a development-only QUBO promotion gate. It never reads a test score and cannot establish biological activity, binding free energy, cross-target generalization, production screening value, or quantum advantage."
+}

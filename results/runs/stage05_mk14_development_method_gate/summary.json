@@ -1,0 +1,395 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage05-mk14-development-train-validation-method-gate-v1",
+  "status": "development_gate_failed_test_locked",
+  "config": {
+    "path": "configs/stage05_mk14_development_method_gate_execution.json",
+    "sha256": "B44F5CC632985FEEBCBEB26C8FC88180712AF42AC228D803573BDCA4FF233287"
+  },
+  "preregistration": {
+    "path": "configs/stage05_mk14_development_method_gate_preregistration.json",
+    "sha256": "1F2D81BE000A13F4B1E0EA867299073663C784B3BE1E41BBA52AAABCCB1CCD23"
+  },
+  "runtime": {
+    "conda_environment": "qubo-receptor-ensemble",
+    "python_version": "3.11.15",
+    "numpy_version": "1.26.4",
+    "scipy_version": "1.17.1",
+    "python_executable": "C:\\Users\\MM\\anaconda3\\envs\\qubo-receptor-ensemble\\python.exe"
+  },
+  "input_sha256": {
+    "receptor_manifest": "C18CD1AC7B64C0282E763E54CF44BBCA26B21056B6D34C24FF0D9D8B0FE3BD60",
+    "ligand_manifest": "28BB94E6DE6E7BC2CB0C83E1C1787A89C098853BF73F935FAE4AAED3D70C2B43",
+    "seed_aggregation_config": "14E6ED813A79686DEEBB4571135A8DEF164DDF1230DD28BF7B9962641EDBFB03",
+    "aggregate_summary": "F114E3F1946474F10552061FF0B96FB58DAAC321BB2EE03401D41171917217A3",
+    "matrix_rescue_summary": "51283A625594618078E81AEC9E239D64DF684FD05F1BE24BF14FF673FB492731",
+    "primary_matrix": "921348DF346C0104438C245CD116A51222850E7E801E8E27884B7968E9786612",
+    "sensitivity_matrix": "BEC4A92BCF439BD3558B7EC045AA84E72275B4765D2AED469F93E0750B20DD7E"
+  },
+  "input_audit": {
+    "matrix_admission": "rescued_unchanged_e16_matrices",
+    "receptor_count": 4,
+    "ligand_count": 240,
+    "role_label_counts": {
+      "development_train": {
+        "active": 80,
+        "decoy": 80
+      },
+      "development_validation": {
+        "active": 40,
+        "decoy": 40
+      }
+    },
+    "train_validation_ligand_id_overlap": 0,
+    "train_validation_group_overlap": 0,
+    "train_validation_scaffold_overlap": 0,
+    "nonnegative_score_counts": {
+      "primary": 0,
+      "sensitivity": 0
+    },
+    "test_rows_read": 0
+  },
+  "inner_cross_validation": {
+    "data_role": "development_train only",
+    "fold_count": 4,
+    "fold_seed": 20261101,
+    "fold_label_counts": {
+      "0": {
+        "active": 20,
+        "decoy": 20
+      },
+      "1": {
+        "active": 20,
+        "decoy": 20
+      },
+      "2": {
+        "active": 20,
+        "decoy": 20
+      },
+      "3": {
+        "active": 20,
+        "decoy": 20
+      }
+    },
+    "normalization": "fit per-receptor min-max bounds on each inner-training fold only",
+    "candidate_count_by_method": {
+      "single_best": 1,
+      "exhaustive": 5,
+      "greedy": 5,
+      "all_receptors": 2,
+      "coverage_qubo": 111,
+      "discriminative_qubo": 333
+    }
+  },
+  "train_selected_methods": {
+    "single_best": {
+      "subset": [
+        "MK14_3KQ7_aligned"
+      ],
+      "aggregation": "min_score",
+      "inner_cv_mean_metrics": {
+        "roc_auc": 0.6975,
+        "pr_auc_average_precision": 0.7464910803238923,
+        "bedroc_alpha_20": 0.8766352267454409,
+        "EF1%": 1.5,
+        "EF5%": 1.75,
+        "EF10%": 1.875
+      }
+    },
+    "exhaustive": {
+      "subset": [
+        "MK14_3KQ7_aligned"
+      ],
+      "aggregation": "min_score",
+      "inner_cv_mean_metrics": {
+        "roc_auc": 0.6975,
+        "pr_auc_average_precision": 0.7464910803238923,
+        "bedroc_alpha_20": 0.8766352267454409,
+        "EF1%": 1.5,
+        "EF5%": 1.75,
+        "EF10%": 1.875
+      }
+    },
+    "greedy": {
+      "subset": [
+        "MK14_3KQ7_aligned"
+      ],
+      "aggregation": "min_score",
+      "inner_cv_mean_metrics": {
+        "roc_auc": 0.6975,
+        "pr_auc_average_precision": 0.7464910803238923,
+        "bedroc_alpha_20": 0.8766352267454409,
+        "EF1%": 1.5,
+        "EF5%": 1.75,
+        "EF10%": 1.875
+      }
+    },
+    "all_receptors": {
+      "subset": [
+        "MK14_2QD9_reference",
+        "MK14_1A9U_aligned",
+        "MK14_3K3J_aligned",
+        "MK14_3KQ7_aligned"
+      ],
+      "aggregation": "mean_score",
+      "inner_cv_mean_metrics": {
+        "roc_auc": 0.730625,
+        "pr_auc_average_precision": 0.7452640002551502,
+        "bedroc_alpha_20": 0.8526189557954231,
+        "EF1%": 1.5,
+        "EF5%": 1.75,
+        "EF10%": 1.75
+      }
+    },
+    "coverage_qubo": {
+      "subset": [
+        "MK14_3KQ7_aligned"
+      ],
+      "aggregation": "min_score",
+      "inner_cv_mean_metrics": {
+        "roc_auc": 0.6975,
+        "pr_auc_average_precision": 0.7464910803238923,
+        "bedroc_alpha_20": 0.8766352267454409,
+        "EF1%": 1.5,
+        "EF5%": 1.75,
+        "EF10%": 1.875
+      }
+    },
+    "discriminative_qubo": {
+      "subset": [
+        "MK14_3KQ7_aligned"
+      ],
+      "aggregation": "min_score",
+      "inner_cv_mean_metrics": {
+        "roc_auc": 0.6975,
+        "pr_auc_average_precision": 0.7464910803238923,
+        "bedroc_alpha_20": 0.8766352267454409,
+        "EF1%": 1.5,
+        "EF5%": 1.75,
+        "EF10%": 1.875
+      }
+    }
+  },
+  "selected_qubo_family": "coverage_qubo",
+  "validation_metrics": {
+    "primary": {
+      "single_best": {
+        "ligand_count": 80,
+        "active_count": 40,
+        "roc_auc": 0.6878125,
+        "pr_auc_average_precision": 0.7460912715405212,
+        "bedroc_alpha_20": 0.9241831522815438,
+        "EF1%": 2.0,
+        "EF5%": 2.0,
+        "EF10%": 1.75,
+        "top10_active_count": 9
+      },
+      "exhaustive": {
+        "ligand_count": 80,
+        "active_count": 40,
+        "roc_auc": 0.6878125,
+        "pr_auc_average_precision": 0.7460912715405212,
+        "bedroc_alpha_20": 0.9241831522815438,
+        "EF1%": 2.0,
+        "EF5%": 2.0,
+        "EF10%": 1.75,
+        "top10_active_count": 9
+      },
+      "greedy": {
+        "ligand_count": 80,
+        "active_count": 40,
+        "roc_auc": 0.6878125,
+        "pr_auc_average_precision": 0.7460912715405212,
+        "bedroc_alpha_20": 0.9241831522815438,
+        "EF1%": 2.0,
+        "EF5%": 2.0,
+        "EF10%": 1.75,
+        "top10_active_count": 9
+      },
+      "all_receptors": {
+        "ligand_count": 80,
+        "active_count": 40,
+        "roc_auc": 0.77,
+        "pr_auc_average_precision": 0.8134846643237668,
+        "bedroc_alpha_20": 0.982697399362374,
+        "EF1%": 2.0,
+        "EF5%": 2.0,
+        "EF10%": 2.0,
+        "top10_active_count": 10
+      },
+      "coverage_qubo": {
+        "ligand_count": 80,
+        "active_count": 40,
+        "roc_auc": 0.6878125,
+        "pr_auc_average_precision": 0.7460912715405212,
+        "bedroc_alpha_20": 0.9241831522815438,
+        "EF1%": 2.0,
+        "EF5%": 2.0,
+        "EF10%": 1.75,
+        "top10_active_count": 9
+      },
+      "discriminative_qubo": {
+        "ligand_count": 80,
+        "active_count": 40,
+        "roc_auc": 0.6878125,
+        "pr_auc_average_precision": 0.7460912715405212,
+        "bedroc_alpha_20": 0.9241831522815438,
+        "EF1%": 2.0,
+        "EF5%": 2.0,
+        "EF10%": 1.75,
+        "top10_active_count": 9
+      }
+    },
+    "sensitivity": {
+      "single_best": {
+        "ligand_count": 80,
+        "active_count": 40,
+        "roc_auc": 0.689375,
+        "pr_auc_average_precision": 0.7463600433986555,
+        "bedroc_alpha_20": 0.9238751600453491,
+        "EF1%": 2.0,
+        "EF5%": 2.0,
+        "EF10%": 1.75,
+        "top10_active_count": 9
+      },
+      "exhaustive": {
+        "ligand_count": 80,
+        "active_count": 40,
+        "roc_auc": 0.689375,
+        "pr_auc_average_precision": 0.7463600433986555,
+        "bedroc_alpha_20": 0.9238751600453491,
+        "EF1%": 2.0,
+        "EF5%": 2.0,
+        "EF10%": 1.75,
+        "top10_active_count": 9
+      },
+      "greedy": {
+        "ligand_count": 80,
+        "active_count": 40,
+        "roc_auc": 0.689375,
+        "pr_auc_average_precision": 0.7463600433986555,
+        "bedroc_alpha_20": 0.9238751600453491,
+        "EF1%": 2.0,
+        "EF5%": 2.0,
+        "EF10%": 1.75,
+        "top10_active_count": 9
+      },
+      "all_receptors": {
+        "ligand_count": 80,
+        "active_count": 40,
+        "roc_auc": 0.7775,
+        "pr_auc_average_precision": 0.8219788179455685,
+        "bedroc_alpha_20": 0.9850692410440892,
+        "EF1%": 2.0,
+        "EF5%": 2.0,
+        "EF10%": 2.0,
+        "top10_active_count": 10
+      },
+      "coverage_qubo": {
+        "ligand_count": 80,
+        "active_count": 40,
+        "roc_auc": 0.689375,
+        "pr_auc_average_precision": 0.7463600433986555,
+        "bedroc_alpha_20": 0.9238751600453491,
+        "EF1%": 2.0,
+        "EF5%": 2.0,
+        "EF10%": 1.75,
+        "top10_active_count": 9
+      },
+      "discriminative_qubo": {
+        "ligand_count": 80,
+        "active_count": 40,
+        "roc_auc": 0.689375,
+        "pr_auc_average_precision": 0.7463600433986555,
+        "bedroc_alpha_20": 0.9238751600453491,
+        "EF1%": 2.0,
+        "EF5%": 2.0,
+        "EF10%": 1.75,
+        "top10_active_count": 9
+      }
+    }
+  },
+  "validation_gate": {
+    "comparison_method": "single_best",
+    "deltas": {
+      "primary_bedroc": 0.0,
+      "primary_roc_auc": 0.0,
+      "primary_pr_auc": 0.0,
+      "sensitivity_bedroc": 0.0
+    },
+    "paired_bootstrap": {
+      "roc_auc": {
+        "mean_delta": 0.0,
+        "ci95_low": 0.0,
+        "ci95_high": 0.0,
+        "n_bootstrap_used": 5000,
+        "n_bootstrap_skipped": 0
+      },
+      "pr_auc_average_precision": {
+        "mean_delta": 0.0,
+        "ci95_low": 0.0,
+        "ci95_high": 0.0,
+        "n_bootstrap_used": 5000,
+        "n_bootstrap_skipped": 0
+      },
+      "bedroc_alpha_20": {
+        "mean_delta": 0.0,
+        "ci95_low": 0.0,
+        "ci95_high": 0.0,
+        "n_bootstrap_used": 5000,
+        "n_bootstrap_skipped": 0
+      }
+    },
+    "acceptance_checks": {
+      "primary_bedroc_delta": false,
+      "primary_roc_auc_delta": true,
+      "primary_pr_auc_delta": true,
+      "sensitivity_bedroc_delta": true,
+      "primary_bedroc_bootstrap_ci95_low": true
+    },
+    "all_checks_required": true,
+    "gate_passed": false
+  },
+  "exact_random_subset_distribution": {
+    "detail_row_count": 48,
+    "summary_group_count": 10,
+    "random_numbers_used": false
+  },
+  "test_evaluated": false,
+  "test_status": "locked_unreleased",
+  "outputs": {
+    "fold_assignments_csv": {
+      "path": "results/runs/stage05_mk14_development_method_gate/train_fold_assignments.csv",
+      "sha256": "763CBB71C52380BD4B504D5393B781616D7F6DAD29BEFD790780DFA0BBC198CC"
+    },
+    "inner_cv_trials_csv": {
+      "path": "results/runs/stage05_mk14_development_method_gate/inner_cv_trials.csv",
+      "sha256": "3EC830B0DD47860A1A6F4E55F3376E79ECD765FC2627827FD4E12560AF1E7D1A"
+    },
+    "selected_methods_csv": {
+      "path": "results/runs/stage05_mk14_development_method_gate/train_selected_methods.csv",
+      "sha256": "BC124CF3E50101A1FFC2491A843AE6135586A773A5CBBD6C74E8FB93DA116B49"
+    },
+    "validation_metrics_csv": {
+      "path": "results/runs/stage05_mk14_development_method_gate/validation_metrics.csv",
+      "sha256": "3D155BA9E45078CE10AA1DEA9013A8506DC0A0153958E685DFE22318B61B29E0"
+    },
+    "validation_scores_csv": {
+      "path": "results/runs/stage05_mk14_development_method_gate/validation_scores.csv",
+      "sha256": "6C1AE8EF871F6E8ADA44AD2436AAA97E9C718A0834B543AD9410FB982F46B5B3"
+    },
+    "exact_random_subsets_csv": {
+      "path": "results/runs/stage05_mk14_development_method_gate/exact_random_subsets.csv",
+      "sha256": "24D480909D79A350EB9D4BCE4AE22D05B19726C739CEEAE29981961B77C4996F"
+    },
+    "exact_random_summary_csv": {
+      "path": "results/runs/stage05_mk14_development_method_gate/exact_random_subset_summary.csv",
+      "sha256": "200E24E9AEF0DB28A2D7985B037AB2A3D56B6663819DB18A847C47C5F94DF2B1"
+    },
+    "candidate_protocol_json": {
+      "path": "results/runs/stage05_mk14_development_method_gate/candidate_protocol.json",
+      "sha256": "B81A248E1C7603D91B1B80ADB737C7E59498EB946163644B93D82EA6C67DDAA3"
+    }
+  },
+  "interpretation_boundary": "This execution may pass or reject a development-only QUBO promotion gate. It never reads a test score and cannot establish biological activity, binding free energy, cross-target generalization, production screening value, or quantum advantage."
+}

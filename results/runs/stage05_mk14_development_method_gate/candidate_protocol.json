@@ -1,0 +1,553 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage05-mk14-development-train-validation-method-gate-v1",
+  "status": "development_gate_failed_test_locked",
+  "config": {
+    "path": "configs/stage05_mk14_development_method_gate_execution.json",
+    "sha256": "B44F5CC632985FEEBCBEB26C8FC88180712AF42AC228D803573BDCA4FF233287"
+  },
+  "preregistration": {
+    "path": "configs/stage05_mk14_development_method_gate_preregistration.json",
+    "sha256": "1F2D81BE000A13F4B1E0EA867299073663C784B3BE1E41BBA52AAABCCB1CCD23"
+  },
+  "runtime": {
+    "conda_environment": "qubo-receptor-ensemble",
+    "python_version": "3.11.15",
+    "numpy_version": "1.26.4",
+    "scipy_version": "1.17.1",
+    "python_executable": "C:\\Users\\MM\\anaconda3\\envs\\qubo-receptor-ensemble\\python.exe"
+  },
+  "implementation": {
+    "path": "scripts/run_stage05_mk14_method_gate.py",
+    "sha256": "E1561305CCA7A8D4493AB937EBE390B1A12ED8C11B331730531E6DAEAC1B9417"
+  },
+  "implementation_dependencies": [
+    {
+      "path": "scripts/run_development_scaffold_cv_gate.py",
+      "sha256": "87735698AE8298AF61B7489356A182AFC4D41449B10FCABAC519E8F730B01D87"
+    },
+    {
+      "path": "scripts/normalized_receptor_qubo.py",
+      "sha256": "0346E33536DC1201AF72E59DD021345E19494EA6A918E04E0D710E97EE72A21C"
+    },
+    {
+      "path": "scripts/run_receptor_selection_validation_gate.py",
+      "sha256": "F8B36AFAE97F62B02AD2C67261000AD51A99EEF38E9188164D88CEEDE6FCCCBC"
+    },
+    {
+      "path": "scripts/cross_validate_ensemble_mvp.py",
+      "sha256": "8A337FADA733ABDACCB04602E1F2F9F83DAA9C3A1F07A902158D46498A75AAA3"
+    },
+    {
+      "path": "scripts/compare_receptor_screening.py",
+      "sha256": "AE2A319CD86F7974A471C22C6AF2CA844BE29CFFA398ABC4AD950030430635A8"
+    }
+  ],
+  "data_boundary": {
+    "train_ligand_count": 160,
+    "validation_ligand_count": 80,
+    "test_status": "locked_unreleased",
+    "test_evaluated": false,
+    "validation_used_for_tuning": false,
+    "validation_evaluations_per_fixed_method": 1
+  },
+  "train_selected_methods": {
+    "single_best": {
+      "config": {
+        "family": "single_best",
+        "target_size": 1,
+        "aggregation": "min_score"
+      },
+      "subset": [
+        "MK14_3KQ7_aligned"
+      ],
+      "fit_details": {},
+      "inner_cv": {
+        "mean_validation_metrics": {
+          "roc_auc": 0.6975,
+          "pr_auc_average_precision": 0.7464910803238923,
+          "bedroc_alpha_20": 0.8766352267454409,
+          "EF1%": 1.5,
+          "EF5%": 1.75,
+          "EF10%": 1.875
+        },
+        "selection_metric_std": 0.17490465561019877,
+        "inner_subsets": [
+          [
+            "MK14_3KQ7_aligned"
+          ],
+          [
+            "MK14_3KQ7_aligned"
+          ],
+          [
+            "MK14_3KQ7_aligned"
+          ],
+          [
+            "MK14_3KQ7_aligned"
+          ]
+        ]
+      }
+    },
+    "exhaustive": {
+      "config": {
+        "family": "exhaustive",
+        "target_size": 1,
+        "aggregation": "min_score"
+      },
+      "subset": [
+        "MK14_3KQ7_aligned"
+      ],
+      "fit_details": {},
+      "inner_cv": {
+        "mean_validation_metrics": {
+          "roc_auc": 0.6975,
+          "pr_auc_average_precision": 0.7464910803238923,
+          "bedroc_alpha_20": 0.8766352267454409,
+          "EF1%": 1.5,
+          "EF5%": 1.75,
+          "EF10%": 1.875
+        },
+        "selection_metric_std": 0.17490465561019877,
+        "inner_subsets": [
+          [
+            "MK14_3KQ7_aligned"
+          ],
+          [
+            "MK14_3KQ7_aligned"
+          ],
+          [
+            "MK14_3KQ7_aligned"
+          ],
+          [
+            "MK14_3KQ7_aligned"
+          ]
+        ]
+      }
+    },
+    "greedy": {
+      "config": {
+        "family": "greedy",
+        "target_size": 1,
+        "aggregation": "min_score"
+      },
+      "subset": [
+        "MK14_3KQ7_aligned"
+      ],
+      "fit_details": {},
+      "inner_cv": {
+        "mean_validation_metrics": {
+          "roc_auc": 0.6975,
+          "pr_auc_average_precision": 0.7464910803238923,
+          "bedroc_alpha_20": 0.8766352267454409,
+          "EF1%": 1.5,
+          "EF5%": 1.75,
+          "EF10%": 1.875
+        },
+        "selection_metric_std": 0.17490465561019877,
+        "inner_subsets": [
+          [
+            "MK14_3KQ7_aligned"
+          ],
+          [
+            "MK14_3KQ7_aligned"
+          ],
+          [
+            "MK14_3KQ7_aligned"
+          ],
+          [
+            "MK14_3KQ7_aligned"
+          ]
+        ]
+      }
+    },
+    "all_receptors": {
+      "config": {
+        "family": "all_receptors",
+        "target_size": 4,
+        "aggregation": "mean_score"
+      },
+      "subset": [
+        "MK14_2QD9_reference",
+        "MK14_1A9U_aligned",
+        "MK14_3K3J_aligned",
+        "MK14_3KQ7_aligned"
+      ],
+      "fit_details": {},
+      "inner_cv": {
+        "mean_validation_metrics": {
+          "roc_auc": 0.730625,
+          "pr_auc_average_precision": 0.7452640002551502,
+          "bedroc_alpha_20": 0.8526189557954231,
+          "EF1%": 1.5,
+          "EF5%": 1.75,
+          "EF10%": 1.75
+        },
+        "selection_metric_std": 0.20265508697307968,
+        "inner_subsets": [
+          [
+            "MK14_2QD9_reference",
+            "MK14_1A9U_aligned",
+            "MK14_3K3J_aligned",
+            "MK14_3KQ7_aligned"
+          ],
+          [
+            "MK14_2QD9_reference",
+            "MK14_1A9U_aligned",
+            "MK14_3K3J_aligned",
+            "MK14_3KQ7_aligned"
+          ],
+          [
+            "MK14_2QD9_reference",
+            "MK14_1A9U_aligned",
+            "MK14_3K3J_aligned",
+            "MK14_3KQ7_aligned"
+          ],
+          [
+            "MK14_2QD9_reference",
+            "MK14_1A9U_aligned",
+            "MK14_3K3J_aligned",
+            "MK14_3KQ7_aligned"
+          ]
+        ]
+      }
+    },
+    "coverage_qubo": {
+      "config": {
+        "family": "coverage_qubo",
+        "target_size": 1,
+        "aggregation": "min_score",
+        "weights": {
+          "active_coverage": 0.0,
+          "decoy_exposure": 0.0,
+          "active_overlap": 0.0,
+          "redundancy": 0.0
+        }
+      },
+      "subset": [
+        "MK14_3KQ7_aligned"
+      ],
+      "fit_details": {
+        "energy": -1.0,
+        "coefficients": {
+          "constant": 20.0,
+          "linear": {
+            "MK14_2QD9_reference": -20.69558439034308,
+            "MK14_1A9U_aligned": -20.0,
+            "MK14_3K3J_aligned": -20.902861882744318,
+            "MK14_3KQ7_aligned": -21.0
+          },
+          "quadratic": {
+            "MK14_2QD9_reference__MK14_1A9U_aligned": 40.0,
+            "MK14_2QD9_reference__MK14_3K3J_aligned": 40.0,
+            "MK14_2QD9_reference__MK14_3KQ7_aligned": 40.0,
+            "MK14_1A9U_aligned__MK14_3K3J_aligned": 40.0,
+            "MK14_1A9U_aligned__MK14_3KQ7_aligned": 40.0,
+            "MK14_3K3J_aligned__MK14_3KQ7_aligned": 40.0
+          },
+          "target_size": 1,
+          "weights": {
+            "active_coverage": 0.0,
+            "decoy_exposure": 0.0,
+            "active_overlap": 0.0,
+            "redundancy": 0.0
+          },
+          "size_penalty": 20.0,
+          "convention": "Q(x)=constant+sum_i linear[i]*x_i+sum_i<j quadratic[i__j]*x_i*x_j",
+          "exact_search": {
+            "method": "target_cardinality_with_global_lower_bound_certificate",
+            "states_evaluated": 4,
+            "full_state_count": 16,
+            "minimum_outside_cardinality_lower_bound": 18.097138117255682
+          }
+        }
+      },
+      "inner_cv": {
+        "mean_validation_metrics": {
+          "roc_auc": 0.6975,
+          "pr_auc_average_precision": 0.7464910803238923,
+          "bedroc_alpha_20": 0.8766352267454409,
+          "EF1%": 1.5,
+          "EF5%": 1.75,
+          "EF10%": 1.875
+        },
+        "selection_metric_std": 0.17490465561019877,
+        "inner_subsets": [
+          [
+            "MK14_3KQ7_aligned"
+          ],
+          [
+            "MK14_3KQ7_aligned"
+          ],
+          [
+            "MK14_3KQ7_aligned"
+          ],
+          [
+            "MK14_3KQ7_aligned"
+          ]
+        ]
+      }
+    },
+    "discriminative_qubo": {
+      "config": {
+        "family": "discriminative_qubo",
+        "target_size": 1,
+        "aggregation": "min_score",
+        "weights": {
+          "active_coverage": 0.0,
+          "decoy_exposure": 0.5,
+          "active_overlap": 0.0,
+          "redundancy": 0.0
+        }
+      },
+      "subset": [
+        "MK14_3KQ7_aligned"
+      ],
+      "fit_details": {
+        "energy": -1.0,
+        "coefficients": {
+          "constant": 20.0,
+          "linear": {
+            "MK14_2QD9_reference": -20.395584390343082,
+            "MK14_1A9U_aligned": -19.5,
+            "MK14_3K3J_aligned": -20.802861882744317,
+            "MK14_3KQ7_aligned": -21.0
+          },
+          "quadratic": {
+            "MK14_2QD9_reference__MK14_1A9U_aligned": 40.0,
+            "MK14_2QD9_reference__MK14_3K3J_aligned": 40.0,
+            "MK14_2QD9_reference__MK14_3KQ7_aligned": 40.0,
+            "MK14_1A9U_aligned__MK14_3K3J_aligned": 40.0,
+            "MK14_1A9U_aligned__MK14_3KQ7_aligned": 40.0,
+            "MK14_3K3J_aligned__MK14_3KQ7_aligned": 40.0
+          },
+          "target_size": 1,
+          "weights": {
+            "active_coverage": 0.0,
+            "decoy_exposure": 0.5,
+            "active_overlap": 0.0,
+            "redundancy": 0.0
+          },
+          "size_penalty": 20.0,
+          "convention": "Q(x)=constant+sum_i linear[i]*x_i+sum_i<j quadratic[i__j]*x_i*x_j",
+          "exact_search": {
+            "method": "target_cardinality_with_global_lower_bound_certificate",
+            "states_evaluated": 4,
+            "full_state_count": 16,
+            "minimum_outside_cardinality_lower_bound": 18.197138117255683
+          }
+        }
+      },
+      "inner_cv": {
+        "mean_validation_metrics": {
+          "roc_auc": 0.6975,
+          "pr_auc_average_precision": 0.7464910803238923,
+          "bedroc_alpha_20": 0.8766352267454409,
+          "EF1%": 1.5,
+          "EF5%": 1.75,
+          "EF10%": 1.875
+        },
+        "selection_metric_std": 0.17490465561019877,
+        "inner_subsets": [
+          [
+            "MK14_3KQ7_aligned"
+          ],
+          [
+            "MK14_3KQ7_aligned"
+          ],
+          [
+            "MK14_3KQ7_aligned"
+          ],
+          [
+            "MK14_3KQ7_aligned"
+          ]
+        ]
+      }
+    }
+  },
+  "selected_qubo_family": "coverage_qubo",
+  "validation_metrics": {
+    "primary": {
+      "single_best": {
+        "ligand_count": 80,
+        "active_count": 40,
+        "roc_auc": 0.6878125,
+        "pr_auc_average_precision": 0.7460912715405212,
+        "bedroc_alpha_20": 0.9241831522815438,
+        "EF1%": 2.0,
+        "EF5%": 2.0,
+        "EF10%": 1.75,
+        "top10_active_count": 9
+      },
+      "exhaustive": {
+        "ligand_count": 80,
+        "active_count": 40,
+        "roc_auc": 0.6878125,
+        "pr_auc_average_precision": 0.7460912715405212,
+        "bedroc_alpha_20": 0.9241831522815438,
+        "EF1%": 2.0,
+        "EF5%": 2.0,
+        "EF10%": 1.75,
+        "top10_active_count": 9
+      },
+      "greedy": {
+        "ligand_count": 80,
+        "active_count": 40,
+        "roc_auc": 0.6878125,
+        "pr_auc_average_precision": 0.7460912715405212,
+        "bedroc_alpha_20": 0.9241831522815438,
+        "EF1%": 2.0,
+        "EF5%": 2.0,
+        "EF10%": 1.75,
+        "top10_active_count": 9
+      },
+      "all_receptors": {
+        "ligand_count": 80,
+        "active_count": 40,
+        "roc_auc": 0.77,
+        "pr_auc_average_precision": 0.8134846643237668,
+        "bedroc_alpha_20": 0.982697399362374,
+        "EF1%": 2.0,
+        "EF5%": 2.0,
+        "EF10%": 2.0,
+        "top10_active_count": 10
+      },
+      "coverage_qubo": {
+        "ligand_count": 80,
+        "active_count": 40,
+        "roc_auc": 0.6878125,
+        "pr_auc_average_precision": 0.7460912715405212,
+        "bedroc_alpha_20": 0.9241831522815438,
+        "EF1%": 2.0,
+        "EF5%": 2.0,
+        "EF10%": 1.75,
+        "top10_active_count": 9
+      },
+      "discriminative_qubo": {
+        "ligand_count": 80,
+        "active_count": 40,
+        "roc_auc": 0.6878125,
+        "pr_auc_average_precision": 0.7460912715405212,
+        "bedroc_alpha_20": 0.9241831522815438,
+        "EF1%": 2.0,
+        "EF5%": 2.0,
+        "EF10%": 1.75,
+        "top10_active_count": 9
+      }
+    },
+    "sensitivity": {
+      "single_best": {
+        "ligand_count": 80,
+        "active_count": 40,
+        "roc_auc": 0.689375,
+        "pr_auc_average_precision": 0.7463600433986555,
+        "bedroc_alpha_20": 0.9238751600453491,
+        "EF1%": 2.0,
+        "EF5%": 2.0,
+        "EF10%": 1.75,
+        "top10_active_count": 9
+      },
+      "exhaustive": {
+        "ligand_count": 80,
+        "active_count": 40,
+        "roc_auc": 0.689375,
+        "pr_auc_average_precision": 0.7463600433986555,
+        "bedroc_alpha_20": 0.9238751600453491,
+        "EF1%": 2.0,
+        "EF5%": 2.0,
+        "EF10%": 1.75,
+        "top10_active_count": 9
+      },
+      "greedy": {
+        "ligand_count": 80,
+        "active_count": 40,
+        "roc_auc": 0.689375,
+        "pr_auc_average_precision": 0.7463600433986555,
+        "bedroc_alpha_20": 0.9238751600453491,
+        "EF1%": 2.0,
+        "EF5%": 2.0,
+        "EF10%": 1.75,
+        "top10_active_count": 9
+      },
+      "all_receptors": {
+        "ligand_count": 80,
+        "active_count": 40,
+        "roc_auc": 0.7775,
+        "pr_auc_average_precision": 0.8219788179455685,
+        "bedroc_alpha_20": 0.9850692410440892,
+        "EF1%": 2.0,
+        "EF5%": 2.0,
+        "EF10%": 2.0,
+        "top10_active_count": 10
+      },
+      "coverage_qubo": {
+        "ligand_count": 80,
+        "active_count": 40,
+        "roc_auc": 0.689375,
+        "pr_auc_average_precision": 0.7463600433986555,
+        "bedroc_alpha_20": 0.9238751600453491,
+        "EF1%": 2.0,
+        "EF5%": 2.0,
+        "EF10%": 1.75,
+        "top10_active_count": 9
+      },
+      "discriminative_qubo": {
+        "ligand_count": 80,
+        "active_count": 40,
+        "roc_auc": 0.689375,
+        "pr_auc_average_precision": 0.7463600433986555,
+        "bedroc_alpha_20": 0.9238751600453491,
+        "EF1%": 2.0,
+        "EF5%": 2.0,
+        "EF10%": 1.75,
+        "top10_active_count": 9
+      }
+    }
+  },
+  "validation_gate": {
+    "comparison_method": "single_best",
+    "deltas": {
+      "primary_bedroc": 0.0,
+      "primary_roc_auc": 0.0,
+      "primary_pr_auc": 0.0,
+      "sensitivity_bedroc": 0.0
+    },
+    "paired_bootstrap": {
+      "roc_auc": {
+        "mean_delta": 0.0,
+        "ci95_low": 0.0,
+        "ci95_high": 0.0,
+        "n_bootstrap_used": 5000,
+        "n_bootstrap_skipped": 0
+      },
+      "pr_auc_average_precision": {
+        "mean_delta": 0.0,
+        "ci95_low": 0.0,
+        "ci95_high": 0.0,
+        "n_bootstrap_used": 5000,
+        "n_bootstrap_skipped": 0
+      },
+      "bedroc_alpha_20": {
+        "mean_delta": 0.0,
+        "ci95_low": 0.0,
+        "ci95_high": 0.0,
+        "n_bootstrap_used": 5000,
+        "n_bootstrap_skipped": 0
+      }
+    },
+    "acceptance_checks": {
+      "primary_bedroc_delta": false,
+      "primary_roc_auc_delta": true,
+      "primary_pr_auc_delta": true,
+      "sensitivity_bedroc_delta": true,
+      "primary_bedroc_bootstrap_ci95_low": true
+    },
+    "all_checks_required": true,
+    "gate_passed": false
+  },
+  "test_release": {
+    "automatic_release": false,
+    "manual_review_required": true,
+    "released": false
+  },
+  "interpretation_boundary": "This execution may pass or reject a development-only QUBO promotion gate. It never reads a test score and cannot establish biological activity, binding free energy, cross-target generalization, production screening value, or quantum advantage."
+}
