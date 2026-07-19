@@ -1,0 +1,104 @@
+{
+  "schema_version": "1.0",
+  "authorization_id": "stage05-mk14-expanded8-train160-fixed-qubo-repeated-cv-20260719-v1",
+  "created_on": "2026-07-19",
+  "target_id": "MK14",
+  "purpose": "Evaluate one frozen post hoc development candidate across repeated grouped-scaffold partitions without any further hyperparameter selection.",
+  "development_history": {
+    "original_matrix_and_method_preregistration": {
+      "path": "configs/stage05_mk14_expanded_uncertainty_qubo_gate_preregistration.json",
+      "sha256": "C57AA3B377BEA2D05504EE10E6E6B59B01331718AE4DFC4A327FF907AC65327F"
+    },
+    "candidate_diagnostic": {
+      "path": "data/stage05_mk14_expanded_uncertainty_qubo_failure_diagnostic_summary.json",
+      "sha256": "D32DDE733A36044C78DA9564A2709B975D3D58B18EE1AB0466AAFF1DABA06AC5",
+      "selection_rule": "best_by_worst_seed_delta"
+    },
+    "failed_delta_aware_nested_gate": {
+      "path": "data/stage05_mk14_expanded_delta_aware_qubo_gate_result.json",
+      "sha256": "EC167E874444AD3BDAC8E103C13E4A1B4A25B909E4C40277A16A6F0350274836",
+      "required_status": "train_delta_aware_qubo_gate_failed_validation_unavailable"
+    },
+    "disclosure": "The fixed candidate was chosen after a post hoc scan of the same 160 development-train ligands. Repeated cross-validation measures partition stability but cannot remove that selection bias; only the still-unseen development-validation set can provide independent evidence."
+  },
+  "fixed_candidate": {
+    "family": "discriminative_qubo",
+    "target_size": 3,
+    "aggregation": "min_score",
+    "weights": {
+      "active_coverage": 0.0,
+      "active_overlap": 1.0,
+      "decoy_exposure": 0.5,
+      "redundancy": 1.0,
+      "stability": 1.5
+    },
+    "source_primary_oof_bedroc_delta": 0.05008086682267765,
+    "source_mean_seed_oof_bedroc_delta": 0.05519346030055287,
+    "source_worst_seed_oof_bedroc_delta": 0.0509676884250676,
+    "new_candidate_search_permitted": false
+  },
+  "repeated_cross_validation": {
+    "data": "the same 160 development_train ligands only",
+    "fold_count": 4,
+    "group_column": "split_group_id",
+    "normalization": "fit independent per-receptor min-max bounds on each matrix and current training fold only",
+    "fold_seeds": [
+      20261201,
+      20261202,
+      20261203,
+      20261204,
+      20261205,
+      20261206,
+      20261207,
+      20261208,
+      20261209,
+      20261210,
+      20261211,
+      20261212,
+      20261213,
+      20261214,
+      20261215,
+      20261216,
+      20261217,
+      20261218,
+      20261219,
+      20261220
+    ],
+    "repeat_count": 20,
+    "validation_rows_available": 0,
+    "test_rows_available": 0,
+    "dependence_note": "Repeated folds overlap and are not independent experiments; repeat distributions are stability summaries, not confidence intervals."
+  },
+  "comparators": [
+    "matched_linear_top_k_from_the_fixed_qubo_coefficients",
+    "single_best_selected_within_each_training_fold",
+    "exact_fixed_three_receptor_min_score_distribution_within_each_repeat"
+  ],
+  "acceptance": {
+    "all_checks_required": true,
+    "minimum_selected_subset_size": 2,
+    "require_nonconstant_noncardinality_quadratic_terms": true,
+    "require_full_train_subset_differs_from_matched_linear": true,
+    "minimum_median_primary_bedroc_delta_vs_linear": 0.0,
+    "minimum_median_mean_seed_bedroc_delta_vs_linear": 0.0,
+    "minimum_q25_worst_seed_bedroc_delta_vs_linear": 0.0,
+    "minimum_primary_nonworse_repeat_fraction_vs_linear": 0.75,
+    "minimum_every_seed_nonworse_repeat_fraction_vs_linear": 0.75,
+    "minimum_median_primary_bedroc_delta_vs_single_best": 0.0,
+    "minimum_q25_worst_seed_bedroc_delta_vs_single_best": 0.0,
+    "minimum_median_fold_seed_fit_pairwise_jaccard": 0.5,
+    "minimum_full_train_seed_fit_pairwise_jaccard": 0.5,
+    "minimum_median_primary_fixed_subset_percentile": 0.5,
+    "minimum_median_mean_seed_fixed_subset_percentile": 0.5,
+    "validation_remains_unavailable_after_pass": true,
+    "test_remains_locked_after_pass": true
+  },
+  "outputs": {
+    "run_directory": "results/runs/stage05_mk14_expanded_fixed_qubo_repeated_cv",
+    "repeat_metrics_csv": "results/runs/stage05_mk14_expanded_fixed_qubo_repeated_cv/repeat_metrics.csv",
+    "fold_results_csv": "results/runs/stage05_mk14_expanded_fixed_qubo_repeated_cv/fold_results.csv",
+    "summary_json": "results/runs/stage05_mk14_expanded_fixed_qubo_repeated_cv/summary.json",
+    "tracked_result_json": "data/stage05_mk14_expanded_fixed_qubo_repeated_cv_result.json"
+  },
+  "interpretation_boundary": "A pass would show that one already-disclosed fixed QUBO candidate is robust to repeated train-only scaffold partitions and may be nominated for a separately preregistered development-validation experiment. It would not erase post hoc selection bias, validate the candidate, release test ligands, establish affinity or biological activity, prove cross-target generalization, or demonstrate quantum advantage."
+}
