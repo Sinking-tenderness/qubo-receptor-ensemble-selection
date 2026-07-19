@@ -1,0 +1,858 @@
+{
+  "authorization_id": "stage05-mk14-expanded8-train160-delta-aware-qubo-gate-20260719-v1",
+  "comparison": {
+    "acceptance_checks": {
+      "every_seed_bedroc_vs_linear": false,
+      "every_seed_bedroc_vs_single_best": false,
+      "final_seed_fit_mean_pairwise_jaccard": true,
+      "final_subset_differs_from_matched_linear": false,
+      "mean_seed_bedroc_vs_linear": false,
+      "mean_seed_exact_fixed_subset_percentile": true,
+      "minimum_selected_subset_size": true,
+      "nonconstant_noncardinality_quadratic_terms": true,
+      "outer_seed_fit_mean_pairwise_jaccard": true,
+      "primary_bedroc_vs_linear": false,
+      "primary_bedroc_vs_single_best": false,
+      "primary_exact_fixed_subset_percentile": true
+    },
+    "bedroc_deltas": {
+      "mean_seed_vs_linear": -0.05370749012805531,
+      "primary_vs_linear": -0.04945558811030104,
+      "primary_vs_single_best": -0.030034700838070916,
+      "seed0_vs_linear": -0.06727395917767254,
+      "seed0_vs_single_best": -0.04350673073656919,
+      "seed1_vs_linear": -0.05026827971485126,
+      "seed1_vs_single_best": -0.021080719166564954,
+      "seed2_vs_linear": -0.04358023149164214,
+      "seed2_vs_single_best": -0.02430251630243918,
+      "worst_seed_vs_linear": -0.06727395917767254,
+      "worst_seed_vs_single_best": -0.04350673073656919
+    },
+    "gate_passed": false
+  },
+  "data_boundary": {
+    "development_train_ligands": 160,
+    "e32_cells_replaced": 0,
+    "e32_seed_matrices": 3,
+    "e64_scores_used_in_matrix": 0,
+    "label_counts": {
+      "active": 80,
+      "decoy": 80
+    },
+    "receptors": 8,
+    "test_rows_read": 0,
+    "validation_rows_read": 0
+  },
+  "exact_fixed_subset_context": {
+    "mean_seed_bedroc_percentile": 0.7678571428571429,
+    "primary_bedroc_percentile": 0.7678571428571429,
+    "random_numbers_used": false,
+    "subset_count": 56,
+    "worst_seed_bedroc_percentile": 0.6607142857142857
+  },
+  "implementation": {
+    "path": "scripts/run_stage05_mk14_delta_aware_qubo_gate.py",
+    "sha256": "EFEBA10B37620085FA2149C3BF5BC90A5A6CAA12519C13086F80F8BDD8035471"
+  },
+  "interpretation_note": "A pass would show that a fully specified delta-aware algorithm produces a non-degenerate, seed-robust train-only QUBO benefit under nested OOF evaluation. Because the rule was developed after train-only diagnostics, it would only nominate a candidate for one separate development-validation experiment. It would not validate that candidate, release test ligands, establish affinity or biological activity, prove cross-target generalization, or demonstrate quantum advantage.",
+  "method_oof_metrics": {
+    "all_receptors": {
+      "primary": {
+        "EF1%": 2.0,
+        "EF10%": 1.625,
+        "EF5%": 1.5,
+        "active_count": 80,
+        "bedroc_alpha_20": 0.7997105016222612,
+        "ligand_count": 160,
+        "pr_auc_average_precision": 0.7007493468415589,
+        "roc_auc": 0.7221875,
+        "top10_active_count": 8,
+        "top10_ligand_ids": [
+          "MK14_active_L000296",
+          "MK14_active_L000297",
+          "MK14_active_L000008",
+          "MK14_active_L000082",
+          "MK14_active_L000365",
+          "MK14_decoy_L026804",
+          "MK14_decoy_L019326",
+          "MK14_active_L000114",
+          "MK14_active_L000578",
+          "MK14_active_L000084"
+        ]
+      },
+      "seed0": {
+        "EF1%": 2.0,
+        "EF10%": 1.625,
+        "EF5%": 1.5,
+        "active_count": 80,
+        "bedroc_alpha_20": 0.7924542580120771,
+        "ligand_count": 160,
+        "pr_auc_average_precision": 0.6969914606534672,
+        "roc_auc": 0.71890625,
+        "top10_active_count": 7,
+        "top10_ligand_ids": [
+          "MK14_active_L000296",
+          "MK14_active_L000297",
+          "MK14_active_L000008",
+          "MK14_active_L000082",
+          "MK14_active_L000365",
+          "MK14_decoy_L026804",
+          "MK14_decoy_L019326",
+          "MK14_active_L000578",
+          "MK14_active_L000114",
+          "MK14_decoy_L015279"
+        ]
+      },
+      "seed1": {
+        "EF1%": 2.0,
+        "EF10%": 1.625,
+        "EF5%": 1.5,
+        "active_count": 80,
+        "bedroc_alpha_20": 0.7997792183467026,
+        "ligand_count": 160,
+        "pr_auc_average_precision": 0.6963643907519206,
+        "roc_auc": 0.71546875,
+        "top10_active_count": 8,
+        "top10_ligand_ids": [
+          "MK14_active_L000296",
+          "MK14_active_L000297",
+          "MK14_active_L000008",
+          "MK14_active_L000082",
+          "MK14_active_L000365",
+          "MK14_decoy_L019326",
+          "MK14_decoy_L026804",
+          "MK14_active_L000114",
+          "MK14_active_L000578",
+          "MK14_active_L000084"
+        ]
+      },
+      "seed2": {
+        "EF1%": 2.0,
+        "EF10%": 1.625,
+        "EF5%": 1.5,
+        "active_count": 80,
+        "bedroc_alpha_20": 0.7987769997188687,
+        "ligand_count": 160,
+        "pr_auc_average_precision": 0.700533783217985,
+        "roc_auc": 0.72234375,
+        "top10_active_count": 8,
+        "top10_ligand_ids": [
+          "MK14_active_L000296",
+          "MK14_active_L000297",
+          "MK14_active_L000008",
+          "MK14_active_L000082",
+          "MK14_active_L000365",
+          "MK14_decoy_L026804",
+          "MK14_decoy_L019326",
+          "MK14_active_L000578",
+          "MK14_active_L000114",
+          "MK14_active_L000134"
+        ]
+      },
+      "sensitivity": {
+        "EF1%": 2.0,
+        "EF10%": 1.625,
+        "EF5%": 1.5,
+        "active_count": 80,
+        "bedroc_alpha_20": 0.7990816847695561,
+        "ligand_count": 160,
+        "pr_auc_average_precision": 0.7021925282094725,
+        "roc_auc": 0.72328125,
+        "top10_active_count": 8,
+        "top10_ligand_ids": [
+          "MK14_active_L000296",
+          "MK14_active_L000297",
+          "MK14_active_L000008",
+          "MK14_active_L000082",
+          "MK14_active_L000365",
+          "MK14_decoy_L026804",
+          "MK14_decoy_L019326",
+          "MK14_active_L000578",
+          "MK14_active_L000114",
+          "MK14_active_L000084"
+        ]
+      }
+    },
+    "delta_aware_qubo": {
+      "primary": {
+        "EF1%": 2.0,
+        "EF10%": 1.625,
+        "EF5%": 1.5,
+        "active_count": 80,
+        "bedroc_alpha_20": 0.8307052044082552,
+        "ligand_count": 160,
+        "pr_auc_average_precision": 0.7047745805583834,
+        "roc_auc": 0.698984375,
+        "top10_active_count": 8,
+        "top10_ligand_ids": [
+          "MK14_active_L000008",
+          "MK14_active_L000296",
+          "MK14_active_L000114",
+          "MK14_active_L000578",
+          "MK14_active_L000084",
+          "MK14_decoy_L015279",
+          "MK14_active_L000224",
+          "MK14_decoy_L026804",
+          "MK14_active_L000297",
+          "MK14_active_L000036"
+        ]
+      },
+      "seed0": {
+        "EF1%": 2.0,
+        "EF10%": 1.625,
+        "EF5%": 1.5,
+        "active_count": 80,
+        "bedroc_alpha_20": 0.8161321826165066,
+        "ligand_count": 160,
+        "pr_auc_average_precision": 0.7013029919395376,
+        "roc_auc": 0.69671875,
+        "top10_active_count": 8,
+        "top10_ligand_ids": [
+          "MK14_active_L000008",
+          "MK14_active_L000296",
+          "MK14_active_L000578",
+          "MK14_active_L000114",
+          "MK14_decoy_L015279",
+          "MK14_active_L000084",
+          "MK14_active_L000224",
+          "MK14_decoy_L026804",
+          "MK14_active_L000297",
+          "MK14_active_L000365"
+        ]
+      },
+      "seed1": {
+        "EF1%": 2.0,
+        "EF10%": 1.625,
+        "EF5%": 1.5,
+        "active_count": 80,
+        "bedroc_alpha_20": 0.8344346569250296,
+        "ligand_count": 160,
+        "pr_auc_average_precision": 0.7097622351741555,
+        "roc_auc": 0.70265625,
+        "top10_active_count": 8,
+        "top10_ligand_ids": [
+          "MK14_active_L000008",
+          "MK14_active_L000296",
+          "MK14_active_L000114",
+          "MK14_active_L000578",
+          "MK14_active_L000084",
+          "MK14_decoy_L015279",
+          "MK14_active_L000224",
+          "MK14_decoy_L026804",
+          "MK14_active_L000365",
+          "MK14_active_L000297"
+        ]
+      },
+      "seed2": {
+        "EF1%": 2.0,
+        "EF10%": 1.625,
+        "EF5%": 1.75,
+        "active_count": 80,
+        "bedroc_alpha_20": 0.8380593756823324,
+        "ligand_count": 160,
+        "pr_auc_average_precision": 0.7063153907745765,
+        "roc_auc": 0.69984375,
+        "top10_active_count": 8,
+        "top10_ligand_ids": [
+          "MK14_active_L000008",
+          "MK14_active_L000296",
+          "MK14_active_L000578",
+          "MK14_active_L000114",
+          "MK14_active_L000084",
+          "MK14_decoy_L015279",
+          "MK14_active_L000224",
+          "MK14_active_L000036",
+          "MK14_decoy_L026804",
+          "MK14_active_L000297"
+        ]
+      },
+      "sensitivity": {
+        "EF1%": 2.0,
+        "EF10%": 1.625,
+        "EF5%": 1.75,
+        "active_count": 80,
+        "bedroc_alpha_20": 0.8427421341482989,
+        "ligand_count": 160,
+        "pr_auc_average_precision": 0.7116460433642119,
+        "roc_auc": 0.705625,
+        "top10_active_count": 8,
+        "top10_ligand_ids": [
+          "MK14_active_L000008",
+          "MK14_active_L000296",
+          "MK14_active_L000578",
+          "MK14_active_L000114",
+          "MK14_active_L000084",
+          "MK14_decoy_L015279",
+          "MK14_active_L000224",
+          "MK14_active_L000036",
+          "MK14_active_L000297",
+          "MK14_decoy_L026804"
+        ]
+      }
+    },
+    "exhaustive": {
+      "primary": {
+        "EF1%": 2.0,
+        "EF10%": 1.75,
+        "EF5%": 1.75,
+        "active_count": 80,
+        "bedroc_alpha_20": 0.8675551410842042,
+        "ligand_count": 160,
+        "pr_auc_average_precision": 0.7090783553671655,
+        "roc_auc": 0.691953125,
+        "top10_active_count": 9,
+        "top10_ligand_ids": [
+          "MK14_active_L000008",
+          "MK14_active_L000296",
+          "MK14_active_L000084",
+          "MK14_decoy_L026804",
+          "MK14_active_L000297",
+          "MK14_active_L000036",
+          "MK14_active_L000365",
+          "MK14_active_L000348",
+          "MK14_active_L000485",
+          "MK14_active_L000343"
+        ]
+      },
+      "seed0": {
+        "EF1%": 2.0,
+        "EF10%": 1.875,
+        "EF5%": 1.75,
+        "active_count": 80,
+        "bedroc_alpha_20": 0.8736405691238318,
+        "ligand_count": 160,
+        "pr_auc_average_precision": 0.7145613369806767,
+        "roc_auc": 0.694375,
+        "top10_active_count": 9,
+        "top10_ligand_ids": [
+          "MK14_active_L000008",
+          "MK14_active_L000296",
+          "MK14_active_L000084",
+          "MK14_decoy_L026804",
+          "MK14_active_L000297",
+          "MK14_active_L000365",
+          "MK14_active_L000036",
+          "MK14_active_L000485",
+          "MK14_active_L000343",
+          "MK14_active_L000082"
+        ]
+      },
+      "seed1": {
+        "EF1%": 2.0,
+        "EF10%": 1.875,
+        "EF5%": 1.75,
+        "active_count": 80,
+        "bedroc_alpha_20": 0.8780348076517849,
+        "ligand_count": 160,
+        "pr_auc_average_precision": 0.7164521709350432,
+        "roc_auc": 0.69546875,
+        "top10_active_count": 9,
+        "top10_ligand_ids": [
+          "MK14_active_L000008",
+          "MK14_active_L000296",
+          "MK14_active_L000084",
+          "MK14_decoy_L026804",
+          "MK14_active_L000365",
+          "MK14_active_L000297",
+          "MK14_active_L000036",
+          "MK14_active_L000348",
+          "MK14_active_L000485",
+          "MK14_active_L000343"
+        ]
+      },
+      "seed2": {
+        "EF1%": 2.0,
+        "EF10%": 1.875,
+        "EF5%": 1.75,
+        "active_count": 80,
+        "bedroc_alpha_20": 0.8763171709255956,
+        "ligand_count": 160,
+        "pr_auc_average_precision": 0.7095939558499402,
+        "roc_auc": 0.6909375,
+        "top10_active_count": 9,
+        "top10_ligand_ids": [
+          "MK14_active_L000008",
+          "MK14_active_L000296",
+          "MK14_active_L000084",
+          "MK14_active_L000036",
+          "MK14_decoy_L026804",
+          "MK14_active_L000297",
+          "MK14_active_L000348",
+          "MK14_active_L000365",
+          "MK14_active_L000485",
+          "MK14_active_L000343"
+        ]
+      },
+      "sensitivity": {
+        "EF1%": 2.0,
+        "EF10%": 1.875,
+        "EF5%": 1.75,
+        "active_count": 80,
+        "bedroc_alpha_20": 0.8917809574975991,
+        "ligand_count": 160,
+        "pr_auc_average_precision": 0.7205959205832659,
+        "roc_auc": 0.6984375,
+        "top10_active_count": 9,
+        "top10_ligand_ids": [
+          "MK14_active_L000008",
+          "MK14_active_L000296",
+          "MK14_active_L000084",
+          "MK14_active_L000036",
+          "MK14_active_L000297",
+          "MK14_decoy_L026804",
+          "MK14_active_L000365",
+          "MK14_active_L000348",
+          "MK14_active_L000485",
+          "MK14_active_L000343"
+        ]
+      }
+    },
+    "greedy": {
+      "primary": {
+        "EF1%": 2.0,
+        "EF10%": 1.625,
+        "EF5%": 1.5,
+        "active_count": 80,
+        "bedroc_alpha_20": 0.8181279937979693,
+        "ligand_count": 160,
+        "pr_auc_average_precision": 0.6907173512548059,
+        "roc_auc": 0.6871875,
+        "top10_active_count": 8,
+        "top10_ligand_ids": [
+          "MK14_active_L000008",
+          "MK14_active_L000296",
+          "MK14_active_L000578",
+          "MK14_active_L000084",
+          "MK14_decoy_L015279",
+          "MK14_active_L000485",
+          "MK14_active_L000224",
+          "MK14_decoy_L026804",
+          "MK14_active_L000297",
+          "MK14_active_L000036"
+        ]
+      },
+      "seed0": {
+        "EF1%": 2.0,
+        "EF10%": 1.625,
+        "EF5%": 1.5,
+        "active_count": 80,
+        "bedroc_alpha_20": 0.8022339802242504,
+        "ligand_count": 160,
+        "pr_auc_average_precision": 0.689342015509421,
+        "roc_auc": 0.68875,
+        "top10_active_count": 8,
+        "top10_ligand_ids": [
+          "MK14_active_L000008",
+          "MK14_active_L000296",
+          "MK14_active_L000578",
+          "MK14_decoy_L015279",
+          "MK14_active_L000084",
+          "MK14_active_L000224",
+          "MK14_active_L000485",
+          "MK14_decoy_L026804",
+          "MK14_active_L000297",
+          "MK14_active_L000365"
+        ]
+      },
+      "seed1": {
+        "EF1%": 2.0,
+        "EF10%": 1.625,
+        "EF5%": 1.5,
+        "active_count": 80,
+        "bedroc_alpha_20": 0.8212273394178184,
+        "ligand_count": 160,
+        "pr_auc_average_precision": 0.6905470082305505,
+        "roc_auc": 0.684375,
+        "top10_active_count": 8,
+        "top10_ligand_ids": [
+          "MK14_active_L000008",
+          "MK14_active_L000296",
+          "MK14_active_L000578",
+          "MK14_active_L000084",
+          "MK14_decoy_L015279",
+          "MK14_active_L000485",
+          "MK14_active_L000224",
+          "MK14_decoy_L026804",
+          "MK14_active_L000365",
+          "MK14_active_L000297"
+        ]
+      },
+      "seed2": {
+        "EF1%": 2.0,
+        "EF10%": 1.625,
+        "EF5%": 1.75,
+        "active_count": 80,
+        "bedroc_alpha_20": 0.8245431011856693,
+        "ligand_count": 160,
+        "pr_auc_average_precision": 0.6926527144391572,
+        "roc_auc": 0.6890625,
+        "top10_active_count": 8,
+        "top10_ligand_ids": [
+          "MK14_active_L000008",
+          "MK14_active_L000296",
+          "MK14_active_L000578",
+          "MK14_active_L000084",
+          "MK14_decoy_L015279",
+          "MK14_active_L000485",
+          "MK14_active_L000224",
+          "MK14_active_L000036",
+          "MK14_decoy_L026804",
+          "MK14_active_L000297"
+        ]
+      },
+      "sensitivity": {
+        "EF1%": 2.0,
+        "EF10%": 1.625,
+        "EF5%": 1.75,
+        "active_count": 80,
+        "bedroc_alpha_20": 0.8317195036846501,
+        "ligand_count": 160,
+        "pr_auc_average_precision": 0.6967136539143495,
+        "roc_auc": 0.69125,
+        "top10_active_count": 8,
+        "top10_ligand_ids": [
+          "MK14_active_L000008",
+          "MK14_active_L000296",
+          "MK14_active_L000578",
+          "MK14_active_L000084",
+          "MK14_decoy_L015279",
+          "MK14_active_L000485",
+          "MK14_active_L000224",
+          "MK14_active_L000036",
+          "MK14_active_L000297",
+          "MK14_decoy_L026804"
+        ]
+      }
+    },
+    "matched_linear_top_k": {
+      "primary": {
+        "EF1%": 2.0,
+        "EF10%": 1.875,
+        "EF5%": 1.75,
+        "active_count": 80,
+        "bedroc_alpha_20": 0.8801607925185563,
+        "ligand_count": 160,
+        "pr_auc_average_precision": 0.745752426134043,
+        "roc_auc": 0.728828125,
+        "top10_active_count": 9,
+        "top10_ligand_ids": [
+          "MK14_active_L000296",
+          "MK14_active_L000008",
+          "MK14_decoy_L026804",
+          "MK14_active_L000297",
+          "MK14_active_L000365",
+          "MK14_active_L000114",
+          "MK14_active_L000084",
+          "MK14_active_L000134",
+          "MK14_active_L000485",
+          "MK14_active_L000304"
+        ]
+      },
+      "seed0": {
+        "EF1%": 2.0,
+        "EF10%": 1.875,
+        "EF5%": 1.75,
+        "active_count": 80,
+        "bedroc_alpha_20": 0.8834061417941791,
+        "ligand_count": 160,
+        "pr_auc_average_precision": 0.7511029844950962,
+        "roc_auc": 0.73359375,
+        "top10_active_count": 9,
+        "top10_ligand_ids": [
+          "MK14_active_L000296",
+          "MK14_active_L000008",
+          "MK14_decoy_L026804",
+          "MK14_active_L000297",
+          "MK14_active_L000365",
+          "MK14_active_L000114",
+          "MK14_active_L000084",
+          "MK14_active_L000134",
+          "MK14_active_L000485",
+          "MK14_active_L000304"
+        ]
+      },
+      "seed1": {
+        "EF1%": 2.0,
+        "EF10%": 1.875,
+        "EF5%": 1.75,
+        "active_count": 80,
+        "bedroc_alpha_20": 0.8847029366398809,
+        "ligand_count": 160,
+        "pr_auc_average_precision": 0.7494469548952377,
+        "roc_auc": 0.72984375,
+        "top10_active_count": 9,
+        "top10_ligand_ids": [
+          "MK14_active_L000296",
+          "MK14_active_L000008",
+          "MK14_decoy_L026804",
+          "MK14_active_L000297",
+          "MK14_active_L000365",
+          "MK14_active_L000114",
+          "MK14_active_L000084",
+          "MK14_active_L000134",
+          "MK14_active_L000485",
+          "MK14_active_L000304"
+        ]
+      },
+      "seed2": {
+        "EF1%": 2.0,
+        "EF10%": 1.875,
+        "EF5%": 1.75,
+        "active_count": 80,
+        "bedroc_alpha_20": 0.8816396071739745,
+        "ligand_count": 160,
+        "pr_auc_average_precision": 0.7425697583420664,
+        "roc_auc": 0.72265625,
+        "top10_active_count": 9,
+        "top10_ligand_ids": [
+          "MK14_active_L000296",
+          "MK14_active_L000008",
+          "MK14_decoy_L026804",
+          "MK14_active_L000365",
+          "MK14_active_L000114",
+          "MK14_active_L000084",
+          "MK14_active_L000134",
+          "MK14_active_L000485",
+          "MK14_active_L000304",
+          "MK14_active_L000348"
+        ]
+      },
+      "sensitivity": {
+        "EF1%": 2.0,
+        "EF10%": 1.875,
+        "EF5%": 1.75,
+        "active_count": 80,
+        "bedroc_alpha_20": 0.8837445593918514,
+        "ligand_count": 160,
+        "pr_auc_average_precision": 0.7497275487134579,
+        "roc_auc": 0.73109375,
+        "top10_active_count": 9,
+        "top10_ligand_ids": [
+          "MK14_active_L000296",
+          "MK14_active_L000008",
+          "MK14_decoy_L026804",
+          "MK14_active_L000297",
+          "MK14_active_L000365",
+          "MK14_active_L000114",
+          "MK14_active_L000084",
+          "MK14_active_L000134",
+          "MK14_active_L000485",
+          "MK14_active_L000304"
+        ]
+      }
+    },
+    "single_best": {
+      "primary": {
+        "EF1%": 2.0,
+        "EF10%": 1.875,
+        "EF5%": 1.75,
+        "active_count": 80,
+        "bedroc_alpha_20": 0.8607399052463262,
+        "ligand_count": 160,
+        "pr_auc_average_precision": 0.7016388514527538,
+        "roc_auc": 0.67734375,
+        "top10_active_count": 9,
+        "top10_ligand_ids": [
+          "MK14_active_L000296",
+          "MK14_active_L000365",
+          "MK14_decoy_L026804",
+          "MK14_active_L000297",
+          "MK14_active_L000304",
+          "MK14_active_L000485",
+          "MK14_active_L000134",
+          "MK14_active_L000036",
+          "MK14_active_L000348",
+          "MK14_active_L000553"
+        ]
+      },
+      "seed0": {
+        "EF1%": 2.0,
+        "EF10%": 1.875,
+        "EF5%": 1.75,
+        "active_count": 80,
+        "bedroc_alpha_20": 0.8596389133530757,
+        "ligand_count": 160,
+        "pr_auc_average_precision": 0.7054979544477451,
+        "roc_auc": 0.68390625,
+        "top10_active_count": 9,
+        "top10_ligand_ids": [
+          "MK14_active_L000296",
+          "MK14_active_L000365",
+          "MK14_decoy_L026804",
+          "MK14_active_L000297",
+          "MK14_active_L000304",
+          "MK14_active_L000485",
+          "MK14_active_L000134",
+          "MK14_active_L000036",
+          "MK14_active_L000348",
+          "MK14_active_L000553"
+        ]
+      },
+      "seed1": {
+        "EF1%": 2.0,
+        "EF10%": 1.75,
+        "EF5%": 1.75,
+        "active_count": 80,
+        "bedroc_alpha_20": 0.8555153760915946,
+        "ligand_count": 160,
+        "pr_auc_average_precision": 0.6942854996847616,
+        "roc_auc": 0.67015625,
+        "top10_active_count": 9,
+        "top10_ligand_ids": [
+          "MK14_active_L000296",
+          "MK14_active_L000365",
+          "MK14_decoy_L026804",
+          "MK14_active_L000297",
+          "MK14_active_L000304",
+          "MK14_active_L000485",
+          "MK14_active_L000134",
+          "MK14_active_L000036",
+          "MK14_active_L000348",
+          "MK14_active_L000553"
+        ]
+      },
+      "seed2": {
+        "EF1%": 2.0,
+        "EF10%": 1.875,
+        "EF5%": 1.75,
+        "active_count": 80,
+        "bedroc_alpha_20": 0.8623618919847715,
+        "ligand_count": 160,
+        "pr_auc_average_precision": 0.6989501228703465,
+        "roc_auc": 0.67203125,
+        "top10_active_count": 9,
+        "top10_ligand_ids": [
+          "MK14_active_L000296",
+          "MK14_active_L000365",
+          "MK14_decoy_L026804",
+          "MK14_active_L000297",
+          "MK14_active_L000304",
+          "MK14_active_L000485",
+          "MK14_active_L000134",
+          "MK14_active_L000036",
+          "MK14_active_L000348",
+          "MK14_active_L000553"
+        ]
+      },
+      "sensitivity": {
+        "EF1%": 2.0,
+        "EF10%": 1.875,
+        "EF5%": 1.75,
+        "active_count": 80,
+        "bedroc_alpha_20": 0.8614845813362798,
+        "ligand_count": 160,
+        "pr_auc_average_precision": 0.702580158350992,
+        "roc_auc": 0.680078125,
+        "top10_active_count": 9,
+        "top10_ligand_ids": [
+          "MK14_active_L000296",
+          "MK14_active_L000365",
+          "MK14_decoy_L026804",
+          "MK14_active_L000297",
+          "MK14_active_L000304",
+          "MK14_active_L000134",
+          "MK14_active_L000485",
+          "MK14_active_L000036",
+          "MK14_active_L000348",
+          "MK14_active_L000553"
+        ]
+      }
+    }
+  },
+  "next_action": "Keep validation unavailable and redesign the paired selector or QUBO objective before another train-only gate.",
+  "preregistration": {
+    "path": "configs/stage05_mk14_expanded_delta_aware_qubo_gate_preregistration.json",
+    "sha256": "5D555D39D8237D5ABBB9A7022163ABB6C06A82131D1E74E01E4006B747870F69"
+  },
+  "schema_version": "1.0",
+  "selected_qubo": {
+    "config": {
+      "aggregation": "min_score",
+      "family": "coverage_qubo",
+      "target_size": 3,
+      "weights": {
+        "active_coverage": 0.0,
+        "active_overlap": 0.0,
+        "decoy_exposure": 0.0,
+        "redundancy": 1.0,
+        "stability": 1.5
+      }
+    },
+    "final_tuning": {
+      "linear_difference_count": 1,
+      "mean_seed_bedroc_delta": 0.09679571365626582,
+      "primary_bedroc_delta": 0.09592113819748438,
+      "worst_seed_bedroc_delta": 0.095896403884276
+    },
+    "matched_linear_subset": [
+      "MK14_2BAJ_aligned",
+      "MK14_3KQ7_aligned",
+      "MK14_3MPT_aligned"
+    ],
+    "noncardinality_quadratic": {
+      "maximum_absolute": 1.0,
+      "range": 1.0,
+      "term_count": 28,
+      "terms": {
+        "MK14_1A9U_aligned__MK14_2BAJ_aligned": 0.563973070242767,
+        "MK14_1A9U_aligned__MK14_2QD9_reference": 0.408995131705602,
+        "MK14_1A9U_aligned__MK14_3K3J_aligned": 0.6207647389393145,
+        "MK14_1A9U_aligned__MK14_3KQ7_aligned": 0.4867424374504594,
+        "MK14_1A9U_aligned__MK14_3MPT_aligned": 0.4627633436014662,
+        "MK14_1A9U_aligned__MK14_3OCG_aligned": 0.6940303998198658,
+        "MK14_1A9U_aligned__MK14_4F9W_aligned": 0.8913964205599569,
+        "MK14_2BAJ_aligned__MK14_2QD9_reference": 0.0,
+        "MK14_2BAJ_aligned__MK14_3K3J_aligned": 0.8567951234353473,
+        "MK14_2BAJ_aligned__MK14_3KQ7_aligned": 0.8827799767542004,
+        "MK14_2BAJ_aligned__MK14_3MPT_aligned": 0.029837323273270044,
+        "MK14_2BAJ_aligned__MK14_3OCG_aligned": 0.4012165081530483,
+        "MK14_2BAJ_aligned__MK14_4F9W_aligned": 0.3488179499792281,
+        "MK14_2QD9_reference__MK14_3K3J_aligned": 0.23832463415809002,
+        "MK14_2QD9_reference__MK14_3KQ7_aligned": 0.1548560503987133,
+        "MK14_2QD9_reference__MK14_3MPT_aligned": 0.7104853447992667,
+        "MK14_2QD9_reference__MK14_3OCG_aligned": 0.7100444438010882,
+        "MK14_2QD9_reference__MK14_4F9W_aligned": 0.4395584700695352,
+        "MK14_3K3J_aligned__MK14_3KQ7_aligned": 1.0,
+        "MK14_3K3J_aligned__MK14_3MPT_aligned": 0.14404941210280242,
+        "MK14_3K3J_aligned__MK14_3OCG_aligned": 0.4774485318313495,
+        "MK14_3K3J_aligned__MK14_4F9W_aligned": 0.43844511220665794,
+        "MK14_3KQ7_aligned__MK14_3MPT_aligned": 0.14470605283604243,
+        "MK14_3KQ7_aligned__MK14_3OCG_aligned": 0.5401881164685278,
+        "MK14_3KQ7_aligned__MK14_4F9W_aligned": 0.26394839121746827,
+        "MK14_3MPT_aligned__MK14_3OCG_aligned": 0.7199910462928472,
+        "MK14_3MPT_aligned__MK14_4F9W_aligned": 0.4950925123434331,
+        "MK14_3OCG_aligned__MK14_4F9W_aligned": 0.6946457032540039
+      }
+    },
+    "seed_pairwise_jaccard": {
+      "maximum": 1.0,
+      "mean": 1.0,
+      "minimum": 1.0
+    },
+    "seed_specific_subsets": {
+      "seed0": [
+        "MK14_2BAJ_aligned",
+        "MK14_3KQ7_aligned",
+        "MK14_3MPT_aligned"
+      ],
+      "seed1": [
+        "MK14_2BAJ_aligned",
+        "MK14_3KQ7_aligned",
+        "MK14_3MPT_aligned"
+      ],
+      "seed2": [
+        "MK14_2BAJ_aligned",
+        "MK14_3KQ7_aligned",
+        "MK14_3MPT_aligned"
+      ]
+    },
+    "subset": [
+      "MK14_2BAJ_aligned",
+      "MK14_3KQ7_aligned",
+      "MK14_3MPT_aligned"
+    ]
+  },
+  "status": "train_delta_aware_qubo_gate_failed_validation_unavailable",
+  "test_status": "locked_unreleased",
+  "validation_status": "unavailable_not_evaluated"
+}
