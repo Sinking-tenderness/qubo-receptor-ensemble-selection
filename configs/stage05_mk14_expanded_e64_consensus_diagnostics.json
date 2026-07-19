@@ -1,0 +1,64 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage05-mk14-expanded8-train160-e64-consensus-diagnostics-v1",
+  "purpose": "Rerun every failed e32 consensus pair at e64 with the same three paired seeds to decide whether a complete uniform e64 matrix is warranted.",
+  "inputs": {
+    "amendment": "configs/stage05_mk14_expanded_train_search_protocol_amendment01.json",
+    "e32_admission_summary": "data/stage05_mk14_expanded_e32_matrix_admission_summary.json",
+    "e32_flagged_pairs": "data/processed/stage05_mk14_expanded_e32_matrix_flagged_pairs.csv",
+    "e32_aggregation_summary": "results/runs/stage05_mk14_expanded8_train160_e32_aggregated/summary.json",
+    "e32_aggregated_scores": "results/runs/stage05_mk14_expanded8_train160_e32_aggregated/aggregated_seed_scores.csv",
+    "receptor_manifest": "data/processed/stage05_mk14_expanded8_receptor_manifest.csv",
+    "ligand_manifest": "data/processed/stage05_mk14_expanded_train_80a80d_pdbqt_manifest.csv",
+    "e32_config": "configs/stage05_mk14_expanded_train_e32_cpu2.txt",
+    "e64_config": "configs/stage05_mk14_expanded_train_e64_cpu2.txt",
+    "vina_executable": "environment/bin/vina_1.2.7_linux_x86_64"
+  },
+  "input_sha256": {
+    "amendment": "760D227723C1EF3E499BB4A2CACC56D726FE0DD272763C62D1757E8CB966980E",
+    "e32_admission_summary": "E23C7BFDC5AA4CD867956AB943835D91E68C1DC2F30E6380C8AA121519F47965",
+    "e32_flagged_pairs": "8B29D0D7C7B0D2CEF0CE5B05628E30255419323D5D28442056A22793E387369B",
+    "e32_aggregation_summary": "47FC019F784C7C74FC07C8484F96F78372434E9B5E758E0C6C81C1A59B4EB44E",
+    "e32_aggregated_scores": "196AB74839161607BF303DACDACCC889E284E328FE437DC57894484AB45A7198",
+    "receptor_manifest": "FBB92AB50C8AE00955D463E6E0F7ECBF2D3826E64878D3C00095BF5E0824124C",
+    "ligand_manifest": "54ABDDC4882E4F78B123B46084C235F21CBF7784D0171B8076E1F93433AEFB25",
+    "e32_config": "66C74410ED27CB04671B8D56C12FF0BA83C57641C5FDB039BDB5203A8EBEE5ED",
+    "e64_config": "2870E0F8DF3DC4D52E5ECA421985DD8779A5FA69780553FBB8B9102835ADB3A6",
+    "vina_executable": "F31F774F723BBA7BBE6E9D1C47577020EEA9A8DA16424284C043D22593570644"
+  },
+  "source_archive": {
+    "filename": "stage05_mk14_expanded8_train160_e32_core_results_v1.tar.gz",
+    "sha256": "0BED344CEEA19FB68CF302ECBC80B12C1A07C9CC4CE71C7DDDB0E1F3FE91A5C5"
+  },
+  "selection": {
+    "rule": "include every pair rejected by the frozen e32 two-of-three consensus gate",
+    "expected_case_count": 14,
+    "label_used_for_selection": false
+  },
+  "seed_replicates": [
+    {"replicate_id": "seed0", "base_seed": 20260801},
+    {"replicate_id": "seed1", "base_seed": 20260802},
+    {"replicate_id": "seed2", "base_seed": 20260803}
+  ],
+  "execution": {
+    "workers": 16,
+    "max_total_cpu": 32,
+    "expected_vina_runs": 42
+  },
+  "e64_consensus_gate": {
+    "maximum_consensus_delta_kcal_per_mol": 0.5,
+    "minimum_consensus_replicates_per_pair": 2,
+    "maximum_allowed_median_minus_minimum_kcal_per_mol": 0.5,
+    "maximum_allowed_nonnegative_median_score_pairs": 0,
+    "all_cases_must_pass": true,
+    "passing_action": "support a future complete uniform e64 matrix recomputation; do not rescue or modify the e32 matrix",
+    "failure_action": "stop and reconsider search settings before any QUBO fit"
+  },
+  "outputs": {
+    "run_directory": "results/runs/stage05_mk14_expanded8_train160_e64_consensus_diagnostics",
+    "raw_runs_csv": "results/runs/stage05_mk14_expanded8_train160_e64_consensus_diagnostics/raw_runs.csv",
+    "case_summary_csv": "results/runs/stage05_mk14_expanded8_train160_e64_consensus_diagnostics/case_summary.csv",
+    "summary_json": "results/runs/stage05_mk14_expanded8_train160_e64_consensus_diagnostics/summary.json"
+  },
+  "interpretation_boundary": "This label-independent diagnostic chooses search strength only. It does not replace e32 cells, authorize the rejected e32 matrix, calculate enrichment, fit QUBO, sample validation, release test, establish affinity, or demonstrate quantum advantage."
+}

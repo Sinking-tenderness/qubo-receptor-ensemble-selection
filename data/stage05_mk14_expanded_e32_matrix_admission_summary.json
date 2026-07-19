@@ -1,0 +1,59 @@
+{
+  "schema_version": "1.0",
+  "status": "e32_matrix_admission_rejected",
+  "amendment": {
+    "path": "configs/stage05_mk14_expanded_train_search_protocol_amendment01.json",
+    "sha256": "760D227723C1EF3E499BB4A2CACC56D726FE0DD272763C62D1757E8CB966980E"
+  },
+  "aggregation_summary": {
+    "path": "results/runs/stage05_mk14_expanded8_train160_e32_aggregated/summary.json",
+    "sha256": "47FC019F784C7C74FC07C8484F96F78372434E9B5E758E0C6C81C1A59B4EB44E"
+  },
+  "thresholds": {
+    "required_seed_count": 3,
+    "required_failed_pairs_per_seed": 0,
+    "required_validation_rows": 0,
+    "required_test_rows": 0,
+    "maximum_allowed_nonnegative_median_score_pairs": 0,
+    "consensus_definition": "a replicate agrees when its score is no more than 0.5 kcal/mol above the minimum score for that receptor-ligand pair",
+    "maximum_consensus_delta_kcal_per_mol": 0.5,
+    "minimum_consensus_replicates_per_pair": 2,
+    "maximum_allowed_median_minus_minimum_kcal_per_mol": 0.5,
+    "raw_maximum_minus_minimum_range": "reported as a sensitivity diagnostic but not a rejection criterion because one isolated unfavorable seed is tolerated by the frozen median aggregation",
+    "all_pairs_must_pass": true,
+    "failure_action": "stop before QUBO fitting; run label-independent e64 diagnostics on every failed consensus pair and do not selectively replace cells"
+  },
+  "audit": {
+    "aggregated_pair_count": 1280,
+    "ligand_count": 160,
+    "receptor_count": 8,
+    "seed_count": 3,
+    "nonnegative_median_score_pair_count": 0,
+    "insufficient_consensus_pair_count": 14,
+    "excessive_median_minus_minimum_pair_count": 14,
+    "flagged_pair_count": 14,
+    "minimum_consensus_replicate_count": 1,
+    "median_minus_minimum_kcal_per_mol": {
+      "median": 0.017999999999998906,
+      "maximum": 1.3470000000000013
+    },
+    "raw_seed_range_kcal_per_mol": {
+      "median": 0.04499999999999993,
+      "maximum": 1.8399999999999999
+    },
+    "admission_passed": false
+  },
+  "original_e16_matrix_cells_reused": 0,
+  "e32_cells_selectively_replaced": 0,
+  "qubo_fitted": false,
+  "enrichment_metrics_calculated": false,
+  "validation_rows_read": 0,
+  "test_rows_read": 0,
+  "outputs": {
+    "flagged_pairs_csv": {
+      "path": "data/processed/stage05_mk14_expanded_e32_matrix_flagged_pairs.csv",
+      "sha256": "8B29D0D7C7B0D2CEF0CE5B05628E30255419323D5D28442056A22793E387369B"
+    }
+  },
+  "interpretation_note": "This amendment repairs search reliability using label-independent evidence. It cannot establish enrichment, receptor complementarity, biological activity, affinity accuracy, QUBO benefit, test performance, or quantum advantage."
+}

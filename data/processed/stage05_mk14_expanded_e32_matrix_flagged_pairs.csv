@@ -1,0 +1,15 @@
+ligand_id,receptor_id,selection_role,flag_reasons,minimum_seed_score,median_seed_score,maximum_seed_score,consensus_replicate_count,median_minus_minimum,maximum_minus_minimum
+MK14_active_L000082,MK14_3K3J_aligned,development_train,insufficient_consensus_replicates;median_minus_minimum_exceeded,-10.38,-9.862,-9.861,1,0.5180000000000007,0.5190000000000001
+MK14_active_L000328,MK14_3OCG_aligned,development_train,insufficient_consensus_replicates;median_minus_minimum_exceeded,-9.485,-8.983,-8.908,1,0.5019999999999989,0.577
+MK14_active_L000340,MK14_3OCG_aligned,development_train,insufficient_consensus_replicates;median_minus_minimum_exceeded,-10.76,-9.625,-9.614,1,1.1349999999999998,1.145999999999999
+MK14_active_L000345,MK14_3K3J_aligned,development_train,insufficient_consensus_replicates;median_minus_minimum_exceeded,-8.507,-7.489,-7.108,1,1.0179999999999998,1.399
+MK14_active_L000348,MK14_1A9U_aligned,development_train,insufficient_consensus_replicates;median_minus_minimum_exceeded,-10.65,-9.838,-9.766,1,0.8120000000000012,0.8840000000000003
+MK14_active_L000553,MK14_3K3J_aligned,development_train,insufficient_consensus_replicates;median_minus_minimum_exceeded,-10.76,-10.04,-9.751,1,0.7200000000000006,1.0090000000000003
+MK14_decoy_L018641,MK14_2BAJ_aligned,development_train,insufficient_consensus_replicates;median_minus_minimum_exceeded,-9.049,-8.462,-8.4,1,0.5869999999999997,0.6489999999999991
+MK14_decoy_L019224,MK14_3KQ7_aligned,development_train,insufficient_consensus_replicates;median_minus_minimum_exceeded,-10.6,-10.09,-9.999,1,0.5099999999999998,0.6009999999999991
+MK14_decoy_L019326,MK14_3K3J_aligned,development_train,insufficient_consensus_replicates;median_minus_minimum_exceeded,-9.646,-8.299,-8.281,1,1.3470000000000013,1.3650000000000002
+MK14_decoy_L021947,MK14_2BAJ_aligned,development_train,insufficient_consensus_replicates;median_minus_minimum_exceeded,-9.979,-9.306,-9.29,1,0.673,0.6890000000000001
+MK14_decoy_L025924,MK14_3OCG_aligned,development_train,insufficient_consensus_replicates;median_minus_minimum_exceeded,-8.669,-8.094,-7.853,1,0.5750000000000011,0.8160000000000007
+MK14_decoy_L029808,MK14_1A9U_aligned,development_train,insufficient_consensus_replicates;median_minus_minimum_exceeded,-7.136,-6.52,-6.395,1,0.6160000000000005,0.7410000000000005
+MK14_decoy_L032372,MK14_3K3J_aligned,development_train,insufficient_consensus_replicates;median_minus_minimum_exceeded,-8.032,-7.374,-7.374,1,0.6580000000000004,0.6580000000000004
+MK14_decoy_L032372,MK14_3KQ7_aligned,development_train,insufficient_consensus_replicates;median_minus_minimum_exceeded,-8.317,-7.697,-7.676,1,0.6200000000000001,0.641
