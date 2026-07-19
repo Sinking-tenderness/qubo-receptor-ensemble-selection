@@ -1,0 +1,53 @@
+{
+  "authorization_id": "stage05-mk14-expanded8-train348a348d-e32-20260719-v1",
+  "config": {
+    "path": "configs/stage05_mk14_expanded_train696_preregistration.json",
+    "sha256": "38DFC6E8D1B6E0276654EC57909902A4631837A61355118BFBDD284B8663B907"
+  },
+  "inputs": {
+    "existing_prepared_manifest": {
+      "path": "data/processed/stage05_mk14_expanded_train_80a80d_pdbqt_manifest.csv",
+      "sha256": "54ABDDC4882E4F78B123B46084C235F21CBF7784D0171B8076E1F93433AEFB25"
+    },
+    "expanded_panel_csv": {
+      "path": "data/processed/stage05_mk14_expanded_train_348a348d.csv",
+      "sha256": "02681C468FF8B8432385028843AFCC1E633FE789708C6C0DF23B166FF7E9C71C"
+    },
+    "new_prepared_manifest": {
+      "path": "data/processed/stage05_mk14_expanded_train_new_268a268d_pdbqt_manifest.csv",
+      "sha256": "BD98F170DEB941EEB7A5271B2906676CB9B95FB492566180F99872928332F143"
+    }
+  },
+  "interpretation_note": "This preregistration authorizes deterministic train-panel expansion, preparation of 536 new train ligands, and later CPU docking under the unchanged e32 protocol. It does not authorize validation/test access, enrichment calculation before matrix admission, selective score replacement, affinity or activity claims, QUBO benefit, or quantum advantage.",
+  "next_gate": "All 696 selected ligands must have audited PDBQT files before a remote e32 docking bundle is created. Development-validation and test remain unavailable.",
+  "output": {
+    "combined_pdbqt_manifest_csv": {
+      "path": "data/processed/stage05_mk14_expanded_train_348a348d_pdbqt_manifest.csv",
+      "sha256": "ED697E2D0BC0C0B125FE1C30E0DF417F0B329DEE6817D841A997B5A0728FD98F"
+    }
+  },
+  "panel": {
+    "label_counts": {
+      "active": 348,
+      "decoy": 348
+    },
+    "ligand_count": 696,
+    "new_prepared_ligands": 536,
+    "nonzero_formal_charge_count": 126,
+    "pdbqt_status_counts": {
+      "ok": 696
+    },
+    "reused_prepared_ligands": 160,
+    "sdf_preparation_status_counts": {
+      "ok": 666,
+      "warning": 30
+    },
+    "selection_role_counts": {
+      "development_train_expanded": 696
+    },
+    "test_rows": 0,
+    "validation_rows": 0
+  },
+  "schema_version": "1.0",
+  "status": "expanded_train696_preparation_ok_remote_docking_pending"
+}

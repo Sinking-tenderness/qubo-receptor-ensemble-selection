@@ -1,0 +1,46 @@
+{
+  "authorization_id": "stage05-mk14-expanded8-train348a348d-e32-20260719-v1",
+  "config": {
+    "path": "configs/stage05_mk14_expanded_train696_preregistration.json",
+    "sha256": "38DFC6E8D1B6E0276654EC57909902A4631837A61355118BFBDD284B8663B907"
+  },
+  "interpretation_note": "This preregistration authorizes deterministic train-panel expansion, preparation of 536 new train ligands, and later CPU docking under the unchanged e32 protocol. It does not authorize validation/test access, enrichment calculation before matrix admission, selective score replacement, affinity or activity claims, QUBO benefit, or quantum advantage.",
+  "next_gate": "All 696 selected ligands must have audited PDBQT files before a remote e32 docking bundle is created. Development-validation and test remain unavailable.",
+  "outputs": {
+    "expanded_panel_csv": {
+      "path": "data/processed/stage05_mk14_expanded_train_348a348d.csv",
+      "sha256": "02681C468FF8B8432385028843AFCC1E633FE789708C6C0DF23B166FF7E9C71C"
+    },
+    "new_ligands_csv": {
+      "path": "data/processed/stage05_mk14_expanded_train_new_268a268d.csv",
+      "sha256": "12AB49DDF13B6740DEE6E4B8B2A2F81296B1E20BF22E9ED8A24E759BAFE995BC"
+    }
+  },
+  "panel": {
+    "existing_panel_rows_retained": 160,
+    "label_counts": {
+      "active": 348,
+      "decoy": 348
+    },
+    "new_label_counts": {
+      "active": 268,
+      "decoy": 268
+    },
+    "new_row_count": 536,
+    "row_count": 696,
+    "selection_role_counts": {
+      "development_train_expanded": 696
+    },
+    "test_rows": 0,
+    "unique_split_group_count": 696,
+    "validation_rows": 0
+  },
+  "schema_version": "1.0",
+  "source_counts": {
+    "train_active": 348,
+    "train_active_groups": 348,
+    "train_decoy": 21469,
+    "train_decoy_groups": 19206
+  },
+  "status": "expanded_train696_panel_ok_preparation_pending"
+}

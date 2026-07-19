@@ -1,0 +1,45 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage05-mk14-expanded8-train536new-e32-seed0-linux-v1",
+  "purpose": "Run paired seed zero for only the 536 newly prepared MAPK14 development-train ligands using all eight receptors and the unchanged e32 protocol.",
+  "inputs": {
+    "receptor_manifest": "data/processed/stage05_mk14_expanded8_receptor_manifest.csv",
+    "ligand_manifest": "data/processed/stage05_mk14_expanded_train_new_268a268d_pdbqt_manifest.csv",
+    "vina_executable": "environment/bin/vina_1.2.7_linux_x86_64",
+    "vina_config": "configs/stage05_mk14_expanded_train_e32_cpu2.txt",
+    "parallel_runner": "scripts/batch_vina_docking_parallel.py",
+    "score_matrix_module": "scripts/build_score_matrix.py"
+  },
+  "input_sha256": {
+    "receptor_manifest": "FBB92AB50C8AE00955D463E6E0F7ECBF2D3826E64878D3C00095BF5E0824124C",
+    "ligand_manifest": "BD98F170DEB941EEB7A5271B2906676CB9B95FB492566180F99872928332F143",
+    "vina_executable": "F31F774F723BBA7BBE6E9D1C47577020EEA9A8DA16424284C043D22593570644",
+    "vina_config": "66C74410ED27CB04671B8D56C12FF0BA83C57641C5FDB039BDB5203A8EBEE5ED",
+    "parallel_runner": "D30E87EFCDDA77F545CE16D4208581660DEA2EC79C07E45AD2516CB45ACB9556",
+    "score_matrix_module": "F9301E06EBB125EA508B955CCBC685D6B48038D191AB90903D5928E2E161775A"
+  },
+  "expected_receptor_count": 8,
+  "expected_ligand_count": 536,
+  "expected_label_counts": {"active": 268, "decoy": 268},
+  "docking": {
+    "workers": 32,
+    "max_total_cpu": 64,
+    "base_seed": 20260801,
+    "representative_method": "pose_rank_1"
+  },
+  "search_quality_warnings": {
+    "flag_nonnegative_scores": true,
+    "maximum_delta_from_ligand_median_kcal_per_mol": 5.0
+  },
+  "outputs": {
+    "run_directory": "results/runs/stage05_mk14_expanded8_train536new_e32_seed0_linux",
+    "audited_ligand_manifest_csv": "results/runs/stage05_mk14_expanded8_train536new_e32_seed0_linux/audited_ligands.csv",
+    "receptor_run_manifest_csv": "results/runs/stage05_mk14_expanded8_train536new_e32_seed0_linux/receptor_runs.csv",
+    "combined_raw_scores_csv": "results/runs/stage05_mk14_expanded8_train536new_e32_seed0_linux/raw_scores.csv",
+    "representative_long_csv": "results/runs/stage05_mk14_expanded8_train536new_e32_seed0_linux/representative_scores.csv",
+    "score_matrix_csv": "results/runs/stage05_mk14_expanded8_train536new_e32_seed0_linux/score_matrix.csv",
+    "search_warnings_csv": "results/runs/stage05_mk14_expanded8_train536new_e32_seed0_linux/search_warnings.csv",
+    "summary_json": "results/runs/stage05_mk14_expanded8_train536new_e32_seed0_linux/summary.json"
+  },
+  "interpretation_boundary": "This run contains only newly prepared development-train-expanded ligands. It is one paired e32 seed replicate and is not interpreted alone. Validation and test remain unavailable."
+}

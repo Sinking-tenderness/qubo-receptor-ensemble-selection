@@ -1,0 +1,59 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage05-mk14-expanded8-train536new-e32-three-seed-aggregation-v1",
+  "purpose": "Aggregate three paired e32 seeds for only the 536 newly prepared MAPK14 development-train-expanded ligands.",
+  "ligand_manifest": {
+    "path": "data/processed/stage05_mk14_expanded_train_new_268a268d_pdbqt_manifest.csv",
+    "sha256": "BD98F170DEB941EEB7A5271B2906676CB9B95FB492566180F99872928332F143"
+  },
+  "seed_runs": [
+    {
+      "seed_id": "seed0",
+      "base_seed": 20260801,
+      "config_path": "configs/stage05_mk14_expanded8_train536new_e32_seed0_linux.json",
+      "config_sha256": "24C66D4E6884FF76379D34BF770E2C53493B20D6BEB6034BB747C3033EEBA77A",
+      "summary_path": "results/runs/stage05_mk14_expanded8_train536new_e32_seed0_linux/summary.json",
+      "representative_scores_path": "results/runs/stage05_mk14_expanded8_train536new_e32_seed0_linux/representative_scores.csv"
+    },
+    {
+      "seed_id": "seed1",
+      "base_seed": 20260802,
+      "config_path": "configs/stage05_mk14_expanded8_train536new_e32_seed1_linux.json",
+      "config_sha256": "833C9B28AEE4BC32A760B9DCAA64CE931F6BBA5361D1FF6BA283B9F6BC894D30",
+      "summary_path": "results/runs/stage05_mk14_expanded8_train536new_e32_seed1_linux/summary.json",
+      "representative_scores_path": "results/runs/stage05_mk14_expanded8_train536new_e32_seed1_linux/representative_scores.csv"
+    },
+    {
+      "seed_id": "seed2",
+      "base_seed": 20260803,
+      "config_path": "configs/stage05_mk14_expanded8_train536new_e32_seed2_linux.json",
+      "config_sha256": "3252CA768D3984C3E071D725FE1BA9F8C448B51731A65DA7C23FF07AB591968C",
+      "summary_path": "results/runs/stage05_mk14_expanded8_train536new_e32_seed2_linux/summary.json",
+      "representative_scores_path": "results/runs/stage05_mk14_expanded8_train536new_e32_seed2_linux/representative_scores.csv"
+    }
+  ],
+  "expected": {
+    "seed_count": 3,
+    "receptor_count": 8,
+    "ligand_count": 536,
+    "receptor_ligand_pairs_per_seed": 4288,
+    "allowed_selection_roles": ["development_train_expanded"],
+    "role_label_counts": {
+      "development_train_expanded:active": 268,
+      "development_train_expanded:decoy": 268
+    }
+  },
+  "aggregation": {
+    "representative_method": "pose_rank_1",
+    "primary": "median representative score across three paired seeds",
+    "sensitivity": "minimum representative score across three paired seeds",
+    "score_direction": "lower is better; ranking score is the negated docking score"
+  },
+  "outputs": {
+    "aggregated_long_csv": "results/runs/stage05_mk14_expanded8_train536new_e32_aggregated/aggregated_seed_scores.csv",
+    "primary_median_matrix_csv": "results/runs/stage05_mk14_expanded8_train536new_e32_aggregated/primary_median_score_matrix.csv",
+    "sensitivity_minimum_matrix_csv": "results/runs/stage05_mk14_expanded8_train536new_e32_aggregated/sensitivity_minimum_score_matrix.csv",
+    "summary_json": "results/runs/stage05_mk14_expanded8_train536new_e32_aggregated/summary.json"
+  },
+  "interpretation_boundary": "Aggregation creates new-ligand development-train e32 evidence only. It does not read validation/test rows, authorize enrichment analysis, or establish QUBO benefit."
+}

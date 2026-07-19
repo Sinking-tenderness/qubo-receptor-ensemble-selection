@@ -1,0 +1,55 @@
+{
+  "schema_version": "1.0",
+  "status": "remote_bundle_ok_docking_pending",
+  "authorization_id": "stage05-mk14-expanded8-train348a348d-e32-20260719-v1",
+  "archive": {
+    "filename": "stage05_mk14_expanded8_train696_e32_remote_v1.tar.gz",
+    "workspace_relative_location": "../stage05_mk14_expanded8_train696_e32_remote_v1.tar.gz",
+    "size_bytes": 2729912,
+    "sha256": "216C6D1B61E0A5691A95F96F53056EF6DABDB111A953BCCC526A7612A984D4EC",
+    "source_file_count": 581,
+    "archive_entry_count": 582,
+    "internal_manifest_hash_failures": 0,
+    "deterministic_rebuild_sha256_identical": true
+  },
+  "panel": {
+    "receptor_count": 8,
+    "full_ligand_count": 696,
+    "label_counts": {
+      "active": 348,
+      "decoy": 348
+    },
+    "reused_ligand_count": 160,
+    "new_ligand_count": 536,
+    "validation_rows": 0,
+    "test_rows": 0
+  },
+  "execution": {
+    "vina_version": "1.2.7",
+    "exhaustiveness": 32,
+    "num_modes": 1,
+    "base_seeds": [
+      20260801,
+      20260802,
+      20260803
+    ],
+    "workers": 32,
+    "cpu_threads_per_worker": 2,
+    "recommended_vcpu": "64-96",
+    "recommended_memory_gib_minimum": 64,
+    "gpu_required": false,
+    "estimated_wall_hours": "13-26",
+    "reused_vina_jobs": 3840,
+    "new_vina_jobs": 12864,
+    "complete_seed_cells": 16704
+  },
+  "audit": {
+    "new_pdbqt_files_validated": 536,
+    "receptor_files_included": 8,
+    "reused_aggregate_pairs_revalidated": 1280,
+    "e64_diagnostic_values_permitted": 0,
+    "resume_enabled": true
+  },
+  "expected_result_archive": "stage05_mk14_expanded8_train696_e32_core_results_v1.tar.gz",
+  "interpretation_note": "The bundle is ready for CPU docking of only the 536 new development-train ligands. Bundle creation does not calculate enrichment, access validation/test rows, or establish QUBO benefit or quantum advantage."
+}
