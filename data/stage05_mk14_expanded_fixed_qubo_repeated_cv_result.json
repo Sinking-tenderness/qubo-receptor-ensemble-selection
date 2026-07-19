@@ -1,0 +1,140 @@
+{
+  "acceptance_checks": {
+    "every_seed_nonworse_repeat_fraction_vs_linear": false,
+    "full_train_seed_fit_pairwise_jaccard": true,
+    "full_train_subset_differs_from_matched_linear": true,
+    "median_fold_seed_fit_pairwise_jaccard": true,
+    "median_mean_seed_bedroc_delta_vs_linear": false,
+    "median_mean_seed_fixed_subset_percentile": true,
+    "median_primary_bedroc_delta_vs_linear": false,
+    "median_primary_bedroc_delta_vs_single_best": false,
+    "median_primary_fixed_subset_percentile": true,
+    "minimum_selected_subset_size": true,
+    "nonconstant_noncardinality_quadratic_terms": true,
+    "primary_nonworse_repeat_fraction_vs_linear": false,
+    "q25_worst_seed_bedroc_delta_vs_linear": false,
+    "q25_worst_seed_bedroc_delta_vs_single_best": false
+  },
+  "authorization_id": "stage05-mk14-expanded8-train160-fixed-qubo-repeated-cv-20260719-v1",
+  "data_boundary": {
+    "active": 80,
+    "decoy": 80,
+    "development_train_ligands": 160,
+    "e32_cells_replaced": 0,
+    "e32_seed_matrices": 3,
+    "e64_scores_used_in_matrix": 0,
+    "receptors": 8,
+    "test_rows_read": 0,
+    "validation_rows_read": 0
+  },
+  "fixed_candidate": {
+    "aggregation": "min_score",
+    "family": "discriminative_qubo",
+    "target_size": 3,
+    "weights": {
+      "active_coverage": 0.0,
+      "active_overlap": 1.0,
+      "decoy_exposure": 0.5,
+      "redundancy": 1.0,
+      "stability": 1.5
+    }
+  },
+  "full_train_refit": {
+    "matched_linear_subset": [
+      "MK14_2BAJ_aligned",
+      "MK14_3KQ7_aligned",
+      "MK14_3MPT_aligned"
+    ],
+    "noncardinality_quadratic": {
+      "maximum_absolute": 2.0,
+      "range": 2.0,
+      "term_count": 28,
+      "terms": {
+        "MK14_1A9U_aligned__MK14_2BAJ_aligned": 0.8367003429700404,
+        "MK14_1A9U_aligned__MK14_2QD9_reference": 0.49990422261468836,
+        "MK14_1A9U_aligned__MK14_3K3J_aligned": 0.8025829207575015,
+        "MK14_1A9U_aligned__MK14_3KQ7_aligned": 0.6685606192686464,
+        "MK14_1A9U_aligned__MK14_3MPT_aligned": 0.5536724345105526,
+        "MK14_1A9U_aligned__MK14_3OCG_aligned": 0.7849394907289593,
+        "MK14_1A9U_aligned__MK14_4F9W_aligned": 1.0732146023781368,
+        "MK14_2BAJ_aligned__MK14_2QD9_reference": 0.0,
+        "MK14_2BAJ_aligned__MK14_3K3J_aligned": 1.5840678507080739,
+        "MK14_2BAJ_aligned__MK14_3KQ7_aligned": 1.610052704026927,
+        "MK14_2BAJ_aligned__MK14_3MPT_aligned": 0.21165550509145703,
+        "MK14_2BAJ_aligned__MK14_3OCG_aligned": 0.4012165081530483,
+        "MK14_2BAJ_aligned__MK14_4F9W_aligned": 0.7124543136155879,
+        "MK14_2QD9_reference__MK14_3K3J_aligned": 0.23832463415809002,
+        "MK14_2QD9_reference__MK14_3KQ7_aligned": 0.1548560503987133,
+        "MK14_2QD9_reference__MK14_3MPT_aligned": 1.165030799344727,
+        "MK14_2QD9_reference__MK14_3OCG_aligned": 0.9827717165283616,
+        "MK14_2QD9_reference__MK14_4F9W_aligned": 0.4395584700695352,
+        "MK14_3K3J_aligned__MK14_3KQ7_aligned": 2.0,
+        "MK14_3K3J_aligned__MK14_3MPT_aligned": 0.4167766848300758,
+        "MK14_3K3J_aligned__MK14_3OCG_aligned": 0.5683576227404359,
+        "MK14_3K3J_aligned__MK14_4F9W_aligned": 0.7111723849339242,
+        "MK14_3KQ7_aligned__MK14_3MPT_aligned": 0.4174333255633158,
+        "MK14_3KQ7_aligned__MK14_3OCG_aligned": 0.7220062982867077,
+        "MK14_3KQ7_aligned__MK14_4F9W_aligned": 0.5366756639447416,
+        "MK14_3MPT_aligned__MK14_3OCG_aligned": 1.083627409929207,
+        "MK14_3MPT_aligned__MK14_4F9W_aligned": 0.6769106941616201,
+        "MK14_3OCG_aligned__MK14_4F9W_aligned": 0.6946457032540039
+      }
+    },
+    "seed_pairwise_jaccard": {
+      "maximum": 1.0,
+      "mean": 0.6666666666666666,
+      "minimum": 0.5
+    },
+    "seed_specific_subsets": {
+      "seed0": [
+        "MK14_2BAJ_aligned",
+        "MK14_3KQ7_aligned",
+        "MK14_3MPT_aligned"
+      ],
+      "seed1": [
+        "MK14_2QD9_reference",
+        "MK14_3KQ7_aligned",
+        "MK14_3MPT_aligned"
+      ],
+      "seed2": [
+        "MK14_2QD9_reference",
+        "MK14_3KQ7_aligned",
+        "MK14_3MPT_aligned"
+      ]
+    },
+    "subset": [
+      "MK14_2QD9_reference",
+      "MK14_3KQ7_aligned",
+      "MK14_3MPT_aligned"
+    ]
+  },
+  "gate_passed": false,
+  "implementation": {
+    "path": "scripts/run_stage05_mk14_fixed_qubo_repeated_cv.py",
+    "sha256": "8102290E92D3F81B1BD7C31535B22D84FBC315E8D1655FDAB7EB827DA53EBC08"
+  },
+  "interpretation_note": "A pass would show that one already-disclosed fixed QUBO candidate is robust to repeated train-only scaffold partitions and may be nominated for a separately preregistered development-validation experiment. It would not erase post hoc selection bias, validate the candidate, release test ligands, establish affinity or biological activity, prove cross-target generalization, or demonstrate quantum advantage.",
+  "next_action": "Do not tune the 160-ligand matrix again; expand the development-train ligand matrix before further QUBO selection.",
+  "preregistration": {
+    "path": "configs/stage05_mk14_expanded_fixed_qubo_repeated_cv_preregistration.json",
+    "sha256": "2BF41840EF6239AEBDAFC99B09552C2245E6FAE19FFDB97B41C96218D9EFB569"
+  },
+  "repeat_stability": {
+    "every_seed_nonworse_repeat_fraction_vs_linear": 0.25,
+    "median_fold_seed_fit_pairwise_jaccard": 0.8333333333333333,
+    "median_mean_seed_bedroc_delta_vs_linear": -0.02060092831883842,
+    "median_mean_seed_fixed_subset_percentile": 0.7678571428571429,
+    "median_primary_bedroc_delta_vs_linear": -0.023607987486038706,
+    "median_primary_bedroc_delta_vs_single_best": -0.008796276268609848,
+    "median_primary_fixed_subset_percentile": 0.7946428571428572,
+    "primary_nonworse_repeat_fraction_vs_linear": 0.25,
+    "q25_worst_seed_bedroc_delta_vs_linear": -0.039333825809251044,
+    "q25_worst_seed_bedroc_delta_vs_single_best": -0.06173649648224189,
+    "quartile_method": "nearest_rank",
+    "repeat_count": 20
+  },
+  "schema_version": "1.0",
+  "status": "fixed_qubo_repeated_cv_failed_validation_unavailable",
+  "test_status": "locked_unreleased",
+  "validation_status": "unavailable_not_evaluated"
+}
