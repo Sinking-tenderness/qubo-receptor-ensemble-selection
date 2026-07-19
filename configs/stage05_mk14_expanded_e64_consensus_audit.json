@@ -1,0 +1,33 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage05-mk14-expanded8-train160-e64-consensus-independent-audit-v1",
+  "purpose": "Independently verify the targeted e64 protocol-selection diagnostics and preserve their negative escalation decision.",
+  "inputs": {
+    "diagnostic_config": "configs/stage05_mk14_expanded_e64_consensus_diagnostics.json",
+    "diagnostic_summary": "results/runs/stage05_mk14_expanded8_train160_e64_consensus_diagnostics/summary.json",
+    "raw_runs": "results/runs/stage05_mk14_expanded8_train160_e64_consensus_diagnostics/raw_runs.csv",
+    "case_summary": "results/runs/stage05_mk14_expanded8_train160_e64_consensus_diagnostics/case_summary.csv"
+  },
+  "input_sha256": {
+    "diagnostic_config": "B78DF4943C172F62D2EAB73DFA9268AB07AD889C75486873E3F04DCABC4AAF86",
+    "diagnostic_summary": "E7360F4C2AC4B5AE6EF04EAED8C65446334088F26AA2522F4C213650A2013BF8",
+    "raw_runs": "1C91DF0C405C1FFE84B853BEBAD88FC8BA8C287451B91DD46025615189DC6999",
+    "case_summary": "38D6A0E691F709FF72C14E9678572E7E5684AC1394B9F53025DDB1A7F416BC37"
+  },
+  "source_archive": {
+    "filename": "stage05_mk14_expanded8_train160_e64_consensus_diagnostics_v1.tar.gz",
+    "sha256": "5418D34911E4741B37600F36A67F983D8FAFD0795979530B5CB921381CE01ACB"
+  },
+  "expected": {
+    "summary_status": "e64_diagnostics_inconclusive",
+    "case_count": 14,
+    "run_count": 42,
+    "successful_run_count": 42,
+    "consensus_passed_case_count": 10,
+    "persistent_case_count": 4
+  },
+  "outputs": {
+    "summary_json": "data/stage05_mk14_expanded_e64_consensus_audit_summary.json"
+  },
+  "interpretation_boundary": "This audit verifies e64 execution and the negative protocol-selection result. It does not authorize e32/e64 cell replacement, a complete e64 run, enrichment calculation, QUBO fitting, validation sampling, test release, affinity claims, or quantum advantage."
+}

@@ -1,0 +1,55 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage05-mk14-expanded8-train160-e64-consensus-independent-audit-v1",
+  "status": "independent_e64_audit_ok_uniform_e64_not_supported",
+  "config": {
+    "path": "configs/stage05_mk14_expanded_e64_consensus_audit.json",
+    "sha256": "C0E7567B9BD603E9E44608D8CE9609C314E2064255B866BFE40735FE553609EF"
+  },
+  "source_archive": {
+    "filename": "stage05_mk14_expanded8_train160_e64_consensus_diagnostics_v1.tar.gz",
+    "sha256": "5418D34911E4741B37600F36A67F983D8FAFD0795979530B5CB921381CE01ACB"
+  },
+  "run_count": 42,
+  "successful_run_count": 42,
+  "case_count": 14,
+  "consensus_passed_case_count": 10,
+  "persistent_case_count": 4,
+  "persistent_case_ids": [
+    "MK14_active_L000328__MK14_3OCG_aligned",
+    "MK14_active_L000340__MK14_3OCG_aligned",
+    "MK14_decoy_L018641__MK14_2BAJ_aligned",
+    "MK14_decoy_L019326__MK14_3K3J_aligned"
+  ],
+  "cross_protocol_median_delta_kcal_per_mol": {
+    "maximum_all_cases": 0.8590000000000009,
+    "count_above_0_5": 5,
+    "maximum_persistent_cases": 0.017999999999998906
+  },
+  "persistent_case_pose_geometry": {
+    "MK14_active_L000328__MK14_3OCG_aligned": {
+      "maximum_fixed_order_rmsd_angstrom": 7.784947090756774,
+      "absolute_e32_e64_median_delta_kcal_per_mol": 0.015000000000000568
+    },
+    "MK14_active_L000340__MK14_3OCG_aligned": {
+      "maximum_fixed_order_rmsd_angstrom": 9.494717827382845,
+      "absolute_e32_e64_median_delta_kcal_per_mol": 0.0
+    },
+    "MK14_decoy_L018641__MK14_2BAJ_aligned": {
+      "maximum_fixed_order_rmsd_angstrom": 10.678342325874903,
+      "absolute_e32_e64_median_delta_kcal_per_mol": 0.0
+    },
+    "MK14_decoy_L019326__MK14_3K3J_aligned": {
+      "maximum_fixed_order_rmsd_angstrom": 13.735655435227477,
+      "absolute_e32_e64_median_delta_kcal_per_mol": 0.017999999999998906
+    }
+  },
+  "complete_uniform_e64_recomputation_supported": false,
+  "e32_matrix_cells_replaced": 0,
+  "qubo_fitted": false,
+  "enrichment_metrics_calculated": false,
+  "validation_rows_read": 0,
+  "test_rows_read": 0,
+  "recommended_action": "stop brute-force exhaustiveness escalation and preregister an uncertainty-aware train-only receptor-selection gate using the unchanged uniform e32 seed matrices",
+  "interpretation_note": "This audit verifies e64 execution and the negative protocol-selection result. It does not authorize e32/e64 cell replacement, a complete e64 run, enrichment calculation, QUBO fitting, validation sampling, test release, affinity claims, or quantum advantage."
+}
