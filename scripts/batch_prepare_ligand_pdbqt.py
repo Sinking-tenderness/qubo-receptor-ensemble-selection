@@ -87,6 +87,21 @@ def parse_pdbqt(pdbqt_path: Path) -> dict[str, object]:
     }
 
 
+def validated_existing_pdbqt(pdbqt_path: Path) -> dict[str, object] | None:
+    if not pdbqt_path.is_file():
+        return None
+    parsed = parse_pdbqt(pdbqt_path)
+    if int(parsed["pdbqt_atom_count"]) <= 0 or parsed["torsdof"] == "":
+        return None
+    return {
+        "pdbqt_status": "ok",
+        "pdbqt_message": "meeko_existing_validated",
+        "pdbqt_path": pdbqt_path.as_posix(),
+        "pdbqt_sha256": file_sha256(pdbqt_path),
+        **parsed,
+    }
+
+
 def run_meeko(meeko_script: Path, sdf_path: Path, pdbqt_path: Path) -> subprocess.CompletedProcess[str]:
     cmd = [
         sys.executable,
@@ -121,6 +136,11 @@ def build_parser() -> argparse.ArgumentParser:
         "--include-warning-sdf",
         action="store_true",
         help="Prepare SDF rows marked warning in the 3D manifest.",
+    )
+    parser.add_argument(
+        "--resume-existing",
+        action="store_true",
+        help="Validate and reuse complete existing PDBQT files.",
     )
     return parser
 
@@ -169,6 +189,12 @@ def main() -> int:
             )
             continue
 
+        if args.resume_existing:
+            existing = validated_existing_pdbqt(pdbqt_path)
+            if existing is not None:
+                output_rows.append({**row, **existing})
+                continue
+
         completed = run_meeko(meeko_script, sdf_path, pdbqt_path)
         combined_output = "\n".join(
             part.strip() for part in [completed.stdout, completed.stderr] if part.strip()
@@ -203,6 +229,10 @@ def main() -> int:
     print(f"input_rows={len(rows)}")
     for status, count in sorted(counts.items()):
         print(f"{status}={count}")
+    print(
+        "reused_existing="
+        f"{sum(row.get('pdbqt_message') == 'meeko_existing_validated' for row in output_rows)}"
+    )
     print(f"meeko_script={meeko_script}")
     print(f"pdbqt_dir={args.pdbqt_dir}")
     print(f"manifest={args.output_manifest}")
