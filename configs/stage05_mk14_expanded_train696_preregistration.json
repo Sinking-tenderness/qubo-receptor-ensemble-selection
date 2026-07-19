@@ -1,0 +1,93 @@
+{
+  "schema_version": "1.0",
+  "authorization_id": "stage05-mk14-expanded8-train348a348d-e32-20260719-v1",
+  "created_on": "2026-07-19",
+  "target_id": "MK14",
+  "purpose": "Expand the MAPK14 development-train matrix after the 80-active/80-decoy matrix failed fixed-candidate repeated-CV stability.",
+  "decision_evidence": {
+    "path": "data/stage05_mk14_expanded_fixed_qubo_repeated_cv_result.json",
+    "sha256": "F78C7B0AA156A4C2AFE466F273632A829D5AC685444DB8B605CE031B74C13904",
+    "required_status": "fixed_qubo_repeated_cv_failed_validation_unavailable"
+  },
+  "inputs": {
+    "grouped_scaffold_split": {
+      "path": "data/processed/stage05_mk14_grouped_scaffold_split.csv",
+      "sha256": "20818CB9088DBFCB1098D57C9CBA1979B109F3CCE0C9A4D60B7D34D3BB64AE71"
+    },
+    "existing_train_panel": {
+      "path": "data/processed/stage05_mk14_development_train_80a80d.csv",
+      "sha256": "3A2CDDE4A0DAB3DB11A3F5219C106E5900DFB42F4D7FAAE6064F547383058639"
+    },
+    "existing_prepared_manifest": {
+      "path": "data/processed/stage05_mk14_expanded_train_80a80d_pdbqt_manifest.csv",
+      "sha256": "54ABDDC4882E4F78B123B46084C235F21CBF7784D0171B8076E1F93433AEFB25"
+    },
+    "receptor_manifest": {
+      "path": "data/processed/stage05_mk14_expanded8_receptor_manifest.csv",
+      "sha256": "FBB92AB50C8AE00955D463E6E0F7ECBF2D3826E64878D3C00095BF5E0824124C"
+    }
+  },
+  "source_audit": {
+    "train_active_rows": 348,
+    "train_active_unique_split_groups": 348,
+    "train_decoy_rows": 21469,
+    "train_decoy_unique_split_groups": 19206,
+    "validation_rows_permitted": 0,
+    "test_rows_permitted": 0
+  },
+  "panel_selection": {
+    "active_rule": "include every active row in the frozen train split",
+    "decoy_rule": "retain every existing 80a80d train decoy, then shuffle remaining train decoys after ligand_id sorting with Python random.Random and admit the first rows from previously unused split_group_id values until 348 decoys are present",
+    "additional_decoy_seed": 20261301,
+    "selection_role": "development_train_expanded",
+    "required_existing_panel_subset": true,
+    "target_active_count": 348,
+    "target_decoy_count": 348,
+    "target_total_count": 696,
+    "new_active_count": 268,
+    "new_decoy_count": 268,
+    "new_total_count": 536
+  },
+  "ligand_preparation": {
+    "existing_160_prepared_files_reused": true,
+    "new_ligands_only": 536,
+    "rdkit_3d_seed": 20261310,
+    "rdkit_embedding": "ETKDGv3 with explicit hydrogens and useRandomCoords=true",
+    "optimization": "MMFF94 when parameters are available, otherwise UFF; maximum 500 iterations; non-convergence warnings retained",
+    "pdbqt": "Meeko 0.7.1; warning SDF rows included; failures retained and matrix execution blocked until resolved"
+  },
+  "docking": {
+    "vina_version": "1.2.7",
+    "scoring": "vina",
+    "exhaustiveness": 32,
+    "num_modes": 1,
+    "cpu_per_process": 2,
+    "base_seeds": [
+      20260801,
+      20260802,
+      20260803
+    ],
+    "receptor_count": 8,
+    "total_ligand_count": 696,
+    "new_ligand_count": 536,
+    "existing_receptor_ligand_seed_results_reused": 3840,
+    "new_receptor_ligand_seed_jobs": 12864,
+    "complete_matrix_receptor_ligand_seed_cells": 16704,
+    "primary_aggregation": "median across three seeds",
+    "sensitivity_aggregation": "minimum across three seeds",
+    "reuse_boundary": "Only exact existing e32 receptor-ligand-seed results with matching receptor, ligand PDBQT, Vina protocol, and score hashes may be reused. No e64 diagnostic value may enter the matrix."
+  },
+  "outputs": {
+    "expanded_panel_csv": "data/processed/stage05_mk14_expanded_train_348a348d.csv",
+    "new_ligands_csv": "data/processed/stage05_mk14_expanded_train_new_268a268d.csv",
+    "panel_summary_json": "data/stage05_mk14_expanded_train696_panel_summary.json",
+    "new_3d_manifest_csv": "data/processed/stage05_mk14_expanded_train_new_268a268d_3d_manifest.csv",
+    "new_pdbqt_manifest_csv": "data/processed/stage05_mk14_expanded_train_new_268a268d_pdbqt_manifest.csv",
+    "combined_pdbqt_manifest_csv": "data/processed/stage05_mk14_expanded_train_348a348d_pdbqt_manifest.csv",
+    "preparation_summary_json": "data/stage05_mk14_expanded_train696_preparation_summary.json",
+    "new_sdf_directory": "results/runs/stage05_mk14_expanded_train696_ligands/sdf",
+    "new_pdbqt_directory": "results/runs/stage05_mk14_expanded_train696_ligands/pdbqt"
+  },
+  "next_gate": "All 696 selected ligands must have audited PDBQT files before a remote e32 docking bundle is created. Development-validation and test remain unavailable.",
+  "interpretation_boundary": "This preregistration authorizes deterministic train-panel expansion, preparation of 536 new train ligands, and later CPU docking under the unchanged e32 protocol. It does not authorize validation/test access, enrichment calculation before matrix admission, selective score replacement, affinity or activity claims, QUBO benefit, or quantum advantage."
+}
