@@ -1,0 +1,104 @@
+{
+  "schema_version": "1.0",
+  "authorization_id": "stage05-mk14-expanded8-train160-uncertainty-qubo-gate-20260719-v1",
+  "status": "train_uncertainty_qubo_gate_failed_validation_unavailable",
+  "preregistration": {
+    "path": "configs/stage05_mk14_expanded_uncertainty_qubo_gate_preregistration.json",
+    "sha256": "C57AA3B377BEA2D05504EE10E6E6B59B01331718AE4DFC4A327FF907AC65327F"
+  },
+  "implementation": {
+    "path": "scripts/run_stage05_mk14_uncertainty_qubo_gate.py",
+    "sha256": "732E9DF3F9C2466D17AFA3EC35D9FC1AB47CF8A9894364AB38DF5BD32F3806F9"
+  },
+  "source_outputs": {
+    "summary": {
+      "path": "results/runs/stage05_mk14_expanded_uncertainty_qubo_gate/summary.json",
+      "sha256": "54E1822E660837D71F77BD17668D5F39E83FFA3AC3AC8C70E1A2CE013791CE75"
+    },
+    "candidate_protocol": {
+      "path": "results/runs/stage05_mk14_expanded_uncertainty_qubo_gate/candidate_protocol.json",
+      "sha256": "DF3CC885E07CE438B8745456A9936C79B54D013176E47FDC3D071658DF6F6846"
+    }
+  },
+  "data_boundary": {
+    "development_train_ligands": 160,
+    "active": 80,
+    "decoy": 80,
+    "receptors": 8,
+    "e32_seed_matrices": 3,
+    "e32_cells_replaced": 0,
+    "e64_scores_used_in_matrix": 0,
+    "validation_rows_read": 0,
+    "test_rows_read": 0
+  },
+  "selected_qubo": {
+    "family": "discriminative_qubo",
+    "target_size": 3,
+    "aggregation": "min_score",
+    "weights": {
+      "active_coverage": 1.0,
+      "decoy_exposure": 1.5,
+      "active_overlap": 0.0,
+      "redundancy": 1.0,
+      "stability": 0.5
+    },
+    "subset": [
+      "MK14_3K3J_aligned",
+      "MK14_3KQ7_aligned",
+      "MK14_3MPT_aligned"
+    ],
+    "matched_linear_top_k_subset": [
+      "MK14_2BAJ_aligned",
+      "MK14_3K3J_aligned",
+      "MK14_3KQ7_aligned"
+    ],
+    "outer_seed_fit_mean_pairwise_jaccard": 0.9166666666666666,
+    "final_seed_fit_mean_pairwise_jaccard": 0.6666666666666666,
+    "noncardinality_quadratic_maximum_absolute": 1.0,
+    "noncardinality_quadratic_range": 1.0
+  },
+  "oof_bedroc_alpha_20": {
+    "primary_median": {
+      "uncertainty_qubo": 0.8405220293309208,
+      "matched_linear_top_k": 0.8723713007122375,
+      "delta": -0.03184927138131666
+    },
+    "seed0": {
+      "uncertainty_qubo": 0.8323323654515407,
+      "matched_linear_top_k": 0.8752193855223825,
+      "delta": -0.042887020070841886
+    },
+    "seed1": {
+      "uncertainty_qubo": 0.849186855401776,
+      "matched_linear_top_k": 0.8783497969446,
+      "delta": -0.02916294154282406
+    },
+    "seed2": {
+      "uncertainty_qubo": 0.8613364964199544,
+      "matched_linear_top_k": 0.8723502641047677,
+      "delta": -0.011013767684813325
+    },
+    "mean_seed_delta": -0.027687909766159757,
+    "worst_seed_delta": -0.042887020070841886
+  },
+  "acceptance_checks": {
+    "minimum_selected_subset_size": true,
+    "noncardinality_quadratic_terms": true,
+    "selected_subset_differs_from_matched_linear": true,
+    "outer_seed_fit_mean_pairwise_jaccard": true,
+    "final_seed_fit_mean_pairwise_jaccard": true,
+    "primary_median_bedroc_delta": false,
+    "mean_seed_bedroc_delta": false,
+    "worst_seed_bedroc_delta": false
+  },
+  "exact_fixed_subset_context": {
+    "subset_count": 56,
+    "primary_bedroc_percentile": 0.7857142857142857,
+    "mean_seed_bedroc_percentile": 0.8392857142857143,
+    "worst_seed_bedroc_percentile": 0.7857142857142857,
+    "random_numbers_used": false
+  },
+  "failure_interpretation": "The selected QUBO is non-degenerate and seed-stable, but its redundancy penalty replaces the strong MK14_2BAJ_aligned singleton with MK14_3MPT_aligned. The resulting subset is less redundant yet ranks actives worse than its matched linear top-k comparator on the median matrix and every individual seed.",
+  "next_action": "Keep validation unavailable. Run a train-only candidate-level failure diagnostic to determine whether any frozen-grid non-degenerate QUBO can beat its own matched linear comparator; do not tune or promote from the final non-nested CV values.",
+  "interpretation_boundary": "This is a failed train-only method gate. It does not invalidate the docking matrices, validate a receptor subset, authorize development-validation docking, release test ligands, establish affinity or biological activity, or demonstrate quantum advantage."
+}
