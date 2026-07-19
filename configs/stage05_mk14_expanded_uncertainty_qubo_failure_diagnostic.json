@@ -1,0 +1,44 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage05-mk14-expanded8-train160-uncertainty-qubo-candidate-failure-diagnostic-v1",
+  "purpose": "Scan every frozen uncertainty-QUBO candidate against its own matched linear top-k comparator to determine whether the failed nested gate reflects candidate-family failure or candidate-selection failure.",
+  "inputs": {
+    "preregistration": "configs/stage05_mk14_expanded_uncertainty_qubo_gate_preregistration.json",
+    "tracked_gate_result": "data/stage05_mk14_expanded_uncertainty_qubo_gate_result.json",
+    "gate_summary": "results/runs/stage05_mk14_expanded_uncertainty_qubo_gate/summary.json"
+  },
+  "input_sha256": {
+    "preregistration": "C57AA3B377BEA2D05504EE10E6E6B59B01331718AE4DFC4A327FF907AC65327F",
+    "tracked_gate_result": "B606652829BD08A637322E45F0D96791A52F3E7182C67D05CF16D4E8FEEC8F37",
+    "gate_summary": "54E1822E660837D71F77BD17668D5F39E83FFA3AC3AC8C70E1A2CE013791CE75"
+  },
+  "expected": {
+    "failed_gate_status": "train_uncertainty_qubo_gate_failed_validation_unavailable",
+    "candidate_count": 576,
+    "fold_count": 4,
+    "ligand_count": 160,
+    "validation_rows": 0,
+    "test_rows": 0
+  },
+  "diagnostic_classification": {
+    "performance_checks": [
+      "primary median OOF BEDROC delta versus the candidate's matched linear top-k is at least zero",
+      "mean individual-seed OOF BEDROC delta is at least zero",
+      "every individual-seed OOF BEDROC delta is at least zero"
+    ],
+    "structural_checks": [
+      "the full-train QUBO subset differs from its matched linear top-k subset",
+      "mean seed-specific subset pairwise Jaccard across folds is at least 0.5",
+      "full-train seed-specific subset pairwise Jaccard is at least 0.5"
+    ],
+    "family_viable_definition": "at least one frozen candidate passes every performance and structural diagnostic check",
+    "family_failure_definition": "no frozen candidate passes every performance and structural diagnostic check"
+  },
+  "outputs": {
+    "run_directory": "results/runs/stage05_mk14_expanded_uncertainty_qubo_failure_diagnostic",
+    "candidate_diagnostics_csv": "results/runs/stage05_mk14_expanded_uncertainty_qubo_failure_diagnostic/candidate_diagnostics.csv",
+    "summary_json": "results/runs/stage05_mk14_expanded_uncertainty_qubo_failure_diagnostic/summary.json",
+    "tracked_summary_json": "data/stage05_mk14_expanded_uncertainty_qubo_failure_diagnostic_summary.json"
+  },
+  "interpretation_boundary": "This is a label-aware post hoc diagnostic on the already-used 160 development-train ligands. It cannot retroactively pass the failed gate, select a validation candidate, authorize validation docking, read validation/test rows, or establish biological, affinity, generalization, QUBO-benefit, or quantum-advantage claims."
+}
