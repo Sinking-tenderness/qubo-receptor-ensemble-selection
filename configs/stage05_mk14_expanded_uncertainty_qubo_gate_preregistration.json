@@ -1,0 +1,177 @@
+{
+  "schema_version": "1.0",
+  "authorization_id": "stage05-mk14-expanded8-train160-uncertainty-qubo-gate-20260719-v1",
+  "created_on": "2026-07-19",
+  "target_id": "MK14",
+  "purpose": "Freeze a train-only uncertainty-aware receptor-selection gate after targeted e64 diagnostics showed reproducible median scores but persistent alternative pose basins.",
+  "protocol_amendment": {
+    "superseded_stop_condition": "all 1280 receptor-ligand cells must pass the two-of-three minimum-score consensus gate before any train-only selection analysis",
+    "reason": "Targeted e64 diagnostics completed 42 of 42 jobs, rescued 10 of 14 flagged pairs, and left four pairs with e32-to-e64 median changes no larger than 0.018 kcal/mol despite 7.78 to 13.74 angstrom pose separations. Further uniform exhaustiveness escalation is therefore not supported as a remedy for alternative stochastic pose basins.",
+    "authorized_matrix": "the unchanged uniform three-seed e32 matrices",
+    "forbidden_actions": [
+      "selectively replace an e32 cell with an e64 value",
+      "run a complete e64 matrix without a new preregistration",
+      "delete or relabel unstable receptor-ligand pairs",
+      "read development-validation or locked-test scores during this gate"
+    ]
+  },
+  "inputs": {
+    "aggregate_summary": "results/runs/stage05_mk14_expanded8_train160_e32_aggregated/summary.json",
+    "aggregated_seed_scores": "results/runs/stage05_mk14_expanded8_train160_e32_aggregated/aggregated_seed_scores.csv",
+    "primary_median_matrix": "results/runs/stage05_mk14_expanded8_train160_e32_aggregated/primary_median_score_matrix.csv",
+    "sensitivity_minimum_matrix": "results/runs/stage05_mk14_expanded8_train160_e32_aggregated/sensitivity_minimum_score_matrix.csv",
+    "ligand_manifest": "data/processed/stage05_mk14_expanded_train_80a80d_pdbqt_manifest.csv",
+    "receptor_manifest": "data/processed/stage05_mk14_expanded8_receptor_manifest.csv",
+    "e32_admission_summary": "data/stage05_mk14_expanded_e32_matrix_admission_summary.json",
+    "e64_consensus_audit": "data/stage05_mk14_expanded_e64_consensus_audit_summary.json"
+  },
+  "input_sha256": {
+    "aggregate_summary": "47FC019F784C7C74FC07C8484F96F78372434E9B5E758E0C6C81C1A59B4EB44E",
+    "aggregated_seed_scores": "196AB74839161607BF303DACDACCC889E284E328FE437DC57894484AB45A7198",
+    "primary_median_matrix": "9E9619B7D99FA3527A8212ED8511FC19813B3434A32DCF129EF075355629F4E7",
+    "sensitivity_minimum_matrix": "ECCA33F6B3D9D71FA7FD45794757EEBC8BB89122B8108C4056F4FC9E8FD4AA61",
+    "ligand_manifest": "54ABDDC4882E4F78B123B46084C235F21CBF7784D0171B8076E1F93433AEFB25",
+    "receptor_manifest": "FBB92AB50C8AE00955D463E6E0F7ECBF2D3826E64878D3C00095BF5E0824124C",
+    "e32_admission_summary": "E23C7BFDC5AA4CD867956AB943835D91E68C1DC2F30E6380C8AA121519F47965",
+    "e64_consensus_audit": "B65CB4CEFE115220ABA5341B73C1F18C14F1DD70D0FF015A402AF31ECF2914C2"
+  },
+  "receptor_ids": [
+    "MK14_1A9U_aligned",
+    "MK14_2BAJ_aligned",
+    "MK14_2QD9_reference",
+    "MK14_3K3J_aligned",
+    "MK14_3KQ7_aligned",
+    "MK14_3MPT_aligned",
+    "MK14_3OCG_aligned",
+    "MK14_4F9W_aligned"
+  ],
+  "expected": {
+    "ligand_count": 160,
+    "label_counts": {
+      "active": 80,
+      "decoy": 80
+    },
+    "allowed_selection_roles": [
+      "development_train"
+    ],
+    "allowed_source_splits": [
+      "train"
+    ],
+    "receptor_count": 8,
+    "receptor_ligand_pair_count": 1280,
+    "seed_ids": [
+      "seed0",
+      "seed1",
+      "seed2"
+    ],
+    "seed_score_columns": {
+      "seed0": "seed0_representative_score",
+      "seed1": "seed1_representative_score",
+      "seed2": "seed2_representative_score"
+    },
+    "validation_rows": 0,
+    "test_rows": 0
+  },
+  "cross_validation": {
+    "data": "development_train only",
+    "outer_fold_count": 4,
+    "inner_fold_count_per_outer_split": 3,
+    "group_column": "split_group_id",
+    "fold_seed": 20261119,
+    "normalization": "fit independent per-receptor min-max bounds on each matrix and training fold only",
+    "primary_matrix": "three-seed median",
+    "sensitivity_matrices": [
+      "three-seed minimum",
+      "seed0",
+      "seed1",
+      "seed2"
+    ],
+    "tuning_order": [
+      "maximize worst individual-seed mean inner-fold BEDROC",
+      "maximize primary median-matrix mean inner-fold BEDROC",
+      "maximize mean individual-seed BEDROC",
+      "maximize primary PR-AUC then ROC-AUC",
+      "maximize seed-specific subset Jaccard stability",
+      "prefer smaller and lower-weight deterministic configurations"
+    ]
+  },
+  "model": {
+    "utility_metric": "bedroc",
+    "coverage_fraction": 0.1,
+    "subset_sizes": [
+      2,
+      3
+    ],
+    "aggregation_methods": [
+      "min_score",
+      "mean_score"
+    ],
+    "size_penalty": 20.0,
+    "qubo_families": [
+      "coverage_qubo",
+      "discriminative_qubo"
+    ],
+    "seed_stability_definition": "negative population standard deviation of normalized singleton BEDROC across seed0, seed1, and seed2; min-max scaled so more stable receptors receive larger rewards",
+    "weight_grids": {
+      "active_coverage": [
+        0.0,
+        1.0,
+        2.0
+      ],
+      "decoy_exposure_discriminative": [
+        0.5,
+        1.5
+      ],
+      "active_overlap": [
+        0.0,
+        1.0,
+        2.0
+      ],
+      "redundancy": [
+        0.0,
+        1.0,
+        2.0
+      ],
+      "seed_stability": [
+        0.5,
+        1.5
+      ]
+    },
+    "candidate_filter": "at least one non-cardinality quadratic weight, active_overlap or redundancy, must be positive"
+  },
+  "baselines": [
+    "single_best",
+    "matched_linear_top_k_from_the_selected_qubo_linear_coefficients",
+    "nested_train_selected_exhaustive",
+    "nested_train_selected_greedy",
+    "all_receptors",
+    "exact_fixed_subset_distribution_at_the_final_k_and_aggregation"
+  ],
+  "acceptance": {
+    "all_checks_required": true,
+    "minimum_selected_subset_size": 2,
+    "require_noncardinality_quadratic_terms": true,
+    "require_selected_subset_differs_from_matched_linear_top_k": true,
+    "minimum_primary_median_bedroc_delta_vs_matched_linear": 0.0,
+    "minimum_mean_seed_bedroc_delta_vs_matched_linear": 0.0,
+    "minimum_worst_seed_bedroc_delta_vs_matched_linear": 0.0,
+    "minimum_outer_seed_fit_mean_pairwise_jaccard": 0.5,
+    "minimum_final_seed_fit_mean_pairwise_jaccard": 0.5,
+    "validation_remains_unavailable_after_pass": true,
+    "test_remains_locked_after_pass": true
+  },
+  "outputs": {
+    "run_directory": "results/runs/stage05_mk14_expanded_uncertainty_qubo_gate",
+    "cell_uncertainty_csv": "results/runs/stage05_mk14_expanded_uncertainty_qubo_gate/cell_seed_uncertainty.csv",
+    "receptor_uncertainty_csv": "results/runs/stage05_mk14_expanded_uncertainty_qubo_gate/receptor_seed_uncertainty.csv",
+    "fold_assignments_csv": "results/runs/stage05_mk14_expanded_uncertainty_qubo_gate/fold_assignments.csv",
+    "outer_fold_results_csv": "results/runs/stage05_mk14_expanded_uncertainty_qubo_gate/outer_fold_results.csv",
+    "oof_scores_csv": "results/runs/stage05_mk14_expanded_uncertainty_qubo_gate/oof_scores.csv",
+    "method_metrics_csv": "results/runs/stage05_mk14_expanded_uncertainty_qubo_gate/method_metrics.csv",
+    "final_tuning_trials_csv": "results/runs/stage05_mk14_expanded_uncertainty_qubo_gate/final_tuning_trials.csv",
+    "exact_random_subsets_csv": "results/runs/stage05_mk14_expanded_uncertainty_qubo_gate/exact_fixed_subset_distribution.csv",
+    "candidate_protocol_json": "results/runs/stage05_mk14_expanded_uncertainty_qubo_gate/candidate_protocol.json",
+    "summary_json": "results/runs/stage05_mk14_expanded_uncertainty_qubo_gate/summary.json"
+  },
+  "interpretation_boundary": "This amendment authorizes one label-aware analysis on the 160 development-train ligands only. A pass would establish a non-degenerate, seed-robust train-only QUBO candidate and justify a separate decision about docking the frozen development-validation ligands. It would not validate the candidate, release test ligands, establish affinity accuracy or biological activity, prove cross-target generalization, or demonstrate quantum advantage."
+}
