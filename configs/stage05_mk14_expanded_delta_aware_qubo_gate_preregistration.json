@@ -1,0 +1,90 @@
+{
+  "schema_version": "1.0",
+  "authorization_id": "stage05-mk14-expanded8-train160-delta-aware-qubo-gate-20260719-v1",
+  "created_on": "2026-07-19",
+  "target_id": "MK14",
+  "purpose": "Freeze a second train-only nested gate whose inner selector optimizes robust paired QUBO improvement over each candidate's own matched linear top-k comparator.",
+  "development_history": {
+    "original_preregistration": {
+      "path": "configs/stage05_mk14_expanded_uncertainty_qubo_gate_preregistration.json",
+      "sha256": "C57AA3B377BEA2D05504EE10E6E6B59B01331718AE4DFC4A327FF907AC65327F"
+    },
+    "failed_gate_result": {
+      "path": "data/stage05_mk14_expanded_uncertainty_qubo_gate_result.json",
+      "sha256": "B606652829BD08A637322E45F0D96791A52F3E7182C67D05CF16D4E8FEEC8F37",
+      "required_status": "train_uncertainty_qubo_gate_failed_validation_unavailable"
+    },
+    "posthoc_candidate_diagnostic": {
+      "path": "data/stage05_mk14_expanded_uncertainty_qubo_failure_diagnostic_summary.json",
+      "sha256": "D32DDE733A36044C78DA9564A2709B975D3D58B18EE1AB0466AAFF1DABA06AC5",
+      "required_status": "posthoc_candidate_family_contains_viable_train_candidate"
+    },
+    "disclosure": "This second selector was designed after observing the failed first gate and the train-only post hoc candidate scan. Its nested OOF result is development evidence, not an independent validation result."
+  },
+  "frozen_inputs": "inherit every score matrix, ligand, receptor, fold seed, QUBO family, weight grid, normalization rule, and uncertainty definition from the original preregistration without alteration",
+  "cross_validation": {
+    "data": "the same 160 development_train ligands only",
+    "outer_fold_count": 4,
+    "inner_fold_count_per_outer_split": 3,
+    "group_column": "split_group_id",
+    "fold_seed": 20261119,
+    "normalization": "fit independent per-receptor min-max bounds on each matrix and training fold only",
+    "validation_rows_available": 0,
+    "test_rows_available": 0
+  },
+  "candidate_space": {
+    "inherit_original_576_candidates": true,
+    "new_weights_or_subsets_added": false,
+    "eligible_inner_candidate_checks": {
+      "minimum_inner_contexts_where_qubo_subset_differs_from_matched_linear": 1,
+      "minimum_mean_seed_specific_subset_pairwise_jaccard": 0.5
+    }
+  },
+  "inner_selection_order": [
+    "maximize the minimum individual-seed mean inner-fold BEDROC delta between QUBO and matched linear top-k",
+    "maximize primary median-matrix mean inner-fold BEDROC delta",
+    "maximize mean individual-seed BEDROC delta",
+    "maximize QUBO worst individual-seed absolute BEDROC",
+    "maximize QUBO primary BEDROC, PR-AUC, then ROC-AUC",
+    "maximize seed-specific subset Jaccard stability",
+    "prefer smaller, lower-weight, deterministic configurations"
+  ],
+  "baselines": [
+    "matched_linear_top_k_from_each_selected_qubo",
+    "single_best",
+    "nested_train_selected_exhaustive",
+    "nested_train_selected_greedy",
+    "all_receptors",
+    "exact_fixed_subset_distribution_at_the_final_k_and_aggregation"
+  ],
+  "acceptance": {
+    "all_checks_required": true,
+    "minimum_selected_subset_size": 2,
+    "require_nonconstant_noncardinality_quadratic_terms": true,
+    "require_final_subset_differs_from_matched_linear": true,
+    "minimum_primary_bedroc_delta_vs_matched_linear": 0.0,
+    "minimum_mean_seed_bedroc_delta_vs_matched_linear": 0.0,
+    "minimum_every_seed_bedroc_delta_vs_matched_linear": 0.0,
+    "minimum_primary_bedroc_delta_vs_single_best": 0.0,
+    "minimum_every_seed_bedroc_delta_vs_single_best": 0.0,
+    "minimum_outer_seed_fit_mean_pairwise_jaccard": 0.5,
+    "minimum_final_seed_fit_mean_pairwise_jaccard": 0.5,
+    "minimum_primary_exact_fixed_subset_percentile": 0.5,
+    "minimum_mean_seed_exact_fixed_subset_percentile": 0.5,
+    "validation_remains_unavailable_after_pass": true,
+    "test_remains_locked_after_pass": true
+  },
+  "outputs": {
+    "run_directory": "results/runs/stage05_mk14_expanded_delta_aware_qubo_gate",
+    "fold_assignments_csv": "results/runs/stage05_mk14_expanded_delta_aware_qubo_gate/fold_assignments.csv",
+    "outer_fold_results_csv": "results/runs/stage05_mk14_expanded_delta_aware_qubo_gate/outer_fold_results.csv",
+    "oof_scores_csv": "results/runs/stage05_mk14_expanded_delta_aware_qubo_gate/oof_scores.csv",
+    "method_metrics_csv": "results/runs/stage05_mk14_expanded_delta_aware_qubo_gate/method_metrics.csv",
+    "final_tuning_trials_csv": "results/runs/stage05_mk14_expanded_delta_aware_qubo_gate/final_tuning_trials.csv",
+    "exact_fixed_subset_distribution_csv": "results/runs/stage05_mk14_expanded_delta_aware_qubo_gate/exact_fixed_subset_distribution.csv",
+    "candidate_protocol_json": "results/runs/stage05_mk14_expanded_delta_aware_qubo_gate/candidate_protocol.json",
+    "summary_json": "results/runs/stage05_mk14_expanded_delta_aware_qubo_gate/summary.json",
+    "tracked_result_json": "data/stage05_mk14_expanded_delta_aware_qubo_gate_result.json"
+  },
+  "interpretation_boundary": "A pass would show that a fully specified delta-aware algorithm produces a non-degenerate, seed-robust train-only QUBO benefit under nested OOF evaluation. Because the rule was developed after train-only diagnostics, it would only nominate a candidate for one separate development-validation experiment. It would not validate that candidate, release test ligands, establish affinity or biological activity, prove cross-target generalization, or demonstrate quantum advantage."
+}
