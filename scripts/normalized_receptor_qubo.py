@@ -30,6 +30,21 @@ def minmax_terms(values: dict[str, float]) -> dict[str, float]:
     }
 
 
+def maxabs_terms(values: dict[str, float]) -> dict[str, float]:
+    """Scale signed terms without turning negative evidence into a reward."""
+    if not values:
+        raise ValueError("cannot normalize an empty term map")
+    if any(not math.isfinite(float(value)) for value in values.values()):
+        raise ValueError("QUBO term map contains a nonfinite value")
+    maximum_absolute = max(abs(float(value)) for value in values.values())
+    if maximum_absolute == 0.0:
+        return {key: 0.0 for key in values}
+    return {
+        key: float(value) / maximum_absolute
+        for key, value in values.items()
+    }
+
+
 def build_normalized_terms(
     rows: list[dict[str, object]],
     receptor_ids: list[str],
@@ -51,6 +66,7 @@ def build_normalized_terms(
         "ef5": "EF5%",
     }[utility_metric]
     utility_raw: dict[str, float] = {}
+    singleton_bedroc_raw: dict[str, float] = {}
     score_columns: dict[str, list[float]] = {}
     active_sets: dict[str, set[str]] = {}
     decoy_sets: dict[str, set[str]] = {}
@@ -62,8 +78,10 @@ def build_normalized_terms(
             }
             for row in rows
         }
-        utility_raw[receptor_id] = float(
-            ranked_metrics_with_ids(data)[metric_key]
+        metrics = ranked_metrics_with_ids(data)
+        utility_raw[receptor_id] = float(metrics[metric_key])
+        singleton_bedroc_raw[receptor_id] = float(
+            metrics["bedroc_alpha_20"]
         )
         score_columns[receptor_id] = [
             float(row[receptor_id]) for row in rows
@@ -87,6 +105,8 @@ def build_normalized_terms(
     active_overlap_raw: dict[str, float] = {}
     pair_ensemble_utility_mean_raw: dict[str, float] = {}
     pair_ensemble_utility_min_raw: dict[str, float] = {}
+    pair_ensemble_synergy_mean_raw: dict[str, float] = {}
+    pair_ensemble_synergy_min_raw: dict[str, float] = {}
     for first, second in itertools.combinations(receptor_ids, 2):
         key = f"{first}__{second}"
         correlation = float(
@@ -118,9 +138,19 @@ def build_normalized_terms(
         pair_ensemble_utility_min_raw[key] = float(
             ranked_metrics_with_ids(pair_min_data)["bedroc_alpha_20"]
         )
+        stronger_singleton = max(
+            singleton_bedroc_raw[first], singleton_bedroc_raw[second]
+        )
+        pair_ensemble_synergy_mean_raw[key] = (
+            pair_ensemble_utility_mean_raw[key] - stronger_singleton
+        )
+        pair_ensemble_synergy_min_raw[key] = (
+            pair_ensemble_utility_min_raw[key] - stronger_singleton
+        )
 
     raw = {
         "utility": utility_raw,
+        "singleton_bedroc": singleton_bedroc_raw,
         "active_coverage": active_coverage_raw,
         "decoy_exposure": decoy_exposure_raw,
         "redundancy": redundancy_raw,
@@ -128,9 +158,17 @@ def build_normalized_terms(
         "pair_ensemble_utility": pair_ensemble_utility_mean_raw,
         "pair_ensemble_utility_mean_score": pair_ensemble_utility_mean_raw,
         "pair_ensemble_utility_min_score": pair_ensemble_utility_min_raw,
+        "pair_ensemble_synergy": pair_ensemble_synergy_mean_raw,
+        "pair_ensemble_synergy_mean_score": pair_ensemble_synergy_mean_raw,
+        "pair_ensemble_synergy_min_score": pair_ensemble_synergy_min_raw,
     }
     normalized = {
-        name: minmax_terms(values) for name, values in raw.items()
+        name: (
+            maxabs_terms(values)
+            if name.startswith("pair_ensemble_synergy")
+            else minmax_terms(values)
+        )
+        for name, values in raw.items()
     }
     return {
         "utility_metric": utility_metric,
@@ -165,7 +203,11 @@ def build_coefficients(
         "active_overlap",
         "redundancy",
     }
-    optional_weights = {"ensemble_pair_utility", "stability"}
+    optional_weights = {
+        "ensemble_pair_utility",
+        "ensemble_pair_synergy",
+        "stability",
+    }
     if not required_weights.issubset(weights) or not set(weights).issubset(
         required_weights | optional_weights
     ):
@@ -181,6 +223,8 @@ def build_coefficients(
     redundancy = normalized["redundancy"]
     pair_ensemble_utility = normalized.get("pair_ensemble_utility", {})
     pair_utility_weight = float(weights.get("ensemble_pair_utility", 0.0))
+    pair_ensemble_synergy = normalized.get("pair_ensemble_synergy", {})
+    pair_synergy_weight = float(weights.get("ensemble_pair_synergy", 0.0))
     stability = normalized.get("stability", {})
     stability_weight = float(weights.get("stability", 0.0))
 
@@ -202,6 +246,8 @@ def build_coefficients(
             + float(weights["redundancy"]) * float(redundancy[key])
             - pair_utility_weight
             * float(pair_ensemble_utility.get(key, 0.0))
+            - pair_synergy_weight
+            * float(pair_ensemble_synergy.get(key, 0.0))
             + 2.0 * size_penalty
         )
         for key in active_overlap

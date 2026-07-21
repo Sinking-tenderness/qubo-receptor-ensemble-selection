@@ -6,6 +6,7 @@ from scripts.run_stage05_mk14_uncertainty_qubo_gate import (
     jaccard,
     load_config,
     matched_linear_top_k,
+    pair_synergy_terms_for_aggregation,
     pair_utility_terms_for_aggregation,
     pairwise_jaccard,
     qubo_candidate_configs,
@@ -18,6 +19,9 @@ CONFIG = Path(
 )
 PAIR_CONFIG = Path(
     "configs/stage05_mk14_train696_pair_utility_qubo_gate_preregistration.json"
+)
+SYNERGY_CONFIG = Path(
+    "configs/stage05_mk14_train696_pair_synergy_qubo_gate_preregistration.json"
 )
 
 
@@ -94,6 +98,42 @@ def test_pair_utility_preregistration_freezes_dual_baseline_gate() -> None:
         ]
         == 0.0
     )
+
+
+def test_pair_synergy_grid_is_small_signed_and_aggregation_aligned() -> None:
+    config = load_config(SYNERGY_CONFIG)
+    candidates = qubo_candidate_configs(config["model"])
+
+    assert len(candidates) == config["model"]["candidate_count"] == 24
+    assert all(
+        candidate["weights"]["ensemble_pair_synergy"] > 0.0
+        and candidate["weights"]["ensemble_pair_utility"] == 0.0
+        and candidate["weights"]["active_overlap"] == 0.0
+        and candidate["weights"]["redundancy"] == 0.0
+        for candidate in candidates
+    )
+    assert config["expected"]["validation_rows"] == 0
+    assert config["expected"]["test_rows"] == 0
+
+    terms = {
+        "raw": {
+            "pair_ensemble_synergy": {"R1__R2": -0.4},
+            "pair_ensemble_synergy_min_score": {"R1__R2": 0.2},
+            "pair_ensemble_synergy_mean_score": {"R1__R2": -0.1},
+        },
+        "normalized": {
+            "pair_ensemble_synergy": {"R1__R2": -1.0},
+            "pair_ensemble_synergy_min_score": {"R1__R2": 0.5},
+            "pair_ensemble_synergy_mean_score": {"R1__R2": -0.25},
+        },
+    }
+    selected = pair_synergy_terms_for_aggregation(terms, "min_score")
+    assert selected["normalized"]["pair_ensemble_synergy"] == {
+        "R1__R2": 0.5
+    }
+    assert terms["normalized"]["pair_ensemble_synergy"] == {
+        "R1__R2": -1.0
+    }
 
 
 def test_stability_reward_prefers_lower_seed_dispersion() -> None:

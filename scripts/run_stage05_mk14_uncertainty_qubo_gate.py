@@ -122,6 +122,7 @@ def load_config(path: Path) -> dict[str, object]:
         "coverage_qubo",
         "discriminative_qubo",
         "pair_utility_qubo",
+        "pair_synergy_qubo",
     }
     if (
         not families
@@ -149,6 +150,14 @@ def load_config(path: Path) -> dict[str, object]:
             or any(float(value) <= 0.0 for value in values)
         ):
             raise ValueError("pair ensemble utility grid is invalid")
+    if "pair_synergy_qubo" in families:
+        values = grids.get("ensemble_pair_synergy")
+        if (
+            not isinstance(values, list)
+            or not values
+            or any(float(value) <= 0.0 for value in values)
+        ):
+            raise ValueError("pair ensemble synergy grid is invalid")
     if acceptance.get("all_checks_required") is not True:
         raise ValueError("every uncertainty gate check must be required")
     if acceptance.get("validation_remains_unavailable_after_pass") is not True:
@@ -453,6 +462,30 @@ def qubo_candidate_configs(model: dict[str, object]) -> list[dict[str, object]]:
     assert isinstance(grids, dict)
     candidates: list[dict[str, object]] = []
     for family in model["qubo_families"]:
+        if family == "pair_synergy_qubo":
+            for target_size, aggregation, pair_synergy, stability in itertools.product(
+                [int(value) for value in model["subset_sizes"]],
+                [str(value) for value in model["aggregation_methods"]],
+                [float(value) for value in grids["ensemble_pair_synergy"]],
+                [float(value) for value in grids["seed_stability"]],
+            ):
+                candidates.append(
+                    {
+                        "family": family,
+                        "target_size": target_size,
+                        "aggregation": aggregation,
+                        "weights": {
+                            "active_coverage": 0.0,
+                            "decoy_exposure": 0.0,
+                            "active_overlap": 0.0,
+                            "redundancy": 0.0,
+                            "ensemble_pair_utility": 0.0,
+                            "ensemble_pair_synergy": pair_synergy,
+                            "stability": stability,
+                        },
+                    }
+                )
+            continue
         if family == "pair_utility_qubo":
             for target_size, aggregation, pair_utility, stability in itertools.product(
                 [int(value) for value in model["subset_sizes"]],
@@ -670,6 +703,21 @@ def pair_utility_terms_for_aggregation(
     return {**terms, "raw": raw, "normalized": normalized}
 
 
+def pair_synergy_terms_for_aggregation(
+    terms: dict[str, object], aggregation: str
+) -> dict[str, object]:
+    if aggregation not in {"min_score", "mean_score"}:
+        raise ValueError(f"unsupported pair synergy aggregation: {aggregation}")
+    key = f"pair_ensemble_synergy_{aggregation}"
+    raw = dict(terms["raw"])
+    normalized = dict(terms["normalized"])
+    if key not in raw or key not in normalized:
+        raise ValueError(f"pair synergy terms are missing: {key}")
+    raw["pair_ensemble_synergy"] = raw[key]
+    normalized["pair_ensemble_synergy"] = normalized[key]
+    return {**terms, "raw": raw, "normalized": normalized}
+
+
 def noncardinality_quadratic_summary(
     coefficients: dict[str, object], size_penalty: float
 ) -> dict[str, object]:
@@ -702,6 +750,10 @@ def fit_qubo(
         central_terms = pair_utility_terms_for_aggregation(
             central_terms, aggregation
         )
+    if float(weights.get("ensemble_pair_synergy", 0.0)) > 0.0:
+        central_terms = pair_synergy_terms_for_aggregation(
+            central_terms, aggregation
+        )
     subset, energy, coefficients = exact_select(
         central_terms,
         receptor_ids,
@@ -715,6 +767,10 @@ def fit_qubo(
         seed_terms = context["seed_terms"][seed]
         if float(weights.get("ensemble_pair_utility", 0.0)) > 0.0:
             seed_terms = pair_utility_terms_for_aggregation(
+                seed_terms, aggregation
+            )
+        if float(weights.get("ensemble_pair_synergy", 0.0)) > 0.0:
+            seed_terms = pair_synergy_terms_for_aggregation(
                 seed_terms, aggregation
             )
         seed_subset, _, _ = exact_select(
@@ -751,6 +807,7 @@ def fit_method(
         "coverage_qubo",
         "discriminative_qubo",
         "pair_utility_qubo",
+        "pair_synergy_qubo",
     }:
         return fit_qubo(candidate, context, receptor_ids, model)
     if family == "single_best":
@@ -789,6 +846,7 @@ def trial_key(trial: dict[str, object]) -> tuple[object, ...]:
         "coverage_qubo": 4,
         "discriminative_qubo": 5,
         "pair_utility_qubo": 6,
+        "pair_synergy_qubo": 7,
     }
     aggregation_order = {"min_score": 0, "mean_score": 1}
     return (

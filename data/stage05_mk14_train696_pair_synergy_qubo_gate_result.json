@@ -1,0 +1,131 @@
+{
+  "schema_version": "1.0",
+  "authorization_id": "stage05-mk14-expanded8-train696-marginal-pair-synergy-qubo-gate-20260721-v1",
+  "status": "train_pair_synergy_qubo_gate_passed_validation_unavailable",
+  "evidence": {
+    "preregistration_path": "configs/stage05_mk14_train696_pair_synergy_qubo_gate_preregistration.json",
+    "preregistration_sha256": "0747101D53992C0DC4DAD048312A51D249907ABB29DC6FAFDABE7A6D969D3C36",
+    "normalized_terms_implementation_path": "scripts/normalized_receptor_qubo.py",
+    "normalized_terms_implementation_sha256": "177561B28DCF0566E0560DCD306C6ABBA7FE3E8998EF647B3DB03056DE150816",
+    "gate_implementation_path": "scripts/run_stage05_mk14_uncertainty_qubo_gate.py",
+    "gate_implementation_sha256": "E32AAB8061933C325BD585C32DDFE82BDB207C8E4273540A24130B885D447C6A",
+    "full_summary_path": "results/runs/stage05_mk14_train696_pair_synergy_qubo_gate/summary.json",
+    "full_summary_sha256": "A074EE8B106DAA0E5BB163D8504AC9328BA38E3E3E56083F7475EF7CB96E325E",
+    "candidate_protocol_path": "results/runs/stage05_mk14_train696_pair_synergy_qubo_gate/candidate_protocol.json",
+    "candidate_protocol_sha256": "EE32036BB0B5C0837FF943EDCE4EF30673F6CC14489FA0836B8B6FC0718B7B01"
+  },
+  "protocol": {
+    "candidate_count": 24,
+    "outer_fold_count": 4,
+    "inner_fold_count": 3,
+    "pair_synergy_definition": "BEDROC(i,j)-max(BEDROC(i),BEDROC(j))",
+    "pair_synergy_scaling": "signed maximum-absolute scaling within the current training fold",
+    "aggregation_alignment": "min-score candidates use min-score pair BEDROC; mean-score candidates use mean-score pair BEDROC",
+    "validation_rows_read": 0,
+    "test_rows_read": 0
+  },
+  "selected_qubo": {
+    "family": "pair_synergy_qubo",
+    "target_size": 3,
+    "aggregation": "min_score",
+    "weights": {
+      "active_coverage": 0.0,
+      "decoy_exposure": 0.0,
+      "active_overlap": 0.0,
+      "redundancy": 0.0,
+      "ensemble_pair_utility": 0.0,
+      "ensemble_pair_synergy": 2.0,
+      "stability": 0.5
+    },
+    "subset": [
+      "MK14_2BAJ_aligned",
+      "MK14_2QD9_reference",
+      "MK14_3KQ7_aligned"
+    ],
+    "matched_linear_subset": [
+      "MK14_2BAJ_aligned",
+      "MK14_3KQ7_aligned",
+      "MK14_3MPT_aligned"
+    ],
+    "final_greedy_subset": [
+      "MK14_2BAJ_aligned",
+      "MK14_2QD9_reference",
+      "MK14_3KQ7_aligned"
+    ],
+    "seed_specific_subset_mean_pairwise_jaccard": 0.6666666666666666,
+    "outer_fit_mean_pairwise_jaccard": 0.8333333333333333,
+    "noncardinality_quadratic_term_count": 28,
+    "noncardinality_quadratic_term_range": 2.335360561716101
+  },
+  "primary_oof_metrics": {
+    "pair_synergy_qubo": {
+      "roc_auc": 0.7517464328180737,
+      "pr_auc_average_precision": 0.7658462745251019,
+      "bedroc_alpha_20": 0.9224861854869928,
+      "EF1%": 2.0,
+      "EF5%": 1.8857142857142857
+    },
+    "matched_linear_top_k": {
+      "roc_auc": 0.7492155502708416,
+      "pr_auc_average_precision": 0.7579392542892943,
+      "bedroc_alpha_20": 0.8958332892194268,
+      "EF1%": 2.0,
+      "EF5%": 1.8285714285714285
+    },
+    "nested_greedy": {
+      "roc_auc": 0.7416683181397807,
+      "pr_auc_average_precision": 0.7548064048552513,
+      "bedroc_alpha_20": 0.9150755627055908,
+      "EF1%": 2.0,
+      "EF5%": 1.9428571428571428
+    },
+    "nested_exhaustive": {
+      "roc_auc": 0.7739546175188268,
+      "pr_auc_average_precision": 0.786480699584095,
+      "bedroc_alpha_20": 0.9338543260453849,
+      "EF1%": 2.0,
+      "EF5%": 1.9428571428571428
+    }
+  },
+  "bedroc_deltas": {
+    "primary_vs_matched_linear": 0.02665289626756595,
+    "mean_seed_vs_matched_linear": 0.0234748672154879,
+    "worst_seed_vs_matched_linear": 0.016290634888539546,
+    "primary_vs_greedy": 0.007410622781402032,
+    "mean_seed_vs_greedy": 0.005301523496269185,
+    "worst_seed_vs_greedy": 0.00005617521044776197,
+    "primary_vs_exhaustive": -0.011368140558392081,
+    "mean_seed_vs_exhaustive": -0.012691328586091863,
+    "worst_seed_vs_exhaustive": -0.01442721122383539
+  },
+  "acceptance": {
+    "noncardinality_quadratic_terms": true,
+    "seed_subset_stability": true,
+    "selected_subset_differs_from_matched_linear": true,
+    "noninferior_to_matched_linear": true,
+    "noninferior_to_nested_greedy": true,
+    "all_preregistered_checks_passed": true,
+    "noninferior_to_nested_exhaustive_not_preregistered_and_not_met": true
+  },
+  "exact_fixed_subset_context": {
+    "subset_count": 56,
+    "primary_bedroc_percentile": 0.9464285714285714,
+    "mean_seed_bedroc_percentile": 0.8928571428571429,
+    "worst_seed_bedroc_percentile": 0.8392857142857143
+  },
+  "determinism_audit": {
+    "complete_runs": 2,
+    "output_files_compared": 10,
+    "all_sha256_identical": true
+  },
+  "decision": {
+    "train696_objective_tuning": "stopped",
+    "candidate_disposition": "freeze as a train-only candidate for a separately preregistered fresh validation experiment",
+    "previous_validation_40a40d": "consumed_diagnostic_only_and_prohibited_from_reuse",
+    "locked_test": "unreleased",
+    "next_gate": "sample and dock a new panel only from previously unused rows of the locked MAPK14 validation partition; freeze candidate, comparators, receptor union, sample rule, and acceptance criteria first"
+  },
+  "validation_rows_read": 0,
+  "test_rows_read": 0,
+  "interpretation_note": "Marginal pair synergy passed the preregistered Train-696 checks against matched linear and nested greedy. It remained below nested exhaustive, its final subset equaled final greedy, and no clean validation result exists. This does not establish biological activity, binding affinity, cross-target generalization, production screening value, or quantum advantage."
+}
