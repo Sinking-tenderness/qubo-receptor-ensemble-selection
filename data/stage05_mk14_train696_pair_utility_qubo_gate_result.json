@@ -1,0 +1,111 @@
+{
+  "schema_version": "1.0",
+  "authorization_id": "stage05-mk14-expanded8-train696-aligned-pair-utility-qubo-gate-20260721-v1",
+  "status": "train_pair_utility_qubo_gate_failed_validation_unavailable",
+  "evidence": {
+    "preregistration_path": "configs/stage05_mk14_train696_pair_utility_qubo_gate_preregistration.json",
+    "preregistration_sha256": "305F910CBB8E44AA315A59018763F3093DD63D0CB7A471C94C51D80148442B9B",
+    "normalized_terms_implementation_path": "scripts/normalized_receptor_qubo.py",
+    "normalized_terms_implementation_sha256": "13FF3D7148FC050A9B1611AF7C1BACD9D74941EF189F80FE36FB34A107C48A4A",
+    "gate_implementation_path": "scripts/run_stage05_mk14_uncertainty_qubo_gate.py",
+    "gate_implementation_sha256": "4C4E8C3FE6076FE587F29E1B5A7AA1C35E34BD9775A80B1307FCE4D2CC8BB5ED",
+    "full_summary_path": "results/runs/stage05_mk14_train696_pair_utility_qubo_gate/summary.json",
+    "full_summary_sha256": "A95C36255433C8DCBFC9BC60CD2CA793AE91FF3052ECC4D9BBFDD8E038239287",
+    "candidate_protocol_path": "results/runs/stage05_mk14_train696_pair_utility_qubo_gate/candidate_protocol.json",
+    "candidate_protocol_sha256": "0115830ADFF36E999BA00A0A8908F413F151EB70D85DEF3616969AFEBC9108D5"
+  },
+  "protocol": {
+    "candidate_count": 24,
+    "outer_fold_count": 4,
+    "inner_fold_count": 3,
+    "pair_utility_fit_scope": "current nested training fold only",
+    "aggregation_alignment": "min-score candidates use min-score pair BEDROC; mean-score candidates use mean-score pair BEDROC",
+    "validation_rows_read": 0,
+    "test_rows_read": 0
+  },
+  "selected_qubo": {
+    "family": "pair_utility_qubo",
+    "target_size": 3,
+    "aggregation": "min_score",
+    "weights": {
+      "active_coverage": 0.0,
+      "decoy_exposure": 0.0,
+      "active_overlap": 0.0,
+      "redundancy": 0.0,
+      "ensemble_pair_utility": 0.5,
+      "stability": 1.5
+    },
+    "subset": [
+      "MK14_2BAJ_aligned",
+      "MK14_3KQ7_aligned",
+      "MK14_3MPT_aligned"
+    ],
+    "matched_linear_subset": [
+      "MK14_2BAJ_aligned",
+      "MK14_3KQ7_aligned",
+      "MK14_3MPT_aligned"
+    ],
+    "seed_specific_subset_mean_pairwise_jaccard": 1.0,
+    "noncardinality_quadratic_term_count": 28,
+    "noncardinality_quadratic_term_range": 0.5
+  },
+  "primary_oof_metrics": {
+    "pair_utility_qubo": {
+      "roc_auc": 0.7354381358171489,
+      "pr_auc_average_precision": 0.7555823344990256,
+      "bedroc_alpha_20": 0.9157412899510967,
+      "EF1%": 2.0,
+      "EF5%": 1.8285714285714285
+    },
+    "matched_linear_top_k": {
+      "roc_auc": 0.760998810939358,
+      "pr_auc_average_precision": 0.7733395297638788,
+      "bedroc_alpha_20": 0.9179576404093922,
+      "EF1%": 2.0,
+      "EF5%": 1.8285714285714285
+    },
+    "nested_greedy": {
+      "roc_auc": 0.742258719778042,
+      "pr_auc_average_precision": 0.7593493664314701,
+      "bedroc_alpha_20": 0.9244701173182989,
+      "EF1%": 2.0,
+      "EF5%": 1.9428571428571428
+    }
+  },
+  "bedroc_deltas": {
+    "primary_vs_matched_linear": -0.0022163504582954907,
+    "mean_seed_vs_matched_linear": -0.005766045895754209,
+    "worst_seed_vs_matched_linear": -0.01687522355159654,
+    "primary_vs_greedy": -0.008728827367202152,
+    "mean_seed_vs_greedy": -0.015455526465899094,
+    "worst_seed_vs_greedy": -0.028834669824832626
+  },
+  "acceptance": {
+    "noncardinality_quadratic_terms": true,
+    "seed_subset_stability": true,
+    "selected_subset_differs_from_matched_linear": false,
+    "noninferior_to_matched_linear": false,
+    "noninferior_to_nested_greedy": false,
+    "all_checks_passed": false
+  },
+  "exact_fixed_subset_context": {
+    "subset_count": 56,
+    "primary_bedroc_percentile": 0.8928571428571429,
+    "mean_seed_bedroc_percentile": 0.8928571428571429,
+    "worst_seed_bedroc_percentile": 0.8392857142857143
+  },
+  "comparison_with_previous_objective": {
+    "previous_active_overlap_qubo_primary_bedroc": 0.8742649961568237,
+    "aligned_pair_utility_qubo_primary_bedroc": 0.9157412899510967,
+    "absolute_improvement": 0.041476293794273,
+    "interpretation": "Aggregation-aligned pair utility materially improved QUBO early enrichment but remained redundant with singleton utility at the final fit and did not exceed required classical baselines."
+  },
+  "decision": {
+    "raw_pair_utility_objective": "stop without validation access or further weight tuning",
+    "reason": "The final QUBO and matched linear subsets were identical, and OOF BEDROC remained lower than both matched linear and nested greedy.",
+    "next_hypothesis_not_yet_authorized": "A marginal-synergy term based on pair ensemble BEDROC gain beyond singleton BEDROC could remove double counting, but it requires a separate preregistration and remains train-only."
+  },
+  "validation_rows_read": 0,
+  "test_rows_read": 0,
+  "interpretation_note": "This is a negative development-train method result. It does not establish validation performance, biological activity, binding affinity, cross-target generalization, or quantum advantage."
+}

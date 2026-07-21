@@ -25,6 +25,12 @@ def test_build_normalized_terms_scales_every_term_family():
     assert set(terms["normalized"]["pair_ensemble_utility"]) == {
         "R1__R2"
     }
+    assert set(terms["normalized"]["pair_ensemble_utility_min_score"]) == {
+        "R1__R2"
+    }
+    assert set(terms["normalized"]["pair_ensemble_utility_mean_score"]) == {
+        "R1__R2"
+    }
     assert set(terms["active_ids"]) == {"R1", "R2"}
     assert set(terms["decoy_ids"]) == {"R1", "R2"}
 

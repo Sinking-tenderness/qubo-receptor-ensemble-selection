@@ -117,8 +117,18 @@ def load_config(path: Path) -> dict[str, object]:
     sizes = [int(value) for value in model["subset_sizes"]]
     if not sizes or any(size < 2 or size >= len(receptors) for size in sizes):
         raise ValueError("QUBO subset sizes must be between two and seven")
-    if model["qubo_families"] != ["coverage_qubo", "discriminative_qubo"]:
-        raise ValueError("the frozen QUBO family set changed")
+    families = [str(value) for value in model["qubo_families"]]
+    allowed_families = {
+        "coverage_qubo",
+        "discriminative_qubo",
+        "pair_utility_qubo",
+    }
+    if (
+        not families
+        or len(families) != len(set(families))
+        or not set(families).issubset(allowed_families)
+    ):
+        raise ValueError("the QUBO family set is invalid")
     grids = model["weight_grids"]
     assert isinstance(grids, dict)
     for key in (
@@ -131,6 +141,14 @@ def load_config(path: Path) -> dict[str, object]:
         values = grids.get(key)
         if not isinstance(values, list) or not values:
             raise ValueError(f"weight grid is empty: {key}")
+    if "pair_utility_qubo" in families:
+        values = grids.get("ensemble_pair_utility")
+        if (
+            not isinstance(values, list)
+            or not values
+            or any(float(value) <= 0.0 for value in values)
+        ):
+            raise ValueError("pair ensemble utility grid is invalid")
     if acceptance.get("all_checks_required") is not True:
         raise ValueError("every uncertainty gate check must be required")
     if acceptance.get("validation_remains_unavailable_after_pass") is not True:
@@ -435,6 +453,29 @@ def qubo_candidate_configs(model: dict[str, object]) -> list[dict[str, object]]:
     assert isinstance(grids, dict)
     candidates: list[dict[str, object]] = []
     for family in model["qubo_families"]:
+        if family == "pair_utility_qubo":
+            for target_size, aggregation, pair_utility, stability in itertools.product(
+                [int(value) for value in model["subset_sizes"]],
+                [str(value) for value in model["aggregation_methods"]],
+                [float(value) for value in grids["ensemble_pair_utility"]],
+                [float(value) for value in grids["seed_stability"]],
+            ):
+                candidates.append(
+                    {
+                        "family": family,
+                        "target_size": target_size,
+                        "aggregation": aggregation,
+                        "weights": {
+                            "active_coverage": 0.0,
+                            "decoy_exposure": 0.0,
+                            "active_overlap": 0.0,
+                            "redundancy": 0.0,
+                            "ensemble_pair_utility": pair_utility,
+                            "stability": stability,
+                        },
+                    }
+                )
+            continue
         decoy_values = (
             [0.0]
             if family == "coverage_qubo"
@@ -614,6 +655,21 @@ def matched_linear_top_k(
     return tuple(sorted(ordered[:target_size]))
 
 
+def pair_utility_terms_for_aggregation(
+    terms: dict[str, object], aggregation: str
+) -> dict[str, object]:
+    if aggregation not in {"min_score", "mean_score"}:
+        raise ValueError(f"unsupported pair utility aggregation: {aggregation}")
+    key = f"pair_ensemble_utility_{aggregation}"
+    raw = dict(terms["raw"])
+    normalized = dict(terms["normalized"])
+    if key not in raw or key not in normalized:
+        raise ValueError(f"pair utility terms are missing: {key}")
+    raw["pair_ensemble_utility"] = raw[key]
+    normalized["pair_ensemble_utility"] = normalized[key]
+    return {**terms, "raw": raw, "normalized": normalized}
+
+
 def noncardinality_quadratic_summary(
     coefficients: dict[str, object], size_penalty: float
 ) -> dict[str, object]:
@@ -640,8 +696,14 @@ def fit_qubo(
 ) -> tuple[tuple[str, ...], dict[str, object]]:
     size = int(candidate["target_size"])
     weights = {key: float(value) for key, value in dict(candidate["weights"]).items()}
+    aggregation = str(candidate["aggregation"])
+    central_terms = context["terms"]
+    if float(weights.get("ensemble_pair_utility", 0.0)) > 0.0:
+        central_terms = pair_utility_terms_for_aggregation(
+            central_terms, aggregation
+        )
     subset, energy, coefficients = exact_select(
-        context["terms"],
+        central_terms,
         receptor_ids,
         size,
         weights,
@@ -650,8 +712,13 @@ def fit_qubo(
     linear_subset = matched_linear_top_k(coefficients, size)
     seed_subsets: dict[str, tuple[str, ...]] = {}
     for seed in SEED_IDS:
+        seed_terms = context["seed_terms"][seed]
+        if float(weights.get("ensemble_pair_utility", 0.0)) > 0.0:
+            seed_terms = pair_utility_terms_for_aggregation(
+                seed_terms, aggregation
+            )
         seed_subset, _, _ = exact_select(
-            context["seed_terms"][seed],
+            seed_terms,
             receptor_ids,
             size,
             weights,
@@ -680,7 +747,11 @@ def fit_method(
     family = str(candidate["family"])
     size = int(candidate["target_size"])
     aggregation = str(candidate["aggregation"])
-    if family in {"coverage_qubo", "discriminative_qubo"}:
+    if family in {
+        "coverage_qubo",
+        "discriminative_qubo",
+        "pair_utility_qubo",
+    }:
         return fit_qubo(candidate, context, receptor_ids, model)
     if family == "single_best":
         return choose_exhaustive(context, receptor_ids, 1, "min_score"), {}
@@ -717,6 +788,7 @@ def trial_key(trial: dict[str, object]) -> tuple[object, ...]:
         "all_receptors": 3,
         "coverage_qubo": 4,
         "discriminative_qubo": 5,
+        "pair_utility_qubo": 6,
     }
     aggregation_order = {"min_score": 0, "mean_score": 1}
     return (
@@ -968,6 +1040,7 @@ def gate_decision(
     outer_jaccard_mean: float,
     final_jaccard_mean: float,
     acceptance: dict[str, object],
+    greedy_metrics: dict[str, dict[str, object]] | None = None,
 ) -> tuple[dict[str, float], dict[str, bool], bool]:
     seed_deltas = {
         seed: float(candidate_metrics[seed]["bedroc_alpha_20"])
@@ -1007,6 +1080,57 @@ def gate_decision(
         "final_seed_fit_mean_pairwise_jaccard": final_jaccard_mean
         >= float(acceptance["minimum_final_seed_fit_mean_pairwise_jaccard"]),
     }
+    greedy_keys = {
+        "minimum_primary_median_bedroc_delta_vs_greedy",
+        "minimum_mean_seed_bedroc_delta_vs_greedy",
+        "minimum_worst_seed_bedroc_delta_vs_greedy",
+    }
+    if greedy_keys.intersection(acceptance):
+        if greedy_metrics is None or not greedy_keys.issubset(acceptance):
+            raise ValueError("greedy acceptance comparison is incomplete")
+        greedy_seed_deltas = {
+            seed: float(candidate_metrics[seed]["bedroc_alpha_20"])
+            - float(greedy_metrics[seed]["bedroc_alpha_20"])
+            for seed in SEED_IDS
+        }
+        deltas.update(
+            {
+                "primary_median_bedroc_vs_greedy": float(
+                    candidate_metrics["primary"]["bedroc_alpha_20"]
+                )
+                - float(greedy_metrics["primary"]["bedroc_alpha_20"]),
+                "mean_seed_bedroc_vs_greedy": statistics.fmean(
+                    greedy_seed_deltas.values()
+                ),
+                "worst_seed_bedroc_vs_greedy": min(
+                    greedy_seed_deltas.values()
+                ),
+            }
+        )
+        checks.update(
+            {
+                "primary_median_bedroc_delta_vs_greedy": deltas[
+                    "primary_median_bedroc_vs_greedy"
+                ]
+                >= float(
+                    acceptance[
+                        "minimum_primary_median_bedroc_delta_vs_greedy"
+                    ]
+                ),
+                "mean_seed_bedroc_delta_vs_greedy": deltas[
+                    "mean_seed_bedroc_vs_greedy"
+                ]
+                >= float(
+                    acceptance["minimum_mean_seed_bedroc_delta_vs_greedy"]
+                ),
+                "worst_seed_bedroc_delta_vs_greedy": deltas[
+                    "worst_seed_bedroc_vs_greedy"
+                ]
+                >= float(
+                    acceptance["minimum_worst_seed_bedroc_delta_vs_greedy"]
+                ),
+            }
+        )
     return deltas, checks, all(checks.values())
 
 
@@ -1301,6 +1425,7 @@ def run_gate(config_path: Path, overwrite: bool = False) -> dict[str, object]:
         statistics.fmean(outer_qubo_jaccards),
         float(final_details["seed_pairwise_jaccard"]["mean"]),
         acceptance,
+        metrics["greedy"],
     )
     status = (
         "train_uncertainty_qubo_gate_passed_validation_unavailable"

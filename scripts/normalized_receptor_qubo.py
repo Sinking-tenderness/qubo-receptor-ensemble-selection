@@ -85,7 +85,8 @@ def build_normalized_terms(
     }
     redundancy_raw: dict[str, float] = {}
     active_overlap_raw: dict[str, float] = {}
-    pair_ensemble_utility_raw: dict[str, float] = {}
+    pair_ensemble_utility_mean_raw: dict[str, float] = {}
+    pair_ensemble_utility_min_raw: dict[str, float] = {}
     for first, second in itertools.combinations(receptor_ids, 2):
         key = f"{first}__{second}"
         correlation = float(
@@ -97,15 +98,25 @@ def build_normalized_terms(
         active_overlap_raw[key] = (
             len(active_sets[first] & active_sets[second]) / active_total
         )
-        pair_data = {
+        pair_mean_data = {
             str(row["ligand_id"]): {
                 "label": row["label"],
                 "score": (float(row[first]) + float(row[second])) / 2.0,
             }
             for row in rows
         }
-        pair_ensemble_utility_raw[key] = float(
-            ranked_metrics_with_ids(pair_data)["bedroc_alpha_20"]
+        pair_min_data = {
+            str(row["ligand_id"]): {
+                "label": row["label"],
+                "score": min(float(row[first]), float(row[second])),
+            }
+            for row in rows
+        }
+        pair_ensemble_utility_mean_raw[key] = float(
+            ranked_metrics_with_ids(pair_mean_data)["bedroc_alpha_20"]
+        )
+        pair_ensemble_utility_min_raw[key] = float(
+            ranked_metrics_with_ids(pair_min_data)["bedroc_alpha_20"]
         )
 
     raw = {
@@ -114,7 +125,9 @@ def build_normalized_terms(
         "decoy_exposure": decoy_exposure_raw,
         "redundancy": redundancy_raw,
         "active_overlap": active_overlap_raw,
-        "pair_ensemble_utility": pair_ensemble_utility_raw,
+        "pair_ensemble_utility": pair_ensemble_utility_mean_raw,
+        "pair_ensemble_utility_mean_score": pair_ensemble_utility_mean_raw,
+        "pair_ensemble_utility_min_score": pair_ensemble_utility_min_raw,
     }
     normalized = {
         name: minmax_terms(values) for name, values in raw.items()
