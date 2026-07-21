@@ -1,0 +1,59 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage05-mk14-fresh-validation-five-receptor-e32-three-seed-aggregation-v1",
+  "purpose": "Audit and aggregate three paired e32 seed matrices for the frozen fresh MAPK14 validation panel without calculating enrichment.",
+  "ligand_manifest": {
+    "path": "data/processed/stage05_mk14_fresh_validation_pdbqt_manifest.csv",
+    "sha256": "2DAE54F57C302881DA91FA53B74EDA1B1EC6267EC5385180E28B0EDEB58A777A"
+  },
+  "seed_runs": [
+    {
+      "seed_id": "seed0",
+      "base_seed": 20260801,
+      "config_path": "configs/stage05_mk14_fresh_validation_e32_seed0_linux.json",
+      "config_sha256": "6C1496E14628FD332A4761AC89B8B72118DF4366C6FAD811529E0F3605810240",
+      "summary_path": "results/runs/stage05_mk14_fresh_validation_e32_seed0_linux/summary.json",
+      "representative_scores_path": "results/runs/stage05_mk14_fresh_validation_e32_seed0_linux/representative_scores.csv"
+    },
+    {
+      "seed_id": "seed1",
+      "base_seed": 20260802,
+      "config_path": "configs/stage05_mk14_fresh_validation_e32_seed1_linux.json",
+      "config_sha256": "5B883A14BBF8394186C4273835486C46EF3065480A0888E18A3EC86FDB5FF03F",
+      "summary_path": "results/runs/stage05_mk14_fresh_validation_e32_seed1_linux/summary.json",
+      "representative_scores_path": "results/runs/stage05_mk14_fresh_validation_e32_seed1_linux/representative_scores.csv"
+    },
+    {
+      "seed_id": "seed2",
+      "base_seed": 20260803,
+      "config_path": "configs/stage05_mk14_fresh_validation_e32_seed2_linux.json",
+      "config_sha256": "152B4553D8FB3F5217D702F09C836D2B4D72E0D5E5EF58C552DFDD3E24E81936",
+      "summary_path": "results/runs/stage05_mk14_fresh_validation_e32_seed2_linux/summary.json",
+      "representative_scores_path": "results/runs/stage05_mk14_fresh_validation_e32_seed2_linux/representative_scores.csv"
+    }
+  ],
+  "expected": {
+    "seed_count": 3,
+    "receptor_count": 5,
+    "ligand_count": 1576,
+    "receptor_ligand_pairs_per_seed": 7880,
+    "allowed_selection_roles": ["fresh_validation_preregistered"],
+    "role_label_counts": {
+      "fresh_validation_preregistered:active": 75,
+      "fresh_validation_preregistered:decoy": 1501
+    }
+  },
+  "aggregation": {
+    "representative_method": "pose_rank_1",
+    "primary": "median representative score across three paired seeds",
+    "sensitivity": "minimum representative score across three paired seeds",
+    "score_direction": "lower is better; ranking score is the negated docking score"
+  },
+  "outputs": {
+    "aggregated_long_csv": "results/runs/stage05_mk14_fresh_validation_e32_aggregated/aggregated_seed_scores.csv",
+    "primary_median_matrix_csv": "results/runs/stage05_mk14_fresh_validation_e32_aggregated/primary_median_score_matrix.csv",
+    "sensitivity_minimum_matrix_csv": "results/runs/stage05_mk14_fresh_validation_e32_aggregated/sensitivity_minimum_score_matrix.csv",
+    "summary_json": "results/runs/stage05_mk14_fresh_validation_e32_aggregated/summary.json"
+  },
+  "interpretation_boundary": "Aggregation verifies complete paired-seed evidence and creates fresh-validation matrices only. It does not calculate enrichment, refit the frozen model, access test rows, or establish QUBO or quantum advantage."
+}

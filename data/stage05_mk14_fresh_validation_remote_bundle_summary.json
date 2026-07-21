@@ -1,0 +1,24 @@
+{
+  "archive": "dist/stage05_mk14_fresh_validation_e32_cpu_v1.tar.gz",
+  "archive_entry_count": 1604,
+  "archive_sha256": "3D9EC8C6F6F64FFD6B8E8B092195F0D2DE8431437575F6E1CDC5FF8003259420",
+  "archive_size_bytes": 3213789,
+  "deterministic_metadata": true,
+  "gpu_required": false,
+  "label_counts": {
+    "active": 75,
+    "decoy": 1501
+  },
+  "ligand_count": 1576,
+  "manifest_line_ending": "LF",
+  "receptor_count": 5,
+  "receptor_ligand_pairs_per_seed": 7880,
+  "schema_version": "1.0",
+  "seed_count": 3,
+  "source_file_count": 1603,
+  "status": "ok",
+  "test_rows": 0,
+  "test_scores_read": 0,
+  "total_vina_jobs": 23640,
+  "validation_metrics_calculated": false
+}

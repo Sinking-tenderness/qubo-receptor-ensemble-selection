@@ -1,0 +1,59 @@
+{
+  "audit": {
+    "label_counts": {
+      "active": 75,
+      "decoy": 1501
+    },
+    "ligand_count": 1576,
+    "nonzero_formal_charge_count": 630,
+    "pdbqt_status_counts": {
+      "ok": 1576
+    },
+    "selection_role_counts": {
+      "fresh_validation_preregistered": 1576
+    },
+    "test_rows": 0,
+    "three_d_status_counts": {
+      "ok": 1528,
+      "warning": 48
+    },
+    "unique_split_group_count": 520
+  },
+  "authorization_id": "stage05-mk14-fresh-validation-after-pair-synergy-gate-20260721-v1",
+  "config": {
+    "path": "configs/stage05_mk14_fresh_validation_preregistration.json",
+    "sha256": "3826521564D97285652E39ED3EA7DC1DFC93E13E309F716677C72C0827A86E1C"
+  },
+  "expected_receptor_ligand_pairs_per_seed": 7880,
+  "expected_three_seed_vina_jobs": 23640,
+  "fixed_receptor_count": 5,
+  "inputs": {
+    "fixed_receptor_manifest_csv": {
+      "path": "data/processed/stage05_mk14_fresh_validation_receptor_manifest.csv",
+      "sha256": "2E69C8FA36E604937593B3DDA8B10A6160E5A6A6354FA692DD0856C6F6B957D3"
+    },
+    "fresh_panel_csv": {
+      "path": "data/processed/stage05_mk14_fresh_validation_panel.csv",
+      "sha256": "2EB35D7CDA117A5420A1D856A0615DAD6D4E637E5E4A16E118F3D403F212CED7"
+    },
+    "frozen_model_artifact_json": {
+      "path": "data/stage05_mk14_fresh_validation_frozen_model.json",
+      "sha256": "B625620858F920653E656671CC06508CAFD5C4CC2C2B8FF89592B79CEB9CB424"
+    },
+    "pdbqt_manifest_csv": {
+      "path": "data/processed/stage05_mk14_fresh_validation_pdbqt_manifest.csv",
+      "sha256": "2DAE54F57C302881DA91FA53B74EDA1B1EC6267EC5385180E28B0EDEB58A777A"
+    },
+    "three_d_manifest_csv": {
+      "path": "data/processed/stage05_mk14_fresh_validation_3d_manifest.csv",
+      "sha256": "48D7EA1151AC125EA2D7FBE986A1D6627666DD8F22CE5E79E71BA211A2ABD5F1"
+    }
+  },
+  "interpretation_note": "A pass would provide fresh within-target validation of the frozen receptor subset against matched linear, exhaustive, and single-best comparators. Because QUBO and final greedy select the same subset, it cannot prove QUBO-over-greedy or quantum advantage. It does not establish binding affinity, biological activity, full-DUD-E performance, cross-target generalization, or test performance.",
+  "next_gate": "Build and independently audit the deterministic CPU bundle before any validation docking starts.",
+  "schema_version": "1.0",
+  "status": "fresh_validation_preparation_ok_remote_docking_pending",
+  "test_rows": 0,
+  "test_scores_read": 0,
+  "validation_scores_read": 0
+}

@@ -1,0 +1,217 @@
+{
+  "acceptance": {
+    "all_checks_required": true,
+    "minimum_group_bootstrap_95pct_lower_bedroc_delta_vs_exhaustive": -0.01,
+    "minimum_group_bootstrap_95pct_lower_bedroc_delta_vs_matched_linear": 0.0,
+    "minimum_mean_seed_bedroc_delta_vs_exhaustive": -0.01,
+    "minimum_mean_seed_bedroc_delta_vs_matched_linear": 0.0,
+    "minimum_primary_bedroc_delta_vs_exhaustive": -0.01,
+    "minimum_primary_bedroc_delta_vs_matched_linear": 0.0,
+    "minimum_primary_bedroc_delta_vs_single_best": 0.0,
+    "minimum_worst_seed_bedroc_delta_vs_exhaustive": -0.01,
+    "minimum_worst_seed_bedroc_delta_vs_matched_linear": 0.0,
+    "require_complete_three_seed_matrix": true,
+    "require_zero_failed_receptor_ligand_pairs": true,
+    "test_remains_locked_after_pass": true
+  },
+  "authorization_id": "stage05-mk14-fresh-validation-after-pair-synergy-gate-20260721-v1",
+  "config": {
+    "path": "configs/stage05_mk14_fresh_validation_preregistration.json",
+    "sha256": "3826521564D97285652E39ED3EA7DC1DFC93E13E309F716677C72C0827A86E1C"
+  },
+  "decision_evidence": {
+    "path": "data/stage05_mk14_train696_pair_synergy_qubo_gate_result.json",
+    "sha256": "0D5FE7672BDC4F1A78E3B6B9A6844596994DDF0AADD8D4F390677FECDEBED3B5",
+    "status": "train_pair_synergy_qubo_gate_passed_validation_unavailable"
+  },
+  "evaluation": {
+    "paired_bootstrap": {
+      "confidence_level": 0.95,
+      "interval": "two-sided percentile interval of paired BEDROC deltas",
+      "replicates": 5000,
+      "resamples_without_both_labels": "discard and deterministically continue until 5000 valid replicates",
+      "seed": 20261420,
+      "unit": "split_group_id block"
+    },
+    "primary_metric": "BEDROC alpha=20",
+    "secondary_metrics": [
+      "ROC-AUC",
+      "PR-AUC",
+      "EF1%",
+      "EF5%",
+      "EF10%"
+    ],
+    "seed_robustness": "report primary median matrix plus seed0, seed1, seed2, their mean BEDROC, and their worst BEDROC"
+  },
+  "frozen_methods": {
+    "aggregation": "min_score across the selected receptors",
+    "fixed_receptor_union": [
+      "MK14_2BAJ_aligned",
+      "MK14_2QD9_reference",
+      "MK14_3K3J_aligned",
+      "MK14_3KQ7_aligned",
+      "MK14_3MPT_aligned"
+    ],
+    "greedy_interpretation": "The final greedy and QUBO subsets are identical, so their fixed validation predictions must be identical and cannot support a QUBO-over-greedy claim.",
+    "matched_linear_top_k": [
+      "MK14_2BAJ_aligned",
+      "MK14_3KQ7_aligned",
+      "MK14_3MPT_aligned"
+    ],
+    "nested_exhaustive_final": [
+      "MK14_2BAJ_aligned",
+      "MK14_2QD9_reference",
+      "MK14_3K3J_aligned"
+    ],
+    "nested_greedy_final": [
+      "MK14_2BAJ_aligned",
+      "MK14_2QD9_reference",
+      "MK14_3KQ7_aligned"
+    ],
+    "normalization": "For primary, sensitivity, seed0, seed1, and seed2 separately, fit per-receptor min and max on the complete hashed Train-696 matrix only; apply unchanged bounds to fresh validation; do not clip out-of-range validation values.",
+    "pair_synergy_qubo": [
+      "MK14_2BAJ_aligned",
+      "MK14_2QD9_reference",
+      "MK14_3KQ7_aligned"
+    ],
+    "score_direction": "lower normalized docking score ranks earlier",
+    "single_best": [
+      "MK14_3KQ7_aligned"
+    ]
+  },
+  "interpretation_boundary": "A pass would provide fresh within-target validation of the frozen receptor subset against matched linear, exhaustive, and single-best comparators. Because QUBO and final greedy select the same subset, it cannot prove QUBO-over-greedy or quantum advantage. It does not establish binding affinity, biological activity, full-DUD-E performance, cross-target generalization, or test performance.",
+  "normalization_bounds": {
+    "primary": {
+      "MK14_2BAJ_aligned": {
+        "maximum": -5.557,
+        "minimum": -13.98
+      },
+      "MK14_2QD9_reference": {
+        "maximum": -4.476,
+        "minimum": -11.75
+      },
+      "MK14_3K3J_aligned": {
+        "maximum": -4.362,
+        "minimum": -13.55
+      },
+      "MK14_3KQ7_aligned": {
+        "maximum": -4.676,
+        "minimum": -14.38
+      },
+      "MK14_3MPT_aligned": {
+        "maximum": -4.536,
+        "minimum": -11.43
+      }
+    },
+    "seed0": {
+      "MK14_2BAJ_aligned": {
+        "maximum": -1.175,
+        "minimum": -13.98
+      },
+      "MK14_2QD9_reference": {
+        "maximum": -4.494,
+        "minimum": -11.76
+      },
+      "MK14_3K3J_aligned": {
+        "maximum": -4.356,
+        "minimum": -13.55
+      },
+      "MK14_3KQ7_aligned": {
+        "maximum": -4.644,
+        "minimum": -14.38
+      },
+      "MK14_3MPT_aligned": {
+        "maximum": -4.536,
+        "minimum": -11.43
+      }
+    },
+    "seed1": {
+      "MK14_2BAJ_aligned": {
+        "maximum": -5.521,
+        "minimum": -13.98
+      },
+      "MK14_2QD9_reference": {
+        "maximum": -4.465,
+        "minimum": -11.75
+      },
+      "MK14_3K3J_aligned": {
+        "maximum": -4.362,
+        "minimum": -13.52
+      },
+      "MK14_3KQ7_aligned": {
+        "maximum": -4.676,
+        "minimum": -14.4
+      },
+      "MK14_3MPT_aligned": {
+        "maximum": -4.515,
+        "minimum": -11.43
+      }
+    },
+    "seed2": {
+      "MK14_2BAJ_aligned": {
+        "maximum": -5.578,
+        "minimum": -14.02
+      },
+      "MK14_2QD9_reference": {
+        "maximum": -4.476,
+        "minimum": -11.75
+      },
+      "MK14_3K3J_aligned": {
+        "maximum": -4.364,
+        "minimum": -13.58
+      },
+      "MK14_3KQ7_aligned": {
+        "maximum": -4.678,
+        "minimum": -14.38
+      },
+      "MK14_3MPT_aligned": {
+        "maximum": -4.548,
+        "minimum": -11.43
+      }
+    },
+    "sensitivity": {
+      "MK14_2BAJ_aligned": {
+        "maximum": -5.578,
+        "minimum": -14.02
+      },
+      "MK14_2QD9_reference": {
+        "maximum": -4.494,
+        "minimum": -11.76
+      },
+      "MK14_3K3J_aligned": {
+        "maximum": -4.364,
+        "minimum": -13.58
+      },
+      "MK14_3KQ7_aligned": {
+        "maximum": -4.678,
+        "minimum": -14.4
+      },
+      "MK14_3MPT_aligned": {
+        "maximum": -4.548,
+        "minimum": -11.43
+      }
+    }
+  },
+  "normalization_formula": "(validation_score-train_minimum)/(train_maximum-train_minimum); no clipping",
+  "schema_version": "1.0",
+  "status": "fresh_validation_model_frozen_scores_unavailable",
+  "test_rows_selected": 0,
+  "test_scores_read": 0,
+  "train_audit": {
+    "frozen_receptor_count": 5,
+    "matrix_ids": [
+      "primary",
+      "sensitivity",
+      "seed0",
+      "seed1",
+      "seed2"
+    ],
+    "train_full_receptor_pair_count": 5568,
+    "train_label_counts": {
+      "active": 348,
+      "decoy": 348
+    },
+    "train_ligand_count": 696
+  },
+  "validation_scores_read": 0
+}

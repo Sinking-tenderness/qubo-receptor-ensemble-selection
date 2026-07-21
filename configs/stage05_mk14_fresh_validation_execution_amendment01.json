@@ -1,0 +1,49 @@
+{
+  "schema_version": "1.0",
+  "authorization_id": "stage05-mk14-fresh-validation-execution-amendment01-20260721-v1",
+  "created_on": "2026-07-21",
+  "parent_authorization_id": "stage05-mk14-fresh-validation-after-pair-synergy-gate-20260721-v1",
+  "reason": "Measured e32 throughput from the completed Train-696 execution predicts an avoidable 4-5 day wall time at 16 concurrent two-CPU Vina processes.",
+  "timing_evidence": [
+    {
+      "path": "results/runs/stage05_mk14_expanded8_train536new_e32_seed0_linux/summary.json",
+      "sha256": "D5EE8DBD3B986AAD0931FA3BAA6E221D8861090469B62D3B3CF953375E9E3FEB",
+      "pair_count": 4288,
+      "measured_wall_runtime_seconds": 24247.973
+    },
+    {
+      "path": "results/runs/stage05_mk14_expanded8_train536new_e32_seed1_linux/summary.json",
+      "sha256": "5464BF9B90BBF05311735A492F3DAA95EED4741BD84ADD5B60EC1C3487E720D5",
+      "pair_count": 4288,
+      "measured_wall_runtime_seconds": 44661.375
+    },
+    {
+      "path": "results/runs/stage05_mk14_expanded8_train536new_e32_seed2_linux/summary.json",
+      "sha256": "4B0587FD2C52775E63041A00FA02460F2ABB216CD3684591BB06E1AFE5DBB35F",
+      "pair_count": 4288,
+      "measured_wall_runtime_seconds": 41325.96
+    }
+  ],
+  "authorized_change": {
+    "remote_workers": {"from": 16, "to": 32},
+    "remote_max_total_cpu": {"from": 32, "to": 64},
+    "cpu_per_vina_process": 2,
+    "recommended_instance": "at least 64 vCPU and 64 GB RAM; GPU is not used"
+  },
+  "invariants": {
+    "ligand_count": 1576,
+    "receptor_count": 5,
+    "seed_count": 3,
+    "vina_version": "1.2.7",
+    "scoring": "vina",
+    "exhaustiveness": 32,
+    "num_modes": 1,
+    "base_seeds": [20260801, 20260802, 20260803],
+    "search_box_changed": false,
+    "input_identity_changed": false,
+    "model_or_acceptance_changed": false,
+    "validation_scores_available_before_amendment": false,
+    "test_rows_permitted": 0
+  },
+  "interpretation_boundary": "This amendment changes process concurrency only. It cannot change a receptor-ligand-seed score definition, model, metric, threshold, or scientific conclusion."
+}
