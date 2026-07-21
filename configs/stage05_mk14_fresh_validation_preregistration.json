@@ -1,0 +1,189 @@
+{
+  "schema_version": "1.0",
+  "authorization_id": "stage05-mk14-fresh-validation-after-pair-synergy-gate-20260721-v1",
+  "created_on": "2026-07-21",
+  "target_id": "MK14",
+  "purpose": "Prospectively validate the frozen Train-696 marginal pair-synergy receptor subset on previously unused rows from the locked MAPK14 validation partition.",
+  "decision_evidence": {
+    "path": "data/stage05_mk14_train696_pair_synergy_qubo_gate_result.json",
+    "sha256": "0D5FE7672BDC4F1A78E3B6B9A6844596994DDF0AADD8D4F390677FECDEBED3B5",
+    "required_status": "train_pair_synergy_qubo_gate_passed_validation_unavailable"
+  },
+  "data_boundary": {
+    "allowed_source_split": "validation",
+    "previous_validation_panel": "consumed_diagnostic_only; every represented split_group_id is excluded from the fresh panel",
+    "development_train": "may be read only to freeze score-normalization bounds and previously selected methods",
+    "test": "locked_unreleased; no test row may enter a manifest, docking job, metric, or report",
+    "automatic_test_release": false,
+    "prohibited_actions": [
+      "reuse a row or split_group_id represented in the consumed 40-active/40-decoy validation panel",
+      "change the fresh-panel selection seed or decoy ratio after identities are materialized",
+      "change receptor subsets, score aggregation, normalization, metrics, bootstrap, or thresholds after validation docking begins",
+      "fit any QUBO coefficient or receptor subset on fresh-validation labels or scores",
+      "read or dock the locked test partition"
+    ]
+  },
+  "inputs": {
+    "grouped_scaffold_split": {
+      "path": "data/processed/stage05_mk14_grouped_scaffold_split.csv",
+      "sha256": "20818CB9088DBFCB1098D57C9CBA1979B109F3CCE0C9A4D60B7D34D3BB64AE71"
+    },
+    "grouped_scaffold_split_summary": {
+      "path": "data/stage05_mk14_grouped_scaffold_split_summary.json",
+      "sha256": "61829BBDF8885BDEB24652F5F731BB02865BFD9E83B3DC2D9335B7A4017C4ECD"
+    },
+    "consumed_validation_panel": {
+      "path": "data/processed/stage05_mk14_development_validation_40a40d.csv",
+      "sha256": "0C4D5C66EF2282C83F5BDB904003F934DFF9152D6884AC1C9F54F67E46F267E4"
+    },
+    "consumed_validation_summary": {
+      "path": "data/stage05_mk14_development_validation_40a40d_summary.json",
+      "sha256": "C8D5F48CAEC201EE176590FC3DC722C5234CABDD8B5249BFB59EBFB1853B41A5"
+    },
+    "receptor_manifest": {
+      "path": "data/processed/stage05_mk14_expanded8_receptor_manifest.csv",
+      "sha256": "FBB92AB50C8AE00955D463E6E0F7ECBF2D3826E64878D3C00095BF5E0824124C"
+    },
+    "train_primary_matrix": {
+      "path": "results/runs/stage05_mk14_expanded8_train696_e32_aggregated/primary_median_score_matrix.csv",
+      "sha256": "CDA24C99A9552B8BDBB8A532C4BBCD665EAF15EEC932EDE901F5A03EA1E5D255"
+    },
+    "train_sensitivity_matrix": {
+      "path": "results/runs/stage05_mk14_expanded8_train696_e32_aggregated/sensitivity_minimum_score_matrix.csv",
+      "sha256": "774E32775CD3F434082DA9CA7DF5C2B39BFBB748B7F00F1A957D00540FF9021F"
+    },
+    "train_aggregated_seed_scores": {
+      "path": "results/runs/stage05_mk14_expanded8_train696_e32_aggregated/aggregated_seed_scores.csv",
+      "sha256": "3BD61E4B1545CBD521082E2970AE4A3848F8BB44C8EC2A36FBDCEEF822332D62"
+    },
+    "vina_config": {
+      "path": "configs/stage05_mk14_expanded_train_e32_cpu2.txt",
+      "sha256": "66C74410ED27CB04671B8D56C12FF0BA83C57641C5FDB039BDB5203A8EBEE5ED"
+    },
+    "vina_linux_executable": {
+      "path": "environment/bin/vina_1.2.7_linux_x86_64",
+      "sha256": "F31F774F723BBA7BBE6E9D1C47577020EEA9A8DA16424284C043D22593570644"
+    }
+  },
+  "source_audit": {
+    "locked_validation_active_rows": 115,
+    "locked_validation_decoy_rows": 7190,
+    "consumed_validation_active_rows": 40,
+    "consumed_validation_decoy_rows": 40,
+    "minimum_fresh_active_rows": 60,
+    "maximum_possible_fresh_active_rows_before_group_exclusion": 75,
+    "test_rows_permitted": 0
+  },
+  "fresh_panel_selection": {
+    "selection_seed": 20261401,
+    "selection_role": "fresh_validation_preregistered",
+    "exclude_consumed_split_groups": true,
+    "active_rule": "After consumed-group exclusion, include every remaining validation split group containing at least one active and include every row in each such group.",
+    "decoy_rule": "Rank remaining validation decoy-only split groups by SHA-256 of selection_seed plus split_group_id and include whole groups until total decoys are at least target_decoy_to_active_ratio times the selected active count.",
+    "target_decoy_to_active_ratio": 20,
+    "preserve_complete_split_groups": true,
+    "allow_target_overshoot_only_to_preserve_group": true,
+    "minimum_selected_active_count": 60,
+    "maximum_selected_ligand_count": 2000
+  },
+  "ligand_preparation": {
+    "rdkit_3d_seed": 20261410,
+    "rdkit_embedding": "ETKDGv3 with explicit hydrogens and useRandomCoords=true",
+    "optimization": "MMFF94 when parameters are available, otherwise UFF; maximum 500 iterations; retain non-convergence warnings",
+    "pdbqt": "Meeko 0.7.1; include warning SDF rows; every selected ligand must finish with pdbqt_status=ok before bundling",
+    "reuse_consumed_validation_pdbqt": false
+  },
+  "frozen_methods": {
+    "score_direction": "lower normalized docking score ranks earlier",
+    "aggregation": "min_score across the selected receptors",
+    "normalization": "For primary, sensitivity, seed0, seed1, and seed2 separately, fit per-receptor min and max on the complete hashed Train-696 matrix only; apply unchanged bounds to fresh validation; do not clip out-of-range validation values.",
+    "pair_synergy_qubo": [
+      "MK14_2BAJ_aligned",
+      "MK14_2QD9_reference",
+      "MK14_3KQ7_aligned"
+    ],
+    "matched_linear_top_k": [
+      "MK14_2BAJ_aligned",
+      "MK14_3KQ7_aligned",
+      "MK14_3MPT_aligned"
+    ],
+    "nested_exhaustive_final": [
+      "MK14_2BAJ_aligned",
+      "MK14_2QD9_reference",
+      "MK14_3K3J_aligned"
+    ],
+    "single_best": ["MK14_3KQ7_aligned"],
+    "nested_greedy_final": [
+      "MK14_2BAJ_aligned",
+      "MK14_2QD9_reference",
+      "MK14_3KQ7_aligned"
+    ],
+    "fixed_receptor_union": [
+      "MK14_2BAJ_aligned",
+      "MK14_2QD9_reference",
+      "MK14_3K3J_aligned",
+      "MK14_3KQ7_aligned",
+      "MK14_3MPT_aligned"
+    ],
+    "greedy_interpretation": "The final greedy and QUBO subsets are identical, so their fixed validation predictions must be identical and cannot support a QUBO-over-greedy claim."
+  },
+  "docking": {
+    "vina_version": "1.2.7",
+    "scoring": "vina",
+    "exhaustiveness": 32,
+    "num_modes": 1,
+    "cpu_per_process": 2,
+    "base_seeds": [20260801, 20260802, 20260803],
+    "representative_method": "pose_rank_1",
+    "primary_seed_aggregation": "median representative score across three paired seeds",
+    "sensitivity_seed_aggregation": "minimum representative score across three paired seeds",
+    "receptor_count": 5,
+    "remote_workers": 16,
+    "remote_max_total_cpu": 32,
+    "gpu_required": false
+  },
+  "evaluation": {
+    "primary_metric": "BEDROC alpha=20",
+    "secondary_metrics": ["ROC-AUC", "PR-AUC", "EF1%", "EF5%", "EF10%"],
+    "seed_robustness": "report primary median matrix plus seed0, seed1, seed2, their mean BEDROC, and their worst BEDROC",
+    "paired_bootstrap": {
+      "unit": "split_group_id block",
+      "replicates": 5000,
+      "seed": 20261420,
+      "confidence_level": 0.95,
+      "interval": "two-sided percentile interval of paired BEDROC deltas",
+      "resamples_without_both_labels": "discard and deterministically continue until 5000 valid replicates"
+    }
+  },
+  "acceptance": {
+    "all_checks_required": true,
+    "minimum_primary_bedroc_delta_vs_matched_linear": 0.0,
+    "minimum_mean_seed_bedroc_delta_vs_matched_linear": 0.0,
+    "minimum_worst_seed_bedroc_delta_vs_matched_linear": 0.0,
+    "minimum_group_bootstrap_95pct_lower_bedroc_delta_vs_matched_linear": 0.0,
+    "minimum_primary_bedroc_delta_vs_exhaustive": -0.01,
+    "minimum_mean_seed_bedroc_delta_vs_exhaustive": -0.01,
+    "minimum_worst_seed_bedroc_delta_vs_exhaustive": -0.01,
+    "minimum_group_bootstrap_95pct_lower_bedroc_delta_vs_exhaustive": -0.01,
+    "minimum_primary_bedroc_delta_vs_single_best": 0.0,
+    "require_complete_three_seed_matrix": true,
+    "require_zero_failed_receptor_ligand_pairs": true,
+    "test_remains_locked_after_pass": true
+  },
+  "outputs": {
+    "fresh_panel_csv": "data/processed/stage05_mk14_fresh_validation_panel.csv",
+    "fresh_panel_summary_json": "data/stage05_mk14_fresh_validation_panel_summary.json",
+    "frozen_model_artifact_json": "data/stage05_mk14_fresh_validation_frozen_model.json",
+    "fixed_receptor_manifest_csv": "data/processed/stage05_mk14_fresh_validation_receptor_manifest.csv",
+    "sdf_directory": "results/runs/stage05_mk14_fresh_validation_ligands/sdf",
+    "three_d_manifest_csv": "data/processed/stage05_mk14_fresh_validation_3d_manifest.csv",
+    "pdbqt_directory": "results/runs/stage05_mk14_fresh_validation_ligands/pdbqt",
+    "pdbqt_manifest_csv": "data/processed/stage05_mk14_fresh_validation_pdbqt_manifest.csv",
+    "preparation_summary_json": "data/stage05_mk14_fresh_validation_preparation_summary.json",
+    "remote_bundle": "dist/stage05_mk14_fresh_validation_e32_cpu_v1.tar.gz",
+    "remote_bundle_summary_json": "data/stage05_mk14_fresh_validation_remote_bundle_summary.json",
+    "validation_result_json": "data/stage05_mk14_fresh_validation_result.json"
+  },
+  "next_gate": "Materialize the panel and frozen train-only normalization artifact, prepare every selected ligand, build the deterministic CPU bundle, run three e32 seeds, aggregate without score replacement, then evaluate exactly once. Test remains locked even after a pass until a separate authorization is committed.",
+  "interpretation_boundary": "A pass would provide fresh within-target validation of the frozen receptor subset against matched linear, exhaustive, and single-best comparators. Because QUBO and final greedy select the same subset, it cannot prove QUBO-over-greedy or quantum advantage. It does not establish binding affinity, biological activity, full-DUD-E performance, cross-target generalization, or test performance."
+}
