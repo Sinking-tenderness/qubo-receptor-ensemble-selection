@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage05-mk14-expanded8-train696-e32-matrix-intake-v1",
+  "created_on": "2026-07-21",
+  "purpose": "Independently admit the complete MAPK14 train-696 e32 matrix while retaining paired-seed disagreement as modeled docking uncertainty.",
+  "authorization": {
+    "path": "configs/stage05_mk14_expanded_train696_preregistration.json",
+    "sha256": "38DFC6E8D1B6E0276654EC57909902A4631837A61355118BFBDD284B8663B907"
+  },
+  "inputs": {
+    "full_ligand_manifest": "data/processed/stage05_mk14_expanded_train_348a348d_pdbqt_manifest.csv",
+    "receptor_manifest": "data/processed/stage05_mk14_expanded8_receptor_manifest.csv",
+    "new_aggregate_summary": "results/runs/stage05_mk14_expanded8_train536new_e32_aggregated/summary.json",
+    "merged_summary": "results/runs/stage05_mk14_expanded8_train696_e32_aggregated/summary.json",
+    "aggregated_seed_scores": "results/runs/stage05_mk14_expanded8_train696_e32_aggregated/aggregated_seed_scores.csv",
+    "primary_median_matrix": "results/runs/stage05_mk14_expanded8_train696_e32_aggregated/primary_median_score_matrix.csv",
+    "sensitivity_minimum_matrix": "results/runs/stage05_mk14_expanded8_train696_e32_aggregated/sensitivity_minimum_score_matrix.csv",
+    "inherited_uncertainty_preregistration": "configs/stage05_mk14_expanded_uncertainty_qubo_gate_preregistration.json",
+    "inherited_e64_audit": "data/stage05_mk14_expanded_e64_consensus_audit_summary.json"
+  },
+  "input_sha256": {
+    "full_ligand_manifest": "ED697E2D0BC0C0B125FE1C30E0DF417F0B329DEE6817D841A997B5A0728FD98F",
+    "receptor_manifest": "FBB92AB50C8AE00955D463E6E0F7ECBF2D3826E64878D3C00095BF5E0824124C",
+    "new_aggregate_summary": "F3849BC2A33E7C5051521A76DB05D7BDE1B5D5B14D8AEFE5D90B38CAEB1A8A4D",
+    "merged_summary": "BB7E92CEE20E9FCA652A338FB0B706DC469F39A261BAFD77428087D4F6A54E22",
+    "aggregated_seed_scores": "3BD61E4B1545CBD521082E2970AE4A3848F8BB44C8EC2A36FBDCEEF822332D62",
+    "primary_median_matrix": "CDA24C99A9552B8BDBB8A532C4BBCD665EAF15EEC932EDE901F5A03EA1E5D255",
+    "sensitivity_minimum_matrix": "774E32775CD3F434082DA9CA7DF5C2B39BFBB748B7F00F1A957D00540FF9021F",
+    "inherited_uncertainty_preregistration": "C57AA3B377BEA2D05504EE10E6E6B59B01331718AE4DFC4A327FF907AC65327F",
+    "inherited_e64_audit": "B65CB4CEFE115220ABA5341B73C1F18C14F1DD70D0FF015A402AF31ECF2914C2"
+  },
+  "source_archive": {
+    "path": "E:/LeStoreDownload/stage05_mk14_expanded8_train696_e32_core_results_v1.tar.gz",
+    "sha256": "F52C7321FA2AE9FB5878EB0DD9806EB089157B23657BAFA71DFA4EB374EE813D"
+  },
+  "expected": {
+    "ligand_count": 696,
+    "label_counts": {"active": 348, "decoy": 348},
+    "selection_role": "development_train_expanded",
+    "split": "train",
+    "receptor_count": 8,
+    "seed_ids": ["seed0", "seed1", "seed2"],
+    "aggregated_pair_count": 5568,
+    "complete_seed_cell_count": 16704,
+    "failed_pair_count": 0,
+    "validation_rows": 0,
+    "test_rows": 0
+  },
+  "uncertainty_policy": {
+    "basis": "The inherited label-independent e64 audit showed stable e32/e64 medians despite persistent alternative pose basins, so complete paired-seed disagreement is retained as uncertainty rather than selectively repaired.",
+    "minimum_score_consensus_delta_kcal_per_mol": 0.5,
+    "minimum_consensus_replicates": 2,
+    "raw_range_diagnostic_threshold_kcal_per_mol": 2.0,
+    "extreme_raw_range_diagnostic_threshold_kcal_per_mol": 5.0,
+    "raw_range_is_rejection_criterion": false,
+    "required_nonnegative_median_pair_count": 0,
+    "required_cell_replacement_count": 0,
+    "required_e64_matrix_score_count": 0
+  },
+  "outputs": {
+    "uncertain_pairs_csv": "data/processed/stage05_mk14_train696_matrix_uncertain_pairs.csv",
+    "summary_json": "data/stage05_mk14_train696_matrix_intake_summary.json"
+  },
+  "interpretation_boundary": "This label-independent intake admits an unchanged development-train e32 matrix and records stochastic search disagreement. It does not calculate enrichment, fit QUBO, access validation/test, replace scores, establish affinity or activity, or demonstrate quantum advantage."
+}

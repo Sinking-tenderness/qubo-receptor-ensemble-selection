@@ -1,0 +1,119 @@
+{
+  "schema_version": "1.0",
+  "authorization_id": "stage05-mk14-expanded8-train696-inherited-uncertainty-qubo-gate-20260721-v1",
+  "status": "train_uncertainty_qubo_gate_failed_validation_unavailable",
+  "source_archive": {
+    "filename": "stage05_mk14_expanded8_train696_e32_core_results_v1.tar.gz",
+    "sha256": "F52C7321FA2AE9FB5878EB0DD9806EB089157B23657BAFA71DFA4EB374EE813D"
+  },
+  "matrix_intake": {
+    "status": "matrix_admission_passed_with_retained_seed_uncertainty",
+    "summary_path": "data/stage05_mk14_train696_matrix_intake_summary.json",
+    "summary_sha256": "CEA7C3777EF952A50F1051078F803A7C8693D594A5FF4F278318968717C7C016",
+    "ligand_count": 696,
+    "receptor_count": 8,
+    "seed_count": 3,
+    "aggregated_pair_count": 5568,
+    "complete_seed_cell_count": 16704,
+    "matrix_cells_replaced": 0,
+    "e64_scores_used_in_matrix": 0
+  },
+  "gate_evidence": {
+    "preregistration_path": "configs/stage05_mk14_train696_uncertainty_qubo_gate_preregistration.json",
+    "preregistration_sha256": "EA9A1CC786A24A4668F62F7130A22173DCB2BBAFFE86132B2AB037ACE634D678",
+    "implementation_path": "scripts/run_stage05_mk14_uncertainty_qubo_gate.py",
+    "implementation_sha256": "D54AFBB6AA17CAB1E3C1590B7FE13104F636AE36DBB2A770074A036EA67C000E",
+    "full_summary_path": "results/runs/stage05_mk14_train696_uncertainty_qubo_gate/summary.json",
+    "full_summary_sha256": "904AE09B41D7F5AA5A1137CE94B6232B1B356BD51940D494282CCC11A704C5D8",
+    "candidate_protocol_path": "results/runs/stage05_mk14_train696_uncertainty_qubo_gate/candidate_protocol.json",
+    "candidate_protocol_sha256": "B64EF66E692ABD82524930F30CB8CF84437C48095AF3ECEC2D06DBBCA303B2AE"
+  },
+  "selected_qubo": {
+    "family": "coverage_qubo",
+    "target_size": 3,
+    "aggregation": "min_score",
+    "weights": {
+      "active_coverage": 1.0,
+      "decoy_exposure": 0.0,
+      "active_overlap": 1.0,
+      "redundancy": 0.0,
+      "stability": 0.5
+    },
+    "subset": [
+      "MK14_2BAJ_aligned",
+      "MK14_3KQ7_aligned",
+      "MK14_3MPT_aligned"
+    ],
+    "matched_linear_subset": [
+      "MK14_2BAJ_aligned",
+      "MK14_3K3J_aligned",
+      "MK14_3KQ7_aligned"
+    ],
+    "seed_specific_subset_mean_pairwise_jaccard": 1.0,
+    "noncardinality_quadratic_term_count": 28,
+    "noncardinality_quadratic_term_range": 1.0
+  },
+  "primary_oof_metrics": {
+    "uncertainty_qubo": {
+      "roc_auc": 0.7300625908310213,
+      "pr_auc_average_precision": 0.7327567022658049,
+      "bedroc_alpha_20": 0.8742649961568237,
+      "EF1%": 2.0,
+      "EF5%": 1.7714285714285714
+    },
+    "matched_linear_top_k": {
+      "roc_auc": 0.7111903818205839,
+      "pr_auc_average_precision": 0.7257698872626658,
+      "bedroc_alpha_20": 0.8866346679051196,
+      "EF1%": 2.0,
+      "EF5%": 1.8285714285714285
+    },
+    "single_best": {
+      "bedroc_alpha_20": 0.8943638107986883,
+      "EF5%": 1.9428571428571428
+    },
+    "nested_exhaustive": {
+      "bedroc_alpha_20": 0.8947968919516778,
+      "EF5%": 1.8285714285714285
+    },
+    "nested_greedy": {
+      "bedroc_alpha_20": 0.9244701173182989,
+      "EF5%": 1.9428571428571428
+    },
+    "all_eight_receptors": {
+      "bedroc_alpha_20": 0.7417606880854858,
+      "EF5%": 1.542857142857143
+    }
+  },
+  "bedroc_deltas_vs_matched_linear": {
+    "primary_median": -0.01236967174829584,
+    "mean_seed": -0.00027943618967681455,
+    "worst_seed": -0.013214058866249268,
+    "seed0": 0.024049456049980877,
+    "seed1": -0.013214058866249268,
+    "seed2": -0.011673705752762054
+  },
+  "acceptance": {
+    "structural_non_degeneracy_passed": true,
+    "subset_differs_from_matched_linear": true,
+    "seed_subset_stability_passed": true,
+    "primary_bedroc_noninferiority_passed": false,
+    "mean_seed_bedroc_noninferiority_passed": false,
+    "worst_seed_bedroc_noninferiority_passed": false,
+    "all_checks_passed": false
+  },
+  "exact_fixed_subset_context": {
+    "subset_count": 56,
+    "primary_bedroc_percentile": 0.75,
+    "mean_seed_bedroc_percentile": 0.75,
+    "worst_seed_bedroc_percentile": 0.7857142857142857
+  },
+  "decision": {
+    "current_objective": "stop without validation access or further weight tuning",
+    "reason": "The non-degenerate and seed-stable active-overlap QUBO did not improve early enrichment over its matched linear comparator and was materially worse than the nested greedy baseline.",
+    "next_research_option": "Preregister one pair-ensemble-utility quadratic objective that is fitted strictly inside nested training folds and must beat both matched linear and nested greedy comparators before validation can be considered."
+  },
+  "validation_rows_read": 0,
+  "test_rows_read": 0,
+  "interpretation_note": "This is a development-train negative method result. It does not establish biological activity, binding affinity, validation performance, cross-target generalization, or quantum advantage."
+}

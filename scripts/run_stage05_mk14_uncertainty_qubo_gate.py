@@ -210,6 +210,19 @@ def audit_inputs(
         or int(e64.get("test_rows_read", -1)) != 0
     ):
         raise ValueError("e64 evidence does not authorize this amendment")
+    if "matrix_intake_audit" in paths:
+        intake = read_json(paths["matrix_intake_audit"])
+        if (
+            intake.get("status")
+            != "matrix_admission_passed_with_retained_seed_uncertainty"
+            or intake.get("qubo_fitted") is not False
+            or intake.get("enrichment_metrics_calculated") is not False
+            or int(intake.get("matrix_cells_replaced", -1)) != 0
+            or int(intake.get("e64_scores_used_in_matrix", -1)) != 0
+            or int(intake.get("validation_rows_read", -1)) != 0
+            or int(intake.get("test_rows_read", -1)) != 0
+        ):
+            raise ValueError("expanded matrix intake boundary changed")
 
     manifest_rows = read_csv(paths["ligand_manifest"])
     if len(manifest_rows) != int(expected["ligand_count"]):
@@ -251,6 +264,9 @@ def audit_inputs(
         raise ValueError("aggregated seed pair count differs")
     long_by_pair: dict[tuple[str, str], dict[str, str]] = {}
     seed_columns = dict(expected["seed_score_columns"])
+    allowed_roles = {
+        str(value) for value in expected["allowed_selection_roles"]
+    }
     for row in long_rows:
         key = (row["ligand_id"], row["receptor_id"])
         if key in long_by_pair:
@@ -260,7 +276,7 @@ def audit_inputs(
             or row["receptor_id"] not in receptor_ids
             or row["status"] != "ok"
             or int(row["seed_count"]) != len(SEED_IDS)
-            or row["selection_role"] != "development_train"
+            or row["selection_role"] not in allowed_roles
         ):
             raise ValueError(f"invalid aggregated pair: {key}")
         values = [float(row[str(seed_columns[seed])]) for seed in SEED_IDS]

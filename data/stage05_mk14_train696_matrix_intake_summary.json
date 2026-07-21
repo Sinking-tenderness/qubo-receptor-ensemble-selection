@@ -1,0 +1,68 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage05-mk14-expanded8-train696-e32-matrix-intake-v1",
+  "status": "matrix_admission_passed_with_retained_seed_uncertainty",
+  "config": {
+    "path": "configs/stage05_mk14_train696_matrix_intake_audit.json",
+    "sha256": "947F353EE60884E73E6D2A201F41B3393EB9C4473B81325510EA2238C5B59400"
+  },
+  "source_archive": {
+    "path": "E:/LeStoreDownload/stage05_mk14_expanded8_train696_e32_core_results_v1.tar.gz",
+    "sha256": "F52C7321FA2AE9FB5878EB0DD9806EB089157B23657BAFA71DFA4EB374EE813D"
+  },
+  "merged_summary": {
+    "path": "results/runs/stage05_mk14_expanded8_train696_e32_aggregated/summary.json",
+    "sha256": "BB7E92CEE20E9FCA652A338FB0B706DC469F39A261BAFD77428087D4F6A54E22"
+  },
+  "thresholds": {
+    "basis": "The inherited label-independent e64 audit showed stable e32/e64 medians despite persistent alternative pose basins, so complete paired-seed disagreement is retained as uncertainty rather than selectively repaired.",
+    "minimum_score_consensus_delta_kcal_per_mol": 0.5,
+    "minimum_consensus_replicates": 2,
+    "raw_range_diagnostic_threshold_kcal_per_mol": 2.0,
+    "extreme_raw_range_diagnostic_threshold_kcal_per_mol": 5.0,
+    "raw_range_is_rejection_criterion": false,
+    "required_nonnegative_median_pair_count": 0,
+    "required_cell_replacement_count": 0,
+    "required_e64_matrix_score_count": 0
+  },
+  "audit": {
+    "aggregated_pair_count": 5568,
+    "ligand_count": 696,
+    "receptor_count": 8,
+    "seed_count": 3,
+    "nonnegative_median_score_pair_count": 0,
+    "minimum_score_consensus_diagnostic_pair_count": 54,
+    "raw_range_diagnostic_pair_count": 2,
+    "extreme_raw_range_diagnostic_pair_count": 1,
+    "uncertain_pair_union_count": 56,
+    "raw_range_diagnostic_label_counts": {
+      "active": 1,
+      "decoy": 1
+    },
+    "raw_range_diagnostic_receptor_counts": {
+      "MK14_2BAJ_aligned": 2
+    },
+    "median_minus_minimum_kcal_per_mol": {
+      "median": 0.017999999999998906,
+      "maximum": 1.931000000000001
+    },
+    "raw_seed_range_kcal_per_mol": {
+      "median": 0.040999999999999925,
+      "maximum": 6.906
+    },
+    "execution_search_quality_warning_count": 1
+  },
+  "matrix_cells_replaced": 0,
+  "e64_scores_used_in_matrix": 0,
+  "qubo_fitted": false,
+  "enrichment_metrics_calculated": false,
+  "validation_rows_read": 0,
+  "test_rows_read": 0,
+  "outputs": {
+    "uncertain_pairs_csv": {
+      "path": "data/processed/stage05_mk14_train696_matrix_uncertain_pairs.csv",
+      "sha256": "8FBB4A838C375B0F6C15E748F095969955D8E6B123B26D8C494CCBDAAB6727B0"
+    }
+  },
+  "interpretation_note": "This label-independent intake admits an unchanged development-train e32 matrix and records stochastic search disagreement. It does not calculate enrichment, fit QUBO, access validation/test, replace scores, establish affinity or activity, or demonstrate quantum advantage."
+}
