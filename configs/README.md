@@ -21,6 +21,9 @@ engine, search strength, or output boundary changes.
 - `stage05_mk14_fresh_validation_preregistration.json`
 - `stage05_mk14_fresh_validation_execution_amendment01.json`
 - `stage05_mk14_fresh_validation_execution_amendment02.json`
+- `stage05_mk14_fresh_validation_distributed_execution_amendment03.json`
+- `stage05_mk14_fresh_validation_e32_seed1_64vcpu_linux.json`
+- `stage05_mk14_fresh_validation_e32_distributed_seed_aggregation.json`
 - `stage05_mk14_enopt_xgboost_baseline_preregistration.json`
 - `stage05_mk14_enopt_xgboost_fresh_validation_preregistration.json`
 
@@ -30,6 +33,11 @@ selects the available 32-vCPU execution layout of 16 two-CPU Vina processes;
 the earlier 64-vCPU files remain immutable audit records. Do not edit frozen
 files in place. Any authorized protocol change requires a new configuration
 and a dated amendment before fresh-validation scores are generated.
+
+Amendment 03 records the active distributed layout: seed0 and seed2 use their
+32-vCPU configurations, while seed1 uses 32 two-CPU processes on a 64-vCPU
+instance. The distributed aggregation configuration pins those three exact
+config hashes. This changes process placement and concurrency only.
 
 Files containing `unidock` describe a consumed-train experimental branch. Its
 tested profiles failed the CPU-equivalence gate and are not current production

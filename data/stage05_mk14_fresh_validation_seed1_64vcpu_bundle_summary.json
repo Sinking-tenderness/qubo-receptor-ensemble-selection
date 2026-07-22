@@ -1,0 +1,33 @@
+{
+  "archive": "dist/stage05_mk14_fresh_validation_seed1_64vcpu_v3.tar.gz",
+  "archive_entry_count": 1613,
+  "archive_sha256": "151F56E7271A9D980331769AFBFD0B753F76AE3DAE91633982C7F6ACD80577C7",
+  "archive_size_bytes": 3216323,
+  "deterministic_metadata": true,
+  "execution_profile": {
+    "amendment": "configs/stage05_mk14_fresh_validation_distributed_execution_amendment03.json",
+    "base_seed": 20260802,
+    "cpu_per_vina_process": 2,
+    "max_total_cpu": 64,
+    "profile_id": "distributed-seed1-64vcpu",
+    "role": "run only seed1 on the independent 64-vCPU instance",
+    "workers": 32
+  },
+  "gpu_required": false,
+  "label_counts": {
+    "active": 75,
+    "decoy": 1501
+  },
+  "ligand_count": 1576,
+  "manifest_line_ending": "LF",
+  "receptor_count": 5,
+  "receptor_ligand_pairs_per_seed": 7880,
+  "schema_version": "1.0",
+  "seed_count": 3,
+  "source_file_count": 1612,
+  "status": "ok",
+  "test_rows": 0,
+  "test_scores_read": 0,
+  "total_vina_jobs": 23640,
+  "validation_metrics_calculated": false
+}

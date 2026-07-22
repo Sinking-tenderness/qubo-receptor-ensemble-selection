@@ -1,0 +1,57 @@
+{
+  "schema_version": "1.0",
+  "authorization_id": "stage05-mk14-fresh-validation-distributed-execution-amendment03-20260722-v1",
+  "created_on": "2026-07-22",
+  "parent_authorization_id": "stage05-mk14-fresh-validation-after-pair-synergy-gate-20260721-v1",
+  "supersedes_execution_layout_only": "stage05-mk14-fresh-validation-execution-amendment02-20260721-v1",
+  "reason": "Two 32-vCPU instances were already assigned seed0 and seed2 when an independent 64-vCPU instance became available. Running seed1 with 32 two-CPU Vina processes reduces wall time while retaining the frozen score definition.",
+  "state_at_amendment": {
+    "seed0": "running on an independent 32-vCPU instance",
+    "seed1": "not started",
+    "seed2": "running on an independent 32-vCPU instance",
+    "fresh_validation_aggregate_created": false,
+    "fresh_validation_metrics_calculated": false,
+    "locked_test_rows_read": 0
+  },
+  "authorized_distributed_layout": {
+    "seed0": {
+      "base_seed": 20260801,
+      "workers": 16,
+      "cpu_per_vina_process": 2,
+      "max_total_cpu": 32,
+      "config": "configs/stage05_mk14_fresh_validation_e32_seed0_32vcpu_linux.json"
+    },
+    "seed1": {
+      "base_seed": 20260802,
+      "workers": 32,
+      "cpu_per_vina_process": 2,
+      "max_total_cpu": 64,
+      "config": "configs/stage05_mk14_fresh_validation_e32_seed1_64vcpu_linux.json"
+    },
+    "seed2": {
+      "base_seed": 20260803,
+      "workers": 16,
+      "cpu_per_vina_process": 2,
+      "max_total_cpu": 32,
+      "config": "configs/stage05_mk14_fresh_validation_e32_seed2_32vcpu_linux.json"
+    }
+  },
+  "invariants": {
+    "ligand_count": 1576,
+    "receptor_count": 5,
+    "receptor_ligand_pairs_per_seed": 7880,
+    "vina_version": "1.2.7",
+    "scoring": "vina",
+    "exhaustiveness": 32,
+    "num_modes": 1,
+    "vina_cpu_per_process": 2,
+    "input_identity_changed": false,
+    "search_box_changed": false,
+    "random_seed_definition_changed": false,
+    "score_aggregation_changed": false,
+    "model_or_acceptance_changed": false,
+    "test_rows_permitted": 0
+  },
+  "aggregation_rule": "Transfer each completed seed summary and representative score table to one admission host, then use the distributed three-seed aggregation configuration. Do not calculate validation metrics on a docking host.",
+  "interpretation_boundary": "This amendment changes only process placement and concurrency. It cannot change receptor-ligand scores, the frozen QUBO, comparators, metrics, thresholds, biological interpretation, or test status."
+}

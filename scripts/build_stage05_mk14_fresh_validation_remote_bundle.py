@@ -32,6 +32,7 @@ FIXED_PATHS = (
     "configs/stage05_mk14_fresh_validation_preregistration.json",
     "configs/stage05_mk14_fresh_validation_execution_amendment01.json",
     "configs/stage05_mk14_fresh_validation_execution_amendment02.json",
+    "configs/stage05_mk14_fresh_validation_distributed_execution_amendment03.json",
     "configs/stage05_mk14_fresh_validation_e32_seed0_linux.json",
     "configs/stage05_mk14_fresh_validation_e32_seed1_linux.json",
     "configs/stage05_mk14_fresh_validation_e32_seed2_linux.json",
@@ -40,6 +41,8 @@ FIXED_PATHS = (
     "configs/stage05_mk14_fresh_validation_e32_seed1_32vcpu_linux.json",
     "configs/stage05_mk14_fresh_validation_e32_seed2_32vcpu_linux.json",
     "configs/stage05_mk14_fresh_validation_e32_32vcpu_seed_aggregation.json",
+    "configs/stage05_mk14_fresh_validation_e32_seed1_64vcpu_linux.json",
+    "configs/stage05_mk14_fresh_validation_e32_distributed_seed_aggregation.json",
     "configs/stage05_mk14_expanded_train_e32_cpu2.txt",
     "data/processed/stage05_mk14_fresh_validation_panel.csv",
     RECEPTOR_MANIFEST,
@@ -56,7 +59,32 @@ FIXED_PATHS = (
     "scripts/prepare_receptor.py",
     "scripts/run_md_receptor_ligand_benchmark.py",
     "scripts/run_stage05_mk14_fresh_validation_remote.sh",
+    "scripts/run_stage05_mk14_fresh_validation_seed1_64vcpu_remote.sh",
 )
+
+EXECUTION_PROFILES = {
+    "32vcpu": {
+        "role": "run seed0, seed1, and seed2 sequentially on one instance",
+        "workers": 16,
+        "cpu_per_vina_process": 2,
+        "max_total_cpu": 32,
+        "amendment": (
+            "configs/"
+            "stage05_mk14_fresh_validation_execution_amendment02.json"
+        ),
+    },
+    "distributed-seed1-64vcpu": {
+        "role": "run only seed1 on the independent 64-vCPU instance",
+        "workers": 32,
+        "cpu_per_vina_process": 2,
+        "max_total_cpu": 64,
+        "base_seed": 20260802,
+        "amendment": (
+            "configs/"
+            "stage05_mk14_fresh_validation_distributed_execution_amendment03.json"
+        ),
+    },
+}
 
 
 def read_csv(path: Path) -> list[dict[str, str]]:
@@ -122,6 +150,11 @@ def main() -> int:
     parser.add_argument("--root", type=Path, default=Path.cwd())
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--summary-output", type=Path, required=True)
+    parser.add_argument(
+        "--execution-profile",
+        choices=sorted(EXECUTION_PROFILES),
+        default="32vcpu",
+    )
     args = parser.parse_args()
     root = args.root.resolve()
     audit = validate_manifests(root)
@@ -129,13 +162,8 @@ def main() -> int:
     result.update(audit)
     result["gpu_required"] = False
     result["execution_profile"] = {
-        "workers": 16,
-        "cpu_per_vina_process": 2,
-        "max_total_cpu": 32,
-        "amendment": (
-            "configs/"
-            "stage05_mk14_fresh_validation_execution_amendment02.json"
-        ),
+        "profile_id": args.execution_profile,
+        **EXECUTION_PROFILES[args.execution_profile],
     }
     result["validation_metrics_calculated"] = False
     result["test_scores_read"] = 0

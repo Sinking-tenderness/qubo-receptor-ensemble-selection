@@ -91,6 +91,14 @@ input, seed, search parameter, model, metric, or threshold changed. A GPU is
 not used. Expected wall time is approximately 5-6 days, with substantial
 ligand-dependent variation.
 
+After seed0 and seed2 had been assigned to independent 32-vCPU instances, a
+64-vCPU instance became available before seed1 was started and before any
+fresh-validation aggregate or metric was calculated. Amendment 03 authorizes
+the distributed layout: seed0 uses 16 x 2 CPU, seed1 uses 32 x 2 CPU, and
+seed2 uses 16 x 2 CPU. The seed definitions, Vina inputs, and score protocol
+are unchanged. A dedicated aggregation config pins the three execution-config
+hashes.
+
 ## Current 32-vCPU Bundle
 
 - File: `dist/stage05_mk14_fresh_validation_e32_32vcpu_v2.tar.gz`
@@ -142,3 +150,20 @@ sha256sum stage05_mk14_fresh_validation_e32_core_results_v1.tar.gz
 The remote script stops after score aggregation. It does not calculate
 validation metrics. The returned archive must be admitted locally before the
 single preregistered evaluation is executed.
+
+## Distributed Seed1 64-vCPU Bundle
+
+- File: `dist/stage05_mk14_fresh_validation_seed1_64vcpu_v3.tar.gz`
+- Size: 3,216,323 bytes
+- SHA-256: `151F56E7271A9D980331769AFBFD0B753F76AE3DAE91633982C7F6ACD80577C7`
+- Source files: 1612
+- Archive entries including manifest: 1613
+- Deterministic rebuild: identical SHA-256 in two complete builds
+- Internal manifest audit: 1612 passed, 0 failed
+
+This package is for the independent seed1 machine only. It runs 32 concurrent
+Vina processes with two CPU threads each and base seed 20260802. Use
+`run_stage05_mk14_fresh_validation_seed1_64vcpu_remote.sh`; do not run the
+three-seed wrapper on that machine. The resulting compact seed1 archive must
+be combined with the seed0 and seed2 archives on one admission host, using
+`stage05_mk14_fresh_validation_e32_distributed_seed_aggregation.json`.

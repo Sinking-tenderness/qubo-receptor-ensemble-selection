@@ -47,6 +47,11 @@ validation workflow:
 The evaluation script is intentionally restricted in `workflow.py`. The
 locked test is not part of this sequence.
 
+For the authorized three-instance layout,
+`run_stage05_mk14_fresh_validation_seed1_64vcpu_remote.sh` runs only seed1
+with 32 two-CPU Vina processes. It audits completion and creates a compact
+result archive but does not aggregate seeds or calculate validation metrics.
+
 The supplementary EnOpt-style XGBoost models have already been fitted and
 frozen on Train-696. Do not rerun or retune them. After the primary validation
 result is finalized, `evaluate_enopt_xgboost_fresh_validation.py` may be run
