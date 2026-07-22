@@ -1,0 +1,12 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage05-mk14-expanded-four-receptor-redocking-gate-v1",
+  "status": "expanded_redocking_execution_failed",
+  "error": "RuntimeError: receptor preparation for 3UVR_06F failed with return code 1: C:\\Users\\MM\\anaconda3\\envs\\qubo-receptor-ensemble\\Lib\\site-packages\\prody\\utilities\\misctools.py:424: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.\n  import pkg_resources\n@> 2736 atoms and 1 coordinate set(s) were parsed in 0.03s.\nTraceback (most recent call last):\n  File \"D:\\\u91cf\u5b50\u00d7\u86cb\u767d\u8d28\\qubo-receptor-ensemble-selection\\scripts\\prepare_receptor.py\", line 286, in <module>\n    raise SystemExit(main())\n                     ^^^^^^\n  File \"D:\\\u91cf\u5b50\u00d7\u86cb\u767d\u8d28\\qubo-receptor-ensemble-selection\\scripts\\prepare_receptor.py\", line 235, in main\n    raise RuntimeError(f\"Meeko failed with return code {completed.returncode}\")\nRuntimeError: Meeko failed with return code 1",
+  "data_boundary": {
+    "ligand_labels_read": 0,
+    "docking_scores_from_benchmark_read": 0,
+    "previous_validation_rows_read": 0,
+    "test_rows_read": 0
+  }
+}

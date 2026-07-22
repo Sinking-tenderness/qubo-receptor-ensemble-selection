@@ -21,27 +21,34 @@ complete. The fixed single-receptor protocol achieved ROC-AUC 0.806 on the
 independent 40-ligand CDK2 test; that test set is now permanently consumed and
 must not be reused for fitting.
 
-Stage 5 is in progress on the independent MAPK14/p38alpha target. Target intake,
-four-structure alignment and pocket auditing, receptor preparation, and a
-four-case common-box redocking gate are complete. All four top-ranked
-co-crystal poses have symmetry-corrected heavy-atom RMSD below 2 A. A grouped
-scaffold/source-ID split is frozen with an unreleased test partition, and a
-train-only 4-active/4-decoy execution pilot completed all 32 four-receptor
-docking pairs. A train-only search-strength calibration selected
-exhaustiveness 16, and a balanced 120-active/120-decoy train/validation panel
-was prepared successfully. Three paired-seed development configurations each
-passed a 960-pair pre-execution audit with zero test rows. MAPK14
-development-scale enrichment and receptor-subset evaluation have not yet been
-run.
+Stage 5 is in progress on the independent MAPK14/p38alpha target. Eight
+label-independent receptor conformers and a 696-ligand development-train panel
+have complete three-seed AutoDock Vina 1.2.7 e32 evidence. A preregistered
+marginal pair-synergy QUBO passed its train-only gates against matched linear
+and nested-greedy comparators, but nested exhaustive search remained stronger.
+This is not yet independent validation or quantum advantage.
 
-## Planned milestones
+A fresh scaffold/source-group-disjoint validation panel is frozen with 75
+actives, 1,501 decoys, five required receptor columns, and three seeds: 23,640
+official CPU Vina jobs. No fresh-validation metric has been calculated and the
+test partition remains locked. A Train-160 Uni-Dock GPU pilot was fast but
+failed the frozen CPU-equivalence gate, so its scores are not mixed with the
+official Vina matrices.
 
-1. Validate a single-receptor docking protocol by redocking.
-2. Build a reproducible active/decoy virtual-screening baseline.
-3. Generate a ligand-by-conformer docking-score matrix.
-4. Reproduce classical receptor-ensemble selection baselines.
-5. Formulate sparse receptor selection as a QUBO.
-6. Compare exact, greedy, classical annealing, and quantum-inspired solvers.
+See the [runtime and engine-migration assessment](reports/stage-05/docking_engine_runtime_and_migration_assessment.md)
+for measured CPU projections and the evidence that must be rebuilt after an
+engine change.
+
+## Milestones
+
+- [x] Validate docking protocols by co-crystal redocking.
+- [x] Build reproducible active/decoy score matrices.
+- [x] Compare QUBO selection with linear, greedy, single-best, and exhaustive
+  development baselines.
+- [x] Freeze the MAPK14 marginal pair-synergy candidate on Train-696.
+- [ ] Complete the preregistered fresh MAPK14 validation.
+- [ ] Decide whether a separately preregistered locked-test release is
+  justified; no automatic release is allowed.
 
 ## Repository layout
 
@@ -59,6 +66,18 @@ src/           Reusable Python package code
 tests/         Automated tests
 ```
 
+The repository retains experiment-specific scripts for hash-pinned
+reproducibility. New users should start from the supported catalog instead of
+guessing an execution order from filenames:
+
+```powershell
+python .\scripts\workflow.py list
+python .\scripts\workflow.py show dock-vina
+```
+
+See [the script guide](scripts/README.md) for the canonical pipeline and the
+boundary between supported, frozen, audit, and experimental commands.
+
 ## Environment
 
 Create the initial Conda environment:
@@ -70,8 +89,9 @@ python -m pip install -e .
 python -m pytest
 ```
 
-Docking engines and structure-preparation tools will be pinned after the
-redocking workflow is selected and validated.
+Experiment configurations pin the docking engine, preparation tools, inputs,
+parameters, seeds, and expected hashes. Do not substitute an engine inside an
+existing score matrix or validation protocol.
 
 ## Data policy
 

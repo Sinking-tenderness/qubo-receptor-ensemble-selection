@@ -1,0 +1,45 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage05-mk14-unidock-rigid-macrocycle-train4-cpu-e32-seed2-win-v1",
+  "purpose": "Generate the official Vina CPU seed-two reference for four rigid-macrocycle consumed-train ligands and five fixed MAPK14 receptors.",
+  "inputs": {
+    "receptor_manifest": "data/processed/stage05_mk14_unidock_train160_receptor_manifest.csv",
+    "ligand_manifest": "results/runs/stage05_mk14_unidock_rigid_macrocycle_inputs/rigid_macrocycle_manifest.csv",
+    "vina_executable": "environment/bin/vina_1.2.7_win.exe",
+    "vina_config": "configs/stage05_mk14_expanded_train_e32_cpu2.txt",
+    "parallel_runner": "scripts/batch_vina_docking_parallel.py",
+    "score_matrix_module": "scripts/build_score_matrix.py"
+  },
+  "input_sha256": {
+    "receptor_manifest": "EFAA41D3C685F30F3BEF3D16F408107F82E3930CF94D481939D046ECEBFBEFCC",
+    "ligand_manifest": "7F8A6A2BD643912F7A9F83D065F6FCB5CD3EEAFF7DF064C29819C0B8F3DAD00F",
+    "vina_executable": "E0C4B2715E0C1A74F6E92D0F3BE0328AC97542EAFBC111E6B1EFAD897A73CCE5",
+    "vina_config": "66C74410ED27CB04671B8D56C12FF0BA83C57641C5FDB039BDB5203A8EBEE5ED",
+    "parallel_runner": "010D9A95EE0587501A35BE8A0C40A82BC83E7BA4EBFC4EF17130AB05DABC2F0A",
+    "score_matrix_module": "F9301E06EBB125EA508B955CCBC685D6B48038D191AB90903D5928E2E161775A"
+  },
+  "expected_receptor_count": 5,
+  "expected_ligand_count": 4,
+  "expected_label_counts": {"decoy": 4},
+  "docking": {
+    "workers": 2,
+    "max_total_cpu": 4,
+    "base_seed": 20260803,
+    "representative_method": "pose_rank_1"
+  },
+  "search_quality_warnings": {
+    "flag_nonnegative_scores": true,
+    "maximum_delta_from_ligand_median_kcal_per_mol": 5.0
+  },
+  "outputs": {
+    "run_directory": "results/runs/stage05_mk14_unidock_rigid_macrocycle_cpu_e32_seed2_win",
+    "audited_ligand_manifest_csv": "results/runs/stage05_mk14_unidock_rigid_macrocycle_cpu_e32_seed2_win/audited_ligands.csv",
+    "receptor_run_manifest_csv": "results/runs/stage05_mk14_unidock_rigid_macrocycle_cpu_e32_seed2_win/receptor_runs.csv",
+    "combined_raw_scores_csv": "results/runs/stage05_mk14_unidock_rigid_macrocycle_cpu_e32_seed2_win/raw_scores.csv",
+    "representative_long_csv": "results/runs/stage05_mk14_unidock_rigid_macrocycle_cpu_e32_seed2_win/representative_scores.csv",
+    "score_matrix_csv": "results/runs/stage05_mk14_unidock_rigid_macrocycle_cpu_e32_seed2_win/score_matrix.csv",
+    "search_warnings_csv": "results/runs/stage05_mk14_unidock_rigid_macrocycle_cpu_e32_seed2_win/search_warnings.csv",
+    "summary_json": "results/runs/stage05_mk14_unidock_rigid_macrocycle_cpu_e32_seed2_win/summary.json"
+  },
+  "interpretation_boundary": "This consumed-train run establishes a CPU reference after rigid-macrocycle re-preparation. It does not evaluate enrichment, QUBO, validation, or test performance."
+}

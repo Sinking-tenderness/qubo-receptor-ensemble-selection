@@ -1,0 +1,266 @@
+{
+  "data_boundary": {
+    "enrichment_metrics_calculated": false,
+    "source_split": "consumed development train",
+    "test_rows_read": false,
+    "validation_docking_scores_read": false
+  },
+  "decision": {
+    "fallback": "Retain official AutoDock Vina 1.2.7 CPU evidence if the revised train-only GPU protocol cannot pass a newly preregistered full equivalence gate.",
+    "immediate": "Do not run Train-696 or fresh validation with the failed Uni-Dock protocol.",
+    "next_train_only_diagnostic": "Re-prepare the affected consumed-train macrocycles with Meeko --rigid_macrocycles and separately test a higher-search Uni-Dock profile on the nonmacrocycle groups that missed rank equivalence."
+  },
+  "diagnostic_config": {
+    "path": "configs/stage05_mk14_unidock_gpu_equivalence_failure_diagnostic.json",
+    "sha256": "77251EFD43F411BFA0EA862D9D9351C62324609C4FC252BDA84FEF4B8A064249"
+  },
+  "diagnostic_nonmacrocycle_subset": {
+    "active_decoy_mean_delta_gap_kcal_per_mol": 0.04036122807017545,
+    "best_receptor_identity": {
+      "agreement_count": 383,
+      "agreement_fraction": 0.8183760683760684,
+      "by_seed": {
+        "seed0": 0.8205128205128205,
+        "seed1": 0.8076923076923077,
+        "seed2": 0.8269230769230769
+      },
+      "comparison_count": 468
+    },
+    "excluded_ligand_ids": [
+      "MK14_decoy_L017314",
+      "MK14_decoy_L018641",
+      "MK14_decoy_L029808",
+      "MK14_decoy_L031427"
+    ],
+    "formal_gate_replacement": false,
+    "interpretation": "This label-aware exclusion is diagnostic only. It cannot replace the frozen gate or authorize validation because the excluded Train-160 rows are all decoys and the minimum group Spearman still misses the frozen threshold.",
+    "label_pair_counts": {
+      "active": 1200,
+      "decoy": 1140
+    },
+    "ligand_count": 156,
+    "lowest_spearman_groups": [
+      {
+        "p95_absolute_delta_kcal_per_mol": 0.9987499999999994,
+        "receptor_id": "MK14_3MPT_aligned",
+        "seed_id": "seed2",
+        "spearman": 0.895438715182132,
+        "top5pct_overlap": 0.75
+      },
+      {
+        "p95_absolute_delta_kcal_per_mol": 0.8537500000000002,
+        "receptor_id": "MK14_2QD9_reference",
+        "seed_id": "seed2",
+        "spearman": 0.9150033111704519,
+        "top5pct_overlap": 0.75
+      },
+      {
+        "p95_absolute_delta_kcal_per_mol": 0.7582500000000008,
+        "receptor_id": "MK14_3MPT_aligned",
+        "seed_id": "seed1",
+        "spearman": 0.9157749246126423,
+        "top5pct_overlap": 0.875
+      },
+      {
+        "p95_absolute_delta_kcal_per_mol": 0.8785000000000005,
+        "receptor_id": "MK14_2QD9_reference",
+        "seed_id": "seed0",
+        "spearman": 0.916388628543702,
+        "top5pct_overlap": 0.875
+      },
+      {
+        "p95_absolute_delta_kcal_per_mol": 0.9247500000000002,
+        "receptor_id": "MK14_2QD9_reference",
+        "seed_id": "seed1",
+        "spearman": 0.9186062776147017,
+        "top5pct_overlap": 0.875
+      }
+    ],
+    "maximum_absolute_delta_kcal_per_mol": 2.072000000000001,
+    "mean_signed_delta_by_label_kcal_per_mol": {
+      "active": 0.17722,
+      "decoy": 0.13685877192982454
+    },
+    "mean_signed_delta_kcal_per_mol": 0.1575568376068376,
+    "median_absolute_delta_kcal_per_mol": 0.13200000000000012,
+    "median_group_spearman": 0.9400146039901303,
+    "median_group_top10pct_overlap": 0.875,
+    "median_group_top5pct_overlap": 0.875,
+    "minimum_group_spearman": 0.895438715182132,
+    "overall_pearson": 0.9648804921055749,
+    "overall_spearman": 0.9454626986795639,
+    "p95_absolute_delta_kcal_per_mol": 0.8239999999999998,
+    "pair_count": 2340
+  },
+  "experiment_id": "stage05-mk14-unidock113-train160-gpu-equivalence-failure-diagnostic-v1",
+  "formal_gate": {
+    "all_gate_checks_passed": false,
+    "decision_unchanged": true,
+    "gate_checks": {
+      "active_decoy_mean_delta_gap": {
+        "comparison": "maximum",
+        "observed": 3474.228894166667,
+        "passed": false,
+        "threshold": 0.5
+      },
+      "complete_pairs": {
+        "comparison": "equal",
+        "observed": 2400,
+        "passed": true,
+        "threshold": 2400
+      },
+      "median_group_top5pct_overlap": {
+        "comparison": "minimum",
+        "observed": 0.625,
+        "passed": false,
+        "threshold": 0.8
+      },
+      "minimum_group_spearman": {
+        "comparison": "minimum",
+        "observed": 0.8191109730871884,
+        "passed": false,
+        "threshold": 0.95
+      },
+      "overall_median_absolute_score_delta": {
+        "comparison": "maximum",
+        "observed": 0.13900000000000023,
+        "passed": true,
+        "threshold": 0.5
+      },
+      "overall_p95_absolute_score_delta": {
+        "comparison": "maximum",
+        "observed": 1.067249999999999,
+        "passed": false,
+        "threshold": 1.0
+      },
+      "throughput_speedup_vs_recorded_32vcpu": {
+        "comparison": "minimum",
+        "observed": 66.2020241501055,
+        "passed": true,
+        "threshold": 5.0
+      }
+    },
+    "status": "gpu_equivalence_gate_failed",
+    "unidock_admitted_as_cpu_vina_replacement": false
+  },
+  "gpu_execution": {
+    "batch_count": 15,
+    "completed_pair_count": 2400,
+    "elapsed_seconds": 263.13973550871015,
+    "pairs_per_second": 9.120629369639836,
+    "speedup_vs_recorded_32vcpu": 66.2020241501055,
+    "status": "ok"
+  },
+  "integrity": {
+    "batch_index_match_count": 15,
+    "batch_summary_count": 15,
+    "embedded_hash_check_count": 36,
+    "status": "verified"
+  },
+  "macrocycle_failure": {
+    "affected_pair_count": 60,
+    "affected_pairs_above_large_delta_threshold": 60,
+    "all_large_delta_pairs_are_macrocycle_pseudoatom_ligands": true,
+    "gpu_score_range_kcal_per_mol": {
+      "maximum": 1861935.875,
+      "minimum": -378.825
+    },
+    "interpretation": "The four Train-160 ligands containing Meeko CG0/G0 flexible-macrocycle closure pseudoatoms account for all 60 score deltas above 10 kcal/mol. Their Uni-Dock scores are nonphysical and indicate an engine/input compatibility failure, not binding evidence.",
+    "label_counts": {
+      "decoy": 4
+    },
+    "large_delta_threshold_kcal_per_mol": 10.0,
+    "ligand_count": 4,
+    "ligands": [
+      {
+        "label": "decoy",
+        "ligand_id": "MK14_decoy_L017314",
+        "pdbqt_path": "results/runs/stage05_mk14_development_ligands/pdbqt/MK14_decoy_L017314.pdbqt",
+        "pdbqt_sha256": "D3937A6DB3A70659564F2F56CA0F2D58A07C5296D046D0B3438D475FE08D2E9F",
+        "pseudoatom_types": [
+          "CG0",
+          "G0"
+        ]
+      },
+      {
+        "label": "decoy",
+        "ligand_id": "MK14_decoy_L018641",
+        "pdbqt_path": "results/runs/stage05_mk14_development_ligands/pdbqt/MK14_decoy_L018641.pdbqt",
+        "pdbqt_sha256": "73CA67336DD0B647EEAD0E43C4795C4D9446E8BC8AE0E15D2D388AAE0F2F0D3B",
+        "pseudoatom_types": [
+          "CG0",
+          "G0"
+        ]
+      },
+      {
+        "label": "decoy",
+        "ligand_id": "MK14_decoy_L029808",
+        "pdbqt_path": "results/runs/stage05_mk14_development_ligands/pdbqt/MK14_decoy_L029808.pdbqt",
+        "pdbqt_sha256": "916ADD47151B7CC307C214C782E9B686B2A239BFADF9926F1CDEF1C8BE466250",
+        "pseudoatom_types": [
+          "CG0",
+          "G0"
+        ]
+      },
+      {
+        "label": "decoy",
+        "ligand_id": "MK14_decoy_L031427",
+        "pdbqt_path": "results/runs/stage05_mk14_development_ligands/pdbqt/MK14_decoy_L031427.pdbqt",
+        "pdbqt_sha256": "1584BAB46AC44FE0A54A51C447C32781ACE195B42D7EC28EC9725562FE11F3C7",
+        "pseudoatom_types": [
+          "CG0",
+          "G0"
+        ]
+      }
+    ],
+    "log_warning_counts": {
+      "add_to_output_container": 1,
+      "coordinate_size_mismatch": 1,
+      "omp_num_threads_invalid_value": 15
+    },
+    "maximum_absolute_delta_kcal_per_mol": 1861943.946,
+    "median_absolute_delta_kcal_per_mol": 128.5335,
+    "minimum_absolute_delta_kcal_per_mol": 24.987000000000002
+  },
+  "operation": "post-gate consumed-train failure diagnosis; the frozen equivalence gate is not recalculated or changed",
+  "pseudoatom_prevalence": [
+    {
+      "affected_label_counts": {
+        "decoy": 4
+      },
+      "ligand_count": 160,
+      "macrocycle_closure_pseudoatom_ligand_count": 4,
+      "manifest_id": "train160",
+      "path": "data/processed/stage05_mk14_expanded_train_80a80d_pdbqt_manifest.csv",
+      "sha256": "54ABDDC4882E4F78B123B46084C235F21CBF7784D0171B8076E1F93433AEFB25"
+    },
+    {
+      "affected_label_counts": {
+        "active": 1,
+        "decoy": 14
+      },
+      "ligand_count": 696,
+      "macrocycle_closure_pseudoatom_ligand_count": 15,
+      "manifest_id": "train696",
+      "path": "data/processed/stage05_mk14_expanded_train_348a348d_pdbqt_manifest.csv",
+      "sha256": "ED697E2D0BC0C0B125FE1C30E0DF417F0B329DEE6817D841A997B5A0728FD98F"
+    },
+    {
+      "affected_label_counts": {
+        "decoy": 54
+      },
+      "ligand_count": 1576,
+      "macrocycle_closure_pseudoatom_ligand_count": 54,
+      "manifest_id": "fresh_validation_input_compatibility_audit_only",
+      "path": "data/processed/stage05_mk14_fresh_validation_pdbqt_manifest.csv",
+      "sha256": "2DAE54F57C302881DA91FA53B74EDA1B1EC6267EC5385180E28B0EDEB58A777A"
+    }
+  ],
+  "schema_version": "1.0",
+  "source_archive": {
+    "filename": "stage05_mk14_unidock_train160_gpu_equivalence_core_results_v1.tar.gz",
+    "sha256": "CC1C10EE167CAFB56E981CCF17846EB1EE4E7BA7C2EA0B4882BD609CDC2EB6F4",
+    "verified_from_local_archive": true
+  },
+  "status": "macrocycle_input_incompatibility_confirmed"
+}

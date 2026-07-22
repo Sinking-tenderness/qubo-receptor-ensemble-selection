@@ -1,0 +1,26 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage05-mk14-unidock-rigid-macrocycle-train160-manifest-v1",
+  "purpose": "Build a consumed Train-160 PDBQT manifest in which only the four Uni-Dock-incompatible flexible macrocycles are replaced by their audited rigid-macrocycle preparations.",
+  "source_manifest": {
+    "path": "data/processed/stage05_mk14_expanded_train_80a80d_pdbqt_manifest.csv",
+    "sha256": "54ABDDC4882E4F78B123B46084C235F21CBF7784D0171B8076E1F93433AEFB25"
+  },
+  "rigid_macrocycle_manifest": {
+    "path": "results/runs/stage05_mk14_unidock_rigid_macrocycle_inputs/rigid_macrocycle_manifest.csv",
+    "sha256": "7F8A6A2BD643912F7A9F83D065F6FCB5CD3EEAFF7DF064C29819C0B8F3DAD00F"
+  },
+  "expected": {
+    "ligand_count": 160,
+    "label_counts": {
+      "active": 80,
+      "decoy": 80
+    },
+    "replacement_count": 4
+  },
+  "outputs": {
+    "manifest_csv": "data/processed/stage05_mk14_unidock_rigid_train160_pdbqt_manifest.csv",
+    "summary_json": "data/stage05_mk14_unidock_rigid_train160_manifest_summary.json"
+  },
+  "interpretation_boundary": "This is a consumed development-train compatibility variant. It preserves all rows, labels, order, and nonmacrocycle PDBQTs and does not calculate enrichment or access validation/test scores."
+}

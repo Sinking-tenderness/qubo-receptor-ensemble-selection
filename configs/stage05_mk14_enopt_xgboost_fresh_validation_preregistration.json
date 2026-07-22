@@ -1,0 +1,90 @@
+{
+  "schema_version": "1.0",
+  "authorization_id": "stage05-mk14-frozen-enopt-xgboost-fresh-validation-20260722-v1",
+  "created_on": "2026-07-22",
+  "target_id": "MK14",
+  "purpose": "Evaluate the frozen Train-696 EnOpt-style XGBoost models as supplementary comparators only after the primary fresh-validation gate is finalized.",
+  "implementation": {
+    "path": "scripts/evaluate_enopt_xgboost_fresh_validation.py",
+    "sha256": "FF70C6B58F8FD8D87A1DD8428788B6A1AAD943A6FF11E8D9C9BB885B709F56A8"
+  },
+  "static_inputs": {
+    "frozen_xgboost_artifact": {
+      "path": "data/stage05_mk14_enopt_xgboost_frozen_models.json",
+      "sha256": "31A08A422ED88437C28720E2AFD56AD69152D148D55D718273F8EECD16FA04D1"
+    },
+    "primary_validation_preregistration": {
+      "path": "configs/stage05_mk14_fresh_validation_preregistration.json",
+      "sha256": "3826521564D97285652E39ED3EA7DC1DFC93E13E309F716677C72C0827A86E1C"
+    },
+    "primary_frozen_model": {
+      "path": "data/stage05_mk14_fresh_validation_frozen_model.json",
+      "sha256": "B625620858F920653E656671CC06508CAFD5C4CC2C2B8FF89592B79CEB9CB424"
+    },
+    "fresh_validation_panel": {
+      "path": "data/processed/stage05_mk14_fresh_validation_panel.csv",
+      "sha256": "2EB35D7CDA117A5420A1D856A0615DAD6D4E637E5E4A16E118F3D403F212CED7"
+    }
+  },
+  "primary_gate": {
+    "must_run_first": true,
+    "result_path": "data/stage05_mk14_fresh_validation_result.json",
+    "allowed_statuses": [
+      "fresh_validation_passed_test_locked",
+      "fresh_validation_failed_test_locked"
+    ],
+    "acceptance_result_must_remain_unchanged": true
+  },
+  "aggregate_directory": "results/runs/stage05_mk14_fresh_validation_e32_aggregated",
+  "expected": {
+    "ligand_count": 1576,
+    "label_counts": {
+      "active": 75,
+      "decoy": 1501
+    },
+    "receptor_count": 5,
+    "seed_count": 3,
+    "failed_pair_count": 0,
+    "locked_test_manifest_rows": 0
+  },
+  "receptor_pool": [
+    "MK14_2BAJ_aligned",
+    "MK14_2QD9_reference",
+    "MK14_3K3J_aligned",
+    "MK14_3KQ7_aligned",
+    "MK14_3MPT_aligned"
+  ],
+  "methods": [
+    "xgboost_all5",
+    "xgboost_budget3"
+  ],
+  "evaluation": {
+    "prediction": "load each frozen XGBoost JSON model and call predict_proba; fitting, calibration, feature selection, and early stopping are prohibited",
+    "normalization": "for each primary, sensitivity, or individual-seed matrix, apply its corresponding frozen Train-696 per-receptor min-max bounds without clipping",
+    "metrics": [
+      "ROC-AUC",
+      "PR-AUC",
+      "BEDROC alpha=20",
+      "EF1%",
+      "EF5%",
+      "EF10%",
+      "mean and worst individual-seed BEDROC"
+    ],
+    "comparisons": "report XGBoost-minus-QUBO and QUBO-minus-XGBoost BEDROC deltas for primary, sensitivity, mean-seed, and worst-seed summaries",
+    "acceptance_gate": "none; descriptive supplementary evidence only"
+  },
+  "prohibited_actions": [
+    "run this evaluator before the primary fresh-validation result is finalized",
+    "refit either XGBoost model on validation data",
+    "reselect the three-receptor feature subset",
+    "change any XGBoost parameter or score transformation",
+    "change the primary QUBO pass/fail result",
+    "read or release the locked test split"
+  ],
+  "outputs": {
+    "predictions_csv": "results/runs/stage05_mk14_fresh_validation_e32_aggregated/enopt_xgboost_predictions.csv",
+    "metrics_csv": "results/runs/stage05_mk14_fresh_validation_e32_aggregated/enopt_xgboost_metrics.csv",
+    "result_json": "data/stage05_mk14_enopt_xgboost_fresh_validation_result.json"
+  },
+  "interpretation_boundary": "This analysis is a preregistered supplementary classical comparison. It cannot alter the primary QUBO gate, unlock test data, establish affinity or biological activity, or demonstrate quantum advantage. A tree model can exploit nonlinear score interactions without selecting a physically interpretable optimal receptor subset."
+}

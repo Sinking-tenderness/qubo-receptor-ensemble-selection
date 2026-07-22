@@ -1,0 +1,80 @@
+{
+  "schema_version": "1.0",
+  "assessment_date": "2026-07-22",
+  "scope": "CPU Vina runtime projection and docking-engine migration boundary",
+  "calibration": {
+    "protocol": "AutoDock Vina 1.2.7, exhaustiveness 32, one mode, two CPU threads per process",
+    "source_runs": [
+      {
+        "run_id": "stage05_mk14_expanded8_train536new_e32_seed0_linux",
+        "pair_count": 4288,
+        "allocated_vcpu": 64,
+        "wall_seconds": 24247.973,
+        "vcpu_seconds_per_pair": 361.910
+      },
+      {
+        "run_id": "stage05_mk14_expanded8_train536new_e32_seed1_linux",
+        "pair_count": 4288,
+        "allocated_vcpu": 64,
+        "wall_seconds": 44661.375,
+        "vcpu_seconds_per_pair": 666.588
+      },
+      {
+        "run_id": "stage05_mk14_expanded8_train536new_e32_seed2_linux",
+        "pair_count": 4288,
+        "allocated_vcpu": 64,
+        "wall_seconds": 41325.960,
+        "vcpu_seconds_per_pair": 616.805
+      }
+    ],
+    "vcpu_seconds_per_pair": {
+      "minimum": 361.910,
+      "median": 616.805,
+      "maximum": 666.588
+    }
+  },
+  "workloads": [
+    {
+      "name": "remaining_fresh_validation",
+      "pair_count": 23640,
+      "components": "1576 ligands x 5 receptors x 3 seeds",
+      "projected_days": {
+        "16_vcpu": {"minimum": 6.19, "median": 10.55, "maximum": 11.40},
+        "32_vcpu": {"minimum": 3.09, "median": 5.27, "maximum": 5.70},
+        "64_vcpu": {"minimum": 1.55, "median": 2.64, "maximum": 2.85}
+      }
+    },
+    {
+      "name": "rebuild_final_mapk14_core_from_scratch",
+      "pair_count": 40344,
+      "components": "Train-696: 696 x 8 x 3 plus fresh validation: 1576 x 5 x 3",
+      "projected_days": {
+        "16_vcpu": {"minimum": 10.56, "median": 18.00, "maximum": 19.45},
+        "32_vcpu": {"minimum": 5.28, "median": 9.00, "maximum": 9.73},
+        "64_vcpu": {"minimum": 2.64, "median": 4.50, "maximum": 4.86}
+      }
+    },
+    {
+      "name": "replay_major_historical_and_planned_docking",
+      "e32_equivalent_pair_count": 52344,
+      "components": "major CDK2 e32, MAPK14 e16 converted at one-half weight, MAPK14 e32 training, and fresh validation",
+      "projected_days_before_operational_overhead": {
+        "16_vcpu": {"minimum": 13.70, "median": 23.36, "maximum": 25.24},
+        "32_vcpu": {"minimum": 6.85, "median": 11.68, "maximum": 12.62},
+        "64_vcpu": {"minimum": 3.43, "median": 5.84, "maximum": 6.31}
+      },
+      "planning_range_with_historical_diagnostics_and_overhead": {
+        "16_vcpu_days": "28-36",
+        "32_vcpu_days": "14-18",
+        "64_vcpu_days": "7-9"
+      }
+    }
+  ],
+  "assumptions": [
+    "Jobs are independent and distributed without CPU oversubscription.",
+    "The target instance has comparable per-vCPU performance and sufficient memory.",
+    "Projection excludes queue time, installation, ligand preparation, transfer, and manual review.",
+    "Ligand-dependent search time explains the observed range; the median is the planning estimate.",
+    "Historical replay treats exhaustiveness 16 jobs as one-half of an exhaustiveness 32 equivalent; this is an approximate planning conversion, not a measured identity."
+  ]
+}

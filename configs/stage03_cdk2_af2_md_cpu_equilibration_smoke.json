@@ -1,0 +1,32 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage03-cdk2-af2-apo-cpu-equilibration-smoke-v1",
+  "parent_protocol": "configs/stage03_cdk2_af2_md_pilot.json",
+  "purpose": "One ps NVT plus one ps NPT CPU smoke to distinguish system/script correctness from the Intel OpenCL driver instability. It is not an equilibration or production-sampling claim.",
+  "inputs": {
+    "system_xml": "results/runs/stage03_cdk2_af2_md_pilot/system.xml",
+    "solvated_pdb": "results/runs/stage03_cdk2_af2_md_pilot/solvated_system.pdb"
+  },
+  "platform": {
+    "name": "CPU",
+    "cpu_threads": 8
+  },
+  "dynamics": {
+    "temperature_kelvin": 300.0,
+    "pressure_bar": 1.0,
+    "timestep_fs": 2.0,
+    "friction_per_ps": 1.0,
+    "minimization_tolerance_kj_per_mol_nm": 10.0,
+    "minimization_max_iterations": 1,
+    "nvt_duration_ps": 0.002,
+    "npt_duration_ps": 0.002,
+    "checkpoint_interval_ps": 0.002,
+    "barostat_frequency_steps": 25,
+    "seed": 20260712
+  },
+  "outputs": {
+    "manifest": "results/runs/stage03_cdk2_af2_md_cpu_equilibration_smoke/smoke_manifest.json",
+    "final_pdb": "results/runs/stage03_cdk2_af2_md_cpu_equilibration_smoke/final_state.pdb"
+  },
+  "interpretation_boundary": "A finite one ps CPU run confirms the system and script execute through minimization, NVT, and NPT. It is too short to assess equilibrium, stability over the intended pilot, or conformational sampling."
+}

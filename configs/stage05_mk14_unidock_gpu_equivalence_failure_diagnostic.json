@@ -1,0 +1,51 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage05-mk14-unidock113-train160-gpu-equivalence-failure-diagnostic-v1",
+  "purpose": "Diagnose the frozen consumed-train GPU-equivalence failure without changing its thresholds, excluding rows from a formal gate, or opening validation docking scores.",
+  "source_archive": {
+    "filename": "stage05_mk14_unidock_train160_gpu_equivalence_core_results_v1.tar.gz",
+    "sha256": "CC1C10EE167CAFB56E981CCF17846EB1EE4E7BA7C2EA0B4882BD609CDC2EB6F4"
+  },
+  "inputs": {
+    "source_equivalence_config": {
+      "path": "configs/stage05_mk14_unidock_train160_gpu_equivalence.json",
+      "sha256": "F80C3FBF40C7B2385CCB0EA93A9919F092858D6E194F8F1168DB5975D4AD4BA9"
+    },
+    "gpu_run_summary": {
+      "path": "results/runs/stage05_mk14_unidock_train160_gpu_equivalence/gpu_run_summary.json",
+      "sha256": "F02C0E6E05E83985DF42410078016A3BB87B8E2760C7549A7A03D95ECF50ADA6"
+    },
+    "equivalence_pairwise": {
+      "path": "results/runs/stage05_mk14_unidock_train160_gpu_equivalence/equivalence_pairwise.csv",
+      "sha256": "ED72810656A6ADA3B1CB62D8F832A70FFB6BC8DCC1156388D798F001C45BE622"
+    },
+    "equivalence_summary": {
+      "path": "results/runs/stage05_mk14_unidock_train160_gpu_equivalence/equivalence_summary.json",
+      "sha256": "755F043937941F5E35E7AD4CF875A8021C1EDC2AE2008AAA0C78DBAE003D594E"
+    }
+  },
+  "diagnostic_thresholds": {
+    "large_absolute_delta_kcal_per_mol": 10.0
+  },
+  "prevalence_manifests": [
+    {
+      "manifest_id": "train160",
+      "path": "data/processed/stage05_mk14_expanded_train_80a80d_pdbqt_manifest.csv",
+      "sha256": "54ABDDC4882E4F78B123B46084C235F21CBF7784D0171B8076E1F93433AEFB25"
+    },
+    {
+      "manifest_id": "train696",
+      "path": "data/processed/stage05_mk14_expanded_train_348a348d_pdbqt_manifest.csv",
+      "sha256": "ED697E2D0BC0C0B125FE1C30E0DF417F0B329DEE6817D841A997B5A0728FD98F"
+    },
+    {
+      "manifest_id": "fresh_validation_input_compatibility_audit_only",
+      "path": "data/processed/stage05_mk14_fresh_validation_pdbqt_manifest.csv",
+      "sha256": "2DAE54F57C302881DA91FA53B74EDA1B1EC6267EC5385180E28B0EDEB58A777A"
+    }
+  ],
+  "output": {
+    "path": "data/stage05_mk14_unidock_gpu_equivalence_failure_diagnostic.json"
+  },
+  "scientific_boundary": "The diagnostic may explain the failed train-only gate but may not remove ligands from that gate, loosen thresholds, calculate enrichment, fit QUBO, or authorize GPU scoring of fresh validation or test rows."
+}

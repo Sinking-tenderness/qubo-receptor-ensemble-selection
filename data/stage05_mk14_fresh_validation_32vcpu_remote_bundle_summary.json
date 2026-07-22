@@ -1,0 +1,30 @@
+{
+  "archive": "dist/stage05_mk14_fresh_validation_e32_32vcpu_v2.tar.gz",
+  "archive_entry_count": 1609,
+  "archive_sha256": "E8B4CE629F3ACF3A227DFCB7485722ADA9F39CA20140860E78AA6131EAF54D8D",
+  "archive_size_bytes": 3214830,
+  "deterministic_metadata": true,
+  "execution_profile": {
+    "amendment": "configs/stage05_mk14_fresh_validation_execution_amendment02.json",
+    "cpu_per_vina_process": 2,
+    "max_total_cpu": 32,
+    "workers": 16
+  },
+  "gpu_required": false,
+  "label_counts": {
+    "active": 75,
+    "decoy": 1501
+  },
+  "ligand_count": 1576,
+  "manifest_line_ending": "LF",
+  "receptor_count": 5,
+  "receptor_ligand_pairs_per_seed": 7880,
+  "schema_version": "1.0",
+  "seed_count": 3,
+  "source_file_count": 1608,
+  "status": "ok",
+  "test_rows": 0,
+  "test_scores_read": 0,
+  "total_vina_jobs": 23640,
+  "validation_metrics_calculated": false
+}

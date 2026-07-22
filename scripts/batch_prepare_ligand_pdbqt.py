@@ -102,7 +102,12 @@ def validated_existing_pdbqt(pdbqt_path: Path) -> dict[str, object] | None:
     }
 
 
-def run_meeko(meeko_script: Path, sdf_path: Path, pdbqt_path: Path) -> subprocess.CompletedProcess[str]:
+def run_meeko(
+    meeko_script: Path,
+    sdf_path: Path,
+    pdbqt_path: Path,
+    rigid_macrocycles: bool = False,
+) -> subprocess.CompletedProcess[str]:
     cmd = [
         sys.executable,
         str(meeko_script),
@@ -111,6 +116,8 @@ def run_meeko(meeko_script: Path, sdf_path: Path, pdbqt_path: Path) -> subproces
         "-o",
         str(pdbqt_path),
     ]
+    if rigid_macrocycles:
+        cmd.append("--rigid_macrocycles")
     return subprocess.run(cmd, text=True, capture_output=True, check=False)
 
 
@@ -141,6 +148,11 @@ def build_parser() -> argparse.ArgumentParser:
         "--resume-existing",
         action="store_true",
         help="Validate and reuse complete existing PDBQT files.",
+    )
+    parser.add_argument(
+        "--rigid-macrocycles",
+        action="store_true",
+        help="Pass --rigid_macrocycles to Meeko ligand preparation.",
     )
     return parser
 
@@ -195,7 +207,12 @@ def main() -> int:
                 output_rows.append({**row, **existing})
                 continue
 
-        completed = run_meeko(meeko_script, sdf_path, pdbqt_path)
+        completed = run_meeko(
+            meeko_script,
+            sdf_path,
+            pdbqt_path,
+            rigid_macrocycles=args.rigid_macrocycles,
+        )
         combined_output = "\n".join(
             part.strip() for part in [completed.stdout, completed.stderr] if part.strip()
         )
@@ -205,7 +222,11 @@ def main() -> int:
                 {
                     **row,
                     "pdbqt_status": "ok",
-                    "pdbqt_message": "meeko_ok",
+                    "pdbqt_message": (
+                        "meeko_rigid_macrocycles_ok"
+                        if args.rigid_macrocycles
+                        else "meeko_ok"
+                    ),
                     "pdbqt_path": pdbqt_path.as_posix(),
                     "pdbqt_sha256": file_sha256(pdbqt_path),
                     **parsed,
@@ -234,6 +255,7 @@ def main() -> int:
         f"{sum(row.get('pdbqt_message') == 'meeko_existing_validated' for row in output_rows)}"
     )
     print(f"meeko_script={meeko_script}")
+    print(f"rigid_macrocycles={args.rigid_macrocycles}")
     print(f"pdbqt_dir={args.pdbqt_dir}")
     print(f"manifest={args.output_manifest}")
     return 0

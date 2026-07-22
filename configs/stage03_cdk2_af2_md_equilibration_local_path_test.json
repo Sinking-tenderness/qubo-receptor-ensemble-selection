@@ -1,0 +1,36 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage03-cdk2-af2-local-equilibration-path-test",
+  "parent_protocol": "configs/stage03_cdk2_af2_md_pilot.json",
+  "purpose": "Local one-step execution-path test only.",
+  "inputs": {
+    "system_xml": "results/runs/stage03_cdk2_af2_md_pilot/system.xml",
+    "solvated_pdb": "results/runs/stage03_cdk2_af2_md_pilot/solvated_system.pdb"
+  },
+  "platform": {"name": "CPU", "cpu_threads": 8},
+  "dynamics": {
+    "temperature_kelvin": 300.0,
+    "pressure_bar": 1.0,
+    "timestep_fs": 2.0,
+    "friction_per_ps": 1.0,
+    "minimization_tolerance_kj_per_mol_nm": 10.0,
+    "minimization_max_iterations": 1,
+    "nvt_duration_ps": 0.002,
+    "npt_duration_ps": 0.002,
+    "checkpoint_interval_ps": 0.002,
+    "barostat_frequency_steps": 25,
+    "seed": 20260712
+  },
+  "outputs": {
+    "progress_json": "results/runs/stage03_equilibration_local_path_test/progress.json",
+    "metrics_csv": "results/runs/stage03_equilibration_local_path_test/metrics.csv",
+    "manifest": "results/runs/stage03_equilibration_local_path_test/manifest.json",
+    "minimized_state_xml": "results/runs/stage03_equilibration_local_path_test/minimized.xml",
+    "nvt_checkpoint": "results/runs/stage03_equilibration_local_path_test/nvt.chk",
+    "nvt_final_state_xml": "results/runs/stage03_equilibration_local_path_test/nvt_final.xml",
+    "npt_checkpoint": "results/runs/stage03_equilibration_local_path_test/npt.chk",
+    "final_state_xml": "results/runs/stage03_equilibration_local_path_test/final.xml",
+    "final_pdb": "results/runs/stage03_equilibration_local_path_test/final.pdb"
+  },
+  "interpretation_boundary": "Code-path test only."
+}

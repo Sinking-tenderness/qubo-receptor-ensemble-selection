@@ -1,0 +1,45 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage05-mk14-fresh-validation-five-receptor-e32-seed2-32vcpu-linux-v1",
+  "purpose": "Generate paired seed-two docking scores for the preregistered fresh MAPK14 validation panel on a 32-vCPU instance without evaluating enrichment or reading test rows.",
+  "inputs": {
+    "receptor_manifest": "data/processed/stage05_mk14_fresh_validation_receptor_manifest.csv",
+    "ligand_manifest": "data/processed/stage05_mk14_fresh_validation_pdbqt_manifest.csv",
+    "vina_executable": "environment/bin/vina_1.2.7_linux_x86_64",
+    "vina_config": "configs/stage05_mk14_expanded_train_e32_cpu2.txt",
+    "parallel_runner": "scripts/batch_vina_docking_parallel.py",
+    "score_matrix_module": "scripts/build_score_matrix.py"
+  },
+  "input_sha256": {
+    "receptor_manifest": "2E69C8FA36E604937593B3DDA8B10A6160E5A6A6354FA692DD0856C6F6B957D3",
+    "ligand_manifest": "2DAE54F57C302881DA91FA53B74EDA1B1EC6267EC5385180E28B0EDEB58A777A",
+    "vina_executable": "F31F774F723BBA7BBE6E9D1C47577020EEA9A8DA16424284C043D22593570644",
+    "vina_config": "66C74410ED27CB04671B8D56C12FF0BA83C57641C5FDB039BDB5203A8EBEE5ED",
+    "parallel_runner": "010D9A95EE0587501A35BE8A0C40A82BC83E7BA4EBFC4EF17130AB05DABC2F0A",
+    "score_matrix_module": "F9301E06EBB125EA508B955CCBC685D6B48038D191AB90903D5928E2E161775A"
+  },
+  "expected_receptor_count": 5,
+  "expected_ligand_count": 1576,
+  "expected_label_counts": {"active": 75, "decoy": 1501},
+  "docking": {
+    "workers": 16,
+    "max_total_cpu": 32,
+    "base_seed": 20260803,
+    "representative_method": "pose_rank_1"
+  },
+  "search_quality_warnings": {
+    "flag_nonnegative_scores": true,
+    "maximum_delta_from_ligand_median_kcal_per_mol": 5.0
+  },
+  "outputs": {
+    "run_directory": "results/runs/stage05_mk14_fresh_validation_e32_seed2_linux",
+    "audited_ligand_manifest_csv": "results/runs/stage05_mk14_fresh_validation_e32_seed2_linux/audited_ligands.csv",
+    "receptor_run_manifest_csv": "results/runs/stage05_mk14_fresh_validation_e32_seed2_linux/receptor_runs.csv",
+    "combined_raw_scores_csv": "results/runs/stage05_mk14_fresh_validation_e32_seed2_linux/raw_scores.csv",
+    "representative_long_csv": "results/runs/stage05_mk14_fresh_validation_e32_seed2_linux/representative_scores.csv",
+    "score_matrix_csv": "results/runs/stage05_mk14_fresh_validation_e32_seed2_linux/score_matrix.csv",
+    "search_warnings_csv": "results/runs/stage05_mk14_fresh_validation_e32_seed2_linux/search_warnings.csv",
+    "summary_json": "results/runs/stage05_mk14_fresh_validation_e32_seed2_linux/summary.json"
+  },
+  "interpretation_boundary": "This run creates one frozen fresh-validation seed matrix only. It does not calculate enrichment, refit a receptor subset or QUBO, read test rows, establish biological activity or affinity, or demonstrate classical or quantum advantage."
+}

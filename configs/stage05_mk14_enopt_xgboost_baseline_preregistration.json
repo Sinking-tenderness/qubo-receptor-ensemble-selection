@@ -1,0 +1,172 @@
+{
+  "schema_version": "1.0",
+  "authorization_id": "stage05-mk14-train696-enopt-xgboost-supplementary-baseline-20260722-v1",
+  "created_on": "2026-07-22",
+  "target_id": "MK14",
+  "purpose": "Freeze a strong EnOpt-style nonlinear classical baseline before any fresh-validation docking score is available.",
+  "relationship_to_primary_gate": {
+    "role": "supplementary comparator",
+    "primary_gate_unchanged": true,
+    "acceptance_thresholds_changed": false,
+    "rationale": "The 2024 EnOpt study makes a score-matrix tree model a necessary comparator for a receptor-subset optimization claim. This baseline cannot rescue or invalidate the separately preregistered QUBO endpoint."
+  },
+  "inputs": {
+    "primary_train_matrix": {
+      "path": "results/runs/stage05_mk14_expanded8_train696_e32_aggregated/primary_median_score_matrix.csv",
+      "sha256": "CDA24C99A9552B8BDBB8A532C4BBCD665EAF15EEC932EDE901F5A03EA1E5D255"
+    },
+    "sensitivity_train_matrix": {
+      "path": "results/runs/stage05_mk14_expanded8_train696_e32_aggregated/sensitivity_minimum_score_matrix.csv",
+      "sha256": "774E32775CD3F434082DA9CA7DF5C2B39BFBB748B7F00F1A957D00540FF9021F"
+    },
+    "aggregated_seed_scores": {
+      "path": "results/runs/stage05_mk14_expanded8_train696_e32_aggregated/aggregated_seed_scores.csv",
+      "sha256": "3BD61E4B1545CBD521082E2970AE4A3848F8BB44C8EC2A36FBDCEEF822332D62"
+    },
+    "train_ligand_manifest": {
+      "path": "data/processed/stage05_mk14_expanded_train_348a348d_pdbqt_manifest.csv",
+      "sha256": "ED697E2D0BC0C0B125FE1C30E0DF417F0B329DEE6817D841A997B5A0728FD98F"
+    },
+    "train_qubo_gate_result": {
+      "path": "data/stage05_mk14_train696_pair_synergy_qubo_gate_result.json",
+      "sha256": "0D5FE7672BDC4F1A78E3B6B9A6844596994DDF0AADD8D4F390677FECDEBED3B5"
+    },
+    "fresh_validation_preregistration": {
+      "path": "configs/stage05_mk14_fresh_validation_preregistration.json",
+      "sha256": "3826521564D97285652E39ED3EA7DC1DFC93E13E309F716677C72C0827A86E1C"
+    }
+  },
+  "data_boundary": {
+    "training_data": "hashed Train-696 matrices and labels only",
+    "required_train_gate_status": "train_pair_synergy_qubo_gate_passed_validation_unavailable",
+    "fresh_validation_panel": "must not be opened by the fitting implementation",
+    "fresh_validation_scores": "unavailable and prohibited from fitting, feature selection, hyperparameter selection, or calibration",
+    "test": "locked and prohibited",
+    "forbidden_actions": [
+      "read fresh-validation or test rows in the fitting implementation",
+      "change receptor subsets or hyperparameters after validation scores are available",
+      "fit a chemical-descriptor model that can bypass the receptor score matrix",
+      "change the existing QUBO validation acceptance criteria",
+      "describe a supplementary XGBoost result as quantum advantage"
+    ]
+  },
+  "expected": {
+    "ligand_count": 696,
+    "label_counts": {
+      "active": 348,
+      "decoy": 348
+    },
+    "allowed_split": "train",
+    "allowed_selection_role": "development_train_expanded",
+    "validation_rows": 0,
+    "test_rows": 0
+  },
+  "receptor_pool": [
+    "MK14_2BAJ_aligned",
+    "MK14_2QD9_reference",
+    "MK14_3K3J_aligned",
+    "MK14_3KQ7_aligned",
+    "MK14_3MPT_aligned"
+  ],
+  "cross_validation": {
+    "outer_fold_count": 4,
+    "inner_fold_count_per_outer_split": 3,
+    "fold_seed": 20261119,
+    "group_column": "split_group_id",
+    "scaffold_guard_column": "scaffold_smiles",
+    "fold_definition": "reuse the same deterministic grouped fold builder and seed as the final Train-696 QUBO gate; each outer fit tunes on the other three folds only",
+    "normalization": "fit independent per-receptor min-max bounds on the current training fold only; apply without clipping",
+    "selection_matrix": "three-seed primary median matrix only",
+    "sensitivity_matrices": [
+      "three-seed minimum",
+      "seed0",
+      "seed1",
+      "seed2"
+    ],
+    "selection_metric": "bedroc_alpha_20",
+    "selection_tie_breakers": [
+      "pr_auc_average_precision descending",
+      "roc_auc descending",
+      "BEDROC fold standard deviation ascending",
+      "shallower tree",
+      "fewer trees",
+      "deterministic parameter and receptor lexical order"
+    ]
+  },
+  "xgboost": {
+    "required_version": "3.1.1",
+    "model_seed": 20261222,
+    "model_input": "normalized receptor docking scores only; no ligand descriptors",
+    "budget_matched_feature_count": 3,
+    "methods": {
+      "xgboost_all5": "use all five receptors required by the frozen validation comparator union",
+      "xgboost_budget3": "select one of all ten five-choose-three receptor subsets strictly inside each training CV context"
+    },
+    "fixed_parameters": {
+      "booster": "gbtree",
+      "subsample": 1.0,
+      "colsample_bytree": 1.0,
+      "reg_alpha": 0.0,
+      "reg_lambda": 1.0,
+      "gamma": 0.0
+    },
+    "hyperparameter_grid": {
+      "max_depth": [
+        2,
+        3
+      ],
+      "min_child_weight": [
+        1.0,
+        5.0
+      ],
+      "learning_rate": [
+        0.03,
+        0.08
+      ],
+      "n_estimators": [
+        150,
+        300
+      ]
+    },
+    "candidate_counts": {
+      "hyperparameter_sets": 16,
+      "xgboost_all5": 16,
+      "xgboost_budget3": 160
+    }
+  },
+  "future_validation": {
+    "timing": "run only after the primary fresh-validation evaluator in the same frozen evaluation event",
+    "models": [
+      "xgboost_all5",
+      "xgboost_budget3"
+    ],
+    "model_refitting": false,
+    "model_reselection": false,
+    "score_calibration": false,
+    "matrix_application": "apply the frozen model separately to primary, sensitivity, seed0, seed1, and seed2 matrices using the corresponding frozen Train-696 normalization bounds",
+    "metrics": [
+      "ROC-AUC",
+      "PR-AUC",
+      "BEDROC alpha=20",
+      "EF1%",
+      "EF5%",
+      "EF10%",
+      "mean and worst individual-seed BEDROC"
+    ],
+    "decision_role": "descriptive strong classical comparison; no change to the preregistered QUBO pass/fail result"
+  },
+  "outputs": {
+    "run_directory": "results/runs/stage05_mk14_enopt_xgboost_train696",
+    "fold_assignments_csv": "results/runs/stage05_mk14_enopt_xgboost_train696/fold_assignments.csv",
+    "candidate_trials_csv": "results/runs/stage05_mk14_enopt_xgboost_train696/candidate_trials.csv",
+    "outer_fold_results_csv": "results/runs/stage05_mk14_enopt_xgboost_train696/outer_fold_results.csv",
+    "oof_predictions_csv": "results/runs/stage05_mk14_enopt_xgboost_train696/oof_predictions.csv",
+    "oof_metrics_csv": "results/runs/stage05_mk14_enopt_xgboost_train696/oof_metrics.csv",
+    "xgboost_all5_model_json": "results/runs/stage05_mk14_enopt_xgboost_train696/xgboost_all5_model.json",
+    "xgboost_budget3_model_json": "results/runs/stage05_mk14_enopt_xgboost_train696/xgboost_budget3_model.json",
+    "summary_json": "results/runs/stage05_mk14_enopt_xgboost_train696/summary.json",
+    "frozen_artifact_json": "data/stage05_mk14_enopt_xgboost_frozen_models.json"
+  },
+  "stopping_rule": "Fit once, repeat once only for deterministic hash verification, freeze the resulting models, and perform no further XGBoost tuning before fresh validation.",
+  "interpretation_boundary": "Nested Train-696 OOF performance estimates a classical nonlinear baseline but is not independent validation. The frozen models are supplementary comparators and cannot change the existing QUBO acceptance endpoint. Neither a stronger nor weaker XGBoost result establishes affinity, activity, cross-target generalization, quantum computation, or quantum advantage."
+}

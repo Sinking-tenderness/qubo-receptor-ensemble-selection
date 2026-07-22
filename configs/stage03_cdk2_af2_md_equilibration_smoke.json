@@ -1,0 +1,33 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage03-cdk2-af2-apo-equilibration-smoke-v1",
+  "parent_protocol": "configs/stage03_cdk2_af2_md_pilot.json",
+  "purpose": "Short numerical stability smoke test before the planned 100 ps NVT plus 500 ps NPT equilibration. It is not an equilibration or production-sampling claim.",
+  "inputs": {
+    "system_xml": "results/runs/stage03_cdk2_af2_md_pilot/system.xml",
+    "solvated_pdb": "results/runs/stage03_cdk2_af2_md_pilot/solvated_system.pdb"
+  },
+  "platform": {
+    "name": "OpenCL",
+    "precision": "single",
+    "device_note": "Intel Iris Xe OpenCL; mixed precision Context creation failed during the fixed-step benchmark."
+  },
+  "dynamics": {
+    "temperature_kelvin": 300.0,
+    "pressure_bar": 1.0,
+    "timestep_fs": 2.0,
+    "friction_per_ps": 1.0,
+    "minimization_tolerance_kj_per_mol_nm": 10.0,
+    "minimization_max_iterations": 500,
+    "nvt_duration_ps": 10.0,
+    "npt_duration_ps": 10.0,
+    "checkpoint_interval_ps": 1.0,
+    "barostat_frequency_steps": 25,
+    "seed": 20260712
+  },
+  "outputs": {
+    "manifest": "data/stage03_cdk2_af2_md_equilibration_smoke.json",
+    "final_pdb": "results/runs/stage03_cdk2_af2_md_equilibration_smoke/final_state.pdb"
+  },
+  "interpretation_boundary": "Finite energy, temperature, volume, and CA RMSD values over 20 ps only show that the selected platform can execute this short protocol without an immediate numerical failure. They do not establish equilibrium, force-field accuracy, or sufficient conformational sampling."
+}

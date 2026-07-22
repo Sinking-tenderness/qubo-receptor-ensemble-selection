@@ -1,0 +1,607 @@
+{
+  "authorization_id": "stage05-mk14-train696-enopt-xgboost-supplementary-baseline-20260722-v1",
+  "config": {
+    "path": "configs/stage05_mk14_enopt_xgboost_baseline_preregistration.json",
+    "sha256": "3060F0B676B8253FC71F9FB16CFAFBD2A59A9A9D163BA8EB026E10C23C7B9CE0"
+  },
+  "data_boundary": {
+    "test_rows_read": 0,
+    "test_scores_read": 0,
+    "train_label_counts": {
+      "active": 348,
+      "decoy": 348
+    },
+    "train_ligand_count": 696,
+    "validation_rows_read": 0,
+    "validation_scores_read": 0
+  },
+  "future_validation": {
+    "decision_role": "descriptive strong classical comparison; no change to the preregistered QUBO pass/fail result",
+    "matrix_application": "apply the frozen model separately to primary, sensitivity, seed0, seed1, and seed2 matrices using the corresponding frozen Train-696 normalization bounds",
+    "metrics": [
+      "ROC-AUC",
+      "PR-AUC",
+      "BEDROC alpha=20",
+      "EF1%",
+      "EF5%",
+      "EF10%",
+      "mean and worst individual-seed BEDROC"
+    ],
+    "model_refitting": false,
+    "model_reselection": false,
+    "models": [
+      "xgboost_all5",
+      "xgboost_budget3"
+    ],
+    "score_calibration": false,
+    "timing": "run only after the primary fresh-validation evaluator in the same frozen evaluation event"
+  },
+  "implementation": {
+    "path": "D:/\u91cf\u5b50\u00d7\u86cb\u767d\u8d28/qubo-receptor-ensemble-selection/scripts/fit_enopt_xgboost_baseline.py",
+    "sha256": "2166CE94D6E5E2FD101298FA4717AC753941C9D8E8852527A1E2B70402EEA5DC"
+  },
+  "interpretation_note": "Nested Train-696 OOF performance estimates a classical nonlinear baseline but is not independent validation. The frozen models are supplementary comparators and cannot change the existing QUBO acceptance endpoint. Neither a stronger nor weaker XGBoost result establishes affinity, activity, cross-target generalization, quantum computation, or quantum advantage.",
+  "model_selection": {
+    "future_refitting_or_retuning_permitted": false,
+    "primary_metric": "bedroc_alpha_20",
+    "selection_scope": "Train-696 grouped nested CV only",
+    "tie_breakers": [
+      "pr_auc_average_precision descending",
+      "roc_auc descending",
+      "BEDROC fold standard deviation ascending",
+      "shallower tree",
+      "fewer trees",
+      "deterministic parameter and receptor lexical order"
+    ]
+  },
+  "models": {
+    "xgboost_all5": {
+      "candidate_id": "F2599039D08AEA39",
+      "feature_count": 5,
+      "feature_importance_gain_fraction": {
+        "MK14_2BAJ_aligned": 0.11522630602121353,
+        "MK14_2QD9_reference": 0.28476443886756897,
+        "MK14_3K3J_aligned": 0.13804355263710022,
+        "MK14_3KQ7_aligned": 0.17936313152313232,
+        "MK14_3MPT_aligned": 0.28260260820388794
+      },
+      "feature_order": [
+        "MK14_2BAJ_aligned",
+        "MK14_2QD9_reference",
+        "MK14_3K3J_aligned",
+        "MK14_3KQ7_aligned",
+        "MK14_3MPT_aligned"
+      ],
+      "model_path": "results/runs/stage05_mk14_enopt_xgboost_train696/xgboost_all5_model.json",
+      "model_sha256": "5ECBF66A00729CE958A982E991A40AED729DCA0735A21EE9787C7B653D31C647",
+      "normalization_bounds": {
+        "primary": {
+          "MK14_2BAJ_aligned": {
+            "maximum": -5.557,
+            "minimum": -13.98
+          },
+          "MK14_2QD9_reference": {
+            "maximum": -4.476,
+            "minimum": -11.75
+          },
+          "MK14_3K3J_aligned": {
+            "maximum": -4.362,
+            "minimum": -13.55
+          },
+          "MK14_3KQ7_aligned": {
+            "maximum": -4.676,
+            "minimum": -14.38
+          },
+          "MK14_3MPT_aligned": {
+            "maximum": -4.536,
+            "minimum": -11.43
+          }
+        },
+        "seed0": {
+          "MK14_2BAJ_aligned": {
+            "maximum": -1.175,
+            "minimum": -13.98
+          },
+          "MK14_2QD9_reference": {
+            "maximum": -4.494,
+            "minimum": -11.76
+          },
+          "MK14_3K3J_aligned": {
+            "maximum": -4.356,
+            "minimum": -13.55
+          },
+          "MK14_3KQ7_aligned": {
+            "maximum": -4.644,
+            "minimum": -14.38
+          },
+          "MK14_3MPT_aligned": {
+            "maximum": -4.536,
+            "minimum": -11.43
+          }
+        },
+        "seed1": {
+          "MK14_2BAJ_aligned": {
+            "maximum": -5.521,
+            "minimum": -13.98
+          },
+          "MK14_2QD9_reference": {
+            "maximum": -4.465,
+            "minimum": -11.75
+          },
+          "MK14_3K3J_aligned": {
+            "maximum": -4.362,
+            "minimum": -13.52
+          },
+          "MK14_3KQ7_aligned": {
+            "maximum": -4.676,
+            "minimum": -14.4
+          },
+          "MK14_3MPT_aligned": {
+            "maximum": -4.515,
+            "minimum": -11.43
+          }
+        },
+        "seed2": {
+          "MK14_2BAJ_aligned": {
+            "maximum": -5.578,
+            "minimum": -14.02
+          },
+          "MK14_2QD9_reference": {
+            "maximum": -4.476,
+            "minimum": -11.75
+          },
+          "MK14_3K3J_aligned": {
+            "maximum": -4.364,
+            "minimum": -13.58
+          },
+          "MK14_3KQ7_aligned": {
+            "maximum": -4.678,
+            "minimum": -14.38
+          },
+          "MK14_3MPT_aligned": {
+            "maximum": -4.548,
+            "minimum": -11.43
+          }
+        },
+        "sensitivity": {
+          "MK14_2BAJ_aligned": {
+            "maximum": -5.578,
+            "minimum": -14.02
+          },
+          "MK14_2QD9_reference": {
+            "maximum": -4.494,
+            "minimum": -11.76
+          },
+          "MK14_3K3J_aligned": {
+            "maximum": -4.364,
+            "minimum": -13.58
+          },
+          "MK14_3KQ7_aligned": {
+            "maximum": -4.678,
+            "minimum": -14.4
+          },
+          "MK14_3MPT_aligned": {
+            "maximum": -4.548,
+            "minimum": -11.43
+          }
+        }
+      },
+      "parameters": {
+        "booster": "gbtree",
+        "colsample_bytree": 1.0,
+        "gamma": 0.0,
+        "learning_rate": 0.03,
+        "max_depth": 2,
+        "min_child_weight": 1.0,
+        "n_estimators": 150,
+        "reg_alpha": 0.0,
+        "reg_lambda": 1.0,
+        "subsample": 1.0
+      },
+      "selection_bedroc_population_std": 0.013822962794031122,
+      "selection_metrics": {
+        "EF1%": 2.0,
+        "EF10%": 1.8888888888888888,
+        "EF5%": 2.0,
+        "bedroc_alpha_20": 0.9511284983430377,
+        "pr_auc_average_precision": 0.8066695268313991,
+        "roc_auc": 0.7857874223807637
+      }
+    },
+    "xgboost_budget3": {
+      "candidate_id": "50E736353054FA32",
+      "feature_count": 3,
+      "feature_importance_gain_fraction": {
+        "MK14_2BAJ_aligned": 0.2281665802001953,
+        "MK14_2QD9_reference": 0.3632355034351349,
+        "MK14_3MPT_aligned": 0.4085979163646698
+      },
+      "feature_order": [
+        "MK14_2BAJ_aligned",
+        "MK14_2QD9_reference",
+        "MK14_3MPT_aligned"
+      ],
+      "model_path": "results/runs/stage05_mk14_enopt_xgboost_train696/xgboost_budget3_model.json",
+      "model_sha256": "18876BFFEB44B33D544DD0641C43BE804FCBC929266817B6E789B88BC4389A1D",
+      "normalization_bounds": {
+        "primary": {
+          "MK14_2BAJ_aligned": {
+            "maximum": -5.557,
+            "minimum": -13.98
+          },
+          "MK14_2QD9_reference": {
+            "maximum": -4.476,
+            "minimum": -11.75
+          },
+          "MK14_3MPT_aligned": {
+            "maximum": -4.536,
+            "minimum": -11.43
+          }
+        },
+        "seed0": {
+          "MK14_2BAJ_aligned": {
+            "maximum": -1.175,
+            "minimum": -13.98
+          },
+          "MK14_2QD9_reference": {
+            "maximum": -4.494,
+            "minimum": -11.76
+          },
+          "MK14_3MPT_aligned": {
+            "maximum": -4.536,
+            "minimum": -11.43
+          }
+        },
+        "seed1": {
+          "MK14_2BAJ_aligned": {
+            "maximum": -5.521,
+            "minimum": -13.98
+          },
+          "MK14_2QD9_reference": {
+            "maximum": -4.465,
+            "minimum": -11.75
+          },
+          "MK14_3MPT_aligned": {
+            "maximum": -4.515,
+            "minimum": -11.43
+          }
+        },
+        "seed2": {
+          "MK14_2BAJ_aligned": {
+            "maximum": -5.578,
+            "minimum": -14.02
+          },
+          "MK14_2QD9_reference": {
+            "maximum": -4.476,
+            "minimum": -11.75
+          },
+          "MK14_3MPT_aligned": {
+            "maximum": -4.548,
+            "minimum": -11.43
+          }
+        },
+        "sensitivity": {
+          "MK14_2BAJ_aligned": {
+            "maximum": -5.578,
+            "minimum": -14.02
+          },
+          "MK14_2QD9_reference": {
+            "maximum": -4.494,
+            "minimum": -11.76
+          },
+          "MK14_3MPT_aligned": {
+            "maximum": -4.548,
+            "minimum": -11.43
+          }
+        }
+      },
+      "parameters": {
+        "booster": "gbtree",
+        "colsample_bytree": 1.0,
+        "gamma": 0.0,
+        "learning_rate": 0.03,
+        "max_depth": 3,
+        "min_child_weight": 1.0,
+        "n_estimators": 150,
+        "reg_alpha": 0.0,
+        "reg_lambda": 1.0,
+        "subsample": 1.0
+      },
+      "selection_bedroc_population_std": 0.023200053856790675,
+      "selection_metrics": {
+        "EF1%": 2.0,
+        "EF10%": 1.8611111111111112,
+        "EF5%": 2.0,
+        "bedroc_alpha_20": 0.9514192089464732,
+        "pr_auc_average_precision": 0.7983752732150304,
+        "roc_auc": 0.7771171885321707
+      }
+    }
+  },
+  "schema_version": "1.0",
+  "status": "train696_enopt_xgboost_models_frozen_validation_scores_unavailable",
+  "summary": {
+    "path": "results/runs/stage05_mk14_enopt_xgboost_train696/summary.json",
+    "sha256": "FD2C45881BAAEED6D683FBEF3BD38867F4F844F9F4E6FBCC0D274AE15CB4E0A5"
+  },
+  "train_oof_metrics": {
+    "xgboost_all5": {
+      "primary": {
+        "EF1%": 2.0,
+        "EF10%": 1.9142857142857144,
+        "EF5%": 1.8857142857142857,
+        "active_count": 348,
+        "bedroc_alpha_20": 0.9312275610304784,
+        "ligand_count": 696,
+        "pr_auc_average_precision": 0.7937024061177661,
+        "roc_auc": 0.7761097899326199,
+        "top10_active_count": 10,
+        "top10_ligand_ids": [
+          "MK14_active_L000485",
+          "MK14_active_L000376",
+          "MK14_active_L000008",
+          "MK14_active_L000118",
+          "MK14_active_L000087",
+          "MK14_active_L000304",
+          "MK14_active_L000287",
+          "MK14_active_L000420",
+          "MK14_active_L000132",
+          "MK14_active_L000548"
+        ]
+      },
+      "seed0": {
+        "EF1%": 1.7142857142857142,
+        "EF10%": 1.7428571428571429,
+        "EF5%": 1.7714285714285714,
+        "active_count": 348,
+        "bedroc_alpha_20": 0.8687283134703798,
+        "ligand_count": 696,
+        "pr_auc_average_precision": 0.740186229972539,
+        "roc_auc": 0.7466681529924692,
+        "top10_active_count": 9,
+        "top10_ligand_ids": [
+          "MK14_active_L000286",
+          "MK14_decoy_L009285",
+          "MK14_active_L000485",
+          "MK14_active_L000376",
+          "MK14_active_L000288",
+          "MK14_active_L000118",
+          "MK14_active_L000461",
+          "MK14_active_L000567",
+          "MK14_active_L000008",
+          "MK14_active_L000419"
+        ]
+      },
+      "seed1": {
+        "EF1%": 2.0,
+        "EF10%": 1.8857142857142857,
+        "EF5%": 1.8857142857142857,
+        "active_count": 348,
+        "bedroc_alpha_20": 0.9294540725694849,
+        "ligand_count": 696,
+        "pr_auc_average_precision": 0.7940348123194703,
+        "roc_auc": 0.7794870524507861,
+        "top10_active_count": 10,
+        "top10_ligand_ids": [
+          "MK14_active_L000485",
+          "MK14_active_L000008",
+          "MK14_active_L000087",
+          "MK14_active_L000304",
+          "MK14_active_L000287",
+          "MK14_active_L000420",
+          "MK14_active_L000132",
+          "MK14_active_L000548",
+          "MK14_active_L000348",
+          "MK14_active_L000286"
+        ]
+      },
+      "seed2": {
+        "EF1%": 2.0,
+        "EF10%": 1.9142857142857144,
+        "EF5%": 1.8857142857142857,
+        "active_count": 348,
+        "bedroc_alpha_20": 0.9348900197191007,
+        "ligand_count": 696,
+        "pr_auc_average_precision": 0.7971566972751956,
+        "roc_auc": 0.7789049081780949,
+        "top10_active_count": 10,
+        "top10_ligand_ids": [
+          "MK14_active_L000485",
+          "MK14_active_L000376",
+          "MK14_active_L000118",
+          "MK14_active_L000008",
+          "MK14_active_L000087",
+          "MK14_active_L000304",
+          "MK14_active_L000287",
+          "MK14_active_L000420",
+          "MK14_active_L000132",
+          "MK14_active_L000548"
+        ]
+      },
+      "sensitivity": {
+        "EF1%": 2.0,
+        "EF10%": 1.9142857142857144,
+        "EF5%": 1.8857142857142857,
+        "active_count": 348,
+        "bedroc_alpha_20": 0.9356232983394108,
+        "ligand_count": 696,
+        "pr_auc_average_precision": 0.7959948696143848,
+        "roc_auc": 0.7772823358435724,
+        "top10_active_count": 10,
+        "top10_ligand_ids": [
+          "MK14_active_L000485",
+          "MK14_active_L000376",
+          "MK14_active_L000008",
+          "MK14_active_L000118",
+          "MK14_active_L000087",
+          "MK14_active_L000304",
+          "MK14_active_L000287",
+          "MK14_active_L000548",
+          "MK14_active_L000132",
+          "MK14_active_L000420"
+        ]
+      }
+    },
+    "xgboost_budget3": {
+      "primary": {
+        "EF1%": 2.0,
+        "EF10%": 1.8,
+        "EF5%": 1.8285714285714285,
+        "active_count": 348,
+        "bedroc_alpha_20": 0.9037542554380256,
+        "ligand_count": 696,
+        "pr_auc_average_precision": 0.7647761497024406,
+        "roc_auc": 0.7503013938433082,
+        "top10_active_count": 10,
+        "top10_ligand_ids": [
+          "MK14_active_L000139",
+          "MK14_active_L000008",
+          "MK14_active_L000485",
+          "MK14_active_L000348",
+          "MK14_active_L000158",
+          "MK14_active_L000523",
+          "MK14_active_L000128",
+          "MK14_active_L000087",
+          "MK14_active_L000376",
+          "MK14_active_L000141"
+        ]
+      },
+      "seed0": {
+        "EF1%": 1.7142857142857142,
+        "EF10%": 1.6,
+        "EF5%": 1.6571428571428573,
+        "active_count": 348,
+        "bedroc_alpha_20": 0.804751722653597,
+        "ligand_count": 696,
+        "pr_auc_average_precision": 0.7138224612303471,
+        "roc_auc": 0.7292863984674329,
+        "top10_active_count": 9,
+        "top10_ligand_ids": [
+          "MK14_active_L000553",
+          "MK14_active_L000139",
+          "MK14_active_L000204",
+          "MK14_active_L000134",
+          "MK14_decoy_L009285",
+          "MK14_active_L000008",
+          "MK14_active_L000485",
+          "MK14_active_L000348",
+          "MK14_active_L000158",
+          "MK14_active_L000286"
+        ]
+      },
+      "seed1": {
+        "EF1%": 2.0,
+        "EF10%": 1.7714285714285714,
+        "EF5%": 1.8285714285714285,
+        "active_count": 348,
+        "bedroc_alpha_20": 0.9040794783775299,
+        "ligand_count": 696,
+        "pr_auc_average_precision": 0.7675787813289132,
+        "roc_auc": 0.7548924891002774,
+        "top10_active_count": 10,
+        "top10_ligand_ids": [
+          "MK14_active_L000139",
+          "MK14_active_L000008",
+          "MK14_active_L000485",
+          "MK14_active_L000348",
+          "MK14_active_L000158",
+          "MK14_active_L000523",
+          "MK14_active_L000128",
+          "MK14_active_L000087",
+          "MK14_active_L000141",
+          "MK14_active_L000296"
+        ]
+      },
+      "seed2": {
+        "EF1%": 2.0,
+        "EF10%": 1.8,
+        "EF5%": 1.8285714285714285,
+        "active_count": 348,
+        "bedroc_alpha_20": 0.9083571056490984,
+        "ligand_count": 696,
+        "pr_auc_average_precision": 0.7699337188045713,
+        "roc_auc": 0.7552227837230809,
+        "top10_active_count": 10,
+        "top10_ligand_ids": [
+          "MK14_active_L000139",
+          "MK14_active_L000204",
+          "MK14_active_L000485",
+          "MK14_active_L000008",
+          "MK14_active_L000348",
+          "MK14_active_L000158",
+          "MK14_active_L000523",
+          "MK14_active_L000128",
+          "MK14_active_L000087",
+          "MK14_active_L000141"
+        ]
+      },
+      "sensitivity": {
+        "EF1%": 2.0,
+        "EF10%": 1.8,
+        "EF5%": 1.8285714285714285,
+        "active_count": 348,
+        "bedroc_alpha_20": 0.9095171396772854,
+        "ligand_count": 696,
+        "pr_auc_average_precision": 0.7683463632913722,
+        "roc_auc": 0.7537818734311006,
+        "top10_active_count": 10,
+        "top10_ligand_ids": [
+          "MK14_active_L000139",
+          "MK14_active_L000204",
+          "MK14_active_L000485",
+          "MK14_active_L000008",
+          "MK14_active_L000348",
+          "MK14_active_L000158",
+          "MK14_active_L000523",
+          "MK14_active_L000128",
+          "MK14_active_L000087",
+          "MK14_active_L000376"
+        ]
+      }
+    }
+  },
+  "train_oof_robust_bedroc": {
+    "xgboost_all5": {
+      "mean_seed": 0.9110241352529885,
+      "primary": 0.9312275610304784,
+      "sensitivity": 0.9356232983394108,
+      "worst_seed": 0.8687283134703798
+    },
+    "xgboost_budget3": {
+      "mean_seed": 0.8723961022267418,
+      "primary": 0.9037542554380256,
+      "sensitivity": 0.9095171396772854,
+      "worst_seed": 0.804751722653597
+    }
+  },
+  "training_inputs": {
+    "aggregated_seed_scores": {
+      "path": "results/runs/stage05_mk14_expanded8_train696_e32_aggregated/aggregated_seed_scores.csv",
+      "sha256": "3BD61E4B1545CBD521082E2970AE4A3848F8BB44C8EC2A36FBDCEEF822332D62"
+    },
+    "fresh_validation_preregistration": {
+      "path": "configs/stage05_mk14_fresh_validation_preregistration.json",
+      "sha256": "3826521564D97285652E39ED3EA7DC1DFC93E13E309F716677C72C0827A86E1C"
+    },
+    "primary_train_matrix": {
+      "path": "results/runs/stage05_mk14_expanded8_train696_e32_aggregated/primary_median_score_matrix.csv",
+      "sha256": "CDA24C99A9552B8BDBB8A532C4BBCD665EAF15EEC932EDE901F5A03EA1E5D255"
+    },
+    "sensitivity_train_matrix": {
+      "path": "results/runs/stage05_mk14_expanded8_train696_e32_aggregated/sensitivity_minimum_score_matrix.csv",
+      "sha256": "774E32775CD3F434082DA9CA7DF5C2B39BFBB748B7F00F1A957D00540FF9021F"
+    },
+    "train_ligand_manifest": {
+      "path": "data/processed/stage05_mk14_expanded_train_348a348d_pdbqt_manifest.csv",
+      "sha256": "ED697E2D0BC0C0B125FE1C30E0DF417F0B329DEE6817D841A997B5A0728FD98F"
+    },
+    "train_qubo_gate_result": {
+      "path": "data/stage05_mk14_train696_pair_synergy_qubo_gate_result.json",
+      "sha256": "0D5FE7672BDC4F1A78E3B6B9A6844596994DDF0AADD8D4F390677FECDEBED3B5"
+    }
+  },
+  "versions": {
+    "numpy": "1.26.4",
+    "xgboost": "3.1.1"
+  }
+}

@@ -1,0 +1,109 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage05-mk14-unidock113-train160-five-receptor-three-seed-gpu-equivalence-v1",
+  "purpose": "Measure whether a fixed Uni-Dock 1.1.3 GPU protocol is sufficiently fast and rank-compatible with the consumed AutoDock Vina 1.2.7 CPU e32 evidence before any GPU engine is considered for fresh validation.",
+  "data_boundary": {
+    "allowed_split": "train",
+    "allowed_selection_role": "development_train",
+    "ligand_count": 160,
+    "label_counts": {
+      "active": 80,
+      "decoy": 80
+    },
+    "validation_rows_permitted": 0,
+    "test_rows_permitted": 0,
+    "enrichment_metrics_permitted": false,
+    "interpretation": "This is an engine-equivalence and throughput experiment on consumed train rows. It cannot validate QUBO, biological activity, enrichment, or generalization."
+  },
+  "inputs": {
+    "receptor_manifest": {
+      "path": "data/processed/stage05_mk14_unidock_train160_receptor_manifest.csv",
+      "sha256": "EFAA41D3C685F30F3BEF3D16F408107F82E3930CF94D481939D046ECEBFBEFCC"
+    },
+    "ligand_manifest": {
+      "path": "data/processed/stage05_mk14_expanded_train_80a80d_pdbqt_manifest.csv",
+      "sha256": "54ABDDC4882E4F78B123B46084C235F21CBF7784D0171B8076E1F93433AEFB25"
+    },
+    "cpu_seed_runs": [
+      {
+        "seed_id": "seed0",
+        "base_seed": 20260801,
+        "summary_path": "results/runs/stage05_mk14_expanded8_train160_e32_seed0_linux/summary.json",
+        "summary_sha256": "965F99FAF876712A759CE156F8BC6737D067CDB5EBAD2F670D80EBBB6C65AB83",
+        "scores_path": "results/runs/stage05_mk14_expanded8_train160_e32_seed0_linux/representative_scores.csv",
+        "scores_sha256": "5A7769A48ABBF07BCF131358C58250045F11B81964D72FDEC114D277C65C9A0D"
+      },
+      {
+        "seed_id": "seed1",
+        "base_seed": 20260802,
+        "summary_path": "results/runs/stage05_mk14_expanded8_train160_e32_seed1_linux/summary.json",
+        "summary_sha256": "BABD397727421EF3B2360CE6F5E26C465DBABC8A32D26FD703020F58BB53FD0B",
+        "scores_path": "results/runs/stage05_mk14_expanded8_train160_e32_seed1_linux/representative_scores.csv",
+        "scores_sha256": "77014EC24A1E026AD039D686BC3DDC375C9E570F07EB039538832385D5C3F9A4"
+      },
+      {
+        "seed_id": "seed2",
+        "base_seed": 20260803,
+        "summary_path": "results/runs/stage05_mk14_expanded8_train160_e32_seed2_linux/summary.json",
+        "summary_sha256": "3FC8FBFA00161622A9C4D13089D5476424B707840D79B3B2B423A2FEFFBBED80",
+        "scores_path": "results/runs/stage05_mk14_expanded8_train160_e32_seed2_linux/representative_scores.csv",
+        "scores_sha256": "33263875596959787A147B9C8D9A964374D640DB53572AD3FF192329ACC889F3"
+      }
+    ]
+  },
+  "expected": {
+    "receptor_ids": [
+      "MK14_2BAJ_aligned",
+      "MK14_2QD9_reference",
+      "MK14_3K3J_aligned",
+      "MK14_3KQ7_aligned",
+      "MK14_3MPT_aligned"
+    ],
+    "receptor_count": 5,
+    "ligand_count": 160,
+    "seed_count": 3,
+    "pair_count_per_seed": 800,
+    "total_gpu_pair_count": 2400,
+    "cpu_reference_pair_count_per_seed": 1280
+  },
+  "unidock": {
+    "executable": "unidock",
+    "required_package_version": "1.1.3",
+    "scoring": "vina",
+    "profile_id": "detail_explicit",
+    "exhaustiveness": 512,
+    "max_step": 40,
+    "refine_step": 5,
+    "num_modes": 1,
+    "energy_range": 3,
+    "verbosity": 1,
+    "cuda_visible_devices": "0",
+    "box": {
+      "center_x": -0.49,
+      "center_y": 3.26,
+      "center_z": 21.83,
+      "size_x": 22,
+      "size_y": 24,
+      "size_z": 32
+    }
+  },
+  "equivalence_gate": {
+    "require_complete_pairs": true,
+    "maximum_overall_median_absolute_score_delta_kcal_per_mol": 0.5,
+    "maximum_overall_p95_absolute_score_delta_kcal_per_mol": 1.0,
+    "minimum_group_spearman": 0.95,
+    "minimum_median_group_top5pct_overlap": 0.8,
+    "minimum_throughput_speedup_vs_recorded_32vcpu": 5.0,
+    "maximum_active_decoy_mean_delta_gap_kcal_per_mol": 0.5
+  },
+  "outputs": {
+    "run_directory": "results/runs/stage05_mk14_unidock_train160_gpu_equivalence",
+    "gpu_scores_csv": "results/runs/stage05_mk14_unidock_train160_gpu_equivalence/gpu_scores.csv",
+    "gpu_batch_runs_csv": "results/runs/stage05_mk14_unidock_train160_gpu_equivalence/gpu_batch_runs.csv",
+    "gpu_summary_json": "results/runs/stage05_mk14_unidock_train160_gpu_equivalence/gpu_run_summary.json",
+    "pairwise_comparison_csv": "results/runs/stage05_mk14_unidock_train160_gpu_equivalence/equivalence_pairwise.csv",
+    "group_metrics_csv": "results/runs/stage05_mk14_unidock_train160_gpu_equivalence/equivalence_group_metrics.csv",
+    "equivalence_summary_json": "results/runs/stage05_mk14_unidock_train160_gpu_equivalence/equivalence_summary.json"
+  },
+  "decision_boundary": "A pass only admits Uni-Dock 1.1.3 detail as a candidate engine for a separately preregistered full Train-696 recomputation. It does not authorize mixing GPU validation scores with the existing CPU-trained QUBO or opening fresh validation/test rows."
+}

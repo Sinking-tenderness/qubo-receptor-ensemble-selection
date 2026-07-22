@@ -31,10 +31,15 @@ LIGAND_MANIFEST = (
 FIXED_PATHS = (
     "configs/stage05_mk14_fresh_validation_preregistration.json",
     "configs/stage05_mk14_fresh_validation_execution_amendment01.json",
+    "configs/stage05_mk14_fresh_validation_execution_amendment02.json",
     "configs/stage05_mk14_fresh_validation_e32_seed0_linux.json",
     "configs/stage05_mk14_fresh_validation_e32_seed1_linux.json",
     "configs/stage05_mk14_fresh_validation_e32_seed2_linux.json",
     "configs/stage05_mk14_fresh_validation_e32_seed_aggregation.json",
+    "configs/stage05_mk14_fresh_validation_e32_seed0_32vcpu_linux.json",
+    "configs/stage05_mk14_fresh_validation_e32_seed1_32vcpu_linux.json",
+    "configs/stage05_mk14_fresh_validation_e32_seed2_32vcpu_linux.json",
+    "configs/stage05_mk14_fresh_validation_e32_32vcpu_seed_aggregation.json",
     "configs/stage05_mk14_expanded_train_e32_cpu2.txt",
     "data/processed/stage05_mk14_fresh_validation_panel.csv",
     RECEPTOR_MANIFEST,
@@ -123,6 +128,15 @@ def main() -> int:
     result = write_bundle(root, args.output, bundle_paths(root))
     result.update(audit)
     result["gpu_required"] = False
+    result["execution_profile"] = {
+        "workers": 16,
+        "cpu_per_vina_process": 2,
+        "max_total_cpu": 32,
+        "amendment": (
+            "configs/"
+            "stage05_mk14_fresh_validation_execution_amendment02.json"
+        ),
+    }
     result["validation_metrics_calculated"] = False
     result["test_scores_read"] = 0
     args.summary_output.parent.mkdir(parents=True, exist_ok=True)

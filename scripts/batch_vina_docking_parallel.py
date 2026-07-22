@@ -67,6 +67,14 @@ def replace_ligand_rows(
     return [row for row in rows if row.get("ligand_id") != ligand_id] + replacement
 
 
+def ligand_seed(row: dict[str, str], index: int, base_seed: int) -> int:
+    value = row.get("seed_offset", "").strip()
+    offset = int(value) if value else index
+    if offset < 0:
+        raise ValueError(f"negative seed offset for {row['ligand_id']}")
+    return base_seed + offset
+
+
 def dock_one(
     row: dict[str, str],
     index: int,
@@ -76,7 +84,7 @@ def dock_one(
 ) -> list[dict[str, object]]:
     ligand_id = row["ligand_id"]
     ligand_path = Path(row["pdbqt_path"])
-    seed = args.base_seed + index
+    seed = ligand_seed(row, index, args.base_seed)
     output_pose = args.output_dir / f"{safe_filename(ligand_id)}_docked.pdbqt"
     log_path = args.log_dir / f"{safe_filename(ligand_id)}_vina.log"
     start = time.perf_counter()

@@ -1,0 +1,101 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage05-mk14-unidock-rigid-macrocycle-train160-five-receptor-cpu-reference-v1",
+  "purpose": "Create three fair five-receptor Train-160 CPU reference tables by retaining 780 unchanged official Vina e32 nonmacrocycle scores and replacing 20 flexible-macrocycle scores with newly measured rigid-macrocycle scores per seed.",
+  "receptor_ids": [
+    "MK14_2BAJ_aligned",
+    "MK14_2QD9_reference",
+    "MK14_3K3J_aligned",
+    "MK14_3KQ7_aligned",
+    "MK14_3MPT_aligned"
+  ],
+  "replacement_ligand_ids": [
+    "MK14_decoy_L017314",
+    "MK14_decoy_L018641",
+    "MK14_decoy_L029808",
+    "MK14_decoy_L031427"
+  ],
+  "seed_offsets": {
+    "MK14_decoy_L017314": 117,
+    "MK14_decoy_L018641": 119,
+    "MK14_decoy_L029808": 145,
+    "MK14_decoy_L031427": 147
+  },
+  "expected_ligand_count": 160,
+  "expected_pair_count_per_seed": 800,
+  "seeds": [
+    {
+      "seed_id": "seed0",
+      "base_seed": 20260801,
+      "original_summary": {
+        "path": "results/runs/stage05_mk14_expanded8_train160_e32_seed0_linux/summary.json",
+        "sha256": "965F99FAF876712A759CE156F8BC6737D067CDB5EBAD2F670D80EBBB6C65AB83"
+      },
+      "original_scores": {
+        "path": "results/runs/stage05_mk14_expanded8_train160_e32_seed0_linux/representative_scores.csv",
+        "sha256": "5A7769A48ABBF07BCF131358C58250045F11B81964D72FDEC114D277C65C9A0D"
+      },
+      "rigid_summary": {
+        "path": "results/runs/stage05_mk14_unidock_rigid_macrocycle_cpu_e32_seed0_win/summary.json",
+        "sha256": "A85E3B819C6DBE68A80BFF258CF8713112E18826A4420E776DDC98D21D00D999"
+      },
+      "rigid_scores": {
+        "path": "results/runs/stage05_mk14_unidock_rigid_macrocycle_cpu_e32_seed0_win/representative_scores.csv",
+        "sha256": "972552A94FD91DD9469652A430367616F24F9A9DB65BBAD91362735D0B115F87"
+      },
+      "output_scores_path": "results/runs/stage05_mk14_unidock_rigid_train160_cpu_reference_seed0/representative_scores.csv",
+      "output_summary_path": "results/runs/stage05_mk14_unidock_rigid_train160_cpu_reference_seed0/summary.json"
+    },
+    {
+      "seed_id": "seed1",
+      "base_seed": 20260802,
+      "original_summary": {
+        "path": "results/runs/stage05_mk14_expanded8_train160_e32_seed1_linux/summary.json",
+        "sha256": "BABD397727421EF3B2360CE6F5E26C465DBABC8A32D26FD703020F58BB53FD0B"
+      },
+      "original_scores": {
+        "path": "results/runs/stage05_mk14_expanded8_train160_e32_seed1_linux/representative_scores.csv",
+        "sha256": "77014EC24A1E026AD039D686BC3DDC375C9E570F07EB039538832385D5C3F9A4"
+      },
+      "rigid_summary": {
+        "path": "results/runs/stage05_mk14_unidock_rigid_macrocycle_cpu_e32_seed1_win/summary.json",
+        "sha256": "1E539DF388D11261471F0463DE3A746DF11E90B48657395198BCC5BAE5910A67"
+      },
+      "rigid_scores": {
+        "path": "results/runs/stage05_mk14_unidock_rigid_macrocycle_cpu_e32_seed1_win/representative_scores.csv",
+        "sha256": "0E0343EE015E404637F68940AEB3B840B2C2AF81B567949630B2F4A2D517FE7A"
+      },
+      "output_scores_path": "results/runs/stage05_mk14_unidock_rigid_train160_cpu_reference_seed1/representative_scores.csv",
+      "output_summary_path": "results/runs/stage05_mk14_unidock_rigid_train160_cpu_reference_seed1/summary.json"
+    },
+    {
+      "seed_id": "seed2",
+      "base_seed": 20260803,
+      "original_summary": {
+        "path": "results/runs/stage05_mk14_expanded8_train160_e32_seed2_linux/summary.json",
+        "sha256": "3FC8FBFA00161622A9C4D13089D5476424B707840D79B3B2B423A2FEFFBBED80"
+      },
+      "original_scores": {
+        "path": "results/runs/stage05_mk14_expanded8_train160_e32_seed2_linux/representative_scores.csv",
+        "sha256": "33263875596959787A147B9C8D9A964374D640DB53572AD3FF192329ACC889F3"
+      },
+      "rigid_summary": {
+        "path": "results/runs/stage05_mk14_unidock_rigid_macrocycle_cpu_e32_seed2_win/summary.json",
+        "sha256": "BE2946609EA777F892F83D2C6C18F1EBC689F70D5482B28D12AE9158353A393B"
+      },
+      "rigid_scores": {
+        "path": "results/runs/stage05_mk14_unidock_rigid_macrocycle_cpu_e32_seed2_win/representative_scores.csv",
+        "sha256": "D479D1D9CD6CB6158C4EE6721D1E7CCD85FC9430D879E663CE1E9F1D62E7038C"
+      },
+      "output_scores_path": "results/runs/stage05_mk14_unidock_rigid_train160_cpu_reference_seed2/representative_scores.csv",
+      "output_summary_path": "results/runs/stage05_mk14_unidock_rigid_train160_cpu_reference_seed2/summary.json"
+    }
+  ],
+  "aggregate_summary_path": "data/stage05_mk14_unidock_rigid_train160_cpu_reference_summary.json",
+  "throughput_reference": {
+    "pair_count": 3840,
+    "elapsed_seconds": 27872.612999999998,
+    "comparison_note": "CPU throughput is the previously recorded 32-vCPU, 16-process official Vina e32 Train-160 execution (3840 receptor-ligand-seed pairs). Rigid replacement wall time is recorded separately and is not used to invent a hybrid wall-clock estimate. GPU timing sums sequential Uni-Dock batches and excludes environment installation."
+  },
+  "interpretation_boundary": "This merge changes exactly 60 consumed-train receptor-ligand-seed scores because their PDBQT preparation changed from flexible to rigid macrocycles. It does not calculate enrichment, fit QUBO, or access validation/test scores."
+}

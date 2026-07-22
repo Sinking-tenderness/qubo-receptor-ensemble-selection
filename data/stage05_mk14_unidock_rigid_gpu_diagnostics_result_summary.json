@@ -1,0 +1,113 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage05-mk14-unidock-rigid-train160-gpu-diagnostics-result-v1",
+  "status": "both_profiles_failed_equivalence_gate",
+  "source_archive": {
+    "filename": "stage05_mk14_unidock_rigid_train160_gpu_diagnostics_core_v1.tar.gz",
+    "sha256": "25F9B847359C4954ED3C53BE55BDDEF2B97B229E93D04699215E34D697BCCE6B",
+    "size_bytes": 932270,
+    "archive_entry_count": 180,
+    "unsafe_path_count": 0
+  },
+  "integrity": {
+    "embedded_hash_check_count": 72,
+    "batch_summary_count": 30,
+    "batch_index_match_count": 30,
+    "hash_failure_count": 0,
+    "complete_gpu_pair_count": 4800,
+    "nonphysical_score_count": 0
+  },
+  "detail_rigid_fix": {
+    "formal_status": "gpu_equivalence_gate_failed",
+    "pair_count": 2400,
+    "elapsed_seconds": 251.30422465130687,
+    "pairs_per_second": 9.550177691322466,
+    "speedup_vs_recorded_32vcpu": 69.31989762277722,
+    "overall_pearson": 0.9603220383013886,
+    "overall_spearman": 0.9422186146808825,
+    "median_absolute_delta_kcal_per_mol": 0.14400000000000013,
+    "p95_absolute_delta_kcal_per_mol": 0.9030999999999982,
+    "minimum_group_spearman": 0.8988245565728417,
+    "median_group_top5pct_overlap": 0.875,
+    "median_group_top10pct_overlap": 0.875,
+    "best_receptor_identity_agreement": 0.8041666666666667,
+    "active_decoy_mean_delta_gap_kcal_per_mol": 0.06262083333333335,
+    "passed_gate_check_count": 6,
+    "total_gate_check_count": 7,
+    "failed_gate_checks": [
+      "minimum_group_spearman"
+    ]
+  },
+  "enhanced_rigid_search": {
+    "formal_status": "gpu_equivalence_gate_failed",
+    "pair_count": 2400,
+    "elapsed_seconds": 565.4528560563922,
+    "pairs_per_second": 4.2443856712267625,
+    "speedup_vs_recorded_32vcpu": 30.807843551262703,
+    "overall_pearson": 0.9817579752681925,
+    "overall_spearman": 0.9750517939066717,
+    "median_absolute_delta_kcal_per_mol": 0.05400000000000027,
+    "p95_absolute_delta_kcal_per_mol": 0.5749999999999994,
+    "minimum_group_spearman": 0.9305373967165887,
+    "median_group_spearman": 0.9681877911278365,
+    "median_group_top5pct_overlap": 0.875,
+    "median_group_top10pct_overlap": 0.9375,
+    "best_receptor_identity_agreement": 0.90625,
+    "active_decoy_mean_delta_gap_kcal_per_mol": 0.017245000000000003,
+    "passed_gate_check_count": 6,
+    "total_gate_check_count": 7,
+    "failed_gate_checks": [
+      "minimum_group_spearman"
+    ],
+    "limiting_group": {
+      "seed_id": "seed2",
+      "receptor_id": "MK14_3MPT_aligned",
+      "spearman": 0.9305373967165887,
+      "pearson": 0.9487737437132123,
+      "median_absolute_delta_kcal_per_mol": 0.050499999999999545,
+      "p95_absolute_delta_kcal_per_mol": 0.680749999999999,
+      "top5pct_overlap": 0.875
+    }
+  },
+  "profile_comparison": {
+    "groups_improved_by_enhanced_search": 15,
+    "group_count": 15,
+    "minimum_group_spearman_improvement": 0.0117381253510592,
+    "maximum_group_spearman_improvement": 0.064808696756441,
+    "overall_spearman_improvement": 0.0328331792257892,
+    "best_receptor_identity_improvement": 0.1020833333333333,
+    "speedup_reduction_factor": 0.4444302670385475
+  },
+  "rigid_macrocycle_diagnostic": {
+    "ligand_count": 4,
+    "pair_count_per_profile": 60,
+    "detail_median_absolute_delta_kcal_per_mol": 0.06599999999999984,
+    "detail_maximum_absolute_delta_kcal_per_mol": 0.9299999999999997,
+    "enhanced_median_absolute_delta_kcal_per_mol": 0.03349999999999964,
+    "enhanced_maximum_absolute_delta_kcal_per_mol": 1.0809999999999995,
+    "enhanced_pairs_above_1_kcal_per_mol": 3,
+    "catastrophic_score_problem_resolved": true,
+    "formal_gate_replacement": false
+  },
+  "engine_log_warnings": {
+    "detail_output_coordinate_mismatch_count": 2,
+    "enhanced_output_coordinate_mismatch_count": 1,
+    "omp_num_threads_warning_count": 0,
+    "nonphysical_scores_associated_with_warnings": 0,
+    "pose_level_validation_available_in_core_archive": false
+  },
+  "data_boundary": {
+    "source_split": "consumed development train",
+    "validation_docking_scores_read": false,
+    "test_rows_read": false,
+    "enrichment_metrics_calculated": false,
+    "qubo_fitted": false
+  },
+  "decision": {
+    "unidock_admitted_as_cpu_vina_replacement": false,
+    "formal_validation_engine": "AutoDock Vina 1.2.7 CPU",
+    "do_not_continue_parameter_search_until_pass": true,
+    "future_gpu_route": "Treat Uni-Dock as a separately preregistered engine and recompute complete training evidence before any independent validation; never mix its scores with the existing CPU matrix.",
+    "fresh_validation_remains_closed": true
+  }
+}

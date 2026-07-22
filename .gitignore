@@ -3,6 +3,7 @@ __pycache__/
 *.py[cod]
 *.egg-info/
 .pytest_cache/
+_pytest_temp*/
 .mypy_cache/
 .ruff_cache/
 .coverage
@@ -36,6 +37,7 @@ data/raw/
 data/processed/
 receptors/raw/
 receptors/prepared/
+receptors/aligned/
 ligands/raw/
 ligands/prepared/
 

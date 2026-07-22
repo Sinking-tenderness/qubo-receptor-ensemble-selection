@@ -1,0 +1,21 @@
+{
+  "archive": "dist/stage05_mk14_unidock_rigid_gpu_diagnostics_v1.tar.gz",
+  "archive_entry_count": 181,
+  "archive_sha256": "E23658E7770EBD1226EBC50B1769ADF7674A3355E46C9F39E46EC21AC5A65C12",
+  "archive_size_bytes": 486280,
+  "config_count": 2,
+  "deterministic_metadata": true,
+  "fresh_validation_scores_included": false,
+  "gpu_pairs_per_profile": 2400,
+  "gpu_required_for_execution": true,
+  "ligand_count": 160,
+  "manifest_line_ending": "LF",
+  "operation": "consumed Train-160 rigid-macrocycle Uni-Dock detail and enhanced-search diagnostic bundle",
+  "receptor_count": 5,
+  "schema_version": "1.0",
+  "seed_count": 3,
+  "source_file_count": 180,
+  "status": "ok",
+  "test_rows": 0,
+  "validation_rows": 0
+}

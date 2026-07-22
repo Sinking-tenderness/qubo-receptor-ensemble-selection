@@ -79,31 +79,38 @@ Bootstrap sampling uses 5000 paired `split_group_id` replicates with seed
 The score protocol remains Vina 1.2.7, exhaustiveness 32, one pose, two CPU
 threads per process, and base seeds 20260801, 20260802, and 20260803.
 
-## Runtime Amendment
+## Runtime Amendments
 
 Completed Train-696 timing evidence predicted approximately 4-5 days with 16
 concurrent two-thread processes. Before any fresh-validation score existed,
 execution amendment 01 increased concurrency to 32 processes and 64 total CPU
-threads. No scientific input or parameter changed. A 64-vCPU instance with at
-least 64 GB RAM is recommended; a GPU is not used. Expected wall time is about
-2-3 days, with substantial ligand-dependent variation.
+threads. A suitable 64-vCPU instance was subsequently unavailable. Before any
+fresh-validation score existed, amendment 02 authorized the available 32-vCPU
+layout: 16 concurrent processes with two Vina CPU threads each. No scientific
+input, seed, search parameter, model, metric, or threshold changed. A GPU is
+not used. Expected wall time is approximately 5-6 days, with substantial
+ligand-dependent variation.
 
-## CPU Bundle
+## Current 32-vCPU Bundle
 
-- File: `dist/stage05_mk14_fresh_validation_e32_cpu_v1.tar.gz`
-- Size: 3,213,789 bytes
-- SHA-256: `3D9EC8C6F6F64FFD6B8E8B092195F0D2DE8431437575F6E1CDC5FF8003259420`
-- Source files: 1603
-- Archive entries including manifest: 1604
+- File: `dist/stage05_mk14_fresh_validation_e32_32vcpu_v2.tar.gz`
+- Size: 3,214,830 bytes
+- SHA-256: `E8B4CE629F3ACF3A227DFCB7485722ADA9F39CA20140860E78AA6131EAF54D8D`
+- Source files: 1608
+- Archive entries including manifest: 1609
 - Deterministic rebuild: identical SHA-256 in two complete builds
+
+The earlier `stage05_mk14_fresh_validation_e32_cpu_v1.tar.gz` remains the
+immutable 64-vCPU audit artifact. Use the v2 archive on the available 32-vCPU
+instance.
 
 After uploading the archive to a CPU instance:
 
 ```bash
-mkdir -p /root/autodl-tmp/stage05_mk14_fresh_validation_v1
-tar -xzf /root/autodl-tmp/stage05_mk14_fresh_validation_e32_cpu_v1.tar.gz \
-  -C /root/autodl-tmp/stage05_mk14_fresh_validation_v1
-cd /root/autodl-tmp/stage05_mk14_fresh_validation_v1
+mkdir -p /root/autodl-tmp/stage05_mk14_fresh_validation_32vcpu_v2
+tar -xzf /root/autodl-tmp/stage05_mk14_fresh_validation_e32_32vcpu_v2.tar.gz \
+  -C /root/autodl-tmp/stage05_mk14_fresh_validation_32vcpu_v2
+cd /root/autodl-tmp/stage05_mk14_fresh_validation_32vcpu_v2
 sha256sum -c bundle_manifest.sha256
 chmod +x scripts/run_stage05_mk14_fresh_validation_remote.sh
 nohup bash scripts/run_stage05_mk14_fresh_validation_remote.sh \

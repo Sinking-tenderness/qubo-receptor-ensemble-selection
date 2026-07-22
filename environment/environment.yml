@@ -18,6 +18,7 @@ dependencies:
   - scipy
   - seaborn
   - setuptools<81
+  - xgboost=3.1.1
   - pip
   - pip:
       - -e ..

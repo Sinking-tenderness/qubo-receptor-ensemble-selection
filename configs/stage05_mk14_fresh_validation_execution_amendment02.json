@@ -1,0 +1,31 @@
+{
+  "schema_version": "1.0",
+  "authorization_id": "stage05-mk14-fresh-validation-execution-amendment02-20260722-v1",
+  "created_on": "2026-07-22",
+  "parent_authorization_id": "stage05-mk14-fresh-validation-execution-amendment01-20260721-v1",
+  "reason": "A 64-vCPU instance is unavailable. Execute the unchanged frozen docking protocol on one available 32-vCPU instance without oversubscribing Vina processes.",
+  "authorized_change": {
+    "remote_workers": {"from": 32, "to": 16},
+    "remote_max_total_cpu": {"from": 64, "to": 32},
+    "cpu_per_vina_process": 2,
+    "recommended_instance": "at least 32 vCPU and 64 GB RAM; GPU is not used",
+    "estimated_wall_time": "approximately 5-6 days for all three sequential seeds, with ligand-dependent variation"
+  },
+  "invariants": {
+    "ligand_count": 1576,
+    "receptor_count": 5,
+    "seed_count": 3,
+    "vina_version": "1.2.7",
+    "scoring": "vina",
+    "exhaustiveness": 32,
+    "num_modes": 1,
+    "base_seeds": [20260801, 20260802, 20260803],
+    "search_box_changed": false,
+    "input_identity_changed": false,
+    "model_or_acceptance_changed": false,
+    "validation_scores_available_before_amendment": false,
+    "test_rows_permitted": 0
+  },
+  "resume_policy": "Each seed retains the existing output directory and uses --resume, so completed receptor-ligand jobs survive process or instance restarts.",
+  "interpretation_boundary": "This amendment changes process concurrency only. It cannot change a receptor-ligand-seed score definition, model, metric, threshold, or scientific conclusion."
+}

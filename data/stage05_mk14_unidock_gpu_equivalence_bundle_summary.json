@@ -1,0 +1,21 @@
+{
+  "archive": "dist/stage05_mk14_unidock_gpu_equivalence_v1.tar.gz",
+  "archive_entry_count": 180,
+  "archive_sha256": "4378F7059902A079A91742226755F39BCEB90CC5791F16D4B4BB4C72593B6B84",
+  "archive_size_bytes": 525869,
+  "deterministic_metadata": true,
+  "experiment_id": "stage05-mk14-unidock113-train160-five-receptor-three-seed-gpu-equivalence-v1",
+  "fresh_validation_scores_included": false,
+  "gpu_pair_count": 2400,
+  "gpu_required_for_execution": true,
+  "ligand_count": 160,
+  "manifest_line_ending": "LF",
+  "operation": "train-only Uni-Dock GPU equivalence pilot bundle",
+  "receptor_count": 5,
+  "schema_version": "1.0",
+  "seed_count": 3,
+  "source_file_count": 179,
+  "status": "ok",
+  "test_rows": 0,
+  "validation_rows": 0
+}

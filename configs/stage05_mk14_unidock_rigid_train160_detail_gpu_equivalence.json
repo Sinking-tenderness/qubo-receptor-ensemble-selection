@@ -1,0 +1,116 @@
+{
+  "data_boundary": {
+    "allowed_selection_role": "development_train",
+    "allowed_split": "train",
+    "enrichment_metrics_permitted": false,
+    "interpretation": "This post-failure protocol diagnostic uses consumed Train-160 rows only and cannot validate QUBO, enrichment, biological activity, or generalization.",
+    "label_counts": {
+      "active": 80,
+      "decoy": 80
+    },
+    "ligand_count": 160,
+    "test_rows_permitted": 0,
+    "validation_rows_permitted": 0
+  },
+  "decision_boundary": "A pass remains consumed-train evidence only. It does not authorize mixing engines, opening fresh validation/test rows, or claiming QUBO benefit; any later full-data GPU protocol requires a separate preregistration.",
+  "equivalence_gate": {
+    "maximum_active_decoy_mean_delta_gap_kcal_per_mol": 0.5,
+    "maximum_overall_median_absolute_score_delta_kcal_per_mol": 0.5,
+    "maximum_overall_p95_absolute_score_delta_kcal_per_mol": 1.0,
+    "minimum_group_spearman": 0.95,
+    "minimum_median_group_top5pct_overlap": 0.8,
+    "minimum_throughput_speedup_vs_recorded_32vcpu": 5.0,
+    "require_complete_pairs": true
+  },
+  "expected": {
+    "cpu_reference_pair_count_per_seed": 800,
+    "ligand_count": 160,
+    "pair_count_per_seed": 800,
+    "receptor_count": 5,
+    "receptor_ids": [
+      "MK14_2BAJ_aligned",
+      "MK14_2QD9_reference",
+      "MK14_3K3J_aligned",
+      "MK14_3KQ7_aligned",
+      "MK14_3MPT_aligned"
+    ],
+    "seed_count": 3,
+    "total_gpu_pair_count": 2400
+  },
+  "experiment_id": "stage05-mk14-unidock-rigid-train160-detail-gpu-equivalence-v1",
+  "inputs": {
+    "cpu_seed_runs": [
+      {
+        "base_seed": 20260801,
+        "scores_path": "results/runs/stage05_mk14_unidock_rigid_train160_cpu_reference_seed0/representative_scores.csv",
+        "scores_sha256": "65A3B9324B16985EAED77CCC2C11C6B5064CC7E40AB5955CE7B1222F235A5C76",
+        "seed_id": "seed0",
+        "summary_path": "results/runs/stage05_mk14_unidock_rigid_train160_cpu_reference_seed0/summary.json",
+        "summary_sha256": "FCA48165A965A12A515C6DDD511F0CAE5B4697FFA2F9865B6F485E5B5CA1465A"
+      },
+      {
+        "base_seed": 20260802,
+        "scores_path": "results/runs/stage05_mk14_unidock_rigid_train160_cpu_reference_seed1/representative_scores.csv",
+        "scores_sha256": "4EECC89263B38FD8E189AB045CB55ABCF97A2B4D6D486E3A7B8717151875153B",
+        "seed_id": "seed1",
+        "summary_path": "results/runs/stage05_mk14_unidock_rigid_train160_cpu_reference_seed1/summary.json",
+        "summary_sha256": "C24018F953B1FEAA00295517E2B313E5E878750C8949867C626988A23990CE94"
+      },
+      {
+        "base_seed": 20260803,
+        "scores_path": "results/runs/stage05_mk14_unidock_rigid_train160_cpu_reference_seed2/representative_scores.csv",
+        "scores_sha256": "580BC467990A16BA7C7A8DB9BDEC98F4C2D0DD268B91636D775B3E88E200820E",
+        "seed_id": "seed2",
+        "summary_path": "results/runs/stage05_mk14_unidock_rigid_train160_cpu_reference_seed2/summary.json",
+        "summary_sha256": "58EB13F465ED1E2663D2ED6B24B30877E1B5919F46D52B6D079F719D7C17AF26"
+      }
+    ],
+    "ligand_manifest": {
+      "path": "data/processed/stage05_mk14_unidock_rigid_train160_pdbqt_manifest.csv",
+      "sha256": "5501B259C897B596E10A2E124F4863ACD7368CFEB02BA9C78BD677CF78A9903E"
+    },
+    "receptor_manifest": {
+      "path": "data/processed/stage05_mk14_unidock_train160_receptor_manifest.csv",
+      "sha256": "EFAA41D3C685F30F3BEF3D16F408107F82E3930CF94D481939D046ECEBFBEFCC"
+    }
+  },
+  "outputs": {
+    "equivalence_summary_json": "results/runs/stage05_mk14_unidock_rigid_train160_detail_gpu_equivalence/equivalence_summary.json",
+    "gpu_batch_runs_csv": "results/runs/stage05_mk14_unidock_rigid_train160_detail_gpu_equivalence/gpu_batch_runs.csv",
+    "gpu_scores_csv": "results/runs/stage05_mk14_unidock_rigid_train160_detail_gpu_equivalence/gpu_scores.csv",
+    "gpu_summary_json": "results/runs/stage05_mk14_unidock_rigid_train160_detail_gpu_equivalence/gpu_run_summary.json",
+    "group_metrics_csv": "results/runs/stage05_mk14_unidock_rigid_train160_detail_gpu_equivalence/equivalence_group_metrics.csv",
+    "pairwise_comparison_csv": "results/runs/stage05_mk14_unidock_rigid_train160_detail_gpu_equivalence/equivalence_pairwise.csv",
+    "run_directory": "results/runs/stage05_mk14_unidock_rigid_train160_detail_gpu_equivalence"
+  },
+  "purpose": "Isolate the effect of replacing four unsupported flexible-macrocycle PDBQTs while retaining the original Uni-Dock detail search parameters.",
+  "schema_version": "1.0",
+  "throughput_reference": {
+    "comparison_note": "CPU throughput is the previously recorded 32-vCPU, 16-process official Vina e32 Train-160 execution (3840 receptor-ligand-seed pairs). Rigid replacement wall time is recorded separately and is not used to invent a hybrid wall-clock estimate. GPU timing sums sequential Uni-Dock batches and excludes environment installation.",
+    "elapsed_seconds": 27872.612999999998,
+    "pair_count": 3840
+  },
+  "unidock": {
+    "box": {
+      "center_x": -0.49,
+      "center_y": 3.26,
+      "center_z": 21.83,
+      "size_x": 22,
+      "size_y": 24,
+      "size_z": 32
+    },
+    "cuda_visible_devices": "0",
+    "energy_range": 3,
+    "executable": "unidock",
+    "exhaustiveness": 512,
+    "macrocycle_closure_pseudoatom_policy": "reject",
+    "max_step": 40,
+    "maximum_absolute_score_kcal_per_mol": 100.0,
+    "num_modes": 1,
+    "profile_id": "detail_rigid_fix",
+    "refine_step": 5,
+    "required_package_version": "1.1.3",
+    "scoring": "vina",
+    "verbosity": 1
+  }
+}

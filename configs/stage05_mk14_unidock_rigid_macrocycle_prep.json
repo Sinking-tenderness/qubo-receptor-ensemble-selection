@@ -1,0 +1,45 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage05-mk14-unidock-rigid-macrocycle-train4-preparation-v1",
+  "purpose": "Re-prepare the four consumed Train-160 Meeko flexible-macrocycle ligands as rigid macrocycles for a fair CPU/GPU engine diagnostic.",
+  "input_manifest": {
+    "path": "data/processed/stage05_mk14_expanded_train_80a80d_pdbqt_manifest.csv",
+    "sha256": "54ABDDC4882E4F78B123B46084C235F21CBF7784D0171B8076E1F93433AEFB25"
+  },
+  "ligands": [
+    {
+      "ligand_id": "MK14_decoy_L017314",
+      "label": "decoy",
+      "source_manifest_index": 117,
+      "source_pdbqt_sha256": "D3937A6DB3A70659564F2F56CA0F2D58A07C5296D046D0B3438D475FE08D2E9F"
+    },
+    {
+      "ligand_id": "MK14_decoy_L018641",
+      "label": "decoy",
+      "source_manifest_index": 119,
+      "source_pdbqt_sha256": "73CA67336DD0B647EEAD0E43C4795C4D9446E8BC8AE0E15D2D388AAE0F2F0D3B"
+    },
+    {
+      "ligand_id": "MK14_decoy_L029808",
+      "label": "decoy",
+      "source_manifest_index": 145,
+      "source_pdbqt_sha256": "916ADD47151B7CC307C214C782E9B686B2A239BFADF9926F1CDEF1C8BE466250"
+    },
+    {
+      "ligand_id": "MK14_decoy_L031427",
+      "label": "decoy",
+      "source_manifest_index": 147,
+      "source_pdbqt_sha256": "1584BAB46AC44FE0A54A51C447C32781ACE195B42D7EC28EC9725562FE11F3C7"
+    }
+  ],
+  "preparation": {
+    "meeko_version": "0.7.1",
+    "rigid_macrocycles": true
+  },
+  "outputs": {
+    "pdbqt_directory": "results/runs/stage05_mk14_unidock_rigid_macrocycle_inputs/pdbqt",
+    "manifest_csv": "results/runs/stage05_mk14_unidock_rigid_macrocycle_inputs/rigid_macrocycle_manifest.csv",
+    "summary_json": "results/runs/stage05_mk14_unidock_rigid_macrocycle_inputs/summary.json"
+  },
+  "interpretation_boundary": "These four rows are consumed development-train ligands. Re-preparation is an input-compatibility diagnostic and does not calculate enrichment, fit QUBO, or authorize validation/test scoring."
+}
