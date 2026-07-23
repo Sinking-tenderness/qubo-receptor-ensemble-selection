@@ -1,0 +1,376 @@
+{
+  "authorization_id": "stage05-mk14-frozen-enopt-xgboost-fresh-validation-20260722-v1",
+  "bedroc_comparisons": {
+    "xgboost_all5": {
+      "qubo_minus_xgboost": {
+        "mean_seed": 0.02324246523563689,
+        "primary": 0.014747871637082688,
+        "sensitivity": 0.015064279953526771,
+        "worst_seed": 0.04813186455367319
+      },
+      "xgboost_minus_qubo": {
+        "mean_seed": -0.02324246523563689,
+        "primary": -0.014747871637082688,
+        "sensitivity": -0.015064279953526771,
+        "worst_seed": -0.04813186455367319
+      }
+    },
+    "xgboost_budget3": {
+      "qubo_minus_xgboost": {
+        "mean_seed": 0.08880677208826931,
+        "primary": 0.04022279533221762,
+        "sensitivity": 0.03518184287110859,
+        "worst_seed": 0.1800640519874835
+      },
+      "xgboost_minus_qubo": {
+        "mean_seed": -0.08880677208826931,
+        "primary": -0.04022279533221762,
+        "sensitivity": -0.03518184287110859,
+        "worst_seed": -0.1800640519874835
+      }
+    }
+  },
+  "config": {
+    "path": "configs/stage05_mk14_enopt_xgboost_fresh_validation_preregistration.json",
+    "sha256": "A92014F89C987325366D37BB9F9F23A7FD3CF1688B6B7595E219382928BDA12E"
+  },
+  "data_boundary": {
+    "fresh_validation_label_counts": {
+      "active": 75,
+      "decoy": 1501
+    },
+    "fresh_validation_ligands": 1576,
+    "hyperparameter_changes": 0,
+    "model_refits": 0,
+    "receptor_reselections": 0,
+    "test_rows_read": 0,
+    "test_scores_read": 0
+  },
+  "frozen_artifact": {
+    "path": "data/stage05_mk14_enopt_xgboost_frozen_models.json",
+    "sha256": "31A08A422ED88437C28720E2AFD56AD69152D148D55D718273F8EECD16FA04D1"
+  },
+  "interpretation_note": "This analysis is a preregistered supplementary classical comparison. It cannot alter the primary QUBO gate, unlock test data, establish affinity or biological activity, or demonstrate quantum advantage. A tree model can exploit nonlinear score interactions without selecting a physically interpretable optimal receptor subset.",
+  "metrics": {
+    "xgboost_all5": {
+      "primary": {
+        "EF1%": 15.760000000000002,
+        "EF10%": 5.718818565400844,
+        "EF5%": 7.979746835443039,
+        "active_count": 75,
+        "bedroc_alpha_20": 0.536112924951562,
+        "ligand_count": 1576,
+        "pr_auc_average_precision": 0.38677886620455443,
+        "roc_auc": 0.8375749500333112,
+        "top10_active_count": 7,
+        "top10_ligand_ids": [
+          "MK14_active_L000323",
+          "MK14_active_L000093",
+          "MK14_active_L000366",
+          "MK14_active_L000001",
+          "MK14_active_L000100",
+          "MK14_active_L000167",
+          "MK14_decoy_L014254",
+          "MK14_decoy_L014255",
+          "MK14_decoy_L014791",
+          "MK14_active_L000130"
+        ]
+      },
+      "seed0": {
+        "EF1%": 13.133333333333335,
+        "EF10%": 4.388860759493671,
+        "EF5%": 6.383797468354431,
+        "active_count": 75,
+        "bedroc_alpha_20": 0.4391047043276309,
+        "ligand_count": 1576,
+        "pr_auc_average_precision": 0.321707993397595,
+        "roc_auc": 0.8197912502775927,
+        "top10_active_count": 8,
+        "top10_ligand_ids": [
+          "MK14_active_L000191",
+          "MK14_active_L000111",
+          "MK14_active_L000293",
+          "MK14_active_L000495",
+          "MK14_active_L000323",
+          "MK14_active_L000366",
+          "MK14_active_L000100",
+          "MK14_decoy_L014254",
+          "MK14_active_L000037",
+          "MK14_decoy_L030256"
+        ]
+      },
+      "seed1": {
+        "EF1%": 15.760000000000002,
+        "EF10%": 5.984810126582279,
+        "EF5%": 7.979746835443039,
+        "active_count": 75,
+        "bedroc_alpha_20": 0.5391025306899159,
+        "ligand_count": 1576,
+        "pr_auc_average_precision": 0.3858576239961635,
+        "roc_auc": 0.8366200310903842,
+        "top10_active_count": 7,
+        "top10_ligand_ids": [
+          "MK14_active_L000093",
+          "MK14_active_L000323",
+          "MK14_active_L000100",
+          "MK14_active_L000366",
+          "MK14_active_L000167",
+          "MK14_decoy_L014254",
+          "MK14_decoy_L014255",
+          "MK14_decoy_L014791",
+          "MK14_active_L000130",
+          "MK14_active_L000495"
+        ]
+      },
+      "seed2": {
+        "EF1%": 15.760000000000002,
+        "EF10%": 5.5858227848101265,
+        "EF5%": 8.245738396624473,
+        "active_count": 75,
+        "bedroc_alpha_20": 0.5299215900441138,
+        "ligand_count": 1576,
+        "pr_auc_average_precision": 0.37628601662995403,
+        "roc_auc": 0.8373662003109038,
+        "top10_active_count": 7,
+        "top10_ligand_ids": [
+          "MK14_active_L000323",
+          "MK14_active_L000366",
+          "MK14_active_L000001",
+          "MK14_active_L000100",
+          "MK14_decoy_L014254",
+          "MK14_active_L000093",
+          "MK14_decoy_L014255",
+          "MK14_decoy_L014791",
+          "MK14_active_L000167",
+          "MK14_active_L000130"
+        ]
+      },
+      "sensitivity": {
+        "EF1%": 15.760000000000002,
+        "EF10%": 5.718818565400844,
+        "EF5%": 8.511729957805908,
+        "active_count": 75,
+        "bedroc_alpha_20": 0.5429148271410745,
+        "ligand_count": 1576,
+        "pr_auc_average_precision": 0.3939557214306972,
+        "roc_auc": 0.8459871196979791,
+        "top10_active_count": 7,
+        "top10_ligand_ids": [
+          "MK14_active_L000323",
+          "MK14_active_L000366",
+          "MK14_active_L000001",
+          "MK14_active_L000100",
+          "MK14_active_L000167",
+          "MK14_active_L000093",
+          "MK14_decoy_L014254",
+          "MK14_decoy_L014255",
+          "MK14_decoy_L014791",
+          "MK14_active_L000130"
+        ]
+      }
+    },
+    "xgboost_budget3": {
+      "primary": {
+        "EF1%": 15.760000000000002,
+        "EF10%": 5.45282700421941,
+        "EF5%": 7.7137552742616045,
+        "active_count": 75,
+        "bedroc_alpha_20": 0.5106380012564271,
+        "ligand_count": 1576,
+        "pr_auc_average_precision": 0.3642674765805827,
+        "roc_auc": 0.8351721074838996,
+        "top10_active_count": 8,
+        "top10_ligand_ids": [
+          "MK14_active_L000083",
+          "MK14_decoy_L014254",
+          "MK14_active_L000167",
+          "MK14_active_L000034",
+          "MK14_active_L000093",
+          "MK14_active_L000100",
+          "MK14_active_L000366",
+          "MK14_decoy_L014253",
+          "MK14_active_L000130",
+          "MK14_active_L000323"
+        ]
+      },
+      "seed0": {
+        "EF1%": 2.626666666666667,
+        "EF10%": 3.7238818565400846,
+        "EF5%": 5.319831223628693,
+        "active_count": 75,
+        "bedroc_alpha_20": 0.3071725168938206,
+        "ligand_count": 1576,
+        "pr_auc_average_precision": 0.16241266608590957,
+        "roc_auc": 0.8057117477237398,
+        "top10_active_count": 1,
+        "top10_ligand_ids": [
+          "MK14_decoy_L010598",
+          "MK14_decoy_L011443",
+          "MK14_active_L000191",
+          "MK14_decoy_L009442",
+          "MK14_decoy_L026769",
+          "MK14_decoy_L032424",
+          "MK14_decoy_L003248",
+          "MK14_decoy_L005391",
+          "MK14_decoy_L014254",
+          "MK14_decoy_L035065"
+        ]
+      },
+      "seed1": {
+        "EF1%": 15.760000000000002,
+        "EF10%": 5.45282700421941,
+        "EF5%": 7.979746835443039,
+        "active_count": 75,
+        "bedroc_alpha_20": 0.5091972860108268,
+        "ligand_count": 1576,
+        "pr_auc_average_precision": 0.35923920547484367,
+        "roc_auc": 0.8293759715745059,
+        "top10_active_count": 7,
+        "top10_ligand_ids": [
+          "MK14_active_L000083",
+          "MK14_decoy_L014254",
+          "MK14_active_L000167",
+          "MK14_active_L000034",
+          "MK14_active_L000093",
+          "MK14_active_L000100",
+          "MK14_active_L000323",
+          "MK14_decoy_L014253",
+          "MK14_active_L000130",
+          "MK14_decoy_L014255"
+        ]
+      },
+      "seed2": {
+        "EF1%": 15.760000000000002,
+        "EF10%": 5.053839662447258,
+        "EF5%": 7.181772151898734,
+        "active_count": 75,
+        "bedroc_alpha_20": 0.4950661015991158,
+        "ligand_count": 1576,
+        "pr_auc_average_precision": 0.33927108965829883,
+        "roc_auc": 0.8323784143904064,
+        "top10_active_count": 6,
+        "top10_ligand_ids": [
+          "MK14_active_L000083",
+          "MK14_decoy_L014254",
+          "MK14_active_L000093",
+          "MK14_decoy_L006721",
+          "MK14_active_L000167",
+          "MK14_active_L000100",
+          "MK14_decoy_L014253",
+          "MK14_active_L000366",
+          "MK14_decoy_L014255",
+          "MK14_active_L000130"
+        ]
+      },
+      "sensitivity": {
+        "EF1%": 15.760000000000002,
+        "EF10%": 5.5858227848101265,
+        "EF5%": 7.7137552742616045,
+        "active_count": 75,
+        "bedroc_alpha_20": 0.5227972642234927,
+        "ligand_count": 1576,
+        "pr_auc_average_precision": 0.3729621086461009,
+        "roc_auc": 0.8454763491005997,
+        "top10_active_count": 8,
+        "top10_ligand_ids": [
+          "MK14_active_L000083",
+          "MK14_decoy_L014254",
+          "MK14_active_L000093",
+          "MK14_active_L000034",
+          "MK14_active_L000167",
+          "MK14_active_L000100",
+          "MK14_decoy_L014253",
+          "MK14_active_L000067",
+          "MK14_active_L000323",
+          "MK14_active_L000366"
+        ]
+      }
+    }
+  },
+  "models": {
+    "xgboost_all5": {
+      "feature_order": [
+        "MK14_2BAJ_aligned",
+        "MK14_2QD9_reference",
+        "MK14_3K3J_aligned",
+        "MK14_3KQ7_aligned",
+        "MK14_3MPT_aligned"
+      ],
+      "model_path": "results/runs/stage05_mk14_enopt_xgboost_train696/xgboost_all5_model.json",
+      "model_sha256": "5ECBF66A00729CE958A982E991A40AED729DCA0735A21EE9787C7B653D31C647",
+      "parameters": {
+        "booster": "gbtree",
+        "colsample_bytree": 1.0,
+        "gamma": 0.0,
+        "learning_rate": 0.03,
+        "max_depth": 2,
+        "min_child_weight": 1.0,
+        "n_estimators": 150,
+        "reg_alpha": 0.0,
+        "reg_lambda": 1.0,
+        "subsample": 1.0
+      }
+    },
+    "xgboost_budget3": {
+      "feature_order": [
+        "MK14_2BAJ_aligned",
+        "MK14_2QD9_reference",
+        "MK14_3MPT_aligned"
+      ],
+      "model_path": "results/runs/stage05_mk14_enopt_xgboost_train696/xgboost_budget3_model.json",
+      "model_sha256": "18876BFFEB44B33D544DD0641C43BE804FCBC929266817B6E789B88BC4389A1D",
+      "parameters": {
+        "booster": "gbtree",
+        "colsample_bytree": 1.0,
+        "gamma": 0.0,
+        "learning_rate": 0.03,
+        "max_depth": 3,
+        "min_child_weight": 1.0,
+        "n_estimators": 150,
+        "reg_alpha": 0.0,
+        "reg_lambda": 1.0,
+        "subsample": 1.0
+      }
+    }
+  },
+  "outputs": {
+    "metrics_csv": {
+      "path": "results/runs/stage05_mk14_fresh_validation_e32_aggregated/enopt_xgboost_metrics.csv",
+      "sha256": "8F523A0205BB6C7223A73FABEB4AA0ED939AD47681A39188C7390FF77C3F47EA"
+    },
+    "predictions_csv": {
+      "path": "results/runs/stage05_mk14_fresh_validation_e32_aggregated/enopt_xgboost_predictions.csv",
+      "sha256": "371B9AFF454227716C4A78A4CF7423AC99E100F7FDDBFA8089D410A561FE1EA8"
+    }
+  },
+  "primary_gate": {
+    "all_checks_passed": true,
+    "path": "data/stage05_mk14_fresh_validation_result.json",
+    "sha256": "8ACD7DCB63EFDA097DE22FE281E24F0BF156D0176FFABAD1D9E4FD2844C59BA0",
+    "status": "fresh_validation_passed_test_locked",
+    "unchanged_by_this_supplementary_evaluation": true
+  },
+  "primary_qubo_robust_bedroc": {
+    "mean_seed": 0.5259520735895237,
+    "primary": 0.5508607965886447,
+    "sensitivity": 0.5579791070946013,
+    "worst_seed": 0.48723656888130407
+  },
+  "robust_bedroc": {
+    "xgboost_all5": {
+      "mean_seed": 0.5027096083538868,
+      "primary": 0.536112924951562,
+      "sensitivity": 0.5429148271410745,
+      "worst_seed": 0.4391047043276309
+    },
+    "xgboost_budget3": {
+      "mean_seed": 0.43714530150125436,
+      "primary": 0.5106380012564271,
+      "sensitivity": 0.5227972642234927,
+      "worst_seed": 0.3071725168938206
+    }
+  },
+  "schema_version": "1.0",
+  "status": "supplementary_xgboost_validation_evaluated_primary_gate_unchanged",
+  "test_status": "locked_unreleased"
+}
