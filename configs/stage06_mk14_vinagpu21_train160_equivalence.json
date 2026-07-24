@@ -1,0 +1,142 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage06-mk14-vinagpu21-train160-five-receptor-three-seed-equivalence-v1",
+  "purpose": "Measure speed and score/rank compatibility of a frozen AutoDock Vina-GPU 2.1 protocol against consumed official AutoDock Vina 1.2.7 CPU evidence before any larger GPU recomputation.",
+  "data_boundary": {
+    "allowed_split": "train",
+    "allowed_selection_role": "development_train",
+    "ligand_count": 160,
+    "label_counts": {
+      "active": 80,
+      "decoy": 80
+    },
+    "validation_rows_permitted": 0,
+    "test_rows_permitted": 0,
+    "enrichment_metrics_permitted": false,
+    "interpretation": "This experiment uses consumed Train-160 rows only. It cannot validate QUBO, enrichment, biological activity, or generalization."
+  },
+  "inputs": {
+    "receptor_manifest": {
+      "path": "data/processed/stage05_mk14_unidock_train160_receptor_manifest.csv",
+      "sha256": "EFAA41D3C685F30F3BEF3D16F408107F82E3930CF94D481939D046ECEBFBEFCC"
+    },
+    "ligand_manifest": {
+      "path": "data/processed/stage05_mk14_unidock_rigid_train160_pdbqt_manifest.csv",
+      "sha256": "5501B259C897B596E10A2E124F4863ACD7368CFEB02BA9C78BD677CF78A9903E"
+    },
+    "cpu_seed_runs": [
+      {
+        "seed_id": "seed0",
+        "base_seed": 20260801,
+        "summary_path": "results/runs/stage05_mk14_unidock_rigid_train160_cpu_reference_seed0/summary.json",
+        "summary_sha256": "FCA48165A965A12A515C6DDD511F0CAE5B4697FFA2F9865B6F485E5B5CA1465A",
+        "scores_path": "results/runs/stage05_mk14_unidock_rigid_train160_cpu_reference_seed0/representative_scores.csv",
+        "scores_sha256": "65A3B9324B16985EAED77CCC2C11C6B5064CC7E40AB5955CE7B1222F235A5C76"
+      },
+      {
+        "seed_id": "seed1",
+        "base_seed": 20260802,
+        "summary_path": "results/runs/stage05_mk14_unidock_rigid_train160_cpu_reference_seed1/summary.json",
+        "summary_sha256": "C24018F953B1FEAA00295517E2B313E5E878750C8949867C626988A23990CE94",
+        "scores_path": "results/runs/stage05_mk14_unidock_rigid_train160_cpu_reference_seed1/representative_scores.csv",
+        "scores_sha256": "4EECC89263B38FD8E189AB045CB55ABCF97A2B4D6D486E3A7B8717151875153B"
+      },
+      {
+        "seed_id": "seed2",
+        "base_seed": 20260803,
+        "summary_path": "results/runs/stage05_mk14_unidock_rigid_train160_cpu_reference_seed2/summary.json",
+        "summary_sha256": "58EB13F465ED1E2663D2ED6B24B30877E1B5919F46D52B6D079F719D7C17AF26",
+        "scores_path": "results/runs/stage05_mk14_unidock_rigid_train160_cpu_reference_seed2/representative_scores.csv",
+        "scores_sha256": "580BC467990A16BA7C7A8DB9BDEC98F4C2D0DD268B91636D775B3E88E200820E"
+      }
+    ]
+  },
+  "expected": {
+    "receptor_ids": [
+      "MK14_2BAJ_aligned",
+      "MK14_2QD9_reference",
+      "MK14_3K3J_aligned",
+      "MK14_3KQ7_aligned",
+      "MK14_3MPT_aligned"
+    ],
+    "receptor_count": 5,
+    "ligand_count": 160,
+    "seed_count": 3,
+    "pair_count_per_seed": 800,
+    "total_gpu_pair_count": 2400,
+    "cpu_reference_pair_count_per_seed": 800
+  },
+  "seed_policy": {
+    "id": "cpu_matched_per_ligand_seed_v1",
+    "formula": "pair_seed = base_seed + integer ligand seed_offset",
+    "invocation_granularity": "one receptor-ligand pair per Vina-GPU process",
+    "reason": "Vina-GPU virtual-screening mode uses one continuous RNG stream in filesystem iteration order. Single-ligand invocations remove unspecified directory-order effects and exactly preserve the CPU reference seed assigned to each ligand."
+  },
+  "vinagpu": {
+    "required_version_probe": "AutoDockVina-GPU 2.1",
+    "source_repository": "https://github.com/DeltaGroupNJUPT/Vina-GPU-2.1.git",
+    "source_commit": "180272b8a5265d6ed9664178345933cebe2cd349",
+    "method": "AutoDock-Vina-GPU-2.1",
+    "build_profile": {
+      "gpu_platform": "-DNVIDIA_PLATFORM",
+      "opencl_version": "-DOPENCL_3_0",
+      "docking_box_size": "-DSMALL_BOX",
+      "kernel_mode": "precompiled_binary"
+    },
+    "thread": 8000,
+    "search_depth": "heuristic",
+    "rilc_bfgs": 1,
+    "num_modes": 9,
+    "energy_range": 3,
+    "maximum_absolute_score_kcal_per_mol": 100.0,
+    "cuda_visible_devices": "0",
+    "box": {
+      "center_x": -0.49,
+      "center_y": 3.26,
+      "center_z": 21.83,
+      "size_x": 22,
+      "size_y": 24,
+      "size_z": 32
+    }
+  },
+  "compatibility_smoke": {
+    "seed_id": "seed0",
+    "receptor_id": "MK14_2BAJ_aligned",
+    "ligand_id": "MK14_active_L000005",
+    "require_precompiled_kernel_mode": true,
+    "blocked_log_patterns": [
+      "CL_OUT_OF_HOST_MEMORY",
+      "pocket too large!",
+      "Relation too large!",
+      "Grid too large!",
+      "Build kernel 1 from source",
+      "Build kernel 2 from source"
+    ]
+  },
+  "throughput_reference": {
+    "pair_count": 3840,
+    "elapsed_seconds": 27872.612999999998,
+    "comparison_note": "CPU throughput is the recorded 32-vCPU official AutoDock Vina 1.2.7 e32 Train-160 execution. GPU timing sums complete sequential single-pair process wall times and includes process launch, docking, refinement, and pose writing, but excludes installation and the compatibility smoke."
+  },
+  "equivalence_gate": {
+    "require_complete_pairs": true,
+    "maximum_overall_median_absolute_score_delta_kcal_per_mol": 0.5,
+    "maximum_overall_p95_absolute_score_delta_kcal_per_mol": 1.0,
+    "minimum_group_spearman": 0.95,
+    "minimum_median_group_top5pct_overlap": 0.8,
+    "maximum_active_decoy_mean_delta_gap_kcal_per_mol": 0.5,
+    "minimum_throughput_speedup_vs_recorded_32vcpu": 5.0
+  },
+  "outputs": {
+    "run_directory": "results/runs/stage06_mk14_vinagpu21_train160_equivalence",
+    "runtime_lock_json": "results/runs/stage06_mk14_vinagpu21_train160_equivalence/runtime_lock.json",
+    "gpu_scores_csv": "results/runs/stage06_mk14_vinagpu21_train160_equivalence/gpu_scores.csv",
+    "gpu_pair_runs_csv": "results/runs/stage06_mk14_vinagpu21_train160_equivalence/gpu_pair_runs.csv",
+    "gpu_summary_json": "results/runs/stage06_mk14_vinagpu21_train160_equivalence/gpu_run_summary.json",
+    "pairwise_comparison_csv": "results/runs/stage06_mk14_vinagpu21_train160_equivalence/equivalence_pairwise.csv",
+    "group_metrics_csv": "results/runs/stage06_mk14_vinagpu21_train160_equivalence/equivalence_group_metrics.csv",
+    "equivalence_summary_json": "results/runs/stage06_mk14_vinagpu21_train160_equivalence/equivalence_summary.json",
+    "diagnostic_pose_directory": "results/runs/stage06_mk14_vinagpu21_train160_equivalence/diagnostic_poses"
+  },
+  "decision_boundary": "A complete gate pass only admits this exact Vina-GPU build and protocol as a candidate for a separately preregistered full Train-696 recomputation. It does not authorize mixing GPU scores with existing CPU matrices, opening validation/test rows, or claiming QUBO benefit."
+}

@@ -21,19 +21,19 @@ complete. The fixed single-receptor protocol achieved ROC-AUC 0.806 on the
 independent 40-ligand CDK2 test; that test set is now permanently consumed and
 must not be reused for fitting.
 
-Stage 5 is in progress on the independent MAPK14/p38alpha target. Eight
-label-independent receptor conformers and a 696-ligand development-train panel
-have complete three-seed AutoDock Vina 1.2.7 e32 evidence. A preregistered
-marginal pair-synergy QUBO passed its train-only gates against matched linear
-and nested-greedy comparators, but nested exhaustive search remained stronger.
-This is not yet independent validation or quantum advantage.
+Stage 5 MAPK14/p38alpha development and preregistered fresh validation are
+complete. The validation used 75 actives, 1,501 decoys, five receptor columns,
+three seeds, and 23,640 successful official AutoDock Vina 1.2.7 jobs. The
+pair-synergy QUBO passed the frozen fresh-validation checks against matched
+linear, exhaustive, and single-receptor comparators. However, QUBO and nested
+greedy selected the same three receptors and therefore made identical
+predictions. This supports the receptor subset, but it does not demonstrate a
+QUBO-over-greedy or quantum advantage. The test partition remains locked.
 
-A fresh scaffold/source-group-disjoint validation panel is frozen with 75
-actives, 1,501 decoys, five required receptor columns, and three seeds: 23,640
-official CPU Vina jobs. No fresh-validation metric has been calculated and the
-test partition remains locked. A Train-160 Uni-Dock GPU pilot was fast but
-failed the frozen CPU-equivalence gate, so its scores are not mixed with the
-official Vina matrices.
+A Train-160 Uni-Dock GPU pilot was fast but failed the frozen CPU-equivalence
+gate, so its scores are not mixed with official Vina matrices. Stage 6 now
+evaluates AutoDock Vina-GPU 2.1 as a separate, train-only engine-migration
+candidate with exact per-ligand seeds and a frozen equivalence gate.
 
 See the [runtime and engine-migration assessment](reports/stage-05/docking_engine_runtime_and_migration_assessment.md)
 for measured CPU projections and the evidence that must be rebuilt after an
@@ -46,7 +46,8 @@ engine change.
 - [x] Compare QUBO selection with linear, greedy, single-best, and exhaustive
   development baselines.
 - [x] Freeze the MAPK14 marginal pair-synergy candidate on Train-696.
-- [ ] Complete the preregistered fresh MAPK14 validation.
+- [x] Complete the preregistered fresh MAPK14 validation.
+- [ ] Complete the isolated Vina-GPU 2.1 Train-160 equivalence pilot.
 - [ ] Decide whether a separately preregistered locked-test release is
   justified; no automatic release is allowed.
 

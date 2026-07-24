@@ -1,0 +1,21 @@
+{
+  "archive": "dist/stage06_mk14_vinagpu21_train160_input_v1.tar.gz",
+  "archive_entry_count": 185,
+  "archive_sha256": "6BB816CC04F7141F371267CD45B070182EC366E93AFD21970CB9D4B016978DF0",
+  "archive_size_bytes": 487721,
+  "deterministic_metadata": true,
+  "fresh_validation_scores_included": false,
+  "gpu_pair_count": 2400,
+  "ligand_count": 160,
+  "manifest_line_ending": "LF",
+  "operation": "consumed Train-160 AutoDock Vina-GPU 2.1 equivalence input bundle",
+  "receptor_count": 5,
+  "schema_version": "1.0",
+  "seed_count": 3,
+  "seed_policy": "base_seed plus ligand seed_offset; one process per pair",
+  "source_file_count": 184,
+  "status": "ok",
+  "test_rows": 0,
+  "validation_rows": 0,
+  "vinagpu_binary_included": false
+}
