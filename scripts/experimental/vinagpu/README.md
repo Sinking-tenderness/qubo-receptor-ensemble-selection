@@ -24,3 +24,10 @@ an audited host-only patch that sorts staged ligands and resets the RNG for each
 ligand. Every batch score and complete pose hash must exactly match v1 before a
 speed result is accepted. A bridge pass still does not validate QUBO and does
 not permit CPU and GPU docking matrices to be mixed.
+
+The bridge passed with 2,400 exact score and pose-hash matches and 7.536x
+throughput over the recorded 32-vCPU reference. The next bounded diagnostic
+tests fixed search depths 16, 24, and 32 only on the two preregistered failing
+seed1/receptor groups. It selects the first profile passing both rank and speed
+gates and stops as soon as speed fails. A selected profile must still undergo a
+complete uniform-depth Train-160 confirmation before any larger GPU run.

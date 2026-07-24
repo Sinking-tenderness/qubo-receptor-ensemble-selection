@@ -43,6 +43,12 @@ Files containing `unidock` describe a consumed-train experimental branch. Its
 tested profiles failed the CPU-equivalence gate and are not current production
 configurations.
 
+Files beginning with `stage06_mk14_vinagpu21` describe a separate consumed-
+train Vina-GPU 2.1 migration branch. The deterministic execution bridge passed,
+but the frozen heuristic-depth engine-equivalence gate remains failed. The only
+authorized follow-up is the targeted fixed-depth diagnostic; these files are
+not production docking configurations and do not open validation or test data.
+
 The two `enopt_xgboost` files freeze a supplementary classical comparator.
 The first binds the completed Train-696 nested-CV fit; the second permits
 prediction only after the primary fresh-validation result exists. Neither file

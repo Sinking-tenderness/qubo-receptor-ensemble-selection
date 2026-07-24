@@ -1,0 +1,55 @@
+{
+  "all_gate_checks_passed": true,
+  "batch_elapsed_seconds": 2311.736352438107,
+  "batch_pair_count": 2400,
+  "batch_pairs_per_second": 1.038180672060118,
+  "chunk_count": 300,
+  "chunk_size": 8,
+  "exact_pose_hash_match_count": 2400,
+  "exact_score_match_count": 2400,
+  "experiment_id": "stage06-mk14-vinagpu21-deterministic-batch-bridge-v1",
+  "frozen_v1_gate_status_unchanged": "gpu_equivalence_gate_failed",
+  "gate_checks": {
+    "complete_pairs": {
+      "observed": 2400,
+      "passed": true,
+      "threshold": 2400
+    },
+    "exact_pose_hash_matches": {
+      "observed": 2400,
+      "passed": true,
+      "threshold": 2400
+    },
+    "exact_score_matches": {
+      "observed": 2400,
+      "passed": true,
+      "threshold": 2400
+    },
+    "maximum_absolute_score_delta": {
+      "observed": 0.0,
+      "passed": true,
+      "threshold": 0.0
+    },
+    "speedup_vs_recorded_32vcpu": {
+      "observed": 7.535627108440517,
+      "passed": true,
+      "threshold": 5.0
+    },
+    "speedup_vs_single_pair_gpu": {
+      "observed": 2.3582202047189513,
+      "passed": true,
+      "threshold": 1.5
+    }
+  },
+  "maximum_absolute_score_delta": 0.0,
+  "schema_version": "1.0",
+  "source_archive": {
+    "internal_manifest_verified": true,
+    "name": "stage06_mk14_vinagpu21_deterministic_batch_bridge_core_v1.tar.gz",
+    "sha256": "9C9E4C1F20B9B6973A5C517999C1D30939AC41C82C398FB13B2D2BFD4137BC85",
+    "size_bytes": 243956
+  },
+  "status": "deterministic_batch_bridge_passed",
+  "test_rows": 0,
+  "validation_rows": 0
+}

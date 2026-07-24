@@ -53,3 +53,17 @@ A bridge pass proves only execution equivalence and speed. It cannot reverse
 the v1 rank-equivalence failure. It permits the next consumed-train diagnostic
 on the two unstable receptor-seed groups, but does not permit Train-696,
 validation docking, engine mixing, or a QUBO claim.
+
+## Result
+
+The accepted core archive SHA-256 is
+`9C9E4C1F20B9B6973A5C517999C1D30939AC41C82C398FB13B2D2BFD4137BC85`,
+and every internal manifest entry verified. All 300 chunks and 2,400 unique
+pairs completed. Scores and complete pose-file hashes matched the frozen v1
+reference for all 2,400 pairs, with zero maximum score delta.
+
+Summed chunk time was 2,311.736 seconds (1.038 pairs/second), corresponding to
+7.536x recorded 32-vCPU throughput and 2.358x single-pair GPU throughput. Every
+bridge gate passed. The formal bridge status is
+`deterministic_batch_bridge_passed`; the frozen v1 equivalence status remains
+failed as required.

@@ -1,0 +1,44 @@
+{
+  "build_settings": {
+    "DOCKING_BOX_SIZE": "-DSMALL_BOX",
+    "GPU_PLATFORM": "-DNVIDIA_PLATFORM",
+    "OPENCL_VERSION": "-DOPENCL_3_0"
+  },
+  "deterministic_batch_patch": {
+    "behavioral_scope": [
+      "sort virtual-screening ligand paths lexicographically",
+      "seed batch ligand i with batch_seed plus ligand index"
+    ],
+    "manifest_path": "/root/autodl-tmp/vina_gpu_stage06/src/Vina-GPU-2.1-deterministic-batch-v1/deterministic_batch_patch_manifest.json",
+    "manifest_sha256": "B65FEDAA1641D9A9B84E88B3DD1DE1492C50856EC616A38F8D8A97D1E3D2628D",
+    "opencl_kernel_sources_modified": false,
+    "patch_id": "vinagpu21-sorted-per-ligand-seed-v1",
+    "schema_version": "1.0",
+    "scoring_or_search_code_modified": false,
+    "source_commit": "180272b8a5265d6ed9664178345933cebe2cd349",
+    "source_files": {
+      "AutoDock-Vina-GPU-2.1/lib/main_procedure_cl.cpp": {
+        "original_canonical_lf_sha256": "1535F8FD2C2484DB9882816B5A0C9270FF360362B7DBFB0C62B5A545900C0137",
+        "patched_canonical_lf_sha256": "9B567A77A78D2294B3218D9196B98F5F552B53E91654C2B54E2978C9A4A7E30C"
+      },
+      "AutoDock-Vina-GPU-2.1/main/main.cpp": {
+        "original_canonical_lf_sha256": "8E3537E286E09770CB2A0F537B57D429BCDDC3FAF2B1CAD5716FF4CA582D8D06",
+        "patched_canonical_lf_sha256": "33696A3735539436506A50A557DF6E51C7EA8DD352B57CE81B1C5B0698D5ABF0"
+      }
+    },
+    "status": "ok"
+  },
+  "executable_path": "/root/autodl-tmp/vina_gpu_stage06/src/Vina-GPU-2.1-deterministic-batch-v1/AutoDock-Vina-GPU-2.1/AutoDock-Vina-GPU-2-1",
+  "executable_sha256": "21CE5ABC808FAA71BFF5B8A0602FEC65408C96BB8F16193B30381E045F83FCF7",
+  "kernel1_sha256": "BCAB801B41BD7C7BC043CA3CE09C43B7DC2DA6C02E108E14C6B3A4313A4AC6CE",
+  "kernel2_sha256": "7A6C53623AEE003E3866AEF6D396D719C6C2BD98AAF090A91EF705E488B0DCEB",
+  "kernel_mode": "precompiled_binary",
+  "makefile_sha256": "D8A7BAAA99CD2C4CC5CD34CD6C586E48E3CC6FA072DDF93AE95240DA3AD93E35",
+  "method": "AutoDock-Vina-GPU-2.1-deterministic-batch",
+  "opencl_binary_path": "/root/autodl-tmp/vina_gpu_stage06/src/Vina-GPU-2.1-deterministic-batch-v1/AutoDock-Vina-GPU-2.1",
+  "schema_version": "1.0",
+  "source_commit": "180272b8a5265d6ed9664178345933cebe2cd349",
+  "source_repository": "https://github.com/DeltaGroupNJUPT/Vina-GPU-2.1.git",
+  "status": "locked",
+  "version_probe": "AutoDockVina-GPU 2.1"
+}

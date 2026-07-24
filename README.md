@@ -34,8 +34,10 @@ A Train-160 Uni-Dock GPU pilot was fast but failed the frozen CPU-equivalence
 gate, so its scores are not mixed with official Vina matrices. The Stage 6
 AutoDock Vina-GPU 2.1 single-pair pilot also failed its complete frozen gate:
 aggregate scores were close, but two receptor-seed rank groups and the 5x speed
-threshold failed. A hash-pinned deterministic-batch bridge is now the only
-authorized GPU follow-up; it remains consumed-train diagnostics only.
+threshold failed. Its hash-pinned deterministic-batch bridge subsequently
+reproduced all 2,400 GPU scores and pose hashes exactly and reached 7.536x
+recorded 32-vCPU throughput. Only a bounded fixed-search-depth diagnostic on
+the two failed consumed-train groups is now authorized.
 
 See the [runtime and engine-migration assessment](reports/stage-05/docking_engine_runtime_and_migration_assessment.md)
 for measured CPU projections and the evidence that must be rebuilt after an
@@ -49,7 +51,10 @@ engine change.
   development baselines.
 - [x] Freeze the MAPK14 marginal pair-synergy candidate on Train-696.
 - [x] Complete the preregistered fresh MAPK14 validation.
-- [ ] Complete the isolated Vina-GPU 2.1 Train-160 equivalence pilot.
+- [x] Complete the isolated Vina-GPU 2.1 Train-160 equivalence pilot and
+  deterministic-batch execution bridge.
+- [ ] Complete the bounded Vina-GPU fixed-search-depth diagnostic and, only if
+  it selects a candidate, a full uniform-depth Train-160 confirmation.
 - [ ] Decide whether a separately preregistered locked-test release is
   justified; no automatic release is allowed.
 
