@@ -31,9 +31,11 @@ predictions. This supports the receptor subset, but it does not demonstrate a
 QUBO-over-greedy or quantum advantage. The test partition remains locked.
 
 A Train-160 Uni-Dock GPU pilot was fast but failed the frozen CPU-equivalence
-gate, so its scores are not mixed with official Vina matrices. Stage 6 now
-evaluates AutoDock Vina-GPU 2.1 as a separate, train-only engine-migration
-candidate with exact per-ligand seeds and a frozen equivalence gate.
+gate, so its scores are not mixed with official Vina matrices. The Stage 6
+AutoDock Vina-GPU 2.1 single-pair pilot also failed its complete frozen gate:
+aggregate scores were close, but two receptor-seed rank groups and the 5x speed
+threshold failed. A hash-pinned deterministic-batch bridge is now the only
+authorized GPU follow-up; it remains consumed-train diagnostics only.
 
 See the [runtime and engine-migration assessment](reports/stage-05/docking_engine_runtime_and_migration_assessment.md)
 for measured CPU projections and the evidence that must be rebuilt after an

@@ -1,0 +1,166 @@
+{
+  "all_gate_checks_passed": false,
+  "compatibility_smoke": {
+    "elapsed_seconds": 1.883853953331709,
+    "precompiled_kernel_mode_verified": true,
+    "score": -9.7,
+    "status": "compatibility_smoke_passed"
+  },
+  "config": {
+    "path": "configs/stage06_mk14_vinagpu21_train160_equivalence.json",
+    "sha256": "16E27E8CBD7E6424FC43F2E801C616C0462F937686543A9FDCAC5B2694E8E028"
+  },
+  "execution": {
+    "elapsed_seconds": 5451.583374302834,
+    "failed_pair_count": 0,
+    "pair_count": 2400,
+    "pairs_per_second": 0.44023907096659226
+  },
+  "experiment_id": "stage06-mk14-vinagpu21-train160-five-receptor-three-seed-equivalence-v1",
+  "gate_checks": {
+    "active_decoy_mean_delta_gap": {
+      "comparison": "maximum",
+      "observed": 0.03847333333333335,
+      "passed": true,
+      "threshold": 0.5
+    },
+    "complete_pairs": {
+      "comparison": "equal",
+      "observed": 2400,
+      "passed": true,
+      "threshold": 2400
+    },
+    "median_group_top5pct_overlap": {
+      "comparison": "minimum",
+      "observed": 0.875,
+      "passed": true,
+      "threshold": 0.8
+    },
+    "minimum_group_spearman": {
+      "comparison": "minimum",
+      "observed": 0.9259809838572177,
+      "passed": false,
+      "threshold": 0.95
+    },
+    "overall_median_absolute_score_delta": {
+      "comparison": "maximum",
+      "observed": 0.08199999999999896,
+      "passed": true,
+      "threshold": 0.5
+    },
+    "overall_p95_absolute_score_delta": {
+      "comparison": "maximum",
+      "observed": 0.617199999999999,
+      "passed": true,
+      "threshold": 1.0
+    },
+    "throughput_speedup_vs_recorded_32vcpu": {
+      "comparison": "minimum",
+      "observed": 3.195472201180042,
+      "passed": false,
+      "threshold": 5.0
+    }
+  },
+  "gpu_reference": {
+    "path": "data/stage06_mk14_vinagpu21_train160_v1_gpu_reference.csv",
+    "purpose": "Exact score and pose-hash bridge reference for deterministic batch diagnostics.",
+    "row_count": 2400,
+    "sha256": "379942ED13A5B9E3E715AFC248D279188543E7AA104CF6FB424BE61581CCBED8"
+  },
+  "interpretation_note": "The frozen v1 gate failed minimum per-group Spearman and 5x throughput. This evidence may guide consumed-train diagnostics only and does not authorize larger GPU recomputation, validation access, or a QUBO claim.",
+  "posthoc_three_seed_median_diagnostic": {
+    "best_receptor_identity_agreement_fraction": 0.875,
+    "by_receptor": {
+      "MK14_2BAJ_aligned": {
+        "median_absolute_delta_kcal_per_mol": 0.054999999999999716,
+        "p95_absolute_delta_kcal_per_mol": 0.5162999999999986,
+        "spearman": 0.9749011952382943,
+        "top5pct_overlap": 1.0
+      },
+      "MK14_2QD9_reference": {
+        "median_absolute_delta_kcal_per_mol": 0.09099999999999975,
+        "p95_absolute_delta_kcal_per_mol": 0.5498499999999992,
+        "spearman": 0.9558784613258412,
+        "top5pct_overlap": 1.0
+      },
+      "MK14_3K3J_aligned": {
+        "median_absolute_delta_kcal_per_mol": 0.0779999999999994,
+        "p95_absolute_delta_kcal_per_mol": 0.6260500000000003,
+        "spearman": 0.9716494364415438,
+        "top5pct_overlap": 0.875
+      },
+      "MK14_3KQ7_aligned": {
+        "median_absolute_delta_kcal_per_mol": 0.0600000000000005,
+        "p95_absolute_delta_kcal_per_mol": 0.3881999999999985,
+        "spearman": 0.9862983718715063,
+        "top5pct_overlap": 1.0
+      },
+      "MK14_3MPT_aligned": {
+        "median_absolute_delta_kcal_per_mol": 0.07899999999999974,
+        "p95_absolute_delta_kcal_per_mol": 0.5671000000000003,
+        "spearman": 0.958876507286446,
+        "top5pct_overlap": 0.875
+      }
+    },
+    "gate_status_unchanged": true,
+    "overall_median_absolute_delta_kcal_per_mol": 0.07000000000000028,
+    "overall_p95_absolute_delta_kcal_per_mol": 0.5402500000000007,
+    "overall_spearman": 0.9746757046125911
+  },
+  "runtime_identity": {
+    "build_settings": {
+      "DOCKING_BOX_SIZE": "-DSMALL_BOX",
+      "GPU_PLATFORM": "-DNVIDIA_PLATFORM",
+      "OPENCL_VERSION": "-DOPENCL_3_0"
+    },
+    "executable_sha256": "F92F1F3B16F9CCADED82C20301AAE40644D23D37F6C7C251495D6D952F51DC09",
+    "kernel1_sha256": "BCAB801B41BD7C7BC043CA3CE09C43B7DC2DA6C02E108E14C6B3A4313A4AC6CE",
+    "kernel2_sha256": "7A6C53623AEE003E3866AEF6D396D719C6C2BD98AAF090A91EF705E488B0DCEB",
+    "source_commit": "180272b8a5265d6ed9664178345933cebe2cd349"
+  },
+  "schema_version": "1.0",
+  "score_comparison": {
+    "active_decoy_mean_delta_gap_kcal_per_mol": 0.03847333333333335,
+    "active_mean_signed_delta_kcal_per_mol": 0.04320666666666668,
+    "best_receptor_identity": {
+      "agreement_count": 411,
+      "agreement_fraction": 0.85625,
+      "by_seed": {
+        "seed0": 0.85,
+        "seed1": 0.83125,
+        "seed2": 0.8875
+      },
+      "comparison_count": 480
+    },
+    "decoy_mean_signed_delta_kcal_per_mol": 0.004733333333333326,
+    "maximum_absolute_delta_kcal_per_mol": 1.923,
+    "mean_signed_delta_kcal_per_mol": 0.02397,
+    "median_absolute_delta_kcal_per_mol": 0.08199999999999896,
+    "median_group_spearman": 0.9653129589692562,
+    "median_group_top10pct_overlap": 0.9375,
+    "median_group_top5pct_overlap": 0.875,
+    "minimum_group_spearman": 0.9259809838572177,
+    "overall_pearson": 0.978249107645055,
+    "overall_spearman": 0.968556921482006,
+    "p95_absolute_delta_kcal_per_mol": 0.617199999999999
+  },
+  "source_archive": {
+    "internal_manifest_verified": true,
+    "name": "stage06_mk14_vinagpu21_train160_core_v1.tar.gz",
+    "sha256": "CEF95E2E7F9C884BBF63E9087CF1190FA642B3455D8A5DF938CD00A92C5EA62E",
+    "size_bytes": 576413
+  },
+  "status": "gpu_equivalence_gate_failed",
+  "test_rows": 0,
+  "throughput": {
+    "comparison_note": "CPU throughput is the recorded 32-vCPU official AutoDock Vina 1.2.7 e32 Train-160 execution. GPU timing sums complete sequential single-pair process wall times and includes process launch, docking, refinement, and pose writing, but excludes installation and the compatibility smoke.",
+    "gpu_pair_count": 2400,
+    "gpu_pair_process_seconds": 5451.583374302834,
+    "gpu_pairs_per_second": 0.44023907096659226,
+    "recorded_cpu_pairs_per_second": 0.13776964506341763,
+    "recorded_cpu_reference_pair_count": 3840,
+    "recorded_cpu_reference_seconds": 27872.612999999998,
+    "speedup_vs_recorded_32vcpu": 3.195472201180042
+  },
+  "validation_rows": 0
+}

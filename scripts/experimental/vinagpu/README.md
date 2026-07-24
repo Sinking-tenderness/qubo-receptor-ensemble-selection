@@ -15,5 +15,12 @@ Execution has two gates:
 2. All 2,400 pairs must complete before score/rank equivalence and throughput
    are audited against the frozen AutoDock Vina 1.2.7 CPU matrices.
 
-A pass is train-only engine evidence. It does not validate QUBO and does not
-permit CPU and GPU docking matrices to be mixed.
+The single-pair v1 pilot completed all 2,400 pairs and preserved aggregate
+scores well, but failed minimum per-group Spearman and the frozen 5x speed
+threshold. Its formal status remains failed.
+
+The deterministic-batch bridge is a follow-up execution diagnostic. It applies
+an audited host-only patch that sorts staged ligands and resets the RNG for each
+ligand. Every batch score and complete pose hash must exactly match v1 before a
+speed result is accepted. A bridge pass still does not validate QUBO and does
+not permit CPU and GPU docking matrices to be mixed.
