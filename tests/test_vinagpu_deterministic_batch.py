@@ -2,6 +2,7 @@ import json
 from pathlib import Path
 
 from scripts.experimental.vinagpu.apply_deterministic_batch_patch import (
+    canonical_lf_sha256,
     patch_main_cpp,
     patch_main_procedure,
 )
@@ -111,3 +112,12 @@ def test_patch_sorts_paths_and_resets_rng_per_ligand():
     assert "std::sort(sorted_ligand_paths.begin(), sorted_ligand_paths.end())" in patched_main
     assert "seed + ligand_count" in patched_procedure
     assert patched_procedure.count("rng generator") == 1
+
+
+def test_source_hash_canonicalizes_windows_and_linux_line_endings(tmp_path: Path):
+    windows = tmp_path / "windows.cpp"
+    linux = tmp_path / "linux.cpp"
+    windows.write_bytes(b"line1\r\nline2\r\n")
+    linux.write_bytes(b"line1\nline2\n")
+
+    assert canonical_lf_sha256(windows) == canonical_lf_sha256(linux)

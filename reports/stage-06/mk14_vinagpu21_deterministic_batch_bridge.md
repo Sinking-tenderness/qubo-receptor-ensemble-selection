@@ -22,6 +22,8 @@ This bridge applies two hash-pinned host-code changes to upstream commit
 
 OpenCL kernels, scoring, search, refinement, and molecular inputs are not
 modified. The original kernel binaries must match the frozen v1 hashes.
+The two host-source hashes are calculated after canonicalizing CRLF to LF, so
+Windows and Linux checkouts of identical Git content have the same audit hash.
 
 ## Execution
 

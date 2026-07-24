@@ -2,6 +2,7 @@
   "schema_version": "1.0",
   "experiment_id": "stage06-mk14-vinagpu21-deterministic-batch-bridge-v1",
   "purpose": "Test whether an audited host-only Vina-GPU 2.1 patch can reproduce every frozen single-pair GPU score and pose hash while removing per-pair process startup overhead.",
+  "execution_amendment": "Input-bundle v2 canonicalizes CRLF/LF before checking the two upstream source hashes. This fixes a cross-platform audit error discovered before any source patch or GPU batch execution and does not change the approved source content, patch, docking protocol, or gate.",
   "data_boundary": {
     "allowed_split": "train",
     "allowed_selection_role": "development_train",
@@ -88,12 +89,12 @@
     "source_commit": "180272b8a5265d6ed9664178345933cebe2cd349",
     "source_files": {
       "AutoDock-Vina-GPU-2.1/lib/main_procedure_cl.cpp": {
-        "original_sha256": "213862D7E27BB9B91F2FDAFA0A75ADA22D8256E201BE2FFEFA684AF0DE350EC6",
-        "patched_sha256": "9B567A77A78D2294B3218D9196B98F5F552B53E91654C2B54E2978C9A4A7E30C"
+        "original_canonical_lf_sha256": "1535F8FD2C2484DB9882816B5A0C9270FF360362B7DBFB0C62B5A545900C0137",
+        "patched_canonical_lf_sha256": "9B567A77A78D2294B3218D9196B98F5F552B53E91654C2B54E2978C9A4A7E30C"
       },
       "AutoDock-Vina-GPU-2.1/main/main.cpp": {
-        "original_sha256": "F4261CBE5A5DE264AA631458FAB8BC61DB9068DB5BF4CECC995D51AF4A8A61FC",
-        "patched_sha256": "33696A3735539436506A50A557DF6E51C7EA8DD352B57CE81B1C5B0698D5ABF0"
+        "original_canonical_lf_sha256": "8E3537E286E09770CB2A0F537B57D429BCDDC3FAF2B1CAD5716FF4CA582D8D06",
+        "patched_canonical_lf_sha256": "33696A3735539436506A50A557DF6E51C7EA8DD352B57CE81B1C5B0698D5ABF0"
       }
     },
     "opencl_kernel_sources_modified": false,

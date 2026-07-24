@@ -13,30 +13,27 @@ SOURCE_COMMIT = "180272b8a5265d6ed9664178345933cebe2cd349"
 PATCH_ID = "vinagpu21-sorted-per-ligand-seed-v1"
 SOURCE_FILES = {
     "AutoDock-Vina-GPU-2.1/main/main.cpp": {
-        "original_sha256": (
-            "F4261CBE5A5DE264AA631458FAB8BC61DB9068DB5BF4CECC995D51AF4A8A61FC"
+        "original_canonical_lf_sha256": (
+            "8E3537E286E09770CB2A0F537B57D429BCDDC3FAF2B1CAD5716FF4CA582D8D06"
         ),
-        "patched_sha256": (
+        "patched_canonical_lf_sha256": (
             "33696A3735539436506A50A557DF6E51C7EA8DD352B57CE81B1C5B0698D5ABF0"
         ),
     },
     "AutoDock-Vina-GPU-2.1/lib/main_procedure_cl.cpp": {
-        "original_sha256": (
-            "213862D7E27BB9B91F2FDAFA0A75ADA22D8256E201BE2FFEFA684AF0DE350EC6"
+        "original_canonical_lf_sha256": (
+            "1535F8FD2C2484DB9882816B5A0C9270FF360362B7DBFB0C62B5A545900C0137"
         ),
-        "patched_sha256": (
+        "patched_canonical_lf_sha256": (
             "9B567A77A78D2294B3218D9196B98F5F552B53E91654C2B54E2978C9A4A7E30C"
         ),
     },
 }
 
 
-def file_sha256(path: Path) -> str:
-    digest = hashlib.sha256()
-    with path.open("rb") as handle:
-        for block in iter(lambda: handle.read(1024 * 1024), b""):
-            digest.update(block)
-    return digest.hexdigest().upper()
+def canonical_lf_sha256(path: Path) -> str:
+    data = path.read_bytes().replace(b"\r\n", b"\n")
+    return hashlib.sha256(data).hexdigest().upper()
 
 
 def git_head(source_tree: Path) -> str:
@@ -121,18 +118,18 @@ def apply_patch(source_tree: Path) -> dict[str, object]:
         raise ValueError(f"source commit differs: {observed_head}")
 
     observed_before = {
-        relative: file_sha256(source_tree / relative)
+        relative: canonical_lf_sha256(source_tree / relative)
         for relative in SOURCE_FILES
     }
     expected_after = {
-        relative: values["patched_sha256"]
+        relative: values["patched_canonical_lf_sha256"]
         for relative, values in SOURCE_FILES.items()
     }
     if observed_before == expected_after:
         pass
     else:
         expected_before = {
-            relative: values["original_sha256"]
+            relative: values["original_canonical_lf_sha256"]
             for relative, values in SOURCE_FILES.items()
         }
         if observed_before != expected_before:
@@ -154,7 +151,7 @@ def apply_patch(source_tree: Path) -> dict[str, object]:
         )
 
     observed_after = {
-        relative: file_sha256(source_tree / relative)
+        relative: canonical_lf_sha256(source_tree / relative)
         for relative in SOURCE_FILES
     }
     if observed_after != expected_after:
@@ -166,8 +163,10 @@ def apply_patch(source_tree: Path) -> dict[str, object]:
         "source_commit": SOURCE_COMMIT,
         "source_files": {
             relative: {
-                "original_sha256": SOURCE_FILES[relative]["original_sha256"],
-                "patched_sha256": observed_after[relative],
+                "original_canonical_lf_sha256": SOURCE_FILES[relative][
+                    "original_canonical_lf_sha256"
+                ],
+                "patched_canonical_lf_sha256": observed_after[relative],
             }
             for relative in sorted(SOURCE_FILES)
         },

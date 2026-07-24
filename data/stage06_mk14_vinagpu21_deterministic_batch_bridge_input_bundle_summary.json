@@ -1,8 +1,8 @@
 {
-  "archive": "dist/stage06_mk14_vinagpu21_deterministic_batch_bridge_input_v1.tar.gz",
+  "archive": "dist/stage06_mk14_vinagpu21_deterministic_batch_bridge_input_v2.tar.gz",
   "archive_entry_count": 189,
-  "archive_sha256": "9DC35E8C0941D784536C669D6EF434F68EAF2105CF890B28C01E7E01359DA01C",
-  "archive_size_bytes": 615567,
+  "archive_sha256": "0B1390F42EF55A29D1528F052EE608C0E5A6E4CC247CC9E4BB96F071BAFC62F8",
+  "archive_size_bytes": 615859,
   "chunk_count": 300,
   "chunk_size": 8,
   "deterministic_metadata": true,
