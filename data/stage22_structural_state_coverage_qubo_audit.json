@@ -1,0 +1,406 @@
+{
+  "checks": {
+    "all_metrics_recomputed": true,
+    "all_restarts_are_one_swap_local_optima": true,
+    "auxiliary_qubo_hashes_and_energies_recomputed": true,
+    "classical_baselines_recomputed": true,
+    "data_boundary_zero": true,
+    "exact_oracles_recomputed_where_feasible": true,
+    "go_no_go_decision_recomputed": true,
+    "input_hashes_verified": true,
+    "new_docking_jobs": 0,
+    "output_hashes_verified": true,
+    "quantum_hardware_jobs": 0
+  },
+  "config": {
+    "path": "configs/stage22_structural_state_coverage_qubo.json",
+    "sha256": "7442825C35991CF5171B5B0C794B7A6B664C7F9C801DB5C6140D1D3719742AAC"
+  },
+  "coverage": {
+    "exact_subset_states_enumerated": 880509,
+    "fraction_count": 3,
+    "k_count": 5,
+    "one_swap_transitions_checked": 286560,
+    "restart_rows_recomputed": 960,
+    "selection_rows_recomputed": 120,
+    "target_count": 2
+  },
+  "decision_recomputed": {
+    "sensitivity": {
+      "MK14": {
+        "fraction_count": 3,
+        "passed": true,
+        "positive_fraction_count": 2
+      },
+      "PPARG": {
+        "fraction_count": 3,
+        "passed": true,
+        "positive_fraction_count": 3
+      }
+    },
+    "strict_primary_targets": [],
+    "structural_coverage_gate_passed": false
+  },
+  "posthoc_stability_diagnostic": {
+    "MK14": {
+      "0.050000": {
+        "best_objective": 0.9762433403437435,
+        "exact_subset_frequency": 0.5625,
+        "label": "posthoc_descriptive_only_not_a_gate_revision",
+        "maximum_objective_regret": 0.027814778948649033,
+        "median_jaccard_to_selected": 1.0,
+        "median_objective_regret": 0.0,
+        "unique_subset_count": 3,
+        "within_1e-3_objective_fraction": 0.5625,
+        "within_1e-4_objective_fraction": 0.5625
+      },
+      "0.100000": {
+        "best_objective": 1.1074384254961955,
+        "exact_subset_frequency": 0.03125,
+        "label": "posthoc_descriptive_only_not_a_gate_revision",
+        "maximum_objective_regret": 0.030929705359380444,
+        "median_jaccard_to_selected": 0.3333333333333333,
+        "median_objective_regret": 0.005739102137204188,
+        "unique_subset_count": 15,
+        "within_1e-3_objective_fraction": 0.03125,
+        "within_1e-4_objective_fraction": 0.03125
+      },
+      "0.200000": {
+        "best_objective": 1.1137053125315814,
+        "exact_subset_frequency": 0.125,
+        "label": "posthoc_descriptive_only_not_a_gate_revision",
+        "maximum_objective_regret": 0.0064722534582377644,
+        "median_jaccard_to_selected": 0.45454545454545453,
+        "median_objective_regret": 0.001883459735139592,
+        "unique_subset_count": 14,
+        "within_1e-3_objective_fraction": 0.125,
+        "within_1e-4_objective_fraction": 0.125
+      }
+    },
+    "PPARG": {
+      "0.050000": {
+        "best_objective": 0.8724711269194868,
+        "exact_subset_frequency": 0.3125,
+        "label": "posthoc_descriptive_only_not_a_gate_revision",
+        "maximum_objective_regret": 0.039657251606111,
+        "median_jaccard_to_selected": 0.6,
+        "median_objective_regret": 0.01039937613281361,
+        "unique_subset_count": 6,
+        "within_1e-3_objective_fraction": 0.3125,
+        "within_1e-4_objective_fraction": 0.3125
+      },
+      "0.100000": {
+        "best_objective": 1.0716424851834396,
+        "exact_subset_frequency": 0.0625,
+        "label": "posthoc_descriptive_only_not_a_gate_revision",
+        "maximum_objective_regret": 0.04659180171545785,
+        "median_jaccard_to_selected": 0.23076923076923078,
+        "median_objective_regret": 0.016036746456780326,
+        "unique_subset_count": 19,
+        "within_1e-3_objective_fraction": 0.0625,
+        "within_1e-4_objective_fraction": 0.0625
+      },
+      "0.200000": {
+        "best_objective": 1.104990168767319,
+        "exact_subset_frequency": 0.03125,
+        "label": "posthoc_descriptive_only_not_a_gate_revision",
+        "maximum_objective_regret": 0.025143476600149484,
+        "median_jaccard_to_selected": 0.23076923076923078,
+        "median_objective_regret": 0.007670126571120095,
+        "unique_subset_count": 31,
+        "within_1e-3_objective_fraction": 0.0625,
+        "within_1e-4_objective_fraction": 0.03125
+      }
+    }
+  },
+  "result": {
+    "path": "data/stage22_structural_state_coverage_qubo_result.json",
+    "sha256": "2C110842D2CF21FCE1EF81013EB154FD0376E543934B2FC3B34198876B5AAC9B"
+  },
+  "schema_version": "1.0",
+  "status": "stage22_structural_state_coverage_qubo_audit_ok",
+  "target_checks": {
+    "MK14": {
+      "candidate_count": 43,
+      "fraction_checks": {
+        "0.050000": {
+          "k_checks": {
+            "2": {
+              "best_restart_frequency": 32,
+              "exact_oracle_checked": true,
+              "qubo_sha256": "D6031FDFD572A984F10A301D99B422A09E7C300D528735FBBA87262C0B7F63B2",
+              "restart_count": 32,
+              "state_count": 903,
+              "unique_restart_solution_count": 1
+            },
+            "3": {
+              "best_restart_frequency": 32,
+              "exact_oracle_checked": true,
+              "qubo_sha256": "713AED578E09E442D4FA5C475BCF74563B9E4798DCB47D3119601DD7A5E609E7",
+              "restart_count": 32,
+              "state_count": 12341,
+              "unique_restart_solution_count": 1
+            },
+            "4": {
+              "best_restart_frequency": 32,
+              "exact_oracle_checked": true,
+              "qubo_sha256": "2D3DC4474080F48CF84E852955613582F6ED339035B0D75536BE7AE7DED015E1",
+              "restart_count": 32,
+              "state_count": 123410,
+              "unique_restart_solution_count": 1
+            },
+            "6": {
+              "best_restart_frequency": 32,
+              "exact_oracle_checked": false,
+              "qubo_sha256": "4613366503A78A1069D3F66F0A9F8A8F1ECCA518FF7545746A5C3EAA2892E49E",
+              "restart_count": 32,
+              "state_count": 6096454,
+              "unique_restart_solution_count": 1
+            },
+            "8": {
+              "best_restart_frequency": 18,
+              "exact_oracle_checked": false,
+              "qubo_sha256": "202A13AA2C4BC5C1D334442213A459D1CA005611D6C82BBD7F9A8D1947A525CA",
+              "restart_count": 32,
+              "state_count": 145008513,
+              "unique_restart_solution_count": 3
+            }
+          },
+          "neighbor_count": 3
+        },
+        "0.100000": {
+          "k_checks": {
+            "2": {
+              "best_restart_frequency": 32,
+              "exact_oracle_checked": true,
+              "qubo_sha256": "159A896F73D5A50A5A815582D84C5E5FC7851D9BC19C9E18C8DDB3F755CA0F61",
+              "restart_count": 32,
+              "state_count": 903,
+              "unique_restart_solution_count": 1
+            },
+            "3": {
+              "best_restart_frequency": 32,
+              "exact_oracle_checked": true,
+              "qubo_sha256": "BD8EE2AB3152270BFF2D6218DBCA2275B95DFECA07B8D96DE7CCC1218538BB0C",
+              "restart_count": 32,
+              "state_count": 12341,
+              "unique_restart_solution_count": 1
+            },
+            "4": {
+              "best_restart_frequency": 29,
+              "exact_oracle_checked": true,
+              "qubo_sha256": "3DFB5788E27289BDA3C9EDE695705345F44C4BE1CF56C9DA17DD30AEE2DA0BCA",
+              "restart_count": 32,
+              "state_count": 123410,
+              "unique_restart_solution_count": 2
+            },
+            "6": {
+              "best_restart_frequency": 13,
+              "exact_oracle_checked": false,
+              "qubo_sha256": "5063689741113A7347AB8D2CD39190C4C0BAE029C0A08CE022A2B4E88BAAA32F",
+              "restart_count": 32,
+              "state_count": 6096454,
+              "unique_restart_solution_count": 9
+            },
+            "8": {
+              "best_restart_frequency": 1,
+              "exact_oracle_checked": false,
+              "qubo_sha256": "EFAE6B999F14F9153951415F3C821123841641A4A695E3F8863A99ABDD5D42FA",
+              "restart_count": 32,
+              "state_count": 145008513,
+              "unique_restart_solution_count": 15
+            }
+          },
+          "neighbor_count": 5
+        },
+        "0.200000": {
+          "k_checks": {
+            "2": {
+              "best_restart_frequency": 19,
+              "exact_oracle_checked": true,
+              "qubo_sha256": "37D28D160180D56054A506EDB09C7710D7622C357AB1AD614857B1092D1DDBF2",
+              "restart_count": 32,
+              "state_count": 903,
+              "unique_restart_solution_count": 2
+            },
+            "3": {
+              "best_restart_frequency": 14,
+              "exact_oracle_checked": true,
+              "qubo_sha256": "79C0EC02A486FE4DD1C55675CB0ACA5479AA35562DBA5714E64CF43DC786B2BC",
+              "restart_count": 32,
+              "state_count": 12341,
+              "unique_restart_solution_count": 3
+            },
+            "4": {
+              "best_restart_frequency": 3,
+              "exact_oracle_checked": true,
+              "qubo_sha256": "620927013A59631F97CEA95AE893383CF3669862B2CB6346EB661DD1903DA12F",
+              "restart_count": 32,
+              "state_count": 123410,
+              "unique_restart_solution_count": 8
+            },
+            "6": {
+              "best_restart_frequency": 3,
+              "exact_oracle_checked": false,
+              "qubo_sha256": "2BCAFF6BF364EFFF165696AC2DF640090B1C68BFBC7B9674FB927609627B2A50",
+              "restart_count": 32,
+              "state_count": 6096454,
+              "unique_restart_solution_count": 15
+            },
+            "8": {
+              "best_restart_frequency": 4,
+              "exact_oracle_checked": false,
+              "qubo_sha256": "B2E5796277925B1FB187E1892710796BCD042D2C9141D3766AF111F8C7E48D75",
+              "restart_count": 32,
+              "state_count": 145008513,
+              "unique_restart_solution_count": 14
+            }
+          },
+          "neighbor_count": 9
+        }
+      },
+      "hard_gate_excluded_count": 0
+    },
+    "PPARG": {
+      "candidate_count": 98,
+      "fraction_checks": {
+        "0.050000": {
+          "k_checks": {
+            "2": {
+              "best_restart_frequency": 32,
+              "exact_oracle_checked": true,
+              "qubo_sha256": "AA945A762B1EB0BAEE78EB89A08E5CD6509318C6DE75FE4582502A60D9F70E91",
+              "restart_count": 32,
+              "state_count": 4753,
+              "unique_restart_solution_count": 1
+            },
+            "3": {
+              "best_restart_frequency": 32,
+              "exact_oracle_checked": true,
+              "qubo_sha256": "283DACAE8873A2BA85CE7D8240EC1EB9AE5370B2539B2E8EE6BEC48027C0879B",
+              "restart_count": 32,
+              "state_count": 152096,
+              "unique_restart_solution_count": 1
+            },
+            "4": {
+              "best_restart_frequency": 32,
+              "exact_oracle_checked": false,
+              "qubo_sha256": "126647112702EFB5BCA9EAD39E2FF7A7EE6BEB66EE5412C873B46174B6036803",
+              "restart_count": 32,
+              "state_count": 3612280,
+              "unique_restart_solution_count": 1
+            },
+            "6": {
+              "best_restart_frequency": 6,
+              "exact_oracle_checked": false,
+              "qubo_sha256": "7E6AB45B224668846EFCA146BC6FDC3A393ABF1EF65C5A52348150945A4C3EED",
+              "restart_count": 32,
+              "state_count": 1052618392,
+              "unique_restart_solution_count": 3
+            },
+            "8": {
+              "best_restart_frequency": 10,
+              "exact_oracle_checked": false,
+              "qubo_sha256": "689FE580C2CE0DDA92C46B938B90D0C5EF8015E606816692697AF57FE85B8876",
+              "restart_count": 32,
+              "state_count": 157366449604,
+              "unique_restart_solution_count": 6
+            }
+          },
+          "neighbor_count": 5
+        },
+        "0.100000": {
+          "k_checks": {
+            "2": {
+              "best_restart_frequency": 32,
+              "exact_oracle_checked": true,
+              "qubo_sha256": "BCB9BD088E88F5FF124FC6A12C000F128613AECF354B0065FD66214C19A176A8",
+              "restart_count": 32,
+              "state_count": 4753,
+              "unique_restart_solution_count": 1
+            },
+            "3": {
+              "best_restart_frequency": 32,
+              "exact_oracle_checked": true,
+              "qubo_sha256": "10254128336E533B3B4475FDC78EE3A5DFFC413062FC567A0B9186F25E568028",
+              "restart_count": 32,
+              "state_count": 152096,
+              "unique_restart_solution_count": 1
+            },
+            "4": {
+              "best_restart_frequency": 32,
+              "exact_oracle_checked": false,
+              "qubo_sha256": "98684A7C1B49354F1D604D05CBA2BC73313E49F75C71EC1CFD345ADDD528F52B",
+              "restart_count": 32,
+              "state_count": 3612280,
+              "unique_restart_solution_count": 1
+            },
+            "6": {
+              "best_restart_frequency": 2,
+              "exact_oracle_checked": false,
+              "qubo_sha256": "8CC472F7BE7846F518A49B704EBC6577FE98B0625B9F4729187ECA6585677841",
+              "restart_count": 32,
+              "state_count": 1052618392,
+              "unique_restart_solution_count": 10
+            },
+            "8": {
+              "best_restart_frequency": 2,
+              "exact_oracle_checked": false,
+              "qubo_sha256": "9757D19876460E3BFDE8A3BC1B82FC2453985F91B85C69B25047DFCB290432A9",
+              "restart_count": 32,
+              "state_count": 157366449604,
+              "unique_restart_solution_count": 19
+            }
+          },
+          "neighbor_count": 10
+        },
+        "0.200000": {
+          "k_checks": {
+            "2": {
+              "best_restart_frequency": 10,
+              "exact_oracle_checked": true,
+              "qubo_sha256": "5437C9587F84812189FB367CFE7FBDB1AA07A0CD2EE5FEA7920E9214A4F4B1DF",
+              "restart_count": 32,
+              "state_count": 4753,
+              "unique_restart_solution_count": 4
+            },
+            "3": {
+              "best_restart_frequency": 16,
+              "exact_oracle_checked": true,
+              "qubo_sha256": "6E32D60AB18503C26DBF0A1D946577E3FFC23132FD18C255FD91541EC637EF97",
+              "restart_count": 32,
+              "state_count": 152096,
+              "unique_restart_solution_count": 8
+            },
+            "4": {
+              "best_restart_frequency": 4,
+              "exact_oracle_checked": false,
+              "qubo_sha256": "4AAEB30B7C8F0A8A58C196642AACA482B3A27934EF7A28E4BC08E41964F8BA55",
+              "restart_count": 32,
+              "state_count": 3612280,
+              "unique_restart_solution_count": 11
+            },
+            "6": {
+              "best_restart_frequency": 1,
+              "exact_oracle_checked": false,
+              "qubo_sha256": "69F3A1345759940221B9D2E7F2863A8D40494AB1B57C1723985A9C49828BCD03",
+              "restart_count": 32,
+              "state_count": 1052618392,
+              "unique_restart_solution_count": 26
+            },
+            "8": {
+              "best_restart_frequency": 1,
+              "exact_oracle_checked": false,
+              "qubo_sha256": "D230691996A7E1EE600A8D22DB9EA4EB0CB15D6A51ADA155E75BE499F6F4DCB6",
+              "restart_count": 32,
+              "state_count": 157366449604,
+              "unique_restart_solution_count": 31
+            }
+          },
+          "neighbor_count": 20
+        }
+      },
+      "hard_gate_excluded_count": 59
+    }
+  }
+}

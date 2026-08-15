@@ -1,0 +1,66 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage18g-pparg-reserve-redocking-input-preparation-20260801-v1",
+  "purpose": "Prepare the eight frozen post-hoc PPARG structural reserves and their cognate ligands while reusing the unchanged Stage 18d docking box.",
+  "implementation": {
+    "path": "scripts/prepare_stage18g_pparg_reserve_redocking_inputs.py",
+    "sha256": "3AE5C13254D52B2010133E1906661DE4FFD7019811877EF624B4829FCEBFBC02"
+  },
+  "inputs": {
+    "selection_summary": {
+      "path": "data/stage18f_pparg_posthoc_structural_reserve_selection_summary.json",
+      "sha256": "85316C977DDFD04A51ED86B015E6F266E324DF780B8DB1ED580030D571FBFD68"
+    },
+    "selected_receptor_manifest": {
+      "path": "data/processed/stage18f_pparg_posthoc_structural_reserves.csv",
+      "sha256": "64CD83AE6D58F7A851C18DAD5EE6F38D3B39D8769C77E5C9665A3E383D0F3133"
+    },
+    "reference_mmcif": {
+      "path": "data/raw/rcsb/pparg/2GTK.cif",
+      "sha256": "A4405F1D3C991C934B9DCDD91AE23648DA826B3F44F4CF29660F49A8F6352AA5"
+    },
+    "fixed_common_box": {
+      "path": "data/stage18d_pparg_common_box.json",
+      "sha256": "AD7ADF7737EE26DDA172A6917A440CEDE6787323E5A9F98DCC5958A4909F6526"
+    },
+    "prepare_receptor_script": {
+      "path": "scripts/prepare_receptor.py",
+      "sha256": "FFC7D1986B501AE90818024ED2441CB9AE0F37B27BF6F46C622B0C723711C580"
+    }
+  },
+  "reference": {
+    "pdb_id": "2GTK",
+    "auth_chain": "A",
+    "anchor_residue_numbers": [281, 282, 284, 285, 286, 288, 289, 323, 326, 327, 330, 341, 348, 353, 364, 449, 453, 469, 473]
+  },
+  "expected": {
+    "receptor_count": 8,
+    "cognate_ligand_count": 8
+  },
+  "preparation_protocol": {
+    "maximum_element_matched_coordinate_error_angstrom": 0.05,
+    "allow_bad_residue_deletion": false,
+    "allow_missing_heavy_atom_repair": false
+  },
+  "ligand_download": {
+    "url_template": "https://models.rcsb.org/v1/{pdb_id}/ligand",
+    "timeout_seconds": 60,
+    "maximum_retries": 8,
+    "retry_backoff_seconds": 2.0
+  },
+  "fixed_box_audit": {
+    "source": "unchanged Stage 18d PPARG common box",
+    "center": {"x": 1.61, "y": 23.47, "z": 16.9},
+    "size": {"x": 22.0, "y": 26.0, "z": 28.0},
+    "minimum_allowed_margin_angstrom": 0.0,
+    "box_retuning_permitted": false
+  },
+  "outputs": {
+    "run_directory": "results/runs/stage18g_pparg_reserve_redocking_input_preparation",
+    "receptor_manifest_csv": "data/processed/stage18g_pparg_reserve_prepared_receptor_manifest.csv",
+    "redocking_case_manifest_csv": "data/processed/stage18g_pparg_reserve_redocking_case_manifest.csv",
+    "common_box_json": "data/stage18g_pparg_reserve_fixed_box_audit.json",
+    "summary_json": "data/stage18g_pparg_reserve_redocking_input_preparation_summary.json"
+  },
+  "interpretation_boundary": "Passing preparation establishes only technical readiness for an explicitly post-hoc reserve recovery. It cannot retroactively pass Stage 18e or establish enrichment, QUBO superiority, or quantum advantage."
+}

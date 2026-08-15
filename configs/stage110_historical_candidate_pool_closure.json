@@ -1,0 +1,17 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage110-historical-candidate-pool-closure-20260813-v1",
+  "purpose": "Close the previously frozen Stage47/47b result-unseen candidate registry under the same 16-receptor wild-type reference protocol. This is a registry-bound closure, not a claim that no future target can be found through a new preregistered discovery process.",
+  "inputs": {
+    "stage47_screen": {"path": "data/processed/stage47_new_target_feasibility_screen.csv", "sha256": "146FE71DD83B3916204A66E403428ABA650B0ED5C29980B9966E3F230F657EFA"},
+    "stage47b_screen": {"path": "data/processed/stage47b_expanded_new_target_feasibility_screen.csv", "sha256": "1CC037C3426CB0AD53ADC27DC8CDB8E4141E5A5365A7B9B39E93475E9FE642EC"},
+    "ppard_selection": {"path": "data/stage55_ppard_small_pilot_preregistration_result.json", "sha256": "3642EFDA1323817DFA5FC758597E4637E04B80B2D00228ECF280DFA77CE06788"},
+    "ppard_completion": {"path": "data/stage62_ppard_train240_nested_qubo_result.json", "sha256": "B1474F2CDAB76E8C381397BC224969F4F90DD3BF2DBAD79AF2775D02DAE74371"},
+    "esr1_coordinate_gate": {"path": "data/stage20c_esr1_structural_selection_summary.json", "sha256": "42A44637033A359856C30C9D1E811C9E124AA39367395AC5D3E25134EA773422"},
+    "parp1_catalytic_domain_gate": {"path": "data/stage108_parp1_catalytic_domain_reference_feasibility_result.json", "sha256": "56B8C120EE45A2EC12874EEAA34751D95C84C38A1B87C7BEBB3ADCC6C72CA654"},
+    "esr2_reference_gate": {"path": "data/stage109_esr2_reference_identity_gate_result.json", "sha256": "EDF5ACAF4D3C36F638FAAF010147823A6E7E6AFEE68F90790CE9A5EE66FE9D21"}
+  },
+  "protocol_gate": {"minimum_metadata_eligible_source_candidates": 32, "minimum_final_receptors_after_coordinate_and_redocking_gates": 16, "reference_must_be_wild_type": true, "new_target_must_be_outcome_unseen": true},
+  "data_boundary": {"new_target_source_downloads": 0, "new_target_coordinate_downloads": 0, "new_ligand_rows_read": 0, "new_docking_jobs": 0, "quantum_hardware_jobs": 0},
+  "outputs": {"summary_json": "data/stage110_historical_candidate_pool_closure_result.json", "report_md": "reports/stage-110/historical_candidate_pool_closure.md", "audit_json": "data/stage110_historical_candidate_pool_closure_audit.json"}
+}

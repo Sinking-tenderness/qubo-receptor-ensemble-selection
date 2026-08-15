@@ -1,0 +1,168 @@
+{
+  "analysis_payload_sha256": "87FE7DA0384B701B5BFB424E7BD6E279CD43C597A913619D7E4CFCF04FD8A1D4",
+  "config": {
+    "path": "configs/stage72_constraint_native_cqm.json",
+    "sha256": "CFD0B09304082573959356D98D7C75F41CE9B3337774B532EAF02A68B015F749",
+    "size_bytes": 5955
+  },
+  "data_boundary": {
+    "fresh_validation_rows_read": 0,
+    "historical_development_targets_read": 4,
+    "locked_test_rows_read": 0,
+    "new_docking_jobs": 0,
+    "quantum_hardware_jobs": 0
+  },
+  "decision": {
+    "constraint_native_formulation_freeze_authorized": true,
+    "direct_qpu_execution_authorized": false,
+    "new_target_preregistration_remains_authorized": true,
+    "next_action": "benchmark CQM-hybrid and constraint-preserving solver routes across increasing candidate-pool sizes without hardware execution",
+    "quantum_advantage_claim_authorized": false,
+    "solver_scaling_benchmark_authorized": true
+  },
+  "experiment_class": "post-hoc constraint-native logical-model and coefficient-noise development on frozen historical objectives",
+  "formulation_gate": {
+    "constraint_native_formulation_gate_passed": true
+  },
+  "formulation_summary": {
+    "connected_feasible_swap_graph_count": 16,
+    "exact_source_optimum_count": 16,
+    "finite_gap_comparison_count": 14,
+    "maximum_logical_variable_reduction": 9,
+    "maximum_native_logical_variable_count": 96,
+    "maximum_normalized_gap_improvement_factor_vs_stage71": 6982180.925817009,
+    "maximum_quadratic_coefficient_reduction": 390,
+    "minimum_best_improvement_global_recovery_rate": 0.5714285714285714,
+    "minimum_native_normalized_feasible_energy_gap": 0.045439974405263595,
+    "minimum_normalized_gap_improvement_factor_vs_stage71": 1742186.5076166491,
+    "model_count": 16,
+    "single_local_minimum_model_count": 15
+  },
+  "implementation": {
+    "independent_auditor": {
+      "path": "scripts/audit_stage72_constraint_native_cqm.py",
+      "sha256": "D54905C865A3B286E56401486B045F0EFE81DC05244FD0D850EE3EEEAFCB7ED8",
+      "size_bytes": 30674
+    },
+    "runner": {
+      "path": "scripts/run_stage72_constraint_native_cqm.py",
+      "sha256": "BDA3F782A0A937D894823AE2E2C5910F70C35F86EFB57CB735A04FF141E5C04C",
+      "size_bytes": 39267
+    }
+  },
+  "inputs": {
+    "stage70_model_record": {
+      "path": "data/stage70_constraint_aware_qubo_encoding_model_record.json",
+      "sha256": "42A81A8D5119EB4AAEA04AEFA4F84B9740924294CEB29C2F7024E12F5D3C0618",
+      "size_bytes": 712429
+    },
+    "stage71_audit": {
+      "path": "data/stage71_qubo_coefficient_noise_robustness_audit.json",
+      "sha256": "9C557B9F6C7732CBFE019EBC46319FB0A84ABB8D4ED4B6E5E1A8A01411610F37",
+      "size_bytes": 992
+    },
+    "stage71_config": {
+      "path": "configs/stage71_qubo_coefficient_noise_robustness.json",
+      "sha256": "C5567BBBB12662D3CE7721FA3BD4BF07C9C268A1921D54D7E12B762D46D97950",
+      "size_bytes": 5858
+    },
+    "stage71_exact_landscape": {
+      "path": "results/runs/stage71_qubo_coefficient_noise_robustness/exact_feasible_landscape.csv",
+      "sha256": "21298AEBAC48B669FDC769281412A6546E5A102E45D1621DAACBBFE08AF7D946",
+      "size_bytes": 5490
+    },
+    "stage71_noise_summary": {
+      "path": "results/runs/stage71_qubo_coefficient_noise_robustness/noise_summary.csv",
+      "sha256": "9CC58D4B0D8C4112CC7E7CF3F24AEAFD9512EB396E567A5435824BED5500FCE8",
+      "size_bytes": 15969
+    },
+    "stage71_result": {
+      "path": "data/stage71_qubo_coefficient_noise_robustness_result.json",
+      "sha256": "068905AF791DC9DE791FE60CB570A197A26C9F439013EB0287C2BCA00A4FBF94",
+      "size_bytes": 6136
+    }
+  },
+  "interpretation_boundary": "Stage72 is a post-hoc logical-formulation study on four consumed historical targets. It tests exact objective preservation, feasible-state topology, and software coefficient sensitivity with explicit constraints. It does not test a physical embedding, a hardware sampler, hybrid-service scaling, independent target efficacy, wall-clock speedup, or quantum advantage.",
+  "matched_stage71_reference_gate": {
+    "gaussian": {
+      "gate_passed": true,
+      "noise_level": 1e-06,
+      "noise_model": "iid_gaussian_full_scale",
+      "overall_exact_unique_rate": 1.0,
+      "worst_target_exact_unique_rate": 1.0
+    },
+    "quantization": {
+      "gate_passed": true,
+      "noise_level": 1e-06,
+      "noise_model": "round_to_nearest_full_scale",
+      "overall_exact_unique_rate": 1.0,
+      "worst_target_exact_unique_rate": 1.0
+    }
+  },
+  "noise_summary_count": 105,
+  "noise_trial_count": 2736,
+  "outputs": {
+    "model_metrics_csv": {
+      "path": "results/runs/stage72_constraint_native_cqm/model_metrics.csv",
+      "sha256": "23FA835F7900595068A90DC1E15D2D2F1231A1042D4884E3796F1384A238583B",
+      "size_bytes": 8519
+    },
+    "model_record_json": {
+      "path": "data/stage72_constraint_native_cqm_model_record.json",
+      "sha256": "D7BD285F4CB0787C1FF63EEC190CE692F72F2E885CB610BFEA1D70AC2505D1DF",
+      "size_bytes": 737219
+    },
+    "noise_summary_csv": {
+      "path": "results/runs/stage72_constraint_native_cqm/noise_summary.csv",
+      "sha256": "9DD53C2DA8653FE8394187B64A73D0C99BEF7942D821B759FE4E1C5290D045B2",
+      "size_bytes": 11258
+    },
+    "noise_trials_csv": {
+      "path": "results/runs/stage72_constraint_native_cqm/noise_trials.csv",
+      "sha256": "6EE125676B74E8FB43D8A6A5E1D45727F30B2AE44499828C0ACB8AE13AA24611",
+      "size_bytes": 703257
+    },
+    "report_md": {
+      "path": "reports/stage-72/constraint_native_cqm.md",
+      "sha256": "30F5563AAC9E08527A44826248EB903A7C8BBB1BD7E18461D6BF3B832C3AF823",
+      "size_bytes": 1372
+    }
+  },
+  "robustness_envelopes": {
+    "iid_gaussian_full_scale": {
+      "largest_tested_level_passing_project_gate": 0.03,
+      "noise_model": "iid_gaussian_full_scale",
+      "passing_level_count": 10,
+      "tested_level_count": 10
+    },
+    "round_to_nearest_full_scale": {
+      "largest_tested_level_passing_project_gate": 0.01,
+      "noise_model": "round_to_nearest_full_scale",
+      "passing_level_count": 9,
+      "tested_level_count": 10
+    }
+  },
+  "runtime_versions": {
+    "dimod": "0.12.22",
+    "numpy": "1.26.4",
+    "python": "3.11.15"
+  },
+  "schema_version": "1.0",
+  "status": "stage72_constraint_native_cqm_complete",
+  "stress_reference_gate": {
+    "gaussian": {
+      "gate_passed": true,
+      "noise_level": 0.001,
+      "noise_model": "iid_gaussian_full_scale",
+      "overall_exact_unique_rate": 1.0,
+      "worst_target_exact_unique_rate": 1.0
+    },
+    "quantization": {
+      "gate_passed": true,
+      "noise_level": 0.001,
+      "noise_model": "round_to_nearest_full_scale",
+      "overall_exact_unique_rate": 1.0,
+      "worst_target_exact_unique_rate": 1.0
+    }
+  }
+}

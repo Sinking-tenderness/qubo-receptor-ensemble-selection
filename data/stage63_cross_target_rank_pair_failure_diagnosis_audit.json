@@ -1,0 +1,33 @@
+{
+  "all_output_hashes_exact": true,
+  "config": {
+    "path": "configs/stage63_cross_target_rank_pair_failure_diagnosis.json",
+    "sha256": "05219E25B9AA49CD18A457FD854FAA716EC48889E31304EE936511A5260359F2",
+    "size_bytes": 7233
+  },
+  "data_boundary": {
+    "development_results_read": 4,
+    "fresh_validation_rows_read": 0,
+    "locked_test_rows_read": 0,
+    "new_docking_jobs": 0,
+    "quantum_hardware_jobs": 0
+  },
+  "decision_boundary_exact": true,
+  "interpretation_boundary": "Stage63 diagnoses existing development results and may define requirements for a future objective. It does not tune replacement coefficients, repair a failed target, establish independent efficacy, authorize fresh validation or hardware, or support quantum speedup or advantage.",
+  "primary_diagnosis_independently_recomputed": true,
+  "row_counts": {
+    "fixed_k_landscape": 96,
+    "fold_diagnostics": 16,
+    "ppard_nested_k_diagnostics": 4,
+    "solver_diagnostics": 4,
+    "target_k_summary": 24,
+    "target_summary": 4
+  },
+  "schema_version": "1.0",
+  "source_result": {
+    "path": "data/stage63_cross_target_rank_pair_failure_diagnosis_result.json",
+    "sha256": "2C8F2CA6E232558B5FDF4D1171085BCBBD4A30222540DD9DA4DD0E7B71ED0898",
+    "size_bytes": 44402
+  },
+  "status": "stage63_cross_target_rank_pair_failure_diagnosis_independent_audit_ok"
+}

@@ -1,0 +1,53 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage49-ppara-ligand-panel-allocation-20260804-v1",
+  "purpose": "Freeze exact molecule-, identity-, and scaffold-disjoint PPARA development, fresh-validation, and locked-test panels without reading docking outcomes.",
+  "implementation": {
+    "path": "scripts/allocate_stage49_ppara_ligand_panels.py",
+    "sha256": "847CF8D969DCD258FA916967F3589AB571DDA5C179234125113FEDABFE7E4B1F"
+  },
+  "inputs": {
+    "source_audit": {
+      "path": "data/stage48_ppara_source_audit.json",
+      "sha256": "07EC9FFBDBB0ACD30AF389B1B623DC7269393BDB5206F1E1BD9985D005ED2EC3"
+    },
+    "source_independent_audit": {
+      "path": "data/stage48_ppara_source_audit_independent.json",
+      "sha256": "38A41DE61B6C060ABE15C576FF5172E683358E84A60E681622A177902EA96E72"
+    },
+    "actives": {
+      "path": "data/raw/external_targets/ppara_dude/ppara/actives_final.ism",
+      "sha256": "286E8454C80C82A908107F875BD96D11A79B71FD7E52939D55109514D71EC891"
+    },
+    "decoys": {
+      "path": "data/raw/external_targets/ppara_dude/ppara/decoys_final.ism",
+      "sha256": "259683ED8B19FCE473709F95B1DA17CECF4180C80685AE163BFF748169BD945D"
+    }
+  },
+  "expected": {
+    "source_active_count": 373,
+    "source_decoy_count": 19399,
+    "train_active_count": 187,
+    "train_decoy_count": 187,
+    "fresh_validation_active_count": 93,
+    "fresh_validation_decoy_count": 1860,
+    "locked_test_active_count": 93,
+    "locked_test_decoy_count": 1860
+  },
+  "allocation_seeds": {
+    "active_fresh_validation": "stage49-ppara-active-validation-20260804-v1",
+    "active_locked_test": "stage49-ppara-active-test-20260804-v1",
+    "active_train_remainder": "stage49-ppara-active-train-remainder-20260804-v1",
+    "decoy_train": "stage49-ppara-decoy-train-20260804-v1",
+    "decoy_fresh_validation": "stage49-ppara-decoy-validation-20260804-v1",
+    "decoy_locked_test": "stage49-ppara-decoy-test-20260804-v1"
+  },
+  "outputs": {
+    "selected_panel_manifest_csv": "data/processed/stage49_ppara_selected_ligand_panel_manifest.csv",
+    "train_manifest_csv": "data/processed/stage49_ppara_train374_ligand_manifest.csv",
+    "fresh_validation_manifest_csv": "data/protected/stage49_ppara_fresh_validation1953_ligand_manifest.csv",
+    "locked_test_manifest_csv": "data/protected/stage49_ppara_locked_test1953_ligand_manifest.csv",
+    "summary_json": "data/stage49_ppara_ligand_panel_allocation_summary.json"
+  },
+  "interpretation_boundary": "Stage49 may use source labels only to freeze disjoint panels. It reads no docking score and cannot establish preparation success, enrichment, QUBO performance, validation success, quantum execution, or quantum advantage."
+}

@@ -1,0 +1,52 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage58c-ppard-target-id-metadata-amendment-20260805-v1",
+  "purpose": "Create a non-destructive derived Stage58b score table that corrects only the inherited helper-emitted target_id from MK14 to PPARD.",
+  "implementation": {
+    "runner": {
+      "path": "scripts/amend_stage58c_ppard_target_id.py",
+      "sha256": "149D1857DD8782EAAB211E2CA3CE8267172AD41C6E70517408FEED8AE710DA6A"
+    },
+    "independent_auditor": {
+      "path": "scripts/audit_stage58c_ppard_target_id.py",
+      "sha256": "D27B7AEB2D35065F71F9B14F1715D66884A34D4BDBC190CB444450C1CDF0E35B"
+    }
+  },
+  "inputs": {
+    "matrix_audit": {
+      "path": "data/stage58b_ppard_pilot96_unidock113_production_audit.json",
+      "sha256": "88DDF21584076D1DB1BA6E982B16780CCC8564013ABAEDBAB2835D9C2962D916"
+    },
+    "production_summary": {
+      "path": "results/runs/stage58b_ppard_pilot96_unidock113_production/summary.json",
+      "sha256": "2CCAF4052488CE904053BC2022BCC6D504075CA017CF0D487AF76BF0D3F35C65"
+    },
+    "raw_scores": {
+      "path": "results/runs/stage58b_ppard_pilot96_unidock113_production/scores.csv",
+      "sha256": "269591DC9C0E329D262EDE97C7DADD7DCBED1C00591A31DEC8E02B98816E8773"
+    },
+    "receptor_manifest": {
+      "path": "data/processed/stage58b_ppard_stage57_passing29_receptor_manifest.csv",
+      "sha256": "12AB8EC9FC0C7D2CDFFF6D1E9CFD53A0215D4450D4CE12708EB165BED35C7F0A"
+    },
+    "ligand_manifest": {
+      "path": "data/processed/stage58a_ppard_pilot96_unidock_pdbqt_manifest.csv",
+      "sha256": "874B1CE40E52503FDF07F92BEBE557B5656F1A07BC7842C863110B2AB00ADA5F"
+    }
+  },
+  "expected": {
+    "row_count": 8352,
+    "receptor_count": 29,
+    "ligand_count": 96,
+    "seed_count": 3,
+    "observed_target_id": "MK14",
+    "corrected_target_id": "PPARD",
+    "permitted_changed_columns": ["target_id"]
+  },
+  "outputs": {
+    "corrected_scores_csv": "results/runs/stage58c_ppard_target_id_amendment/scores.csv",
+    "result_json": "data/stage58c_ppard_target_id_amendment_result.json",
+    "audit_json": "data/stage58c_ppard_target_id_amendment_audit.json"
+  },
+  "interpretation_boundary": "Stage58c is a metadata-only amendment. It cannot alter any score, pose, label, seed, receptor, ligand, prospective Stage55 rule, validation boundary, QUBO conclusion, or quantum claim."
+}

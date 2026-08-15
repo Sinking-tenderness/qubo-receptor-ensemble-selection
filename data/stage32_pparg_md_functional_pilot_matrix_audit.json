@@ -1,0 +1,92 @@
+{
+  "checks": {
+    "all_48_batches_complete_and_unique": true,
+    "all_7680_score_keys_complete_and_unique": true,
+    "all_pose_integrity_fields_pass": true,
+    "all_summary_output_descriptors_verified": true,
+    "executed_config_hash_verified": true,
+    "median_and_minimum_matrices_recomputed": true,
+    "pose_integrity_gate_passed": true,
+    "protected_data_boundary_zero": true,
+    "source_package_manifest_verified": true,
+    "unresolved_warning_gate_passed": true
+  },
+  "config": {
+    "path": "configs/stage32a_pparg_md_functional_landscape_analysis.json",
+    "sha256": "79BCE32FDEEE3B2AC499FD99B160C76B5990C6A365B3C094B56AC318056C67F7",
+    "size_bytes": 5535
+  },
+  "coverage": {
+    "batch_count": 48,
+    "known_warning_event_count": 1,
+    "ligand_count": 160,
+    "maximum_matrix_recomputation_abs_difference": 0.0,
+    "pair_count": 7680,
+    "pose_integrity_failure_count": 0,
+    "receptor_count": 16,
+    "seed_count": 3,
+    "unresolved_warning_event_count": 0
+  },
+  "data_boundary": {
+    "fresh_validation_rows_read": 0,
+    "new_docking_jobs": 0,
+    "quantum_hardware_jobs": 0,
+    "test_rows_read": 0,
+    "train_rows_read": 160
+  },
+  "inputs": {
+    "batch_runs_csv": {
+      "path": "results/runs/stage32_pparg_md_functional_complementarity_pilot/batch_runs.csv",
+      "sha256": "1F1337A9DD01E22F43284DF1CED87682CA57F90E6F6728857666BEF0E2620F67",
+      "size_bytes": 7230
+    },
+    "executed_config": {
+      "path": "configs/stage32_pparg_md_functional_complementarity_pilot_executed_v2.json",
+      "sha256": "94D379025882C673E1D2064846A8709CBE3EBE11217434BA80BD624A3F354385",
+      "size_bytes": 6417
+    },
+    "input_preparation_result": {
+      "path": "data/stage32_pparg_md_functional_pilot_input_preparation_result.json",
+      "sha256": "88FD19C83915142CA396AC5223239FCB6156D0EC96DD58D5D7B3B43ECF22A8C6",
+      "size_bytes": 1847
+    },
+    "ligand_manifest": {
+      "path": "data/processed/stage32_pparg_train160_ligand_manifest.csv",
+      "sha256": "4FCA64D6B2AAEB11CA83A2A205996AAFF28ADF1AC1D35F3FB81DFC600882E3BC",
+      "size_bytes": 139429
+    },
+    "median_matrix_csv": {
+      "path": "results/runs/stage32_pparg_md_functional_complementarity_pilot/primary_median_score_matrix.csv",
+      "sha256": "3090835317483360429638584127DB752DBB9A438D77FACB60D69365DC7729A2",
+      "size_bytes": 30963
+    },
+    "minimum_matrix_csv": {
+      "path": "results/runs/stage32_pparg_md_functional_complementarity_pilot/sensitivity_minimum_score_matrix.csv",
+      "sha256": "EDD19C95B129E4F50EA803A5532D14E9950CC629879C811CEB030391D56C3080",
+      "size_bytes": 31004
+    },
+    "prepared_receptor_manifest": {
+      "path": "data/processed/stage32_pparg_md_selected16_prepared_receptor_manifest.csv",
+      "sha256": "C8D6D9A5BFAE37407BD157DA93DA99510145F8BC7E73B6100A14609E83C533AA",
+      "size_bytes": 17354
+    },
+    "progress_json": {
+      "path": "results/runs/stage32_pparg_md_functional_complementarity_pilot/progress.json",
+      "sha256": "1DCCB4AFD23204FA6E054E1294374B16AF7FDA02E0E384DE67E9E9AB50A912C7",
+      "size_bytes": 1067
+    },
+    "scores_csv": {
+      "path": "results/runs/stage32_pparg_md_functional_complementarity_pilot/scores.csv",
+      "sha256": "926D4996AF58DEFDBDEE76DC4F6C832F22D18BF721DC7FD5239A38D4834452C3",
+      "size_bytes": 2468799
+    },
+    "summary_json": {
+      "path": "results/runs/stage32_pparg_md_functional_complementarity_pilot/summary.json",
+      "sha256": "D17D962AEB123F6374E8A3DC5EC309F8EC84B36F0ED2D2A30BC0F400943B52EC",
+      "size_bytes": 4249
+    }
+  },
+  "interpretation_boundary": "Stage32a evaluates a small balanced PPARG development-training pilot and can only authorize or reject a subsequent train-only QUBO modeling stage. It cannot establish prospective efficacy, cross-target transfer, clinical relevance, quantum speedup, or quantum advantage.",
+  "schema_version": "1.0",
+  "status": "stage32_pparg_md_functional_pilot_matrix_audit_ok"
+}

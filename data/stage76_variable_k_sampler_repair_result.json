@@ -1,0 +1,262 @@
+{
+  "ablation_summary": [
+    {
+      "left_method": "stage75_cold_global_annealing_reference",
+      "left_strict_win_cell_count": 29,
+      "mean_raw_energy_change_right_minus_left": -0.040818497761307734,
+      "right_method": "cold_adjacent_variable_annealing",
+      "right_strict_win_cell_count": 31,
+      "tie_cell_count": 20
+    },
+    {
+      "left_method": "cold_adjacent_variable_annealing",
+      "left_strict_win_cell_count": 10,
+      "mean_raw_energy_change_right_minus_left": -0.39475835821612915,
+      "right_method": "decomposed_warm_adjacent_annealing",
+      "right_strict_win_cell_count": 45,
+      "tie_cell_count": 25
+    },
+    {
+      "left_method": "decomposed_warm_adjacent_annealing",
+      "left_strict_win_cell_count": 1,
+      "mean_raw_energy_change_right_minus_left": -0.24881053098096312,
+      "right_method": "decomposed_warm_parallel_tempering",
+      "right_strict_win_cell_count": 23,
+      "tie_cell_count": 56
+    },
+    {
+      "left_method": "decomposed_warm_parallel_tempering",
+      "left_strict_win_cell_count": 0,
+      "mean_raw_energy_change_right_minus_left": -0.22935919018604695,
+      "right_method": "frontier_warm_parallel_tempering",
+      "right_strict_win_cell_count": 34,
+      "tie_cell_count": 46
+    }
+  ],
+  "analysis_payload_sha256": "B3D0B3555526047151587ED4B638F875097AADB77DC93C89A672607CB2898656",
+  "benchmark_summary": {
+    "comparison_cell_count": 80,
+    "exact_frontier_cell_count": 20,
+    "method_cell_count": 400,
+    "method_count": 5,
+    "solver_trial_count": 3200
+  },
+  "config": {
+    "path": "configs/stage76_variable_k_sampler_repair.json",
+    "sha256": "953BBFE02C756C4925D521F2BCDC4C829DF60ABB5CAE79F36D2A339055555F20",
+    "size_bytes": 7768
+  },
+  "data_boundary": {
+    "cloud_cqm_jobs": 0,
+    "fresh_validation_rows_read": 0,
+    "historical_development_targets_read": 4,
+    "locked_test_rows_read": 0,
+    "new_docking_jobs": 0,
+    "quantum_hardware_jobs": 0
+  },
+  "decision": {
+    "cloud_cqm_execution_authorized": false,
+    "direct_qpu_execution_authorized": false,
+    "explicit_variable_k_cqm_remains_frozen": true,
+    "local_warm_start_hardware_shaped_emulation_authorized": true,
+    "objective_redesign_required": false,
+    "quantum_advantage_claim_authorized": false,
+    "quantum_scaling_claim_authorized": false,
+    "standalone_cold_sampler_ready": false
+  },
+  "encoding_summary": {
+    "cqm_hash_match_count": 80,
+    "cqm_model_count": 80,
+    "maximum_energy_identity_residual": 3.907985046680551e-14,
+    "maximum_logical_variable_count": 103,
+    "objective_or_constraint_changes": 0
+  },
+  "experiment_class": "post-hoc solver-mechanism ablation on frozen Stage75 CQMs",
+  "implementation": {
+    "independent_auditor": {
+      "path": "scripts/audit_stage76_variable_k_sampler_repair.py",
+      "sha256": "E88E5E20D1F914728A854CB9755DD49315F64E342207A7CCE09E259AA053417F",
+      "size_bytes": 33011
+    },
+    "runner": {
+      "path": "scripts/run_stage76_variable_k_sampler_repair.py",
+      "sha256": "EA6CD40A3C6DA3EBC59CE3E4C2B1BA5386FD0723BB196252E50CE05D112FB1F6",
+      "size_bytes": 36719
+    }
+  },
+  "inputs": {
+    "stage72_model_record": {
+      "path": "data/stage72_constraint_native_cqm_model_record.json",
+      "sha256": "D7BD285F4CB0787C1FF63EEC190CE692F72F2E885CB610BFEA1D70AC2505D1DF",
+      "size_bytes": 737219
+    },
+    "stage74_cell_comparison": {
+      "path": "results/runs/stage74_larger_k_solver_scaling/cell_comparison.csv",
+      "sha256": "B1CEE2803DB74AC55BE1C5DA1BA77240ED550DED68A2B47A027A12F86B9781EA",
+      "size_bytes": 89127
+    },
+    "stage74_solver_trials": {
+      "path": "results/runs/stage74_larger_k_solver_scaling/solver_trials.csv",
+      "sha256": "3E0C8DD06991378C7CFCBC00D3CD437C64516445E06389E209885B78C510532D",
+      "size_bytes": 2871104
+    },
+    "stage74_workload_metrics": {
+      "path": "results/runs/stage74_larger_k_solver_scaling/workload_metrics.csv",
+      "sha256": "84B02EF49939B097244CF4B0543F088FF183C48DD7E9DFB900EC2EA9E5AF355E",
+      "size_bytes": 48587
+    },
+    "stage75_audit": {
+      "path": "data/stage75_explicit_variable_k_cqm_audit.json",
+      "sha256": "1F6256386C91483DE3C9E26979D602AC3D6585017C9DBA8102C1FBFFB1A6EAA0",
+      "size_bytes": 1235
+    },
+    "stage75_auditor_source": {
+      "path": "scripts/audit_stage75_explicit_variable_k_cqm.py",
+      "sha256": "6D7A13736720CB8B0E54BAA8341FB92E2A510612453675B0B93D773EE82B3A39",
+      "size_bytes": 41542
+    },
+    "stage75_config": {
+      "path": "configs/stage75_explicit_variable_k_cqm.json",
+      "sha256": "588D868CBDCFBCA1FCD30939DDFED8B085AA8140C10CA00FFE62B8E23816BA09",
+      "size_bytes": 6739
+    },
+    "stage75_model_record": {
+      "path": "data/stage75_explicit_variable_k_cqm_model_record.json",
+      "sha256": "5F6DD13A8F25815A541ABB8F1D79DCC92BA1A2F32378B04FA297971180F2AE70",
+      "size_bytes": 52163
+    },
+    "stage75_result": {
+      "path": "data/stage75_explicit_variable_k_cqm_result.json",
+      "sha256": "B39372BF029249FD4D30556EBC50073069E023F34D491066ABF74733D5221C66",
+      "size_bytes": 6472
+    },
+    "stage75_runner_source": {
+      "path": "scripts/run_stage75_explicit_variable_k_cqm.py",
+      "sha256": "B5CB67D851570D014867770C1078D39F5F2D0C924BBEE97ED0690281C9A6AC47",
+      "size_bytes": 46256
+    },
+    "stage75_solver_trials": {
+      "path": "results/runs/stage75_explicit_variable_k_cqm/solver_trials.csv",
+      "sha256": "5B973C64F25D6A8BC3E345CA3E04D9A74D3D0D8F0DD7E6AFA6A964813BFDFD1E",
+      "size_bytes": 622644
+    }
+  },
+  "interpretation_boundary": "Stage76 is a post-hoc solver-mechanism study on frozen historical CQM objectives. A frontier-warm solution inherits classical fixed-k frontier information and is evidence only for a hybrid refinement workflow. It does not establish a biologically optimal receptor count, independent target generalization, standalone annealer superiority, end-to-end speedup, physical embedding feasibility, cloud or QPU performance, quantum scaling, or quantum advantage.",
+  "method_summaries": [
+    {
+      "cell_count": 80,
+      "exact_frontier_cell_count": 20,
+      "exact_frontier_match_rate": 0.65,
+      "frontier_competitive_fraction": 0.2875,
+      "joint_competitive_fraction": 0.3,
+      "mean_delta_vs_frontier_normalized": 0.009242813673696766,
+      "mean_delta_vs_joint_normalized": 0.009284393017016631,
+      "mean_exchange_acceptance_fraction": 0.0,
+      "mean_feasible_proposal_fraction": 0.41151676177978513,
+      "mean_unique_solution_count": 6.6125,
+      "method": "stage75_cold_global_annealing_reference",
+      "strict_frontier_improvement_cell_count": 0,
+      "trial_count": 640
+    },
+    {
+      "cell_count": 80,
+      "exact_frontier_cell_count": 20,
+      "exact_frontier_match_rate": 0.7,
+      "frontier_competitive_fraction": 0.3375,
+      "joint_competitive_fraction": 0.3375,
+      "mean_delta_vs_frontier_normalized": 0.008713832712718583,
+      "mean_delta_vs_joint_normalized": 0.008755412056038449,
+      "mean_exchange_acceptance_fraction": 0.0,
+      "mean_feasible_proposal_fraction": 0.5628337860107422,
+      "mean_unique_solution_count": 6.6125,
+      "method": "cold_adjacent_variable_annealing",
+      "strict_frontier_improvement_cell_count": 0,
+      "trial_count": 640
+    },
+    {
+      "cell_count": 80,
+      "exact_frontier_cell_count": 20,
+      "exact_frontier_match_rate": 0.85,
+      "frontier_competitive_fraction": 0.4875,
+      "joint_competitive_fraction": 0.5125,
+      "mean_delta_vs_frontier_normalized": 0.004811374506292714,
+      "mean_delta_vs_joint_normalized": 0.004852953849612579,
+      "mean_exchange_acceptance_fraction": 0.0,
+      "mean_feasible_proposal_fraction": 0.5632482528686523,
+      "mean_unique_solution_count": 1.725,
+      "method": "decomposed_warm_adjacent_annealing",
+      "strict_frontier_improvement_cell_count": 0,
+      "trial_count": 640
+    },
+    {
+      "cell_count": 80,
+      "exact_frontier_cell_count": 20,
+      "exact_frontier_match_rate": 1.0,
+      "frontier_competitive_fraction": 0.575,
+      "joint_competitive_fraction": 0.6,
+      "mean_delta_vs_frontier_normalized": 0.0021755514306681626,
+      "mean_delta_vs_joint_normalized": 0.0022171307739880276,
+      "mean_exchange_acceptance_fraction": 0.7857613699776785,
+      "mean_feasible_proposal_fraction": 0.5560512542724609,
+      "mean_unique_solution_count": 2.625,
+      "method": "decomposed_warm_parallel_tempering",
+      "strict_frontier_improvement_cell_count": 0,
+      "trial_count": 640
+    },
+    {
+      "cell_count": 80,
+      "exact_frontier_cell_count": 20,
+      "exact_frontier_match_rate": 1.0,
+      "frontier_competitive_fraction": 1.0,
+      "joint_competitive_fraction": 0.875,
+      "mean_delta_vs_frontier_normalized": -8.742805688922661e-05,
+      "mean_delta_vs_joint_normalized": -4.584871356936138e-05,
+      "mean_exchange_acceptance_fraction": 0.7858433314732143,
+      "mean_feasible_proposal_fraction": 0.5576211929321289,
+      "mean_unique_solution_count": 1.075,
+      "method": "frontier_warm_parallel_tempering",
+      "strict_frontier_improvement_cell_count": 5,
+      "trial_count": 640
+    }
+  ],
+  "outputs": {
+    "cell_method_comparison_csv": {
+      "path": "results/runs/stage76_variable_k_sampler_repair/cell_method_comparison.csv",
+      "sha256": "F040668067741C19FD51523D40ADB3D7E234B37EA929CB17B2B4B3480F870668",
+      "size_bytes": 171376
+    },
+    "cqm_identity_csv": {
+      "path": "results/runs/stage76_variable_k_sampler_repair/cqm_identity.csv",
+      "sha256": "A731613E5DDF0A04B82F22B9C0AF9F7EE1BE33CB0793C8EA1E3362B1ABEAF067",
+      "size_bytes": 9544
+    },
+    "method_summary_csv": {
+      "path": "results/runs/stage76_variable_k_sampler_repair/method_summary.csv",
+      "sha256": "AC0A857B952A36131035F05D5D5E8F7A79230D6069FC6DF0DDA938949BA5DC63",
+      "size_bytes": 1047
+    },
+    "report_md": {
+      "path": "reports/stage-76/variable_k_sampler_repair.md",
+      "sha256": "4E94688BC51B2B8A09FB8159E916410D1247B8ED3776FE82EB5A8424EE806763",
+      "size_bytes": 1426
+    },
+    "solver_trials_csv": {
+      "path": "results/runs/stage76_variable_k_sampler_repair/solver_trials.csv",
+      "sha256": "8D860332C5C0D2F7DA6A0F5A922E014595D2F6C680168F1E162FA81A40973A16",
+      "size_bytes": 1402747
+    }
+  },
+  "route_gate": {
+    "cold_start_sampler_repair_passed": false,
+    "stage75_cqm_identity_preserved": true,
+    "warm_start_parallel_tempering_fidelity_passed": true
+  },
+  "runtime": {
+    "dimod": "0.12.22",
+    "numpy": "1.26.4",
+    "python": "3.11.15",
+    "wall_clock_used_for_decision": false
+  },
+  "schema_version": "1.0",
+  "status": "stage76_variable_k_sampler_repair_complete"
+}

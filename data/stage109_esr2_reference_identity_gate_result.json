@@ -1,0 +1,78 @@
+{
+  "schema_version": "1.0",
+  "status": "stage109_esr2_reference_identity_no_go",
+  "evidence_status": "outcome-unseen source and public-metadata integrity gate; not an enrichment or QUBO result",
+  "config": {
+    "path": "configs/stage109_esr2_reference_identity_gate.json",
+    "sha256": "AFD4E8DCDF935E27EC8345E191095B234A6792B5C40A24588D6875E9EE86C56D"
+  },
+  "target": {
+    "target_id": "ESR2",
+    "gene_name": "ESR2",
+    "protein_name": "Estrogen receptor beta",
+    "uniprot_accession": "Q92731",
+    "dude_target_id": "ESR2",
+    "dude_reference_structure": "2FSZ",
+    "dude_reference_ligand_name": "OHT_101_2FSZ"
+  },
+  "ranking_provenance": {
+    "historical_eligible_order": [
+      "PPARA",
+      "PPARD",
+      "ESR2"
+    ],
+    "completed_before_esr2": [
+      "PPARA",
+      "PPARD"
+    ],
+    "esr2_next_unused_target": true
+  },
+  "source_archive": {
+    "path": "data/raw/external_targets/esr2_dude/esr2.tar.gz",
+    "sha256": "6FDFD0CD1E1701DEF9F7F9266EF052B090667FC56B079FA0D20D0BC03F8530AC",
+    "size_bytes": 1487317
+  },
+  "reference_metadata": {
+    "pdb_id": "2FSZ",
+    "dude_ligand_label": "OHT_101_2FSZ",
+    "status": "metadata_excluded",
+    "exclusion_reasons": "mutation_count_differs",
+    "mutation_count": 3,
+    "pdbx_mutation_note": "C334S, C369S, C481S",
+    "resolution_angstrom": 2.2,
+    "reference_sequence_coverage": 0.4641509433962264,
+    "entity_sequence_coverage": 1.0
+  },
+  "counts": {
+    "metadata_eligible_receptor_count": 32,
+    "minimum_required_receptor_count": 16
+  },
+  "gate_checks": {
+    "reference_is_wild_type": false,
+    "reference_is_metadata_eligible": false,
+    "receptor_pool_passes": true,
+    "gate_passes": false
+  },
+  "data_boundary": {
+    "source_active_lines_counted": 367,
+    "source_decoy_lines_counted": 20199,
+    "source_label_values_parsed_or_used": 0,
+    "rcsb_coordinate_downloads": 0,
+    "docking_scores_read": 0,
+    "fresh_validation_rows_read": 0,
+    "locked_test_rows_read": 0,
+    "new_docking_jobs": 0,
+    "quantum_hardware_jobs": 0
+  },
+  "decision": {
+    "source_identity_gate_passed": false,
+    "rcsb_coordinate_download_authorized": false,
+    "ligand_panel_allocation_authorized": false,
+    "cognate_redocking_authorized": false,
+    "production_docking_authorized": false,
+    "fresh_validation_authorized": false,
+    "locked_test_authorized": false,
+    "quantum_hardware_authorized": false,
+    "next_action": "If the DUD-E reference has a mutation or is metadata-ineligible, stop ESR2 before coordinate download. Do not replace the reference, lower the wild-type rule, or reuse the source ligand in another receptor frame within this stage."
+  }
+}

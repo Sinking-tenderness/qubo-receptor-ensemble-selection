@@ -1,0 +1,93 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage40-bedroc-aligned-signed-hubo-20260803-v1",
+  "purpose": "Final MK14/PPARG internal objective study: test whether a continuous BEDROC-aligned early-rank contrast with scaffold-stable signed Mobius interactions improves the strongest additive baseline and remains exactly quadratizable.",
+  "implementation": {
+    "path": "scripts/run_stage40_bedroc_aligned_signed_hubo.py",
+    "sha256": "9F46FB2F66EF17A716A38FB20E88901E980CDF8E5113324FA318CDCD4D64316D"
+  },
+  "inputs": {
+    "stage19e_config": {
+      "path": "configs/stage19e_cross_target_qubo_v2_nested_diagnostic.json",
+      "sha256": "E7CB41AC6909DD42A7964FC3842E15612D982CD67AFD57AE999A461871EC3B7D"
+    },
+    "stage38_result": {
+      "path": "data/stage38_cross_target_stable_triplet_hubo_result.json",
+      "sha256": "103CB505A7B46E0C64DA5E277FC37EFA03B4FB4EA28022E2246DE6AAEEEC9927"
+    },
+    "stage38_audit": {
+      "path": "data/stage38_cross_target_stable_triplet_hubo_audit.json",
+      "sha256": "C5A4F43BEB64B6BF8EB96CD482D5A460B047FF587F538AE9FBA7F0ADE3AFB5C8"
+    },
+    "stage39_result": {
+      "path": "data/stage39_linear_backbone_residual_gate_result.json",
+      "sha256": "C83B6F5C484E96ED40D6A573CA84C2971F10B93A877DDCD69441D92471167CE3"
+    },
+    "stage39_audit": {
+      "path": "data/stage39_linear_backbone_residual_gate_audit.json",
+      "sha256": "70172874B90CB37AA213F1376F9FE5C358C08061C4E77A10145E390D3207FF7C"
+    }
+  },
+  "evidence_timing": {
+    "experiment_class": "final posthoc cross-target train-only objective development",
+    "stage39_threshold_rescue_misalignment_known": true,
+    "objective_and_gates_frozen_before_stage40_outcomes": true,
+    "further_mk14_pparg_weight_tuning_after_this_stage_permitted": false,
+    "fresh_validation_or_locked_test_rows_permitted": false,
+    "new_docking_permitted": false,
+    "quantum_hardware_permitted": false
+  },
+  "objective": {
+    "objective_id": "bedroc_aligned_signed_mobius_v1",
+    "per_ligand_weight": "w(r)=exp(-alpha*r), where r is the outer-train empirical receptor rank fraction and lower is better",
+    "set_utility": "For each seed and the median-seed consensus, mean active weight minus mean decoy weight; robust utility is the equal mean of consensus, mean-seed, and worst-seed contrasts.",
+    "linear_coefficient": "mean singleton utility over the three outer-train scaffold blocks",
+    "pair_coefficient": "signed stable pair Mobius residual U(ij)-U(i)-U(j)",
+    "triplet_coefficient": "signed stable third-order Mobius residual after subtracting all singleton and pair contributions",
+    "minimum_same_sign_block_fraction": 0.6666666666666666,
+    "risk_kappa": 0.5,
+    "minimum_interaction_magnitude": 0.001,
+    "formula": "H(x)=sum_i h_i*x_i+sum_ij J_ij*x_i*x_j+sum_ijk K_ijk*x_i*x_j*x_k under fixed cardinality k",
+    "quadratization": "Each retained cubic term is reduced exactly with a Rosenberg product auxiliary and quadratic consistency penalty; no quadratization or hardware execution occurs in Stage40."
+  },
+  "screen": {
+    "outer_fold_count": 4,
+    "fold_seed": 20261119,
+    "bedroc_alpha": 20.0,
+    "maximum_subset_size": 6,
+    "evaluated_subset_sizes": [
+      3,
+      4,
+      5,
+      6
+    ],
+    "classical_beam_width": 64
+  },
+  "comparators": {
+    "legacy_linear": "Stage38 exact singleton robust-BEDROC selection; the strongest additive baseline carried forward unchanged",
+    "direct_classical": "Stage38 beam-64 plus local-search selection on the true outer-train robust BEDROC landscape",
+    "early_linear": "exact selection using only the Stage40 exponential early-rank singleton coefficients",
+    "model_classical": "beam-64 plus deterministic one-swap local search on the full Stage40 signed objective"
+  },
+  "efficacy_gate": {
+    "minimum_target_mean_train_bedroc_spearman": 0.7,
+    "minimum_target_mean_holdout_delta_vs_legacy_linear": 0.0,
+    "minimum_target_mean_holdout_delta_vs_direct_classical": 0.0,
+    "minimum_positive_holdout_vs_legacy_cells": 18,
+    "all_checks_required": true,
+    "decision": "Authorize an independently preregistered external-target replication only if mean objective/BEDROC Spearman is at least 0.7 on each target, each target has nonnegative mean scaffold-holdout deltas against both legacy linear and direct classical selection, and the model beats legacy linear in at least 18 of 32 cells."
+  },
+  "difficulty_gate": {
+    "minimum_positive_solver_gap_cells": 5,
+    "decision": "Record small-pool classical difficulty only if exact optimization strictly beats beam-64 plus local search in at least five of 32 cells. This gate is reported separately and is not required for external efficacy replication."
+  },
+  "outputs": {
+    "coefficient_summary_csv": "results/runs/stage40_bedroc_aligned_signed_hubo/coefficient_summary.csv",
+    "cell_metrics_csv": "results/runs/stage40_bedroc_aligned_signed_hubo/cell_metrics.csv",
+    "model_record_json": "data/stage40_bedroc_aligned_signed_hubo_model_record.json",
+    "result_json": "data/stage40_bedroc_aligned_signed_hubo_result.json",
+    "audit_json": "data/stage40_bedroc_aligned_signed_hubo_audit.json",
+    "report_md": "reports/stage-40/bedroc_aligned_signed_hubo.md"
+  },
+  "interpretation_boundary": "Stage40 is the final post-hoc MK14/PPARG objective-development analysis. It reads only frozen training rows and cannot turn internal scaffold holdouts into independent validation. A positive efficacy gate would authorize one externally preregistered protein replication with no further weight changes. The separate difficulty gate only describes the present 16-receptor landscape. Neither gate authorizes quantum hardware or a quantum-advantage claim. A failed efficacy gate freezes further MK14/PPARG objective tuning and redirects the project to a quantum-application PoC or a new independently designed dataset."
+}

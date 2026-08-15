@@ -1,0 +1,23 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage111-thrb-identity-adjudication-20260813-v1",
+  "purpose": "Adjudicate the discovered DUD-E target-identity mismatch in the historical Stage47b screen before any source intake or docking. This correction keeps the legacy record immutable and decides only whether a new, separately preregistered thrombin branch may be considered.",
+  "inputs": {
+    "historical_config": {"path": "configs/stage47b_expanded_new_target_feasibility_screen.json", "sha256": "FEBE03ABF949E134AC4979779C9AD6DAE77349A5DFD811CF0A2E8FBE4BD08E60"},
+    "historical_screen": {"path": "data/processed/stage47b_expanded_new_target_feasibility_screen.csv", "sha256": "1CC037C3426CB0AD53ADC27DC8CDB8E4141E5A5365A7B9B39E93475E9FE642EC"},
+    "historical_closure": {"path": "data/stage110_historical_candidate_pool_closure_result.json", "sha256": "5E5F858231CCD5F2CCA82B04C8BF4CA71A1751748705C6FE423E1E1B0AC1E99E"}
+  },
+  "authoritative_sources": {
+    "dude_catalog_url": "https://dude.docking.org/targets",
+    "dude_target_id": "THRB",
+    "dude_catalog_description": "Thrombin",
+    "dude_catalog_reference_pdb": "1YPE",
+    "rcsb_reference_pdb": "1YPE",
+    "rcsb_observed_title": "Thrombin Inhibitor Complex",
+    "rcsb_uniprot_accession": "P00734",
+    "rcsb_selected_chain": "H"
+  },
+  "historical_mapping": {"target_id": "THRB", "protein_name": "Thyroid hormone receptor beta", "uniprot_accession": "P10828", "dude_target_url": "https://dude.docking.org/targets/thrb", "reason": "The old configuration paired the DUD-E THRB slug with the unrelated thyroid-hormone-receptor UniProt accession P10828. RCSB metadata were therefore collected for the wrong protein."},
+  "data_boundary": {"new_dude_archive_downloads": 0, "new_ligand_rows_read": 0, "new_coordinate_downloads": 0, "new_docking_jobs": 0, "quantum_hardware_jobs": 0},
+  "outputs": {"summary_json": "data/stage111_thrb_identity_adjudication_result.json", "report_md": "reports/stage-111/thrb_identity_adjudication.md", "audit_json": "data/stage111_thrb_identity_adjudication_audit.json"}
+}

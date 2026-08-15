@@ -1,0 +1,876 @@
+{
+  "analysis_payload_sha256": "6117CEF89D04F0B59382E0337ADBDCEC6E07476A3E271FC48A63782C43CC1755",
+  "config": {
+    "path": "configs/stage63_cross_target_rank_pair_failure_diagnosis.json",
+    "sha256": "05219E25B9AA49CD18A457FD854FAA716EC48889E31304EE936511A5260359F2",
+    "size_bytes": 7233
+  },
+  "data_boundary": {
+    "development_results_read": 4,
+    "fresh_validation_rows_read": 0,
+    "locked_test_rows_read": 0,
+    "new_docking_jobs": 0,
+    "quantum_hardware_jobs": 0
+  },
+  "decision": {
+    "current_rank_pair_qubo_retained_as_baseline": true,
+    "current_rank_pair_qubo_supported_for_new_application_claim": false,
+    "fresh_validation_authorized": false,
+    "new_cross_target_objective_development_authorized": true,
+    "next_action": "Develop and freeze an uncertainty-shrunk pair objective across historical targets, then preregister one untouched target before any new docking.",
+    "quantum_hardware_authorized": false,
+    "same_target_ppard_retuning_authorized": false
+  },
+  "experiment_class": "post-hoc cross-target development-only mechanism diagnosis",
+  "implementation": {
+    "path": "scripts/run_stage63_cross_target_rank_pair_failure_diagnosis.py",
+    "sha256": "151620914F22EF52CBCC08BCACD81B2A4826F3F523DEF1A4F07B1BC8DD3BB02D",
+    "size_bytes": 38020
+  },
+  "interpretation_boundary": "Stage63 diagnoses existing development results and may define requirements for a future objective. It does not tune replacement coefficients, repair a failed target, establish independent efficacy, authorize fresh validation or hardware, or support quantum speedup or advantage.",
+  "mechanism": {
+    "cardinality_selection_instability_supported": true,
+    "evidence": [
+      "The training QUBO objective prefers k=2 in every one of 16 outer folds, but k=2 beats k=1 on only 2 holdouts.",
+      "Training objective and holdout BEDROC are negatively rank-correlated in 15 of 16 folds.",
+      "Exact optimization and strong classical search agree in all 171 exact-certified cells.",
+      "PPARD inner and outer k curves have near-zero mean rank correlation, with one large selected-k regret fold."
+    ],
+    "fixed_pair_reward_transfer_supported": false,
+    "primary_failure_mode": "pair_complementarity_generalization_failure",
+    "solver_search_bottleneck_supported": false
+  },
+  "next_objective_design": {
+    "candidate_family_id": "uncertainty_shrunk_rank_pair_qubo_v2_candidate",
+    "cardinality_rule": "Select k outside the QUBO with nested holdout lower-confidence bounds; default to k=1 unless a larger k clears a preregistered gain margin.",
+    "development_boundary": "No lambda, confidence threshold, or gain margin is selected in Stage63. Any v2 constants must be frozen using historical targets and tested once on a genuinely new target.",
+    "mandatory_comparators": [
+      "best single receptor",
+      "linear Top-k",
+      "direct robust BEDROC greedy",
+      "beam plus swap strong classical search on the same QUBO",
+      "exact fixed-k optimization where tractable"
+    ],
+    "pair_term": "Estimate delta_ij across resamples and reward a pair only when a predefined lower confidence bound, such as median(delta_ij) minus lambda_delta times MAD(delta_ij), remains positive.",
+    "singleton_term": "Use the same resampling and uncertainty shrinkage for q_i so that single-receptor utility and pair residuals share one robustness scale.",
+    "status": "design_requirements_only_not_frozen"
+  },
+  "outputs": {
+    "fixed_k_landscape_csv": {
+      "path": "results/runs/stage63_cross_target_rank_pair_failure_diagnosis/fixed_k_landscape.csv",
+      "sha256": "EB6D91E865C6CEA0F556E923036B87CB04D655C56D5FDCC1CECFF276EBF025D6",
+      "size_bytes": 13420
+    },
+    "fold_diagnostics_csv": {
+      "path": "results/runs/stage63_cross_target_rank_pair_failure_diagnosis/fold_diagnostics.csv",
+      "sha256": "739CCAF073185283EA8BB74D866808C3DD89FCA371D98970EA959EE5F6B44C93",
+      "size_bytes": 1711
+    },
+    "ppard_nested_k_diagnostics_csv": {
+      "path": "results/runs/stage63_cross_target_rank_pair_failure_diagnosis/ppard_nested_k_diagnostics.csv",
+      "sha256": "1A7256ABB422A12F4D850590A18F5A65C70B2E4190BA0B5ECB5A36126E30EFE8",
+      "size_bytes": 500
+    },
+    "report_md": {
+      "path": "reports/stage-63/cross_target_rank_pair_failure_diagnosis.md",
+      "sha256": "05C097B577F6F2FB25864996C7B187288ECCD0888DFD88EE208DB68FD41C6FDC",
+      "size_bytes": 3020
+    },
+    "solver_diagnostics_csv": {
+      "path": "results/runs/stage63_cross_target_rank_pair_failure_diagnosis/solver_diagnostics.csv",
+      "sha256": "54163AC06961044C92EC5D82B75B725E2430E1EB4EB5E07BDA69F97B21E18EDB",
+      "size_bytes": 334
+    },
+    "target_k_summary_csv": {
+      "path": "results/runs/stage63_cross_target_rank_pair_failure_diagnosis/target_k_summary.csv",
+      "sha256": "77B94EDBFBB7F817CA215242EF87492F495EC1D5500ADE9A8F8995C384D6BAD3",
+      "size_bytes": 2174
+    },
+    "target_summary_csv": {
+      "path": "results/runs/stage63_cross_target_rank_pair_failure_diagnosis/target_summary.csv",
+      "sha256": "B7F46CFEE60A75F34AA76C6A048353289DA352F3FC0DB1051EA672ED916A34C9",
+      "size_bytes": 554
+    }
+  },
+  "primary_diagnosis": {
+    "exact_certified_solver_cell_count": 171,
+    "exact_over_strong_positive_gap_count": 0,
+    "exact_strong_subset_difference_count": 0,
+    "fixed_k_cell_count": 96,
+    "holdout_k2_beats_k1_fold_count": 2,
+    "k2_pair_reward_direction_conflict_fold_count": 14,
+    "mean_k2_minus_k1_holdout_bedroc": -0.14408553531192292,
+    "mean_k2_minus_k1_train_objective": 0.03349483773213947,
+    "mean_train_holdout_spearman": -0.5785714285714286,
+    "negative_train_holdout_spearman_fold_count": 15,
+    "outer_fold_count": 16,
+    "ppard_mean_inner_outer_k_curve_spearman": 0.01428571428571429,
+    "ppard_mean_selected_k_outer_regret": 0.043385115850299416,
+    "strong_or_exact_over_weak_greedy_positive_gap_count": 48,
+    "target_count": 4,
+    "targets_with_best_mean_k_greater_than_1": 2,
+    "training_objective_best_k2_fold_count": 16,
+    "weak_greedy_comparison_cell_count": 162
+  },
+  "schema_version": "1.0",
+  "source_audit": {
+    "objective": {
+      "bedroc_alpha": 20.0,
+      "fixed_k_qubo": "Q_k(S)=mean_{i in S}(q_i)+mean_{i<j in S}(delta_ij); for k=1 the pair term is zero",
+      "maximum_subset_size": 6,
+      "minimum_subset_size": 1,
+      "normalization_reason": "separate normalization at each fixed k removes the Stage42d cardinality pressure and implements the previously proposed k=1..6 ladder",
+      "objective_id": "bedroc20_rank_sensitive_pair_complementarity_v1",
+      "pair_complementarity": "delta_ij=q_{ij}-max(q_i,q_j), where q_{ij} uses the better rank from receptor i or j",
+      "qubo_form": "For each frozen k, maximize sum_i(q_i/k)x_i + sum_{i<j}(delta_ij/C(k,2))x_i x_j subject to sum_i x_i=k.",
+      "rank_normalization": "per-seed per-receptor empirical CDF fitted on outer-train rows only",
+      "singleton_utility": "q_i=(mean_seed(E_active[exp(-20r_i)]-E_decoy[exp(-20r_i)]) + worst_seed(...))/2"
+    },
+    "source_results": {
+      "stage42f_audit": {
+        "audit_id": "stage42d-f-bace1-qubo-independent-audit-v1",
+        "data_boundary": {
+          "fresh_validation_rows_read": 0,
+          "locked_test_rows_read": 0,
+          "new_docking_jobs": 0,
+          "quantum_hardware_jobs": 0
+        },
+        "decision": "Retain the rank-sensitive pair QUBO as a useful receptor-combination model, but do not claim or test solver advantage on protected data because strong classical search found every exact optimum.",
+        "schema_version": "1.0",
+        "stage42c_pair_count": 27132,
+        "stage42d_exact_fold_count": 4,
+        "stage42d_old_objective_over_single_bedroc_delta": -0.0827307069647164,
+        "stage42e_bedroc_optimal_k": 2,
+        "stage42e_objective_optimal_k": 6,
+        "stage42f_best_combination_over_single_bedroc_gain": 0.019206108494594032,
+        "stage42f_exact_classical_positive_gap_cell_count": 0,
+        "stage42f_fold_k_cell_count": 24,
+        "stage42f_full_k_count": 6,
+        "stage42f_rank_sensitive_pair_qubo_supported": false,
+        "status": "stage42d_f_bace1_qubo_independent_audit_ok"
+      },
+      "stage42f_result": {
+        "config": {
+          "path": "configs/stage42f_bace1_rank_sensitive_pair_qubo.json",
+          "sha256": "C314EB3F6565F95FD4DD6160F09C9BCFACC8E5922890BCFF5B72D8F98E7BA054",
+          "size_bytes": 4119
+        },
+        "data_boundary": {
+          "fresh_validation_rows_read": 0,
+          "locked_test_rows_read": 0,
+          "new_docking_jobs": 0,
+          "quantum_hardware_jobs": 0,
+          "train_rows_read": 266
+        },
+        "decision": {
+          "best_combination_over_single_bedroc_gain": 0.019206108494594032,
+          "checks": {
+            "full_data_positive_gap_exists": false,
+            "minimum_combination_over_single_bedroc_gain": true,
+            "minimum_positive_gap_cells": false,
+            "minimum_positive_gap_folds": false,
+            "nonnegative_mean_holdout_bedroc_delta": true,
+            "nonnegative_mean_holdout_qubo_delta": true
+          },
+          "fresh_validation_authorized": false,
+          "full_data_positive_gap_k_values": [],
+          "mean_holdout_bedroc_delta": 0.0,
+          "mean_holdout_qubo_delta": 0.0,
+          "positive_gap_cell_count": 0,
+          "positive_gap_fold_count": 0,
+          "quantum_hardware_authorized": false,
+          "rank_sensitive_pair_qubo_supported": false,
+          "same_data_retuning_authorized": false,
+          "sparse_qubo_encoding_authorized": false
+        },
+        "implementation": {
+          "path": "scripts/run_stage42f_bace1_rank_sensitive_pair_qubo.py",
+          "sha256": "4134FE20DA7C0937B88216D5611E4909AEBE61BE1E3586954C1B5E44D40BA772",
+          "size_bytes": 18253
+        },
+        "input_statistics": {
+          "exact_full_enumeration_seconds": 122.1789189000001,
+          "ligand_count": 266,
+          "receptor_count": 34,
+          "seed_count": 3,
+          "state_count_k1_to_k6": 1676115
+        },
+        "interpretation_boundary": "Stage42f is a train-only, outcome-informed BACE1 objective redesign evaluated with scaffold holdouts. A pass would authorize sparse fixed-k QUBO construction and one protected fresh-validation experiment, not quantum hardware or quantum advantage. A failure forbids further BACE1-specific tuning.",
+        "objective": {
+          "bedroc_alpha": 20.0,
+          "fixed_k_qubo": "Q_k(S)=mean_{i in S}(q_i)+mean_{i<j in S}(delta_ij); for k=1 the pair term is zero",
+          "maximum_subset_size": 6,
+          "minimum_subset_size": 1,
+          "normalization_reason": "separate normalization at each fixed k removes the Stage42d cardinality pressure and implements the previously proposed k=1..6 ladder",
+          "objective_id": "bedroc20_rank_sensitive_pair_complementarity_v1",
+          "pair_complementarity": "delta_ij=q_{ij}-max(q_i,q_j), where q_{ij} uses the better rank from receptor i or j",
+          "qubo_form": "For each frozen k, maximize sum_i(q_i/k)x_i + sum_{i<j}(delta_ij/C(k,2))x_i x_j subject to sum_i x_i=k.",
+          "rank_normalization": "per-seed per-receptor empirical CDF fitted on outer-train rows only",
+          "singleton_utility": "q_i=(mean_seed(E_active[exp(-20r_i)]-E_decoy[exp(-20r_i)]) + worst_seed(...))/2"
+        },
+        "outputs": {
+          "fold_assignments_csv": {
+            "path": "results/runs/stage42f_bace1_rank_sensitive_pair_qubo/fold_assignments.csv",
+            "sha256": "0EDDD412A055EBEFC61C821251532780EBC5197DEC2BE4A1AE15145F8369CD15",
+            "size_bytes": 16933
+          },
+          "fold_metrics_csv": {
+            "path": "results/runs/stage42f_bace1_rank_sensitive_pair_qubo/fold_metrics.csv",
+            "sha256": "EBBCEBEFFF563FB146ADD6AF1E423164DD78392BF2B4087CF5BEBFAF35C7A212",
+            "size_bytes": 7687
+          },
+          "full_metrics_csv": {
+            "path": "results/runs/stage42f_bace1_rank_sensitive_pair_qubo/full_metrics.csv",
+            "sha256": "A8EEE9BB95FBA66ECE45EE74A400DB0C7CC72832F9BC9346172D7D8BA5D6E4C4",
+            "size_bytes": 2198
+          },
+          "report_md": {
+            "path": "reports/stage-42f/bace1_rank_sensitive_pair_qubo.md",
+            "sha256": "A7149FD57A714C3B97CCB3D53396159A3DF1087BFED80502920EA7FACA0273EF",
+            "size_bytes": 1537
+          }
+        },
+        "schema_version": "1.0",
+        "status": "stage42f_bace1_rank_sensitive_pair_qubo_complete"
+      },
+      "stage44_audit": {
+        "counts": {
+          "exact_cells": 15,
+          "selection_metric_rows": 189,
+          "solver_cells": 30
+        },
+        "data_boundary": {
+          "fresh_validation_rows_read": 0,
+          "new_docking_jobs": 0,
+          "quantum_hardware_jobs": 0,
+          "test_rows_read": 0,
+          "train_rows_read": 160
+        },
+        "decision": {
+          "application_replication_supported": false,
+          "fresh_validation_authorized": false,
+          "quantum_hardware_authorized": false,
+          "same_data_retuning_authorized": false,
+          "solver_novelty_supported": false
+        },
+        "inputs": {
+          "result_sha256": "C85A50CAB8AD8E4B0B5C8DD1ECD68325DFC3C3343CEEFF5811360D2CB9ED1DC3",
+          "selection_metrics_sha256": "F490BF5BC5128406C94A6064CB905D01D91C45DDDE5E5E76FBA58B2052CC376A",
+          "solver_comparison_sha256": "140DEF8D8F7B2769296E8BE8A839D4E41B8542BBEE58C490833B96DD7F0E71A2"
+        },
+        "interpretation_boundary": "Stage44 can test whether the BACE1-frozen QUBO transfers to a larger PPARG MD receptor pool and whether fixed-parameter annealing improves the same QUBO objective over strong classical search. It remains a post-hoc Train-160 application and cannot establish fresh-target efficacy, quantum speedup, or quantum advantage.",
+        "primary_recalculation": {
+          "full_k1_robust_bedroc": 0.9569898741376202,
+          "full_k3_over_single_gain": 0.026958423511553864,
+          "full_k3_robust_bedroc": 0.983948297649174,
+          "mean_outer_holdout_gain": -0.12724989902387743,
+          "outer_holdout_k3_over_single_gains": [
+            -0.03963836367472662,
+            -0.0770237630120596,
+            -0.2298951149075149,
+            -0.16244235450120859
+          ]
+        },
+        "schema_version": "1.0",
+        "solver_recalculation": {
+          "annealing_over_classical_cell_count": 0,
+          "exact_k1_to_k3_cell_count": 15,
+          "exact_mismatch_count": 0
+        },
+        "status": "stage44_pparg_md96_rank_sensitive_qubo_independent_audit_ok"
+      },
+      "stage44_result": {
+        "config": {
+          "path": "configs/stage44_pparg_md96_rank_sensitive_qubo.json",
+          "sha256": "9CC94CCD80D3609909A4F021FA733991C06C5CCD8A0E07A51A175F723DB84F02",
+          "size_bytes": 4585
+        },
+        "data_boundary": {
+          "fresh_validation_rows_read": 0,
+          "new_docking_jobs": 0,
+          "quantum_hardware_jobs": 0,
+          "test_rows_read": 0,
+          "train_rows_read": 160
+        },
+        "decision": {
+          "application_checks": {
+            "minimum_full_k3_over_single_bedroc_gain": true,
+            "minimum_positive_holdout_fold_count": false,
+            "nonnegative_mean_holdout_k3_over_single_gain": false
+          },
+          "application_replication_supported": false,
+          "fresh_validation_authorized": false,
+          "full_k3_over_single_robust_bedroc_gain": 0.026958423511553864,
+          "mean_outer_holdout_k3_over_single_gain": -0.12724989902387743,
+          "positive_outer_holdout_fold_count": 0,
+          "positive_solver_gap_cell_count": 0,
+          "quantum_hardware_authorized": false,
+          "same_data_retuning_authorized": false,
+          "solver_checks": {
+            "exact_k1_to_k3_completed": true,
+            "minimum_positive_solver_gap_cells": false
+          },
+          "solver_novelty_supported": false
+        },
+        "implementation": {
+          "path": "scripts/run_stage44_pparg_md96_rank_sensitive_qubo.py",
+          "sha256": "110DD68678C0D5B70C5ACBCA64FF67E5A7062DC77685EA821944AB604D453E32",
+          "size_bytes": 20771
+        },
+        "input_statistics": {
+          "active_count": 80,
+          "decoy_count": 80,
+          "ligand_count": 160,
+          "receptor_count": 96,
+          "seed_count": 3
+        },
+        "interpretation_boundary": "Stage44 can test whether the BACE1-frozen QUBO transfers to a larger PPARG MD receptor pool and whether fixed-parameter annealing improves the same QUBO objective over strong classical search. It remains a post-hoc Train-160 application and cannot establish fresh-target efficacy, quantum speedup, or quantum advantage.",
+        "outputs": {
+          "annealing_batches_csv": {
+            "path": "results/runs/stage44_pparg_md96_rank_sensitive_qubo/annealing_batches.csv",
+            "sha256": "0BE65B6952D5056F0FF130FD16C90B0D4B028BD20C1AFB2F0A25E64298531BCA",
+            "size_bytes": 11524
+          },
+          "fold_assignments_csv": {
+            "path": "results/runs/stage44_pparg_md96_rank_sensitive_qubo/fold_assignments.csv",
+            "sha256": "09886BD66D75E40442F45BD66FC30F7CE0407BD7A2B21D0461856B8B50BBB98D",
+            "size_bytes": 10202
+          },
+          "report_md": {
+            "path": "reports/stage-44/pparg_md96_rank_sensitive_qubo.md",
+            "sha256": "F9C9B2351974275540DB8E6D4BD5233A91D3E63863DD35B80247B320FE5C9404",
+            "size_bytes": 701
+          },
+          "selection_metrics_csv": {
+            "path": "results/runs/stage44_pparg_md96_rank_sensitive_qubo/selection_metrics.csv",
+            "sha256": "F490BF5BC5128406C94A6064CB905D01D91C45DDDE5E5E76FBA58B2052CC376A",
+            "size_bytes": 36705
+          },
+          "solver_comparison_csv": {
+            "path": "results/runs/stage44_pparg_md96_rank_sensitive_qubo/solver_comparison.csv",
+            "sha256": "0879C45CC1915C99907D1713903253C895ECF058A9883F93F7752C90548F862F",
+            "size_bytes": 3045
+          }
+        },
+        "primary_result": {
+          "best_single": {
+            "fold": "full",
+            "mean_seed_bedroc": 0.9597223678664558,
+            "method": "exact",
+            "primary_bedroc": 0.9566247701761108,
+            "qubo_objective": 0.08629292939998849,
+            "robust_bedroc_composite": 0.9569898741376202,
+            "scope": "full_data",
+            "selected_subset": "PPARG_MD_01030_3GBK",
+            "subset_size": 1,
+            "worst_seed_bedroc": 0.9546224843702936
+          },
+          "k3": {
+            "fold": "full",
+            "mean_seed_bedroc": 0.9833311819779538,
+            "method": "exact",
+            "primary_bedroc": 0.987837830526088,
+            "qubo_objective": 0.1331618359656384,
+            "robust_bedroc_composite": 0.983948297649174,
+            "scope": "full_data",
+            "selected_subset": "PPARG_MD_00037_2HFP+PPARG_MD_00187_8CPI+PPARG_MD_00927_3GBK",
+            "subset_size": 3,
+            "worst_seed_bedroc": 0.9806758804434803
+          }
+        },
+        "runtime_seconds": 2743.7024990000027,
+        "schema_version": "1.0",
+        "status": "stage44_pparg_md96_rank_sensitive_qubo_complete"
+      },
+      "stage53_audit": {
+        "config": {
+          "path": "configs/stage53_ppara_large_pool_qubo_transfer.json",
+          "sha256": "B83F7F8F6F2D3DBAFCF6D27A72F0D16478DE9CE70AA8F78386A7377EA7133E67",
+          "size_bytes": 6278
+        },
+        "data_boundary": {
+          "fresh_validation_rows_read": 0,
+          "locked_test_rows_read": 0,
+          "new_docking_jobs": 0,
+          "quantum_hardware_jobs": 0,
+          "train_rows_read": 374
+        },
+        "decision": {
+          "fresh_validation_authorized": false,
+          "frozen_qubo_application_transfer_supported": false,
+          "quantum_hardware_authorized": false,
+          "same_data_weight_retuning_authorized": false,
+          "solver_novelty_detected": false
+        },
+        "decision_metrics_exact": true,
+        "fixed_k_rank_pair_mean_holdout_bedroc": {
+          "1": 0.8745818646565802,
+          "2": 0.6051049449106192,
+          "3": 0.6530482751747051,
+          "4": 0.6560593929043921,
+          "5": 0.6727507766219977,
+          "6": 0.6745915404077965
+        },
+        "implementation": {
+          "path": "scripts/run_stage53_ppara_large_pool_qubo_transfer.py",
+          "sha256": "C870668F955FED967B1C7406A9715AF873DA0092E5BEADA42356E4D9E08D2614",
+          "size_bytes": 27190
+        },
+        "interpretation_boundary": "Stage53 is train-only and post-hoc because the PPARA receptor pool was filtered using Stage51 outcomes. Scaffold holdouts test internal transfer only. A positive result can justify a new preregistered independent experiment, but cannot repair Stage51, establish QUBO superiority on independent data, authorize same-data tuning, or establish quantum execution, speedup, or advantage.",
+        "ledger_counts": {
+          "fixed_k_rows": 192,
+          "fold_assignment_rows": 374,
+          "selection_rows": 60
+        },
+        "schema_version": "1.0",
+        "solver_gap_count_exact": true,
+        "source_result": {
+          "path": "data/stage53_ppara_large_pool_qubo_transfer_result.json",
+          "sha256": "B42AB5C02F2ED5FD893771BAA370D648F52B2962E316E409FBBD2227D59490C4",
+          "size_bytes": 7879
+        },
+        "status": "stage53_ppara_large_pool_qubo_transfer_independent_audit_ok"
+      },
+      "stage53_result": {
+        "config": {
+          "path": "configs/stage53_ppara_large_pool_qubo_transfer.json",
+          "sha256": "B83F7F8F6F2D3DBAFCF6D27A72F0D16478DE9CE70AA8F78386A7377EA7133E67",
+          "size_bytes": 6278
+        },
+        "data_boundary": {
+          "fresh_validation_rows_read": 0,
+          "locked_test_rows_read": 0,
+          "new_docking_jobs": 0,
+          "quantum_hardware_jobs": 0,
+          "train_rows_read": 374
+        },
+        "decision": {
+          "checks": {
+            "minimum_mean_holdout_over_single": false,
+            "minimum_positive_holdout_over_single_folds": false,
+            "nonnegative_mean_holdout_over_linear": false,
+            "nonnegative_mean_holdout_over_nested_greedy": false
+          },
+          "fresh_validation_authorized": false,
+          "frozen_qubo_application_transfer_supported": false,
+          "full_data_rank_pair_over_single_bedroc_gain": -0.08197816377787348,
+          "mean_holdout_coverage_minus_strong_classical": 0.0,
+          "mean_holdout_rank_pair_minus_linear": -0.1618838838982918,
+          "mean_holdout_rank_pair_minus_nested_greedy": -0.1571709402797821,
+          "mean_holdout_rank_pair_minus_single": -0.26947691974596094,
+          "mean_holdout_rank_pair_minus_strong_classical": 0.0,
+          "mean_holdout_rank_pair_qubo": 0.6051049449106192,
+          "new_independent_preregistration_justified": false,
+          "positive_holdout_over_single_fold_count": 0,
+          "positive_rank_pair_objective_gap_cells_over_direct_greedy": 2,
+          "positive_rank_pair_objective_gap_cells_over_strong_classical": 0,
+          "quantum_hardware_authorized": false,
+          "same_data_weight_retuning_authorized": false,
+          "solver_novelty_detected": false
+        },
+        "full_data_methods": {
+          "all_receptors": {
+            "robust_bedroc": 0.6936062706227496,
+            "selected_subset": "PPARA_2P54_reference+PPARA_5HYK_aligned+PPARA_6KXX_aligned+PPARA_3G8I_aligned+PPARA_3ET1_aligned+PPARA_8RCE_aligned+PPARA_8YU8_aligned+PPARA_6KXY_aligned+PPARA_7E5H_aligned+PPARA_8YTL_aligned+PPARA_8YWU_aligned+PPARA_8YT6_aligned+PPARA_6KAZ_aligned+PPARA_3VI8_aligned+PPARA_8YT9_aligned+PPARA_2ZNN_aligned+PPARA_8YWV_aligned+PPARA_6KB5_aligned+PPARA_7BQ2_aligned+PPARA_7E5I_aligned",
+            "subset_size": 20
+          },
+          "bedroc_linear_topk": {
+            "robust_bedroc": 0.8451656657946757,
+            "selected_subset": "PPARA_5HYK_aligned",
+            "subset_size": 1
+          },
+          "bedroc_nested_greedy": {
+            "robust_bedroc": 0.8451656657946757,
+            "selected_subset": "PPARA_5HYK_aligned",
+            "subset_size": 1
+          },
+          "bedroc_random_search": {
+            "robust_bedroc": 0.8451656657946757,
+            "selected_subset": "PPARA_5HYK_aligned",
+            "subset_size": 1
+          },
+          "best_single_receptor": {
+            "robust_bedroc": 0.8451656657946757,
+            "selected_subset": "PPARA_5HYK_aligned",
+            "subset_size": 1
+          },
+          "coverage_direct_greedy": {
+            "robust_bedroc": 0.6781447257984466,
+            "selected_subset": "PPARA_5HYK_aligned+PPARA_6KXX_aligned+PPARA_8RCE_aligned+PPARA_7E5H_aligned+PPARA_2ZNN_aligned+PPARA_6KB5_aligned",
+            "subset_size": 6
+          },
+          "coverage_linear_additive": {
+            "robust_bedroc": 0.7146904321200674,
+            "selected_subset": "PPARA_5HYK_aligned+PPARA_8RCE_aligned+PPARA_7E5H_aligned+PPARA_8YT6_aligned+PPARA_3VI8_aligned+PPARA_2ZNN_aligned",
+            "subset_size": 6
+          },
+          "coverage_qubo_exact": {
+            "robust_bedroc": 0.6781447257984466,
+            "selected_subset": "PPARA_5HYK_aligned+PPARA_6KXX_aligned+PPARA_8RCE_aligned+PPARA_7E5H_aligned+PPARA_2ZNN_aligned+PPARA_6KB5_aligned",
+            "subset_size": 6
+          },
+          "coverage_strong_classical": {
+            "robust_bedroc": 0.6781447257984466,
+            "selected_subset": "PPARA_5HYK_aligned+PPARA_6KXX_aligned+PPARA_8RCE_aligned+PPARA_7E5H_aligned+PPARA_2ZNN_aligned+PPARA_6KB5_aligned",
+            "subset_size": 6
+          },
+          "rank_pair_direct_greedy": {
+            "robust_bedroc": 0.7946555467340822,
+            "selected_subset": "PPARA_5HYK_aligned+PPARA_6KXX_aligned",
+            "subset_size": 2
+          },
+          "rank_pair_qubo_exact": {
+            "robust_bedroc": 0.7631875020168022,
+            "selected_subset": "PPARA_6KXX_aligned+PPARA_8RCE_aligned",
+            "subset_size": 2
+          },
+          "rank_pair_strong_classical": {
+            "robust_bedroc": 0.7631875020168022,
+            "selected_subset": "PPARA_6KXX_aligned+PPARA_8RCE_aligned",
+            "subset_size": 2
+          }
+        },
+        "implementation": {
+          "path": "scripts/run_stage53_ppara_large_pool_qubo_transfer.py",
+          "sha256": "C870668F955FED967B1C7406A9715AF873DA0092E5BEADA42356E4D9E08D2614",
+          "size_bytes": 27190
+        },
+        "input_statistics": {
+          "active_count": 187,
+          "decoy_count": 187,
+          "ligand_count": 374,
+          "receptor_count": 20,
+          "seed_count": 3,
+          "state_count_k1_to_k6": 60459
+        },
+        "interpretation_boundary": "Stage53 is train-only and post-hoc because the PPARA receptor pool was filtered using Stage51 outcomes. Scaffold holdouts test internal transfer only. A positive result can justify a new preregistered independent experiment, but cannot repair Stage51, establish QUBO superiority on independent data, authorize same-data tuning, or establish quantum execution, speedup, or advantage.",
+        "objectives": {
+          "coverage_qubo": {
+            "favorable_rank_fraction": 0.1,
+            "formula": "F(S)=0.35*A_majority(S)+0.25*A_all3(S)+0.20*A_double_majority(S)-0.15*D_any(S)-0.05*|S|/6",
+            "lower_docking_score_is_better": true,
+            "maximum_subset_size": 6,
+            "minimum_subset_size": 1,
+            "normalization": "per-seed per-receptor empirical CDF fitted on the outer-train rows only",
+            "objective_id": "seed_robust_functional_complementarity_v1",
+            "weights": {
+              "active_all_seed_coverage": 0.25,
+              "active_double_receptor_majority_seed_support": 0.2,
+              "active_majority_seed_coverage": 0.35,
+              "decoy_any_seed_exposure": 0.15,
+              "receptor_cost": 0.05
+            }
+          },
+          "rank_pair_qubo": {
+            "bedroc_alpha": 20.0,
+            "fixed_k_qubo": "Q_k(S)=mean_{i in S}(q_i)+mean_{i<j in S}(delta_ij); for k=1 the pair term is zero",
+            "maximum_subset_size": 6,
+            "minimum_subset_size": 1,
+            "normalization_reason": "separate normalization at each fixed k removes the Stage42d cardinality pressure and implements the previously proposed k=1..6 ladder",
+            "objective_id": "bedroc20_rank_sensitive_pair_complementarity_v1",
+            "pair_complementarity": "delta_ij=q_{ij}-max(q_i,q_j), where q_{ij} uses the better rank from receptor i or j",
+            "qubo_form": "For each frozen k, maximize sum_i(q_i/k)x_i + sum_{i<j}(delta_ij/C(k,2))x_i x_j subject to sum_i x_i=k.",
+            "rank_normalization": "per-seed per-receptor empirical CDF fitted on outer-train rows only",
+            "singleton_utility": "q_i=(mean_seed(E_active[exp(-20r_i)]-E_decoy[exp(-20r_i)]) + worst_seed(...))/2"
+          }
+        },
+        "outputs": {
+          "fixed_k_landscape_csv": {
+            "path": "results/runs/stage53_ppara_large_pool_qubo_transfer/fixed_k_landscape.csv",
+            "sha256": "AF88AD0489A82402ADB7160F833B62FF087775768B0222B0816E24761F89C00F",
+            "size_bytes": 42873
+          },
+          "fold_assignments_csv": {
+            "path": "results/runs/stage53_ppara_large_pool_qubo_transfer/fold_assignments.csv",
+            "sha256": "C729EEB5A93DB931A42DB821BD5A1343B6D8531890AF29A99957AC13EF7DF1FC",
+            "size_bytes": 23791
+          },
+          "report_md": {
+            "path": "reports/stage-53/ppara_large_pool_qubo_transfer.md",
+            "sha256": "1B35B082EF9749338E29D561D23413C2F3B185BDD9CFC8F5681F41D1994DE04F",
+            "size_bytes": 1111
+          },
+          "selection_metrics_csv": {
+            "path": "results/runs/stage53_ppara_large_pool_qubo_transfer/selection_metrics.csv",
+            "sha256": "7282BEBBBF081D605A45D1AD348EECF6936BC0919CC9D829E5C69CCC4ECB9F6A",
+            "size_bytes": 14225
+          }
+        },
+        "runtime_seconds": 57.498007400000006,
+        "schema_version": "1.0",
+        "status": "stage53_ppara_large_pool_qubo_transfer_complete"
+      },
+      "stage62_audit": {
+        "all_csv_rows_exact": true,
+        "all_output_hashes_exact": true,
+        "analysis_payload_sha256": "5F215FF50BD006CBC6A370619529817C73EAE70434F2A151EFFEC043DB259825",
+        "application_support_decision_exact": true,
+        "config": {
+          "path": "configs/stage62_ppard_train240_nested_qubo.json",
+          "sha256": "319993EDB98719CAE3B506F6C0D72CCC7B0293ECA0833939F13FAFDF9D9335D7",
+          "size_bytes": 8877
+        },
+        "data_boundary": {
+          "development_train_rows_read": 240,
+          "fresh_validation_rows_read": 0,
+          "locked_test_rows_read": 0,
+          "new_docking_jobs": 0,
+          "quantum_hardware_jobs": 0
+        },
+        "interpretation_boundary": "Stage62 is the prospectively frozen PPARD development application test authorized by Stage59 and specified by Stage60. It may decide whether one untouched PPARD fresh-validation run is warranted. It cannot access fresh validation or locked test rows, retune the QUBO, establish independent efficacy, authorize quantum hardware, or claim quantum speedup or quantum advantage.",
+        "model_record_exact": true,
+        "optimization_novelty_decision_exact": true,
+        "row_counts": {
+          "final_method_metrics_csv": 8,
+          "inner_k_metrics_csv": 72,
+          "inner_k_selection_csv": 24,
+          "merged_scores_csv": 20880,
+          "nested_outer_metrics_csv": 32,
+          "objective_gap_cells_csv": 102,
+          "outer_k_metrics_csv": 24
+        },
+        "schema_version": "1.0",
+        "source_result": {
+          "path": "data/stage62_ppard_train240_nested_qubo_result.json",
+          "sha256": "B1474F2CDAB76E8C381397BC224969F4F90DD3BF2DBAD79AF2775D02DAE74371",
+          "size_bytes": 8638
+        },
+        "status": "stage62_ppard_train240_full_recomputation_audit_ok"
+      },
+      "stage62_result": {
+        "analysis_payload_sha256": "5F215FF50BD006CBC6A370619529817C73EAE70434F2A151EFFEC043DB259825",
+        "config": {
+          "path": "configs/stage62_ppard_train240_nested_qubo.json",
+          "sha256": "319993EDB98719CAE3B506F6C0D72CCC7B0293ECA0833939F13FAFDF9D9335D7",
+          "size_bytes": 8877
+        },
+        "data_boundary": {
+          "development_train_rows_read": 240,
+          "fresh_validation_rows_read": 0,
+          "locked_test_rows_read": 0,
+          "new_docking_jobs": 0,
+          "quantum_hardware_jobs": 0
+        },
+        "decision": {
+          "application_support_checks": {
+            "minimum_mean_outer_holdout_gain_over_best_single": false,
+            "minimum_mean_outer_holdout_gain_over_linear_topk": false,
+            "minimum_mean_outer_holdout_gain_over_nested_bedroc_greedy": true,
+            "minimum_positive_outer_holdout_gain_folds": false
+          },
+          "fresh_validation_authorized": false,
+          "locked_test_authorized": false,
+          "next_action": "stop PPARD outcome fitting and retain the result as a negative transfer test",
+          "optimization_novelty_supported": false,
+          "positive_objective_gap_cells_over_strong_classical": 0,
+          "quantum_advantage_claim_authorized": false,
+          "quantum_hardware_authorized": false,
+          "transferred_qubo_application_supported": false
+        },
+        "experiment_class": "prospective frozen-objective development application test",
+        "final_k_selection": {
+          "best_k": 1,
+          "by_k": {
+            "1": {
+              "mean": 0.8091899230406058,
+              "standard_error": 0.033807655334390535
+            },
+            "2": {
+              "mean": 0.6991094142854801,
+              "standard_error": 0.08455979225689783
+            },
+            "3": {
+              "mean": 0.7168772101013838,
+              "standard_error": 0.08092092219154084
+            },
+            "4": {
+              "mean": 0.768326591746256,
+              "standard_error": 0.04476239291151891
+            },
+            "5": {
+              "mean": 0.7667962671154968,
+              "standard_error": 0.04719162433329964
+            },
+            "6": {
+              "mean": 0.7833918044160982,
+              "standard_error": 0.055309788846203245
+            }
+          },
+          "one_standard_error_threshold": 0.7753822677062152,
+          "selected_k": 1
+        },
+        "implementation": {
+          "path": "scripts/run_stage62_ppard_train240_nested_qubo.py",
+          "sha256": "53ACE767BFDC0D9987D82B2B6FB5F8DA3A5FDA8FFDC49B4E640484FB3C5F84A6",
+          "size_bytes": 36740
+        },
+        "input_audit": {
+          "fresh_validation_rows_read": 0,
+          "inner_assignment_rows": 720,
+          "label_counts": {
+            "active": 120,
+            "decoy": 120
+          },
+          "ligand_count": 240,
+          "locked_test_rows_read": 0,
+          "outer_fold_count": 4,
+          "pilot_ligand_count": 96,
+          "receptor_count": 29,
+          "remaining_ligand_count": 144,
+          "score_row_count": 20880,
+          "seed_count": 3,
+          "status": "stage62_input_audit_ok",
+          "target_id": "PPARD"
+        },
+        "interpretation_boundary": "Stage62 is the prospectively frozen PPARD development application test authorized by Stage59 and specified by Stage60. It may decide whether one untouched PPARD fresh-validation run is warranted. It cannot access fresh validation or locked test rows, retune the QUBO, establish independent efficacy, authorize quantum hardware, or claim quantum speedup or quantum advantage.",
+        "nested_cv": {
+          "candidate_k_values": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "final_development_model_rule": "After reporting nested outer-fold results, select the smallest k within one standard error of the highest mean outer-holdout robust BEDROC20 and refit once on all Train-240 rows.",
+          "grouping_columns": [
+            "split_group_id",
+            "scaffold_smiles"
+          ],
+          "inner_evaluation_metric": "robust BEDROC20=(primary median-seed BEDROC20 + mean seed BEDROC20 + worst seed BEDROC20)/3",
+          "inner_fold_count": 3,
+          "inner_fold_seeds": [
+            20261201,
+            20261202,
+            20261203,
+            20261204
+          ],
+          "inner_training_action": "Fit train-only empirical rank transforms and QUBO coefficients, then exactly optimize each fixed k.",
+          "k_selection_definition": "Let k_star maximize mean inner-holdout robust BEDROC20. Compute the sample standard error at k_star across the three inner folds. Select the smallest k whose mean is at least mean(k_star)-SE(k_star). Break numerical ties by smaller k.",
+          "k_selection_rule": "one_standard_error_smallest_k",
+          "literal_early_docking_stop": false,
+          "outer_evaluation_action": "Refit coefficients and exact fixed-k QUBO on the complete outer-train partition at the inner-selected k, then evaluate the untouched outer holdout.",
+          "outer_fold_count": 4,
+          "outer_fold_seed": 20261119,
+          "reason_no_literal_early_docking_stop": "All k values reuse one receptor-by-ligand score matrix; increasing k does not launch additional docking jobs. The stopping rule controls model complexity, not docking execution.",
+          "tie_tolerance": 1e-12
+        },
+        "objective": {
+          "bedroc_alpha": 20.0,
+          "fixed_k_qubo": "Q_k(S)=mean_{i in S}(q_i)+mean_{i<j in S}(delta_ij); for k=1 the pair term is zero",
+          "maximum_subset_size": 6,
+          "minimum_subset_size": 1,
+          "normalization_reason": "separate normalization at each fixed k removes the Stage42d cardinality pressure and implements the previously proposed k=1..6 ladder",
+          "objective_id": "bedroc20_rank_sensitive_pair_complementarity_v1",
+          "pair_complementarity": "delta_ij=q_{ij}-max(q_i,q_j), where q_{ij} uses the better rank from receptor i or j",
+          "qubo_form": "For each frozen k, maximize sum_i(q_i/k)x_i + sum_{i<j}(delta_ij/C(k,2))x_i x_j subject to sum_i x_i=k.",
+          "rank_normalization": "per-seed per-receptor empirical CDF fitted on outer-train rows only",
+          "singleton_utility": "q_i=(mean_seed(E_active[exp(-20r_i)]-E_decoy[exp(-20r_i)]) + worst_seed(...))/2"
+        },
+        "outputs": {
+          "final_method_metrics_csv": {
+            "path": "results/runs/stage62_ppard_train240_nested_qubo/final_method_metrics.csv",
+            "sha256": "A918CA3BBCE3E63E16DF0720BE69999CCD06339A8CEA1E018C59271C9250E7EB",
+            "size_bytes": 2026
+          },
+          "inner_k_metrics_csv": {
+            "path": "results/runs/stage62_ppard_train240_nested_qubo/inner_k_metrics.csv",
+            "sha256": "ED603BDE80C9E6976BD22CD07003E286FBF9D3DC86E27466A06286C41C13E88E",
+            "size_bytes": 13624
+          },
+          "inner_k_selection_csv": {
+            "path": "results/runs/stage62_ppard_train240_nested_qubo/inner_k_selection.csv",
+            "sha256": "9A037E8A7A11FB1E07CC72C41629DC4DB557467DABED0EEFEC8C0B63ECDC4D14",
+            "size_bytes": 1861
+          },
+          "merged_scores_csv": {
+            "path": "results/runs/stage62_ppard_train240_nested_qubo/merged_scores.csv",
+            "sha256": "A58D9D2611AC6176BB57C919304F68D8D6C097418C9A4A891BA3D8AAF71506B4",
+            "size_bytes": 6616390
+          },
+          "model_record_json": {
+            "path": "data/stage62_ppard_train240_final_model_record.json",
+            "sha256": "689118F8444280C80451A8E393D78CDD71B1BAED2CE87D972BC300879E84FB14",
+            "size_bytes": 29883
+          },
+          "nested_outer_metrics_csv": {
+            "path": "results/runs/stage62_ppard_train240_nested_qubo/nested_outer_metrics.csv",
+            "sha256": "9C11D0F24B93D58D3F91CB29EFC96C5B67A04A57E437D295377BC404E303DD1F",
+            "size_bytes": 7853
+          },
+          "objective_gap_cells_csv": {
+            "path": "results/runs/stage62_ppard_train240_nested_qubo/objective_gap_cells.csv",
+            "sha256": "AFF7E3DB3FBADD4F65D42AB8DD4CD8A2393BFD993318756E80436E7A682082A3",
+            "size_bytes": 29854
+          },
+          "outer_k_metrics_csv": {
+            "path": "results/runs/stage62_ppard_train240_nested_qubo/outer_k_metrics.csv",
+            "sha256": "660939602032983CF20EA35DAA8D67564B11D65B7BCE9B5FE6EBC62A7ABCFD3E",
+            "size_bytes": 4306
+          },
+          "report_md": {
+            "path": "reports/stage-62/ppard_train240_nested_qubo.md",
+            "sha256": "14E09B5D7FCD3296F04C63F12F753DAC495E968D01703FD2C2B4E1177FE023E1",
+            "size_bytes": 895
+          }
+        },
+        "performance": {
+          "mean_gain_over_best_single": -0.02269229016353755,
+          "mean_gain_over_linear_topk": -0.03053952241422861,
+          "mean_gain_over_nested_bedroc_greedy": 0.004990096059487581,
+          "mean_gain_over_strong_classical_same_qubo": 0.0,
+          "mean_nested_outer_bedroc_greedy_robust_bedroc": 0.772460325929151,
+          "mean_nested_outer_best_single_robust_bedroc": 0.8001427121521761,
+          "mean_nested_outer_linear_topk_robust_bedroc": 0.8079899444028672,
+          "mean_nested_outer_rank_pair_qubo_exact_robust_bedroc": 0.7774504219886386,
+          "positive_gain_over_best_single_folds": 1
+        },
+        "schema_version": "1.0",
+        "status": "stage62_ppard_train240_frozen_nested_qubo_complete"
+      }
+    }
+  },
+  "status": "stage63_cross_target_rank_pair_failure_diagnosis_complete",
+  "target_summary": [
+    {
+      "best_mean_gain_over_k1": 0.038032431794917415,
+      "best_mean_holdout_k": 6,
+      "best_mean_holdout_robust_bedroc": 0.9169172588968615,
+      "k1_mean_holdout_robust_bedroc": 0.878884827101944,
+      "k2_mean_gain_over_k1": -0.027583548157688514,
+      "k2_pair_reward_direction_conflict_fold_count": 3,
+      "negative_train_holdout_spearman_fold_count": 4,
+      "target_id": "BACE1"
+    },
+    {
+      "best_mean_gain_over_k1": 0.017175207620625743,
+      "best_mean_holdout_k": 6,
+      "best_mean_holdout_robust_bedroc": 0.8869013672502257,
+      "k1_mean_holdout_robust_bedroc": 0.8697261596296,
+      "k2_mean_gain_over_k1": -0.1692011645889165,
+      "k2_pair_reward_direction_conflict_fold_count": 4,
+      "negative_train_holdout_spearman_fold_count": 4,
+      "target_id": "PPARG"
+    },
+    {
+      "best_mean_gain_over_k1": 0.0,
+      "best_mean_holdout_k": 1,
+      "best_mean_holdout_robust_bedroc": 0.8745818646565802,
+      "k1_mean_holdout_robust_bedroc": 0.8745818646565802,
+      "k2_mean_gain_over_k1": -0.26947691974596094,
+      "k2_pair_reward_direction_conflict_fold_count": 4,
+      "negative_train_holdout_spearman_fold_count": 4,
+      "target_id": "PPARA"
+    },
+    {
+      "best_mean_gain_over_k1": 0.0,
+      "best_mean_holdout_k": 1,
+      "best_mean_holdout_robust_bedroc": 0.8091899230406058,
+      "k1_mean_holdout_robust_bedroc": 0.8091899230406058,
+      "k2_mean_gain_over_k1": -0.11008050875512572,
+      "k2_pair_reward_direction_conflict_fold_count": 3,
+      "negative_train_holdout_spearman_fold_count": 3,
+      "target_id": "PPARD"
+    }
+  ]
+}

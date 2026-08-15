@@ -1,0 +1,94 @@
+{
+  "cell_checks": {
+    "sparse_m002_n0016": {
+      "candidate_count_ok": true,
+      "edge_count_ok": true,
+      "scaling_metrics_ok": true,
+      "selection_metrics_ok": true
+    },
+    "sparse_m004_n0032": {
+      "candidate_count_ok": true,
+      "edge_count_ok": true,
+      "scaling_metrics_ok": true,
+      "selection_metrics_ok": true
+    },
+    "sparse_m008_n0064": {
+      "candidate_count_ok": true,
+      "edge_count_ok": true,
+      "scaling_metrics_ok": true,
+      "selection_metrics_ok": true
+    },
+    "sparse_m016_n0128": {
+      "candidate_count_ok": true,
+      "edge_count_ok": true,
+      "scaling_metrics_ok": true,
+      "selection_metrics_ok": true
+    },
+    "sparse_m032_n0256": {
+      "candidate_count_ok": true,
+      "edge_count_ok": true,
+      "scaling_metrics_ok": true,
+      "selection_metrics_ok": true
+    },
+    "sparse_m064_n0512": {
+      "candidate_count_ok": true,
+      "edge_count_ok": true,
+      "scaling_metrics_ok": true,
+      "selection_metrics_ok": true
+    },
+    "sparse_m100_n0800": {
+      "candidate_count_ok": true,
+      "edge_count_ok": true,
+      "scaling_metrics_ok": true,
+      "selection_metrics_ok": true
+    },
+    "sparse_m150_n1200": {
+      "candidate_count_ok": true,
+      "edge_count_ok": true,
+      "scaling_metrics_ok": true,
+      "selection_metrics_ok": true
+    }
+  },
+  "checks": {
+    "all_cell_checks": true,
+    "batch_row_count": true,
+    "data_boundary_zero": true,
+    "decision_recalculation": true,
+    "dense_quality_recalculation": true,
+    "domain_wall_energy_recalculation": true,
+    "objective_recalculation": true,
+    "quality_loss_recalculation": true,
+    "result_status": true,
+    "scaling_row_count": true
+  },
+  "config": {
+    "path": "configs/stage33_pparg_sparse_hardware_qubo.json",
+    "sha256": "4058BD35EE3FF027E381845A48A49B298FC04B9209181305B7713E30913DCF66"
+  },
+  "maximum_absolute_differences": {
+    "dense_quality": 0.0,
+    "domain_wall_energy": 8.982536936485985e-13,
+    "sparse_objective": 3.885780586188048e-16
+  },
+  "recomputed_decision": {
+    "dense_structural_quality_retention_gate_passed": false,
+    "direct_qpu_reference_cell_ready": true,
+    "full_pool_sparsity_gate_passed": true
+  },
+  "recomputed_quality_losses": {
+    "1200": 0.07870987614876102,
+    "128": 0.041912259679773634,
+    "16": 0.020100039637764522,
+    "256": 0.08053155097982301,
+    "32": 0.03770256181718823,
+    "512": 0.07595186674790921,
+    "64": 0.038221137269452865,
+    "800": 0.07992439397295059
+  },
+  "result": {
+    "path": "data/stage33_pparg_sparse_hardware_qubo_result.json",
+    "sha256": "91AE499D3C8C137468D623CC396EA30DCA8513DC9A298009D74BE5B1DB9386F3"
+  },
+  "schema_version": "1.0",
+  "status": "stage33_pparg_sparse_hardware_qubo_audit_ok"
+}

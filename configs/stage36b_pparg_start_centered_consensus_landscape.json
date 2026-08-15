@@ -1,0 +1,38 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage36b-pparg-start-centered-consensus-landscape-20260803-v1",
+  "purpose": "Repeat the frozen Stage36 consensus-objective screen after removing MD-start mean offsets from pocket features so that structural states represent shared dynamic deviations rather than starting-conformer identity.",
+  "trigger": "Stage36 independently confirmed that the original Ward states produced zero cross-start threshold-consensus variation in all three cohorts.",
+  "evidence_timing": {
+    "experiment_class": "prospective_post_stage36_state_representation_amendment",
+    "stage36b_outcomes_known_before_freeze": false,
+    "stage36_results_known_before_freeze": true,
+    "docking_scores_permitted": false,
+    "ligand_labels_permitted": false,
+    "fresh_validation_rows_permitted": false,
+    "test_rows_permitted": false,
+    "new_docking_jobs": false,
+    "quantum_hardware_execution": false
+  },
+  "inputs": {
+    "parent_config": "configs/stage36_pparg_consensus_objective_landscape.json",
+    "stage36_audit": "data/stage36_pparg_consensus_objective_landscape_audit.json",
+    "feature_archive": "results/runs/stage28b_pparg_md_ready_multistart_md/ensemble/pocket_features.npz"
+  },
+  "state_representation": {
+    "operation": "subtract each MD start's 150-frame feature mean from every standardized pocket-feature vector, remove zero-variance residual features, rescale residual features to unit variance across all 1200 frames, then run frozen Ward clustering",
+    "cluster_counts": [8, 16, 32],
+    "minimum_residual_standard_deviation": 1e-8,
+    "biological_interpretation": "clusters represent recurrent directions of pocket motion relative to each start rather than absolute crystallographic offsets"
+  },
+  "outputs": {
+    "state_manifest_csv": "results/runs/stage36b_pparg_start_centered_consensus_landscape/state_manifest.csv",
+    "candidate_manifest_csv": "results/runs/stage36b_pparg_start_centered_consensus_landscape/candidate_manifest.csv",
+    "landscape_metrics_csv": "results/runs/stage36b_pparg_start_centered_consensus_landscape/landscape_metrics.csv",
+    "local_optima_csv": "results/runs/stage36b_pparg_start_centered_consensus_landscape/local_optima.csv",
+    "result_json": "data/stage36b_pparg_start_centered_consensus_landscape_result.json",
+    "audit_json": "data/stage36b_pparg_start_centered_consensus_landscape_audit.json",
+    "report_md": "reports/stage-36b/pparg_start_centered_consensus_landscape.md"
+  },
+  "interpretation_boundary": "Stage36b can determine whether start-centered dynamic pocket states make the already frozen Stage36 consensus objectives nondegenerate and reproducibly difficult for strong greedy search. Passing authorizes a separately frozen sparse-QUBO encoding study, not docking, hardware, speedup, or quantum-advantage claims."
+}

@@ -1,0 +1,52 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage21b-bace1-rcsb-candidate-discovery-20260801-v1",
+  "purpose": "Snapshot and audit all RCSB P56817 X-ray entries using frozen BACE1 metadata rules without reading docking scores or held-out rows.",
+  "retrieved_on": "2026-08-01",
+  "implementation": {
+    "path": "scripts/discover_stage21b_bace1_rcsb_candidates.py",
+    "sha256": "C52D2A4E567A159350C32F496D84377FE7D9C7F8093567E95AB838ECAEA9AB76"
+  },
+  "preregistration": {
+    "path": "configs/stage21_bace1_independent_exploratory_preregistration.json",
+    "sha256": "A55EF27EB34023F77A24FBA1F61E17E9895B3D9468A5A6AFEEB320947622B4CA"
+  },
+  "source_audit": {
+    "path": "data/stage21a_bace1_source_and_active_allocation_summary.json",
+    "sha256": "FB70BC0C7BF46689C0F8F4083D3E8840AA9189AD9504E8D5270C2D1CF35AEB10"
+  },
+  "discovery_rules": {
+    "experimental_method": "X-RAY DIFFRACTION",
+    "minimum_metadata_eligible_count": 24,
+    "metadata_eligibility": {
+      "required_mutation_count": 0,
+      "maximum_resolution_angstrom": 2.5,
+      "minimum_reference_sequence_coverage": 0.65,
+      "minimum_sample_sequence_length": 350,
+      "maximum_sample_sequence_length": 450,
+      "require_same_chain_drug_like_nonpolymer": true,
+      "minimum_nonpolymer_formula_weight_kda": 0.2,
+      "maximum_nonpolymer_formula_weight_kda": 0.9,
+      "excluded_nonpolymer_ids": ["ACT", "ADP", "AMP", "ATP", "BME", "CA", "CD", "CIT", "CL", "CO", "DMS", "EDO", "FLC", "GOL", "K", "MES", "MG", "MN", "MPD", "NA", "NI", "PEG", "PG4", "PGE", "PO4", "SO4", "TAR", "TRS", "ZN"],
+      "excluded_title_patterns": ["\\bapo\\b", "unliganded", "covalent", "irreversible", "mutant", "mutation"]
+    },
+    "additive_exclusion_rationale": "3L5D contains TAR as a crystallization additive. The 0.20-kDa lower bound and explicit TAR exclusion ensure that only BDV-like drug-sized ligands can qualify a BACE1 structure."
+  },
+  "rcsb": {
+    "search_endpoint": "https://search.rcsb.org/rcsbsearch/v2/query",
+    "graphql_endpoint": "https://data.rcsb.org/graphql",
+    "metadata_chunk_size": 40,
+    "request_timeout_seconds": 60,
+    "maximum_retries": 4,
+    "retry_backoff_seconds": 1.0
+  },
+  "outputs": {
+    "search_snapshot_json": "data/raw/rcsb/bace1/p56817_xray_search_snapshot_20260801.json",
+    "metadata_snapshot_json": "data/raw/rcsb/bace1/p56817_xray_metadata_snapshot_20260801.json",
+    "candidate_metadata_csv": "data/processed/stage21b_bace1_rcsb_candidate_metadata.csv",
+    "eligible_candidates_csv": "data/processed/stage21b_bace1_rcsb_metadata_eligible_candidates.csv",
+    "summary_json": "data/stage21b_bace1_rcsb_candidate_discovery_summary.json",
+    "report_md": "reports/stage-21b/bace1_rcsb_candidate_discovery.md"
+  },
+  "interpretation_boundary": "Metadata eligibility is label-independent and only authorizes coordinate download and structural auditing. It does not establish active-site suitability, preparation quality, redocking success, enrichment, QUBO portability, QUBO superiority, or quantum advantage."
+}

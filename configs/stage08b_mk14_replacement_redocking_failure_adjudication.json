@@ -1,0 +1,36 @@
+{
+  "schema_version": "1.0",
+  "adjudication_id": "stage08b-mk14-replacement-redocking-failure-adjudication-v1",
+  "source_archive": {
+    "basename": "stage08b_mk14_expanded16_replacement_redocking_failed_diagnostics_v1.tar.gz",
+    "sha256": "69F7FD6CAF6582C420CB74F57ECDCA33951C44830A2B5A2331BA7BCFD5838DF4"
+  },
+  "source_config": {
+    "path": "configs/stage08b_mk14_expanded16_replacement_redocking.json",
+    "sha256": "864584E02FB407066A22C87F1E6708DABBCCBBA6F7577869AB6E4FB8C73E58D1"
+  },
+  "expected": {
+    "receptor_ids": [
+      "MK14_3ITZ_aligned",
+      "MK14_2BAK_aligned"
+    ],
+    "seed_ids": [
+      "seed0",
+      "seed1",
+      "seed2"
+    ],
+    "pair_count": 6,
+    "minimum_successful_seeds_per_receptor": 2,
+    "maximum_median_rmsd_angstrom": 2.0,
+    "expected_admitted_receptor_ids": [
+      "MK14_3ITZ_aligned"
+    ],
+    "expected_failed_receptor_ids": [
+      "MK14_2BAK_aligned"
+    ],
+    "validation_rows": 0,
+    "test_rows": 0
+  },
+  "output_json": "data/stage08b_mk14_replacement_redocking_failure_adjudication.json",
+  "decision_boundary": "This adjudication uses only the frozen replacement cognate-redocking controls. It cannot relax thresholds, inspect benchmark labels or scores, or authorize validation/test access."
+}

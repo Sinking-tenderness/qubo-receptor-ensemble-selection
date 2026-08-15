@@ -1,0 +1,90 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage44-pparg-md96-rank-sensitive-qubo-20260804-v1",
+  "purpose": "Apply the unchanged Stage42f rank-sensitive pair QUBO to the audited Stage43 PPARG MD-96 matrix and separate application replication from solver novelty.",
+  "implementation": {
+    "path": "scripts/run_stage44_pparg_md96_rank_sensitive_qubo.py",
+    "sha256": "110DD68678C0D5B70C5ACBCA64FF67E5A7062DC77685EA821944AB604D453E32"
+  },
+  "inputs": {
+    "stage43_audit": {
+      "path": "data/stage43_pparg_md96_unidock113_production_audit.json",
+      "sha256": "00E29B2A9AC5CF9D505C8407096894FF1423B7C5F96547F8B14AE8E050CFB117"
+    },
+    "stage42f_result": {
+      "path": "data/stage42f_bace1_rank_sensitive_pair_qubo_result.json",
+      "sha256": "1C7E0581B75B59D702CAFC6D8E2D20ABA3B3EC18977A868DCBE535E1FAEA9BB1"
+    },
+    "receptor_manifest": {
+      "path": "data/processed/stage43_pparg_md96_prepared_receptor_manifest.csv",
+      "sha256": "EC889123EEFE403189124E7DFA2E81820EB83F61C41A594FEB8146CA547B957E"
+    },
+    "ligand_manifest": {
+      "path": "data/processed/stage32_pparg_train160_ligand_manifest.csv",
+      "sha256": "4FCA64D6B2AAEB11CA83A2A205996AAFF28ADF1AC1D35F3FB81DFC600882E3BC"
+    },
+    "scores": {
+      "path": "results/runs/stage43_pparg_md96_unidock113_production/scores.csv",
+      "sha256": "4E3C11ED42FCC5B8663C78E4E647996BF6F68D9FAD5304206F7B4CD8D58956E4"
+    }
+  },
+  "evidence_timing": {
+    "experiment_class": "posthoc_cross_target_large_pool_application",
+    "stage43_matrix_generated_before_stage44": true,
+    "stage44_outcomes_known_before_freeze": false,
+    "objective_weights_inherited_unchanged_from_stage42f": true,
+    "primary_k_inherited_from_stage42f_bace1_best_k": 3,
+    "same_data_weight_search_permitted": false,
+    "fresh_validation_rows_permitted": false,
+    "test_rows_permitted": false,
+    "quantum_hardware_permitted": false
+  },
+  "objective": {
+    "source_objective_id": "bedroc20_rank_sensitive_pair_complementarity_v1",
+    "bedroc_alpha": 20.0,
+    "minimum_subset_size": 1,
+    "maximum_subset_size": 6,
+    "primary_replication_subset_size": 3,
+    "singleton_utility": "q_i=(mean_seed(E_active[exp(-20r_i)]-E_decoy[exp(-20r_i)]) + worst_seed(...))/2",
+    "pair_complementarity": "delta_ij=q_ij-max(q_i,q_j), where q_ij uses the better rank from receptor i or j",
+    "fixed_k_qubo": "Q_k(S)=sum_i(q_i/k)x_i + sum_(i<j)(delta_ij/C(k,2))x_i*x_j subject to sum_i x_i=k"
+  },
+  "validation": {
+    "outer_fold_count": 4,
+    "fold_seed": 20261119,
+    "grouping": "Stage32 scaffold split_group_id",
+    "rank_normalization": "fit each seed-receptor empirical CDF on outer-train rows and apply it to train and holdout rows"
+  },
+  "solver": {
+    "exact_maximum_subset_size": 3,
+    "exact_maximum_state_count": 2000000,
+    "beam_width": 64,
+    "strong_classical": "beam64 plus every singleton-start greedy path followed by deterministic fixed-k one-swap local search",
+    "direct_greedy": "best singleton followed by best objective addition without backtracking",
+    "annealing": {
+      "batch_count": 4,
+      "reads_per_batch": 64,
+      "sweeps_per_read": 5000,
+      "move": "swap one selected and one unselected receptor",
+      "temperature_start_scale": 2.0,
+      "temperature_end_scale": 0.001,
+      "base_seed": 20260844
+    }
+  },
+  "support_gate": {
+    "minimum_full_k3_over_single_bedroc_gain": 0.01,
+    "minimum_mean_holdout_k3_over_single_gain": 0.0,
+    "minimum_positive_holdout_fold_count": 2,
+    "minimum_positive_solver_gap_cells": 1,
+    "same_data_failure_action": "freeze the result without PPARG-specific retuning"
+  },
+  "outputs": {
+    "fold_assignments_csv": "results/runs/stage44_pparg_md96_rank_sensitive_qubo/fold_assignments.csv",
+    "selection_metrics_csv": "results/runs/stage44_pparg_md96_rank_sensitive_qubo/selection_metrics.csv",
+    "solver_comparison_csv": "results/runs/stage44_pparg_md96_rank_sensitive_qubo/solver_comparison.csv",
+    "annealing_batches_csv": "results/runs/stage44_pparg_md96_rank_sensitive_qubo/annealing_batches.csv",
+    "result_json": "data/stage44_pparg_md96_rank_sensitive_qubo_result.json",
+    "report_md": "reports/stage-44/pparg_md96_rank_sensitive_qubo.md"
+  },
+  "interpretation_boundary": "Stage44 can test whether the BACE1-frozen QUBO transfers to a larger PPARG MD receptor pool and whether fixed-parameter annealing improves the same QUBO objective over strong classical search. It remains a post-hoc Train-160 application and cannot establish fresh-target efficacy, quantum speedup, or quantum advantage."
+}

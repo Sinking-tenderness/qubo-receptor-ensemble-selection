@@ -1,0 +1,139 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage63-cross-target-rank-pair-failure-diagnosis-20260806-v1",
+  "purpose": "Use existing development-only BACE1, PPARG, PPARA, and PPARD fold results to distinguish rank-pair objective generalization failure, cardinality instability, and solver-search failure without fitting replacement weights.",
+  "implementation": {
+    "runner": {
+      "path": "scripts/run_stage63_cross_target_rank_pair_failure_diagnosis.py",
+      "sha256": "151620914F22EF52CBCC08BCACD81B2A4826F3F523DEF1A4F07B1BC8DD3BB02D"
+    },
+    "independent_auditor": {
+      "path": "scripts/audit_stage63_cross_target_rank_pair_failure_diagnosis.py",
+      "sha256": "D6E28BF9F74367516FB4F7F444CA5E337B8C9A6A421B9E70C3FB352EF118EFF2"
+    }
+  },
+  "inputs": {
+    "stage42f_result": {
+      "path": "data/stage42f_bace1_rank_sensitive_pair_qubo_result.json",
+      "sha256": "1C7E0581B75B59D702CAFC6D8E2D20ABA3B3EC18977A868DCBE535E1FAEA9BB1"
+    },
+    "stage42f_audit": {
+      "path": "data/stage42f_bace1_rank_sensitive_pair_qubo_audit.json",
+      "sha256": "C0F999EA1033F0A2C546F526CDFB953ED82709DB0B86563BA3EAA0908644723C"
+    },
+    "stage42f_fold_metrics": {
+      "path": "results/runs/stage42f_bace1_rank_sensitive_pair_qubo/fold_metrics.csv",
+      "sha256": "EBBCEBEFFF563FB146ADD6AF1E423164DD78392BF2B4087CF5BEBFAF35C7A212"
+    },
+    "stage42f_full_metrics": {
+      "path": "results/runs/stage42f_bace1_rank_sensitive_pair_qubo/full_metrics.csv",
+      "sha256": "A8EEE9BB95FBA66ECE45EE74A400DB0C7CC72832F9BC9346172D7D8BA5D6E4C4"
+    },
+    "stage44_config": {
+      "path": "configs/stage44_pparg_md96_rank_sensitive_qubo.json",
+      "sha256": "9CC94CCD80D3609909A4F021FA733991C06C5CCD8A0E07A51A175F723DB84F02"
+    },
+    "stage44_result": {
+      "path": "data/stage44_pparg_md96_rank_sensitive_qubo_result.json",
+      "sha256": "BC8C84164193CDADBA03F82F78449332C56E338FBA8A1BC61C91A35E24A2A80E"
+    },
+    "stage44_audit": {
+      "path": "data/stage44_pparg_md96_rank_sensitive_qubo_audit.json",
+      "sha256": "F20461B6C0AEF25271D03BCADCD8187F881D666A3DD528F6A5DA266E9B093FAA"
+    },
+    "stage44_selection_metrics": {
+      "path": "results/runs/stage44_pparg_md96_rank_sensitive_qubo/selection_metrics.csv",
+      "sha256": "F490BF5BC5128406C94A6064CB905D01D91C45DDDE5E5E76FBA58B2052CC376A"
+    },
+    "stage44_solver_comparison": {
+      "path": "results/runs/stage44_pparg_md96_rank_sensitive_qubo/solver_comparison.csv",
+      "sha256": "0879C45CC1915C99907D1713903253C895ECF058A9883F93F7752C90548F862F"
+    },
+    "stage53_result": {
+      "path": "data/stage53_ppara_large_pool_qubo_transfer_result.json",
+      "sha256": "B42AB5C02F2ED5FD893771BAA370D648F52B2962E316E409FBBD2227D59490C4"
+    },
+    "stage53_audit": {
+      "path": "data/stage53_ppara_large_pool_qubo_transfer_audit.json",
+      "sha256": "643134716E7AE651F911957A79500690711220A68C363BC584FD06756DEB25A7"
+    },
+    "stage53_fixed_k_landscape": {
+      "path": "results/runs/stage53_ppara_large_pool_qubo_transfer/fixed_k_landscape.csv",
+      "sha256": "AF88AD0489A82402ADB7160F833B62FF087775768B0222B0816E24761F89C00F"
+    },
+    "stage62_result": {
+      "path": "data/stage62_ppard_train240_nested_qubo_result.json",
+      "sha256": "B1474F2CDAB76E8C381397BC224969F4F90DD3BF2DBAD79AF2775D02DAE74371"
+    },
+    "stage62_audit": {
+      "path": "data/stage62_ppard_train240_nested_qubo_audit.json",
+      "sha256": "A1FF1BB57AC336777846782159DA278A777B8546DF9E111E4F86DF4A3138B2CD"
+    },
+    "stage62_outer_k_metrics": {
+      "path": "results/runs/stage62_ppard_train240_nested_qubo/outer_k_metrics.csv",
+      "sha256": "660939602032983CF20EA35DAA8D67564B11D65B7BCE9B5FE6EBC62A7ABCFD3E"
+    },
+    "stage62_inner_k_selection": {
+      "path": "results/runs/stage62_ppard_train240_nested_qubo/inner_k_selection.csv",
+      "sha256": "9A037E8A7A11FB1E07CC72C41629DC4DB557467DABED0EEFEC8C0B63ECDC4D14"
+    },
+    "stage62_objective_gap_cells": {
+      "path": "results/runs/stage62_ppard_train240_nested_qubo/objective_gap_cells.csv",
+      "sha256": "AFF7E3DB3FBADD4F65D42AB8DD4CD8A2393BFD993318756E80436E7A682082A3"
+    }
+  },
+  "diagnosis": {
+    "target_order": [
+      "BACE1",
+      "PPARG",
+      "PPARA",
+      "PPARD"
+    ],
+    "candidate_k_values": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "bedroc_alpha": 20.0,
+    "fold_count_per_target": 4,
+    "primary_contrasts": [
+      "within-fold training QUBO objective rank versus holdout robust BEDROC rank across k",
+      "within-fold k=2 minus k=1 training objective versus holdout BEDROC direction",
+      "fold-to-fold selected-subset Jaccard stability at fixed k",
+      "PPARD inner-k curve versus outer-k curve and selected-k regret",
+      "exact QUBO versus strong classical search and direct greedy objective gaps"
+    ],
+    "mechanism_decision": {
+      "solver_failure": "supported only if exact optimization has at least one positive objective gap over beam-plus-swap strong classical search",
+      "pair_generalization_failure": "supported if the k=2 pair reward is positive on training but negative against k=1 on a majority of holdout folds",
+      "cardinality_instability": "supported if PPARD inner and outer k curves have poor rank correlation or nonzero selected-k regret"
+    }
+  },
+  "replacement_objective_boundary": {
+    "permitted": "define qualitative requirements for uncertainty-shrunk singleton, pair, and k-selection terms",
+    "forbidden": "select or tune lambda values, confidence thresholds, gain margins, or any replacement coefficient using PPARD and then retest PPARD",
+    "future_test": "freeze all constants across historical development targets and evaluate once on a genuinely new target"
+  },
+  "data_boundary": {
+    "development_results_permitted": true,
+    "fresh_validation_rows_permitted": 0,
+    "locked_test_rows_permitted": 0,
+    "new_docking_jobs_permitted": 0,
+    "quantum_hardware_jobs_permitted": 0
+  },
+  "outputs": {
+    "fixed_k_landscape_csv": "results/runs/stage63_cross_target_rank_pair_failure_diagnosis/fixed_k_landscape.csv",
+    "fold_diagnostics_csv": "results/runs/stage63_cross_target_rank_pair_failure_diagnosis/fold_diagnostics.csv",
+    "target_k_summary_csv": "results/runs/stage63_cross_target_rank_pair_failure_diagnosis/target_k_summary.csv",
+    "target_summary_csv": "results/runs/stage63_cross_target_rank_pair_failure_diagnosis/target_summary.csv",
+    "ppard_nested_k_diagnostics_csv": "results/runs/stage63_cross_target_rank_pair_failure_diagnosis/ppard_nested_k_diagnostics.csv",
+    "solver_diagnostics_csv": "results/runs/stage63_cross_target_rank_pair_failure_diagnosis/solver_diagnostics.csv",
+    "result_json": "data/stage63_cross_target_rank_pair_failure_diagnosis_result.json",
+    "audit_json": "data/stage63_cross_target_rank_pair_failure_diagnosis_audit.json",
+    "report_md": "reports/stage-63/cross_target_rank_pair_failure_diagnosis.md"
+  },
+  "interpretation_boundary": "Stage63 is a post-hoc mechanism diagnosis over existing development results. It cannot repair prior failed gates, establish independent efficacy, authorize same-target PPARD retuning, fresh validation, quantum hardware, speedup, or quantum advantage."
+}

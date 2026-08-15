@@ -1,0 +1,88 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage68-quality-plateau-functional-diversity-portfolio-qubo-20260806-v1",
+  "purpose": "Test whether a compact constrained QUBO can reduce cross-seed functional redundancy while preserving the strong pair-off singleton baseline within a frozen jackknife uncertainty plateau.",
+  "implementation": {
+    "runner": {
+      "path": "scripts/run_stage68_quality_plateau_portfolio_qubo.py",
+      "sha256": "8E9073EF72E95E3B7E9F3049C879718442821584DEE380D35BAD09E6AAAC2182"
+    },
+    "independent_auditor": {
+      "path": "scripts/audit_stage68_quality_plateau_portfolio_qubo.py",
+      "sha256": "26DC6DC3430295467AB8EDC8D1C092483068FEB329CBE11A9330CAA9CB5D0B36"
+    }
+  },
+  "inputs": {
+    "stage64_config": {
+      "path": "configs/stage64_cross_target_uncertainty_shrunk_qubo.json",
+      "sha256": "F302FEA7CB2B22D39824A3433DC165FAE2E8E7D0A0A79C07AA73768F69AFB458"
+    },
+    "stage67_result": {
+      "path": "data/stage67_bedroc_rankbin_qubo_result.json",
+      "sha256": "F3E53295C3C69958822708D1A768E3F9C4674C329764BB83DF13402AAABF8A41"
+    },
+    "stage67_audit": {
+      "path": "data/stage67_bedroc_rankbin_qubo_audit.json",
+      "sha256": "4DA09586C803234F4D95C976BA5FBB0CA2FF418262EC4D723CF9037D0B738F8A"
+    }
+  },
+  "development": {
+    "target_order": ["BACE1", "PPARG", "PPARA", "PPARD"],
+    "outer_fold_count": 4,
+    "candidate_k_values": [2, 3, 4, 5, 6],
+    "bedroc_alpha": 20.0,
+    "jackknife_block_count": 4,
+    "jackknife_seed_base": 20260806,
+    "jackknife_partition_policy": "Reuse the exact Stage64 delete-block seed base for every target and add only outer_fold; do not introduce a target-specific offset.",
+    "partition_sensitivity_warning": "An unfrozen implementation probe with a new seed and target-specific offset changed the route decision. Its summaries are retained under analysis/stage68_unfrozen_partition_probe_20260806 and are not used for candidate selection.",
+    "uncertainty_multipliers": [0.25, 0.5, 1.0],
+    "milp_time_limit_seconds": 60.0,
+    "functional_redundancy": "R_ij=max(0,min_seed PearsonCorr(train-fitted receptor rank profiles)); only redundancy positive in all three docking seeds is penalized.",
+    "quality_floor": "For fixed k, mean singleton utility must be at least the pair-off top-k mean minus multiplier times the root-sum-square jackknife singleton spread divided by k.",
+    "candidate_selection_rule": "Select the smallest uncertainty multiplier satisfying every cross-target performance and redundancy gate. This conservative rule is repeated leave-one-target-out; fall back to pair-off when no candidate is eligible."
+  },
+  "qubo_encoding": {
+    "algorithm_id": "quality-floor-stable-redundancy-portfolio-qubo-v1",
+    "quality_integer_scale": 4095,
+    "reference_model_k": 3,
+    "cardinality_penalty": 32.0,
+    "quality_penalty": 32.0,
+    "quality_constraint": "Conservatively integerize normalized singleton deficits with ceil(4095*d_i), require sum_i d_i*x_i<=D, and encode the inequality with binary slack in a squared equality penalty.",
+    "objective": "min sum_{i<j} R_ij*x_i*x_j subject to fixed k and the quality floor",
+    "classical_certificate": "SciPy HiGHS MILP with exact pair-product linearization and zero requested MIP gap",
+    "hardware_execution": false
+  },
+  "route_gate": {
+    "minimum_mean_target_gain_over_pair_off": -0.0025,
+    "minimum_worst_target_gain_over_pair_off": -0.01,
+    "minimum_target_count_within_0p01": 4,
+    "minimum_mean_redundancy_reduction": 0.02,
+    "minimum_target_count_with_nonnegative_redundancy_reduction": 4,
+    "minimum_loto_mean_gain": -0.005,
+    "minimum_loto_worst_gain": -0.01,
+    "minimum_loto_target_count_within_0p01": 4,
+    "minimum_qubo_mean_subset_jaccard": 0.95,
+    "maximum_quality_floor_violation": 1e-12,
+    "maximum_factorized_energy_residual": 1e-8,
+    "maximum_logical_variable_count": 128
+  },
+  "data_boundary": {
+    "historical_development_targets_permitted": ["BACE1", "PPARG", "PPARA", "PPARD"],
+    "fresh_validation_rows_permitted": 0,
+    "locked_test_rows_permitted": 0,
+    "new_docking_jobs_permitted": 0,
+    "quantum_hardware_jobs_permitted": 0
+  },
+  "outputs": {
+    "fixed_k_metrics_csv": "results/runs/stage68_quality_plateau_portfolio_qubo/fixed_k_metrics.csv",
+    "target_summary_csv": "results/runs/stage68_quality_plateau_portfolio_qubo/target_summary.csv",
+    "global_summary_csv": "results/runs/stage68_quality_plateau_portfolio_qubo/global_summary.csv",
+    "loto_summary_csv": "results/runs/stage68_quality_plateau_portfolio_qubo/loto_summary.csv",
+    "qubo_fidelity_csv": "results/runs/stage68_quality_plateau_portfolio_qubo/qubo_fidelity.csv",
+    "model_record_json": "data/stage68_quality_plateau_portfolio_qubo_model_record.json",
+    "result_json": "data/stage68_quality_plateau_portfolio_qubo_result.json",
+    "audit_json": "data/stage68_quality_plateau_portfolio_qubo_audit.json",
+    "report_md": "reports/stage-68/quality_plateau_portfolio_qubo.md"
+  },
+  "interpretation_boundary": "Stage68 is post-hoc constrained-objective development on four consumed historical targets. A pass freezes only the quality-floor and stable-redundancy rule for preregistration on one genuinely new target. Exact MILP remains the strongest classical baseline. This stage cannot establish independent efficacy, solver speedup, quantum execution, or quantum advantage."
+}

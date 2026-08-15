@@ -1,0 +1,78 @@
+{
+  "schema_version": "1.0",
+  "amendment_id": "stage13-egfr-metadata-pool-expansion-amendment02-20260731",
+  "created_on": "2026-07-31",
+  "original_preregistration": {
+    "path": "configs/stage13_egfr_external_target_pilot_preregistration.json",
+    "sha256": "8CE02087666FC8F3A97A83889AB61E3E45EB03667DB853EC0D0B9C96FB8D00CD"
+  },
+  "coordinate_gate_amendment": {
+    "path": "configs/stage13_egfr_external_target_pilot_preregistration_amendment01.json",
+    "sha256": "80AE8F05A5D6D8C3B8E40F65FAB4176624A8D15F5B3FA9025B0696CADA7B0533"
+  },
+  "trigger": {
+    "coordinate_summary_path": "data/stage13_egfr_rcsb_coordinate_selection_summary.json",
+    "coordinate_summary_sha256": "C8D9FCF80CE0C2726EAC808CF45E202A33F1D7C770C581F79F77F8C7AA8AA435",
+    "required_status": "stage13_egfr_coordinate_pool_insufficient_stop",
+    "observed_coordinate_eligible_count": 14,
+    "target_receptor_count": 16,
+    "interpretation": "The first frozen pool was two structures short after seven hidden-covalent structures and ten other coordinate failures were excluded. No docking or ligand-label evidence was used."
+  },
+  "scope": "Keep every title, mutation, sequence, ligand-location, ATP-pocket, covalency, alignment, structural-feature, and max-min rule unchanged. Expand only the metadata resolution ceiling from 2.5 A to the conventional 3.0 A boundary, using the already frozen RCSB metadata snapshot.",
+  "metadata_pool_expansion": {
+    "source_candidate_metadata_path": "data/processed/stage13_egfr_rcsb_candidate_metadata.csv",
+    "source_candidate_metadata_sha256": "B1CFC3F944235D5C3EDA55DFA5B1C750AD34374340F6FB3CC36364B8D1523509",
+    "original_maximum_resolution_angstrom": 2.5,
+    "expanded_maximum_resolution_angstrom": 3.0,
+    "new_admission_rule": "previous exclusion_reasons must equal resolution_above_limit and resolution_angstrom must be at most 3.0",
+    "original_metadata_eligible_count": 31,
+    "newly_admitted_count": 27,
+    "expanded_metadata_candidate_count": 58,
+    "newly_admitted_pdb_ids": [
+      "1M17",
+      "2ITW",
+      "4G5J",
+      "4I23",
+      "4JQ7",
+      "4JQ8",
+      "4JR3",
+      "4JRV",
+      "4LI5",
+      "4ZAU",
+      "5CAV",
+      "5EM8",
+      "5UGB",
+      "6JZ0",
+      "6VH4",
+      "7T4I",
+      "7U9A",
+      "8F1H",
+      "8F1Y",
+      "9GHT",
+      "9H42",
+      "9H47",
+      "9MST",
+      "9NHW",
+      "9NJ7",
+      "9NM0",
+      "9OS6"
+    ]
+  },
+  "rules_retained_without_change": {
+    "coordinate_gate": "all amendment01 coordinate and hidden-covalency rules",
+    "selection_target": 16,
+    "selection_rule": "deterministic max-min structural distance seeded by EGFR_2RGP_reference",
+    "redocking_rmsd_gate_angstrom": 2.0,
+    "failure_action": "stop without ligand-panel docking if the expanded pool still yields fewer than 16 coordinate-eligible structures"
+  },
+  "data_boundary": {
+    "new_candidate_coordinate_files_read_before_freeze": 0,
+    "ligand_labels_read": 0,
+    "docking_scores_read": 0,
+    "MAPK14_stage11_rows_read": 0,
+    "fresh_validation_rows_read": 0,
+    "test_rows_read": 0
+  },
+  "authorization": "Download and audit only the 27 deterministically newly admitted candidates, combine them with the 14 already coordinate-eligible structures, and rerun the unchanged structural max-min selection.",
+  "interpretation_boundary": "This prospective pool expansion addresses receptor availability only. It does not rescue any failed coordinate structure, use activity labels, or relax the covalency and ATP-pocket gates; passing still cannot establish docking validity or any QUBO or quantum claim."
+}

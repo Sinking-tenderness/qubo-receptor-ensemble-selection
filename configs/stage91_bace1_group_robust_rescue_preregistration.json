@@ -1,0 +1,83 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage91-bace1-group-robust-rescue-preregistration-20260811-v1",
+  "purpose": "Freeze the ligand roles, labels, chemical-series groups, objective family, classical baselines, and release gates for the final BACE1 large-pool rescue before any new docking score exists.",
+  "inputs": {
+    "stage90a_source_freeze": "data/stage90a_bace1_rescue_source_freeze_result.json",
+    "stage90_normalized_activities": "results/runs/stage90_chembl_analog_series_intake/normalized_activities.csv",
+    "receptor_manifest": "data/processed/stage42c_bace1_redocking_qualified34_receptor_manifest.csv"
+  },
+  "ligand_rules": {
+    "deduplicate_within_assay_by": "molecule_chembl_id",
+    "duplicate_pchembl_aggregation": "median",
+    "high_potency_label": "pchembl_value >= 6.5",
+    "low_potency_label": "pchembl_value <= 5.5",
+    "gray_label": "5.5 < pchembl_value < 6.5",
+    "minimum_core_series_size": 8,
+    "primary_development_population": "high and low molecules in development core series",
+    "gray_population_use": "continuous-rank sensitivity only",
+    "noncore_population_use": "development sensitivity only"
+  },
+  "docking_protocol_to_freeze_in_execution_bundle": {
+    "engine": "Uni-Dock 1.1.3",
+    "scoring": "vina",
+    "receptor_count": 34,
+    "seed_count": 3,
+    "development_assay_only": true,
+    "confirmation_and_test_scores_locked": true
+  },
+  "primary_selection_problem": {
+    "cardinality_k": 6,
+    "coverage_rank_fraction": 0.10,
+    "variables": {
+      "x_i": "select receptor i",
+      "y_a": "high-potency development molecule a is covered by at least one selected receptor",
+      "t": "minimum normalized active-coverage fraction across the six development core series"
+    },
+    "normalized_objective": "maximize 0.40*t + 0.30*mean_group_coverage - 0.20*global_low_potency_exposure - 0.10*mean_pair_receptor_overlap",
+    "hard_constraints": [
+      "sum_i x_i = 6",
+      "coverage auxiliaries equal the OR of selected top-10-percent receptor hits",
+      "t is no larger than every core-series active coverage fraction"
+    ],
+    "sensitivity_only_k": [4, 8],
+    "coefficient_tuning_after_docking": false
+  },
+  "classical_baselines": [
+    "single_best_receptor",
+    "linear_top_k",
+    "direct_greedy",
+    "greedy_plus_all_one_swaps",
+    "multistart_tabu_search",
+    "simulated_annealing",
+    "mixed_integer_or_constraint_programming_with_best_bound",
+    "uniform_random_subsets"
+  ],
+  "development_hardness_gate": {
+    "exact_or_best_certified_solution_must_differ_from_direct_greedy": true,
+    "must_strictly_improve_objective_over_greedy_plus_swap": true,
+    "must_expose_a_reproducible_multi_move_local_trap": true,
+    "minimum_fixed_k_state_count": 1000000,
+    "strong_classical_time_and_quality_must_be_reported": true,
+    "passing_does_not_establish_quantum_advantage": true
+  },
+  "prospective_release_sequence": [
+    "development docking and objective/hardness analysis",
+    "confirmation_a docking only after the development hardness gate passes",
+    "confirmation_b docking only after confirmation_a passes the frozen efficacy gate",
+    "locked_test docking only after all earlier gates pass",
+    "quantum simulation or hardware only after locked scientific and classical-hardness gates pass"
+  ],
+  "data_boundary": {
+    "new_docking_jobs_permitted_in_stage91": 0,
+    "confirmation_docking_scores_permitted": 0,
+    "locked_test_docking_scores_permitted": 0,
+    "quantum_hardware_jobs_permitted": 0
+  },
+  "outputs": {
+    "ligand_manifest_csv": "data/processed/stage91_bace1_chembl_assay_role_ligand_manifest.csv",
+    "series_summary_csv": "results/runs/stage91_bace1_group_robust_rescue_preregistration/series_summary.csv",
+    "result_json": "data/stage91_bace1_group_robust_rescue_preregistration_result.json",
+    "report_md": "reports/stage-91/bace1_group_robust_rescue_preregistration.md"
+  }
+}

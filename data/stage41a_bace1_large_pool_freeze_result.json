@@ -1,0 +1,153 @@
+{
+  "algorithmic_benchmark": {
+    "efficacy_claim_authorized": false,
+    "evaluated_subset_sizes": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "frozen_experimental_objective": "Stage40 BEDROC-aligned signed Mobius objective at k=3, transferred without weight or threshold changes and reported as exploratory",
+    "hardware_execution_before_simulator_and_coefficient_audits_permitted": false,
+    "maximum_subset_size": 6,
+    "primary_fixed_subset_size": 3,
+    "quantum_advantage_claim_authorized": false,
+    "required_baselines": [
+      "exact additive singleton selection",
+      "beam-64 plus add/drop/swap local search",
+      "multi-start greedy",
+      "random matched-budget subsets",
+      "exact enumeration where feasible"
+    ],
+    "scaling_endpoints": [
+      "objective calls",
+      "wall-clock time",
+      "peak memory",
+      "best objective",
+      "optimality certificate or upper bound",
+      "solution stability across seeds"
+    ]
+  },
+  "config": {
+    "path": "configs/stage41a_bace1_large_pool_freeze.json",
+    "sha256": "F16A47C4DFD75B3B5C36BE3EE09F4405BDA7A3C88CC78FA22496B2CCBAA02424",
+    "size_bytes": 5619
+  },
+  "counts": {
+    "coordinate_eligible_count": 72,
+    "frozen_receptor_count": 49,
+    "metadata_eligible_count": 237,
+    "preparation_ready_count": 49,
+    "state_count_by_k": {
+      "1": 49,
+      "2": 1176,
+      "3": 18424,
+      "4": 211876,
+      "5": 1906884,
+      "6": 13983816
+    },
+    "total_state_count_k1_to_k6": 16122225
+  },
+  "data_boundary": {
+    "development_ligand_rows_read": 0,
+    "docking_scores_read": 0,
+    "fresh_validation_rows_read": 0,
+    "locked_test_rows_read": 0,
+    "new_docking_jobs": 0,
+    "quantum_hardware_jobs": 0,
+    "structural_rows_read": 49
+  },
+  "development_ligand_protocol": {
+    "active_count": 133,
+    "decoy_count": 133,
+    "fresh_validation_rows_permitted": false,
+    "locked_test_rows_permitted": false,
+    "maximum_pair_count_if_all_49_pass": 39102,
+    "note": "The exact pair count is 49*266*3=39102; this development matrix is for objective and scaling analysis only.",
+    "production_seed_count": 3,
+    "selection_group": "preallocated scaffold-disjoint split_group_id",
+    "source": "BACE1 DUD-E development_train allocation only",
+    "total_ligand_count": 266
+  },
+  "implementation": {
+    "path": "scripts/freeze_stage41a_bace1_large_pool.py",
+    "sha256": "C9231FCBCAA98F42DA962B89629CC488C4D9C6F73792BC838D5648B112CE6DE3",
+    "size_bytes": 10455
+  },
+  "inputs": {
+    "preparation_ready_pool": {
+      "path": "data/processed/stage21c_bace1_preparation_ready_pool.csv",
+      "sha256": "96FFDF0B442005056B96467DE7500EE851F3165E8A019AE16667DCB6C9E20224",
+      "size_bytes": 31914
+    },
+    "stage21a_source_summary": {
+      "path": "data/stage21a_bace1_source_and_active_allocation_summary.json",
+      "sha256": "FB70BC0C7BF46689C0F8F4083D3E8840AA9189AD9504E8D5270C2D1CF35AEB10",
+      "size_bytes": 7156
+    },
+    "stage21c_summary": {
+      "path": "data/stage21c_bace1_structural_selection_summary.json",
+      "sha256": "19F74A7B8BF0C62700D52D790C3C028242FED0F914AFD1F47A3C9CA337270C04",
+      "size_bytes": 4337
+    },
+    "stage40_audit": {
+      "path": "data/stage40_bedroc_aligned_signed_hubo_audit.json",
+      "sha256": "55B672B62D08D95A541D1AB1A4371F1EB45741BA3ED7F2C9F88683772AC14706",
+      "size_bytes": 1880
+    },
+    "superseded_stage21_preregistration": {
+      "path": "configs/stage21_bace1_independent_exploratory_preregistration.json",
+      "sha256": "A55EF27EB34023F77A24FBA1F61E17E9895B3D9468A5A6AFEEB320947622B4CA",
+      "size_bytes": 6925
+    }
+  },
+  "interpretation_boundary": "Stage41a changes the research question from small-pool efficacy superiority to large-pool algorithmic application. BACE1 is selected because 49 preparation-ready structures already passed label-independent hard gates, not because of enrichment results. This stage reads no development ligand row, fresh-validation row, locked-test row, docking score, or hardware result. It cannot revive the failed Stage40 efficacy gate, claim independent validation, claim experimental binding, or claim quantum advantage.",
+  "outputs": {
+    "large_pool_manifest_csv": {
+      "path": "data/processed/stage41a_bace1_large_pool_manifest.csv",
+      "sha256": "E5F253CF193AC0510AC45CE4C44570F20EFB13D068F756CA5A4B49E4EA5F2AAF",
+      "size_bytes": 16565
+    },
+    "report_md": {
+      "path": "reports/stage-41a/bace1_large_pool_freeze.md",
+      "sha256": "691C399EEF2FE0009FBAC13F8F90F1209ABAF07BAE2E8664566FE653049FB451",
+      "size_bytes": 804
+    }
+  },
+  "redocking_gate": {
+    "base_seeds": [
+      20260801,
+      20260802,
+      20260803
+    ],
+    "engine": "Uni-Dock 1.1.3",
+    "exhaustiveness": 1024,
+    "failure_action": "Stop the large-pool route if fewer than 40 of the frozen 49 receptors pass. Do not add replacements after redocking outcomes are known.",
+    "max_step": 80,
+    "maximum_median_rmsd_angstrom": 2.0,
+    "maximum_seed_rmsd_angstrom": 2.0,
+    "minimum_passing_receptor_count": 40,
+    "minimum_successful_seeds_per_receptor": 2,
+    "num_modes": 1,
+    "profile": "enhanced",
+    "refine_step": 5,
+    "seed_ids": [
+      "seed0",
+      "seed1",
+      "seed2"
+    ]
+  },
+  "schema_version": "1.0",
+  "status": "stage41a_bace1_large_pool_frozen",
+  "target": {
+    "organism": "Homo sapiens",
+    "protein_name": "Beta-secretase 1",
+    "reference_chain": "A",
+    "reference_ligand": "BDV",
+    "reference_pdb_id": "3L5D",
+    "target_id": "BACE1",
+    "uniprot_accession": "P56817"
+  }
+}

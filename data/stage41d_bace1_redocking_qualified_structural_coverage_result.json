@@ -1,0 +1,123 @@
+{
+  "config": {
+    "path": "configs/stage41d_bace1_redocking_qualified_structural_coverage.json",
+    "sha256": "1B30FDC01891736331AA071880C821823DB91A08E81CF3F60BD6E551263A76FB"
+  },
+  "criterion_checks": {
+    "maximum_failed_distance_ratio": true,
+    "maximum_landmark_radius_inflation": true,
+    "minimum_diameter_retention": true,
+    "minimum_pairwise_q95_retention": true,
+    "minimum_passing_receptor_count": true
+  },
+  "evidence_timing": {
+    "coverage_thresholds_are_descriptive_development_heuristics": true,
+    "experiment_class": "post-hoc structural coverage diagnostic",
+    "stage41c_failure_may_not_be_reinterpreted": true,
+    "stage41c_gate_failure_known": true,
+    "stage41c_passing_ids_known": true,
+    "structural_coverage_metrics_known_when_criteria_frozen": true
+  },
+  "experiment_id": "stage41d-bace1-redocking-qualified-structural-coverage-20260804-v1",
+  "failing_receptor_ids": [
+    "BACE1_3L5D_reference",
+    "BACE1_2QK5_aligned",
+    "BACE1_3L5C_aligned",
+    "BACE1_3L5F_aligned",
+    "BACE1_4I0D_aligned",
+    "BACE1_4I0E_aligned",
+    "BACE1_4I12_aligned",
+    "BACE1_4I1C_aligned",
+    "BACE1_4LC7_aligned",
+    "BACE1_4N00_aligned",
+    "BACE1_4PZW_aligned",
+    "BACE1_4PZX_aligned",
+    "BACE1_4R5N_aligned",
+    "BACE1_5F00_aligned",
+    "BACE1_6DMI_aligned"
+  ],
+  "go_criteria": {
+    "maximum_failed_distance_ratio": 1.25,
+    "maximum_landmark_radius_inflation": 1.3,
+    "minimum_diameter_retention": 0.8,
+    "minimum_pairwise_q95_retention": 0.9,
+    "minimum_passing_receptor_count": 30,
+    "rule": "all criteria must pass"
+  },
+  "interpretation_boundary": "A Stage41d go decision means only that the 34 redocking-qualified receptors retain adequate structural coverage for a newly preregistered development experiment. It does not rescue Stage41c, establish functional complementarity, justify outcome-dependent threshold changes, validate QUBO superiority, execute quantum hardware, or demonstrate quantum advantage.",
+  "metrics": {
+    "diameter_retention": 0.8438376448149951,
+    "failing_receptor_count": 15,
+    "full_pool_diameter": 2.3707344568469444,
+    "full_pool_pairwise_mean": 1.3896260511274088,
+    "full_pool_pairwise_q95": 1.8856047945973502,
+    "full_pool_q95_nearest_neighbor": 1.0323023141673904,
+    "maximum_failed_to_passing_distance": 1.2648939084154245,
+    "maximum_failed_to_passing_distance_ratio": 1.225313448450062,
+    "maximum_landmark_radius_inflation": 1.2810524245815151,
+    "pairwise_mean_retention": 0.9876818100914536,
+    "pairwise_q95_retention": 0.9701888165020431,
+    "passing_pool_diameter": 2.0005149805474822,
+    "passing_pool_pairwise_mean": 1.372508373527758,
+    "passing_pool_pairwise_q95": 1.8293926840609813,
+    "passing_receptor_count": 34
+  },
+  "outputs": {
+    "failed_coverage_csv": {
+      "path": "data/processed/stage41d_bace1_failed_to_passing_structural_coverage.csv",
+      "sha256": "56462ADC3072949917A0EC5E6532BCB0D8BC960EAA0263A9BED8F3BCCE6F712B"
+    },
+    "landmark_coverage_csv": {
+      "path": "data/processed/stage41d_bace1_landmark_coverage_comparison.csv",
+      "sha256": "3C073B6888BB3DEE0D7C1D9CA0CD5658BBF193057E8F7418E34F7DA7A906307D"
+    }
+  },
+  "passing_receptor_ids": [
+    "BACE1_2QMD_aligned",
+    "BACE1_2QMF_aligned",
+    "BACE1_2QMG_aligned",
+    "BACE1_2QP8_aligned",
+    "BACE1_3CIB_aligned",
+    "BACE1_3CIC_aligned",
+    "BACE1_3CID_aligned",
+    "BACE1_3IVH_aligned",
+    "BACE1_3IVI_aligned",
+    "BACE1_3KN0_aligned",
+    "BACE1_3L59_aligned",
+    "BACE1_3L5E_aligned",
+    "BACE1_4DJU_aligned",
+    "BACE1_4DJV_aligned",
+    "BACE1_4DJW_aligned",
+    "BACE1_4DJX_aligned",
+    "BACE1_4DJY_aligned",
+    "BACE1_4FS4_aligned",
+    "BACE1_4H3F_aligned",
+    "BACE1_4H3G_aligned",
+    "BACE1_4H3I_aligned",
+    "BACE1_4H3J_aligned",
+    "BACE1_4HA5_aligned",
+    "BACE1_4HZT_aligned",
+    "BACE1_4I0F_aligned",
+    "BACE1_4I0G_aligned",
+    "BACE1_4I0J_aligned",
+    "BACE1_4I0Z_aligned",
+    "BACE1_4I10_aligned",
+    "BACE1_4I11_aligned",
+    "BACE1_4RRN_aligned",
+    "BACE1_4RRO_aligned",
+    "BACE1_4RRS_aligned",
+    "BACE1_6PZ4_aligned"
+  ],
+  "prospective_stage42_pair_count": 27132,
+  "schema_version": "1.0",
+  "state_count_by_k": {
+    "1": 34,
+    "2": 561,
+    "3": 5984,
+    "4": 46376,
+    "5": 278256,
+    "6": 1344904
+  },
+  "status": "stage41d_conditional_go_new_posthoc_development_route",
+  "total_state_count_k1_to_k6": 1676115
+}

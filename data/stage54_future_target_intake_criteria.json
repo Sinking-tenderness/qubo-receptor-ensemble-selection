@@ -1,0 +1,30 @@
+{
+  "criteria": {
+    "all_checks_required": true,
+    "application_scope": "prospective small-pilot gate for a new independently preregistered target only",
+    "maximum_median_pair_rank_redundancy": 0.8,
+    "minimum_full_best_pair_gain": 0.01,
+    "minimum_mean_holdout_pair_gain": 0.01,
+    "minimum_positive_holdout_pair_gain_folds": 2,
+    "minimum_positive_rescue_balance_additions": 2
+  },
+  "interpretation_boundary": "These criteria are prospective design requirements for a new target. They cannot rescue or retune PPARA.",
+  "ppara_pass": false,
+  "ppara_retrospective_check": {
+    "maximum_median_pair_rank_redundancy": true,
+    "minimum_full_best_pair_gain": false,
+    "minimum_mean_holdout_pair_gain": false,
+    "minimum_positive_holdout_pair_gain_folds": true,
+    "minimum_positive_rescue_balance_additions": true
+  },
+  "schema_version": "1.0",
+  "status": "stage54_future_target_intake_criteria_frozen",
+  "workflow": [
+    "retain only structures passing hard preparation and pocket-validity gates",
+    "do not compress the valid pool by outcome-informed max-min selection",
+    "dock a small preregistered active/decoy pilot panel across the candidate pool",
+    "apply the frozen functional-complementarity intake criteria",
+    "build the full train matrix only when every intake check passes",
+    "freeze QUBO objective and stopping rule before full-matrix outcomes"
+  ]
+}

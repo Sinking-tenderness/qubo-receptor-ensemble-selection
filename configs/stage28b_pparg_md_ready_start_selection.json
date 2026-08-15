@@ -1,0 +1,39 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage28b-pparg-md-ready-start-selection-20260802-v1",
+  "purpose": "Apply an MD-topology feasibility gate before selecting eight label-independent PPARG starts for multi-start OpenMM sampling.",
+  "trigger": "Stage28 exposed an untested topology failure: coordinate-complete structures can still contain internal chain gaps or an incomplete C terminus. The first Stage28 trajectory is quarantined because the source PDB contains a 19 A apparent cross-gap peptide bond.",
+  "inputs": {
+    "coordinate_eligible_pool": "data/processed/stage18c_pparg_coordinate_eligible_pool.csv",
+    "pairwise_structural_distances": "data/processed/stage18c_pparg_structural_distances.csv",
+    "prior_maxmin_selection": "data/processed/stage18c_pparg_selected24_structural_pool.csv"
+  },
+  "preflight_gate": {
+    "required_atom_chain_id": "A",
+    "minimum_residue_count": 250,
+    "require_global_complete_standard_residues": true,
+    "require_blank_insertion_codes": true,
+    "require_strictly_consecutive_residue_numbers": true,
+    "minimum_adjacent_peptide_cn_distance_angstrom": 1.1,
+    "maximum_adjacent_peptide_cn_distance_angstrom": 1.7,
+    "required_first_residue_atoms": ["N", "CA", "C", "O"],
+    "required_last_residue_atoms": ["N", "CA", "C", "O", "OXT"]
+  },
+  "selection": {
+    "target_start_count": 8,
+    "seed_rule": "first passing structure in the pre-existing Stage18c max-min order",
+    "addition_rule": "unchanged deterministic max-min standardized pocket distance over the MD-ready pool; lexical conformer ID tie-break"
+  },
+  "outputs": {
+    "preflight_audit_csv": "data/processed/stage28b_pparg_md_ready_preflight_audit.csv",
+    "selected_start_manifest_csv": "data/processed/stage28b_pparg_md_ready_selected8.csv",
+    "summary_json": "data/stage28b_pparg_md_ready_start_selection_summary.json"
+  },
+  "data_boundary": {
+    "docking_scores_permitted": false,
+    "ligand_labels_permitted": false,
+    "stage28_trajectory_metrics_used_for_selection": false,
+    "quantum_hardware_execution": false
+  },
+  "interpretation_boundary": "This amendment corrects the MD-topology feasibility gate and quarantines the original Stage28 trajectory. It cannot establish MD convergence, docking enrichment, QUBO superiority, quantum speedup, or quantum advantage."
+}

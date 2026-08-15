@@ -1,0 +1,53 @@
+{
+  "aggregate_score_rows_exact": true,
+  "audit_id": "stage11-mk14-fresh-validation-unidock113-independent-audit-v1",
+  "batch_count": 18,
+  "config": {
+    "path": "configs/stage11_mk14_fresh_validation_unidock113_confirmation.json",
+    "sha256": "1011825B132B3C254B36CA4A004BA4BE5DFA6BC613F386BD6437818BBEF2EBCC"
+  },
+  "data_boundary": {
+    "test_rows_read": 0,
+    "train_score_rows_read": 0,
+    "validation_rows_read": 1576
+  },
+  "decision_boundary": "This audit establishes the Stage 11 validation matrix only. It does not itself establish QUBO benefit or quantum advantage.",
+  "known_warning_event_count": 22,
+  "label_counts": {
+    "active": 75,
+    "decoy": 1501
+  },
+  "ligand_count": 1576,
+  "median_matrix_exact": true,
+  "minimum_matrix_exact": true,
+  "next_gate": "evaluate only the four candidate subsets frozen before these validation scores existed",
+  "outputs": {
+    "median_matrix_csv": {
+      "path": "results/runs/stage11_mk14_fresh_validation_unidock113_confirmation/primary_median_score_matrix.csv",
+      "sha256": "54261651CA184C76A1A5B6044EF0C75052DE4753EBC1DD41CD996C8C0E26FF57",
+      "size_bytes": 156326
+    },
+    "minimum_matrix_csv": {
+      "path": "results/runs/stage11_mk14_fresh_validation_unidock113_confirmation/sensitivity_minimum_score_matrix.csv",
+      "sha256": "1D8F6B98650A8102434132A1A648FF65425383FDC64708F85E77E80BEBB2D8AF",
+      "size_bytes": 156425
+    },
+    "scores_csv": {
+      "path": "results/runs/stage11_mk14_fresh_validation_unidock113_confirmation/scores.csv",
+      "sha256": "AAFA6FE1BD109A545452B12CF4677BE3BC23E8A77F4CC039E1FC46642A556F27",
+      "size_bytes": 10355523
+    }
+  },
+  "pair_count": 28368,
+  "pose_integrity_failure_count": 0,
+  "receptor_count": 6,
+  "schema_version": "1.0",
+  "seed_count": 3,
+  "source_summary": {
+    "path": "results/runs/stage11_mk14_fresh_validation_unidock113_confirmation/summary.json",
+    "sha256": "AE32A8FF4E3FEB0952A2FCE0F6018BB851A7B7F96617D127B370F6FEE39C13B5",
+    "size_bytes": 5101
+  },
+  "status": "independent_stage11_fresh_validation_unidock_matrix_audit_ok",
+  "unresolved_warning_event_count": 0
+}

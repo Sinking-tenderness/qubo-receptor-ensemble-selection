@@ -1,0 +1,82 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage20a-esr1-source-and-active-allocation-20260801-v1",
+  "purpose": "Audit the ESR1 DUD-E source, 1SJ0 reference identity, and deterministic scaffold-disjoint active allocation before receptor discovery or docking.",
+  "implementation": {
+    "path": "scripts/audit_stage20a_esr1_source.py",
+    "sha256": "662A7D66C7EF9BD6FC0660AD98008708BA7D0EF39C28804F419D3506ACFF89C2"
+  },
+  "preregistration": {
+    "path": "configs/stage20_esr1_independent_exploratory_preregistration.json",
+    "sha256": "70B52FD45EDE636411D13E2ABFAC781EDD6B172F9A20A67C9A204CB5ED4D807D"
+  },
+  "target": {
+    "target_id": "ESR1_HUMAN",
+    "gene_name": "ESR1",
+    "protein_name": "Estrogen receptor alpha",
+    "organism": "Homo sapiens",
+    "uniprot_accession": "P03372",
+    "dude_target_id": "ESR1",
+    "dude_reference_structure": "1SJ0",
+    "reference_auth_asym_id": "A",
+    "reference_ligand": "E4D",
+    "reference_ligand_auth_seq_id": 600
+  },
+  "dude_source": {
+    "target_url": "https://dude.docking.org/targets/esr1",
+    "archive": {
+      "path": "data/raw/external_targets/esr1_dude/esr1.tar.gz",
+      "source_url": "https://dude.docking.org/targets/esr1/esr1.tar.gz",
+      "sha256": "B4F6D0232D5ABDAEDEE45D3A5D9358F77CDE338DCF6B7670248D594E2BC89E6D"
+    },
+    "actives": {
+      "path": "data/raw/external_targets/esr1_dude/esr1/actives_final.ism",
+      "sha256": "3070EDE91DE9C838E49E5DCD1656FB675F7B28430D01C4FB801BC9D49689816F"
+    },
+    "decoys": {
+      "path": "data/raw/external_targets/esr1_dude/esr1/decoys_final.ism",
+      "sha256": "3D602B9DCC197895FBDCEDA88E517671338AB459D50713F9B3D1EEFC5074FA21"
+    }
+  },
+  "active_allocation": {
+    "hash_seed": "stage20-esr1-active-allocation-v1-20260801",
+    "source_active_count": 383,
+    "selected_active_count": 383,
+    "unallocated_source_surplus_count": 0,
+    "train_active_count": 233,
+    "fresh_validation_active_count": 75,
+    "locked_test_active_count": 75,
+    "maximum_scaffold_group_size": 1,
+    "ranking_rule": "ascending SHA-256 of hash_seed, source line number, and source molecule ID; first 233 selected rows train, next 75 fresh validation, and final 75 locked test"
+  },
+  "reference_structure": {
+    "dude_receptor_pdb": {
+      "path": "data/raw/external_targets/esr1_dude/esr1/receptor.pdb",
+      "sha256": "900A04E0AA62EC66FADE6FCDAAA600315ED983D7CBAF6E950445C9D52DC1E275"
+    },
+    "dude_crystal_ligand_mol2": {
+      "path": "data/raw/external_targets/esr1_dude/esr1/crystal_ligand.mol2",
+      "sha256": "A8C29180F6491837370861ABFF88E417C8707346574FE8A245E40AC04CF8D4FA"
+    },
+    "official_pdb": {
+      "path": "data/raw/rcsb/esr1/1SJ0.pdb",
+      "source_url": "https://files.rcsb.org/download/1SJ0.pdb",
+      "sha256": "33EA400521636A24EF344798FAA30C7235045EC63E59E73B5526D80CCD9D623E"
+    },
+    "official_mmcif": {
+      "path": "data/raw/rcsb/esr1/1SJ0.cif",
+      "source_url": "https://files.rcsb.org/download/1SJ0.cif",
+      "sha256": "E7DBCB6D039756877F42C99BC69ED2F42B2B0E20FDB6E7FAB09E3B1B0A6007F2"
+    },
+    "official_ligand_sdf": {
+      "path": "data/raw/rcsb/esr1/1SJ0_E4D_A600.sdf",
+      "source_url": "https://models.rcsb.org/v1/1SJ0/ligand?auth_asym_id=A&auth_seq_id=600&encoding=sdf",
+      "sha256": "CEB0711BB64333E44E1147A4B4E8E28EB90C0775A90B97E42CD11EC67F7356C9"
+    }
+  },
+  "outputs": {
+    "active_allocation_csv": "data/processed/stage20a_esr1_active_panel_allocation.csv",
+    "summary_json": "data/stage20a_esr1_source_and_active_allocation_summary.json"
+  },
+  "interpretation_boundary": "Passing this audit establishes only ESR1 input identity, reference-ligand identity, and exact ligand-panel feasibility. It does not establish receptor-pool adequacy, redocking success, screening enrichment, QUBO portability, QUBO superiority, quantum execution, or quantum advantage."
+}

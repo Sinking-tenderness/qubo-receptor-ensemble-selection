@@ -1,0 +1,58 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage61c-ppard-target-id-metadata-amendment-20260805-v1",
+  "purpose": "Create a non-destructive derived Stage61b score table that corrects only the inherited helper-emitted target_id from MK14 to PPARD before the frozen Train-240 analysis.",
+  "implementation": {
+    "runner": {
+      "path": "scripts/amend_stage61c_ppard_target_id.py",
+      "sha256": "5E01A9D22876A22B900514A92594599A1693B35D3939008839838B0D851302F9"
+    },
+    "independent_auditor": {
+      "path": "scripts/audit_stage61c_ppard_target_id.py",
+      "sha256": "CB412DAC1A811D2C30FDF74292F754F32D96C89A68FD0FA82B28E6BB6B8B7460"
+    }
+  },
+  "inputs": {
+    "matrix_audit": {
+      "path": "data/stage61b_ppard_remaining144_unidock113_production_audit.json",
+      "sha256": "0F01E3F675E268E26782128872BA8708078ABCD98D56729F88533341A387C18D"
+    },
+    "production_summary": {
+      "path": "results/runs/stage61b_ppard_remaining144_unidock113_production/summary.json",
+      "sha256": "D833166B4B2A54F3E84A8790FD779F71A437F4922CF4E9917DEDF85F91B6211D"
+    },
+    "progress_descriptor_amendment": {
+      "path": "data/stage61b_ppard_progress_descriptor_amendment01.json",
+      "sha256": "73863385855A224F2705F15B489828F946DC844112E73966B809AFBA49DFBBD6"
+    },
+    "raw_scores": {
+      "path": "results/runs/stage61b_ppard_remaining144_unidock113_production/scores.csv",
+      "sha256": "36FD619DF78DA1319DFAC46A8389749327B28FB7A0658CBF52428D59D13347F8"
+    },
+    "receptor_manifest": {
+      "path": "data/processed/stage58b_ppard_stage57_passing29_receptor_manifest.csv",
+      "sha256": "12AB8EC9FC0C7D2CDFFF6D1E9CFD53A0215D4450D4CE12708EB165BED35C7F0A"
+    },
+    "ligand_manifest": {
+      "path": "data/processed/stage61a_ppard_remaining144_unidock_pdbqt_manifest.csv",
+      "sha256": "0EF01BDCEC2C4C209DCA35385F9FA2B30A4F9BC3D57D34BFE55CD2B3AB68BE2A"
+    }
+  },
+  "expected": {
+    "row_count": 12528,
+    "receptor_count": 29,
+    "ligand_count": 144,
+    "seed_count": 3,
+    "observed_target_id": "MK14",
+    "corrected_target_id": "PPARD",
+    "permitted_changed_columns": [
+      "target_id"
+    ]
+  },
+  "outputs": {
+    "corrected_scores_csv": "results/runs/stage61c_ppard_target_id_amendment/scores.csv",
+    "result_json": "data/stage61c_ppard_target_id_amendment_result.json",
+    "audit_json": "data/stage61c_ppard_target_id_amendment_audit.json"
+  },
+  "interpretation_boundary": "Stage61c is a metadata-only amendment. It cannot alter any score, pose, label, seed, receptor, ligand, prospective Stage55 or Stage60 rule, validation boundary, QUBO conclusion, or quantum claim."
+}

@@ -1,0 +1,7 @@
+name: qubo-unidock-stage07
+channels:
+  - conda-forge
+dependencies:
+  - python=3.11
+  - unidock=1.1.3
+  - scipy

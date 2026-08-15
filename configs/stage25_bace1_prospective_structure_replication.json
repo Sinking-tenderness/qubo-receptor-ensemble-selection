@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage25-bace1-prospective-structure-replication-20260802-v1",
+  "purpose": "Prospectively replicate the frozen Stage23 single-scale structural coverage QUBO on an independently constructed third-protein pool.",
+  "evidence_timing": {
+    "experiment_class": "prospective_structure_only_cross_target_replication",
+    "bace1_structural_pool_preexisted": true,
+    "bace1_pool_size_known_before_freeze": true,
+    "bace1_stage25_objective_outcomes_known_before_freeze": false,
+    "objective_sampler_and_gate_frozen_before_run": true,
+    "new_docking_jobs": false,
+    "docking_scores_permitted": false,
+    "ligand_labels_permitted": false,
+    "quantum_hardware_execution": false
+  },
+  "target": {
+    "target_id": "BACE1",
+    "reference_id": "BACE1_3L5D_reference",
+    "inputs": {
+      "eligible_pool": "data/processed/stage21c_bace1_coordinate_eligible_pool.csv",
+      "coordinate_audit": "data/processed/stage21c_bace1_coordinate_candidate_audit.csv",
+      "feature_matrix": "data/processed/stage21c_bace1_structural_features.csv",
+      "pairwise_distances": "data/processed/stage21c_bace1_structural_distances.csv"
+    }
+  },
+  "objective": {
+    "k": 8,
+    "neighborhood_fraction": 0.10,
+    "diversity_weight": 0.15,
+    "cardinality_penalty": 20.0,
+    "coverage_constraint_penalty": 100.0
+  },
+  "classical_baselines": {
+    "beam_widths": [128, 512, 2048],
+    "refine_with_one_swap": true
+  },
+  "sampler": {
+    "batch_count": 4,
+    "reads_per_batch": 64,
+    "sweeps_per_read": 3000,
+    "temperature_start": 0.04,
+    "temperature_end": 0.0002,
+    "base_seed": 20260802,
+    "initialization": "uniform_random_fixed_cardinality_subset",
+    "move": "one_selected_conformer_swapped_with_one_unselected_conformer"
+  },
+  "gate": {
+    "objective_tolerance": 0.0001,
+    "minimum_batch_fraction_within_tolerance": 0.75,
+    "minimum_batch_fraction_above_strong_classical": 0.75,
+    "minimum_gain_vs_strong_classical": 1e-9
+  },
+  "outputs": {
+    "read_csv": "results/runs/stage25_bace1_prospective_structure_replication/read_results.csv",
+    "batch_csv": "results/runs/stage25_bace1_prospective_structure_replication/batch_results.csv",
+    "baseline_csv": "results/runs/stage25_bace1_prospective_structure_replication/classical_baselines.csv",
+    "model_record_json": "data/stage25_bace1_prospective_structure_replication_model_record.json",
+    "result_json": "data/stage25_bace1_prospective_structure_replication_result.json",
+    "report_md": "reports/stage-25/bace1_prospective_structure_replication.md"
+  },
+  "interpretation_boundary": "A pass establishes only prospective replication of stable superiority on the frozen label-independent structural objective for a third protein. It does not establish docking enrichment, biological benefit, quantum speedup, or quantum advantage. A pass authorizes only preparation of a separately preregistered small matched Uni-Dock experiment."
+}

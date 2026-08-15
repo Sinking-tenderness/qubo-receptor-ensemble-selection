@@ -1,0 +1,20 @@
+{
+  "schema_version": "1.0",
+  "status": "stage103_independent_audit_ok",
+  "target_count": 7,
+  "fold_alignment_count": 105,
+  "selected_subset_count": 105,
+  "target_summary_count": 21,
+  "k2_target_median_qubo_vs_train_primary_spearman": 0.6481339474340302,
+  "k2_target_median_qubo_vs_outer_primary_spearman": 0.18993141001641606,
+  "outer_labels_used_by_selector": false,
+  "parp1_released": false,
+  "quantum_hardware_authorized": false,
+  "data_boundary": {
+    "new_docking_jobs": 0,
+    "parp1_benchmark_docking_scores_read": 0,
+    "parp1_fresh_validation_rows_read": 0,
+    "parp1_locked_test_rows_read": 0,
+    "quantum_hardware_jobs": 0
+  }
+}

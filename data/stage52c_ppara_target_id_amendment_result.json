@@ -1,0 +1,54 @@
+{
+  "changed_field_count": 22440,
+  "config": {
+    "path": "configs/stage52c_ppara_target_id_amendment.json",
+    "sha256": "4A8CED97070B31B2976E17C38B7D666353B969C6C95C4ACFE74193C63558D009",
+    "size_bytes": 2268
+  },
+  "data_boundary": {
+    "fresh_validation_rows_read": 0,
+    "locked_test_rows_read": 0,
+    "new_docking_jobs": 0,
+    "quantum_hardware_jobs": 0
+  },
+  "decision": {
+    "gpu_redocking_required": false,
+    "stage51_confirmatory_status_changed": false,
+    "stage53_train_only_method_comparison_authorized": true
+  },
+  "implementation": {
+    "path": "scripts/amend_stage52c_ppara_target_id.py",
+    "sha256": "8E0AA82AE2702C06E6BAE6B7FB9D5BA296C3283483B2AA1ACEA1857ADD4BB811",
+    "size_bytes": 7125
+  },
+  "interpretation_boundary": "Stage52c is a metadata-only amendment. It cannot alter any score, pose, label, seed, receptor, ligand, Stage51 decision, validation boundary, QUBO conclusion, or quantum claim.",
+  "label_counts": {
+    "active": 11220,
+    "decoy": 11220
+  },
+  "ligand_count": 374,
+  "non_target_row_fingerprints_exact": true,
+  "operation": "metadata-only derived table; no docking score or pose was changed",
+  "output": {
+    "path": "results/runs/stage52c_ppara_target_id_amendment/scores.csv",
+    "sha256": "673604EC2662F6AFFD872927DBD0DF4C9398CE39501DE31D7A69D4B10EF29E84",
+    "size_bytes": 7064586
+  },
+  "receptor_count": 20,
+  "row_count": 22440,
+  "schema_version": "1.0",
+  "seed_count": 3,
+  "source": {
+    "path": "results/runs/stage52b_ppara_train374_unidock113_production/scores.csv",
+    "sha256": "168B7A7911B9DCCBB8626BF67344A84833E8B09ED8570843E21BFA0A5E82EF01",
+    "size_bytes": 7064587
+  },
+  "status": "stage52c_ppara_target_id_amendment_ok",
+  "target_id_after": [
+    "PPARA"
+  ],
+  "target_id_before": [
+    "MK14"
+  ],
+  "unique_key_count": 22440
+}

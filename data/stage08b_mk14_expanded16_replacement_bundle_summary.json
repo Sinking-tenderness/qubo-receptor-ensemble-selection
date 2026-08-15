@@ -1,0 +1,24 @@
+{
+  "archive": "dist/stage08b_mk14_expanded16_replacement_input_v1.tar.gz",
+  "archive_entry_count": 61,
+  "archive_sha256": "1ABF0596E7AF191582C719CCDB5F87E52D7C6346DD229175D0CFEBE59871C1DB",
+  "archive_size_bytes": 1561580,
+  "current_admitted_receptor_count": 14,
+  "deterministic_metadata": true,
+  "final_receptor_count_if_both_pass": 16,
+  "gpu_redocking_pair_count": 6,
+  "gpu_required_for_execution": true,
+  "manifest_line_ending": "LF",
+  "operation": "Stage 08b deterministic structural-replacement and Uni-Dock recovery bundle",
+  "replacement_receptor_count": 2,
+  "replacement_receptor_ids": [
+    "MK14_3ITZ_aligned",
+    "MK14_2BAK_aligned"
+  ],
+  "schema_version": "1.0",
+  "seed_count": 3,
+  "source_file_count": 60,
+  "status": "ok",
+  "test_rows": 0,
+  "validation_rows": 0
+}

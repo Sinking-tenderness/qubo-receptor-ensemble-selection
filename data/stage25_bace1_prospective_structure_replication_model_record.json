@@ -1,0 +1,23 @@
+{
+  "data_boundary": {
+    "docking_scores_read": 0,
+    "fresh_validation_rows_read": 0,
+    "ligand_labels_read": 0,
+    "new_docking_jobs": 0,
+    "quantum_hardware_jobs": 0
+  },
+  "qubo": {
+    "coefficient_dynamic_range": 46.006141477256556,
+    "equivalence_residual": 3.985700658404312e-13,
+    "max_abs_coefficient": 1839.9991976180627,
+    "min_nonzero_abs_coefficient": 39.99464285714286,
+    "selected_energy": -1.1015022577794298,
+    "sha256": "F107AC048574169DDDC306A51BE433617A1DEEE39B8F09F3BFEB4879E1E0A217",
+    "state_slack_count": 147,
+    "state_y_count": 49,
+    "variable_count": 245,
+    "x_count": 49
+  },
+  "schema_version": "1.0",
+  "status": "stage25_bace1_prospective_structure_replication_model_record"
+}

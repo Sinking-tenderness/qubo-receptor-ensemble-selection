@@ -1,0 +1,58 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage56a-ppard-author-numbering-failure-adjudication-20260805-v1",
+  "purpose": "Determine whether the frozen Stage56 coordinate failure reflects invalid PPARD structures or a systematic author-residue-numbering mismatch.",
+  "implementation": {
+    "path": "scripts/diagnose_stage56a_ppard_numbering_failure.py",
+    "sha256": "DFFC607BCAD936077E5E081217CD7DF4F6F05A2AD7A6D8BEB2A1E0A7252A5F33"
+  },
+  "inputs": {
+    "failed_summary": {
+      "path": "data/stage56_ppard_coordinate_pool_summary.json",
+      "sha256": "4EAA7CB7B008123E1D7815004596A2CAA74DCDB930B1E1B07C6EF98A4473425B"
+    },
+    "failed_coordinate_audit": {
+      "path": "data/processed/stage56_ppard_coordinate_candidate_audit.csv",
+      "sha256": "8A339666F2CB8F746EA08EF1065581C276A63CF63DD59D7C55F94A17B8DE5738"
+    },
+    "candidate_metadata_csv": {
+      "path": "data/processed/stage47b_expanded_new_target_candidate_metadata.csv",
+      "sha256": "2E4F65A40CC311E575B58991123557264CA9CC3DA7DD878A140626702797029E"
+    },
+    "reference_mmcif": {
+      "path": "data/raw/rcsb/ppard/2ZNP.cif",
+      "sha256": "C76F05A2721DA4C7D18420B038BB26A1AE06ACEC1003DB9B9BB13C564E287E0E"
+    }
+  },
+  "raw_mmcif_path_template": "data/raw/rcsb/ppard/{pdb_id}.cif",
+  "adjudication_gate": {
+    "minimum_sequence_mapped_residue_count": 230,
+    "minimum_sequence_identity_fraction": 0.98,
+    "maximum_original_matched_ca_for_numbering_failure": 10,
+    "expected_failure_mode_offset": -36,
+    "minimum_sequence_mappable_candidate_count": 24,
+    "all_original_coordinate_failures_must_match_the_systematic_pattern": true
+  },
+  "amendment_contract": {
+    "permitted_change": "replace same-author-number residue correspondence with deterministic global PPARD sequence correspondence before coordinate alignment",
+    "sequence_alignment": "global amino-acid alignment; match 2, mismatch -1, gap-open -10, gap-extend -0.5; deterministic first optimal alignment",
+    "unchanged_thresholds": [
+      "minimum matched C-alpha count 230 after correspondence",
+      "maximum aligned global C-alpha RMSD 3.5 A",
+      "minimum pocket residue fraction 0.9",
+      "all anchor residues required",
+      "minimum pocket heavy-atom completeness 0.85",
+      "qualifying ligand within 6.0 A of the reference ligand",
+      "explicit and distance-based covalency exclusion",
+      "minimum 24 coordinate-eligible structures"
+    ],
+    "max_min_or_outcome_informed_compression_permitted": false,
+    "coordinate_threshold_lowering_permitted": false,
+    "docking_or_enrichment_outcomes_may_not_inform_mapping": true
+  },
+  "outputs": {
+    "diagnostic_csv": "data/processed/stage56a_ppard_sequence_numbering_diagnostic.csv",
+    "result_json": "data/stage56a_ppard_numbering_failure_adjudication_result.json"
+  },
+  "interpretation_boundary": "Stage56a is a technical adjudication of author residue numbering after a pre-docking coordinate failure. It may authorize only a sequence-correspondence amendment with every biological and geometric threshold unchanged; it cannot authorize docking, enrichment claims, protected-data access, QUBO fitting, or quantum hardware."
+}

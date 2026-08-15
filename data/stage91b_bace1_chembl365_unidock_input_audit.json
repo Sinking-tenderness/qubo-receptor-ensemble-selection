@@ -1,0 +1,24 @@
+{
+  "checks": {
+    "all_file_hashes_match": true,
+    "all_pdbqt_status_ok": true,
+    "development_only": true,
+    "labels_match": true,
+    "ligand_count_matches": true,
+    "ligand_ids_unique": true,
+    "manifest_hash_matches_summary": true,
+    "no_closure_pseudoatoms": true,
+    "no_confirmation_or_test_rows": true,
+    "preparation_status_ok": true
+  },
+  "data_boundary": {
+    "confirmation_rows_read": 0,
+    "docking_scores_read": 0,
+    "locked_test_rows_read": 0
+  },
+  "development_docking_release": true,
+  "failed_checks": [],
+  "ligand_count": 365,
+  "schema_version": "1.0",
+  "status": "stage91b_bace1_chembl365_input_independent_audit_ok"
+}

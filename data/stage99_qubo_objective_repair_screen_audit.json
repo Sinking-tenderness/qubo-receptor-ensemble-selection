@@ -1,0 +1,18 @@
+{
+  "schema_version": "1.0",
+  "status": "stage99_independent_audit_ok",
+  "target_count": 5,
+  "fold_rows": 375,
+  "target_rows": 75,
+  "solver_rows": 75,
+  "adaptive_k_rows": 25,
+  "fixed_k3_mean_gain_recomputed": 0.007267077150691814,
+  "adaptive_k_mean_gain_recomputed": -0.008496314376782842,
+  "exact_differs_from_one_swap_count": 5,
+  "test_label_leakage_detected": false,
+  "historical_consumed_fresh_validation_rows_read_posthoc": 1576,
+  "protected_fresh_validation_rows_read": 0,
+  "new_docking_jobs": 0,
+  "quantum_hardware_jobs": 0,
+  "gate_passes": false
+}

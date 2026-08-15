@@ -1,0 +1,10 @@
+name: qubo-receptor-stage79-qci
+channels:
+  - conda-forge
+dependencies:
+  - python=3.11
+  - pip
+  - "numpy>=2,<3"
+  - pip:
+      - dimod==0.12.22
+      - qci-client==5.0.0

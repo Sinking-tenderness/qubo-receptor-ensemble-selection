@@ -1,0 +1,38 @@
+{
+  "schema_version": "1.0",
+  "status": "stage51a_ppara_bundle_import_closure_amendment01_retry_authorized",
+  "timing": "After the first Stage51 remote process exited and before any PPARA GPU docking batch, redocking result, development-panel docking, enrichment evaluation, validation access, QUBO fitting, or hardware execution.",
+  "first_bundle": {
+    "filename": "stage51_ppara_large_pool_cognate_redocking_input_v1.tar.gz",
+    "sha256": "B1C1F6FF1187CE84BC680DC009816B4BCD734067069F02F26E4DC68CCBD10BC3"
+  },
+  "failure_audit": {
+    "exception": "ModuleNotFoundError: No module named 'scripts.prepare_receptor'",
+    "root_cause": "The deterministic Stage51 archive omitted a transitive Python import required by the shared Stage14 cognate-redocking module.",
+    "gpu_batches_started": 0,
+    "scientific_or_input_failure": false,
+    "automatic_poweroff_requested_after_failure": true
+  },
+  "amendment": {
+    "scope": "Add scripts/prepare_receptor.py to the deterministic input archive and require isolated-extraction audit-only execution in the regression suite.",
+    "receptors_changed": false,
+    "ligands_changed": false,
+    "seeds_changed": false,
+    "docking_parameters_changed": false,
+    "redocking_gate_changed": false,
+    "data_boundary_changed": false
+  },
+  "evidence_boundary": {
+    "cognate_redocking_jobs": 0,
+    "production_docking_jobs": 0,
+    "fresh_validation_rows_read": 0,
+    "locked_test_rows_read": 0,
+    "qubo_outcomes_read": 0,
+    "quantum_hardware_jobs": 0
+  },
+  "decision": {
+    "retry_same_frozen_stage51_grid": true,
+    "reuse_completed_gpu_checkpoints": false,
+    "replace_receptors": false
+  }
+}

@@ -1,0 +1,78 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage52a-ppara-train374-unidock-input-preparation-20260804-v1",
+  "target_id": "PPARA",
+  "purpose": "Generate deterministic 3D SDF and macrocycle-safe Meeko PDBQT inputs for only the frozen PPARA Train-374 exploratory development panel.",
+  "success_status": "stage52a_ppara_train374_unidock_inputs_ok",
+  "implementation": {
+    "preparer": {
+      "path": "scripts/experimental/unidock/prepare_development_ligand_inputs.py",
+      "sha256": "864D9AE9F45665F38EA4631468BD45AC3572351C6F37FAEE51E0AB638BC60343"
+    },
+    "three_d_helper": {
+      "path": "scripts/prepare_ligand_3d_sdf.py",
+      "sha256": "C0D64DA0D2DCA4328513CC044AF98448913FBF122A06A8031AB95D4144EB11A5"
+    },
+    "meeko_helper": {
+      "path": "scripts/batch_prepare_ligand_pdbqt.py",
+      "sha256": "44574F8EDC68AE27EB31388D1FB44F034FBBC3F755506B8DFEBC1E0823471D18"
+    },
+    "pseudoatom_audit_helper": {
+      "path": "scripts/experimental/unidock/run_unidock_gpu_equivalence.py",
+      "sha256": "4E927E959A08526289F7B266BA8CD76232741C878CCE255312F94A561DE433B0"
+    }
+  },
+  "inputs": {
+    "stage52_preregistration": {
+      "path": "configs/stage52_ppara_posthoc_exploratory_development_preregistration.json",
+      "sha256": "B04A145908D7D88B66A61AE461A01C5576001E7ECDC4334FDFB2E376D7C3AE28"
+    },
+    "panel_allocation_summary": {
+      "path": "data/stage49_ppara_ligand_panel_allocation_summary.json",
+      "sha256": "3026A577248597468A64773C7F05E666D43509E9CE6874860F891848EC4A24F7"
+    },
+    "train_manifest": {
+      "path": "data/processed/stage49_ppara_train374_ligand_manifest.csv",
+      "sha256": "6C3648B107E4907ACDD13E5CD00DB4FE6CE13566E4E0861CB336521B70F658A6"
+    }
+  },
+  "source": {
+    "required_allocation_status": "stage49_ppara_ligand_panels_frozen",
+    "required_zero_allocation_boundaries": [
+      "docking_scores_read",
+      "fresh_validation_docking_scores_read",
+      "locked_test_docking_scores_read"
+    ],
+    "required_split": "train",
+    "required_selection_role": "development_train"
+  },
+  "expected": {
+    "ligand_count": 374,
+    "label_counts": {
+      "active": 187,
+      "decoy": 187
+    },
+    "future_receptor_count": 20,
+    "future_seed_count": 3,
+    "future_pair_count": 22440,
+    "fresh_validation_rows": 0,
+    "locked_test_rows": 0
+  },
+  "preparation": {
+    "rdkit_version": "2026.3.1",
+    "meeko_version": "0.7.1",
+    "rdkit_method": "ETKDGv3 with explicit hydrogens, useRandomCoords=true, then MMFF94 or UFF with 500 iterations",
+    "rdkit_embed_base_seed": 20260804,
+    "deterministic_retry_seed_offsets": [0, 1000003, 2000003],
+    "macrocycle_policy": "Run Meeko flexible first. If preparation fails or closure pseudoatoms are detected, rerun once with --rigid_macrocycles; require zero closure pseudoatoms in the final PDBQT.",
+    "local_worker_count": 8,
+    "checkpoint_policy": "one validated JSON checkpoint per ligand; --resume reuses only matching config, row identity, SDF hash, PDBQT hash, and zero-pseudoatom outputs"
+  },
+  "outputs": {
+    "run_directory": "results/runs/stage52a_ppara_train374_unidock_inputs",
+    "manifest_csv": "data/processed/stage52a_ppara_train374_unidock_pdbqt_manifest.csv",
+    "summary_json": "data/stage52a_ppara_train374_unidock_input_summary.json"
+  },
+  "next_gate": "independently audit all 374 PDBQT files, then build the frozen 20-receptor by Train-374 by three-seed Uni-Dock exploratory production bundle",
+  "interpretation_boundary": "Stage52a prepares train-only structures for an explicitly post-hoc exploratory branch. It reads no docking score, fresh-validation row, or locked-test row. Preparation success cannot repair Stage51, establish enrichment, QUBO superiority, quantum execution, speedup, or quantum advantage."
+}

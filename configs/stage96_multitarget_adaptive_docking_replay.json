@@ -1,0 +1,100 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage96-multitarget-adaptive-docking-replay-20260812-v1",
+  "purpose": "Replay completed docking matrices as if results arrived sequentially, testing whether a fixed-budget QUBO batch policy recovers early-recognition performance with fewer receptor-by-chemistry docking tasks.",
+  "experiment_class": "posthoc_hidden_matrix_policy_replay",
+  "targets": {
+    "PPARG": {
+      "matrix": {"path": "analysis/stage43_pparg_md96_result_20260804/results/runs/stage43_pparg_md96_unidock113_production/primary_median_score_matrix.csv", "sha256": "49E02CCACA8BFA7D0045EAC137C2443963C95D6FE7969637D9305048E38A5008"},
+      "ligand_manifest": {"path": "data/processed/stage32_pparg_train160_ligand_manifest.csv", "sha256": "4FCA64D6B2AAEB11CA83A2A205996AAFF28ADF1AC1D35F3FB81DFC600882E3BC"},
+      "label_rule": "active versus decoy",
+      "cluster_count": 16,
+      "expected_ligands": 160,
+      "expected_receptors": 96
+    },
+    "BACE1": {
+      "matrix": {"path": "analysis/stage91c_bace1_result_20260812/results/runs/stage91c_bace1_chembl365_unidock113_production/primary_median_score_matrix.csv", "sha256": "9E4E7AADB570C3FFC4290A948984A007DE316C3165E2DC4C722B0FE692E136FD"},
+      "ligand_manifest": {"path": "analysis/stage91c_bace1_result_20260812/data/processed/stage91b_bace1_chembl365_unidock_pdbqt_manifest.csv", "sha256": "00A996ED7C66112D7F7BB1CE8DA5D7CE8785883E665B35E563AD60885DC9E5FC"},
+      "label_rule": "high potency versus low potency; gray rows are routed but excluded from BEDROC",
+      "cluster_count": 24,
+      "expected_ligands": 365,
+      "expected_receptors": 34
+    }
+  },
+  "chemistry_batch_freeze": {
+    "features": "RDKit Morgan radius 2, 2048 bits, chirality disabled",
+    "distance": "one minus Tanimoto similarity",
+    "algorithm": "deterministic farthest-first medoid initialization followed by capacity-constrained Hungarian assignment and medoid refinement",
+    "capacity_rule": "cluster sizes differ by at most one",
+    "input_fields": "ligand_id and canonical_smiles only",
+    "labels_read": false,
+    "docking_scores_read": false
+  },
+  "replay": {
+    "task": "dock every ligand in one frozen chemistry batch against one receptor",
+    "task_cost": "number of ligands in the chemistry batch",
+    "initial_observation": "seed-specific cross design: all receptors on one anchor chemistry batch plus one anchor receptor on every remaining batch; anchors are selected by SHA-256(target_id, replay_seed) without labels or docking scores",
+    "maximum_task_fraction": 0.30,
+    "checkpoint_task_fractions": [0.10, 0.20, 0.30],
+    "round_batch_task_fraction": 0.01,
+    "replay_seeds": [20260824, 20260825, 20260826],
+    "matrix_visibility": "a policy may read a task's docking scores only after selecting that task",
+    "label_visibility": "labels are evaluation-only and never enter the surrogate or selector"
+  },
+  "surrogate": {
+    "model": "BayesianRidge on receptor and chemistry-batch one-hot effects",
+    "observed_task_response": "negative mean of the lowest-score quartile within the selected receptor-by-batch task",
+    "predictive_mean_weight": 0.65,
+    "predictive_standard_deviation_weight": 0.35
+  },
+  "qubo_batch_objective": {
+    "candidate_pool_size": 48,
+    "node_term": "standardized 0.65 predictive mean plus 0.35 predictive standard deviation",
+    "redundancy": "0.5 if tasks share a receptor plus 0.5 times chemistry-batch centroid Tanimoto similarity",
+    "redundancy_weight": 0.15,
+    "normalization": "mean node utility minus 0.15 times mean selected-pair redundancy",
+    "fixed_batch_size": true,
+    "exact_solver": "scipy.optimize.milp linearization of the frozen QUBO",
+    "strong_classical": "direct greedy followed by exhaustive one-swap on the same candidate QUBO"
+  },
+  "policies": [
+    "random",
+    "predicted_mean",
+    "predictive_uncertainty",
+    "qubo_direct_greedy",
+    "qubo_greedy_one_swap",
+    "qubo_exact_milp"
+  ],
+  "evaluation": {
+    "aggregate_score": "minimum observed docking score per ligand",
+    "primary_metric": "BEDROC alpha 20",
+    "full_matrix_oracle": "minimum score across every receptor",
+    "relative_recovery": "(current BEDROC - initial BEDROC)/(full oracle BEDROC - initial BEDROC), reported with raw BEDROC and not used when the denominator is nonpositive"
+  },
+  "go_gate": {
+    "primary_checkpoint_task_fraction": 0.20,
+    "minimum_qubo_exact_mean_bedroc_gain_over_best_nonqubo_per_target": 0.02,
+    "minimum_positive_replay_seed_count_per_target": 2,
+    "minimum_target_count_passing_policy_gate": 2,
+    "minimum_task_saving_to_95_percent_relative_recovery": 0.20,
+    "solver_value_requires_positive_exact_minus_greedy_swap_qubo_gap": true,
+    "quantum_hardware_requires_policy_gate_and_solver_value_and_future_prospective_target": true
+  },
+  "stop_rule": "If the policy gate fails, do not tune weights, cluster counts, or budgets on these matrices. If policy value passes but solver value fails, retain adaptive docking as a classical application result and do not claim a quantum contribution.",
+  "data_boundary": {
+    "synthetic_docking_scores_permitted": 0,
+    "new_docking_jobs_permitted": 0,
+    "fresh_validation_rows_permitted": 0,
+    "locked_test_rows_permitted": 0,
+    "quantum_jobs_permitted": 0
+  },
+  "outputs": {
+    "cluster_manifest": "data/processed/stage96_multitarget_balanced_chemistry_batches.csv",
+    "cluster_summary": "data/stage96_multitarget_balanced_chemistry_batches_summary.json",
+    "trajectory_csv": "results/runs/stage96_multitarget_adaptive_docking_replay/trajectories.csv",
+    "checkpoint_csv": "results/runs/stage96_multitarget_adaptive_docking_replay/checkpoints.csv",
+    "solver_csv": "results/runs/stage96_multitarget_adaptive_docking_replay/qubo_solver_comparisons.csv",
+    "result_json": "data/stage96_multitarget_adaptive_docking_replay_result.json",
+    "report_md": "reports/stage-96/multitarget_adaptive_docking_replay.md"
+  }
+}

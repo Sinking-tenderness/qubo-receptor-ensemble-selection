@@ -1,0 +1,89 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage18h-pparg-posthoc-eight-reserve-cognate-redocking-20260801-v1",
+  "purpose": "Run the frozen three-seed Uni-Dock cognate-pose recovery gate for eight technically compatible PPARG structural reserves without accessing benchmark labels or scores.",
+  "implementation": {
+    "runner": {"path": "scripts/experimental/unidock/run_stage18h_pparg_reserve_redocking.py", "sha256": "313420D28088CDC835BD5B95D040BA572BB70AA364BD43A37F63D1AD83665A7E"},
+    "batch_helper": {"path": "scripts/experimental/unidock/run_unidock_gpu_equivalence.py", "sha256": "4E927E959A08526289F7B266BA8CD76232741C878CCE255312F94A561DE433B0"},
+    "pose_audit_helper": {"path": "scripts/experimental/unidock/run_stage07b_unidock_enhanced_confirmation.py", "sha256": "192E6BF7700442EA508082F47D96494125B41ADAD04C81B141FE3F4889312EE4"},
+    "warning_helper": {"path": "scripts/experimental/unidock/run_stage07c_unidock_warning_adjudication.py", "sha256": "9729941976A15D6A91C45493807218CF3E24141063439AFBA948E0A2F2635153"},
+    "rmsd_helper": {"path": "scripts/evaluate_redocking_rmsd.py", "sha256": "F761FE14374198DD314B78976349C413DC2FA0C90EDDDBE6595AA001EB3D86F5"}
+  },
+  "runtime": {
+    "conda_environment": "qubo-unidock-stage13",
+    "python_version": "3.11.15",
+    "numpy_version": "1.26.4",
+    "scipy_version": "1.17.1",
+    "rdkit_version": "2026.3.1",
+    "meeko_version": "0.7.1"
+  },
+  "data_boundary": {
+    "ligand_labels_read": 0,
+    "benchmark_docking_scores_read": 0,
+    "fresh_validation_rows_read": 0,
+    "test_rows_read": 0
+  },
+  "inputs": {
+    "stage18e_failure_adjudication": {"path": "data/stage18e_pparg_cognate_redocking_failure_adjudication.json", "sha256": "62EA942D84CE807681491A15B3AE4ABDBB043C1940878BF0761786D91C56EDA5"},
+    "reserve_selection_amendment": {"path": "data/stage18f_pparg_posthoc_structural_reserve_selection_amendment01_summary.json", "sha256": "F55864A53D8EA059EE416DA40CEED00FEA0F188F00F6C5F5C2882C80BF43B92D"},
+    "reserve_selection_manifest": {"path": "data/processed/stage18f_pparg_posthoc_structural_reserves_amendment01.csv", "sha256": "F5CF048195E1A6EE78B763A8929D6A082B66008012E99C8550E61F4AE4F3FEFD"},
+    "preparation_summary": {"path": "data/stage18g_pparg_reserve_redocking_input_preparation_amendment01_summary.json", "sha256": "2EE008DF7094AFD35464FCE42DFA13C3C76D5C0BBA83F26B92D687C2771F61F1"},
+    "receptor_manifest": {"path": "data/processed/stage18g_pparg_reserve_prepared_receptor_manifest_amendment01.csv", "sha256": "45AEC0798098DDDC89CDBCA0ECDD2B7ABD2DA1AD8E8998EF4DD26C6D5197AA60"},
+    "case_manifest": {"path": "data/processed/stage18g_pparg_reserve_redocking_case_manifest_amendment01.csv", "sha256": "3A4424C53591178B54905DDA35DC90928449E3DFF0C8E68A830CD292A2A98BE4"},
+    "common_box": {"path": "data/stage18g_pparg_reserve_fixed_box_audit_amendment01.json", "sha256": "E606C463FDE5F7EDB67F2951A8B13C93BCC43BF637F437022BA4713A81A2C6B1"},
+    "evaluate_rmsd_script": {"path": "scripts/evaluate_redocking_rmsd.py", "sha256": "F761FE14374198DD314B78976349C413DC2FA0C90EDDDBE6595AA001EB3D86F5"},
+    "seeds": [
+      {"seed_id": "seed0", "base_seed": 20260801},
+      {"seed_id": "seed1", "base_seed": 20260802},
+      {"seed_id": "seed2", "base_seed": 20260803}
+    ]
+  },
+  "expected": {
+    "receptor_count": 8,
+    "case_count": 8,
+    "seed_count": 3,
+    "redocking_pair_count": 24,
+    "receptor_ids": [
+      "PPARG_3FUR_aligned",
+      "PPARG_6T9C_aligned",
+      "PPARG_3VN2_aligned",
+      "PPARG_5GTN_aligned",
+      "PPARG_6IZM_aligned",
+      "PPARG_2P4Y_aligned",
+      "PPARG_3G9E_aligned",
+      "PPARG_7RLE_aligned"
+    ]
+  },
+  "unidock": {
+    "executable": "unidock",
+    "required_package_version": "1.1.3",
+    "profile_id": "enhanced",
+    "scoring": "vina",
+    "exhaustiveness": 1024,
+    "max_step": 80,
+    "refine_step": 5,
+    "num_modes": 1,
+    "energy_range": 3,
+    "verbosity": 1,
+    "cuda_visible_devices": "0",
+    "maximum_absolute_score_kcal_per_mol": 100.0,
+    "box": {"center_x": 1.61, "center_y": 23.47, "center_z": 16.9, "size_x": 22.0, "size_y": 26.0, "size_z": 28.0}
+  },
+  "redocking_gate": {
+    "rmsd_definition": "symmetry-corrected heavy-atom RMSD in the fixed receptor frame without post-docking pose alignment",
+    "maximum_rmsd_angstrom": 2.0,
+    "minimum_successful_seeds_per_receptor": 2,
+    "maximum_median_rmsd_angstrom": 2.0,
+    "minimum_new_passing_receptor_count": 2,
+    "require_zero_unresolved_warning_events": true,
+    "require_zero_pose_integrity_failures": true,
+    "failure_action": "stop PPARG benchmark docking if fewer than two of the eight reserves pass"
+  },
+  "outputs": {
+    "run_directory": "results/runs/stage18h_pparg_posthoc_reserve_redocking",
+    "redocking_results_csv": "data/processed/stage18h_pparg_posthoc_reserve_redocking_results.csv",
+    "receptor_gate_results_csv": "data/processed/stage18h_pparg_posthoc_reserve_gate_results.csv",
+    "summary_json": "data/stage18h_pparg_posthoc_reserve_redocking_summary.json"
+  },
+  "decision_boundary": "Stage 18e remains a failed confirmatory technical gate. Stage 18h is post-hoc exploratory recovery only. At least two passing reserves authorize a structurally frozen exploratory final-16 pool; fewer than two stop PPARG benchmark docking. No outcome can be described as independent confirmation, QUBO superiority, or quantum advantage."
+}

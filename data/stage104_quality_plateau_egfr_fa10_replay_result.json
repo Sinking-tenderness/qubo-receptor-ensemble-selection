@@ -1,0 +1,41 @@
+{
+  "schema_version": "1.0",
+  "status": "stage104_quality_plateau_egfr_fa10_replay_complete",
+  "evidence_status": "posthoc frozen-rule transfer replay on already used Phase-A targets; it cannot serve as independent confirmation or change the Stage102B NO-GO.",
+  "target_ids": [
+    "EGFR",
+    "FA10"
+  ],
+  "frozen_rule": {
+    "subset_sizes": [
+      2,
+      3
+    ],
+    "uncertainty_multiplier": 0.5,
+    "bedroc_alpha": 20.0,
+    "jackknife_block_count": 4,
+    "jackknife_seed_base": 20260806,
+    "stable_redundancy": "R_ij=max(0,min_seed PearsonCorr(train-fitted receptor rank profiles)); only positive redundancy observed in every seed is penalized.",
+    "quality_floor": "For fixed k, mean singleton utility must be at least pair-off top-k mean singleton utility minus 0.5 times the root-sum-square jackknife singleton spread divided by k.",
+    "solver": "SciPy HiGHS MILP, exact pair-product linearization, zero requested MIP gap, 60 second time limit.",
+    "rule_frozen_from": "Stage68 selected_candidate uncertainty_0p5x; no coefficient, aggregation, threshold, fold, or subset-size tuning is permitted here."
+  },
+  "transfer_checks": {
+    "all_target_k_cells_quality_noninferior_and_redundancy_nonnegative": false,
+    "passing_cell_count": 2,
+    "cell_count": 4
+  },
+  "decision": {
+    "new_target_protocol_authorized": false,
+    "parp1_released": false,
+    "quantum_hardware_authorized": false,
+    "next_action": "Use the replay only to judge whether the Stage68 constrained-selection application transfers to these contrasting targets. Do not alter the frozen rule or claim independent efficacy from this posthoc replay."
+  },
+  "data_boundary": {
+    "new_docking_jobs": 0,
+    "parp1_benchmark_docking_scores_read": 0,
+    "parp1_fresh_validation_rows_read": 0,
+    "parp1_locked_test_rows_read": 0,
+    "quantum_hardware_jobs": 0
+  }
+}

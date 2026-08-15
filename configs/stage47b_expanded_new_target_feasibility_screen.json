@@ -1,0 +1,120 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage47b-expanded-new-target-feasibility-screen-20260804-v1",
+  "purpose": "Expand the result-unseen target screen to structurally abundant DUD-E nuclear receptors without changing the Stage47 gates.",
+  "retrieved_on": "2026-08-04",
+  "implementation": {
+    "path": "scripts/screen_stage47_new_target_feasibility.py",
+    "sha256": "13C94967286BE210578E6717537A4BA61488330AC6A489C1897C023E67A9F096"
+  },
+  "src_closure": {
+    "path": "data/stage46b_src_human_metadata_pool_failure_adjudication.json",
+    "sha256": "3DA6E597BC45AA55AF9196F227F1EF5BCEB2DF88757C9DF735BCD3D28B144BF6"
+  },
+  "candidate_targets": [
+    {
+      "target_id": "RXRA",
+      "protein_name": "Retinoic acid receptor RXR-alpha",
+      "uniprot_accession": "P19793",
+      "dude_target_url": "https://dude.docking.org/targets/rxra",
+      "dude_clustered_active_count": 131
+    },
+    {
+      "target_id": "THRB",
+      "protein_name": "Thyroid hormone receptor beta",
+      "uniprot_accession": "P10828",
+      "dude_target_url": "https://dude.docking.org/targets/thrb",
+      "dude_clustered_active_count": 461
+    },
+    {
+      "target_id": "PPARA",
+      "protein_name": "Peroxisome proliferator-activated receptor alpha",
+      "uniprot_accession": "Q07869",
+      "dude_target_url": "https://dude.docking.org/targets/ppara",
+      "dude_clustered_active_count": 373
+    },
+    {
+      "target_id": "PPARD",
+      "protein_name": "Peroxisome proliferator-activated receptor delta",
+      "uniprot_accession": "Q03181",
+      "dude_target_url": "https://dude.docking.org/targets/ppard",
+      "dude_clustered_active_count": 240
+    },
+    {
+      "target_id": "ESR2",
+      "protein_name": "Estrogen receptor beta",
+      "uniprot_accession": "Q92731",
+      "dude_target_url": "https://dude.docking.org/targets/esr2",
+      "dude_clustered_active_count": 367
+    }
+  ],
+  "experimental_method": "X-RAY DIFFRACTION",
+  "selection_gate": {
+    "minimum_metadata_eligible_count": 32,
+    "minimum_dude_clustered_active_count": 150,
+    "ranking": "maximum metadata-eligible count, then maximum DUD-E clustered active count, then target ID"
+  },
+  "metadata_eligibility": {
+    "required_mutation_count": 0,
+    "maximum_resolution_angstrom": 3.0,
+    "minimum_reference_sequence_coverage": 0.35,
+    "minimum_sample_sequence_length": 230,
+    "maximum_sample_sequence_length": 600,
+    "require_same_chain_drug_like_nonpolymer": true,
+    "minimum_nonpolymer_formula_weight_kda": 0.15,
+    "maximum_nonpolymer_formula_weight_kda": 0.9,
+    "excluded_nonpolymer_ids": [
+      "ACT",
+      "ADP",
+      "AMP",
+      "ATP",
+      "BME",
+      "CA",
+      "CD",
+      "CIT",
+      "CL",
+      "CO",
+      "DMS",
+      "EDO",
+      "FLC",
+      "GOL",
+      "K",
+      "MES",
+      "MG",
+      "MN",
+      "MPD",
+      "NA",
+      "NI",
+      "PEG",
+      "PG4",
+      "PGE",
+      "PO4",
+      "SO4",
+      "TRS",
+      "ZN"
+    ],
+    "excluded_title_patterns": [
+      "\\bapo\\b",
+      "unliganded",
+      "covalent",
+      "irreversible",
+      "mutant",
+      "mutation"
+    ]
+  },
+  "rcsb": {
+    "search_endpoint": "https://search.rcsb.org/rcsbsearch/v2/query",
+    "graphql_endpoint": "https://data.rcsb.org/graphql",
+    "metadata_chunk_size": 40,
+    "request_timeout_seconds": 60,
+    "maximum_retries": 4,
+    "retry_backoff_seconds": 1.0
+  },
+  "outputs": {
+    "screen_csv": "data/processed/stage47b_expanded_new_target_feasibility_screen.csv",
+    "candidate_metadata_csv": "data/processed/stage47b_expanded_new_target_candidate_metadata.csv",
+    "snapshot_json": "data/raw/rcsb/stage47b_expanded_new_target_metadata_snapshot_20260804.json",
+    "result_json": "data/stage47b_expanded_new_target_feasibility_screen_result.json"
+  },
+  "interpretation_boundary": "Stage47b changes only the frozen candidate list after Stage47 selected none. It leaves all gates unchanged and reads no individual ligand, docking, validation, or test outcome."
+}

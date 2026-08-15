@@ -1,0 +1,30 @@
+{
+  "all_output_hashes_exact": true,
+  "candidate_summaries_independently_recomputed": true,
+  "config": {
+    "path": "configs/stage65_cross_target_pair_sign_mechanism.json",
+    "sha256": "DF89E8B4B994D6A5581F20B565C4CAC15FCD00AB058C2F5698E32BCFD3D1A747",
+    "size_bytes": 6021
+  },
+  "data_boundary_exact": true,
+  "decision_gate_independently_recomputed": true,
+  "edge_summaries_independently_recomputed": true,
+  "interpretation_boundary": "Stage65 is post-hoc mechanism adjudication on four consumed historical targets. A pass may freeze one positive-LCB pair rule for future preregistration; a failure redirects development to auxiliary-variable coverage. It cannot establish independent efficacy, solver advantage, quantum execution, speedup, or quantum advantage.",
+  "pair_off_reproduction_cells_independently_verified": 96,
+  "pair_residual_route_supported": false,
+  "row_counts": {
+    "edge_fold_summary": 16,
+    "edge_target_summary": 4,
+    "edge_transfer": 22868,
+    "fixed_k_metrics": 1056,
+    "global_summary": 11,
+    "target_summary": 44
+  },
+  "schema_version": "1.0",
+  "source_result": {
+    "path": "data/stage65_cross_target_pair_sign_mechanism_result.json",
+    "sha256": "3B94915F6642CCD027D4D2461DB6E7242EEFCCD2C3A8D43FE1784CCAC00B6E26",
+    "size_bytes": 9457
+  },
+  "status": "stage65_cross_target_pair_sign_mechanism_independent_audit_ok"
+}

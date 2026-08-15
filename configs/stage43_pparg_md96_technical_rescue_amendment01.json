@@ -1,0 +1,34 @@
+{
+  "schema_version": "1.0",
+  "amendment_id": "stage43-pparg-md96-technical-rescue-amendment01-20260804",
+  "status": "frozen_technical_rescue_amendment",
+  "enabled": true,
+  "reason": "The original frozen seed2 batch for PPARG_MD_00177_8CPI produced a nonphysical +2150.914 kcal/mol score for PPARG_decoy_L020740 and was rejected by the pre-existing absolute 1000 kcal/mol guard.",
+  "timing": {
+    "created_after_observing_the_named_technical_failure": true,
+    "created_before_any_rescue_result": true,
+    "stage43_objective_results_known": false,
+    "rescue_outcome_known_before_freeze": false
+  },
+  "trigger": {
+    "seed_id": "seed2",
+    "primary_base_seed": 20260803,
+    "receptor_id": "PPARG_MD_00177_8CPI",
+    "ligand_id": "PPARG_decoy_L020740",
+    "observed_score_kcal_per_mol": 2150.914,
+    "required_error_fragment": "nonphysical Uni-Dock score"
+  },
+  "rescue": {
+    "action": "rerun the complete 160-ligand batch once with a deterministic fallback seed",
+    "base_seed_increment": 104729,
+    "effective_base_seed": 20365532,
+    "maximum_rescue_attempt_count": 1,
+    "retain_original_score_guard": 1000.0,
+    "drop_failed_ligand": false,
+    "clip_or_impute_failed_score": false,
+    "change_unidock_search_parameters": false,
+    "change_qubo_objective": false
+  },
+  "failure_action": "If the one frozen rescue batch also fails the original technical gates, stop Stage43 and retain the failure as missing rather than changing thresholds or excluding data.",
+  "interpretation_boundary": "This amendment repairs one named stochastic technical failure only. It does not alter the receptor pool, ligand panel, Uni-Dock profile, score guard, QUBO formula, or scientific support gate."
+}

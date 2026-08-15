@@ -1,0 +1,132 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage20-adaptive-k-objective-screen-20260802-v1",
+  "purpose": "Determine the useful receptor-pool cardinality by a frozen k=1..6 objective staircase before committing to a hardware-sized QUBO.",
+  "implementation": {
+    "path": "scripts/diagnose_stage20_adaptive_k_objective_screen.py",
+    "sha256": "9A377212C569DDE430B5CE13AFEF2671BA6ECA341F3E21367E2CC3CC35E8B278"
+  },
+  "inputs": {
+    "stage19e_config": {
+      "path": "configs/stage19e_cross_target_qubo_v2_nested_diagnostic.json",
+      "sha256": "E7CB41AC6909DD42A7964FC3842E15612D982CD67AFD57AE999A461871EC3B7D"
+    },
+    "stage19e_result": {
+      "path": "data/stage19e_cross_target_qubo_v2_nested_diagnostic_result.json",
+      "sha256": "68EC0BAE8B84E45907B78E4E309197823EFBAA7810552E49C39B1B23B67763BB"
+    },
+    "stage19e_audit": {
+      "path": "data/stage19e_cross_target_qubo_v2_nested_diagnostic_audit.json",
+      "sha256": "816B1C1FA82C5BF14FD8EF952AF0F33D4B839322E8843BC2531509091E8232B7"
+    },
+    "stage19i_config": {
+      "path": "configs/stage19i_objective_adequacy_noise_screen.json",
+      "sha256": "95F928D0DDF0B62178A5E12321FF1E815CE89FCF39210CCDDD3AF36CBDB0AB50"
+    },
+    "stage19i_result": {
+      "path": "data/stage19i_objective_adequacy_noise_screen_result.json",
+      "sha256": "9FBDA03F92B36E76961DB80D92385915B09DEC6312066A2F4C393F466C772B5D"
+    },
+    "stage19i_audit": {
+      "path": "data/stage19i_objective_adequacy_noise_screen_audit.json",
+      "sha256": "A6B2FABD0F815A4788B0C9A7C902ECB1084691DBEE4DF8BB7CF5D2D71A74F31E"
+    }
+  },
+  "evidence_timing": {
+    "experiment_class": "posthoc_cross_target_train_only_adaptive_cardinality_review",
+    "mk14_and_pparg_outcomes_known": true,
+    "k_schedule_frozen_before_this_run": true,
+    "new_docking_jobs": false,
+    "fresh_validation_or_test_rows_permitted": false,
+    "quantum_hardware_execution": false
+  },
+  "diagnostic": {
+    "minimum_k": 1,
+    "maximum_k": 6,
+    "receptor_count": 16,
+    "outer_fold_count": 4,
+    "fold_seed": 20261119,
+    "bedroc_alpha": 20.0,
+    "coverage_fraction": 0.1,
+    "decoy_weight": 1.0,
+    "cardinality_penalty": 20.0,
+    "constraint_penalty": 100.0,
+    "minimum_target_mean_delta_to_continue": 0.0,
+    "minimum_positive_folds_of_eight_to_continue": 5,
+    "stop_after_consecutive_failures": 2,
+    "one_standard_error_rule": true,
+    "k_schedule": [
+      {
+        "k": 1,
+        "active_threshold": 1,
+        "redundancy_weight": 0.0,
+        "objective_id": "singleton_threshold1",
+        "rationale": "Single receptor baseline; no ensemble redundancy term."
+      },
+      {
+        "k": 2,
+        "active_threshold": 1,
+        "redundancy_weight": 0.0,
+        "objective_id": "union_threshold1_k2",
+        "rationale": "Two-receptor union coverage; a ligand needs one supporting conformation."
+      },
+      {
+        "k": 3,
+        "active_threshold": 2,
+        "redundancy_weight": 0.0,
+        "objective_id": "consensus_threshold2_k3",
+        "rationale": "Two independent conformations must support an active ligand."
+      },
+      {
+        "k": 4,
+        "active_threshold": 2,
+        "redundancy_weight": 0.25,
+        "objective_id": "consensus_threshold2_diverse_k4",
+        "rationale": "Two-hit consensus with a modest positive-correlation redundancy penalty."
+      },
+      {
+        "k": 5,
+        "active_threshold": 3,
+        "redundancy_weight": 0.25,
+        "objective_id": "consensus_threshold3_diverse_k5",
+        "rationale": "Three-hit consensus prevents a five-member pool from relying on a small subpool."
+      },
+      {
+        "k": 6,
+        "active_threshold": 3,
+        "redundancy_weight": 0.25,
+        "objective_id": "consensus_threshold3_diverse_k6",
+        "rationale": "Three-hit consensus with structural-score diversity for the largest screened pool."
+      }
+    ]
+  },
+  "algorithm": {
+    "qubo_cardinality": "A*(sum_i x_i-k)^2",
+    "active_threshold_constraint": "t_k*y_a+s_a=sum_i incidence_ai*x_i",
+    "decoy_constraint": "z_d>=x_i for every selected receptor that exposes decoy d",
+    "internal_objective": "weighted active threshold coverage - decoy_weight*weighted decoy exposure - redundancy_weight*mean positive score correlation",
+    "external_comparison_metric": "same robust composite BEDROC20 for every k: mean of primary, mean seed, and worst seed",
+    "classical_comparators": [
+      "direct_greedy",
+      "additive_top_k",
+      "exact_robust_oracle"
+    ],
+    "selection_solver": "exact enumeration of every receptor subset at each k with reconstructed feasible auxiliary assignment",
+    "hardware_execution": false
+  },
+  "stopping_rule": {
+    "increment_definition": "mean outer-holdout robust composite at k minus mean outer-holdout robust composite at k-1",
+    "continue_condition": "both targets have positive mean increment and at least five positive folds out of eight",
+    "stop_condition": "two consecutive k increments fail the continue condition, or maximum_k is reached",
+    "selection_rule": "report the smallest k within one standard error of the best observed mean; do not use a single noisy fold as a stop signal",
+    "bace1_method_amendment_authorized": false
+  },
+  "outputs": {
+    "fold_methods_csv": "results/runs/stage20_adaptive_k_objective_screen/fold_method_results.csv",
+    "incremental_csv": "results/runs/stage20_adaptive_k_objective_screen/incremental_k_results.csv",
+    "model_record_json": "data/stage20_adaptive_k_objective_screen_model_record.json",
+    "result_json": "data/stage20_adaptive_k_objective_screen_result.json",
+    "report_md": "reports/stage-20/adaptive_k_objective_screen.md"
+  },
+  "interpretation_boundary": "Stage 20 is a post-hoc train-only cardinality design review over MK14 and PPARG. It adds no docking, reads no fresh-validation, locked-test, or BACE1 rows, and does not demonstrate quantum execution or quantum advantage. Its output is a recommendation for the next preregistered cardinality and objective, not a revised validation claim."
+}

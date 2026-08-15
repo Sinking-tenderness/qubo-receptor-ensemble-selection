@@ -1,0 +1,91 @@
+{
+  "config": {
+    "path": "configs/stage32b_pparg_md_pair_fresh_validation.json",
+    "sha256": "082BD89D0BFED5C6758D909E33CE74EE77B064D5F0867BE242E16CD1AA412E93",
+    "size_bytes": 6682
+  },
+  "confirmation_gate": {
+    "conditions": {
+      "at_least_two_positive_individual_seeds": false,
+      "bootstrap_95ci_lower_bound_above_zero": false,
+      "primary_gain_at_least_0_02": false
+    },
+    "passed": false,
+    "positive_individual_seed_count": 0
+  },
+  "coverage": {
+    "active": 75,
+    "decoy": 1501,
+    "fresh_validation_ligands": 1576,
+    "locked_test_rows": 0,
+    "seed_count": 3
+  },
+  "data_boundary": {
+    "fresh_validation_rows_read": 1576,
+    "locked_test_rows_read": 0,
+    "quantum_hardware_jobs": 0,
+    "train_rows_read_for_frozen_cdf": 160
+  },
+  "decision": {
+    "locked_test_authorized": false,
+    "pparg_md_pair_complementarity_confirmed": false,
+    "quantum_hardware_authorized": false,
+    "stage32a_qubo_efficacy_gate_changed": false
+  },
+  "decision_boundary": "A pass confirms only that the frozen PPARG MD pair prospectively improves fresh-validation early enrichment over its frozen single-receptor comparator. It does not revive the failed Stage32a QUBO-efficacy gate, access the locked test set, demonstrate cross-target transfer, quantum execution, speedup, or quantum advantage.",
+  "experiment_id": "stage32b-pparg-md-pair-fresh-validation-20260803-v1",
+  "frozen_selection": {
+    "pair_receptors": [
+      "PPARG_MD_00524_2ATH",
+      "PPARG_MD_01124_2I4J"
+    ],
+    "single_receptor": "PPARG_MD_01124_2I4J"
+  },
+  "matrix_summary": {
+    "path": "results/runs/stage32b_pparg_md_pair_fresh_validation/summary.json",
+    "sha256": "F61D42004D3C04634622D09547AFB2B5BD932A2C76E86DE83DC0253C8B30E365",
+    "size_bytes": 3172
+  },
+  "paired_bootstrap": {
+    "ci95_lower": -0.07412872646967203,
+    "ci95_upper": 0.027038041955634376,
+    "mean_gain": -0.024393938530047555,
+    "median_gain": -0.0245022587230998,
+    "replicate_count": 2000
+  },
+  "scenario_metrics": {
+    "primary": {
+      "pair_bedroc20": 0.35437163449959425,
+      "pair_minus_single_bedroc20": -0.0207012774889217,
+      "single_bedroc20": 0.37507291198851594
+    },
+    "seed0": {
+      "pair_bedroc20": 0.3409523425066938,
+      "pair_minus_single_bedroc20": -0.019314763290964376,
+      "single_bedroc20": 0.3602671057976582
+    },
+    "seed1": {
+      "pair_bedroc20": 0.36573082723957784,
+      "pair_minus_single_bedroc20": -0.02758710976955281,
+      "single_bedroc20": 0.39331793700913065
+    },
+    "seed2": {
+      "pair_bedroc20": 0.354434368166442,
+      "pair_minus_single_bedroc20": -0.029213147440039278,
+      "single_bedroc20": 0.3836475156064813
+    },
+    "sensitivity": {
+      "pair_bedroc20": 0.3740819690102335,
+      "pair_minus_single_bedroc20": -0.03729148663359094,
+      "single_bedroc20": 0.41137345564382444
+    }
+  },
+  "schema_version": "1.0",
+  "secondary_primary_metrics": {
+    "pair_ef1pct": 6.566666666666667,
+    "pair_ef5pct": 5.5858227848101265,
+    "single_ef1pct": 6.566666666666667,
+    "single_ef5pct": 5.851814345991561
+  },
+  "status": "stage32b_pparg_md_pair_fresh_validation_evaluation_complete"
+}

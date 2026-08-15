@@ -1,0 +1,74 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage42f-bace1-rank-sensitive-pair-qubo-20260804-v1",
+  "purpose": "Evaluate one analytic, fixed-k-normalized QUBO whose linear and quadratic coefficients directly approximate BEDROC20-style early ranking utility and receptor-pair complementarity.",
+  "implementation": {
+    "path": "scripts/run_stage42f_bace1_rank_sensitive_pair_qubo.py",
+    "sha256": "4134FE20DA7C0937B88216D5611E4909AEBE61BE1E3586954C1B5E44D40BA772"
+  },
+  "inputs": {
+    "stage42e_result": {
+      "path": "data/stage42e_bace1_qubo_rank_alignment_diagnosis_result.json",
+      "sha256": "349AE885C6C1F058AF2A903AA4F4F4CCD7043EE3CAB038035B09BE9AAA304E3A"
+    },
+    "scores": {
+      "path": "results/runs/stage42c_bace1_train266_unidock113_production/scores.csv",
+      "sha256": "1665B0B1C99F6A48989940F3BE90754A46FD9E1FAAF28B326FB7B0277D341818"
+    },
+    "ligand_manifest": {
+      "path": "data/processed/stage42b_bace1_train266_unidock_pdbqt_manifest.csv",
+      "sha256": "957F75B362A2A123080A5CE6F8003BC96F2A55548EE04747235166D42BBE5DCC"
+    },
+    "receptor_manifest": {
+      "path": "data/processed/stage42c_bace1_redocking_qualified34_receptor_manifest.csv",
+      "sha256": "FFC5D239D4E880B07FBAEB04EDB87885302B893B54631F91424CDEE0B9026BC0"
+    }
+  },
+  "evidence_timing": {
+    "experiment_class": "single prospectively frozen redesign after outcome-informed diagnosis",
+    "stage42d_and_stage42e_known": true,
+    "stage42f_outcomes_known_before_freeze": false,
+    "coefficient_weight_search_on_bace1": false,
+    "fresh_validation_or_locked_test_rows_permitted": false,
+    "new_docking_permitted": false,
+    "quantum_hardware_permitted": false
+  },
+  "objective": {
+    "objective_id": "bedroc20_rank_sensitive_pair_complementarity_v1",
+    "bedroc_alpha": 20.0,
+    "minimum_subset_size": 1,
+    "maximum_subset_size": 6,
+    "rank_normalization": "per-seed per-receptor empirical CDF fitted on outer-train rows only",
+    "singleton_utility": "q_i=(mean_seed(E_active[exp(-20r_i)]-E_decoy[exp(-20r_i)]) + worst_seed(...))/2",
+    "pair_complementarity": "delta_ij=q_{ij}-max(q_i,q_j), where q_{ij} uses the better rank from receptor i or j",
+    "fixed_k_qubo": "Q_k(S)=mean_{i in S}(q_i)+mean_{i<j in S}(delta_ij); for k=1 the pair term is zero",
+    "normalization_reason": "separate normalization at each fixed k removes the Stage42d cardinality pressure and implements the previously proposed k=1..6 ladder",
+    "qubo_form": "For each frozen k, maximize sum_i(q_i/k)x_i + sum_{i<j}(delta_ij/C(k,2))x_i x_j subject to sum_i x_i=k."
+  },
+  "screen": {
+    "outer_fold_count": 4,
+    "fold_seed": 20261119,
+    "classical_beam_width": 64,
+    "classical_search": "beam-64, all singleton-start greedy paths, then deterministic fixed-k swap local search",
+    "exact_state_count_k1_to_k6": 1676115,
+    "tie_tolerance": 1e-12
+  },
+  "support_gate": {
+    "minimum_positive_gap_folds": 2,
+    "minimum_positive_gap_cells": 4,
+    "minimum_full_data_positive_gap_k_count": 1,
+    "minimum_mean_holdout_qubo_delta": 0.0,
+    "minimum_mean_holdout_bedroc_delta": 0.0,
+    "minimum_combination_over_single_bedroc_gain": 0.01,
+    "all_checks_required": true,
+    "failure_action": "Freeze this analytic redesign as unsupported and do not tune it on the same BACE1 outcomes."
+  },
+  "outputs": {
+    "fold_assignments_csv": "results/runs/stage42f_bace1_rank_sensitive_pair_qubo/fold_assignments.csv",
+    "fold_metrics_csv": "results/runs/stage42f_bace1_rank_sensitive_pair_qubo/fold_metrics.csv",
+    "full_metrics_csv": "results/runs/stage42f_bace1_rank_sensitive_pair_qubo/full_metrics.csv",
+    "result_json": "data/stage42f_bace1_rank_sensitive_pair_qubo_result.json",
+    "report_md": "reports/stage-42f/bace1_rank_sensitive_pair_qubo.md"
+  },
+  "interpretation_boundary": "Stage42f is a train-only, outcome-informed BACE1 objective redesign evaluated with scaffold holdouts. A pass would authorize sparse fixed-k QUBO construction and one protected fresh-validation experiment, not quantum hardware or quantum advantage. A failure forbids further BACE1-specific tuning."
+}

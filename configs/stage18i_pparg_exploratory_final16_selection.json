@@ -1,0 +1,60 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage18i-pparg-exploratory-final16-selection-20260801-v1",
+  "purpose": "After independent Stage 18h recovery adjudication, retain the 14 Stage 18e passers and choose two of seven passing reserves solely by frozen PPARG pocket-structure distance.",
+  "implementation": {
+    "path": "scripts/select_stage18i_pparg_exploratory_final16.py",
+    "sha256": "AFDC75AE2FC6D2711883F06AB0C47DBC9F21BAD6221135B6588E599C4AEA242C"
+  },
+  "inputs": {
+    "stage18e_failure_adjudication": {
+      "path": "data/stage18e_pparg_cognate_redocking_failure_adjudication.json",
+      "sha256": "62EA942D84CE807681491A15B3AE4ABDBB043C1940878BF0761786D91C56EDA5"
+    },
+    "stage18h_recovery_adjudication": {
+      "path": "data/stage18h_pparg_posthoc_reserve_redocking_adjudication.json",
+      "sha256": "9C403FF1AB411B57EC342759A6C1D298BFC38C17675CCEA488334B2C88E780E2"
+    },
+    "stage18e_gate_results": {
+      "path": "data/processed/stage18e_pparg_receptor_gate_results.csv",
+      "sha256": "09893A067892E954CDC943A5A3648B41F08C42D0556E067ACA078894449DE8C0"
+    },
+    "stage18h_gate_results": {
+      "path": "data/processed/stage18h_pparg_posthoc_reserve_gate_results.csv",
+      "sha256": "6B6B0F7A727F28967C4891CFBDA00B58856857503FE540EE780CD8FD24605807"
+    },
+    "eligible_structural_pool": {
+      "path": "data/processed/stage18c_pparg_coordinate_eligible_pool.csv",
+      "sha256": "DE64D1C6B89BDD9B288A71A7BB131DC0A69D2D51984230DB567EE89F5A26C38C"
+    },
+    "pairwise_distances": {
+      "path": "data/processed/stage18c_pparg_structural_distances.csv",
+      "sha256": "214B1E8D32009425B36D1CDAEBB020663D08490201405074D4B82451E1455517"
+    },
+    "stage18d_prepared_receptors": {
+      "path": "data/processed/stage18d_pparg_prepared_receptor_manifest.csv",
+      "sha256": "DD48CD5B37655E78BA28D8401B34C13EE91140C56B0C73C7F2B7110F3782872E"
+    },
+    "stage18g_prepared_receptors": {
+      "path": "data/processed/stage18g_pparg_reserve_prepared_receptor_manifest_amendment01.csv",
+      "sha256": "45AEC0798098DDDC89CDBCA0ECDD2B7ABD2DA1AD8E8998EF4DD26C6D5197AA60"
+    }
+  },
+  "selection": {
+    "frozen_primary_passing_count": 14,
+    "eligible_reserve_passing_count": 7,
+    "recovery_addition_count": 2,
+    "final_receptor_count": 16,
+    "expected_recovery_additions": [
+      "PPARG_2P4Y_aligned",
+      "PPARG_3FUR_aligned"
+    ],
+    "selection_rule": "Keep the 14 frozen Stage 18e passing receptors. From only the seven independently adjudicated Stage 18h passers, add two sequentially by maximum minimum standardized pocket distance to the current selected pool; break exact ties by lexical conformer ID. RMSD magnitudes, docking affinities, and activity labels do not enter ranking."
+  },
+  "outputs": {
+    "final_structural_manifest_csv": "data/processed/stage18i_pparg_exploratory_final16_structural_manifest.csv",
+    "final_prepared_receptor_manifest_csv": "data/processed/stage18i_pparg_exploratory_final16_prepared_receptor_manifest.csv",
+    "summary_json": "data/stage18i_pparg_exploratory_final16_selection_summary.json"
+  },
+  "interpretation_boundary": "The final 16 is post-hoc exploratory. Stage 18e remains a failed confirmatory technical gate, and later PPARG enrichment results cannot be presented as independent confirmation, QUBO superiority, or quantum advantage."
+}

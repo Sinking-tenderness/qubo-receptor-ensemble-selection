@@ -1,0 +1,146 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage76-variable-k-sampler-repair-20260807-v1",
+  "purpose": "Repair Stage75 variable-cardinality sampler fidelity through adjacent-cardinality moves, explicit classical warm starts, and matched-budget parallel tempering while freezing every CQM objective and constraint.",
+  "implementation": {
+    "runner": {
+      "path": "scripts/run_stage76_variable_k_sampler_repair.py",
+      "sha256": "EA6CD40A3C6DA3EBC59CE3E4C2B1BA5386FD0723BB196252E50CE05D112FB1F6",
+      "size_bytes": 36719
+    },
+    "independent_auditor": {
+      "path": "scripts/audit_stage76_variable_k_sampler_repair.py",
+      "sha256": "E88E5E20D1F914728A854CB9755DD49315F64E342207A7CCE09E259AA053417F",
+      "size_bytes": 33011
+    }
+  },
+  "inputs": {
+    "stage75_config": {
+      "path": "configs/stage75_explicit_variable_k_cqm.json",
+      "sha256": "588D868CBDCFBCA1FCD30939DDFED8B085AA8140C10CA00FFE62B8E23816BA09",
+      "size_bytes": 6739
+    },
+    "stage75_result": {
+      "path": "data/stage75_explicit_variable_k_cqm_result.json",
+      "sha256": "B39372BF029249FD4D30556EBC50073069E023F34D491066ABF74733D5221C66",
+      "size_bytes": 6472
+    },
+    "stage75_audit": {
+      "path": "data/stage75_explicit_variable_k_cqm_audit.json",
+      "sha256": "1F6256386C91483DE3C9E26979D602AC3D6585017C9DBA8102C1FBFFB1A6EAA0",
+      "size_bytes": 1235
+    },
+    "stage75_model_record": {
+      "path": "data/stage75_explicit_variable_k_cqm_model_record.json",
+      "sha256": "5F6DD13A8F25815A541ABB8F1D79DCC92BA1A2F32378B04FA297971180F2AE70",
+      "size_bytes": 52163
+    },
+    "stage75_solver_trials": {
+      "path": "results/runs/stage75_explicit_variable_k_cqm/solver_trials.csv",
+      "sha256": "5B973C64F25D6A8BC3E345CA3E04D9A74D3D0D8F0DD7E6AFA6A964813BFDFD1E",
+      "size_bytes": 622644
+    },
+    "stage75_runner_source": {
+      "path": "scripts/run_stage75_explicit_variable_k_cqm.py",
+      "sha256": "B5CB67D851570D014867770C1078D39F5F2D0C924BBEE97ED0690281C9A6AC47",
+      "size_bytes": 46256
+    },
+    "stage75_auditor_source": {
+      "path": "scripts/audit_stage75_explicit_variable_k_cqm.py",
+      "sha256": "6D7A13736720CB8B0E54BAA8341FB92E2A510612453675B0B93D773EE82B3A39",
+      "size_bytes": 41542
+    },
+    "stage72_model_record": {
+      "path": "data/stage72_constraint_native_cqm_model_record.json",
+      "sha256": "D7BD285F4CB0787C1FF63EEC190CE692F72F2E885CB610BFEA1D70AC2505D1DF",
+      "size_bytes": 737219
+    },
+    "stage74_workload_metrics": {
+      "path": "results/runs/stage74_larger_k_solver_scaling/workload_metrics.csv",
+      "sha256": "84B02EF49939B097244CF4B0543F088FF183C48DD7E9DFB900EC2EA9E5AF355E",
+      "size_bytes": 48587
+    },
+    "stage74_cell_comparison": {
+      "path": "results/runs/stage74_larger_k_solver_scaling/cell_comparison.csv",
+      "sha256": "B1CEE2803DB74AC55BE1C5DA1BA77240ED550DED68A2B47A027A12F86B9781EA",
+      "size_bytes": 89127
+    },
+    "stage74_solver_trials": {
+      "path": "results/runs/stage74_larger_k_solver_scaling/solver_trials.csv",
+      "sha256": "3E0C8DD06991378C7CFCBC00D3CD437C64516445E06389E209885B78C510532D",
+      "size_bytes": 2871104
+    }
+  },
+  "experiment": {
+    "target_order": ["BACE1", "PPARG", "PPARA", "PPARD"],
+    "source_model_count": 16,
+    "reward_level_count": 5,
+    "required_cqm_model_count": 80,
+    "historical_development_only": true,
+    "objective_changes_permitted": 0,
+    "constraint_changes_permitted": 0,
+    "wall_clock_used_for_decision": false,
+    "cloud_cqm_execution": false,
+    "quantum_hardware_execution": false
+  },
+  "variable_k_cqm": {
+    "source_algorithm_id": "stage75-explicit-onehot-variable-k-pair-reward-conditional-quality-cqm-v1",
+    "quality_regime": "balanced_10pct_quality",
+    "reward_quantiles": [0.1, 0.25, 0.5, 0.75, 0.9],
+    "identity_rule": "Rebuild and hash every Stage75 CQM; any objective, reward, selector, quality threshold, or constraint identity change fails the experiment."
+  },
+  "solver_protocol": {
+    "method_order": [
+      "stage75_cold_global_annealing_reference",
+      "cold_adjacent_variable_annealing",
+      "decomposed_warm_adjacent_annealing",
+      "decomposed_warm_parallel_tempering",
+      "frontier_warm_parallel_tempering"
+    ],
+    "stochastic_repeats": 8,
+    "proposal_budget": 8192,
+    "maximum_initialization_attempts": 100000,
+    "swap_move_probability": 0.6,
+    "annealing_beta_range": [0.1, 100.0],
+    "replica_count": 8,
+    "parallel_tempering_beta_range": [0.05, 200.0],
+    "exchange_interval_sweeps": 4,
+    "seed_base": 202676000,
+    "adjacent_cardinality_move": "Choose the immediately lower or higher allowed k, then remove or add the required number of receptor variables while retaining the rest of the current subset.",
+    "decomposed_warm_start": "Use the best Stage74 deterministic fixed-k solution for single-chain annealing; initialize parallel-tempering replicas from all deterministic fixed-k solutions.",
+    "frontier_warm_start": "Initialize parallel-tempering replicas from all frozen Stage74 fixed-k frontier states. This is an explicitly classical hybrid warm start and its construction cost is not included in a quantum speed claim.",
+    "matched_budget_rule": "Every method and repeat receives 8192 state proposals. Replica exchanges reuse already evaluated energies, do not consume state proposals, and are reported separately.",
+    "decision_metric": "Use normalized objective gaps, exact-small-cell fidelity, and mechanism ablations; wall-clock time is excluded."
+  },
+  "benchmark_gate": {
+    "required_cqm_model_count": 80,
+    "normalized_energy_tolerance": 1e-6,
+    "maximum_energy_encoding_residual": 1e-9,
+    "minimum_cold_adjacent_exact_match_rate": 0.7,
+    "minimum_cold_adjacent_joint_competitive_fraction": 0.35,
+    "minimum_warm_pt_exact_match_rate": 1.0,
+    "minimum_warm_pt_joint_competitive_fraction": 0.8,
+    "minimum_warm_pt_frontier_competitive_fraction": 1.0,
+    "minimum_warm_pt_frontier_improvement_cell_count": 1,
+    "minimum_joint_competitive_gain_over_stage75_cold": 0.4,
+    "interpretation": "Cold-start and warm-start routes are gated separately. Passing only the frontier-warm route authorizes a local classical-hybrid hardware-shaped emulation, not a standalone sampler, paid cloud run, QPU run, scaling claim, or quantum-advantage claim."
+  },
+  "data_boundary": {
+    "historical_development_targets_permitted": ["BACE1", "PPARG", "PPARA", "PPARD"],
+    "fresh_validation_rows_permitted": 0,
+    "locked_test_rows_permitted": 0,
+    "new_docking_jobs_permitted": 0,
+    "cloud_cqm_jobs_permitted": 0,
+    "quantum_hardware_jobs_permitted": 0
+  },
+  "outputs": {
+    "cqm_identity_csv": "results/runs/stage76_variable_k_sampler_repair/cqm_identity.csv",
+    "solver_trials_csv": "results/runs/stage76_variable_k_sampler_repair/solver_trials.csv",
+    "cell_method_comparison_csv": "results/runs/stage76_variable_k_sampler_repair/cell_method_comparison.csv",
+    "method_summary_csv": "results/runs/stage76_variable_k_sampler_repair/method_summary.csv",
+    "result_json": "data/stage76_variable_k_sampler_repair_result.json",
+    "audit_json": "data/stage76_variable_k_sampler_repair_audit.json",
+    "report_md": "reports/stage-76/variable_k_sampler_repair.md"
+  },
+  "interpretation_boundary": "Stage76 is a post-hoc solver-mechanism study on frozen historical CQM objectives. A frontier-warm solution inherits classical fixed-k frontier information and is evidence only for a hybrid refinement workflow. It does not establish a biologically optimal receptor count, independent target generalization, standalone annealer superiority, end-to-end speedup, physical embedding feasibility, cloud or QPU performance, quantum scaling, or quantum advantage."
+}

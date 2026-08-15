@@ -1,0 +1,53 @@
+{
+  "data_boundary": {
+    "fresh_validation_rows_read": 0,
+    "locked_test_rows_read": 0
+  },
+  "decision": {
+    "fresh_validation_authorized": false,
+    "quantum_hardware_authorized": false,
+    "stage51_confirmatory_status_changed": false,
+    "stage52c_metadata_amendment_authorized": true,
+    "stage53_train_only_method_comparison_authorized_after_amendment": true
+  },
+  "metadata_adjudication": {
+    "expected_target_id": "PPARA",
+    "gpu_redocking_required": false,
+    "observed_target_ids": [
+      "MK14"
+    ],
+    "required_action": "create a non-destructive derived score table changing only target_id from MK14 to PPARA before downstream target-grouped analysis",
+    "root_cause": "run_unidock_gpu_equivalence.run_batch emitted the historical hard-coded MK14 target_id for a PPARA run",
+    "score_or_pose_effect": false,
+    "target_id_metadata_defect": true
+  },
+  "runtime": {
+    "batch_elapsed_seconds": 6263.71067075571,
+    "current_invocation_elapsed_seconds": 6276.132854261901
+  },
+  "schema_version": "1.0",
+  "source_archives": {
+    "core": {
+      "filename": "stage52b_ppara_train374_unidock113_production_core_v1.tar.gz",
+      "sha256": "C2C7214F54F280C1115B642B0CD31B664A09F9233A40E250B91F9F3A6C44DDF3",
+      "size_bytes": 2873690
+    },
+    "diagnostics": {
+      "filename": "stage52b_ppara_train374_unidock113_production_diagnostics_v1.tar.gz",
+      "sha256": "F23997E0EE052A62724AB9BA97559BF8D34501A951F38CFC81C9043A0583F2CD",
+      "size_bytes": 20124551
+    }
+  },
+  "status": "stage52b_ppara_downloaded_result_audit_ok_with_metadata_amendment_required",
+  "technical_integrity": {
+    "batch_count": 60,
+    "median_matrix_exact": true,
+    "minimum_matrix_exact": true,
+    "pair_count": 22440,
+    "pose_file_count": 22440,
+    "pose_hash_mismatch_count": 0,
+    "pose_integrity_failure_count": 0,
+    "unique_key_count": 22440,
+    "unresolved_warning_event_count": 0
+  }
+}

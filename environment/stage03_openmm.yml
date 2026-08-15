@@ -4,6 +4,7 @@ channels:
 dependencies:
   - python=3.11.15
   - openmm=8.5.2
+  - cuda-version=12
   - pdbfixer=1.12
   - mdtraj=1.11.1
   - numpy

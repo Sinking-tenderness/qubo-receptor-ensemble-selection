@@ -1,0 +1,305 @@
+{
+  "analysis_payload_sha256": "252FA0542F882E5EDA3C9E8BE1FE42E0C7EF1F2CC060FAACFBA9EABCFEA1E450",
+  "config": {
+    "path": "configs/stage77_quantum_hardware_interface_gate.json",
+    "sha256": "FE94CC1AA3C261F2C1FB5E00628A97495D1DD24AFC53750B3F0A7D6C55181F0F",
+    "size_bytes": 12949
+  },
+  "data_boundary": {
+    "cloud_cqm_jobs": 0,
+    "fresh_validation_rows_read": 0,
+    "historical_development_targets_read": 4,
+    "locked_test_rows_read": 0,
+    "new_docking_jobs": 0,
+    "quantum_hardware_jobs": 0
+  },
+  "decision": {
+    "advantage2_local_reverse_annealing_poc_ready_for_budget_request": true,
+    "frozen_variable_k_cqm_remains_scientific_model": true,
+    "full_direct_qpu_bqm_route_authorized": false,
+    "ibm_warm_start_qaoa_full_problem_route_authorized": false,
+    "leap_hybrid_cqm_application_route_recommended": true,
+    "neutral_atom_full_problem_route_authorized": false,
+    "paid_cloud_execution_authorized": false,
+    "paid_qpu_execution_authorized": false,
+    "quantum_advantage_claim_authorized": false,
+    "quantum_scaling_claim_authorized": false,
+    "trapped_ion_full_problem_route_authorized": false
+  },
+  "direct_encoding_summary": {
+    "cqm_hash_match_count": 80,
+    "cqm_model_count": 80,
+    "maximum_coefficient_dynamic_range": 65857050.00000001,
+    "maximum_direct_bqm_auxiliary_variable_count": 14,
+    "maximum_direct_bqm_interaction_count": 6786,
+    "maximum_direct_bqm_variable_count": 117,
+    "maximum_ideal_zephyr_chain_length": 9,
+    "maximum_ideal_zephyr_physical_qubit_count": 1053,
+    "maximum_required_signed_precision_bits": 30
+  },
+  "emulation_summaries": [
+    {
+      "condition": "float64_clean",
+      "conflict_read_fraction": 0.0,
+      "feasible_read_fraction": 1.0,
+      "hardware_resolvable_opportunity_recovered_count": 10,
+      "hardware_resolvable_opportunity_recovery_fraction": 1.0,
+      "hardware_resolvable_opportunity_subproblem_count": 10,
+      "read_count": 16000,
+      "run_count": 2000,
+      "strict_improvement_subproblem_count": 15,
+      "subproblem_count": 500,
+      "warm_guard_nonworse_run_fraction": 1.0
+    },
+    {
+      "condition": "q10_clean",
+      "conflict_read_fraction": 0.0,
+      "feasible_read_fraction": 1.0,
+      "hardware_resolvable_opportunity_recovered_count": 10,
+      "hardware_resolvable_opportunity_recovery_fraction": 1.0,
+      "hardware_resolvable_opportunity_subproblem_count": 10,
+      "read_count": 16000,
+      "run_count": 2000,
+      "strict_improvement_subproblem_count": 15,
+      "subproblem_count": 500,
+      "warm_guard_nonworse_run_fraction": 1.0
+    },
+    {
+      "condition": "q10_noise_0p25",
+      "conflict_read_fraction": 0.0,
+      "feasible_read_fraction": 1.0,
+      "hardware_resolvable_opportunity_recovered_count": 10,
+      "hardware_resolvable_opportunity_recovery_fraction": 1.0,
+      "hardware_resolvable_opportunity_subproblem_count": 10,
+      "read_count": 16000,
+      "run_count": 2000,
+      "strict_improvement_subproblem_count": 15,
+      "subproblem_count": 500,
+      "warm_guard_nonworse_run_fraction": 1.0
+    },
+    {
+      "condition": "q10_noise_0p50",
+      "conflict_read_fraction": 0.0,
+      "feasible_read_fraction": 1.0,
+      "hardware_resolvable_opportunity_recovered_count": 10,
+      "hardware_resolvable_opportunity_recovery_fraction": 1.0,
+      "hardware_resolvable_opportunity_subproblem_count": 10,
+      "read_count": 16000,
+      "run_count": 2000,
+      "strict_improvement_subproblem_count": 15,
+      "subproblem_count": 500,
+      "warm_guard_nonworse_run_fraction": 1.0
+    },
+    {
+      "condition": "q10_noise_1p00",
+      "conflict_read_fraction": 0.0,
+      "feasible_read_fraction": 1.0,
+      "hardware_resolvable_opportunity_recovered_count": 10,
+      "hardware_resolvable_opportunity_recovery_fraction": 1.0,
+      "hardware_resolvable_opportunity_subproblem_count": 10,
+      "read_count": 16000,
+      "run_count": 2000,
+      "strict_improvement_subproblem_count": 15,
+      "subproblem_count": 500,
+      "warm_guard_nonworse_run_fraction": 1.0
+    }
+  ],
+  "experiment_class": "post-hoc local hardware-interface and robustness adjudication",
+  "hardware_route_review": [
+    {
+      "native_interface": "CQM with explicit constraints",
+      "primary_source": "https://docs.dwavequantum.com/en/latest/industrial_optimization/solver_cqm_properties.html",
+      "rank": 1,
+      "reason": "Accepts the frozen constrained model directly and avoids manual penalty precision, but is explicitly quantum-classical hybrid and cannot isolate a pure-QPU contribution.",
+      "route": "D-Wave Leap Hybrid CQM",
+      "status": "recommended_application_route"
+    },
+    {
+      "native_interface": "warm-started local BQM/Ising",
+      "primary_source": "https://docs.dwavequantum.com/en/latest/quantum_research/annealing.html",
+      "rank": 2,
+      "reason": "Matches the Stage76 frontier-warm mechanism and the Stage77 feasibility-preserving 40-variable swap BQMs; requires physical embedding and schedule calibration.",
+      "route": "D-Wave Advantage2 reverse annealing",
+      "status": "preferred_physical_hardware_poc"
+    },
+    {
+      "native_interface": "gate-model cost Hamiltonian and custom mixer",
+      "primary_source": "https://quantum.cloud.ibm.com/docs/en/tutorials/warm-start-qaoa",
+      "rank": 3,
+      "reason": "Warm-start QAOA is maintained and Heron has enough nominal qubits, but the full dense interaction graph creates substantial two-qubit routing depth.",
+      "route": "IBM Heron warm-start QAOA",
+      "status": "secondary_small_problem_ablation"
+    },
+    {
+      "native_interface": "56-qubit fully connected gate model",
+      "primary_source": "https://www.quantinuum.com/products-solutions/quantinuum-systems/system-model-h2",
+      "rank": 4,
+      "reason": "Connectivity is favorable for a reduced local QAOA, but 56 qubits cannot hold the largest 117-variable direct BQM and no target-specific advantage evidence exists.",
+      "route": "Quantinuum H2",
+      "status": "local_only_not_primary"
+    },
+    {
+      "native_interface": "36-qubit all-to-all gate model",
+      "primary_source": "https://www.ionq.com/quantum-systems/forte-enterprise",
+      "rank": 5,
+      "reason": "The 36-qubit count is below the frozen 40-variable local cap and far below the full model.",
+      "route": "IonQ Forte Enterprise",
+      "status": "insufficient_for_frozen_cap"
+    },
+    {
+      "native_interface": "unit-disk-graph MIS",
+      "primary_source": "https://www.quera.com/optimization",
+      "rank": 6,
+      "reason": "Aquila has 256 atoms, but the current arbitrary signed dense BQM is not a native unit-disk MIS; generic transformations can add substantial overhead and alter the experimental question.",
+      "route": "QuEra Aquila analog neutral atoms",
+      "status": "not_native_to_current_problem"
+    }
+  ],
+  "implementation": {
+    "independent_auditor": {
+      "path": "scripts/audit_stage77_quantum_hardware_interface_gate.py",
+      "sha256": "9D2656EE14128CB75CFA9677D7B9E44B3253248B335D081710324A3017171EE5",
+      "size_bytes": 24925
+    },
+    "runner": {
+      "path": "scripts/run_stage77_quantum_hardware_interface_gate.py",
+      "sha256": "E49B95994EF6A99363C074417E7C5620EACA8B7315E41C297690980516DEC5A5",
+      "size_bytes": 46906
+    }
+  },
+  "inputs": {
+    "literature_report": {
+      "path": "analysis/literature-search-20260807-quantum-hardware-variable-k-cqm/papers.md",
+      "sha256": "875A4DEA682C79806393D5620B6092EADCC44A5B9C500FD4DD209C714765E06A",
+      "size_bytes": 11006
+    },
+    "literature_search_notes": {
+      "path": "analysis/literature-search-20260807-quantum-hardware-variable-k-cqm/search-notes.md",
+      "sha256": "C9645E285996712956694BD75A123D19FC68289C5AD91141C417392516E75FD5",
+      "size_bytes": 2443
+    },
+    "literature_table": {
+      "path": "analysis/literature-search-20260807-quantum-hardware-variable-k-cqm/papers.csv",
+      "sha256": "62DA6C38A077D554A72DF6FFEB53873AC588267937C52D413ABA460F870C1806",
+      "size_bytes": 4006
+    },
+    "stage72_model_record": {
+      "path": "data/stage72_constraint_native_cqm_model_record.json",
+      "sha256": "D7BD285F4CB0787C1FF63EEC190CE692F72F2E885CB610BFEA1D70AC2505D1DF",
+      "size_bytes": 737219
+    },
+    "stage74_cell_comparison": {
+      "path": "results/runs/stage74_larger_k_solver_scaling/cell_comparison.csv",
+      "sha256": "B1CEE2803DB74AC55BE1C5DA1BA77240ED550DED68A2B47A027A12F86B9781EA",
+      "size_bytes": 89127
+    },
+    "stage74_solver_trials": {
+      "path": "results/runs/stage74_larger_k_solver_scaling/solver_trials.csv",
+      "sha256": "3E0C8DD06991378C7CFCBC00D3CD437C64516445E06389E209885B78C510532D",
+      "size_bytes": 2871104
+    },
+    "stage74_workload_metrics": {
+      "path": "results/runs/stage74_larger_k_solver_scaling/workload_metrics.csv",
+      "sha256": "84B02EF49939B097244CF4B0543F088FF183C48DD7E9DFB900EC2EA9E5AF355E",
+      "size_bytes": 48587
+    },
+    "stage75_model_record": {
+      "path": "data/stage75_explicit_variable_k_cqm_model_record.json",
+      "sha256": "5F6DD13A8F25815A541ABB8F1D79DCC92BA1A2F32378B04FA297971180F2AE70",
+      "size_bytes": 52163
+    },
+    "stage76_audit": {
+      "path": "data/stage76_variable_k_sampler_repair_audit.json",
+      "sha256": "CC1DCE0D05448CAA9BE288918224ADBFE4AE7F4AE8F7F7B299212C40F4A7BA98",
+      "size_bytes": 1285
+    },
+    "stage76_config": {
+      "path": "configs/stage76_variable_k_sampler_repair.json",
+      "sha256": "953BBFE02C756C4925D521F2BCDC4C829DF60ABB5CAE79F36D2A339055555F20",
+      "size_bytes": 7768
+    },
+    "stage76_result": {
+      "path": "data/stage76_variable_k_sampler_repair_result.json",
+      "sha256": "50E4DB26A080D83BD92BEECEDCEDC2BED3B64FAF0EF52477C5B22955C7DE54E8",
+      "size_bytes": 10972
+    }
+  },
+  "interpretation_boundary": "Stage77 uses consumed historical development targets and ideal Zephyr topology to test representation, deterministic warm-start emulation, coefficient quantization, and synthetic coefficient-noise robustness. It does not use a physical working graph, device calibration, chain-break data, cloud solver, QPU, new docking, fresh validation, or locked test data. A passing local gate supports only a small budget-capped reverse-annealing PoC with matched classical controls, not a quantum scaling or advantage claim.",
+  "local_swap_bqm_summary": {
+    "hardware_resolvable_improvement_subproblem_count": 10,
+    "improving_single_move_subproblem_count": 15,
+    "maximum_bqm_interaction_count": 780,
+    "maximum_encoded_move_variable_count": 40,
+    "maximum_ideal_zephyr_chain_length": 4,
+    "maximum_ideal_zephyr_physical_qubit_count": 160,
+    "maximum_objective_identity_residual": 1.7763568394002505e-15,
+    "mean_encoded_move_variable_count": 34.08,
+    "mean_q10_bias_retention_fraction": 0.9923983045458551,
+    "minimum_conflicting_pair_energy_margin": 0.8379792241447327,
+    "minimum_eligible_move_count": 7,
+    "minimum_q10_bias_retention_fraction": 0.9629629629629629,
+    "subproblem_count": 500,
+    "subproblem_count_by_target": {
+      "BACE1": 140,
+      "PPARA": 100,
+      "PPARD": 120,
+      "PPARG": 140
+    },
+    "unique_hardware_resolvable_fixed_k_instance_count": 2,
+    "unique_improving_fixed_k_instance_count": 3
+  },
+  "outputs": {
+    "direct_encoding_metrics_csv": {
+      "path": "results/runs/stage77_quantum_hardware_interface_gate/direct_encoding_metrics.csv",
+      "sha256": "DABE20A5ABE23CDB476480F13967D6C2EBA6EDC96FDB9E1AC6E266CAC7F839D7",
+      "size_bytes": 18570
+    },
+    "emulation_summary_csv": {
+      "path": "results/runs/stage77_quantum_hardware_interface_gate/emulation_summary.csv",
+      "sha256": "E0C6517DA2CF7C75E7D06C556ADF5030CA39C55FDA4DEC812A2F0D6E18724021",
+      "size_bytes": 579
+    },
+    "emulation_trials_csv": {
+      "path": "results/runs/stage77_quantum_hardware_interface_gate/emulation_trials.csv",
+      "sha256": "D12C1D95EDE73916AB9CCDE22D6F490A4DC9EC6DD5734C13AF762ACBF4982A40",
+      "size_bytes": 2766847
+    },
+    "hardware_route_review_csv": {
+      "path": "results/runs/stage77_quantum_hardware_interface_gate/hardware_route_review.csv",
+      "sha256": "3F721B75039BE73B0F781B0BCEEA83836957AEC23DA81901ACC6DE065DEE643B",
+      "size_bytes": 1916
+    },
+    "local_swap_bqm_metrics_csv": {
+      "path": "results/runs/stage77_quantum_hardware_interface_gate/local_swap_bqm_metrics.csv",
+      "sha256": "6CA8B1A3F4CBD00A5B695FE78526D2494392845AEC3363D4D7A05C1DAE6157D0",
+      "size_bytes": 186700
+    },
+    "report_md": {
+      "path": "reports/stage-77/quantum_hardware_interface_gate.md",
+      "sha256": "9F12E29354542993D618D130C7F7584BDB50FC2F57BEA11FD0A7A86D4BCDDE96",
+      "size_bytes": 3794
+    }
+  },
+  "route_gate": {
+    "direct_full_bqm_ideal_embedding_passed": true,
+    "direct_full_bqm_precision_passed": false,
+    "local_clean_warm_start_emulation_passed": true,
+    "local_q10_one_percent_noise_stress_passed": true,
+    "local_reverse_annealing_poc_gate_passed": true,
+    "local_swap_bqm_ideal_embedding_passed": true,
+    "local_swap_bqm_identity_and_feasibility_passed": true,
+    "local_swap_bqm_precision_passed": true,
+    "stage75_cqm_identity_preserved": true
+  },
+  "runtime": {
+    "dimod": "0.12.22",
+    "dwave_samplers": "1.7.0",
+    "ideal_hardware_topology": "Zephyr Z16",
+    "numpy": "1.26.4",
+    "physical_qpu_calibration_used": false,
+    "python": "3.11.15",
+    "wall_clock_used_for_decision": false
+  },
+  "schema_version": "1.0",
+  "status": "stage77_quantum_hardware_interface_gate_complete"
+}

@@ -1,0 +1,57 @@
+{
+  "config": {
+    "path": "configs/stage18c_pparg_preparation_ready_amendment01.json",
+    "sha256": "6A00720D7CE81853B9BF580403E06FD867100760F6C252B6748F40BD67864A06"
+  },
+  "counts": {
+    "excluded_incomplete_count": 59,
+    "pairwise_distance_count": 4753,
+    "preparation_ready_count": 98,
+    "selected_receptor_count": 24,
+    "source_coordinate_eligible_count": 157
+  },
+  "data_boundary": {
+    "docking_scores_read": 0,
+    "fresh_validation_rows_read": 0,
+    "ligand_labels_read": 0,
+    "test_rows_read": 0
+  },
+  "experiment_id": "stage18c-pparg-preparation-ready-amendment01-20260801-v1",
+  "interpretation_boundary": "This prospective technical correction uses coordinates only and prevents unregistered residue modeling. It cannot establish redocking success, enrichment, QUBO portability, QUBO superiority, quantum execution, or quantum advantage.",
+  "next_gate": "prepare the complete PPARG receptors and cognate ligands for three-seed redocking",
+  "outputs": {
+    "selected24_manifest_csv": {
+      "path": "data/processed/stage18c_pparg_preparation_ready_selected24.csv",
+      "sha256": "90BE10D16C858CF30C43987FD47D5D923BF7B26C72ED4473E7A1824D187FEC5F"
+    }
+  },
+  "schema_version": "1.0",
+  "selected_receptor_ids": [
+    "PPARG_2GTK_reference",
+    "PPARG_8B8X_aligned",
+    "PPARG_5F9B_aligned",
+    "PPARG_2HFP_aligned",
+    "PPARG_6AD9_aligned",
+    "PPARG_2Q6S_aligned",
+    "PPARG_3CS8_aligned",
+    "PPARG_5UGM_aligned",
+    "PPARG_3V9V_aligned",
+    "PPARG_3TY0_aligned",
+    "PPARG_8FHF_aligned",
+    "PPARG_2G0H_aligned",
+    "PPARG_4HEE_aligned",
+    "PPARG_3HOD_aligned",
+    "PPARG_3H0A_aligned",
+    "PPARG_5DWL_aligned",
+    "PPARG_6MS7_aligned",
+    "PPARG_2HWR_aligned",
+    "PPARG_6ENQ_aligned",
+    "PPARG_2FVJ_aligned",
+    "PPARG_5Y2T_aligned",
+    "PPARG_1ZEO_aligned",
+    "PPARG_8ZFQ_aligned",
+    "PPARG_8ZFP_aligned"
+  ],
+  "status": "stage18c_pparg_preparation_ready_pool_ok",
+  "trigger": "The first coordinate-only selection showed that 7 of 24 selected structures contain globally incomplete standard amino-acid templates outside the frozen pocket anchors. Deterministic completion would add unnecessary modeling uncertainty, so this label-independent preparation-readiness rule is frozen before receptor preparation or any docking score is read."
+}

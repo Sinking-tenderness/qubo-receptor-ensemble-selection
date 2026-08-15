@@ -1,0 +1,19 @@
+{
+  "audited_result": {
+    "path": "data/stage48_ppara_source_audit.json",
+    "sha256": "07EC9FFBDBB0ACD30AF389B1B623DC7269393BDB5206F1E1BD9985D005ED2EC3"
+  },
+  "evidence_boundary_ok": true,
+  "frozen_active_allocation_total": 373,
+  "metadata_eligible_count": 75,
+  "primary_subset_size": 6,
+  "protonation_difference_recorded": true,
+  "reference_ligand_heavy_atom_identity": true,
+  "schema_version": "1.0",
+  "selected_target": "PPARA",
+  "source_row_counts": {
+    "active": 373,
+    "decoy": 19399
+  },
+  "status": "stage48_ppara_source_independent_audit_ok"
+}

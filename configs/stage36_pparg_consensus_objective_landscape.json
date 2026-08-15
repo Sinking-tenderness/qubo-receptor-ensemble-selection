@@ -1,0 +1,93 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage36-pparg-consensus-objective-landscape-20260803-v1",
+  "purpose": "Identify a biologically interpretable receptor-selection objective whose cross-MD-start consensus and hierarchical-state interactions create reproducible combinatorial difficulty for strong greedy search before any hardware encoding.",
+  "trigger": "Stage34 solved sparse structural-fidelity loss but the inherited smooth objective remained easy for strong classical local search; hardware work is paused until a scientifically motivated non-additive objective passes an exact difficulty screen.",
+  "evidence_timing": {
+    "experiment_class": "prospective_post_stage34_structure_only_exact_objective_screen",
+    "stage36_outcomes_known_before_freeze": false,
+    "stage34_results_known_before_freeze": true,
+    "docking_scores_permitted": false,
+    "ligand_labels_permitted": false,
+    "fresh_validation_rows_permitted": false,
+    "test_rows_permitted": false,
+    "new_docking_jobs": false,
+    "quantum_hardware_execution": false
+  },
+  "inputs": {
+    "stage30_audit": "data/stage30_pparg_group_balanced_state_qubo_audit.json",
+    "stage34_audit": "data/stage34_pparg_sparse_fidelity_pareto_audit.json",
+    "frame_manifest": "results/runs/stage28b_pparg_md_ready_multistart_md/ensemble/frame_manifest.csv",
+    "feature_archive": "results/runs/stage28b_pparg_md_ready_multistart_md/ensemble/pocket_features.npz",
+    "distance_archive": "results/runs/stage28b_pparg_md_ready_multistart_md/ensemble/pairwise_distances_condensed.npz"
+  },
+  "exact_candidate_cohorts": [
+    {"cohort_id": "temporal_rank_00_03", "within_start_temporal_maximin_ranks": [0, 1, 2, 3]},
+    {"cohort_id": "temporal_rank_04_07", "within_start_temporal_maximin_ranks": [4, 5, 6, 7]},
+    {"cohort_id": "temporal_rank_08_11", "within_start_temporal_maximin_ranks": [8, 9, 10, 11]}
+  ],
+  "coverage": {
+    "reference_frame_count": 1200,
+    "global_distance_quantiles": [0.05, 0.10, 0.20],
+    "smooth_control_ward_cluster_counts": [8, 16, 32]
+  },
+  "objective_families_in_priority_order": [
+    {
+      "objective_id": "coarse_consensus_fine_diversity",
+      "formula": "0.45*mean_pair_same_state8 + 0.30*mean_pair_different_state32 + 0.15*mean_pair_distance + 0.10*mean_within_start_centrality"
+    },
+    {
+      "objective_id": "mid_consensus_fine_diversity",
+      "formula": "0.45*mean_pair_same_state16 + 0.30*mean_pair_different_state32 + 0.15*mean_pair_distance + 0.10*mean_within_start_centrality"
+    },
+    {
+      "objective_id": "frustrated_hierarchical_pair",
+      "formula": "0.40*mean_pair_same_state8 + 0.35*mean_pair_different_state16 - 0.15*mean_pair_same_state32 + 0.10*mean_within_start_centrality"
+    },
+    {
+      "objective_id": "geometry_frustrated_pair",
+      "formula": "0.40*mean_pair_same_state8 + 0.40*mean_pair_distance - 0.10*mean_pair_same_state32 + 0.10*mean_within_start_centrality"
+    },
+    {
+      "objective_id": "coarse_triple_supported_portfolio",
+      "formula": "0.35*triple_supported_state8 + 0.25*double_supported_state16 + 0.20*single_state32 + 0.10*mean_pair_distance + 0.10*mean_within_start_centrality"
+    },
+    {
+      "objective_id": "hierarchical_double_consensus",
+      "formula": "0.25*double_supported_state8 + 0.30*double_supported_state16 + 0.20*supported_frame_fraction32 + 0.15*mean_pair_distance + 0.10*mean_within_start_centrality"
+    },
+    {
+      "objective_id": "threshold_consensus_control",
+      "formula": "0.50*triple_supported_state8 + 0.50*double_supported_state16"
+    },
+    {
+      "objective_id": "smooth_stage30_control",
+      "formula": "0.30*mean_within_start_centrality + 0.50*mean_pair_distance + 0.20*mean_pair_different_state32"
+    }
+  ],
+  "landscape": {
+    "state_count_per_cohort": 65536,
+    "feasible_state_rule": "choose exactly one of four candidate frames from each of eight independent MD starts",
+    "neighborhood": "replace the selected frame within exactly one MD-start group",
+    "local_search": "deterministic best-improvement with lowest encoded-state tie break",
+    "strong_greedy": "best of sixteen forward and reverse cyclic start orders followed by exact deterministic best-improvement"
+  },
+  "difficulty_gate": {
+    "minimum_absolute_greedy_gap": 0.0001,
+    "minimum_normalized_greedy_gap": 0.001,
+    "minimum_strict_local_optimum_count": 4,
+    "maximum_global_optimum_basin_fraction": 0.50,
+    "minimum_passing_cohorts_per_objective": 2,
+    "required_cohort_count": 3,
+    "objective_tie_tolerance": 1e-12
+  },
+  "outputs": {
+    "candidate_manifest_csv": "results/runs/stage36_pparg_consensus_objective_landscape/candidate_manifest.csv",
+    "landscape_metrics_csv": "results/runs/stage36_pparg_consensus_objective_landscape/landscape_metrics.csv",
+    "local_optima_csv": "results/runs/stage36_pparg_consensus_objective_landscape/local_optima.csv",
+    "result_json": "data/stage36_pparg_consensus_objective_landscape_result.json",
+    "audit_json": "data/stage36_pparg_consensus_objective_landscape_audit.json",
+    "report_md": "reports/stage-36/pparg_consensus_objective_landscape.md"
+  },
+  "interpretation_boundary": "Stage36 can identify a structure-only objective with exact evidence of nontrivial local optima and a reproducible strong-greedy gap on three frozen PPARG MD cohorts. Passing authorizes a separately frozen sparse-QUBO encoding and solver-scaling study. It cannot establish docking enrichment, biological superiority, quantum speedup, quantum advantage, or hardware readiness."
+}

@@ -1,0 +1,82 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage18a-pparg-source-and-active-allocation-20260801-v1",
+  "purpose": "Audit the PPARG DUD-E source, 2GTK reference identity, and deterministic scaffold-disjoint active allocation before receptor discovery or docking.",
+  "implementation": {
+    "path": "scripts/audit_stage18a_pparg_source.py",
+    "sha256": "7A4BBB0C2E2DB59E9A15719050FF206DA63A741330B12ED567ABE0CD26D4B8FA"
+  },
+  "preregistration": {
+    "path": "configs/stage18_pparg_replacement_exploratory_preregistration.json",
+    "sha256": "AE6361F7DDCB643643EF7A99BC4A77165F6E6D883672046F54D83CA4DD3CCD15"
+  },
+  "target": {
+    "target_id": "PPARG_HUMAN",
+    "gene_name": "PPARG",
+    "protein_name": "Peroxisome proliferator-activated receptor gamma",
+    "organism": "Homo sapiens",
+    "uniprot_accession": "P37231",
+    "dude_target_id": "PPARG",
+    "dude_reference_structure": "2GTK",
+    "reference_auth_asym_id": "A",
+    "reference_ligand": "208",
+    "reference_ligand_auth_seq_id": 1001
+  },
+  "dude_source": {
+    "target_url": "https://dude.docking.org/targets/pparg",
+    "archive": {
+      "path": "data/raw/external_targets/pparg_dude/pparg.tar.gz",
+      "source_url": "https://dude.docking.org/targets/pparg/pparg.tar.gz",
+      "sha256": "5B025D5EF9801E1C568E45031E7BEA491106B2E6DA31C913194520AD1EB22079"
+    },
+    "actives": {
+      "path": "data/raw/external_targets/pparg_dude/pparg/actives_final.ism",
+      "sha256": "92248E61D118229CE9E58BC787E696052CF02483131C35ABD95A4C6388BF87D6"
+    },
+    "decoys": {
+      "path": "data/raw/external_targets/pparg_dude/pparg/decoys_final.ism",
+      "sha256": "A23BD8975F506623ABA66230E1A6279A512C053DD97EDD66D0886D99DC6243AF"
+    }
+  },
+  "active_allocation": {
+    "hash_seed": "stage18-pparg-active-allocation-v1-20260801",
+    "source_active_count": 484,
+    "selected_active_count": 484,
+    "unallocated_source_surplus_count": 0,
+    "train_active_count": 334,
+    "fresh_validation_active_count": 75,
+    "locked_test_active_count": 75,
+    "maximum_scaffold_group_size": 1,
+    "ranking_rule": "ascending SHA-256 of hash_seed, source line number, and source molecule ID; first 334 selected rows train, next 75 fresh validation, and final 75 locked test"
+  },
+  "reference_structure": {
+    "dude_receptor_pdb": {
+      "path": "data/raw/external_targets/pparg_dude/pparg/receptor.pdb",
+      "sha256": "48322ADF204DFEA80F960E779F27B435729AC67D9C3ECF38BCFE521EAD9C20EC"
+    },
+    "dude_crystal_ligand_mol2": {
+      "path": "data/raw/external_targets/pparg_dude/pparg/crystal_ligand.mol2",
+      "sha256": "01B96B4D9C9FAAE41A3A78671197BEA9E48446EA35EE9C986EE892AE094658B5"
+    },
+    "official_pdb": {
+      "path": "data/raw/rcsb/pparg/2GTK.pdb",
+      "source_url": "https://files.rcsb.org/download/2GTK.pdb",
+      "sha256": "B4A4E0D5A95DF23374856A4927805475ABBABDF1E8086E90CD9F212B173B3562"
+    },
+    "official_mmcif": {
+      "path": "data/raw/rcsb/pparg/2GTK.cif",
+      "source_url": "https://files.rcsb.org/download/2GTK.cif",
+      "sha256": "A4405F1D3C991C934B9DCDD91AE23648DA826B3F44F4CF29660F49A8F6352AA5"
+    },
+    "official_ligand_sdf": {
+      "path": "data/raw/rcsb/pparg/2GTK_208_A1001.sdf",
+      "source_url": "https://models.rcsb.org/v1/2GTK/ligand?auth_asym_id=A&auth_seq_id=1001&encoding=sdf",
+      "sha256": "8C44BA11D853E1F4F9BC44255B7A85B3B1D1BC226985E5C1DBC162932607B647"
+    }
+  },
+  "outputs": {
+    "active_allocation_csv": "data/processed/stage18a_pparg_active_panel_allocation.csv",
+    "summary_json": "data/stage18a_pparg_source_and_active_allocation_summary.json"
+  },
+  "interpretation_boundary": "Passing this audit establishes only PPARG input identity, reference-ligand identity, and exact ligand-panel feasibility. It does not establish receptor-pool adequacy, redocking success, screening enrichment, QUBO portability, QUBO superiority, quantum execution, or quantum advantage."
+}

@@ -1,0 +1,36 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage86a-qci-dirac3-rescue-failure-adjudication-20260811-v1",
+  "purpose": "Independently verify the completed Stage86 result bundle, quantify physical constraint fidelity, and decide whether any further Dirac-3 global-penalty jobs are justified.",
+  "inputs": {
+    "result_archive": {
+      "path": "stage86_nonnegative_gauge_dirac_rescue_results_v1.tar.gz",
+      "sha256": "3F2E491DDEEDB799D29B324B1D0AA973996460A7142B177ECEDF32F497610614"
+    },
+    "stage86_config": "configs/stage86_nonnegative_gauge_dirac_rescue.json",
+    "stage86_prepared": "data/stage86_nonnegative_gauge_dirac_rescue_prepared.json",
+    "mapping": {
+      "path": "results/runs/stage86_nonnegative_gauge_dirac_rescue/instance/ppara_of0_k10_nonnegative_gauge_exact.qci-mapping.json",
+      "sha256": "77CD2E2CEDA7A848559C6F0626679273075C1D89A4E8DAD720E3AD58200A617C"
+    }
+  },
+  "expected_execution": {
+    "device_jobs": 1,
+    "samples": 25,
+    "device_usage_seconds": 22,
+    "allocation_before_seconds": 95,
+    "allocation_after_seconds": 73,
+    "feasible_samples": 0,
+    "exact_optimum_samples": 0,
+    "below_certificate_samples": 0
+  },
+  "decision": {
+    "primary_endpoint": "At least one raw physical sample must be fully feasible and recover the certified exact optimum.",
+    "failure_action": "Stop the QCI Dirac-3 global unconstrained-penalty route. Do not spend the remaining free allocation on repetitions or post-hoc schedule tuning.",
+    "future_hardware_boundary": "A future hardware experiment requires a separately preregistered interface with native constraints or a genuine warm-start/local-move mechanism."
+  },
+  "outputs": {
+    "result_json": "data/stage86a_qci_dirac3_rescue_failure_adjudication.json",
+    "report_md": "reports/stage-86a/qci_dirac3_rescue_failure_adjudication.md"
+  }
+}

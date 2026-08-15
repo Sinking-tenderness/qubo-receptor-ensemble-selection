@@ -1,0 +1,44 @@
+{
+  "checks": {
+    "all_batch_best_values_recomputed": true,
+    "all_read_objectives_recomputed": true,
+    "data_boundary_zero": true,
+    "decision_recomputed": true,
+    "input_and_output_hashes_verified": true,
+    "new_docking_jobs": 0,
+    "quantum_hardware_jobs": 0,
+    "strong_classical_deltas_recomputed": true
+  },
+  "config": {
+    "path": "configs/stage23_qubo_sampler_stability.json",
+    "sha256": "5F6BF494319A83BF28EF5F276FBD28D0511B472506B205D4FA41C7CE8A326511"
+  },
+  "coverage": {
+    "batch_rows_recomputed": 24,
+    "fraction_count": 3,
+    "read_rows_recomputed": 1536,
+    "target_count": 2
+  },
+  "decision_recomputed": {
+    "primary_pass": true,
+    "sampler_stability_gate_passed": false,
+    "sensitivity": {
+      "MK14": {
+        "fraction_count": 3,
+        "passed": false,
+        "positive_fraction_count": 1
+      },
+      "PPARG": {
+        "fraction_count": 3,
+        "passed": true,
+        "positive_fraction_count": 2
+      }
+    }
+  },
+  "result": {
+    "path": "data/stage23_qubo_sampler_stability_result.json",
+    "sha256": "812237412E0DBC72FD3F27269926CD27B18A7ECDDBB48E3C8194862AD812A70C"
+  },
+  "schema_version": "1.0",
+  "status": "stage23_qubo_sampler_stability_audit_ok"
+}

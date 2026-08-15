@@ -1,0 +1,101 @@
+{
+  "config": {
+    "path": "configs/stage13_egfr_rcsb_candidate_discovery.json",
+    "sha256": "61D15661AA7E2CBFA259C1F22DDE3269924D1DB271AB88F557E3F468AF050C1D"
+  },
+  "counts": {
+    "metadata_eligible_count": 31,
+    "metadata_entry_count": 368,
+    "metadata_excluded_count": 337,
+    "new_metadata_eligible_count": 30,
+    "reference_eligible": true
+  },
+  "data_boundary": {
+    "MAPK14_stage11_rows_read": 0,
+    "docking_scores_read": 0,
+    "ligand_labels_read": 0,
+    "test_rows_read": 0
+  },
+  "eligible_pdb_ids": [
+    "1XKK",
+    "2RGP",
+    "3BEL",
+    "3POZ",
+    "3W2S",
+    "3W32",
+    "3W33",
+    "6VHN",
+    "7B85",
+    "7KXZ",
+    "7U99",
+    "7UKV",
+    "8A27",
+    "8A2A",
+    "8F1X",
+    "8F1Z",
+    "8G63",
+    "8SC7",
+    "9DM8",
+    "9FRD",
+    "9GL9",
+    "9KL4",
+    "9MSR",
+    "9MSS",
+    "9NGP",
+    "9NIS",
+    "9NJN",
+    "9OU9",
+    "9PMZ",
+    "9Q0S",
+    "9QXN"
+  ],
+  "eligible_resolution_angstrom": {
+    "maximum": 2.5,
+    "median": 2.23,
+    "minimum": 1.07
+  },
+  "exclusion_reason_counts": {
+    "excluded_title_pattern": 234,
+    "missing_same_chain_drug_like_nonpolymer": 61,
+    "mutation_count_differs": 232,
+    "reference_sequence_coverage_below_limit": 19,
+    "resolution_above_limit": 199,
+    "sample_sequence_length_outside_limits": 40
+  },
+  "experiment_id": "stage13-egfr-rcsb-candidate-discovery-20260731-v1",
+  "interpretation_boundary": "Metadata eligibility is label-independent and only authorizes coordinate download and structural auditing. It does not establish ATP-pocket suitability, noncovalency, preparation quality, redocking success, enrichment, QUBO portability, QUBO superiority, or quantum advantage.",
+  "next_gate": "download coordinates, audit sequence and ATP-pocket completeness, remove covalent or non-ATP-site complexes, align to 2RGP chain A, and run label-independent max-min structural selection",
+  "outputs": {
+    "candidate_metadata_csv": {
+      "path": "data/processed/stage13_egfr_rcsb_candidate_metadata.csv",
+      "sha256": "B1CFC3F944235D5C3EDA55DFA5B1C750AD34374340F6FB3CC36364B8D1523509"
+    },
+    "eligible_candidates_csv": {
+      "path": "data/processed/stage13_egfr_rcsb_metadata_eligible_candidates.csv",
+      "sha256": "D7F282CC39FB1C71F8459E36C406999D1B9329FE82C8C15375473910DC0AE9D8"
+    },
+    "metadata_snapshot_json": {
+      "path": "data/raw/rcsb/egfr/p00533_xray_metadata_snapshot_20260731.json",
+      "sha256": "66047624F73731D5102959FDF8B97B6583010AF14D360CFA6F7E93D51A9658EA"
+    },
+    "search_snapshot_json": {
+      "path": "data/raw/rcsb/egfr/p00533_xray_search_snapshot_20260731.json",
+      "sha256": "A432AEF48E6A3DF46CE3544F52BBE31F50005BA0A749318E609E65F029C4009F"
+    }
+  },
+  "preregistration": {
+    "path": "configs/stage13_egfr_external_target_pilot_preregistration.json",
+    "sha256": "8CE02087666FC8F3A97A83889AB61E3E45EB03667DB853EC0D0B9C96FB8D00CD"
+  },
+  "query": {
+    "experimental_method": "X-RAY DIFFRACTION",
+    "search_result_count": 368,
+    "uniprot_accession": "P00533"
+  },
+  "runtime": {
+    "conda_environment": "qubo-receptor-ensemble",
+    "python_version": "3.11.15"
+  },
+  "schema_version": "1.0",
+  "status": "stage13_egfr_metadata_discovery_ok"
+}

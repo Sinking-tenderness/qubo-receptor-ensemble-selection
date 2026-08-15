@@ -1,0 +1,40 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage14a-fa10-rcsb-candidate-discovery-20260731-v1",
+  "purpose": "Snapshot and audit all RCSB P00742 X-ray entries using the frozen FA10 metadata rules without reading benchmark docking scores or held-out rows.",
+  "implementation": {
+    "path": "scripts/discover_stage14_fa10_rcsb_candidates.py",
+    "sha256": "D1972373E01484B25113B293B63786C030097EFDDCDF1B3C39A9720595C3D17C",
+    "dependency_path": "scripts/discover_stage13_external_target_rcsb_candidates.py",
+    "dependency_sha256": "4AC112D3AD34BD0E53B97AE0F716BC2C58DCF5EE575E68593FAD41132CECC248"
+  },
+  "preregistration": {
+    "path": "configs/stage14_fa10_external_target_preregistration.json",
+    "sha256": "E7341ED050C6176A1AD42435CBC220FE5186E32CC70A7ADD26FA278003B320A3"
+  },
+  "source_audit": {
+    "path": "data/stage14_fa10_source_audit.json",
+    "sha256": "3C82879F7C72CD9153FD891B19A60E798194B9A6DF7060D8317997A3E9EF88C3"
+  },
+  "runtime": {
+    "conda_environment": "qubo-receptor-ensemble",
+    "python_version": "3.11.15"
+  },
+  "rcsb": {
+    "search_endpoint": "https://search.rcsb.org/rcsbsearch/v2/query",
+    "graphql_endpoint": "https://data.rcsb.org/graphql",
+    "metadata_chunk_size": 40,
+    "request_timeout_seconds": 60,
+    "maximum_retries": 4,
+    "retry_backoff_seconds": 1.0
+  },
+  "outputs": {
+    "search_snapshot_json": "data/raw/rcsb/fa10/p00742_xray_search_snapshot_20260731.json",
+    "metadata_snapshot_json": "data/raw/rcsb/fa10/p00742_xray_metadata_snapshot_20260731.json",
+    "candidate_metadata_csv": "data/processed/stage14a_fa10_rcsb_candidate_metadata.csv",
+    "eligible_candidates_csv": "data/processed/stage14a_fa10_rcsb_metadata_eligible_candidates.csv",
+    "summary_json": "data/stage14a_fa10_rcsb_candidate_discovery_summary.json",
+    "report_md": "reports/stage-14a/fa10_rcsb_candidate_discovery.md"
+  },
+  "interpretation_boundary": "Metadata eligibility is label-independent and only authorizes coordinate download and structural auditing. It does not establish active-site suitability, noncovalency, preparation quality, redocking success, enrichment, QUBO portability, QUBO superiority, or quantum advantage."
+}

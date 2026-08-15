@@ -1,0 +1,105 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage29-pparg-md-qubo-solver-scaling-20260803-v1",
+  "purpose": "Benchmark a frozen fixed-cardinality pure QUBO on a real 1200-frame PPARG MD pocket-state pool and determine whether annealing finds reproducible solutions beyond strong same-objective classical local search as candidate count grows.",
+  "evidence_timing": {
+    "experiment_class": "prospective_structure_only_solver_scaling_benchmark",
+    "stage29_solver_outcomes_known_before_freeze": false,
+    "stage28b_md_qc_reviewed_before_freeze": true,
+    "docking_scores_permitted": false,
+    "ligand_labels_permitted": false,
+    "fresh_validation_rows_permitted": false,
+    "test_rows_permitted": false,
+    "new_docking_jobs": false,
+    "quantum_hardware_execution": false
+  },
+  "inputs": {
+    "stage28b_config": "configs/stage28b_pparg_md_ready_multistart_md_ensemble.json",
+    "stage28b_audit": "data/stage28b_pparg_md_ready_multistart_md_ensemble_audit.json",
+    "ensemble_summary": "results/runs/stage28b_pparg_md_ready_multistart_md/ensemble/summary.json",
+    "frame_manifest": "results/runs/stage28b_pparg_md_ready_multistart_md/ensemble/frame_manifest.csv",
+    "feature_archive": "results/runs/stage28b_pparg_md_ready_multistart_md/ensemble/pocket_features.npz",
+    "distance_archive": "results/runs/stage28b_pparg_md_ready_multistart_md/ensemble/pairwise_distances_condensed.npz"
+  },
+  "candidate_pools": {
+    "primary_scaling_sizes": [16, 32, 64, 120, 240, 480, 800, 1200],
+    "primary_order": "round_robin_across_eight_starts_with_deterministic_one_dimensional_temporal_maximin_order_within_each_start",
+    "sensitivity_pools": [
+      {
+        "pool_id": "uniform_100ps_n240",
+        "rule": "retain frames whose one-based local frame number is divisible by 5",
+        "expected_count": 240,
+        "posthoc": false
+      },
+      {
+        "pool_id": "uniform_200ps_n120",
+        "rule": "retain frames whose one-based local frame number is divisible by 10",
+        "expected_count": 120,
+        "posthoc": false
+      },
+      {
+        "pool_id": "exclude_3d6d_n1050",
+        "rule": "exclude PPARG_3D6D_aligned after the Stage28b QC review because it showed the largest pocket-state shift",
+        "expected_count": 1050,
+        "posthoc": true
+      }
+    ]
+  },
+  "objective": {
+    "selected_count": 8,
+    "centrality_weight": 0.4,
+    "pair_diversity_weight": 0.6,
+    "temporal_redundancy_weight": 0.1,
+    "temporal_redundancy_decay_ps": 100.0,
+    "distance_normalization": "divide by the maximum distance in the complete frozen 1200-frame matrix",
+    "centrality_definition": "one minus each frame's mean normalized distance to all other complete-pool frames",
+    "fixed_k_objective": "0.4*mean_selected_centrality + 0.6*mean_selected_pair_distance - 0.1*mean_selected_same_start_exp_time_redundancy",
+    "cardinality_penalty": 2.0,
+    "qubo_convention": "minimize negative fixed-k objective plus cardinality_penalty*(sum_x-k)^2"
+  },
+  "exact_oracle": {
+    "maximum_states": 1000000
+  },
+  "classical_baselines": {
+    "beam_width": 32,
+    "random_multistart_count": 32,
+    "methods": [
+      "direct_greedy_plus_best_one_swap",
+      "beam32_plus_best_one_swap",
+      "random32_best_one_swap"
+    ]
+  },
+  "annealing_sampler": {
+    "batch_count": 4,
+    "reads_per_batch": 24,
+    "sweeps_per_read": 5000,
+    "temperature_start": 0.05,
+    "temperature_end": 0.0002,
+    "initialization": "uniform_random_fixed_cardinality_subset",
+    "move": "swap one selected and one unselected frame",
+    "base_seed": 20260829
+  },
+  "gate": {
+    "objective_tolerance": 0.0001,
+    "minimum_batch_fraction_within_tolerance": 0.75,
+    "maximum_exact_gap": 1e-8,
+    "minimum_primary_cells_strictly_above_strong_classical": 2,
+    "minimum_strict_gain": 1e-6,
+    "maximum_qubo_equivalence_residual": 1e-8,
+    "required_primary_cell_count": 8,
+    "direct_qpu_max_logical_variables": 200,
+    "direct_qpu_max_quadratic_couplers": 20000,
+    "direct_qpu_max_coefficient_dynamic_range": 100.0
+  },
+  "outputs": {
+    "pool_manifest_csv": "results/runs/stage29_pparg_md_qubo_solver_scaling/pool_manifest.csv",
+    "solver_results_csv": "results/runs/stage29_pparg_md_qubo_solver_scaling/solver_results.csv",
+    "batch_results_csv": "results/runs/stage29_pparg_md_qubo_solver_scaling/batch_results.csv",
+    "read_results_csv": "results/runs/stage29_pparg_md_qubo_solver_scaling/read_results.csv",
+    "model_scaling_csv": "results/runs/stage29_pparg_md_qubo_solver_scaling/model_scaling.csv",
+    "result_json": "data/stage29_pparg_md_qubo_solver_scaling_result.json",
+    "audit_json": "data/stage29_pparg_md_qubo_solver_scaling_audit.json",
+    "report_md": "reports/stage-29/pparg_md_qubo_solver_scaling.md"
+  },
+  "interpretation_boundary": "Stage29 can establish deterministic construction and exact energy equivalence of a structure-only PPARG MD QUBO, same-objective solver quality and stability, and logical scaling from 16 to 1200 candidate frames. It cannot establish MD convergence, docking enrichment, biological superiority, quantum speedup, quantum advantage, or hardware readiness. The 3D6D exclusion is explicitly post-hoc sensitivity evidence and cannot alter the primary gate."
+}

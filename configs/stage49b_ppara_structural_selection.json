@@ -1,0 +1,99 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage49b-ppara-label-independent-structural-pool-20260804-v1",
+  "purpose": "Download, align, coordinate-audit, and deterministically freeze up to 64 PPARA structures for cognate redocking without reading docking or protected-panel outcomes.",
+  "implementation": {
+    "path": "scripts/select_stage49b_ppara_structural_pool.py",
+    "sha256": "434B302FEB2A0E506DA45685E4291595F42A2650658BBE5998BC97131EB014EA"
+  },
+  "inputs": {
+    "target_screen": {
+      "path": "data/stage47b_expanded_new_target_feasibility_screen_result.json",
+      "sha256": "694B6E918403F610495975B2B340777F0959E6255162DAE911A71D879C18A180"
+    },
+    "candidate_metadata_csv": {
+      "path": "data/processed/stage47b_expanded_new_target_candidate_metadata.csv",
+      "sha256": "2E4F65A40CC311E575B58991123557264CA9CC3DA7DD878A140626702797029E"
+    },
+    "source_audit": {
+      "path": "data/stage48_ppara_source_audit.json",
+      "sha256": "07EC9FFBDBB0ACD30AF389B1B623DC7269393BDB5206F1E1BD9985D005ED2EC3"
+    },
+    "source_independent_audit": {
+      "path": "data/stage48_ppara_source_audit_independent.json",
+      "sha256": "38A41DE61B6C060ABE15C576FF5172E683358E84A60E681622A177902EA96E72"
+    },
+    "ligand_allocation_summary": {
+      "path": "data/stage49_ppara_ligand_panel_allocation_summary.json",
+      "sha256": "3026A577248597468A64773C7F05E666D43509E9CE6874860F891848EC4A24F7"
+    },
+    "reference_mmcif": {
+      "path": "data/raw/rcsb/ppara/2P54.cif",
+      "sha256": "AA5F374C358CFDFFF995676FB575BBCDC2780D1D8C671279BEB317B7890155E4"
+    }
+  },
+  "reference": {
+    "pdb_id": "2P54",
+    "auth_chain": "A",
+    "ligand_comp_id": "735",
+    "visible_protein_ca_count": 267,
+    "pocket_derivation": "wild-type chain-A standard amino-acid residues with a heavy atom within 6.0 A of any 735 heavy atom",
+    "anchor_derivation": "the reference-pocket subset with a heavy atom within 4.0 A of any 735 heavy atom",
+    "pocket_residue_numbers": [241, 247, 250, 251, 254, 255, 258, 272, 273, 275, 276, 277, 279, 280, 281, 314, 317, 318, 321, 325, 330, 332, 333, 337, 339, 344, 354, 355, 358, 440, 444, 456, 460, 464],
+    "anchor_residue_numbers": [241, 250, 251, 255, 273, 275, 276, 277, 279, 280, 314, 321, 330, 332, 354, 355, 440, 444, 460, 464]
+  },
+  "coordinate_gate": {
+    "coordinate_format": "RCSB mmCIF",
+    "chain_identifier": "author chain from the frozen Stage47b candidate metadata",
+    "alternate_location_rule": "highest occupancy, then blank, A, and lexical tie-break",
+    "alignment": "proper-rotation Kabsch alignment using same-number, same-residue-name protein C-alpha atoms",
+    "minimum_matched_ca_count": 230,
+    "maximum_aligned_global_ca_rmsd_angstrom": 3.5,
+    "minimum_pocket_residue_fraction": 0.9,
+    "require_all_anchor_residues": true,
+    "require_reference_residue_name_match": true,
+    "minimum_pocket_heavy_atom_completeness_fraction": 0.85,
+    "require_complete_reference_heavy_atom_template_for_each_anchor": true,
+    "require_qualifying_ligand_within_reference_ligand_angstrom": 6.0,
+    "hidden_covalency": {
+      "exclude_explicit_mmcif_covalent_connection_between_target_chain_and_qualifying_ligand": true,
+      "exclude_if_minimum_protein_ligand_heavy_atom_distance_at_or_below_angstrom": 2.0
+    },
+    "missing_nonanchor_feature_imputation": "aligned 2P54 reference coordinate",
+    "record_global_incomplete_standard_amino_acid_residues": true,
+    "global_incomplete_residue_policy": "record only during structural selection; apply one frozen deterministic completion protocol before receptor preparation and redocking"
+  },
+  "structural_pool": {
+    "metadata_eligible_count_at_freeze": 75,
+    "minimum_coordinate_eligible_count": 32,
+    "maximum_frozen_redocking_count": 64,
+    "features": [
+      "pairwise ligand-pocket C-alpha distances",
+      "pairwise ligand-pocket side-chain heavy-atom centroid distances"
+    ],
+    "minimum_variable_feature_sd_angstrom": 0.01,
+    "standardization": "feature-wise z score over all coordinate-eligible structures, then division by the square root of retained feature count",
+    "selection_rule": "deterministic max-min structural distance seeded by PPARA_2P54_reference; ties resolved by lexical conformer ID",
+    "failure_action": "stop before receptor preparation, redocking, production docking, QUBO fitting, protected validation access, or hardware if fewer than 32 structures pass",
+    "threshold_lowering_permitted": false
+  },
+  "download": {
+    "url_template": "https://files.rcsb.org/download/{pdb_id}.cif",
+    "workers": 12,
+    "timeout_seconds": 60,
+    "maximum_retries": 4,
+    "retry_backoff_seconds": 1.0
+  },
+  "outputs": {
+    "raw_mmcif_directory": "data/raw/rcsb/ppara",
+    "aligned_protein_pdb_directory": "results/runs/stage49b_ppara_structural_pool/aligned",
+    "coordinate_audit_csv": "data/processed/stage49b_ppara_coordinate_candidate_audit.csv",
+    "eligible_pool_manifest_csv": "data/processed/stage49b_ppara_coordinate_eligible_pool.csv",
+    "feature_matrix_csv": "data/processed/stage49b_ppara_structural_features.csv",
+    "pairwise_distances_csv": "data/processed/stage49b_ppara_structural_distances.csv",
+    "selected_redocking_manifest_csv": "data/processed/stage49b_ppara_selected_redocking_pool.csv",
+    "summary_json": "data/stage49b_ppara_structural_selection_summary.json",
+    "report_md": "reports/stage-49b/ppara_structural_selection.md"
+  },
+  "interpretation_boundary": "Passing Stage49b establishes only a label-independent, coordinate-qualified PPARA receptor pool. Receptor preparation and frozen three-seed cognate redocking remain mandatory before production docking. No enrichment, QUBO superiority, cross-family generalization, quantum execution, speedup, or quantum advantage conclusion follows."
+}

@@ -1,0 +1,84 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage67-bedroc20-rankbin-qubo-20260806-v1",
+  "purpose": "Separate objective inadequacy from QUBO discretization error by comparing the continuous exponential best-rank set objective with deterministic 4, 8, 16, and 32-level auxiliary-variable QUBO approximations.",
+  "implementation": {
+    "runner": {
+      "path": "scripts/run_stage67_bedroc_rankbin_qubo.py",
+      "sha256": "B791EFDBC9B57BCCAC06828E35750EA057EC35977D90E1DF9663B40732632EDA"
+    },
+    "independent_auditor": {
+      "path": "scripts/audit_stage67_bedroc_rankbin_qubo.py",
+      "sha256": "4846EFC3C478FE037814BCFF31F005732BBA7F17A53A846CB0D6526B0CF7552B"
+    },
+    "stage66_runner_dependency": {
+      "path": "scripts/run_stage66_cross_target_auxiliary_coverage_qubo.py",
+      "sha256": "0A062E54205067A8BDCD66EC84F14E07A31A20300196EAE9C6A54ACC0308785B"
+    }
+  },
+  "inputs": {
+    "stage64_config": {
+      "path": "configs/stage64_cross_target_uncertainty_shrunk_qubo.json",
+      "sha256": "F302FEA7CB2B22D39824A3433DC165FAE2E8E7D0A0A79C07AA73768F69AFB458"
+    },
+    "stage66_result": {
+      "path": "data/stage66_cross_target_auxiliary_coverage_qubo_result.json",
+      "sha256": "903349E92F6B49669DAE1B7DA8B3A86E767EE68A02B6D184BA1B9A59E049FFD0"
+    },
+    "stage66_audit": {
+      "path": "data/stage66_cross_target_auxiliary_coverage_qubo_audit.json",
+      "sha256": "3AF77997814B2C8A258F79177C566A1877CAF32CFE193893BD2BB867FB27CD54"
+    },
+    "stage66_fixed_k_metrics": {
+      "path": "results/runs/stage66_cross_target_auxiliary_coverage_qubo/fixed_k_metrics.csv",
+      "sha256": "5D520F277B68876CE16DB41F79FA186EF249F62A1FACC008FECD20C361D43C45"
+    }
+  },
+  "development": {
+    "target_order": ["BACE1", "PPARG", "PPARA", "PPARD"],
+    "outer_fold_count": 4,
+    "candidate_k_values": [1, 2, 3, 4, 5, 6],
+    "bedroc_alpha": 20.0,
+    "bin_counts": [4, 8, 16, 32],
+    "classical_beam_width": 64,
+    "continuous_objective": "For each seed and ligand, take max_i exp(-20*r_sli) over selected receptors; subtract the decoy class mean from the active class mean and average the three seed discriminations.",
+    "rankbin_rule": "q_B(r)=floor(B*exp(-20*r))/B=(1/B)*sum_{b=1}^B I(exp(-20*r)>=b/B), converting each cumulative utility level into an OR auxiliary variable.",
+    "resolution_policy": "Bin count is the only model axis. Biological weights, class weights, seed weights, fold assignments, and search settings are identical across all resolutions."
+  },
+  "qubo_encoding": {
+    "algorithm_id": "bedroc20-exponential-rankbin-auxiliary-qubo-v1",
+    "reference_bin_count": 32,
+    "reference_model_k": 3,
+    "cardinality_penalty": 20.0,
+    "constraint_penalty": 100.0,
+    "certificate_random_subset_count": 64,
+    "certificate_seed_base": 20260867,
+    "representation": "Exact factorized quadratic constraints plus compact hexadecimal receptor-incidence masks; sparse coefficient expansion is deferred because it does not alter the QUBO energy.",
+    "hardware_execution": false
+  },
+  "route_gate": {
+    "minimum_mean_target_gain_over_pair_off": 0.002,
+    "minimum_worst_target_gain_over_pair_off": -0.01,
+    "minimum_nonnegative_target_count_over_pair_off": 3,
+    "minimum_mean_subset_jaccard_vs_continuous": 0.75,
+    "maximum_mean_absolute_train_quantization_error": 0.02,
+    "maximum_factorized_qubo_energy_residual": 1e-8
+  },
+  "data_boundary": {
+    "historical_development_targets_permitted": ["BACE1", "PPARG", "PPARA", "PPARD"],
+    "fresh_validation_rows_permitted": 0,
+    "locked_test_rows_permitted": 0,
+    "new_docking_jobs_permitted": 0,
+    "quantum_hardware_jobs_permitted": 0
+  },
+  "outputs": {
+    "fixed_k_metrics_csv": "results/runs/stage67_bedroc_rankbin_qubo/fixed_k_metrics.csv",
+    "target_summary_csv": "results/runs/stage67_bedroc_rankbin_qubo/target_summary.csv",
+    "resolution_summary_csv": "results/runs/stage67_bedroc_rankbin_qubo/resolution_summary.csv",
+    "model_record_json": "data/stage67_bedroc_rankbin_qubo_model_record.json",
+    "result_json": "data/stage67_bedroc_rankbin_qubo_result.json",
+    "audit_json": "data/stage67_bedroc_rankbin_qubo_audit.json",
+    "report_md": "reports/stage-67/bedroc_rankbin_qubo.md"
+  },
+  "interpretation_boundary": "Stage67 is post-hoc objective-fidelity adjudication on four consumed historical targets. The continuous reference is not a hardware model, and the rank-bin QUBO is assessed only as an approximation to that reference. A pass may freeze B=32 only for preregistration on a genuinely new target. This stage cannot establish independent efficacy, solver advantage, quantum execution, speedup, or quantum advantage."
+}

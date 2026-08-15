@@ -1,0 +1,153 @@
+{
+  "analysis_payload_sha256": "6CA04589B261444E13948D0EAF77FFC6CF25BCF3EEC4BB99C8C4EA6B28C8DEF9",
+  "config": {
+    "path": "configs/stage75_explicit_variable_k_cqm.json",
+    "sha256": "588D868CBDCFBCA1FCD30939DDFED8B085AA8140C10CA00FFE62B8E23816BA09",
+    "size_bytes": 6739
+  },
+  "data_boundary": {
+    "cloud_cqm_jobs": 0,
+    "fresh_validation_rows_read": 0,
+    "historical_development_targets_read": 4,
+    "locked_test_rows_read": 0,
+    "new_docking_jobs": 0,
+    "quantum_hardware_jobs": 0
+  },
+  "decision": {
+    "cloud_cqm_execution_authorized": false,
+    "direct_qpu_execution_authorized": false,
+    "explicit_variable_k_cqm_freeze_authorized": true,
+    "local_hardware_shaped_emulation_authorized": false,
+    "new_target_preregistration_remains_authorized": true,
+    "next_action": "retain the explicit CQM formulation but repair variable-cardinality solver fidelity before hardware-shaped emulation",
+    "quantum_advantage_claim_authorized": false,
+    "quantum_scaling_claim_authorized": false
+  },
+  "encoding_summary": {
+    "all_frontier_assignments_feasible": true,
+    "cqm_model_count": 80,
+    "distinct_frontier_selected_k": [
+      3,
+      4,
+      6,
+      8,
+      10,
+      12,
+      16
+    ],
+    "explicit_constraint_count_per_model": 3,
+    "maximum_frontier_energy_encoding_residual": 3.907985046680551e-14,
+    "maximum_logical_variable_count": 103,
+    "maximum_quadratic_coupler_count": 4560,
+    "monotonic_reward_path_count": 16,
+    "reward_path_count": 16
+  },
+  "experiment_class": "post-hoc explicit variable-cardinality constraint-native CQM on frozen historical optimization objectives",
+  "implementation": {
+    "independent_auditor": {
+      "path": "scripts/audit_stage75_explicit_variable_k_cqm.py",
+      "sha256": "6D7A13736720CB8B0E54BAA8341FB92E2A510612453675B0B93D773EE82B3A39",
+      "size_bytes": 41542
+    },
+    "runner": {
+      "path": "scripts/run_stage75_explicit_variable_k_cqm.py",
+      "sha256": "B5CB67D851570D014867770C1078D39F5F2D0C924BBEE97ED0690281C9A6AC47",
+      "size_bytes": 46256
+    }
+  },
+  "inputs": {
+    "stage72_model_record": {
+      "path": "data/stage72_constraint_native_cqm_model_record.json",
+      "sha256": "D7BD285F4CB0787C1FF63EEC190CE692F72F2E885CB610BFEA1D70AC2505D1DF",
+      "size_bytes": 737219
+    },
+    "stage74_audit": {
+      "path": "data/stage74_larger_k_solver_scaling_audit.json",
+      "sha256": "FB55C81621BF5541054323E4327BC6B6B80EF4357BBFE70F3863CE7F2BAC8AEB",
+      "size_bytes": 1233
+    },
+    "stage74_cell_comparison": {
+      "path": "results/runs/stage74_larger_k_solver_scaling/cell_comparison.csv",
+      "sha256": "B1CEE2803DB74AC55BE1C5DA1BA77240ED550DED68A2B47A027A12F86B9781EA",
+      "size_bytes": 89127
+    },
+    "stage74_config": {
+      "path": "configs/stage74_larger_k_solver_scaling.json",
+      "sha256": "91FE3B8EFA080BEE0F161F3894AEE8B66E9E66E8E24E9031F0E6E808E73DE6EE",
+      "size_bytes": 6835
+    },
+    "stage74_result": {
+      "path": "data/stage74_larger_k_solver_scaling_result.json",
+      "sha256": "1F73ACC8D2FE3E65EE3DF317FFF661AA432717D649E3708521DA297B26F87077",
+      "size_bytes": 6040
+    },
+    "stage74_solver_trials": {
+      "path": "results/runs/stage74_larger_k_solver_scaling/solver_trials.csv",
+      "sha256": "3E0C8DD06991378C7CFCBC00D3CD437C64516445E06389E209885B78C510532D",
+      "size_bytes": 2871104
+    },
+    "stage74_workload_metrics": {
+      "path": "results/runs/stage74_larger_k_solver_scaling/workload_metrics.csv",
+      "sha256": "84B02EF49939B097244CF4B0543F088FF183C48DD7E9DFB900EC2EA9E5AF355E",
+      "size_bytes": 48587
+    }
+  },
+  "interpretation_boundary": "Stage75 is a post-hoc optimization and encoding study on four consumed historical development targets. It does not estimate a biologically optimal receptor count, test screening efficacy, validate a new target, certify global optima for Stage74 cells above the exact-enumeration limit, measure physical embedding, execute a paid hybrid or QPU solver, establish quantum scaling, or demonstrate quantum advantage.",
+  "outputs": {
+    "cell_comparison_csv": {
+      "path": "results/runs/stage75_explicit_variable_k_cqm/cell_comparison.csv",
+      "sha256": "AF676E43A9E35F4623CCFC2EB1D91CC5406A9815887332063A6B5D877E52CF54",
+      "size_bytes": 20740
+    },
+    "cqm_metrics_csv": {
+      "path": "results/runs/stage75_explicit_variable_k_cqm/cqm_metrics.csv",
+      "sha256": "A8B963579A3863FBD6FB227AD068D15DE63C3798D94E76049571DEF9D4BD632E",
+      "size_bytes": 15941
+    },
+    "model_record_json": {
+      "path": "data/stage75_explicit_variable_k_cqm_model_record.json",
+      "sha256": "5F6DD13A8F25815A541ABB8F1D79DCC92BA1A2F32378B04FA297971180F2AE70",
+      "size_bytes": 52163
+    },
+    "report_md": {
+      "path": "reports/stage-75/explicit_variable_k_cqm.md",
+      "sha256": "AFB8BDC6D43A2F67FADAA914295F229F3E9125BE960AB7A371FF3F0DDDDA85B3",
+      "size_bytes": 1489
+    },
+    "solver_summary_csv": {
+      "path": "results/runs/stage75_explicit_variable_k_cqm/solver_summary.csv",
+      "sha256": "A086B22C4B62C9825B06F03455E453EFB1A57398835F9703133AEBF3DBAF0909",
+      "size_bytes": 9862
+    },
+    "solver_trials_csv": {
+      "path": "results/runs/stage75_explicit_variable_k_cqm/solver_trials.csv",
+      "sha256": "5B973C64F25D6A8BC3E345CA3E04D9A74D3D0D8F0DD7E6AFA6A964813BFDFD1E",
+      "size_bytes": 622644
+    }
+  },
+  "route_gate": {
+    "exact_frontier_solver_validation_passed": false,
+    "explicit_variable_k_cqm_encoding_passed": true,
+    "variable_k_sampler_competitiveness_passed": false
+  },
+  "runtime": {
+    "dimod": "0.12.22",
+    "numpy": "1.26.4",
+    "python": "3.11.15",
+    "wall_clock_used_for_decision": false
+  },
+  "schema_version": "1.0",
+  "solver_performance": {
+    "comparison_cell_count": 80,
+    "exact_frontier_cell_count": 20,
+    "frozen_frontier_refined_cell_count": 11,
+    "joint_classical_exact_frontier_match_rate": 1.0,
+    "joint_classical_strict_win_vs_sampler_cell_count": 56,
+    "joint_sampler_tie_cell_count": 23,
+    "sampler_exact_frontier_match_rate": 0.65,
+    "sampler_frozen_frontier_competitive_fraction": 0.2875,
+    "sampler_joint_classical_competitive_fraction": 0.3,
+    "sampler_strict_win_vs_joint_classical_cell_count": 1
+  },
+  "status": "stage75_explicit_variable_k_cqm_complete"
+}

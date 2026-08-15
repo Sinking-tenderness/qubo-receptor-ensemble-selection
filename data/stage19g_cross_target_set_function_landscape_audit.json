@@ -1,0 +1,37 @@
+{
+  "auditor": {
+    "path": "scripts/audit_stage19g_set_function_landscape.py",
+    "sha256": "D3B99FCF2BAE9D3DBA030B5FC4332C65BBF8BDD5E63E3B02BF53CFA8B5FB2914"
+  },
+  "checks": {
+    "all_input_and_output_hashes_verified": true,
+    "all_set_utilities_recomputed_independently": true,
+    "bace1_docking_rows_read": 0,
+    "bace1_method_amendment_authorized": false,
+    "composite_greedy_and_exact_paths_recomputed": true,
+    "failed_cross_target_route_preserved": true,
+    "fresh_validation_rows_read": 0,
+    "legacy_greedy_reproduced": true,
+    "new_docking_jobs": 0,
+    "pairwise_closure_and_residuals_recomputed": true,
+    "submodularity_diagnostics_recomputed": true,
+    "test_rows_read": 0
+  },
+  "config": {
+    "path": "configs/stage19g_cross_target_set_function_landscape.json",
+    "sha256": "67663CA603C0BE420D7EDA88BC8EC2C5DCD3BC3F3E2CADE094D355D901454673"
+  },
+  "coverage": {
+    "greedy_rows_recomputed": 60,
+    "pairwise_closure_rows_recomputed": 10,
+    "raw_contexts_recomputed": 10,
+    "submodularity_rows_recomputed": 10,
+    "triple_rows_recomputed": 5600
+  },
+  "result": {
+    "path": "data/stage19g_cross_target_set_function_landscape_result.json",
+    "sha256": "161B4BF1F263ABD325878A07B92FE262425E17E0C4BEEFF0335FAA75EF2A1471"
+  },
+  "schema_version": "1.0",
+  "status": "stage19g_cross_target_set_function_landscape_audit_ok"
+}

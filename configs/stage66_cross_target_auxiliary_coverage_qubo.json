@@ -1,0 +1,136 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage66-cross-target-auxiliary-coverage-qubo-20260806-v1",
+  "purpose": "Replace non-transferable receptor-pair residual rewards with a constraint-faithful multiscale active-coverage and decoy-exposure QUBO across four consumed historical targets.",
+  "implementation": {
+    "runner": {
+      "path": "scripts/run_stage66_cross_target_auxiliary_coverage_qubo.py",
+      "sha256": "0A062E54205067A8BDCD66EC84F14E07A31A20300196EAE9C6A54ACC0308785B"
+    },
+    "independent_auditor": {
+      "path": "scripts/audit_stage66_cross_target_auxiliary_coverage_qubo.py",
+      "sha256": "503CF36AB53ED62F75DF6335598F47C05889229826DEF9A9C2C333742970A0B0"
+    },
+    "stage64_runner_dependency": {
+      "path": "scripts/run_stage64_cross_target_uncertainty_shrunk_qubo.py",
+      "sha256": "D19F5F43FE660808CF957395689547CA502642EE6296356C5DF969116AE5B310"
+    }
+  },
+  "inputs": {
+    "stage64_config": {
+      "path": "configs/stage64_cross_target_uncertainty_shrunk_qubo.json",
+      "sha256": "F302FEA7CB2B22D39824A3433DC165FAE2E8E7D0A0A79C07AA73768F69AFB458"
+    },
+    "stage65_result": {
+      "path": "data/stage65_cross_target_pair_sign_mechanism_result.json",
+      "sha256": "3B94915F6642CCD027D4D2461DB6E7242EEFCCD2C3A8D43FE1784CCAC00B6E26"
+    },
+    "stage65_audit": {
+      "path": "data/stage65_cross_target_pair_sign_mechanism_audit.json",
+      "sha256": "59EDB5ED57474E05B820B1B327D902310FBFF703FE33BB88FE4C81CB338AC0F9"
+    },
+    "stage65_fixed_k_metrics": {
+      "path": "results/runs/stage65_cross_target_pair_sign_mechanism/fixed_k_metrics.csv",
+      "sha256": "023CBBABD138D5DA0D031F19E6E87BFD35FD65B6F39FE5CEE26C8DAB3FC24E98"
+    }
+  },
+  "development": {
+    "target_order": ["BACE1", "PPARG", "PPARA", "PPARD"],
+    "outer_fold_count": 4,
+    "candidate_k_values": [1, 2, 3, 4, 5, 6],
+    "bedroc_alpha": 20.0,
+    "coverage_fractions": [0.05, 0.10, 0.20],
+    "scale_weights": [0.6321205588285577, 0.3180923728035784, 0.049787068367863944],
+    "scale_weight_derivation": "Normalized differences of exp(-BEDROC_alpha*r) at rank fractions 0.05, 0.10, and 0.20, so cumulative binary coverage approximates BEDROC20 early-rank weighting.",
+    "classical_beam_width": 64,
+    "candidate_selection_rule": "Among eligible candidates, maximize worst target mean fixed-k gain over pair-off, then mean target gain, then nonnegative target count, then frozen candidate order.",
+    "loto_selection_rule": "For each held historical target, apply the same maximin rule using only the other three target summaries, then evaluate the selected candidate once on the held target."
+  },
+  "candidate_grid": [
+    {
+      "candidate_id": "ms_majority_symmetric_d0p5_s0p25",
+      "active_seed_rule": "majority",
+      "decoy_seed_rule": "majority",
+      "decoy_weight": 0.5,
+      "singleton_weight": 0.25,
+      "eligible_for_freeze": true
+    },
+    {
+      "candidate_id": "ms_majority_any_d0p25_s0p25",
+      "active_seed_rule": "majority",
+      "decoy_seed_rule": "any",
+      "decoy_weight": 0.25,
+      "singleton_weight": 0.25,
+      "eligible_for_freeze": true
+    },
+    {
+      "candidate_id": "ms_majority_any_d0p5_s0p25",
+      "active_seed_rule": "majority",
+      "decoy_seed_rule": "any",
+      "decoy_weight": 0.5,
+      "singleton_weight": 0.25,
+      "eligible_for_freeze": true
+    },
+    {
+      "candidate_id": "ms_majority_any_d0p5_s0p5",
+      "active_seed_rule": "majority",
+      "decoy_seed_rule": "any",
+      "decoy_weight": 0.5,
+      "singleton_weight": 0.5,
+      "eligible_for_freeze": true
+    },
+    {
+      "candidate_id": "ms_all_any_d0p25_s0p5",
+      "active_seed_rule": "all",
+      "decoy_seed_rule": "any",
+      "decoy_weight": 0.25,
+      "singleton_weight": 0.5,
+      "eligible_for_freeze": true
+    },
+    {
+      "candidate_id": "ms_majority_any_d1p0_s0p25",
+      "active_seed_rule": "majority",
+      "decoy_seed_rule": "any",
+      "decoy_weight": 1.0,
+      "singleton_weight": 0.25,
+      "eligible_for_freeze": true
+    }
+  ],
+  "qubo_encoding": {
+    "algorithm_id": "multiscale-seed-robust-active-coverage-decoy-exposure-qubo-v2",
+    "reference_model_k": 3,
+    "cardinality_penalty": 20.0,
+    "constraint_penalty": 100.0,
+    "certificate_random_subset_count": 64,
+    "certificate_seed_base": 20260866,
+    "selection_solver": "deterministic beam-64 plus exhaustive one-swap local refinement on the exact reduced QUBO set objective",
+    "same_objective_comparator": "direct nested greedy on the identical reduced set objective"
+  },
+  "freeze_gate": {
+    "minimum_mean_target_gain_over_pair_off": 0.002,
+    "minimum_worst_target_gain_over_pair_off": -0.01,
+    "minimum_nonnegative_target_count_over_pair_off": 3,
+    "minimum_loto_mean_gain_over_pair_off": 0.0,
+    "minimum_positive_loto_target_count": 2,
+    "minimum_selection_difference_fraction_vs_greedy": 0.05,
+    "maximum_qubo_energy_equivalence_residual": 1e-7
+  },
+  "data_boundary": {
+    "historical_development_targets_permitted": ["BACE1", "PPARG", "PPARA", "PPARD"],
+    "fresh_validation_rows_permitted": 0,
+    "locked_test_rows_permitted": 0,
+    "new_docking_jobs_permitted": 0,
+    "quantum_hardware_jobs_permitted": 0
+  },
+  "outputs": {
+    "fixed_k_metrics_csv": "results/runs/stage66_cross_target_auxiliary_coverage_qubo/fixed_k_metrics.csv",
+    "target_summary_csv": "results/runs/stage66_cross_target_auxiliary_coverage_qubo/target_summary.csv",
+    "global_summary_csv": "results/runs/stage66_cross_target_auxiliary_coverage_qubo/global_summary.csv",
+    "loto_summary_csv": "results/runs/stage66_cross_target_auxiliary_coverage_qubo/loto_summary.csv",
+    "model_record_json": "data/stage66_auxiliary_coverage_qubo_model_record.json",
+    "result_json": "data/stage66_cross_target_auxiliary_coverage_qubo_result.json",
+    "audit_json": "data/stage66_cross_target_auxiliary_coverage_qubo_audit.json",
+    "report_md": "reports/stage-66/cross_target_auxiliary_coverage_qubo.md"
+  },
+  "interpretation_boundary": "Stage66 is post-hoc objective development on four consumed historical targets. A pass may freeze one auxiliary-variable coverage rule only for preregistration on a genuinely new target. Same-objective QUBO and classical searches share the same mathematical optimum, so this stage cannot establish solver advantage, independent efficacy, quantum execution, speedup, or quantum advantage."
+}

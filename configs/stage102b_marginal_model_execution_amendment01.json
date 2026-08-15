@@ -1,0 +1,133 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage102b-phase-a-marginal-model-execution-amendment01-20260813-v1",
+  "parent": {
+    "stage102_config": "configs/stage102_prospective_marginal_learning.json",
+    "stage102_config_sha256": "2C1980E2A0C9B3F08DFAD30A82E2D4AF7063E16AE22515607EB280A613D1FA43",
+    "stage99_config": "configs/stage99_qubo_objective_repair_screen.json",
+    "stage99_config_sha256": "5D632F109CCCD4445470BC8E525B7451EDE2E81B209101837F7021F87B816936",
+    "stage100_config": "configs/stage100_adaptive_stopping_qubo.json",
+    "stage100_config_sha256": "4DB0E2D9364AC40417DA5EE23A713396FE131F53D3BEC140684AEAC5F9A4E2C0",
+    "stage102a_analysis": "analysis/stage102a_received_20260813/analysis/result.json",
+    "stage102a_analysis_sha256": "C1489BD488CE4CDCAB1AE3152805FE2F328B0B7B1C4BFC5A6EB4446933560BE4"
+  },
+  "purpose": "Operationalize the two Stage102 marginal-value candidates on the seven already available development targets without new docking, protected PARP1 reads, or quantum-hardware calls.",
+  "evidence_status": "posthoc development amendment: Stage102 named the two candidate families before Phase-A analysis, but this amendment freezes operational bootstrap, rescue, and feature details after Phase-A docking. It can reject the route or nominate a future separately reviewed protocol; it cannot itself establish confirmation or release PARP1.",
+  "targets": {
+    "historical_stage99_targets": ["MK14", "PPARG", "BACE1", "PPARA", "PPARD"],
+    "stage102a_targets": ["EGFR", "FA10"],
+    "stage102a_received_root": "analysis/stage102a_received_20260813/core"
+  },
+  "stage102a_inputs": {
+    "analysis/stage102a_received_20260813/core/results/runs/stage102a_egfr_phase_a_production/primary_median_score_matrix.csv": "943E51DFD580A2A3076682657E4574148D6298A5A78D4583A46ED261E2B1BB74",
+    "analysis/stage102a_received_20260813/core/data/processed/stage102a_egfr_phase_a_pdbqt_manifest.csv": "4B08CBAA56D53FE571235652A99746A59AA8F115C1C14FB454F45874DCF2CA7A",
+    "analysis/stage102a_received_20260813/core/results/runs/stage102a_fa10_phase_a_production/primary_median_score_matrix.csv": "DBC7155B550FC9E5AED9B5E2A7ADB263817876B9AE2EBAD3D8E333F27FF4B750",
+    "analysis/stage102a_received_20260813/core/data/processed/stage102a_fa10_phase_a_pdbqt_manifest.csv": "56D125336A0A4BEC937847C6008B3FB70A9C6F5147014AD8A2F19E8A710DF026"
+  },
+  "objective": {
+    "source": "Stage99 robust_two_support_bedroc20_pair_qubo_v1",
+    "candidate_k_values": [1, 2, 3],
+    "primary_metric": "BEDROC alpha=20 on the outer holdout; lower docking score and lower empirical rank are better",
+    "primary_aggregation": "minimum empirical rank across selected receptors",
+    "baseline": "the k=1 exact QUBO selection fitted only on each outer-training split"
+  },
+  "splits": {
+    "historical_outer_split": "five-fold GroupKFold on the Stage99 target group field",
+    "stage102a_outer_split": "the frozen outer_fold column in the received manifest",
+    "inner_split": "three-fold GroupKFold on the outer-training target group field",
+    "outer_labels_visible_to_feature_builder": false,
+    "outer_labels_visible_to_selector": false
+  },
+  "feature_construction": {
+    "bootstrap": {
+      "unit": "outer-training split group / scaffold group",
+      "iterations": 1000,
+      "ci_lower_quantile": 0.025,
+      "random_seed_namespace": "stage102b-bootstrap-v1",
+      "description": "For every outer fold and k-1 to k transition, build out-of-inner-fold predictions on outer-training ligands, then resample groups with replacement and recompute paired BEDROC20 gains."
+    },
+    "rescue": {
+      "fractions": [0.01, 0.05],
+      "definition": "A ligand is rescued at fraction f when it is absent from the top ceil(f*N) under k-1 out-of-inner-fold ranks and present under k out-of-inner-fold ranks. The contrast is active rescue fraction minus decoy rescue fraction."
+    },
+    "subset_stability": "mean pairwise Jaccard similarity among the three inner-fold exact QUBO subsets at the candidate k",
+    "rank_disagreement": "Spearman correlation between k-1 and k out-of-inner-fold aggregate ranks; smaller correlation indicates greater functional novelty.",
+    "qubo_gap": "mean inner-fold difference between the exact QUBO optimum and the direct one-swap classical solution at candidate k; this is a bounded optimization-disagreement feature rather than an exhaustive second-best gap",
+    "incremental_cost": "1 / number of available receptors",
+    "common_feature_policy": "Only features computable for every one of the seven targets enter the Ridge model. Three-seed features and structural coordinates are retained as separate robustness diagnostics because they are not available consistently for all historical targets."
+  },
+  "candidate_rules": {
+    "mechanistic_bootstrap_lcb": {
+      "continue_condition": "bootstrap BEDROC20 lower 95% bound > 0 and mean(top1 rescue contrast, top5 rescue contrast) > 0",
+      "stop_policy": "start at k=1; stop permanently at the first failed k-1 to k transition",
+      "uses_target_outer_labels": false
+    },
+    "target_held_out_l2_ridge": {
+      "model": "StandardScaler followed by Ridge(alpha=1.0)",
+      "features": [
+        "inner_mean_gain",
+        "inner_gain_se",
+        "bootstrap_mean_gain",
+        "bootstrap_ci95_lower",
+        "bootstrap_positive_probability",
+        "bootstrap_worst_gain",
+        "selected_subset_jaccard",
+        "active_rescue_contrast_top1",
+        "active_rescue_contrast_top5",
+        "aggregate_rank_spearman",
+        "qubo_optimum_gap",
+        "incremental_receptor_cost",
+        "transition_is_k3"
+      ],
+      "training": "For each held target, fit only on marginal edges from the other six targets. The held target's outer gains are never used to fit, scale, or select the model.",
+      "continue_condition": "held-target Ridge predicted outer BEDROC20 gain > 0",
+      "stop_policy": "start at k=1; stop permanently at the first nonpositive predicted transition",
+      "uses_target_outer_labels": false
+    }
+  },
+  "comparators": [
+    "train-selected single receptor",
+    "fixed k=2 exact QUBO",
+    "fixed k=3 exact QUBO",
+    "one-standard-error stopping",
+    "sequential paired marginal LCB from Stage100",
+    "direct BEDROC forward greedy at the same selected cardinality",
+    "mean singleton Top-k at the same selected cardinality",
+    "outer oracle-k, reported only as an unattainable ceiling"
+  ],
+  "phase_a_gate": {
+    "minimum_mean_target_gain_over_train_selected_single": 0.02,
+    "minimum_worst_target_gain": -0.02,
+    "minimum_target_count_with_gain_at_least_0p02": 4,
+    "minimum_nontrivial_outer_fold_count": 12,
+    "minimum_new_target_count_with_positive_gain": 1,
+    "minimum_new_target_sign_accuracy": 0.60,
+    "all_required": true,
+    "pass_action": "Nominate the single best eligible candidate for independent protocol review. PARP1 remains locked until that review freezes an untouched-validation package.",
+    "failure_action": "Reject this operationalization of adaptive-cardinality development. Do not prepare or dock PARP1 and do not run quantum hardware."
+  },
+  "tie_break": {
+    "eligible_candidate_order": [
+      "higher mean target gain",
+      "higher worst target gain",
+      "smaller mean selected k",
+      "mechanistic_bootstrap_lcb before target_held_out_l2_ridge"
+    ]
+  },
+  "data_boundary": {
+    "new_docking_jobs": 0,
+    "parp1_benchmark_docking_scores_read": 0,
+    "parp1_fresh_validation_rows_read": 0,
+    "parp1_locked_test_rows_read": 0,
+    "quantum_hardware_jobs": 0
+  },
+  "outputs": {
+    "edge_csv": "results/runs/stage102b_marginal_model_execution/marginal_edge_features.csv",
+    "fold_csv": "results/runs/stage102b_marginal_model_execution/fold_decisions.csv",
+    "target_csv": "results/runs/stage102b_marginal_model_execution/target_summary.csv",
+    "model_json": "results/runs/stage102b_marginal_model_execution/held_target_ridge_models.json",
+    "result_json": "data/stage102b_marginal_model_execution_result.json",
+    "audit_json": "data/stage102b_marginal_model_execution_audit.json",
+    "report_md": "reports/stage-102/stage102b_marginal_model_execution.md"
+  }
+}

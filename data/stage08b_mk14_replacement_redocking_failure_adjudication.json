@@ -1,0 +1,47 @@
+{
+  "schema_version": "1.0",
+  "adjudication_id": "stage08b-mk14-replacement-redocking-failure-adjudication-v1",
+  "status": "stage08b_replacement_gate_failed_one_receptor",
+  "config": {
+    "path": "configs/stage08b_mk14_replacement_redocking_failure_adjudication.json",
+    "sha256": "65CF1EC4029C52223264758A0F4DA1A6A7B49F6EE02ECBE81AC438D55F4BC1EE"
+  },
+  "source_archive": {
+    "basename": "stage08b_mk14_expanded16_replacement_redocking_failed_diagnostics_v1.tar.gz",
+    "sha256": "69F7FD6CAF6582C420CB74F57ECDCA33951C44830A2B5A2331BA7BCFD5838DF4"
+  },
+  "completed_pair_count": 6,
+  "engine_failure_count": 0,
+  "unresolved_warning_event_count": 0,
+  "pose_integrity_failure_count": 0,
+  "receptor_gate_results": [
+    {
+      "conformer_id": "MK14_3ITZ_aligned",
+      "successful_seed_count": 3,
+      "median_rmsd_angstrom": 0.356859,
+      "maximum_rmsd_angstrom": 0.377424,
+      "gate_pass": true
+    },
+    {
+      "conformer_id": "MK14_2BAK_aligned",
+      "successful_seed_count": 1,
+      "median_rmsd_angstrom": 3.66505,
+      "maximum_rmsd_angstrom": 3.671581,
+      "gate_pass": false
+    }
+  ],
+  "admitted_receptor_ids": [
+    "MK14_3ITZ_aligned"
+  ],
+  "failed_receptor_ids": [
+    "MK14_2BAK_aligned"
+  ],
+  "data_boundary": {
+    "benchmark_ligand_labels_read": 0,
+    "benchmark_docking_scores_read": 0,
+    "previous_validation_rows_read": 0,
+    "test_rows_read": 0
+  },
+  "decision": "Admit 3ITZ, permanently exclude 2BAK, propagate exclusion to any zero-distance structural duplicate using the same co-crystal ligand, and preregister one more structural replacement.",
+  "decision_boundary": "This adjudication uses only the frozen replacement cognate-redocking controls. It cannot relax thresholds, inspect benchmark labels or scores, or authorize validation/test access."
+}

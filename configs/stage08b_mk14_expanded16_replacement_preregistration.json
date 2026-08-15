@@ -1,0 +1,89 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage08b-mk14-expanded16-technical-replacement-selection-v1",
+  "purpose": "Replace the two Stage 08 cognate-redocking failures without relaxing the frozen Uni-Dock or RMSD gates and without reading benchmark labels or scores.",
+  "created_after_failure": {
+    "finding": "All 24 Stage 08 jobs completed with zero engine or pose-integrity failures, but MK14_3ZSH_aligned and MK14_2GFS_aligned failed the preregistered receptor-level RMSD gate.",
+    "action": "Permanently exclude those two receptors from this production pool and select two replacements using only the frozen structural-distance table and binary technical-admission status."
+  },
+  "inputs": {
+    "failure_adjudication": {
+      "path": "data/stage08_mk14_expanded16_redocking_failure_adjudication.json",
+      "sha256": "DE767F7922BDA5FDBAEFB03A7637C83178871B6BF79BBFFCA72F053800989359"
+    },
+    "structural_summary": {
+      "path": "data/stage08_mk14_expanded16_structural_selection_summary.json",
+      "sha256": "B148F396896E30186084285DA462A81080B2DE2A41EBADF8D48FA81FA56B767B"
+    },
+    "structural_audit": {
+      "path": "data/stage08_mk14_expanded16_structural_selection_audit.json",
+      "sha256": "8DC14108E6A2B68AA4A0797941582F524850EABB69A3993BABD807A8458236E5"
+    },
+    "structural_manifest": {
+      "path": "data/processed/stage08_mk14_expanded16_structural_selection.csv",
+      "sha256": "5F4CA6DE5C6EFDF50F863CC253D6B669679C026D62A7DC94B9037A2DB41B5BA5"
+    },
+    "eligible_pool": {
+      "path": "data/processed/stage05_mk14_rcsb_coordinate_eligible_pool_v3.csv",
+      "sha256": "5E8C7E097E1B7E154CF722335932865FAE554A0F50D148DAC0D47594DDEB8CC6"
+    },
+    "candidate_audit": {
+      "path": "data/processed/stage05_mk14_rcsb_coordinate_candidate_audit_v3.csv",
+      "sha256": "4369E7A3DD89BCD4EE41F1182F07648AAA73240A2EB3905E59A21D25C14548F9"
+    },
+    "pairwise_distances": {
+      "path": "data/processed/stage05_mk14_rcsb_structural_distances_v3.csv",
+      "sha256": "E205B8E50C3096B48997F20AC0769EC8313416D2B0028FB3394DB08B0B3F2F62"
+    }
+  },
+  "replacement_rule": {
+    "admitted_receptor_ids": [
+      "MK14_2QD9_reference",
+      "MK14_1A9U_aligned",
+      "MK14_3K3J_aligned",
+      "MK14_3KQ7_aligned",
+      "MK14_2BAJ_aligned",
+      "MK14_4F9W_aligned",
+      "MK14_3OCG_aligned",
+      "MK14_3MPT_aligned",
+      "MK14_3ZSI_aligned",
+      "MK14_5N65_aligned",
+      "MK14_3ZSG_aligned",
+      "MK14_3BV2_aligned",
+      "MK14_4FA2_aligned",
+      "MK14_4AAC_aligned"
+    ],
+    "permanently_excluded_receptor_ids": [
+      "MK14_3ZSH_aligned",
+      "MK14_2GFS_aligned"
+    ],
+    "replacement_count": 2,
+    "selection_rule": "Sequentially choose the coordinate-eligible, nonexcluded candidate with the largest minimum standardized pocket distance to the currently admitted pool; after each choice add it to the admitted pool; resolve exact ties by lexical conformer ID.",
+    "docking_affinities_used": false,
+    "rmsd_magnitudes_used_for_ranking": false,
+    "binary_redocking_admission_status_used": true
+  },
+  "expected": {
+    "eligible_pool_count": 43,
+    "pairwise_distance_count": 903,
+    "admitted_receptor_count_before_replacement": 14,
+    "replacement_receptor_ids": [
+      "MK14_3ITZ_aligned",
+      "MK14_2BAK_aligned"
+    ],
+    "final_receptor_count_if_both_pass": 16,
+    "validation_rows": 0,
+    "test_rows": 0
+  },
+  "outputs": {
+    "replacement_selection_csv": "data/processed/stage08b_mk14_expanded16_replacement_selection.csv",
+    "replacement_selection_summary_json": "data/stage08b_mk14_expanded16_replacement_selection_summary.json"
+  },
+  "data_boundary": {
+    "benchmark_ligand_labels_read": 0,
+    "benchmark_docking_scores_read": 0,
+    "previous_validation_rows_read": 0,
+    "test_rows_read": 0
+  },
+  "decision_boundary": "The selected replacements must pass the unchanged three-seed Uni-Dock cognate-redocking gate before entering the final 16-receptor production manifest. Failure triggers another separately preregistered replacement cycle, not threshold relaxation."
+}

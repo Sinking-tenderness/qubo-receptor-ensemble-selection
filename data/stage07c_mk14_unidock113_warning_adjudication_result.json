@@ -1,0 +1,63 @@
+{
+  "config": {
+    "path": "configs/stage07c_mk14_unidock113_warning_adjudication.json",
+    "sha256": "90BA74EC82213C21AC5CB6907CDACD5900089BE585B3E9128A909AA5118F4AEF"
+  },
+  "data_boundary": {
+    "fresh_validation_rows_read": 0,
+    "source": "consumed Train-160",
+    "test_rows_read": 0
+  },
+  "experiment_id": "stage07c-mk14-unidock113-enhanced-warning-adjudication-v1",
+  "gate_checks": {
+    "complete_new_seed": true,
+    "complete_warning_replay": true,
+    "exact_replay_pose_hashes": true,
+    "exact_replay_scores": true,
+    "maximum_seed_pair_bedroc_delta": true,
+    "minimum_seed_pair_spearman": true,
+    "zero_pose_integrity_failures": true,
+    "zero_unresolved_warning_events": true
+  },
+  "interpretation_note": "This consumed-train technical confirmation may freeze Uni-Dock 1.1.3 enhanced 1024/80 for a separately preregistered larger training matrix. It cannot alter historical CPU Vina evidence, authorize validation or test access, select a QUBO objective, or establish biological or quantum advantage.",
+  "metrics": {
+    "known_warning_event_count": 2,
+    "maximum_seed_pair_bedroc_delta": 0.04268484329184752,
+    "median_seed_pair_top5pct_overlap": 1.0,
+    "minimum_seed_pair_spearman": 0.9357980942980132,
+    "pose_integrity_failure_count": 0,
+    "replay_exact_pose_hash_count": 160,
+    "replay_exact_score_count": 160,
+    "unresolved_warning_event_count": 0
+  },
+  "outputs": {
+    "evaluation_report_md": {
+      "path": "reports/stage-07/mk14_unidock113_warning_adjudication.md",
+      "sha256": "2FD4AFB4ADB0B65458119CBD02474864562FEF0C4F50B4E820C78023EEB94E1E",
+      "size_bytes": 1124
+    },
+    "group_metrics_csv": {
+      "path": "results/runs/stage07c_mk14_unidock113_warning_adjudication/group_metrics.csv",
+      "sha256": "EE6ECB4C933528E12810481D6AE778678C00D178E6E2FB8F2086D43B64FE1A0B",
+      "size_bytes": 1839
+    },
+    "replay_comparison_csv": {
+      "path": "results/runs/stage07c_mk14_unidock113_warning_adjudication/replay_comparison.csv",
+      "sha256": "3656AD88AA8AC5FF53BC4E7DF7598265ABCC6D0B43D38A103A21550BD84C2C9A",
+      "size_bytes": 32074
+    },
+    "seed_stability_csv": {
+      "path": "results/runs/stage07c_mk14_unidock113_warning_adjudication/seed_stability.csv",
+      "sha256": "0B594CA47FF8638E6D8B0CA974EE008784981ADDB9B1A884AAF6948C08CEC710",
+      "size_bytes": 2287
+    }
+  },
+  "run_summary": {
+    "path": "results/runs/stage07c_mk14_unidock113_warning_adjudication/run_summary.json",
+    "sha256": "B48BD8D38654EE3B0CDCFF9D621D97B7CE21B20554FFCE8B6DDB67DAF5B570C1",
+    "size_bytes": 3267
+  },
+  "schema_version": "1.0",
+  "selected_profile_id": "enhanced",
+  "status": "unidock_profile_frozen_train_only"
+}

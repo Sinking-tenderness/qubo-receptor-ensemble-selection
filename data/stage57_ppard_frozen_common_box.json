@@ -1,0 +1,29 @@
+{
+  "box": {
+    "center_x": 15.38,
+    "center_y": 2.56,
+    "center_z": 38.05,
+    "size_x": 22.0,
+    "size_y": 24.0,
+    "size_z": 24.0
+  },
+  "center": {
+    "x": 15.38,
+    "y": 2.56,
+    "z": 38.05
+  },
+  "derivation_rule": {
+    "center": "heavy-atom centroid rounded to two decimals",
+    "size": "heavy-atom span plus 12 angstrom, rounded upward to a 2-angstrom increment and clamped to 22-30 angstrom",
+    "source": "2ZNP K55 heavy-atom coordinates in the reference frame",
+    "timing": "Frozen in Stage55 before PPARD docking outcomes"
+  },
+  "receptor_count": 39,
+  "schema_version": "1.0",
+  "size": {
+    "x": 22.0,
+    "y": 24.0,
+    "z": 24.0
+  },
+  "status": "stage57_ppard_frozen_common_box_ok"
+}

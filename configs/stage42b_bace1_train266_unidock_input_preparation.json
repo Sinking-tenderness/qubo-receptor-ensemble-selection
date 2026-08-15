@@ -1,0 +1,52 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage42b-bace1-train266-unidock-input-preparation-20260804-v1",
+  "purpose": "Generate deterministic 3D SDF and macrocycle-safe Meeko PDBQT inputs for only the frozen BACE1 Train-266 development panel.",
+  "implementation": {
+    "preparer": {
+      "path": "scripts/experimental/unidock/prepare_stage42b_bace1_train266_inputs.py",
+      "sha256": "2B1721B95D879E7094CA942A225AD17006A1CFB2A79DBBFF2108B9799F2E8513"
+    },
+    "three_d_helper": {
+      "path": "scripts/prepare_ligand_3d_sdf.py",
+      "sha256": "C0D64DA0D2DCA4328513CC044AF98448913FBF122A06A8031AB95D4144EB11A5"
+    },
+    "meeko_helper": {
+      "path": "scripts/batch_prepare_ligand_pdbqt.py",
+      "sha256": "44574F8EDC68AE27EB31388D1FB44F034FBBC3F755506B8DFEBC1E0823471D18"
+    },
+    "pseudoatom_audit_helper": {
+      "path": "scripts/experimental/unidock/run_unidock_gpu_equivalence.py",
+      "sha256": "4E927E959A08526289F7B266BA8CD76232741C878CCE255312F94A561DE433B0"
+    }
+  },
+  "inputs": {
+    "panel_allocation_config": {
+      "path": "configs/stage42a_bace1_ligand_panel_allocation.json",
+      "sha256": "92794C1699685325289FFF1C728B7C170A467F3024AAF0742F5205FD02A36FFC"
+    },
+    "panel_allocation_summary_path": "data/stage42a_bace1_ligand_panel_allocation_summary.json",
+    "train_manifest_path": "data/processed/stage42a_bace1_train266_ligand_manifest.csv"
+  },
+  "expected": {
+    "ligand_count": 266,
+    "label_counts": {"active": 133, "decoy": 133},
+    "validation_rows": 0,
+    "test_rows": 0
+  },
+  "preparation": {
+    "rdkit_version": "2026.3.1",
+    "meeko_version": "0.7.1",
+    "rdkit_method": "ETKDGv3 with explicit hydrogens, useRandomCoords=true, then MMFF94 or UFF with 500 iterations",
+    "rdkit_embed_base_seed": 20260804,
+    "deterministic_retry_seed_offsets": [0, 1000003, 2000003],
+    "macrocycle_policy": "Run Meeko flexible first. If preparation fails or closure pseudoatoms are detected, rerun once with --rigid_macrocycles; require zero closure pseudoatoms in the final PDBQT.",
+    "local_worker_count": 8
+  },
+  "outputs": {
+    "run_directory": "results/runs/stage42b_bace1_train266_unidock_inputs",
+    "manifest_csv": "data/processed/stage42b_bace1_train266_unidock_pdbqt_manifest.csv",
+    "summary_json": "data/stage42b_bace1_train266_unidock_input_summary.json"
+  },
+  "interpretation_boundary": "This stage prepares development-only structures and reads no docking score, fresh-validation row, or locked-test row. Preparation success does not establish enrichment, QUBO superiority, quantum execution, or quantum advantage."
+}

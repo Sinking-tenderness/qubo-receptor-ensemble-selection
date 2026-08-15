@@ -1,0 +1,307 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage64-cross-target-uncertainty-shrunk-rank-pair-qubo-20260806-v1",
+  "purpose": "Develop a fixed-k uncertainty-shrunk rank-pair QUBO across four consumed historical development targets, with exact reconstruction of the old objective and explicit comparison against a pair-off additive model.",
+  "implementation": {
+    "runner": {
+      "path": "scripts/run_stage64_cross_target_uncertainty_shrunk_qubo.py",
+      "sha256": "D19F5F43FE660808CF957395689547CA502642EE6296356C5DF969116AE5B310"
+    },
+    "independent_auditor": {
+      "path": "scripts/audit_stage64_cross_target_uncertainty_shrunk_qubo.py",
+      "sha256": "FCBD5AB13EC996D70FE85320CE102B574BFF2945E566DA4A07F60E534CF56EF2"
+    }
+  },
+  "inputs": {
+    "stage63_fixed_k_landscape": {
+      "path": "results/runs/stage63_cross_target_rank_pair_failure_diagnosis/fixed_k_landscape.csv",
+      "sha256": "EB6D91E865C6CEA0F556E923036B87CB04D655C56D5FDCC1CECFF276EBF025D6"
+    },
+    "stage63_audit": {
+      "path": "data/stage63_cross_target_rank_pair_failure_diagnosis_audit.json",
+      "sha256": "E5F71EBD9B05B5365463D75BACB174C5C2A1D83AF838C01AAA83FE1C8E1BA35C"
+    }
+  },
+  "targets": {
+    "BACE1": {
+      "inputs": {
+        "scores": {
+          "path": "results/runs/stage42c_bace1_train266_unidock113_production/scores.csv",
+          "sha256": "1665B0B1C99F6A48989940F3BE90754A46FD9E1FAAF28B326FB7B0277D341818"
+        },
+        "ligand_manifest": {
+          "path": "data/processed/stage42b_bace1_train266_unidock_pdbqt_manifest.csv",
+          "sha256": "957F75B362A2A123080A5CE6F8003BC96F2A55548EE04747235166D42BBE5DCC"
+        },
+        "receptor_manifest": {
+          "path": "data/processed/stage42c_bace1_redocking_qualified34_receptor_manifest.csv",
+          "sha256": "FFC5D239D4E880B07FBAEB04EDB87885302B893B54631F91424CDEE0B9026BC0"
+        },
+        "outer_assignments": {
+          "path": "results/runs/stage42f_bace1_rank_sensitive_pair_qubo/fold_assignments.csv",
+          "sha256": "0EDDD412A055EBEFC61C821251532780EBC5197DEC2BE4A1AE15145F8369CD15"
+        }
+      },
+      "expected": {
+        "ligand_count": 266,
+        "receptor_count": 34,
+        "label_counts": {
+          "active": 133,
+          "decoy": 133
+        },
+        "allowed_receptor_statuses": [
+          "ok"
+        ],
+        "score_target_ids": [
+          "MK14"
+        ],
+        "score_target_metadata_adjudication": "The historical Stage42c BACE1 score rows carry target_id=MK14. Ligand IDs, receptor IDs, dimensions, and source hashes identify the matrix as BACE1; the stale target_id is metadata-only and is not used as a score key."
+      }
+    },
+    "PPARG": {
+      "inputs": {
+        "scores": {
+          "path": "results/runs/stage43_pparg_md96_unidock113_production/scores.csv",
+          "sha256": "4E3C11ED42FCC5B8663C78E4E647996BF6F68D9FAD5304206F7B4CD8D58956E4"
+        },
+        "ligand_manifest": {
+          "path": "data/processed/stage32_pparg_train160_ligand_manifest.csv",
+          "sha256": "4FCA64D6B2AAEB11CA83A2A205996AAFF28ADF1AC1D35F3FB81DFC600882E3BC"
+        },
+        "receptor_manifest": {
+          "path": "data/processed/stage43_pparg_md96_prepared_receptor_manifest.csv",
+          "sha256": "EC889123EEFE403189124E7DFA2E81820EB83F61C41A594FEB8146CA547B957E"
+        },
+        "outer_assignments": {
+          "path": "results/runs/stage44_pparg_md96_rank_sensitive_qubo/fold_assignments.csv",
+          "sha256": "09886BD66D75E40442F45BD66FC30F7CE0407BD7A2B21D0461856B8B50BBB98D"
+        }
+      },
+      "expected": {
+        "ligand_count": 160,
+        "receptor_count": 96,
+        "label_counts": {
+          "active": 80,
+          "decoy": 80
+        },
+        "allowed_receptor_statuses": [
+          "ok",
+          "historical_stage32_reuse"
+        ],
+        "score_target_ids": [
+          "PPARG"
+        ]
+      }
+    },
+    "PPARA": {
+      "inputs": {
+        "scores": {
+          "path": "results/runs/stage52c_ppara_target_id_amendment/scores.csv",
+          "sha256": "673604EC2662F6AFFD872927DBD0DF4C9398CE39501DE31D7A69D4B10EF29E84"
+        },
+        "ligand_manifest": {
+          "path": "data/processed/stage52a_ppara_train374_unidock_pdbqt_manifest.csv",
+          "sha256": "5B6CA85C2AA9A97A17BDD0D07BDFA9A896E1F9DC30582F49F5B9F4E7AE995D85"
+        },
+        "receptor_manifest": {
+          "path": "data/processed/stage52b_ppara_stage51_passing20_receptor_manifest.csv",
+          "sha256": "8F08BE3C28EE2A4548D063A02BBE0E1BD82E214AA43844C362CD327BFBB9EF2C"
+        },
+        "outer_assignments": {
+          "path": "results/runs/stage53_ppara_large_pool_qubo_transfer/fold_assignments.csv",
+          "sha256": "C729EEB5A93DB931A42DB821BD5A1343B6D8531890AF29A99957AC13EF7DF1FC"
+        }
+      },
+      "expected": {
+        "ligand_count": 374,
+        "receptor_count": 20,
+        "label_counts": {
+          "active": 187,
+          "decoy": 187
+        },
+        "allowed_receptor_statuses": [
+          "ok"
+        ],
+        "score_target_ids": [
+          "PPARA"
+        ]
+      }
+    },
+    "PPARD": {
+      "inputs": {
+        "scores": {
+          "path": "results/runs/stage62_ppard_train240_nested_qubo/merged_scores.csv",
+          "sha256": "A58D9D2611AC6176BB57C919304F68D8D6C097418C9A4A891BA3D8AAF71506B4"
+        },
+        "ligand_manifest": {
+          "path": "data/processed/stage56_ppard_train240_ligand_manifest.csv",
+          "sha256": "618B068DC49CBB037DF2B34F0B52A287509341AE879327CE4FC7C9FB1E6F1101"
+        },
+        "receptor_manifest": {
+          "path": "data/processed/stage58b_ppard_stage57_passing29_receptor_manifest.csv",
+          "sha256": "12AB8EC9FC0C7D2CDFFF6D1E9CFD53A0215D4450D4CE12708EB165BED35C7F0A"
+        },
+        "outer_assignments": {
+          "path": "data/processed/stage60_ppard_full_development_outer_fold_assignments.csv",
+          "sha256": "1F4695685AC1E7B590E733FA3019465746F1B9C7002F4E1E5BA8C719536A5A0E"
+        }
+      },
+      "expected": {
+        "ligand_count": 240,
+        "receptor_count": 29,
+        "label_counts": {
+          "active": 120,
+          "decoy": 120
+        },
+        "allowed_receptor_statuses": [
+          "ok"
+        ],
+        "score_target_ids": [
+          "PPARD"
+        ]
+      }
+    }
+  },
+  "development": {
+    "target_order": [
+      "BACE1",
+      "PPARG",
+      "PPARA",
+      "PPARD"
+    ],
+    "outer_fold_count": 4,
+    "candidate_k_values": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "bedroc_alpha": 20.0,
+    "classical_beam_width": 64,
+    "jackknife_block_count": 4,
+    "jackknife_seed_base": 20260806,
+    "rank_refit_within_each_jackknife_delete_block": true,
+    "candidate_selection_rule": "Among candidates eligible for freezing, maximize the worst target mean gain over pair-off, then mean target gain over pair-off, then the same two criteria over baseline_v1, with candidate order as the final deterministic tie-break.",
+    "loto_selection_rule": "For each held target, select the eligible candidate with the largest mean gain over pair-off on the other three targets, then evaluate it once on the held historical target."
+  },
+  "candidate_grid": [
+    {
+      "candidate_id": "baseline_v1",
+      "mode": "baseline",
+      "lambda_mad": 0.0,
+      "sign_support_threshold": 0.0,
+      "pair_scale": 1.0,
+      "eligible_for_freeze": false
+    },
+    {
+      "candidate_id": "pair_scale_0p25",
+      "mode": "soft_threshold",
+      "lambda_mad": 0.0,
+      "sign_support_threshold": 0.0,
+      "pair_scale": 0.25,
+      "eligible_for_freeze": true
+    },
+    {
+      "candidate_id": "pair_scale_0p50",
+      "mode": "soft_threshold",
+      "lambda_mad": 0.0,
+      "sign_support_threshold": 0.0,
+      "pair_scale": 0.5,
+      "eligible_for_freeze": true
+    },
+    {
+      "candidate_id": "lcb0p5_s50",
+      "mode": "soft_threshold",
+      "lambda_mad": 0.5,
+      "sign_support_threshold": 0.5,
+      "pair_scale": 1.0,
+      "eligible_for_freeze": true
+    },
+    {
+      "candidate_id": "lcb1p0_s75",
+      "mode": "soft_threshold",
+      "lambda_mad": 1.0,
+      "sign_support_threshold": 0.75,
+      "pair_scale": 1.0,
+      "eligible_for_freeze": true
+    },
+    {
+      "candidate_id": "lcb1p5_s75",
+      "mode": "soft_threshold",
+      "lambda_mad": 1.5,
+      "sign_support_threshold": 0.75,
+      "pair_scale": 1.0,
+      "eligible_for_freeze": true
+    },
+    {
+      "candidate_id": "lcb2p0_s75",
+      "mode": "soft_threshold",
+      "lambda_mad": 2.0,
+      "sign_support_threshold": 0.75,
+      "pair_scale": 1.0,
+      "eligible_for_freeze": true
+    },
+    {
+      "candidate_id": "lcb1p0_s75_scale0p5",
+      "mode": "soft_threshold",
+      "lambda_mad": 1.0,
+      "sign_support_threshold": 0.75,
+      "pair_scale": 0.5,
+      "eligible_for_freeze": true
+    },
+    {
+      "candidate_id": "lcb1p5_s75_scale0p5",
+      "mode": "soft_threshold",
+      "lambda_mad": 1.5,
+      "sign_support_threshold": 0.75,
+      "pair_scale": 0.5,
+      "eligible_for_freeze": true
+    },
+    {
+      "candidate_id": "pair_off",
+      "mode": "pair_off",
+      "lambda_mad": 0.0,
+      "sign_support_threshold": 0.0,
+      "pair_scale": 0.0,
+      "eligible_for_freeze": false
+    }
+  ],
+  "freeze_gate": {
+    "minimum_mean_target_gain": 0.005,
+    "minimum_worst_target_gain": -0.01,
+    "minimum_nonnegative_target_count": 3,
+    "minimum_mean_target_gain_over_pair_off": 0.002,
+    "minimum_worst_target_gain_over_pair_off": -0.01,
+    "minimum_nonnegative_target_count_over_pair_off": 3,
+    "minimum_loto_mean_gain": 0.0,
+    "minimum_positive_loto_target_count": 2,
+    "minimum_loto_mean_gain_over_pair_off": 0.0,
+    "minimum_positive_loto_target_count_over_pair_off": 2
+  },
+  "data_boundary": {
+    "historical_development_targets_permitted": [
+      "BACE1",
+      "PPARG",
+      "PPARA",
+      "PPARD"
+    ],
+    "fresh_validation_rows_permitted": 0,
+    "locked_test_rows_permitted": 0,
+    "new_docking_jobs_permitted": 0,
+    "quantum_hardware_jobs_permitted": 0
+  },
+  "outputs": {
+    "fixed_k_metrics_csv": "results/runs/stage64_cross_target_uncertainty_shrunk_qubo/fixed_k_metrics.csv",
+    "pair_diagnostics_csv": "results/runs/stage64_cross_target_uncertainty_shrunk_qubo/pair_diagnostics.csv",
+    "target_summary_csv": "results/runs/stage64_cross_target_uncertainty_shrunk_qubo/target_summary.csv",
+    "global_summary_csv": "results/runs/stage64_cross_target_uncertainty_shrunk_qubo/global_summary.csv",
+    "loto_summary_csv": "results/runs/stage64_cross_target_uncertainty_shrunk_qubo/loto_summary.csv",
+    "model_record_json": "data/stage64_uncertainty_shrunk_rank_pair_qubo_model_record.json",
+    "result_json": "data/stage64_cross_target_uncertainty_shrunk_qubo_result.json",
+    "audit_json": "data/stage64_cross_target_uncertainty_shrunk_qubo_audit.json",
+    "report_md": "reports/stage-64/cross_target_uncertainty_shrunk_qubo.md"
+  },
+  "interpretation_boundary": "Stage64 is post-hoc objective development on four consumed historical targets. A pass freezes only a fixed-k pair-coefficient rule for nested-k development and later preregistration on a genuinely new target. It cannot establish independent efficacy, solver advantage, quantum execution, speedup, or quantum advantage."
+}

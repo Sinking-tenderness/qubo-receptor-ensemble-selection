@@ -1,0 +1,63 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage08-mk14-expanded16-label-independent-structural-selection-v1",
+  "purpose": "Extend the audited MAPK14 max-min structural pool from eight to sixteen receptors before any new Uni-Dock production matrix is generated.",
+  "data_boundary": {
+    "ligand_labels_read": 0,
+    "benchmark_docking_scores_read": 0,
+    "previous_validation_rows_read": 0,
+    "test_rows_read": 0
+  },
+  "inputs": {
+    "source_selection_summary": {
+      "path": "data/stage05_mk14_rcsb_coordinate_selection_v3_summary.json",
+      "sha256": "94221AA0FAFF078C276D96C303932E5C905CBD7B1C3E24906B3DD63DE25A24AB"
+    },
+    "source_selection_audit": {
+      "path": "data/stage05_mk14_rcsb_coordinate_selection_v3_audit.json",
+      "sha256": "D0E14D798272F14AA55C806E655292D8468E99D530EBA9943C920AF751256C09"
+    },
+    "eligible_pool": {
+      "path": "data/processed/stage05_mk14_rcsb_coordinate_eligible_pool_v3.csv",
+      "sha256": "5E8C7E097E1B7E154CF722335932865FAE554A0F50D148DAC0D47594DDEB8CC6"
+    },
+    "candidate_audit": {
+      "path": "data/processed/stage05_mk14_rcsb_coordinate_candidate_audit_v3.csv",
+      "sha256": "4369E7A3DD89BCD4EE41F1182F07648AAA73240A2EB3905E59A21D25C14548F9"
+    },
+    "pairwise_distances": {
+      "path": "data/processed/stage05_mk14_rcsb_structural_distances_v3.csv",
+      "sha256": "E205B8E50C3096B48997F20AC0769EC8313416D2B0028FB3394DB08B0B3F2F62"
+    },
+    "expanded8_selection": {
+      "path": "data/processed/stage05_mk14_expanded8_structural_selection_v3.csv",
+      "sha256": "17769E5DEF367C7C5406B7AB75C670DEA151F54F2BC2FC9078C374FBEDB9F4FB"
+    },
+    "historical_preparation_failure": {
+      "path": "data/stage05_mk14_expanded_redocking_v2_preparation_failure.json",
+      "sha256": "FD215A531BDE16A3BABCD31C00B012D6372127FC8816571DB16D870B3033D966"
+    }
+  },
+  "selection": {
+    "seed_receptor_ids": [
+      "MK14_2QD9_reference",
+      "MK14_1A9U_aligned",
+      "MK14_3K3J_aligned",
+      "MK14_3KQ7_aligned"
+    ],
+    "new_receptor_count": 12,
+    "selection_rule": "Deterministic max-min standardized pocket distance, seeded by the four original receptors; ties are resolved by lexical conformer ID. The first four additions must exactly reproduce the frozen expanded-eight result."
+  },
+  "expected": {
+    "eligible_pool_count": 43,
+    "pairwise_distance_count": 903,
+    "required_reproduced_prefix_count": 4,
+    "new_expanded16_addition_count": 8,
+    "final_receptor_count": 16
+  },
+  "outputs": {
+    "selection_manifest_csv": "data/processed/stage08_mk14_expanded16_structural_selection.csv",
+    "summary_json": "data/stage08_mk14_expanded16_structural_selection_summary.json"
+  },
+  "decision_boundary": "Passing this gate authorizes only an independent reconstruction audit and preparation/redocking of the eight new structures. It cannot authorize the Train-696 production matrix, read validation/test data, select a QUBO objective, or establish enrichment or quantum advantage."
+}

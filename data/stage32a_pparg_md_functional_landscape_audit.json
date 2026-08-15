@@ -1,0 +1,47 @@
+{
+  "checks": {
+    "all_24_exact_and_strong_greedy_selections_recomputed": true,
+    "all_59568_holdout_subsets_reenumerated": true,
+    "all_59568_train_subsets_reenumerated": true,
+    "all_reported_metrics_recomputed": true,
+    "config_and_output_descriptors_verified": true,
+    "four_balanced_scaffold_folds_recomputed": true,
+    "protected_data_and_hardware_boundary_verified": true,
+    "stage32_matrix_audit_gate_verified": true,
+    "stage33_gate_and_decision_recomputed": true
+  },
+  "config": {
+    "path": "configs/stage32a_pparg_md_functional_landscape_analysis.json",
+    "sha256": "79BCE32FDEEE3B2AC499FD99B160C76B5990C6A365B3C094B56AC318056C67F7"
+  },
+  "coverage": {
+    "fold_count": 4,
+    "maximum_recomputed_abs_difference": 2.220446049250313e-16,
+    "selection_comparison_count": 24,
+    "subset_count_per_split_per_fold": 14892,
+    "total_holdout_subset_states": 59568,
+    "total_train_subset_states": 59568
+  },
+  "data_boundary": {
+    "fresh_validation_rows_read": 0,
+    "new_docking_jobs": 0,
+    "quantum_hardware_jobs": 0,
+    "test_rows_read": 0,
+    "train_rows_read": 160
+  },
+  "decision": {
+    "new_docking_jobs_authorized": false,
+    "qualifying_subset_size_count": 0,
+    "qualifying_subset_sizes": [],
+    "quantum_hardware_authorized": false,
+    "route": "stop_md_functional_qubo_efficacy_route",
+    "stage33_qubo_model_authorized": false
+  },
+  "interpretation_boundary": "Stage32a evaluates a small balanced PPARG development-training pilot and can only authorize or reject a subsequent train-only QUBO modeling stage. It cannot establish prospective efficacy, cross-target transfer, clinical relevance, quantum speedup, or quantum advantage.",
+  "result": {
+    "path": "data/stage32a_pparg_md_functional_landscape_result.json",
+    "sha256": "169509826683DEF33E52455881CE92FEF7B733E57454352122E692A2A29EECF8"
+  },
+  "schema_version": "1.0",
+  "status": "stage32a_pparg_md_functional_landscape_audit_ok"
+}

@@ -1,0 +1,142 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage85-mixed-radix-dirac-calibration-20260811-v1",
+  "purpose": "Prepare a three-instance physical-fidelity calibration of the exact Stage84 mixed-radix integer quadratic encoding on Dirac-3, using only Stage74 cells with exact classical oracles.",
+  "implementation": {
+    "preparer": {
+      "path": "scripts/prepare_stage85_mixed_radix_dirac_calibration.py",
+      "sha256": "83227336A5D9D3986A3F9C502A25EB7B01D70E7893A2D7AF134F8B218656019E",
+      "size_bytes": 11113
+    },
+    "external_runner": {
+      "path": "scripts/experimental/quantum/run_stage85_mixed_radix_dirac_calibration.py",
+      "sha256": "56BFF5C8DD40E7E26DE00900EF924F3A0D40B928A9B0B24301D09CAC8E1BA038",
+      "size_bytes": 17964
+    },
+    "independent_auditor": {
+      "path": "scripts/audit_stage85_mixed_radix_dirac_calibration.py",
+      "sha256": "45C4D1C20DE01914952209242C79F04C0BF825B175DBB745B334509582A2F94A",
+      "size_bytes": 5730
+    },
+    "bundle_builder": {
+      "path": "scripts/build_stage85_mixed_radix_dirac_bundle.py",
+      "sha256": "21D9A2D665A7E2F09F682A53F5044CA3CA570EF3A2C9AA8E760D578E5820D7BA",
+      "size_bytes": 4752
+    },
+    "external_execution_guide": {
+      "path": "reports/stage-85/mixed_radix_dirac_external_execution.md",
+      "sha256": "88BB32597B5EA1C3FA0BA7D989817DEDB542003A673343472C2CDFE942FD0A4F",
+      "size_bytes": 2039
+    }
+  },
+  "inputs": {
+    "stage77_config": {
+      "path": "configs/stage77_quantum_hardware_interface_gate.json",
+      "sha256": "FE94CC1AA3C261F2C1FB5E00628A97495D1DD24AFC53750B3F0A7D6C55181F0F",
+      "size_bytes": 12949
+    },
+    "stage72_model_record": {
+      "path": "data/stage72_constraint_native_cqm_model_record.json",
+      "sha256": "D7BD285F4CB0787C1FF63EEC190CE692F72F2E885CB610BFEA1D70AC2505D1DF",
+      "size_bytes": 737219
+    },
+    "stage74_workload_metrics": {
+      "path": "results/runs/stage74_larger_k_solver_scaling/workload_metrics.csv",
+      "sha256": "84B02EF49939B097244CF4B0543F088FF183C48DD7E9DFB900EC2EA9E5AF355E",
+      "size_bytes": 48587
+    },
+    "stage74_cell_comparison": {
+      "path": "results/runs/stage74_larger_k_solver_scaling/cell_comparison.csv",
+      "sha256": "B1CEE2803DB74AC55BE1C5DA1BA77240ED550DED68A2B47A027A12F86B9781EA",
+      "size_bytes": 89127
+    },
+    "stage74_solver_trials": {
+      "path": "results/runs/stage74_larger_k_solver_scaling/solver_trials.csv",
+      "sha256": "3E0C8DD06991378C7CFCBC00D3CD437C64516445E06389E209885B78C510532D",
+      "size_bytes": 2871104
+    },
+    "stage79_physical_audit": {
+      "path": "data/stage79_qci_dirac3_physical_poc_audit.json",
+      "sha256": "B11EA4EBBB0CF66846E50C9ABFD8B19F189C85BD03E1183B93157244FF3D287D",
+      "size_bytes": 4313
+    },
+    "stage84_result": {
+      "path": "data/stage84_mixed_radix_dirac_iqp_gate_result.json",
+      "sha256": "04EF5CA70A611731C4FF827A527760BAF276B44FC1C55684C24DF7BFABB831B1",
+      "size_bytes": 2252
+    },
+    "stage84_audit": {
+      "path": "data/stage84_mixed_radix_dirac_iqp_gate_audit.json",
+      "sha256": "8557B6634167C8191C8BAFBA82610BE34BB5F5752E6C6AAEEB153A861352CC91",
+      "size_bytes": 453
+    }
+  },
+  "experiment": {
+    "canonical_reward_quantile": 0.5,
+    "qci_total_level_limit": 949,
+    "wall_clock_used_for_decision": false
+  },
+  "calibration_instances": [
+    {
+      "instance_id": "ppara_of0_k10_high_k_exact",
+      "role": "high_k_exact",
+      "target_id": "PPARA",
+      "outer_fold": 0,
+      "k": 10,
+      "maximum_original_objective_delta": 1e-6
+    },
+    {
+      "instance_id": "bace1_of0_k4_medium_pool_exact",
+      "role": "medium_pool_exact",
+      "target_id": "BACE1",
+      "outer_fold": 0,
+      "k": 4,
+      "maximum_original_objective_delta": 1e-6
+    },
+    {
+      "instance_id": "pparg_of0_k3_large_pool_exact",
+      "role": "large_pool_exact",
+      "target_id": "PPARG",
+      "outer_fold": 0,
+      "k": 3,
+      "maximum_original_objective_delta": 1e-6
+    }
+  ],
+  "hardware_protocol": {
+    "provider": "Quantum Computing Inc.",
+    "device": "Dirac-3",
+    "api_url": "https://api.qci-prod.com",
+    "qci_client_version": "5.0.0",
+    "job_type": "sample-hamiltonian-integer",
+    "require_unpaid_allocation": true,
+    "required_free_seconds_before_calibration": 150,
+    "minimum_free_seconds_before_each_job": 30,
+    "maximum_recorded_device_usage_seconds": 150,
+    "samples_per_instance": 25,
+    "relaxation_schedule": 1,
+    "planned_device_job_count": 3,
+    "planned_device_sample_count": 75,
+    "primary_endpoint": "Every exact-oracle instance must produce at least one feasible quantized optimum and zero samples below the independently enumerated quantized optimum.",
+    "stop_rule": "Stop before the next job if free allocation falls below 30 seconds or cumulative recorded device usage exceeds 150 seconds.",
+    "production_rule": "Even a passing calibration does not authorize additional production jobs without a new preregistration."
+  },
+  "data_boundary": {
+    "historical_development_targets_permitted": [
+      "BACE1",
+      "PPARG",
+      "PPARA",
+      "PPARD"
+    ],
+    "fresh_validation_rows_permitted": 0,
+    "locked_test_rows_permitted": 0,
+    "new_docking_jobs_permitted": 0
+  },
+  "outputs": {
+    "instance_directory": "results/runs/stage85_mixed_radix_dirac_calibration/instances",
+    "result_json": "data/stage85_mixed_radix_dirac_calibration_prepared.json",
+    "audit_json": "data/stage85_mixed_radix_dirac_calibration_audit.json",
+    "report_md": "reports/stage-85/mixed_radix_dirac_calibration_preparation.md",
+    "external_result_directory": "external_results/stage85_mixed_radix_dirac_calibration"
+  },
+  "interpretation_boundary": "Stage85 is a physical encoding-fidelity calibration on three consumed historical exact-oracle cells. It cannot establish biological generalization, drug discovery, classical speedup, scaling advantage, or quantum advantage."
+}

@@ -1,0 +1,251 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage11-mk14-fresh-validation-six-receptor-unidock113-confirmation-v1",
+  "purpose": "Independently test the frozen Stage 10 exact pair-synergy subset against its QUBO-forward-greedy and direct-BEDROC-greedy controls using a new Uni-Dock fresh-validation matrix.",
+  "implementation": {
+    "preparer": {
+      "path": "scripts/experimental/unidock/prepare_stage11_mk14_fresh_validation_inputs.py",
+      "sha256": "BA62B3FA51E66EC9C60292A8213010BB68023CB25D125F27173C24AD94E1426B"
+    },
+    "runner": {
+      "path": "scripts/experimental/unidock/run_stage11_mk14_fresh_validation_confirmation.py",
+      "sha256": "3C9EA1CCE39DDEF2D2915DC0A2EBA79C4F045F36FBF977C555B338E57D5653E9"
+    },
+    "independent_auditor": {
+      "path": "scripts/experimental/unidock/audit_stage11_mk14_fresh_validation_confirmation.py",
+      "sha256": "A44C0085034BBB742DEF52D80E14B9B00870EEF06883EFCCD4683B83CC65C526"
+    },
+    "evaluator": {
+      "path": "scripts/experimental/unidock/evaluate_stage11_mk14_fresh_validation_confirmation.py",
+      "sha256": "C513A87C83A5678FCB69D4129A394BCA9527327D73F2151C421B9F84E344AE94"
+    },
+    "bundle_builder": {
+      "path": "scripts/experimental/unidock/build_stage11_mk14_fresh_validation_bundle.py",
+      "sha256": "1E851ABB1C5B1348E6E32EEACC8190AF7CEA0E5564C4BF9A9AB5AE1A1B7CF10C"
+    },
+    "remote_runner": {
+      "path": "scripts/experimental/unidock/run_stage11_mk14_fresh_validation_remote.sh",
+      "sha256": "1E5D05034AECD8BB4E11600F3C5A734FABAF97872C8834ACE7496F7FBDD450F2"
+    },
+    "stage09_preparation_helper": {
+      "path": "scripts/experimental/unidock/prepare_stage09_mk14_train696_inputs.py",
+      "sha256": "58088FC661E3CC50D40386F9AF39628099863CDACCA9351F972E2C3B19C46CD7"
+    },
+    "stage09_runner_helper": {
+      "path": "scripts/experimental/unidock/run_stage09_mk14_train696_production.py",
+      "sha256": "3D406BFFD259BC852CE67EA9EE9DBE53466A18C4FF4EE073548D78313021D23F"
+    },
+    "stage09_auditor_helper": {
+      "path": "scripts/experimental/unidock/audit_stage09_mk14_train696_production.py",
+      "sha256": "9C2274D444F62B9F6DD90980EB6ADBDD293813D069D2E6F86966E6BFD82E0183"
+    },
+    "unidock_batch_helper": {
+      "path": "scripts/experimental/unidock/run_unidock_gpu_equivalence.py",
+      "sha256": "4E927E959A08526289F7B266BA8CD76232741C878CCE255312F94A561DE433B0"
+    },
+    "pose_audit_helper": {
+      "path": "scripts/experimental/unidock/run_stage07b_unidock_enhanced_confirmation.py",
+      "sha256": "192E6BF7700442EA508082F47D96494125B41ADAD04C81B141FE3F4889312EE4"
+    },
+    "warning_adjudication_helper": {
+      "path": "scripts/experimental/unidock/run_stage07c_unidock_warning_adjudication.py",
+      "sha256": "9729941976A15D6A91C45493807218CF3E24141063439AFBA948E0A2F2635153"
+    },
+    "metric_helper": {
+      "path": "scripts/select_receptor_baselines.py",
+      "sha256": "E2B94770DA826BF44AFC03ACD0E3A8D89A0BCA2B9B4A958B7FA1A1F19A1E353B"
+    },
+    "bedroc_helper": {
+      "path": "scripts/evaluate_virtual_screening.py",
+      "sha256": "A62176CE67581F6370C1208682970F595A72B2E955052642A6E8F17D56127C0F"
+    }
+  },
+  "data_boundary": {
+    "allowed_split": "validation",
+    "allowed_selection_role": "fresh_validation_preregistered",
+    "validation_rows_required": 1576,
+    "train_score_rows_permitted": 0,
+    "test_rows_permitted": 0,
+    "forbidden_evidence": "historical CPU Vina fresh-validation scores, any locked-test row, and any validation-dependent receptor or hyperparameter selection"
+  },
+  "inputs": {
+    "source_receptor_manifest": {
+      "path": "data/processed/stage08c_mk14_final16_receptor_manifest.csv",
+      "sha256": "173255A8CECE955F3CF1F6B2656C4F1450215393F4AC1EDC93346F9AEC600560"
+    },
+    "receptor_admission_audit": {
+      "path": "data/stage08c_mk14_final_replacement_redocking_audit.json",
+      "sha256": "F5A7F306A36D2DB610C0E4F7C7A631092FE50F36FC79ACDC269011D7D037023F"
+    },
+    "source_ligand_manifest": {
+      "path": "data/processed/stage05_mk14_fresh_validation_pdbqt_manifest.csv",
+      "sha256": "2DAE54F57C302881DA91FA53B74EDA1B1EC6267EC5385180E28B0EDEB58A777A"
+    },
+    "profile_freeze_result": {
+      "path": "data/stage07c_mk14_unidock113_warning_adjudication_result.json",
+      "sha256": "55C6EE2C9E32EC4A71A0EBDF02FEE761E99B15840D6DB56299F1799C8A772DDB"
+    },
+    "stage10_result": {
+      "path": "data/stage10_mk14_expanded16_qubo_greedy_screen_result.json",
+      "sha256": "EBF9126C8B66EAECF3E6970741BC01675B670F8A4E045CC3AE3DB59AE1A1BD77"
+    },
+    "stage10_trials": {
+      "path": "results/runs/stage10_mk14_expanded16_qubo_greedy_screen/qubo_trials.csv",
+      "sha256": "20FA913C4D78746050963C32CED735DD4A6B42D005CBA19D5EA3AF8E4E7B4D8C"
+    },
+    "seeds": [
+      {
+        "seed_id": "seed0",
+        "base_seed": 20260801
+      },
+      {
+        "seed_id": "seed1",
+        "base_seed": 20260802
+      },
+      {
+        "seed_id": "seed2",
+        "base_seed": 20260803
+      }
+    ]
+  },
+  "candidate_provenance": {
+    "outer_fold_3_primary": {
+      "context_id": "outer_fold_3",
+      "objective_family": "pair_synergy_qubo",
+      "coefficient_source": "primary",
+      "target_size": 3
+    },
+    "full_train_primary": {
+      "context_id": "full_train",
+      "objective_family": "pair_synergy_qubo",
+      "coefficient_source": "primary",
+      "target_size": 3
+    }
+  },
+  "candidates": {
+    "exact_pair_synergy": {
+      "role": "confirmatory_candidate",
+      "subset": [
+        "MK14_2BAJ_aligned",
+        "MK14_2QD9_reference",
+        "MK14_3BV2_aligned"
+      ]
+    },
+    "qubo_forward_greedy": {
+      "role": "confirmatory_control",
+      "subset": [
+        "MK14_3BV2_aligned",
+        "MK14_3ITZ_aligned",
+        "MK14_3KQ7_aligned"
+      ]
+    },
+    "direct_bedroc_greedy": {
+      "role": "confirmatory_control",
+      "subset": [
+        "MK14_2BAJ_aligned",
+        "MK14_2QD9_reference",
+        "MK14_3KQ7_aligned"
+      ]
+    },
+    "full_train_exact_secondary": {
+      "role": "secondary_candidate",
+      "subset": [
+        "MK14_2BAJ_aligned",
+        "MK14_3BV2_aligned",
+        "MK14_4AAC_aligned"
+      ]
+    }
+  },
+  "expected": {
+    "receptor_ids": [
+      "MK14_2QD9_reference",
+      "MK14_3KQ7_aligned",
+      "MK14_2BAJ_aligned",
+      "MK14_3BV2_aligned",
+      "MK14_4AAC_aligned",
+      "MK14_3ITZ_aligned"
+    ],
+    "receptor_count": 6,
+    "ligand_count": 1576,
+    "label_counts": {
+      "active": 75,
+      "decoy": 1501
+    },
+    "macrocycle_replacement_count": 54,
+    "seed_count": 3,
+    "batch_count": 18,
+    "pair_count": 28368,
+    "validation_rows": 1576,
+    "train_score_rows": 0,
+    "test_rows": 0
+  },
+  "preparation": {
+    "meeko_version": "0.7.1",
+    "rigid_macrocycles": true,
+    "coordinate_policy": "reuse each frozen source SDF coordinate set; do not re-embed or re-optimize",
+    "replacement_policy": "replace exactly the 54 source-manifest rows whose frozen PDBQT atom-type ledger contains CGn or Gn closure pseudoatoms"
+  },
+  "unidock": {
+    "executable": "unidock",
+    "required_package_version": "1.1.3",
+    "profile_id": "enhanced",
+    "scoring": "vina",
+    "exhaustiveness": 1024,
+    "max_step": 80,
+    "refine_step": 5,
+    "num_modes": 1,
+    "energy_range": 3,
+    "verbosity": 1,
+    "cuda_visible_devices": "0",
+    "maximum_absolute_score_kcal_per_mol": 100.0,
+    "box": {
+      "center_x": -0.49,
+      "center_y": 3.26,
+      "center_z": 21.83,
+      "size_x": 22,
+      "size_y": 24,
+      "size_z": 32
+    }
+  },
+  "execution": {
+    "batch_order": "seed-major, then frozen six-receptor order",
+    "batch_unit": "one receptor and one seed with all 1576 validation ligands",
+    "resume_contract": "reuse only a checkpoint whose protocol signature, score hash, pose hashes, pose-integrity audit, and warning adjudication all pass",
+    "technical_gate": "zero unresolved warnings and zero pose-integrity failures"
+  },
+  "evaluation": {
+    "aggregation": "min_score",
+    "primary_metric": "bedroc_alpha_20",
+    "bedroc_alpha": 20.0,
+    "confirmatory_candidate": "exact_pair_synergy",
+    "confirmatory_controls": [
+      "qubo_forward_greedy",
+      "direct_bedroc_greedy"
+    ],
+    "paired_bootstrap": {
+      "unit": "split_group_id block",
+      "replicates": 10000,
+      "seed": 20261120,
+      "confidence_level": 0.95
+    },
+    "pass_rule": "For each confirmatory control, exact_pair_synergy must have positive primary, mean-seed, and worst-seed BEDROC deltas and a positive paired-bootstrap 95% lower primary-BEDROC-delta bound.",
+    "no_retuning": "No candidate, receptor, objective weight, aggregation, seed, docking profile, or threshold may change after Stage 11 scores exist."
+  },
+  "outputs": {
+    "rigid_macrocycle_directory": "results/runs/stage11_mk14_fresh_validation_unidock_inputs/rigid_macrocycles",
+    "prepared_receptor_manifest": "data/processed/stage11_mk14_fresh_validation_six_receptor_manifest.csv",
+    "prepared_ligand_manifest": "data/processed/stage11_mk14_fresh_validation_unidock_pdbqt_manifest.csv",
+    "preparation_summary": "data/stage11_mk14_fresh_validation_unidock_input_summary.json",
+    "run_directory": "results/runs/stage11_mk14_fresh_validation_unidock113_confirmation",
+    "scores_csv": "results/runs/stage11_mk14_fresh_validation_unidock113_confirmation/scores.csv",
+    "batch_runs_csv": "results/runs/stage11_mk14_fresh_validation_unidock113_confirmation/batch_runs.csv",
+    "median_matrix_csv": "results/runs/stage11_mk14_fresh_validation_unidock113_confirmation/primary_median_score_matrix.csv",
+    "minimum_matrix_csv": "results/runs/stage11_mk14_fresh_validation_unidock113_confirmation/sensitivity_minimum_score_matrix.csv",
+    "progress_json": "results/runs/stage11_mk14_fresh_validation_unidock113_confirmation/progress.json",
+    "summary_json": "results/runs/stage11_mk14_fresh_validation_unidock113_confirmation/summary.json",
+    "audit_json": "data/stage11_mk14_fresh_validation_unidock113_confirmation_audit.json",
+    "evaluation_json": "data/stage11_mk14_fresh_validation_unidock113_confirmation_result.json",
+    "evaluation_report": "reports/stage-11/mk14_fresh_validation_unidock113_result.md"
+  },
+  "decision_boundary": "This stage is the first independent Uni-Dock validation of one Stage 10 exploratory candidate and its frozen controls. A pass supports a QUBO-formulated global-search application but cannot establish QUBO-specific runtime advantage or quantum computational advantage."
+}

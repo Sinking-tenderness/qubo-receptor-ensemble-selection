@@ -1,0 +1,115 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage19h-cross-target-auxiliary-coverage-qubo-20260801-v1",
+  "purpose": "Test a genuine auxiliary-variable active-coverage and decoy-exposure QUBO after Stage19g found stable higher-order residuals but no stable greedy gap.",
+  "implementation": {
+    "path": "scripts/diagnose_stage19h_auxiliary_coverage_qubo.py",
+    "sha256": "BD3745320D2B2AA6DF85F8994D1F053F1774101A368BB3B4FF6FEEF104951338"
+  },
+  "inputs": {
+    "stage19e_config": {
+      "path": "configs/stage19e_cross_target_qubo_v2_nested_diagnostic.json",
+      "sha256": "E7CB41AC6909DD42A7964FC3842E15612D982CD67AFD57AE999A461871EC3B7D"
+    },
+    "stage19e_result": {
+      "path": "data/stage19e_cross_target_qubo_v2_nested_diagnostic_result.json",
+      "sha256": "68EC0BAE8B84E45907B78E4E309197823EFBAA7810552E49C39B1B23B67763BB"
+    },
+    "stage19e_audit": {
+      "path": "data/stage19e_cross_target_qubo_v2_nested_diagnostic_audit.json",
+      "sha256": "816B1C1FA82C5BF14FD8EF952AF0F33D4B839322E8843BC2531509091E8232B7"
+    },
+    "stage19f_result": {
+      "path": "data/stage19f_cross_target_stable_pair_qubo_result.json",
+      "sha256": "CC638A8D1C6CE10BBF5A60E03774119C8A634D6C931289903F56136ECC86C31D"
+    },
+    "stage19f_comparison_methods": {
+      "path": "results/runs/stage19f_cross_target_stable_pair_qubo/comparison_method_results.csv",
+      "sha256": "099A14D17CE737DD15FC4F305DD645902ECB9F34E304D573FCC06AC4212DF456"
+    },
+    "stage19g_result": {
+      "path": "data/stage19g_cross_target_set_function_landscape_result.json",
+      "sha256": "161B4BF1F263ABD325878A07B92FE262425E17E0C4BEEFF0335FAA75EF2A1471"
+    },
+    "stage19g_audit": {
+      "path": "data/stage19g_cross_target_set_function_landscape_audit.json",
+      "sha256": "098007FCC12E38C86CBD459061E68C08DADCB9986E03F90E0ECD5CBBCCCFD600"
+    }
+  },
+  "evidence_timing": {
+    "experiment_class": "posthoc cross-target train-only development",
+    "mk14_and_pparg_outcomes_known": true,
+    "stage19g_route_review_known": true,
+    "bace1_benchmark_docking_started": false,
+    "fresh_validation_or_test_rows_permitted": false
+  },
+  "diagnostic": {
+    "target_size": 3,
+    "outer_fold_count": 4,
+    "inner_fold_count": 3,
+    "fold_seed": 20261119,
+    "inner_fold_seed": 20261920,
+    "bedroc_alpha": 20.0,
+    "coverage_rank_definition": "median rank fraction across primary, sensitivity, seed0, seed1, and seed2 train scenarios; lower score ranks first",
+    "active_weight_definition": "exponential early-rank weight exp(-BEDROC_alpha * median_rank_fraction), normalized to sum one over active ligands",
+    "decoy_weight_definition": "same exponential early-rank weighting, normalized to sum one over decoys",
+    "coverage_fractions": [
+      0.05,
+      0.1,
+      0.2
+    ],
+    "decoy_weights": [
+      0.5,
+      1.0,
+      2.0
+    ],
+    "singleton_weights": [
+      0.0,
+      0.5,
+      1.0
+    ],
+    "redundancy_weights": [
+      0.0,
+      0.25
+    ],
+    "cardinality_penalty": 20.0,
+    "constraint_penalty": 100.0,
+    "candidate_count": 54
+  },
+  "algorithm": {
+    "algorithm_id": "auxiliary-active-coverage-decoy-exposure-qubo-v1",
+    "variables": {
+      "x_i": "selected receptor indicator",
+      "y_a": "active ligand covered by at least one selected receptor",
+      "z_d": "decoy exposed by at least one selected receptor",
+      "s_a": "binary slack variables for y_a plus slack equals active coverage count"
+    },
+    "active_constraint": "y_a + s_a = sum_i incidence_ai*x_i",
+    "decoy_constraint": "z_d >= x_i for every receptor i that exposes decoy d; positive z_d objective coefficient sets z_d to zero when unexposed",
+    "reduced_objective": "active weighted coverage - decoy_weight * weighted decoy exposure + singleton_weight * mean singleton utility - redundancy_weight * mean positive score correlation",
+    "selection_solver": "exact enumeration of all 560 receptor triples with auxiliary assignment reconstruction; full variable QUBO coefficients and energy-equivalence certificate exported",
+    "hardware_execution": false
+  },
+  "development_support_gate": {
+    "required_comparators": [
+      "direct_greedy",
+      "additive_nested",
+      "v1_qubo_exact",
+      "stable_singleton_linear"
+    ],
+    "minimum_target_mean_delta": 0.0,
+    "minimum_positive_folds_of_eight": 5,
+    "all_checks_required": true,
+    "bace1_method_amendment_authorized_by_this_stage": false,
+    "decision": "A positive result would only justify pre-registered review of an independent-target experiment; it never authorizes BACE1 directly. A failed result stops this coverage objective before new docking."
+  },
+  "outputs": {
+    "inner_trials_csv": "results/runs/stage19h_cross_target_auxiliary_coverage_qubo/inner_trials.csv",
+    "outer_candidate_trials_csv": "results/runs/stage19h_cross_target_auxiliary_coverage_qubo/outer_candidate_trials.csv",
+    "comparison_methods_csv": "results/runs/stage19h_cross_target_auxiliary_coverage_qubo/comparison_method_results.csv",
+    "model_record_json": "data/stage19h_auxiliary_coverage_qubo_model_record.json",
+    "result_json": "data/stage19h_auxiliary_coverage_qubo_result.json",
+    "report_md": "reports/stage-19h/auxiliary_coverage_qubo.md"
+  },
+  "interpretation_boundary": "Stage 19h is post-hoc train-only development over MK14 and PPARG. It does not create independent validation, does not modify prior failed gates, does not read BACE1, fresh-validation, or locked-test rows, and does not demonstrate quantum execution or quantum advantage. Its purpose is to decide whether a constraint-faithful auxiliary QUBO is worth a separately preregistered external test."
+}

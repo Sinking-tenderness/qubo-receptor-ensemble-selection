@@ -1,0 +1,123 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage41b-bace1-large-pool-redocking-input-preparation-20260803-v1",
+  "purpose": "Prepare all 49 frozen BACE1 receptors and cognate ligands in the 3L5D frame and derive one audited common redocking box before any large-pool docking outcome is known.",
+  "implementation": {
+    "path": "scripts/prepare_stage41b_bace1_large_pool_redocking_inputs.py",
+    "sha256": "A7138E301BB2EBA27F45878EE2AAEA7533F4D36BC6FE5630E106228D7695056A"
+  },
+  "dependencies": [
+    {
+      "path": "scripts/prepare_stage18d_pparg_redocking_inputs.py",
+      "sha256": "9D2CF3AE5C75840C9431F7178A0107D8CFB34613D9D1A3037546B6167C63AF73"
+    },
+    {
+      "path": "scripts/prepare_stage13e_egfr_redocking_inputs.py",
+      "sha256": "69B9300708D049DAF09343442711F8886FBF5C89053AE48E28F751FEABACE324"
+    },
+    {
+      "path": "scripts/prepare_stage14c_fa10_redocking_inputs.py",
+      "sha256": "9E14044D203BDB217397A1C2AEC7F1046A633DD7DFA273EAB29443ACC71393CF"
+    },
+    {
+      "path": "scripts/select_mk14_rcsb_coordinate_pool.py",
+      "sha256": "34FEB2A69E2DD793953C1A12AB3E083B704D38DDC70B1F4E10BB38C69234D0A5"
+    },
+    {
+      "path": "scripts/select_stage13b_egfr_expanded_coordinate_pool.py",
+      "sha256": "703B901DC4105DCEBA662E90523406AD086739B83CD33BA4E4423A58B4C8A2F6"
+    },
+    {
+      "path": "scripts/prepare_receptor.py",
+      "sha256": "FFC7D1986B501AE90818024ED2441CB9AE0F37B27BF6F46C622B0C723711C580"
+    }
+  ],
+  "inputs": {
+    "stage41a_result": {
+      "path": "data/stage41a_bace1_large_pool_freeze_result.json",
+      "sha256": "ED795D0965A93DF60837FF7670D127807BB76A215446D96E9234053B0C9F7E22"
+    },
+    "stage41a_audit": {
+      "path": "data/stage41a_bace1_large_pool_freeze_audit.json",
+      "sha256": "BECF739242884A601016725FB0A58696A7B74C4746FD808C6777ED43B8FD3C52"
+    },
+    "large_pool_manifest": {
+      "path": "data/processed/stage41a_bace1_large_pool_manifest.csv",
+      "sha256": "E5F253CF193AC0510AC45CE4C44570F20EFB13D068F756CA5A4B49E4EA5F2AAF"
+    },
+    "reference_mmcif": {
+      "path": "data/raw/rcsb/bace1/3L5D.cif",
+      "sha256": "0B7669B1718F1AB3F7CC30F617FC27BD75BFD72D49A2B1A507B0990ED38A8DE3"
+    },
+    "prepare_receptor_script": {
+      "path": "scripts/prepare_receptor_stage41b.py",
+      "sha256": "DCC70025D1557421AD08D3FD92C0C69132D86D80B1251413CD8C1875BC2F73A4"
+    }
+  },
+  "reference": {
+    "pdb_id": "3L5D",
+    "auth_chain": "A",
+    "anchor_residue_numbers": [72, 73, 91, 93, 95, 96, 171, 179, 289, 291, 292, 293]
+  },
+  "expected": {
+    "receptor_count": 49,
+    "cognate_ligand_count": 49,
+    "minimum_prepared_receptor_count": 40
+  },
+  "preparation_protocol": {
+    "maximum_element_matched_coordinate_error_angstrom": 0.05,
+    "allow_bad_residue_deletion": false,
+    "allow_missing_heavy_atom_repair": false
+  },
+  "receptor_preparation_overrides": {
+    "BACE1_4I12_aligned": {
+      "set_template": "A:216,420=CYX",
+      "blunt_ends": null,
+      "evidence": {
+        "cysteine_residue_pair": [216, 420],
+        "sg_sg_distance_angstrom": 2.054678076974591,
+        "meeko_version": "0.7.1",
+        "unmodified_return_code": 1,
+        "cyx_only_return_code": 0,
+        "cyx_plus_blunt_return_code": 0,
+        "cyx_plus_blunt_warning": "matched with excess inter-residue bond(s): A:216"
+      },
+      "interpretation": "Explicitly assign the two crystallographic disulfide-linked cysteines to the packaged Meeko CYX template. Use the warning-free CYX-only result; do not blunt the chain end, delete a residue, repair a residue, or use allow_bad_res."
+    },
+    "BACE1_4I1C_aligned": {
+      "set_template": "A:216,420=CYX",
+      "blunt_ends": null,
+      "evidence": {
+        "cysteine_residue_pair": [216, 420],
+        "sg_sg_distance_angstrom": 2.047796132431155,
+        "meeko_version": "0.7.1",
+        "unmodified_return_code": 1,
+        "structural_rule": "same Cys216-Cys420 disulfide adjacent to the 216-232 chain gap as the independently diagnosed and corrected 4I12 case",
+        "rule_frozen_before_retry": true
+      },
+      "interpretation": "Apply the already validated CYX-only disulfide rule to the only other frozen receptor with the same chain-gap/disulfide topology. Do not blunt a chain end, delete a residue, repair a residue, or use allow_bad_res."
+    }
+  },
+  "ligand_download": {
+    "url_template": "https://models.rcsb.org/v1/{pdb_id}/ligand",
+    "timeout_seconds": 60,
+    "maximum_retries": 8,
+    "retry_backoff_seconds": 2.0
+  },
+  "common_box_rule": {
+    "coordinate_population": "all 49 audited cognate crystal ligands in the common 3L5D BACE1 catalytic-domain frame",
+    "minimum_crystal_pose_margin_angstrom": 3.5,
+    "size_increment_angstrom": 2.0,
+    "minimum_axis_size_angstrom": 22.0,
+    "maximum_axis_size_angstrom": 50.0,
+    "center_decimal_places": 2
+  },
+  "outputs": {
+    "run_directory": "results/runs/stage41b_bace1_large_pool_redocking_input_preparation",
+    "receptor_manifest_csv": "data/processed/stage41b_bace1_large_pool_prepared_receptor_manifest.csv",
+    "redocking_case_manifest_csv": "data/processed/stage41b_bace1_large_pool_cognate_redocking_case_manifest.csv",
+    "common_box_json": "data/stage41b_bace1_large_pool_common_box.json",
+    "summary_json": "data/stage41b_bace1_large_pool_redocking_input_preparation_summary.json"
+  },
+  "interpretation_boundary": "Passing Stage41b establishes only technical readiness of the frozen 49-receptor BACE1 pool and cognate ligands in one common frame. It does not establish pose recovery, screening enrichment, QUBO portability, QUBO superiority, quantum execution, or quantum advantage. No receptor may be replaced after preparation or redocking outcomes are known."
+}

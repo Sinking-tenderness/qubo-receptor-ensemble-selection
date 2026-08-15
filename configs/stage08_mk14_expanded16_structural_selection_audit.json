@@ -1,0 +1,38 @@
+{
+  "schema_version": "1.0",
+  "audit_id": "stage08-mk14-expanded16-structural-selection-independent-audit-v1",
+  "inputs": {
+    "selection_summary": {
+      "path": "data/stage08_mk14_expanded16_structural_selection_summary.json",
+      "sha256": "B148F396896E30186084285DA462A81080B2DE2A41EBADF8D48FA81FA56B767B"
+    },
+    "selection_manifest": {
+      "path": "data/processed/stage08_mk14_expanded16_structural_selection.csv",
+      "sha256": "5F4CA6DE5C6EFDF50F863CC253D6B669679C026D62A7DC94B9037A2DB41B5BA5"
+    },
+    "eligible_pool": {
+      "path": "data/processed/stage05_mk14_rcsb_coordinate_eligible_pool_v3.csv",
+      "sha256": "5E8C7E097E1B7E154CF722335932865FAE554A0F50D148DAC0D47594DDEB8CC6"
+    },
+    "pairwise_distances": {
+      "path": "data/processed/stage05_mk14_rcsb_structural_distances_v3.csv",
+      "sha256": "E205B8E50C3096B48997F20AC0769EC8313416D2B0028FB3394DB08B0B3F2F62"
+    },
+    "expanded8_selection": {
+      "path": "data/processed/stage05_mk14_expanded8_structural_selection_v3.csv",
+      "sha256": "17769E5DEF367C7C5406B7AB75C670DEA151F54F2BC2FC9078C374FBEDB9F4FB"
+    }
+  },
+  "expected": {
+    "seed_receptor_ids": [
+      "MK14_2QD9_reference",
+      "MK14_1A9U_aligned",
+      "MK14_3K3J_aligned",
+      "MK14_3KQ7_aligned"
+    ],
+    "maxmin_addition_count": 12,
+    "reproduced_prefix_count": 4,
+    "final_receptor_count": 16
+  },
+  "output_json": "data/stage08_mk14_expanded16_structural_selection_audit.json"
+}

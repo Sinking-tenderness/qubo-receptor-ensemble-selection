@@ -1,0 +1,53 @@
+{
+  "closure_pseudoatom_ligand_count": 0,
+  "config": {
+    "path": "configs/stage42b_bace1_train266_unidock_input_preparation.json",
+    "sha256": "88F849FC739C4B28C15B80A00B324A245EDD511789D362CCAD29322994265565"
+  },
+  "data_boundary": {
+    "docking_scores_read": 0,
+    "fresh_validation_rows_read": 0,
+    "test_rows_read": 0,
+    "train_rows_read": 266
+  },
+  "experiment_id": "stage42b-bace1-train266-unidock-input-preparation-20260804-v1",
+  "failed_ligand_count": 0,
+  "interpretation_boundary": "This stage prepares development-only structures and reads no docking score, fresh-validation row, or locked-test row. Preparation success does not establish enrichment, QUBO superiority, quantum execution, or quantum advantage.",
+  "label_counts": {
+    "active": 133,
+    "decoy": 133
+  },
+  "ligand_count": 266,
+  "next_gate": "generate and independently audit the 34-receptor by Train-266 by three-seed Uni-Dock development matrix",
+  "order_preserved": true,
+  "output": {
+    "path": "data/processed/stage42b_bace1_train266_unidock_pdbqt_manifest.csv",
+    "sha256": "957F75B362A2A123080A5CE6F8003BC96F2A55548EE04747235166D42BBE5DCC"
+  },
+  "preparation": {
+    "deterministic_retry_seed_offsets": [
+      0,
+      1000003,
+      2000003
+    ],
+    "macrocycle_policy": "Run Meeko flexible first. If preparation fails or closure pseudoatoms are detected, rerun once with --rigid_macrocycles; require zero closure pseudoatoms in the final PDBQT.",
+    "meeko_version": "0.7.1",
+    "rdkit_embed_base_seed": 20260804,
+    "rdkit_method": "ETKDGv3 with explicit hydrogens, useRandomCoords=true, then MMFF94 or UFF with 500 iterations",
+    "rdkit_version": "2026.3.1"
+  },
+  "preparation_variant_counts": {
+    "meeko_flexible": 242,
+    "meeko_rigid_macrocycles": 24
+  },
+  "schema_version": "1.0",
+  "sdf_status_counts": {
+    "ok": 244,
+    "warning": 22
+  },
+  "source_manifest": {
+    "path": "data/processed/stage42a_bace1_train266_ligand_manifest.csv",
+    "sha256": "3C5C8E8FB04310A8A791CF7DC06E1ED2CAA12D4AB4BE27F1D97CE8C7FBF6693E"
+  },
+  "status": "stage42b_bace1_train266_unidock_inputs_ok"
+}

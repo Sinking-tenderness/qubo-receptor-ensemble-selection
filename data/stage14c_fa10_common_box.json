@@ -1,0 +1,34 @@
+{
+  "center": {
+    "x": 1.34,
+    "y": -8.5,
+    "z": -15.76
+  },
+  "derivation_rule": {
+    "center_decimal_places": 2,
+    "coordinate_population": "all 16 audited cognate crystal ligands in the common 3KL6 Factor Xa active-site frame",
+    "maximum_axis_size_angstrom": 44.0,
+    "minimum_axis_size_angstrom": 22.0,
+    "minimum_crystal_pose_margin_angstrom": 3.5,
+    "size_increment_angstrom": 2.0
+  },
+  "ligand_maximum_angstrom": [
+    7.287,
+    -2.6966,
+    -5.272
+  ],
+  "ligand_minimum_angstrom": [
+    -4.6077,
+    -14.2984,
+    -26.2541
+  ],
+  "minimum_observed_margin_angstrom": 3.505899999999997,
+  "receptor_count": 16,
+  "schema_version": "1.0",
+  "size": {
+    "x": 22.0,
+    "y": 22.0,
+    "z": 28.0
+  },
+  "status": "stage14c_fa10_common_box_ok"
+}

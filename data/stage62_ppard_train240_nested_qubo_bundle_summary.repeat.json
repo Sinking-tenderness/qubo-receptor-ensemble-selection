@@ -1,0 +1,21 @@
+{
+  "archive": "deliverables/stage62_ppard_train240_nested_qubo_core_v1.repeat.tar.gz",
+  "archive_entry_count": 43,
+  "archive_sha256": "58B813BAA48875632767B9F0076465B73A7DEB6FFEBD4234F75354EFAC4BD82B",
+  "archive_size_bytes": 3494024,
+  "deterministic_metadata": true,
+  "development_ligand_count": 240,
+  "fresh_validation_rows_read": 0,
+  "locked_test_rows_read": 0,
+  "manifest_line_ending": "LF",
+  "new_docking_jobs": 0,
+  "operation": "audited Stage61c metadata amendment and frozen Stage62 PPARD Train-240 nested QUBO analysis",
+  "quantum_hardware_jobs": 0,
+  "receptor_count": 29,
+  "schema_version": "1.0",
+  "score_row_count": 20880,
+  "seed_count": 3,
+  "source_file_count": 42,
+  "status": "ok",
+  "target_id": "PPARD"
+}

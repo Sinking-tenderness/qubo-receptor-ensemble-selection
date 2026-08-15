@@ -1,0 +1,86 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage69-stage68-qubo-optimum-preserving-precision-compression-20260806-v1",
+  "purpose": "Find the smallest conservative integer quality scale that preserves the frozen Stage68 portfolio QUBO across every historical development cell, while keeping direct-QPU authorization separate from logical-model fidelity.",
+  "implementation": {
+    "runner": {
+      "path": "scripts/run_stage69_qubo_precision_compression.py",
+      "sha256": "69C59CB2D4206D89FD2DA1FA28A3D0C37FB2AE2F3430CB5F4BCC7BCE27E809C3"
+    },
+    "independent_auditor": {
+      "path": "scripts/audit_stage69_qubo_precision_compression.py",
+      "sha256": "1565AFBB705282C3DF3D5CC099BDC11652F2699186A7300DCE61B30FF4A38471"
+    }
+  },
+  "inputs": {
+    "stage68_config": {
+      "path": "configs/stage68_quality_plateau_portfolio_qubo.json",
+      "sha256": "D3B7E784DEFA67D32D21E8E99EDDF4210C0E2E9DA6E96929D0A4CBA152AF5C6D"
+    },
+    "stage68_result": {
+      "path": "data/stage68_quality_plateau_portfolio_qubo_result.json",
+      "sha256": "FB5F87EB54CF616718B8BE1264A775E79AE3258AA69A121365C5F8D460A18408"
+    },
+    "stage68_audit": {
+      "path": "data/stage68_quality_plateau_portfolio_qubo_audit.json",
+      "sha256": "CB071C7FE1A5FD7E0F12D73693F95EA53BD0F411AC9247058A010442F4C12ABC"
+    },
+    "stage68_qubo_fidelity": {
+      "path": "results/runs/stage68_quality_plateau_portfolio_qubo/qubo_fidelity.csv",
+      "sha256": "E36248013CC80BDA20A50D500711D731A3D55CEF3B1910A1E8508A83526DA697"
+    }
+  },
+  "development": {
+    "target_order": ["BACE1", "PPARG", "PPARA", "PPARD"],
+    "outer_fold_count": 4,
+    "candidate_k_values": [2, 3, 4, 5, 6],
+    "bedroc_alpha": 20.0,
+    "jackknife_block_count": 4,
+    "jackknife_seed_base": 20260806,
+    "uncertainty_multiplier": 0.5,
+    "quality_integer_scales": [31, 63, 127, 255, 511, 1023, 2047, 4095],
+    "reference_quality_integer_scale": 4095,
+    "milp_time_limit_seconds": 60.0,
+    "selection_rule": "Select the smallest scale passing every compression gate across all 80 target-fold-k cells. Lower scales that make even the pair-off baseline infeasible are rejected before optimization."
+  },
+  "qubo_encoding": {
+    "algorithm_id": "stage68-quality-floor-qubo-optimum-preserving-precision-compression-v1",
+    "reference_model_k": 3,
+    "cardinality_penalty": 32.0,
+    "quality_penalty": 32.0,
+    "rounding_policy": "c_i=ceil(scale*d_i), D=floor(scale*D_continuous); integer feasibility is a sufficient condition for continuous quality-floor feasibility.",
+    "hardware_execution": false
+  },
+  "compression_gate": {
+    "minimum_feasible_cell_count": 80,
+    "minimum_exact_subset_match_count": 72,
+    "minimum_mean_subset_jaccard": 0.95,
+    "minimum_subset_jaccard": 0.5,
+    "maximum_mean_absolute_holdout_bedroc_gap": 0.002,
+    "maximum_absolute_holdout_bedroc_gap": 0.05,
+    "maximum_quality_floor_violation": 1e-12,
+    "maximum_compressed_dynamic_range": 500000.0,
+    "maximum_factorized_energy_residual": 1e-8
+  },
+  "direct_qpu_gate": {
+    "maximum_coefficient_dynamic_range": 1000.0,
+    "interpretation": "This is a conservative project gate, not a universal hardware specification. Current analog annealers rescale coefficients into limited programmable ranges, so a large ratio remains vulnerable to precision loss and embedding noise."
+  },
+  "data_boundary": {
+    "historical_development_targets_permitted": ["BACE1", "PPARG", "PPARA", "PPARD"],
+    "fresh_validation_rows_permitted": 0,
+    "locked_test_rows_permitted": 0,
+    "new_docking_jobs_permitted": 0,
+    "quantum_hardware_jobs_permitted": 0
+  },
+  "outputs": {
+    "cell_metrics_csv": "results/runs/stage69_qubo_precision_compression/cell_metrics.csv",
+    "scale_summary_csv": "results/runs/stage69_qubo_precision_compression/scale_summary.csv",
+    "target_summary_csv": "results/runs/stage69_qubo_precision_compression/target_summary.csv",
+    "model_record_json": "data/stage69_qubo_precision_compression_model_record.json",
+    "result_json": "data/stage69_qubo_precision_compression_result.json",
+    "audit_json": "data/stage69_qubo_precision_compression_audit.json",
+    "report_md": "reports/stage-69/qubo_precision_compression.md"
+  },
+  "interpretation_boundary": "Stage69 is post-hoc encoding compression on frozen historical Stage68 models. A pass may freeze a smaller logical QUBO for embedding and noise simulation. It cannot establish new-target efficacy, direct-QPU feasibility, hardware sampling quality, solver speedup, or quantum advantage."
+}

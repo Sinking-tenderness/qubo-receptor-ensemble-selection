@@ -1,0 +1,90 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage37-cross-target-robust-functional-qubo-20260803-v1",
+  "purpose": "Determine whether a frozen, seed-robust functional complementarity objective creates a reproducible exact-versus-strong-classical optimization gap while preserving scaffold-holdout utility on both MK14 and PPARG.",
+  "implementation": {
+    "path": "scripts/run_stage37_cross_target_robust_functional_qubo.py",
+    "sha256": "A8FB11EC7194C4D86755558E4FEFE60F01A6FB83B5A4F68A706CF6747B6CA359"
+  },
+  "inputs": {
+    "stage19e_config": {
+      "path": "configs/stage19e_cross_target_qubo_v2_nested_diagnostic.json",
+      "sha256": "E7CB41AC6909DD42A7964FC3842E15612D982CD67AFD57AE999A461871EC3B7D"
+    },
+    "stage19e_audit": {
+      "path": "data/stage19e_cross_target_qubo_v2_nested_diagnostic_audit.json",
+      "sha256": "816B1C1FA82C5BF14FD8EF952AF0F33D4B839322E8843BC2531509091E8232B7"
+    },
+    "stage19h_audit": {
+      "path": "data/stage19h_auxiliary_coverage_qubo_audit.json",
+      "sha256": "901880C953CA421C0F4088EB37078EC634FD82EFDEDE967FF79129212E3139C6"
+    },
+    "stage36c_audit": {
+      "path": "data/stage36c_pparg_consensus_blend_replication_audit.json",
+      "sha256": "87A6AB52200B3989ADF391FC5F9ADB99540D74D4F9F09B86E8DD4343C1851309"
+    }
+  },
+  "evidence_timing": {
+    "experiment_class": "posthoc cross-target train-only objective development",
+    "weights_frozen_before_stage37_outcomes": true,
+    "fresh_validation_or_locked_test_rows_permitted": false,
+    "new_docking_permitted": false,
+    "quantum_hardware_permitted": false
+  },
+  "objective": {
+    "objective_id": "seed_robust_functional_complementarity_v1",
+    "lower_docking_score_is_better": true,
+    "normalization": "per-seed per-receptor empirical CDF fitted on the outer-train rows only",
+    "favorable_rank_fraction": 0.1,
+    "minimum_subset_size": 1,
+    "maximum_subset_size": 6,
+    "weights": {
+      "active_majority_seed_coverage": 0.35,
+      "active_all_seed_coverage": 0.25,
+      "active_double_receptor_majority_seed_support": 0.2,
+      "decoy_any_seed_exposure": 0.15,
+      "receptor_cost": 0.05
+    },
+    "formula": "F(S)=0.35*A_majority(S)+0.25*A_all3(S)+0.20*A_double_majority(S)-0.15*D_any(S)-0.05*|S|/6"
+  },
+  "qubo_encoding_note": {
+    "status": "exact set-function screen before sparse auxiliary encoding",
+    "receptor_variables": "x_i=1 iff receptor i is selected",
+    "active_auxiliaries": "binary auxiliaries encode per-active per-seed single- and double-receptor support; additional threshold auxiliaries encode support in at least two or all three seeds",
+    "decoy_auxiliaries": "binary auxiliaries encode whether a decoy is exposed by any selected receptor in any seed",
+    "constraints": "all OR and cardinality-threshold relations are enforced by quadratic penalties with binary slack variables",
+    "next_step_if_supported": "derive and audit the sparse auxiliary BQM without changing this set-function objective"
+  },
+  "screen": {
+    "outer_fold_count": 4,
+    "fold_seed": 20261119,
+    "bedroc_alpha": 20.0,
+    "classical_beam_width": 64,
+    "top_landscape_rows_per_cell": 20,
+    "tie_tolerance": 1e-12
+  },
+  "classical_comparator": {
+    "method_id": "beam64_multistart_add_drop_swap",
+    "description": "Retain the best 64 states at each forward cardinality, add every state on 16 singleton-start greedy paths, then run deterministic best-improvement add/drop/swap local search from every retained state.",
+    "comparison_is_against_plain_greedy": false
+  },
+  "support_gate": {
+    "minimum_positive_train_gap_cells": 5,
+    "minimum_mean_train_gap": 0.000001,
+    "minimum_target_mean_holdout_objective_delta": 0.0,
+    "minimum_target_mean_holdout_robust_bedroc_delta": 0.0,
+    "all_checks_required": true,
+    "decision": "Authorize Stage38 sparse auxiliary-QUBO encoding only if the exact objective beats the strong classical search in at least five of eight target-fold cells, has mean train gap at least 1e-6, and has nonnegative mean scaffold-holdout objective and BEDROC20 deltas on each target."
+  },
+  "outputs": {
+    "fold_assignments_csv": "results/runs/stage37_cross_target_robust_functional_qubo/fold_assignments.csv",
+    "cell_metrics_csv": "results/runs/stage37_cross_target_robust_functional_qubo/cell_metrics.csv",
+    "selection_metrics_csv": "results/runs/stage37_cross_target_robust_functional_qubo/selection_metrics.csv",
+    "top_landscape_csv": "results/runs/stage37_cross_target_robust_functional_qubo/top_landscape.csv",
+    "model_record_json": "data/stage37_cross_target_robust_functional_qubo_model_record.json",
+    "result_json": "data/stage37_cross_target_robust_functional_qubo_result.json",
+    "audit_json": "data/stage37_cross_target_robust_functional_qubo_audit.json",
+    "report_md": "reports/stage-37/cross_target_robust_functional_qubo.md"
+  },
+  "interpretation_boundary": "Stage37 is post-hoc objective development using only frozen MK14 and PPARG training rows. Scaffold holdouts test transfer within those development sets but are not independent protein validation. A pass would support sparse auxiliary-QUBO construction, not quantum hardware, quantum advantage, new docking, or alteration of any prior failed confirmation gate. A failure freezes this objective as unsupported and forbids further weight tuning on these same outcomes."
+}

@@ -1,0 +1,52 @@
+{
+  "schema_version": "1.0",
+  "adjudication_id": "stage13g-egfr-cognate-redocking-failure-adjudication-20260731-v1",
+  "purpose": "Adjudicate the completed Stage 13f EGFR technical gate without rerunning docking or reading benchmark activity labels or scores.",
+  "master_preregistration": {
+    "path": "configs/stage13_multitarget_external_validation_master_preregistration.json",
+    "sha256": "568D445852230E8F904342494EC25B070C9A994B19DAEB2DF76A55C6E95CD68D"
+  },
+  "source_config": {
+    "path": "configs/stage13f_egfr_cognate_redocking.json",
+    "sha256": "119481B3BB0BBD3A3AE54F5A5E44DEC9D43AA3EB1FE9487815E02D9F96A568E2"
+  },
+  "source_input_archive": {
+    "basename": "stage13f_egfr_cognate_redocking_input_v1.tar.gz",
+    "sha256": "FB851B301B28E12673DDA2056824AFB0BF49F6C4DBF01BD28F0D6CD5E9AF827C"
+  },
+  "source_result_archives": {
+    "core": {
+      "basename": "stage13f_egfr_cognate_redocking_core_v1.tar.gz",
+      "sha256": "34B465151C3E95A9BA972A03D582D9168328572D78E59C34FE52F5409FABD49A"
+    },
+    "diagnostics": {
+      "basename": "stage13f_egfr_cognate_redocking_diagnostics_v1.tar.gz",
+      "sha256": "7C1E5564F345B46D41CC7A91BB1BF0047C7206AF8FA9DE2CCD8CAC2D04FEB07A"
+    }
+  },
+  "expected": {
+    "receptor_count": 16,
+    "seed_count": 3,
+    "pair_count": 48,
+    "required_passing_receptor_count": 16,
+    "available_reserve_receptor_count": 1,
+    "expected_passing_receptor_count": 12,
+    "expected_failed_receptor_ids": [
+      "EGFR_9H47_aligned",
+      "EGFR_8SC7_aligned",
+      "EGFR_5EM8_aligned",
+      "EGFR_5UGB_aligned"
+    ],
+    "maximum_rmsd_angstrom": 2.0,
+    "minimum_successful_seeds_per_receptor": 2,
+    "diagnostic_batch_summary_count": 48,
+    "diagnostic_rmsd_summary_count": 48,
+    "diagnostic_log_count": 48,
+    "diagnostic_pose_count": 48
+  },
+  "outputs": {
+    "result_json": "data/stage13g_egfr_cognate_redocking_failure_adjudication.json",
+    "report_md": "reports/stage-13g/egfr_cognate_redocking_failure_adjudication.md"
+  },
+  "decision_boundary": "The Stage 13f run is technically complete and scientifically failed its all-16 receptor gate. The single frozen reserve cannot recover four failures. Do not run EGFR Train-696, do not lower the RMSD threshold, do not enlarge the confirmatory EGFR pool after seeing this result, and continue to the next frozen target FA10. Any later 12-receptor EGFR analysis is post-hoc exploratory evidence only."
+}

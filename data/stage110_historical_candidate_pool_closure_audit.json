@@ -1,0 +1,14 @@
+{
+  "schema_version": "1.0",
+  "status": "stage110_independent_audit_ok",
+  "historical_candidate_pool_closed": true,
+  "remaining_outcome_unseen_protocol_eligible_candidates": 0,
+  "later_stages_locked": true,
+  "data_boundary": {
+    "new_target_source_downloads": 0,
+    "new_target_coordinate_downloads": 0,
+    "new_ligand_rows_read": 0,
+    "new_docking_jobs": 0,
+    "quantum_hardware_jobs": 0
+  }
+}

@@ -1,0 +1,57 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage19b-pparg-train668-unidock-input-preparation-20260801-v1",
+  "purpose": "Generate deterministic 3D SDF and macrocycle-safe Meeko PDBQT inputs for only the frozen PPARG Train-668 panel.",
+  "implementation": {
+    "preparer": {
+      "path": "scripts/experimental/unidock/prepare_stage19b_pparg_train668_inputs.py",
+      "sha256": "31557F448A2FBC015748EB77C286FE877DD2AD18D5694C26DD699254A277BF5F"
+    },
+    "three_d_helper": {
+      "path": "scripts/prepare_ligand_3d_sdf.py",
+      "sha256": "C0D64DA0D2DCA4328513CC044AF98448913FBF122A06A8031AB95D4144EB11A5"
+    },
+    "meeko_helper": {
+      "path": "scripts/batch_prepare_ligand_pdbqt.py",
+      "sha256": "44574F8EDC68AE27EB31388D1FB44F034FBBC3F755506B8DFEBC1E0823471D18"
+    },
+    "pseudoatom_audit_helper": {
+      "path": "scripts/experimental/unidock/run_unidock_gpu_equivalence.py",
+      "sha256": "4E927E959A08526289F7B266BA8CD76232741C878CCE255312F94A561DE433B0"
+    }
+  },
+  "inputs": {
+    "panel_allocation_summary": {
+      "path": "data/stage19a_pparg_ligand_panel_allocation_summary.json",
+      "sha256": "6D814F48DFF5B394BA1704A3CCAFF5CFE294DE2D5D437B116C4CABAEBFA0AA30"
+    },
+    "train_manifest": {
+      "path": "data/processed/stage19a_pparg_train668_ligand_manifest.csv",
+      "sha256": "98F893D5BE9AA43A3FED48DBD6B6A87682E2464136A725E5623058DE132A2F21"
+    }
+  },
+  "expected": {
+    "ligand_count": 668,
+    "label_counts": {
+      "active": 334,
+      "decoy": 334
+    },
+    "validation_rows": 0,
+    "test_rows": 0
+  },
+  "preparation": {
+    "rdkit_version": "2026.3.1",
+    "meeko_version": "0.7.1",
+    "rdkit_method": "ETKDGv3 with explicit hydrogens, useRandomCoords=true, then MMFF94 or UFF with 500 iterations",
+    "rdkit_embed_base_seed": 20260801,
+    "deterministic_retry_seed_offsets": [0, 1000003, 2000003],
+    "macrocycle_policy": "Run Meeko flexible first. If preparation fails or closure pseudoatoms are detected, rerun once with --rigid_macrocycles; require zero closure pseudoatoms in the final PDBQT.",
+    "local_worker_count": 8
+  },
+  "outputs": {
+    "run_directory": "results/runs/stage19b_pparg_train668_unidock_inputs",
+    "manifest_csv": "data/processed/stage19b_pparg_train668_unidock_pdbqt_manifest.csv",
+    "summary_json": "data/stage19b_pparg_train668_unidock_input_summary.json"
+  },
+  "interpretation_boundary": "This stage prepares train-only structures and reads no docking score, fresh-validation row, or test row. Preparation success does not establish enrichment, QUBO portability, QUBO superiority, or quantum advantage."
+}

@@ -1,0 +1,38 @@
+{
+  "dynamics": {
+    "barostat_frequency_steps": 25,
+    "checkpoint_interval_ps": 100.0,
+    "frame_interval_ps": 20.0,
+    "friction_per_ps": 1.0,
+    "metrics_interval_ps": 10.0,
+    "pressure_bar": 1.0,
+    "production_duration_ns": 3.0,
+    "seed": 20262549,
+    "temperature_kelvin": 300.0,
+    "timestep_fs": 2.0
+  },
+  "experiment_id": "stage28b-pparg-md-ready-pparg_2i4j_aligned-production-v1",
+  "inputs": {
+    "equilibrated_state_xml": "results/runs/stage28b_pparg_md_ready_multistart_md/pparg_2i4j_aligned/equilibrated_state.xml",
+    "system_xml": "results/runs/stage28b_pparg_md_ready_multistart_md/pparg_2i4j_aligned/system.xml",
+    "topology_pdb": "results/runs/stage28b_pparg_md_ready_multistart_md/pparg_2i4j_aligned/equilibrated_state.pdb"
+  },
+  "interpretation_boundary": "Stage28b constructs and audits a structure-only MD frame pool after an explicit topology-feasibility correction. It cannot establish MD convergence, docking enrichment, QUBO superiority, quantum speedup, or quantum advantage. A passing gate authorizes only a separately frozen Stage29 solver-scaling benchmark.",
+  "outputs": {
+    "checkpoint": "results/runs/stage28b_pparg_md_ready_multistart_md/pparg_2i4j_aligned/production/production.chk",
+    "final_pdb": "results/runs/stage28b_pparg_md_ready_multistart_md/pparg_2i4j_aligned/production/final_state.pdb",
+    "final_state_xml": "results/runs/stage28b_pparg_md_ready_multistart_md/pparg_2i4j_aligned/production/final_state.xml",
+    "manifest": "results/runs/stage28b_pparg_md_ready_multistart_md/pparg_2i4j_aligned/production/manifest.json",
+    "metrics_csv": "results/runs/stage28b_pparg_md_ready_multistart_md/pparg_2i4j_aligned/production/metrics.csv",
+    "progress_json": "results/runs/stage28b_pparg_md_ready_multistart_md/pparg_2i4j_aligned/production/progress.json",
+    "run_directory": "results/runs/stage28b_pparg_md_ready_multistart_md/pparg_2i4j_aligned/production",
+    "trajectory_prefix": "pparg_2i4j_aligned_production"
+  },
+  "parent_protocol": "configs/stage28b_pparg_md_ready_multistart_md/pparg_2i4j_aligned_protocol.json",
+  "platform": {
+    "name": "CUDA",
+    "precision": "mixed"
+  },
+  "purpose": "Resumable short NPT production for a structure-only PPARG solver-scaling pool.",
+  "schema_version": "1.0"
+}

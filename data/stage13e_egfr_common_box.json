@@ -1,0 +1,34 @@
+{
+  "center": {
+    "x": 18.56,
+    "y": 33.55,
+    "z": 88.93
+  },
+  "derivation_rule": {
+    "center_decimal_places": 2,
+    "coordinate_population": "all 16 audited cognate crystal ligands in the common 2RGP ATP-site frame",
+    "maximum_axis_size_angstrom": 40.0,
+    "minimum_axis_size_angstrom": 22.0,
+    "minimum_crystal_pose_margin_angstrom": 3.5,
+    "size_increment_angstrom": 2.0
+  },
+  "ligand_maximum_angstrom": [
+    24.8742,
+    40.5376,
+    99.6293
+  ],
+  "ligand_minimum_angstrom": [
+    12.2438,
+    26.5589,
+    78.2393
+  ],
+  "minimum_observed_margin_angstrom": 4.008900000000004,
+  "receptor_count": 16,
+  "schema_version": "1.0",
+  "size": {
+    "x": 22.0,
+    "y": 22.0,
+    "z": 30.0
+  },
+  "status": "stage13e_common_box_ok"
+}

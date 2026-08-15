@@ -1,0 +1,87 @@
+{
+  "schema_version": "1.0",
+  "amendment_id": "stage13-egfr-preparation-readiness-amendment04-20260731",
+  "created_on": "2026-07-31",
+  "original_preregistration": {
+    "path": "configs/stage13_egfr_external_target_pilot_preregistration.json",
+    "sha256": "8CE02087666FC8F3A97A83889AB61E3E45EB03667DB853EC0D0B9C96FB8D00CD"
+  },
+  "local_pocket_method_amendment": {
+    "path": "configs/stage13_egfr_external_target_pilot_preregistration_amendment03.json",
+    "sha256": "064F5E2A0300F94D57162C82852B5B2ADC886FB72C976B2350211A642312E24D"
+  },
+  "trigger": {
+    "summary_path": "data/stage13c_egfr_local_pocket_structural_selection_summary.json",
+    "summary_sha256": "E18FF7D3B4A811C6B12D86908E4BA129663C3A5DD42DE6CA17208EB14F50D6C1",
+    "required_status": "stage13c_egfr_local_pocket_structural_selection_ok",
+    "coordinate_eligible_count": 26,
+    "fully_observed_standard_residue_candidate_count": 17
+  },
+  "scope": "Add a preparation-readiness gate before receptor parameterization. Do not model, delete, or silently tolerate any incomplete standard amino-acid residue. Recompute structural standardization and max-min selection over the fully observed candidates plus the frame-only 2RGP seed.",
+  "preparation_readiness_gate": {
+    "required_global_incomplete_standard_amino_acid_residue_count": 0,
+    "missing_heavy_atom_repair": "not permitted",
+    "allow_bad_residue_deletion": false,
+    "candidate_action_on_failure": "exclude before receptor preparation",
+    "reference_frame_exception": {
+      "conformer_id": "EGFR_2RGP_reference",
+      "role": "alignment and max-min seed only; not a docking receptor",
+      "reason": "2RGP has one incomplete Glu1015 side chain outside the frozen ATP pocket"
+    }
+  },
+  "selection": {
+    "candidate_pdb_ids": [
+      "3POZ",
+      "3W2S",
+      "3W32",
+      "3W33",
+      "4I23",
+      "5CAV",
+      "5EM8",
+      "5UGB",
+      "7KXZ",
+      "7U99",
+      "7U9A",
+      "8F1Z",
+      "8SC7",
+      "9FRD",
+      "9H47",
+      "9KL4",
+      "9QXN"
+    ],
+    "candidate_count": 17,
+    "target_receptor_count": 16,
+    "reserve_receptor_count": 1,
+    "reference_seed": "EGFR_2RGP_reference",
+    "feature_standardization_population": "17 preparation-ready candidates plus the 2RGP frame-only seed",
+    "selection_rule": "deterministic max-min structural distance from the frame-only reference seed; ties resolved by lexical conformer ID",
+    "failure_action": "stop before production docking if fewer than 16 selected receptors pass cognate-ligand redocking"
+  },
+  "redocking_plan": {
+    "engine": "Uni-Dock 1.1.3",
+    "profile": "enhanced: exhaustiveness 1024, max_step 80, refine_step 5, num_modes 1",
+    "seed_ids": [
+      "seed0",
+      "seed1",
+      "seed2"
+    ],
+    "base_seeds": [
+      20260801,
+      20260802,
+      20260803
+    ],
+    "maximum_heavy_atom_rmsd_angstrom": 2.0,
+    "minimum_successful_seeds_per_receptor": 2,
+    "all_16_selected_receptors_required": true,
+    "reserve_policy": "the single reserve may replace one failed selected receptor only through a separately recorded deterministic replacement step followed by the same redocking gate"
+  },
+  "data_boundary": {
+    "ligand_labels_read": 0,
+    "benchmark_docking_scores_read": 0,
+    "MAPK14_stage11_rows_read": 0,
+    "fresh_validation_rows_read": 0,
+    "test_rows_read": 0
+  },
+  "authorization": "Finalize the 16 preparation-ready receptors and one reserve, then build a Uni-Dock cognate-ligand redocking input bundle. EGFR benchmark ligand docking remains unauthorized.",
+  "interpretation_boundary": "This gate avoids modeled or deleted receptor residues and fixes the technical redocking cohort. It does not establish redocking success, screening enrichment, QUBO portability, QUBO superiority, quantum application, or quantum advantage."
+}

@@ -1,0 +1,23 @@
+{
+  "archive": "D:/\u91cf\u5b50\u00d7\u86cb\u767d\u8d28/.codex_tmp/stage19h_auxiliary_coverage_qubo_core_v1.repeat.tar.gz",
+  "archive_entry_count": 48,
+  "archive_sha256": "2ABEBD5233C8C96B9AFC94D15FB2FFA3BE0CDB9CF1CC3C37C2E1FA439CA07920",
+  "archive_size_bytes": 4135856,
+  "bace1_docking_rows": 0,
+  "bace1_method_amendment_authorized": false,
+  "deterministic_metadata": true,
+  "development_gate_passed": false,
+  "experiment_class": "posthoc_cross_target_train_only_development",
+  "fresh_validation_rows": 0,
+  "manifest_line_ending": "LF",
+  "new_docking_jobs": 0,
+  "operation": "Stage 19h auxiliary-coverage QUBO core results",
+  "schema_version": "1.0",
+  "source_file_count": 47,
+  "status": "ok",
+  "target_ids": [
+    "MK14",
+    "PPARG"
+  ],
+  "test_rows": 0
+}

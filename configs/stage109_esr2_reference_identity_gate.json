@@ -1,0 +1,77 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage109-esr2-reference-identity-gate-20260813-v1",
+  "purpose": "Outcome-unseen source-identity gate for the next target in the pre-existing Stage47b ranking. Verify that ESR2 can enter a wild-type receptor-ensemble protocol before ligand allocation, RCSB coordinate download, docking, validation, objective fitting, or quantum-hardware work.",
+  "ranking_provenance": {
+    "stage47b_screen": {
+      "path": "data/processed/stage47b_expanded_new_target_feasibility_screen.csv",
+      "sha256": "1CC037C3426CB0AD53ADC27DC8CDB8E4141E5A5365A7B9B39E93475E9FE642EC"
+    },
+    "completed_ppard_result": {
+      "path": "data/stage62_ppard_train240_nested_qubo_result.json",
+      "sha256": "B1474F2CDAB76E8C381397BC224969F4F90DD3BF2DBAD79AF2775D02DAE74371"
+    },
+    "ppard_selection_record": {
+      "path": "data/stage55_ppard_small_pilot_preregistration_result.json",
+      "sha256": "3642EFDA1323817DFA5FC758597E4637E04B80B2D00228ECF280DFA77CE06788"
+    },
+    "rule": "After completed PPARA and PPARD branches, ESR2 is the next unused eligible target in the pre-existing Stage47b rank order. This gate does not claim that ESR2 is selected because it is expected to produce a favorable result."
+  },
+  "target": {
+    "target_id": "ESR2",
+    "gene_name": "ESR2",
+    "protein_name": "Estrogen receptor beta",
+    "uniprot_accession": "Q92731",
+    "dude_target_id": "ESR2",
+    "dude_reference_structure": "2FSZ",
+    "dude_reference_ligand_name": "OHT_101_2FSZ"
+  },
+  "inputs": {
+    "dude_archive": {
+      "path": "data/raw/external_targets/esr2_dude/esr2.tar.gz",
+      "sha256": "6FDFD0CD1E1701DEF9F7F9266EF052B090667FC56B079FA0D20D0BC03F8530AC"
+    },
+    "dude_receptor": {
+      "path": "data/raw/external_targets/esr2_dude/esr2/receptor.pdb",
+      "sha256": "23CF64D1F1D37B4E50880309EB5E45317D94E40FA9D602791E403FC158FC4925"
+    },
+    "dude_ligand": {
+      "path": "data/raw/external_targets/esr2_dude/esr2/crystal_ligand.mol2",
+      "sha256": "97429DCDDDF8186C8D0297F99966945F4CF80DCB978366E6DC697F30D2127155"
+    },
+    "dude_actives": {
+      "path": "data/raw/external_targets/esr2_dude/esr2/actives_final.ism",
+      "sha256": "4F07AF131DF7853177D1D3B82299C482DE70808D07284F0F182556FD39BBD23E"
+    },
+    "dude_decoys": {
+      "path": "data/raw/external_targets/esr2_dude/esr2/decoys_final.ism",
+      "sha256": "FCDD6197C72EC3BE2C9BDB86C299EF9208133B5B87B51DCE26B533E026250EE4"
+    },
+    "historical_metadata": {
+      "path": "data/processed/stage47b_expanded_new_target_candidate_metadata.csv",
+      "sha256": "2E4F65A40CC311E575B58991123557264CA9CC3DA7DD878A140626702797029E"
+    }
+  },
+  "frozen_reference_rules": {
+    "required_mutation_count": 0,
+    "reference_must_be_metadata_eligible": true,
+    "minimum_metadata_eligible_receptor_count": 16,
+    "failure_action": "If the DUD-E reference has a mutation or is metadata-ineligible, stop ESR2 before coordinate download. Do not replace the reference, lower the wild-type rule, or reuse the source ligand in another receptor frame within this stage."
+  },
+  "data_boundary": {
+    "source_active_lines_counted": 367,
+    "source_decoy_lines_counted": 20199,
+    "source_label_values_parsed_or_used": 0,
+    "rcsb_coordinate_downloads": 0,
+    "docking_scores_read": 0,
+    "fresh_validation_rows_read": 0,
+    "locked_test_rows_read": 0,
+    "new_docking_jobs": 0,
+    "quantum_hardware_jobs": 0
+  },
+  "outputs": {
+    "summary_json": "data/stage109_esr2_reference_identity_gate_result.json",
+    "report_md": "reports/stage-109/esr2_reference_identity_gate.md",
+    "audit_json": "data/stage109_esr2_reference_identity_gate_audit.json"
+  }
+}

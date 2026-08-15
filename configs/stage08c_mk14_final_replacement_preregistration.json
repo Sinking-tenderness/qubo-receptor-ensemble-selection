@@ -1,0 +1,70 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage08c-mk14-final-structural-replacement-selection-v1",
+  "purpose": "Select one nonredundant replacement for the 15-receptor technically admitted MAPK14 pool without relaxing the frozen redocking gate.",
+  "inputs": {
+    "current15_summary": {
+      "path": "data/stage08c_mk14_current15_receptor_manifest_summary.json",
+      "sha256": "1DEEA620315013C5171B74B064F60721F6E0F220098965C6F21290395C29BCE1"
+    },
+    "current15_manifest": {
+      "path": "data/processed/stage08c_mk14_current15_receptor_manifest.csv",
+      "sha256": "E783D9FC79585934F546495D8721EBA2A4E4FB20C74920B2CEDEF42553ED0457"
+    },
+    "stage08b_failure_adjudication": {
+      "path": "data/stage08b_mk14_replacement_redocking_failure_adjudication.json",
+      "sha256": "75B547F0B2374C943C69E24445D25A2D3EDBAFC14BF30AC69BD99D30BCEE6C1A"
+    },
+    "eligible_pool": {
+      "path": "data/processed/stage05_mk14_rcsb_coordinate_eligible_pool_v3.csv",
+      "sha256": "5E8C7E097E1B7E154CF722335932865FAE554A0F50D148DAC0D47594DDEB8CC6"
+    },
+    "candidate_audit": {
+      "path": "data/processed/stage05_mk14_rcsb_coordinate_candidate_audit_v3.csv",
+      "sha256": "4369E7A3DD89BCD4EE41F1182F07648AAA73240A2EB3905E59A21D25C14548F9"
+    },
+    "pairwise_distances": {
+      "path": "data/processed/stage05_mk14_rcsb_structural_distances_v3.csv",
+      "sha256": "E205B8E50C3096B48997F20AC0769EC8313416D2B0028FB3394DB08B0B3F2F62"
+    }
+  },
+  "replacement_rule": {
+    "directly_failed_receptor_ids": [
+      "MK14_3ZSH_aligned",
+      "MK14_2GFS_aligned",
+      "MK14_2BAK_aligned"
+    ],
+    "technical_equivalence_exclusion": {
+      "maximum_standardized_pocket_distance": 1e-12,
+      "require_same_selected_ligand_resname": true,
+      "reason": "A zero-distance receptor using the same co-crystal ligand contributes no new structural state and would repeat the failed technical control."
+    },
+    "replacement_count": 1,
+    "selection_rule": "After direct and technical-equivalence exclusions, choose the coordinate-eligible candidate with maximum minimum standardized pocket distance to the current 15-receptor admitted pool; resolve exact ties lexically.",
+    "docking_affinities_used": false,
+    "rmsd_magnitudes_used_for_ranking": false
+  },
+  "expected": {
+    "current_receptor_count": 15,
+    "propagated_equivalence_exclusions": [
+      "MK14_4A9Y_aligned"
+    ],
+    "replacement_receptor_ids": [
+      "MK14_1OZ1_aligned"
+    ],
+    "final_receptor_count_if_pass": 16,
+    "validation_rows": 0,
+    "test_rows": 0
+  },
+  "outputs": {
+    "replacement_selection_csv": "data/processed/stage08c_mk14_final_replacement_selection.csv",
+    "summary_json": "data/stage08c_mk14_final_replacement_selection_summary.json"
+  },
+  "data_boundary": {
+    "benchmark_ligand_labels_read": 0,
+    "benchmark_docking_scores_read": 0,
+    "previous_validation_rows_read": 0,
+    "test_rows_read": 0
+  },
+  "decision_boundary": "The selected receptor must pass the same three-seed Uni-Dock RMSD gate and independent audit before joining the final production manifest."
+}

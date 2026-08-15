@@ -1,0 +1,74 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage22-structural-state-coverage-qubo-20260802-v1",
+  "purpose": "Test whether an auxiliary-variable QUBO can select a stable, non-greedy subset that covers structural states across full hard-gate-eligible conformation pools before any new docking is authorized.",
+  "evidence_timing": {
+    "experiment_class": "posthoc_structure_only_model_design_screen",
+    "mk14_and_pparg_docking_outcomes_known": true,
+    "schedule_frozen_before_run": true,
+    "new_docking_jobs": false,
+    "fresh_validation_or_test_rows_permitted": false,
+    "quantum_hardware_execution": false
+  },
+  "targets": {
+    "MK14": {
+      "reference_id": "MK14_2QD9_reference",
+      "inputs": {
+        "eligible_pool": "data/processed/stage05_mk14_rcsb_coordinate_eligible_pool_v3.csv",
+        "coordinate_audit": "data/processed/stage05_mk14_rcsb_coordinate_candidate_audit_v3.csv",
+        "feature_matrix": "data/processed/stage05_mk14_rcsb_pocket_distance_features_v3.csv",
+        "pairwise_distances": "data/processed/stage05_mk14_rcsb_structural_distances_v3.csv"
+      }
+    },
+    "PPARG": {
+      "reference_id": "PPARG_2GTK_reference",
+      "inputs": {
+        "eligible_pool": "data/processed/stage18c_pparg_coordinate_eligible_pool.csv",
+        "coordinate_audit": "data/processed/stage18c_pparg_coordinate_candidate_audit.csv",
+        "feature_matrix": "data/processed/stage18c_pparg_structural_features.csv",
+        "pairwise_distances": "data/processed/stage18c_pparg_structural_distances.csv"
+      }
+    }
+  },
+  "diagnostic": {
+    "k_values": [
+      2,
+      3,
+      4,
+      6,
+      8
+    ],
+    "neighborhood_fractions": [
+      0.05,
+      0.10,
+      0.20
+    ],
+    "primary_neighborhood_fraction": 0.10,
+    "diversity_weight": 0.15,
+    "restart_count": 32,
+    "base_seed": 20260802,
+    "exact_state_limit": 250000,
+    "cardinality_penalty": 20.0,
+    "constraint_penalty": 100.0,
+    "solver": "exact enumeration when feasible, otherwise deterministic multistart exact-cardinality one-swap search",
+    "classical_baselines": [
+      "direct_greedy",
+      "maxmin_seeded",
+      "maxsum_greedy"
+    ]
+  },
+  "go_no_go": {
+    "required_common_k": 8,
+    "minimum_objective_gain": 1e-9,
+    "minimum_best_restart_fraction": 0.75,
+    "minimum_positive_sensitivity_fractions": 2
+  },
+  "outputs": {
+    "selection_csv": "results/runs/stage22_structural_state_coverage_qubo/selection_results.csv",
+    "restart_csv": "results/runs/stage22_structural_state_coverage_qubo/restart_results.csv",
+    "model_record_json": "data/stage22_structural_state_coverage_qubo_model_record.json",
+    "result_json": "data/stage22_structural_state_coverage_qubo_result.json",
+    "report_md": "reports/stage-22/structural_state_coverage_qubo.md"
+  },
+  "interpretation_boundary": "This post-hoc structure-only screen can show only that a structural-state coverage QUBO is mathematically valid, reproducible, and can improve its frozen structural objective over direct greedy selection on the existing hard-gate-eligible pools. It cannot establish ligand enrichment, docking benefit, prospective generalization, quantum speedup, quantum advantage, or biological benefit. A passing gate authorizes only a separately preregistered small matched Uni-Dock experiment."
+}

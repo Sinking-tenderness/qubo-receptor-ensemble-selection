@@ -1,0 +1,83 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage19f-cross-target-stable-pair-qubo-20260801-v1",
+  "purpose": "Test whether a scaffold-stable lower-confidence-bound pair-synergy QUBO can retain meaningful quadratic terms while improving nested outer-fold performance on both MK14 and PPARG.",
+  "implementation": {
+    "path": "scripts/diagnose_stage19f_stable_pair_qubo.py",
+    "sha256": "750ACFD6CB7C1423C773F2385DE55EFA5373C7AA06240FFCA67984DBA7B2A1FE"
+  },
+  "inputs": {
+    "stage19e_config": {
+      "path": "configs/stage19e_cross_target_qubo_v2_nested_diagnostic.json",
+      "sha256": "E7CB41AC6909DD42A7964FC3842E15612D982CD67AFD57AE999A461871EC3B7D"
+    },
+    "stage19e_result": {
+      "path": "data/stage19e_cross_target_qubo_v2_nested_diagnostic_result.json",
+      "sha256": "68EC0BAE8B84E45907B78E4E309197823EFBAA7810552E49C39B1B23B67763BB"
+    },
+    "stage19e_audit": {
+      "path": "data/stage19e_cross_target_qubo_v2_nested_diagnostic_audit.json",
+      "sha256": "816B1C1FA82C5BF14FD8EF952AF0F33D4B839322E8843BC2531509091E8232B7"
+    },
+    "stage19e_outer_methods": {
+      "path": "results/runs/stage19e_cross_target_qubo_v2_nested/outer_method_results.csv",
+      "sha256": "C90C733B3B16B02FDBE1964A1A01819EFF16359F6C883AD56684C77BF991844F"
+    }
+  },
+  "evidence_timing": {
+    "experiment_class": "posthoc cross-target train-only development",
+    "stage19e_failure_known": true,
+    "bace1_benchmark_docking_started": false,
+    "fresh_validation_or_test_rows_permitted": false
+  },
+  "diagnostic": {
+    "target_size": 3,
+    "bedroc_alpha": 20.0,
+    "outer_fold_count": 4,
+    "inner_fold_count": 3,
+    "fold_seed": 20261119,
+    "inner_fold_seed": 20261920,
+    "linear_term": "min-max normalized singleton robust composite on the complete current training split",
+    "raw_pair_synergy": "pair robust composite minus max of the two singleton robust composites within each scaffold block",
+    "stable_pair_term": "retain max(mean block synergy - risk_kappa * population standard deviation, 0) only after positive-block-fraction and minimum-LCB gates; then divide retained values by their maximum",
+    "minimum_positive_block_fraction": 0.6666666666666666,
+    "minimum_pair_lcb": 0.002,
+    "pair_weights": [
+      0.1,
+      0.25,
+      0.5,
+      1.0,
+      2.0
+    ],
+    "risk_kappas": [
+      0.0,
+      0.5,
+      1.0,
+      2.0
+    ],
+    "nested_selection_rule": "For each outer fold, evaluate every positive pair-weight and risk-kappa candidate on three inner scaffold folds. Rank by descending mean validation robust composite, descending worst validation robust composite, descending mean validation objective-vs-utility Spearman, ascending pair weight, then descending risk kappa. Refit once on the outer train rows using its three inner blocks.",
+    "cardinality_penalty": 20.0
+  },
+  "development_support_gate": {
+    "required_comparators": [
+      "direct_greedy",
+      "additive_nested",
+      "pair_synergy_qubo_v1",
+      "stable_singleton_linear"
+    ],
+    "minimum_target_mean_delta": 0.0,
+    "minimum_positive_folds_of_eight": 5,
+    "minimum_folds_with_selected_nonzero_pair": 5,
+    "all_checks_required": true,
+    "decision": "Authorize a BACE1 secondary stable-pair QUBO only if it has a strictly positive mean outer-fold robust-composite delta on both MK14 and PPARG against all four comparators, wins at least five of eight paired folds against each, and the selected triple uses at least one retained nonzero pair term in at least five folds."
+  },
+  "outputs": {
+    "inner_candidate_trials_csv": "results/runs/stage19f_cross_target_stable_pair_qubo/inner_candidate_trials.csv",
+    "outer_candidate_trials_csv": "results/runs/stage19f_cross_target_stable_pair_qubo/outer_candidate_trials.csv",
+    "comparison_method_results_csv": "results/runs/stage19f_cross_target_stable_pair_qubo/comparison_method_results.csv",
+    "model_record_json": "data/stage19f_cross_target_stable_pair_qubo_model_record.json",
+    "result_json": "data/stage19f_cross_target_stable_pair_qubo_result.json",
+    "report_md": "reports/stage-19f/cross_target_stable_pair_qubo.md"
+  },
+  "interpretation_boundary": "Stage 19f is post-hoc development evidence built after MK14 and PPARG outcomes were known. Nested scaffold-CV can reject unstable pair terms but cannot create independent validation. This stage reads no BACE1 docking, fresh-validation, or locked-test row; it cannot alter prior failures, establish QUBO superiority, demonstrate quantum execution, or establish quantum advantage."
+}

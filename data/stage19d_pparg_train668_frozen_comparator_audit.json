@@ -1,0 +1,49 @@
+{
+  "auditor": {
+    "path": "scripts/audit_stage19d_pparg_train_comparators.py",
+    "sha256": "B8CAEF6F8A61C2AE5AF55FD178CE7E1E16A6DDA8B1EFD22BA151F077B0FE26EB"
+  },
+  "checks": {
+    "all_input_hashes_verified": true,
+    "all_model_hashes_verified": true,
+    "all_output_hashes_verified": true,
+    "full_qubo_exact_solution_reenumerated": true,
+    "oof_coverage_is_exact": true,
+    "oof_metrics_recomputed_exactly": true,
+    "scaffold_groups_are_fold_disjoint": true,
+    "test_rows_read": 0,
+    "validation_rows_read": 0
+  },
+  "config": {
+    "path": "configs/stage19d_pparg_train668_frozen_comparator_analysis.json",
+    "sha256": "DF81DD0CD1DACDC35E362EFB125CEDFE3613D725716F94CC85FA37CB4F11381F"
+  },
+  "coverage": {
+    "fold_selection_count": 72,
+    "full_selection_count": 18,
+    "ligand_count": 668,
+    "model_artifact_count": 6,
+    "oof_metric_count": 82,
+    "oof_prediction_count": 54776,
+    "outer_fold_count": 4,
+    "primary_only_method_count": 2,
+    "robust_method_count": 16,
+    "scaffold_count": 452,
+    "split_group_count": 451
+  },
+  "interpretation": "The artifacts are internally consistent and train-only. The frozen QUBO defines a genuine quadratic optimization problem, but its OOF ranking performance does not outperform direct greedy selection or the strongest transferred literature-family baseline.",
+  "qubo_diagnostics": {
+    "fold_count": 4,
+    "folds_where_exact_differs_from_qubo_greedy": 3,
+    "full_train_exact_differs_from_direct_greedy": true,
+    "full_train_exact_equals_qubo_greedy": true,
+    "noncardinality_quadratic_term_count": 120
+  },
+  "result": {
+    "path": "data/stage19d_pparg_train668_frozen_comparator_result.json",
+    "sha256": "5365A3317A3579AD7C9EF7D98148C451CDC4E354F19CBAC6CCF4AF9B6528FDEB"
+  },
+  "schema_version": "1.0",
+  "status": "stage19d_pparg_train668_frozen_comparator_audit_ok",
+  "target_id": "PPARG"
+}

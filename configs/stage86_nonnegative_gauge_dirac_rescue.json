@@ -1,0 +1,59 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage86-nonnegative-gauge-dirac-rescue-20260811-v1",
+  "purpose": "Repair the Stage84 unconstrained penalty certificate by applying a fixed-k-invariant nonnegative pair gauge before adding integer cardinality and quality penalties.",
+  "inputs": {
+    "stage84_config": "configs/stage84_mixed_radix_dirac_iqp_gate.json",
+    "stage85a_failure": "data/stage85a_qci_dirac3_failure_adjudication.json"
+  },
+  "formulation": {
+    "pair_gauge": "q_ij=(R_ij-min(R))/(max(R)-min(R)), preserving every fixed-k ordering and placing all pair coefficients in [0,1].",
+    "constraint_weight": "W=choose(k,2)+1",
+    "global_certificate": "Every feasible fixed-k pair energy is at most choose(k,2). Every infeasible integer assignment has at least one squared residual >=1, so its penalty is strictly larger than every feasible pair energy.",
+    "radix": 16,
+    "quality_digit_count": 4
+  },
+  "local_gate": {
+    "required_encoding_count": 100,
+    "maximum_normalized_dynamic_range": 1000,
+    "minimum_global_penalty_margin": 1,
+    "minimum_float32_coefficient_retention": 1.0,
+    "maximum_float64_identity_error": 0.0000001,
+    "maximum_float32_restored_error": 0.1,
+    "free_tier_quadratic_variable_limit": 100
+  },
+  "rescue_instance": {
+    "instance_id": "ppara_of0_k10_nonnegative_gauge_exact",
+    "target_id": "PPARA",
+    "outer_fold": 0,
+    "k": 10,
+    "maximum_original_objective_delta": 0.000001
+  },
+  "hardware_protocol": {
+    "provider": "Quantum Computing Inc.",
+    "device": "Dirac-3",
+    "api_url": "https://api.qci-prod.com",
+    "job_type": "sample-hamiltonian-integer",
+    "require_unpaid_allocation": true,
+    "required_free_seconds_before_job": 60,
+    "maximum_recorded_device_usage_seconds": 60,
+    "samples": 25,
+    "relaxation_schedule": 1,
+    "planned_device_jobs": 1
+  },
+  "data_boundary": {
+    "historical_development_only": true,
+    "new_docking_jobs_permitted": 0,
+    "qci_cloud_queries_permitted": 0,
+    "qci_device_jobs_permitted": 0
+  },
+  "outputs": {
+    "metrics_csv": "results/runs/stage86_nonnegative_gauge_dirac_rescue/encoding_metrics.csv",
+    "instance_directory": "results/runs/stage86_nonnegative_gauge_dirac_rescue/instance",
+    "result_json": "data/stage86_nonnegative_gauge_dirac_rescue_prepared.json",
+    "audit_json": "data/stage86_nonnegative_gauge_dirac_rescue_audit.json",
+    "report_md": "reports/stage-86/nonnegative_gauge_dirac_rescue.md",
+    "external_guide": "reports/stage-86/nonnegative_gauge_external_execution.md"
+  },
+  "interpretation_boundary": "A local pass proves algebraic exactness and authorizes only one separately gated physical fidelity rerun. It does not establish biological efficacy, classical speedup, scaling advantage, or quantum advantage."
+}

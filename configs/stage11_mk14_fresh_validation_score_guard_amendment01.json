@@ -1,0 +1,56 @@
+{
+  "schema_version": "1.0",
+  "amendment_id": "stage11-mk14-fresh-validation-score-guard-amendment01",
+  "status": "stage11_score_guard_amendment01_frozen",
+  "source_config": {
+    "path": "configs/stage11_mk14_fresh_validation_unidock113_confirmation.json",
+    "sha256": "1011825B132B3C254B36CA4A004BA4BE5DFA6BC613F386BD6437818BBEF2EBCC"
+  },
+  "recovery_runner": {
+    "path": "scripts/experimental/unidock/run_stage11_mk14_fresh_validation_recovery_amendment01.py",
+    "sha256": "2E74164683120D56DA508D3B33910CE056299593060373F710B5A9B0ED372612"
+  },
+  "failure_evidence": {
+    "archive_name": "stage11_mk14_fresh_validation_unidock113_all_failed_diagnostics_v1.tar.gz",
+    "archive_sha256": "43F9D117ED63BCFEC57184E501EB7E2ED2F090CAC3E13E6910918CE05EECA8DB",
+    "complete_checkpoint_count": 8,
+    "complete_checkpoint_pose_count": 12608,
+    "additional_complete_pose_batch_count": 1,
+    "additional_complete_pose_count": 1576,
+    "affected_seed_id": "seed1",
+    "affected_receptor_id": "MK14_2BAJ_aligned",
+    "affected_ligand_id": "MK14_decoy_L032976",
+    "observed_score_kcal_per_mol": 172.351,
+    "pose_count": 1,
+    "score_is_finite": true,
+    "unidock_log_completed_normally": true,
+    "interpretation": "Uni-Dock returned a syntactically complete single pose with a severe positive intermolecular clash energy; the parser stopped only because the technical absolute-score guard was 100 kcal/mol."
+  },
+  "original_score_guard_kcal_per_mol": 100.0,
+  "amended_score_guard_kcal_per_mol": 1000.0,
+  "score_policy": "Accept and retain every finite raw Uni-Dock score whose absolute value is at most 1000 kcal/mol; do not cap, clip, replace, retry with a different seed, or convert the score to missing.",
+  "checkpoint_policy": "Keep the original config, protocol signature, seeds, receptor order, ligand order, docking command, and eight completed checkpoint signatures unchanged. Apply the amended guard only while parsing new batch outputs and while performing the final finite-score range audit.",
+  "frozen_scientific_fields_unchanged": [
+    "candidate subsets",
+    "receptor union",
+    "ligand panel",
+    "labels",
+    "three seeds",
+    "Uni-Dock version",
+    "Vina scoring function",
+    "search exhaustiveness",
+    "max step",
+    "refine step",
+    "docking box",
+    "aggregation",
+    "BEDROC alpha",
+    "bootstrap rule",
+    "pass threshold"
+  ],
+  "data_boundary": {
+    "new_validation_metrics_read": 0,
+    "test_rows_read": 0,
+    "amendment_trigger": "one technical parser guard exception before any Stage 11 aggregate matrix or enrichment metric existed"
+  },
+  "decision_boundary": "This post-start technical amendment permits storage of a finite raw engine result and preserves all scientific choices. The affected outlier and the amendment must be reported with the final Stage 11 result."
+}

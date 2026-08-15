@@ -1,0 +1,65 @@
+{
+  "auditor": {
+    "path": "scripts/audit_stage19h_auxiliary_coverage_qubo.py",
+    "sha256": "C4959CD6A41155CC065FC87DF55834887B2F8A634318E739512BD465AF4DC457"
+  },
+  "checks": {
+    "all_full_train_triple_energies_certified": true,
+    "all_input_and_output_hashes_verified": true,
+    "all_nested_parameters_reselected": true,
+    "all_paired_deltas_recomputed": true,
+    "bace1_docking_rows_read": 0,
+    "bace1_method_amendment_authorized": false,
+    "baseline_rows_match_frozen_stage19f_source": true,
+    "cardinality_active_and_decoy_constraints_verified": true,
+    "failed_gate_reproduced": true,
+    "fresh_validation_rows_read": 0,
+    "full_train_terms_and_coefficients_recomputed": true,
+    "inner_scaffolds_fold_disjoint": true,
+    "new_docking_jobs": 0,
+    "outer_scaffolds_fold_disjoint": true,
+    "selected_outer_subsets_and_metrics_recomputed": true,
+    "test_rows_read": 0
+  },
+  "config": {
+    "path": "configs/stage19h_auxiliary_coverage_qubo.json",
+    "sha256": "7CF93381A2F7034837B1261731AECA4382D82BA76520082C9277A2D5BA602367"
+  },
+  "coverage": {
+    "comparison_rows_checked": 40,
+    "full_train_qubo_states_certified": 1120,
+    "inner_candidate_rows_reselected": 1296,
+    "nested_outer_choices_reselected": 8,
+    "outer_candidate_rows_checked": 432,
+    "selected_outer_train_or_holdout_metric_sets_recomputed": 16,
+    "target_count": 2
+  },
+  "full_train_qubo_certificates": {
+    "MK14": {
+      "maximum_equivalence_residual": 7.931960643858815e-12,
+      "selected_subset": [
+        "MK14_3BV2_aligned",
+        "MK14_3K3J_aligned",
+        "MK14_4AAC_aligned"
+      ],
+      "states_certified": 560,
+      "variable_count": 844
+    },
+    "PPARG": {
+      "maximum_equivalence_residual": 1.2169043550613878e-11,
+      "selected_subset": [
+        "PPARG_2G0H_aligned",
+        "PPARG_2Q6S_aligned",
+        "PPARG_5DWL_aligned"
+      ],
+      "states_certified": 560,
+      "variable_count": 1097
+    }
+  },
+  "result": {
+    "path": "data/stage19h_auxiliary_coverage_qubo_result.json",
+    "sha256": "F177DC67C67BAE4DEEE7EC6BDC86B547F0EE197D20C59D4D9642F27ED729490C"
+  },
+  "schema_version": "1.0",
+  "status": "stage19h_auxiliary_coverage_qubo_audit_ok"
+}

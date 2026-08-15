@@ -1,0 +1,95 @@
+{
+  "config": {
+    "path": "configs/stage18i_pparg_exploratory_final16_selection.json",
+    "sha256": "7D2CEED48B49F8AFD6AE585861E97F3E9EEF52EA66A7937F848554FA5846B36A"
+  },
+  "counts": {
+    "final_receptor_count": 16,
+    "passing_reserve_receptor_count": 7,
+    "primary_passing_receptor_count": 14,
+    "selected_recovery_addition_count": 2
+  },
+  "data_use_audit": {
+    "activity_labels_read": 0,
+    "benchmark_docking_scores_read": 0,
+    "fresh_validation_rows_read": 0,
+    "redocking_pass_fail_used": true,
+    "redocking_rmsd_magnitudes_used_for_selection": false,
+    "structural_distances_used": true,
+    "test_rows_read": 0
+  },
+  "experiment_class": "posthoc_exploratory",
+  "experiment_id": "stage18i-pparg-exploratory-final16-selection-20260801-v1",
+  "final_receptor_ids": [
+    "PPARG_2GTK_reference",
+    "PPARG_8B8X_aligned",
+    "PPARG_2HFP_aligned",
+    "PPARG_6AD9_aligned",
+    "PPARG_2Q6S_aligned",
+    "PPARG_3V9V_aligned",
+    "PPARG_3TY0_aligned",
+    "PPARG_2G0H_aligned",
+    "PPARG_4HEE_aligned",
+    "PPARG_5DWL_aligned",
+    "PPARG_6MS7_aligned",
+    "PPARG_2HWR_aligned",
+    "PPARG_2FVJ_aligned",
+    "PPARG_5Y2T_aligned",
+    "PPARG_2P4Y_aligned",
+    "PPARG_3FUR_aligned"
+  ],
+  "interpretation_boundary": "The final 16 is post-hoc exploratory. Stage 18e remains a failed confirmatory technical gate, and later PPARG enrichment results cannot be presented as independent confirmation, QUBO superiority, or quantum advantage.",
+  "next_gate": "prepare the frozen PPARG benchmark ligand panels, then generate a separate-engine Uni-Dock training matrix for the exploratory final 16",
+  "outputs": {
+    "final_prepared_receptor_manifest_csv": {
+      "path": "data/processed/stage18i_pparg_exploratory_final16_prepared_receptor_manifest.csv",
+      "sha256": "7B219C9367DEFE2428770BC5E521DB54592E95A5C5A4653C9E84FB5939D8BC96"
+    },
+    "final_structural_manifest_csv": {
+      "path": "data/processed/stage18i_pparg_exploratory_final16_structural_manifest.csv",
+      "sha256": "04E536FDA4DFCF29A9F226DC59004F9CF8CF83A2AFDDA7F86D075453295AB795"
+    }
+  },
+  "passing_reserve_receptor_ids": [
+    "PPARG_3FUR_aligned",
+    "PPARG_6T9C_aligned",
+    "PPARG_5GTN_aligned",
+    "PPARG_6IZM_aligned",
+    "PPARG_2P4Y_aligned",
+    "PPARG_3G9E_aligned",
+    "PPARG_7RLE_aligned"
+  ],
+  "primary_receptor_ids": [
+    "PPARG_2GTK_reference",
+    "PPARG_8B8X_aligned",
+    "PPARG_2HFP_aligned",
+    "PPARG_6AD9_aligned",
+    "PPARG_2Q6S_aligned",
+    "PPARG_3V9V_aligned",
+    "PPARG_3TY0_aligned",
+    "PPARG_2G0H_aligned",
+    "PPARG_4HEE_aligned",
+    "PPARG_5DWL_aligned",
+    "PPARG_6MS7_aligned",
+    "PPARG_2HWR_aligned",
+    "PPARG_2FVJ_aligned",
+    "PPARG_5Y2T_aligned"
+  ],
+  "schema_version": "1.0",
+  "selected_recovery_additions": [
+    {
+      "conformer_id": "PPARG_2P4Y_aligned",
+      "minimum_standardized_distance_to_selected_pool": 1.2161867494758722,
+      "selection_rank": 1
+    },
+    {
+      "conformer_id": "PPARG_3FUR_aligned",
+      "minimum_standardized_distance_to_selected_pool": 1.1589696132879803,
+      "selection_rank": 2
+    }
+  ],
+  "selection_rule": "Keep the 14 frozen Stage 18e passing receptors. From only the seven independently adjudicated Stage 18h passers, add two sequentially by maximum minimum standardized pocket distance to the current selected pool; break exact ties by lexical conformer ID. RMSD magnitudes, docking affinities, and activity labels do not enter ranking.",
+  "stage18e_confirmatory_gate": "closed_failed_14_of_24",
+  "stage18h_exploratory_recovery_gate": "passed_7_of_8",
+  "status": "stage18i_pparg_exploratory_final16_selected"
+}

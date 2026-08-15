@@ -1,0 +1,26 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage97-project-convergence-amendment-stage96-20260812-v1",
+  "purpose": "Amend the frozen Stage89 project conclusion with the completed Stage96 hidden-matrix adaptive docking replay without reopening prior gates.",
+  "inputs": {
+    "stage89_result": "data/stage89_project_convergence_result.json",
+    "stage96_result": "data/stage96_multitarget_adaptive_docking_replay_result.json",
+    "stage96_audit": "data/stage96_multitarget_adaptive_docking_replay_audit.json",
+    "stage96_report": "reports/stage-96/multitarget_adaptive_docking_replay.md"
+  },
+  "policy": {
+    "preserve_stage89_freeze": true,
+    "new_objective_search_authorized": false,
+    "new_target_docking_authorized": false,
+    "new_quantum_hardware_jobs_authorized": false,
+    "manuscript_preparation_authorized": true,
+    "reproducibility_packaging_authorized": true,
+    "future_experiments_require_new_preregistration": true
+  },
+  "outputs": {
+    "result_json": "data/stage97_project_convergence_amendment_stage96_result.json",
+    "audit_json": "data/stage97_project_convergence_amendment_stage96_audit.json",
+    "claim_evidence_csv": "results/runs/stage97_project_convergence_amendment_stage96/claim_evidence_matrix.csv",
+    "report_md": "reports/stage-97/project_convergence_amendment_stage96.md"
+  }
+}

@@ -1,0 +1,52 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage20b-esr1-rcsb-candidate-discovery-20260801-v1",
+  "purpose": "Snapshot and audit all RCSB P03372 X-ray entries using frozen ESR1 ligand-binding-domain metadata rules without reading docking scores or held-out rows.",
+  "retrieved_on": "2026-08-01",
+  "implementation": {
+    "path": "scripts/discover_stage20b_esr1_rcsb_candidates.py",
+    "sha256": "CC9C33865B6C852681759E41C9D659041F4A4DA0DBF16576C60E090F7B1B6E47"
+  },
+  "preregistration": {
+    "path": "configs/stage20_esr1_independent_exploratory_preregistration.json",
+    "sha256": "70B52FD45EDE636411D13E2ABFAC781EDD6B172F9A20A67C9A204CB5ED4D807D"
+  },
+  "source_audit": {
+    "path": "data/stage20a_esr1_source_and_active_allocation_summary.json",
+    "sha256": "5D1E69B99368AD4B70E524B9CC7106DC54BA1E5069C59ACB51390893BF8143A2"
+  },
+  "discovery_rules": {
+    "experimental_method": "X-RAY DIFFRACTION",
+    "minimum_metadata_eligible_count": 24,
+    "metadata_eligibility": {
+      "required_mutation_count": 0,
+      "maximum_resolution_angstrom": 2.5,
+      "minimum_reference_sequence_coverage": 0.35,
+      "minimum_sample_sequence_length": 220,
+      "maximum_sample_sequence_length": 310,
+      "require_same_chain_drug_like_nonpolymer": true,
+      "minimum_nonpolymer_formula_weight_kda": 0.15,
+      "maximum_nonpolymer_formula_weight_kda": 0.9,
+      "excluded_nonpolymer_ids": ["ACT", "ADP", "AMP", "ATP", "BME", "CA", "CD", "CIT", "CL", "CO", "DMS", "EDO", "FLC", "GOL", "K", "MES", "MG", "MN", "MPD", "NA", "NI", "PEG", "PG4", "PGE", "PO4", "SO4", "TRS", "ZN"],
+      "excluded_title_patterns": ["\\bapo\\b", "unliganded", "covalent", "irreversible", "mutant", "mutation"]
+    },
+    "domain_rule_rationale": "ESR1 X-ray structures resolve the approximately 250-residue ligand-binding domain. Requiring 0.50 coverage of the 595-residue full-length UniProt sequence would incorrectly exclude the wild-type 1SJ0 DUD-E reference."
+  },
+  "rcsb": {
+    "search_endpoint": "https://search.rcsb.org/rcsbsearch/v2/query",
+    "graphql_endpoint": "https://data.rcsb.org/graphql",
+    "metadata_chunk_size": 40,
+    "request_timeout_seconds": 60,
+    "maximum_retries": 4,
+    "retry_backoff_seconds": 1.0
+  },
+  "outputs": {
+    "search_snapshot_json": "data/raw/rcsb/esr1/p03372_xray_search_snapshot_20260801.json",
+    "metadata_snapshot_json": "data/raw/rcsb/esr1/p03372_xray_metadata_snapshot_20260801.json",
+    "candidate_metadata_csv": "data/processed/stage20b_esr1_rcsb_candidate_metadata.csv",
+    "eligible_candidates_csv": "data/processed/stage20b_esr1_rcsb_metadata_eligible_candidates.csv",
+    "summary_json": "data/stage20b_esr1_rcsb_candidate_discovery_summary.json",
+    "report_md": "reports/stage-20b/esr1_rcsb_candidate_discovery.md"
+  },
+  "interpretation_boundary": "Metadata eligibility is label-independent and only authorizes coordinate download and structural auditing. It does not establish active-site suitability, preparation quality, redocking success, enrichment, QUBO portability, QUBO superiority, or quantum advantage."
+}

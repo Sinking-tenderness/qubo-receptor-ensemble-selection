@@ -1,0 +1,76 @@
+{
+  "schema_version": "1.0",
+  "authorization_id": "stage05-mk14-train696-greedy-failure-screen-posthoc-20260728-v1",
+  "implementation": {
+    "path": "scripts/evaluate_stage05_mk14_greedy_failure_screen.py",
+    "sha256": "7DE568FEA711C582527401DDC8C2A8B95E3BD34ED137E8740E9C7F8FCA36AC85"
+  },
+  "source_gate_config": {
+    "path": "configs/stage05_mk14_train696_pair_synergy_qubo_gate_preregistration.json",
+    "sha256": "0747101D53992C0DC4DAD048312A51D249907ABB29DC6FAFDABE7A6D969D3C36"
+  },
+  "objective_results": {
+    "coverage_qubo": {
+      "path": "data/stage05_mk14_train696_uncertainty_qubo_gate_result.json",
+      "sha256": "7F7E7E08347A74E7D4694F584788741E5C5A8362C3518032D8D02A1DB531557C",
+      "expected_status": "train_uncertainty_qubo_gate_failed_validation_unavailable"
+    },
+    "pair_utility_qubo": {
+      "path": "data/stage05_mk14_train696_pair_utility_qubo_gate_result.json",
+      "sha256": "E109C7EEE363E1CD1512E72549871930F35FB9B5E7F3B814385BFEC22D58E7BA",
+      "expected_status": "train_pair_utility_qubo_gate_failed_validation_unavailable"
+    },
+    "pair_synergy_qubo": {
+      "path": "data/stage05_mk14_train696_pair_synergy_qubo_gate_result.json",
+      "sha256": "0D5FE7672BDC4F1A78E3B6B9A6844596994DDF0AADD8D4F390677FECDEBED3B5",
+      "expected_status": "train_pair_synergy_qubo_gate_passed_validation_unavailable"
+    }
+  },
+  "screen": {
+    "evidence_class": "posthoc train-only diagnostic",
+    "coefficient_sources": [
+      "primary",
+      "seed0",
+      "seed1",
+      "seed2"
+    ],
+    "target_sizes": [
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "outer_fold_count": 4,
+    "fold_seed": 20261119,
+    "direct_metric_target_sizes": [
+      3
+    ],
+    "direct_metric_aggregations": [
+      "min_score",
+      "mean_score"
+    ],
+    "subpool_target_size": 3,
+    "subpool_sizes": [
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "subpool_definition": "Restrict the available variables while retaining coefficients normalized on the complete eight-receptor training objective.",
+    "greedy_definition": "Deterministic forward selection minimizing the fitted fixed-cardinality QUBO energy at every step, with lexical tie breaking.",
+    "exact_definition": "Enumerate every target-cardinality subset in the available receptor pool and select minimum QUBO energy, with lexical tie breaking.",
+    "strict_failure_tolerance": 1e-12
+  },
+  "outputs": {
+    "run_directory": "results/runs/stage05_mk14_greedy_failure_screen_posthoc",
+    "full_pool_trials_csv": "results/runs/stage05_mk14_greedy_failure_screen_posthoc/full_pool_trials.csv",
+    "subpool_trials_csv": "results/runs/stage05_mk14_greedy_failure_screen_posthoc/subpool_trials.csv",
+    "subpool_summary_csv": "results/runs/stage05_mk14_greedy_failure_screen_posthoc/subpool_summary.csv",
+    "result_json": "data/stage05_mk14_greedy_failure_screen_posthoc_result.json",
+    "report_md": "reports/stage-05/mk14_greedy_failure_screen_posthoc_record.md"
+  },
+  "interpretation_boundary": "This post hoc diagnostic can establish whether deterministic forward greedy misses an exact fixed-cardinality optimum of a fitted Train-696 objective. It cannot revise the frozen validation decision, select a method using fresh validation, release the locked test, prove that objective improvement generalizes, show that a quantum sampler found the optimum, or establish quantum advantage."
+}

@@ -1,0 +1,23 @@
+{
+  "archive": "deliverables/stage53_ppara_large_pool_qubo_transfer_core_v1.tar.gz",
+  "archive_entry_count": 29,
+  "archive_sha256": "8AA5EB709D66C63186F08C5760E08422CB3342E9DF3081D306F1BE0B21C25683",
+  "archive_size_bytes": 2565286,
+  "deterministic_metadata": true,
+  "fresh_validation_rows": 0,
+  "ligand_count": 374,
+  "locked_test_rows": 0,
+  "manifest_line_ending": "LF",
+  "operation": "Stage52b downloaded-result audit, Stage52c metadata amendment, and Stage53 frozen PPARA QUBO-transfer evidence",
+  "pair_count": 22440,
+  "quantum_hardware_jobs": 0,
+  "receptor_count": 20,
+  "schema_version": "1.0",
+  "seed_count": 3,
+  "source_file_count": 28,
+  "stage52b_technical_gate": "pass",
+  "stage53_application_transfer": "no_go",
+  "stage53_solver_novelty": "no_go",
+  "status": "ok",
+  "target_id": "PPARA"
+}

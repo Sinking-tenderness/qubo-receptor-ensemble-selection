@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage90-chembl-analog-series-intake-20260811-v1",
+  "purpose": "Identify a single-assay, analog-series ligand source that can support one final biologically meaningful large-pool receptor-selection rescue without reading protected data or starting docking.",
+  "source": {
+    "base_url": "https://www.ebi.ac.uk/chembl/api/data",
+    "documentation_url": "https://chembl.gitbook.io/chembl-interface-documentation/web-services/chembl-data-web-services",
+    "page_limit": 1000,
+    "request_timeout_seconds": 90,
+    "maximum_retries": 5
+  },
+  "targets": [
+    {
+      "target_id": "PPARG",
+      "target_chembl_id": "CHEMBL235",
+      "expected_name": "Peroxisome proliferator-activated receptor gamma",
+      "receptor_manifest": "data/processed/stage43_pparg_md96_prepared_receptor_manifest.csv"
+    },
+    {
+      "target_id": "PPARA",
+      "target_chembl_id": "CHEMBL239",
+      "expected_name": "Peroxisome proliferator-activated receptor alpha",
+      "receptor_manifest": "data/processed/stage52b_ppara_stage51_passing20_receptor_manifest.csv"
+    },
+    {
+      "target_id": "PPARD",
+      "target_chembl_id": "CHEMBL3979",
+      "expected_name": "Peroxisome proliferator-activated receptor delta",
+      "receptor_manifest": "data/processed/stage58b_ppard_stage57_passing29_receptor_manifest.csv"
+    },
+    {
+      "target_id": "BACE1",
+      "target_chembl_id": "CHEMBL4822",
+      "expected_name": "Beta-secretase 1",
+      "receptor_manifest": "data/processed/stage42c_bace1_redocking_qualified34_receptor_manifest.csv"
+    }
+  ],
+  "activity_filters": {
+    "target_organism": "Homo sapiens",
+    "allowed_assay_types": ["B", "F"],
+    "minimum_assay_confidence_score": 8,
+    "allowed_standard_types": ["IC50", "Ki", "Kd", "EC50"],
+    "required_standard_relation": "=",
+    "require_pchembl_value": true,
+    "exclude_potential_duplicates": true,
+    "exclude_data_validity_comments": true
+  },
+  "intake_gate": {
+    "minimum_unique_molecules_per_assay_endpoint": 80,
+    "minimum_series_size": 8,
+    "minimum_repeat_series_count": 4,
+    "minimum_molecules_in_repeat_series": 48,
+    "high_potency_pchembl_threshold": 6.5,
+    "low_potency_pchembl_threshold": 5.5,
+    "minimum_high_potency_molecules": 20,
+    "minimum_low_potency_molecules": 20,
+    "minimum_pchembl_range": 2.0,
+    "minimum_receptor_pool_size": 50
+  },
+  "data_boundary": {
+    "public_chembl_metadata_and_activities_only": true,
+    "fresh_validation_rows_permitted": 0,
+    "locked_test_rows_permitted": 0,
+    "new_docking_jobs_permitted": 0,
+    "quantum_hardware_jobs_permitted": 0
+  },
+  "outputs": {
+    "normalized_activities_csv": "results/runs/stage90_chembl_analog_series_intake/normalized_activities.csv",
+    "assay_candidates_csv": "results/runs/stage90_chembl_analog_series_intake/assay_candidates.csv",
+    "result_json": "data/stage90_chembl_analog_series_intake_result.json",
+    "report_md": "reports/stage-90/chembl_analog_series_intake.md"
+  }
+}

@@ -1,0 +1,370 @@
+{
+  "candidate_metrics": {
+    "direct_bedroc_greedy": {
+      "mean_seed_bedroc": 0.4096985147885192,
+      "primary": {
+        "EF1%": 17.073333333333334,
+        "EF10%": 3.8568776371308022,
+        "EF5%": 5.5858227848101265,
+        "active_count": 75,
+        "bedroc_alpha_20": 0.40929385744437136,
+        "ligand_count": 1576,
+        "pr_auc_average_precision": 0.30506891399396596,
+        "roc_auc": 0.7674794581390184,
+        "top10_active_count": 8
+      },
+      "seed_metrics": {
+        "seed0": {
+          "EF1%": 17.073333333333334,
+          "EF10%": 3.9898734177215194,
+          "EF5%": 5.851814345991561,
+          "active_count": 75,
+          "bedroc_alpha_20": 0.4109176128381613,
+          "ligand_count": 1576,
+          "pr_auc_average_precision": 0.30578365784352646,
+          "roc_auc": 0.772964690206529,
+          "top10_active_count": 8
+        },
+        "seed1": {
+          "EF1%": 17.073333333333334,
+          "EF10%": 3.7238818565400846,
+          "EF5%": 5.5858227848101265,
+          "active_count": 75,
+          "bedroc_alpha_20": 0.40983027686402057,
+          "ligand_count": 1576,
+          "pr_auc_average_precision": 0.3127811149228503,
+          "roc_auc": 0.7654541416833223,
+          "top10_active_count": 8
+        },
+        "seed2": {
+          "EF1%": 14.446666666666667,
+          "EF10%": 3.8568776371308022,
+          "EF5%": 5.851814345991561,
+          "active_count": 75,
+          "bedroc_alpha_20": 0.40834765466337564,
+          "ligand_count": 1576,
+          "pr_auc_average_precision": 0.3000246062883738,
+          "roc_auc": 0.7660848323339996,
+          "top10_active_count": 8
+        }
+      },
+      "sensitivity": {
+        "EF1%": 17.073333333333334,
+        "EF10%": 3.8568776371308022,
+        "EF5%": 5.5858227848101265,
+        "active_count": 75,
+        "bedroc_alpha_20": 0.40669325111760163,
+        "ligand_count": 1576,
+        "pr_auc_average_precision": 0.30701255853929355,
+        "roc_auc": 0.7659293804130579,
+        "top10_active_count": 8
+      },
+      "worst_seed_bedroc": 0.40834765466337564
+    },
+    "exact_pair_synergy": {
+      "mean_seed_bedroc": 0.41933711657794176,
+      "primary": {
+        "EF1%": 17.073333333333334,
+        "EF10%": 3.8568776371308022,
+        "EF5%": 5.851814345991561,
+        "active_count": 75,
+        "bedroc_alpha_20": 0.4179742064537192,
+        "ligand_count": 1576,
+        "pr_auc_average_precision": 0.3193353288858061,
+        "roc_auc": 0.7512147457250722,
+        "top10_active_count": 10
+      },
+      "seed_metrics": {
+        "seed0": {
+          "EF1%": 17.073333333333334,
+          "EF10%": 3.8568776371308022,
+          "EF5%": 5.851814345991561,
+          "active_count": 75,
+          "bedroc_alpha_20": 0.42015942279375484,
+          "ligand_count": 1576,
+          "pr_auc_average_precision": 0.32053119583687933,
+          "roc_auc": 0.754341550077726,
+          "top10_active_count": 10
+        },
+        "seed1": {
+          "EF1%": 17.073333333333334,
+          "EF10%": 3.8568776371308022,
+          "EF5%": 5.5858227848101265,
+          "active_count": 75,
+          "bedroc_alpha_20": 0.41925329528191,
+          "ligand_count": 1576,
+          "pr_auc_average_precision": 0.3211510629032795,
+          "roc_auc": 0.753217854763491,
+          "top10_active_count": 10
+        },
+        "seed2": {
+          "EF1%": 17.073333333333334,
+          "EF10%": 3.8568776371308022,
+          "EF5%": 5.851814345991561,
+          "active_count": 75,
+          "bedroc_alpha_20": 0.41859863165816047,
+          "ligand_count": 1576,
+          "pr_auc_average_precision": 0.3180313112120388,
+          "roc_auc": 0.7525116588940706,
+          "top10_active_count": 9
+        }
+      },
+      "sensitivity": {
+        "EF1%": 17.073333333333334,
+        "EF10%": 3.590886075949367,
+        "EF5%": 5.5858227848101265,
+        "active_count": 75,
+        "bedroc_alpha_20": 0.4141692312207017,
+        "ligand_count": 1576,
+        "pr_auc_average_precision": 0.3183338712738622,
+        "roc_auc": 0.751410170997113,
+        "top10_active_count": 10
+      },
+      "worst_seed_bedroc": 0.41859863165816047
+    },
+    "full_train_exact_secondary": {
+      "mean_seed_bedroc": 0.418825332544343,
+      "primary": {
+        "EF1%": 17.073333333333334,
+        "EF10%": 3.7238818565400846,
+        "EF5%": 6.117805907172996,
+        "active_count": 75,
+        "bedroc_alpha_20": 0.4173706091160242,
+        "ligand_count": 1576,
+        "pr_auc_average_precision": 0.3207656725717273,
+        "roc_auc": 0.7484610259826782,
+        "top10_active_count": 10
+      },
+      "seed_metrics": {
+        "seed0": {
+          "EF1%": 17.073333333333334,
+          "EF10%": 3.7238818565400846,
+          "EF5%": 6.117805907172996,
+          "active_count": 75,
+          "bedroc_alpha_20": 0.42128467680963433,
+          "ligand_count": 1576,
+          "pr_auc_average_precision": 0.3225817486033943,
+          "roc_auc": 0.7499533644237175,
+          "top10_active_count": 10
+        },
+        "seed1": {
+          "EF1%": 17.073333333333334,
+          "EF10%": 3.590886075949367,
+          "EF5%": 5.851814345991561,
+          "active_count": 75,
+          "bedroc_alpha_20": 0.4192779913785849,
+          "ligand_count": 1576,
+          "pr_auc_average_precision": 0.32225466734754366,
+          "roc_auc": 0.7465822784810127,
+          "top10_active_count": 10
+        },
+        "seed2": {
+          "EF1%": 17.073333333333334,
+          "EF10%": 3.590886075949367,
+          "EF5%": 6.117805907172996,
+          "active_count": 75,
+          "bedroc_alpha_20": 0.41591332944480974,
+          "ligand_count": 1576,
+          "pr_auc_average_precision": 0.31714863318320846,
+          "roc_auc": 0.7447079724628026,
+          "top10_active_count": 9
+        }
+      },
+      "sensitivity": {
+        "EF1%": 17.073333333333334,
+        "EF10%": 3.590886075949367,
+        "EF5%": 5.851814345991561,
+        "active_count": 75,
+        "bedroc_alpha_20": 0.41426659410974415,
+        "ligand_count": 1576,
+        "pr_auc_average_precision": 0.3183944736543279,
+        "roc_auc": 0.7426870974905618,
+        "top10_active_count": 10
+      },
+      "worst_seed_bedroc": 0.41591332944480974
+    },
+    "qubo_forward_greedy": {
+      "mean_seed_bedroc": 0.3954083859987439,
+      "primary": {
+        "EF1%": 14.446666666666667,
+        "EF10%": 4.255864978902954,
+        "EF5%": 5.851814345991561,
+        "active_count": 75,
+        "bedroc_alpha_20": 0.3948490241340525,
+        "ligand_count": 1576,
+        "pr_auc_average_precision": 0.27982724114299856,
+        "roc_auc": 0.7055296469020653,
+        "top10_active_count": 9
+      },
+      "seed_metrics": {
+        "seed0": {
+          "EF1%": 14.446666666666667,
+          "EF10%": 4.255864978902954,
+          "EF5%": 5.5858227848101265,
+          "active_count": 75,
+          "bedroc_alpha_20": 0.3970163958530581,
+          "ligand_count": 1576,
+          "pr_auc_average_precision": 0.28161668540478735,
+          "roc_auc": 0.7042949145014434,
+          "top10_active_count": 10
+        },
+        "seed1": {
+          "EF1%": 14.446666666666667,
+          "EF10%": 4.1228691983122365,
+          "EF5%": 5.851814345991561,
+          "active_count": 75,
+          "bedroc_alpha_20": 0.3917000808149176,
+          "ligand_count": 1576,
+          "pr_auc_average_precision": 0.27906747305098273,
+          "roc_auc": 0.7009327115256496,
+          "top10_active_count": 9
+        },
+        "seed2": {
+          "EF1%": 14.446666666666667,
+          "EF10%": 4.1228691983122365,
+          "EF5%": 5.851814345991561,
+          "active_count": 75,
+          "bedroc_alpha_20": 0.39750868132825606,
+          "ligand_count": 1576,
+          "pr_auc_average_precision": 0.28200980588607255,
+          "roc_auc": 0.7074972240728403,
+          "top10_active_count": 10
+        }
+      },
+      "sensitivity": {
+        "EF1%": 14.446666666666667,
+        "EF10%": 4.1228691983122365,
+        "EF5%": 5.851814345991561,
+        "active_count": 75,
+        "bedroc_alpha_20": 0.3969283737393293,
+        "ligand_count": 1576,
+        "pr_auc_average_precision": 0.27947225750653315,
+        "roc_auc": 0.7003908505440817,
+        "top10_active_count": 9
+      },
+      "worst_seed_bedroc": 0.3917000808149176
+    }
+  },
+  "config": {
+    "path": "configs/stage11_mk14_fresh_validation_unidock113_confirmation.json",
+    "sha256": "1011825B132B3C254B36CA4A004BA4BE5DFA6BC613F386BD6437818BBEF2EBCC"
+  },
+  "confirmatory_comparisons": {
+    "direct_bedroc_greedy": {
+      "bootstrap_lower_95pct_primary_bedroc_delta": -0.03567128651583679,
+      "mean_seed_bedroc_delta": 0.009638601789422552,
+      "passed": false,
+      "primary_bedroc_delta": 0.008680349009347832,
+      "worst_seed_bedroc_delta": 0.010250976994784833
+    },
+    "qubo_forward_greedy": {
+      "bootstrap_lower_95pct_primary_bedroc_delta": -0.026672730866073076,
+      "mean_seed_bedroc_delta": 0.023928730579197866,
+      "passed": false,
+      "primary_bedroc_delta": 0.023125182319666704,
+      "worst_seed_bedroc_delta": 0.026898550843242885
+    }
+  },
+  "data_boundary": {
+    "test_rows_read": 0,
+    "train_score_rows_read": 0,
+    "validation_rows_read": 1576
+  },
+  "experiment_id": "stage11-mk14-fresh-validation-six-receptor-unidock113-confirmation-v1",
+  "gate_passed": false,
+  "interpretation_note": "A pass supports external generalization of one frozen, exploratory QUBO-formulated global-search candidate. Because the candidate also matched a 560-subset classical exhaustive optimum during selection, this result cannot establish QUBO-specific or quantum advantage.",
+  "paired_bootstrap": {
+    "attempts": 10000,
+    "confidence_level": 0.95,
+    "deltas": {
+      "direct_bedroc_greedy": {
+        "lower_95pct": -0.03567128651583679,
+        "mean": 0.008575741379645917,
+        "upper_95pct": 0.05561532709775911
+      },
+      "qubo_forward_greedy": {
+        "lower_95pct": -0.026672730866073076,
+        "mean": 0.02341755182945599,
+        "upper_95pct": 0.07760707429859896
+      }
+    },
+    "seed": 20261120,
+    "unit": "split_group_id block",
+    "valid_replicates": 10000
+  },
+  "schema_version": "1.0",
+  "single_receptor_primary_metrics": {
+    "MK14_2BAJ_aligned": {
+      "EF1%": 14.446666666666667,
+      "EF10%": 3.1918987341772156,
+      "EF5%": 5.319831223628693,
+      "active_count": 75,
+      "bedroc_alpha_20": 0.3559924616350053,
+      "ligand_count": 1576,
+      "pr_auc_average_precision": 0.24954360117962296,
+      "roc_auc": 0.7206617810348657,
+      "top10_active_count": 8
+    },
+    "MK14_2QD9_reference": {
+      "EF1%": 9.193333333333333,
+      "EF10%": 3.7238818565400846,
+      "EF5%": 5.053839662447258,
+      "active_count": 75,
+      "bedroc_alpha_20": 0.37104463382714525,
+      "ligand_count": 1576,
+      "pr_auc_average_precision": 0.2512388730963142,
+      "roc_auc": 0.8003508771929825,
+      "top10_active_count": 5
+    },
+    "MK14_3BV2_aligned": {
+      "EF1%": 14.446666666666667,
+      "EF10%": 3.45789029535865,
+      "EF5%": 5.5858227848101265,
+      "active_count": 75,
+      "bedroc_alpha_20": 0.3692682554688827,
+      "ligand_count": 1576,
+      "pr_auc_average_precision": 0.2638479474622735,
+      "roc_auc": 0.6757272929158339,
+      "top10_active_count": 10
+    },
+    "MK14_3ITZ_aligned": {
+      "EF1%": 11.82,
+      "EF10%": 3.3248945147679327,
+      "EF5%": 5.053839662447258,
+      "active_count": 75,
+      "bedroc_alpha_20": 0.35331974270739985,
+      "ligand_count": 1576,
+      "pr_auc_average_precision": 0.22031685039966212,
+      "roc_auc": 0.717415056628914,
+      "top10_active_count": 6
+    },
+    "MK14_3KQ7_aligned": {
+      "EF1%": 13.133333333333335,
+      "EF10%": 3.3248945147679327,
+      "EF5%": 6.117805907172996,
+      "active_count": 75,
+      "bedroc_alpha_20": 0.376531482947084,
+      "ligand_count": 1576,
+      "pr_auc_average_precision": 0.2607087181268741,
+      "roc_auc": 0.7338352209638019,
+      "top10_active_count": 8
+    },
+    "MK14_4AAC_aligned": {
+      "EF1%": 10.506666666666668,
+      "EF10%": 3.7238818565400846,
+      "EF5%": 4.521856540084388,
+      "active_count": 75,
+      "bedroc_alpha_20": 0.33190156757678435,
+      "ligand_count": 1576,
+      "pr_auc_average_precision": 0.20279543603520708,
+      "roc_auc": 0.764796802131912,
+      "top10_active_count": 5
+    }
+  },
+  "source_audit": {
+    "path": "data/stage11_mk14_fresh_validation_unidock113_confirmation_audit.json",
+    "sha256": "212E9F36023DA1A09E0336B2C82244144AEAF34F4FA506F45F188157496B5E2E",
+    "size_bytes": 2130
+  },
+  "status": "stage11_frozen_candidate_gate_not_passed"
+}

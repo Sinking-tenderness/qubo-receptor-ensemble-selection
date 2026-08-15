@@ -1,0 +1,30 @@
+{
+  "center": {
+    "x": 1.61,
+    "y": 23.47,
+    "z": 16.9
+  },
+  "ligand_maximum_angstrom": [
+    9.2827,
+    30.6879,
+    27.9923
+  ],
+  "ligand_minimum_angstrom": [
+    -3.2781,
+    18.0103,
+    8.6059
+  ],
+  "minimum_observed_margin_angstrom": 2.9076999999999984,
+  "receptor_count": 8,
+  "schema_version": "1.0",
+  "size": {
+    "x": 22.0,
+    "y": 26.0,
+    "z": 28.0
+  },
+  "source_fixed_box": {
+    "path": "data/stage18d_pparg_common_box.json",
+    "sha256": "AD7ADF7737EE26DDA172A6917A440CEDE6787323E5A9F98DCC5958A4909F6526"
+  },
+  "status": "stage18g_pparg_reserve_common_box_ok"
+}

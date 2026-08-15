@@ -1,0 +1,87 @@
+{
+  "schema_version": "1.0",
+  "status": "stage98_cross_target_receptor_complementarity_complete",
+  "central_claim": "A multi-receptor ensemble is scientifically useful when receptor score complementarity is detectable without activity labels and improves held-out early recognition.",
+  "target_count": 5,
+  "target_ids": [
+    "BACE1",
+    "MK14",
+    "PPARA",
+    "PPARD",
+    "PPARG"
+  ],
+  "gate": {
+    "target_rows": [
+      {
+        "target_id": "MK14",
+        "complementarity_k1": 0.35742018336566606,
+        "complementarity_k3": 0.39923391742691194,
+        "k3_gain": 0.04181373406124589,
+        "positive_gain": true
+      },
+      {
+        "target_id": "PPARG",
+        "complementarity_k1": 0.7826729734227407,
+        "complementarity_k3": 0.6026553951536476,
+        "k3_gain": -0.18001757826909304,
+        "positive_gain": false
+      },
+      {
+        "target_id": "BACE1",
+        "complementarity_k1": 0.8956455734580799,
+        "complementarity_k3": 0.9075164591819174,
+        "k3_gain": 0.011870885723837432,
+        "positive_gain": false
+      },
+      {
+        "target_id": "PPARA",
+        "complementarity_k1": 0.7685799362101868,
+        "complementarity_k3": 0.6954152307355038,
+        "k3_gain": -0.07316470547468301,
+        "positive_gain": false
+      },
+      {
+        "target_id": "PPARD",
+        "complementarity_k1": 0.7585278319840741,
+        "complementarity_k3": 0.7260867369058861,
+        "k3_gain": -0.03244109507818804,
+        "positive_gain": false
+      }
+    ],
+    "positive_target_count": 1,
+    "mean_k3_gain": -0.04638775180737616,
+    "worst_k3_gain": -0.18001757826909304,
+    "passes": false
+  },
+  "audit": {
+    "selector_labels_allowed": false,
+    "oracle_train_is_evaluation_only": true,
+    "new_docking_jobs": 0,
+    "quantum_hardware_jobs": 0,
+    "synthetic_scores": 0,
+    "fresh_validation_rows": 0
+  },
+  "decision": "Proceed to manuscript and do not add new docking or quantum hardware work for this rescue route.",
+  "input_hashes": {
+    "MK14": {
+      "matrix": "059304514B531DA92E20D376733146DC357CDC791227819BD04BC7CAE7E61179",
+      "manifest": "2DAE54F57C302881DA91FA53B74EDA1B1EC6267EC5385180E28B0EDEB58A777A"
+    },
+    "PPARG": {
+      "matrix": "49E02CCACA8BFA7D0045EAC137C2443963C95D6FE7969637D9305048E38A5008",
+      "manifest": "4FCA64D6B2AAEB11CA83A2A205996AAFF28ADF1AC1D35F3FB81DFC600882E3BC"
+    },
+    "BACE1": {
+      "matrix": "9E4E7AADB570C3FFC4290A948984A007DE316C3165E2DC4C722B0FE692E136FD",
+      "manifest": "00A996ED7C66112D7F7BB1CE8DA5D7CE8785883E665B35E563AD60885DC9E5FC"
+    },
+    "PPARA": {
+      "matrix": "31DB17AEFE997F5F09F0EDB7CEDDA0DEEE7F13762B06338875DBAE249FC3F45E",
+      "manifest": "5B6CA85C2AA9A97A17BDD0D07BDFA9A896E1F9DC30582F49F5B9F4E7AE995D85"
+    },
+    "PPARD": {
+      "matrix": "892134662CFF06A8ADDC53D4E94629F5247808415BC36EC31A4692FAD32DD062",
+      "manifest": "874B1CE40E52503FDF07F92BEBE557B5656F1A07BC7842C863110B2AB00ADA5F"
+    }
+  }
+}

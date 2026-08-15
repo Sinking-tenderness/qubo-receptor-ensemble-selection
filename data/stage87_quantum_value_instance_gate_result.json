@@ -1,0 +1,50 @@
+{
+  "candidate_summary": {
+    "biological_single_start_trap_candidate_count": 4,
+    "maximum_candidate_feasible_states": 415,
+    "maximum_candidate_total_states": 38760,
+    "maximum_exhaustive_enumeration_seconds": 0.48606260000087786,
+    "nontrivial_certified_candidate_count": 0,
+    "replicated_fold_groups": {
+      "PPARA|uncertainty_1p0x|6": 2
+    },
+    "replicated_target_candidate_families": {
+      "uncertainty_1p0x": [
+        "PPARA",
+        "PPARD"
+      ]
+    },
+    "stage68_screened_cell_count": 240
+  },
+  "checks": {
+    "certified_fixed_k_strong_classical_failure_exists": false,
+    "certified_variable_k_strong_classical_failure_exists": false,
+    "cross_fold_replication_exists": true,
+    "cross_target_candidate_family_exists": true,
+    "multi_move_local_trap_exists": false,
+    "nontrivial_certified_candidate_exists": false,
+    "stage68_biological_greedy_trap_candidate_exists": true
+  },
+  "constraint_preserving_qaoa_simulation_authorized": false,
+  "data_boundary": {
+    "fresh_validation_rows_read": 0,
+    "locked_test_rows_read": 0,
+    "new_docking_jobs": 0,
+    "quantum_hardware_jobs": 0
+  },
+  "historical_hardness_summary": {
+    "stage74_certified_exact_cell_count": 120,
+    "stage74_strong_classical_miss_count": 0,
+    "stage75_exact_frontier_cell_count": 20,
+    "stage75_joint_classical_miss_count": 0,
+    "stage80_local_subproblem_count": 100,
+    "stage80_multi_move_trap_count": 0
+  },
+  "interpretation": "Four post-hoc Stage68 cells beat a single-start greedy-plus-swap baseline and improve every frozen holdout BEDROC summary, but each full fixed-k space contains at most 38,760 states and is exhaustively solved in under one second on the audit workstation. Across all previously certified Stage74 and Stage75 cells, strong classical search never missed the exact reference. The current evidence therefore contains useful positive controls, not a quantum-worthy classical-hard benchmark.",
+  "new_docking_jobs_authorized": 0,
+  "new_quantum_hardware_jobs_authorized": 0,
+  "next_action": "Do not run QAOA on the current benchmark cells. Define or acquire a larger, independently validated scientific decision problem for which a certified global solution beats strong classical search; preregister that gate before new docking or quantum execution.",
+  "schema_version": "1.0",
+  "status": "stage87_no_quantum_worthy_instance_qaoa_blocked",
+  "strict_instance_gate_passed": false
+}

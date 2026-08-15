@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage12a-mk14-qubo-objective-adequacy-posthoc-v1",
+  "purpose": "Diagnose whether the frozen pair-synergy QUBO energy and a regularized quadratic surrogate can rank all 560 three-receptor subsets using Stage 09 training evidence only.",
+  "implementation": {
+    "path": "scripts/diagnose_stage12a_mk14_qubo_objective_adequacy.py",
+    "sha256": "5C7482A91FE98A6B371AA84A7B536A41CF3C34F3A0DE7C80FA6B0DEA18675A11"
+  },
+  "inputs": {
+    "stage10_config": {
+      "path": "configs/stage10_mk14_expanded16_qubo_greedy_screen.json",
+      "sha256": "5913CAC655C85F9C26754582738BB05A1F1EBE802B0A4616727E8928F3522B82"
+    },
+    "stage10_result": {
+      "path": "data/stage10_mk14_expanded16_qubo_greedy_screen_result.json",
+      "sha256": "EBF9126C8B66EAECF3E6970741BC01675B670F8A4E045CC3AE3DB59AE1A1BD77"
+    },
+    "stage10_qubo_trials": {
+      "path": "results/runs/stage10_mk14_expanded16_qubo_greedy_screen/qubo_trials.csv",
+      "sha256": "20FA913C4D78746050963C32CED735DD4A6B42D005CBA19D5EA3AF8E4E7B4D8C"
+    },
+    "stage10_direct_trials": {
+      "path": "results/runs/stage10_mk14_expanded16_qubo_greedy_screen/direct_metric_trials.csv",
+      "sha256": "66DE555E18ECBF7E4FDE3A4E8768566377C01DE5B41B38E2D925BCAC889CA7CD"
+    }
+  },
+  "expected": {
+    "receptor_count": 16,
+    "ligand_count": 696,
+    "label_counts": {
+      "active": 348,
+      "decoy": 348
+    },
+    "triple_subset_count": 560,
+    "outer_fold_count": 4,
+    "stage11_validation_rows": 0,
+    "test_rows": 0
+  },
+  "diagnostic": {
+    "target_size": 3,
+    "aggregation": "min_score",
+    "bedroc_alpha": 20.0,
+    "ridge_alphas": [
+      0.000001,
+      0.0001,
+      0.01,
+      0.1,
+      1.0,
+      10.0,
+      100.0
+    ],
+    "cardinality_penalty": 20.0,
+    "surrogate_response": "equal-weight mean of primary BEDROC, mean-seed BEDROC, and worst-seed BEDROC on the current training fold",
+    "surrogate_selection_rule": "Within each additive or quadratic family, rank alpha by descending mean outer-fold holdout robust composite, then descending worst-fold holdout composite, then descending mean holdout subset-rank Spearman correlation, then ascending alpha. The quadratic winner is provisional and may be evaluated only on new protein targets.",
+    "development_support_rule": "The provisional quadratic candidate must have positive mean holdout deltas versus frozen v1 and direct greedy, win at least three of four folds against each, and exceed the best additive surrogate in mean holdout robust composite."
+  },
+  "outputs": {
+    "subset_diagnostics_csv": "results/runs/stage12a_mk14_qubo_objective_adequacy_posthoc/subset_diagnostics.csv",
+    "surrogate_trials_csv": "results/runs/stage12a_mk14_qubo_objective_adequacy_posthoc/surrogate_trials.csv",
+    "provisional_v2_qubo_json": "data/stage12a_mk14_provisional_v2_qubo.json",
+    "result_json": "data/stage12a_mk14_qubo_objective_adequacy_posthoc_result.json",
+    "report_md": "reports/stage-12a/mk14_qubo_objective_adequacy_posthoc.md"
+  },
+  "interpretation_boundary": "This analysis was designed after the Stage 11 outcome was known and is therefore post hoc development evidence only. It reads Stage 09 Train-696 rows but no Stage 11 validation or test row. It may diagnose objective mismatch and nominate a provisional v2 QUBO for new-target testing; it cannot rescue or reinterpret the failed Stage 11 confirmatory gate, establish QUBO superiority, or establish quantum advantage."
+}

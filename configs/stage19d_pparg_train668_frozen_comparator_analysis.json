@@ -1,0 +1,185 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage19d-pparg-train668-frozen-comparator-analysis-20260801-v1",
+  "target_id": "PPARG",
+  "purpose": "Compare the preregistered PPARG pair-synergy QUBO v1 against greedy, exhaustive, linear, consensus, and fixed literature-family baselines using scaffold-grouped Train-668 OOF predictions only.",
+  "evidence_timing": {
+    "experiment_class": "posthoc exploratory train-only",
+    "stage18e_confirmatory_gate": "closed_failed_14_of_24",
+    "validation_rows_available_to_implementation": 0,
+    "test_rows_available_to_implementation": 0,
+    "weight_retuning_permitted": false
+  },
+  "implementation": {
+    "path": "scripts/evaluate_stage19d_pparg_train_comparators.py",
+    "sha256": "DF55BC79A32719B411D615E7623F8FA2AA7E593E0ECC20C832655A0AC66CEC2F"
+  },
+  "inputs": {
+    "pparg_preregistration": {
+      "path": "configs/stage18_pparg_replacement_exploratory_preregistration.json",
+      "sha256": "AE6361F7DDCB643643EF7A99BC4A77165F6E6D883672046F54D83CA4DD3CCD15"
+    },
+    "stage19c_summary": {
+      "path": "results/runs/stage19c_pparg_train668_unidock113_production/summary.json",
+      "sha256": "9D742A9345691E19EC345CBB95E3937416C12CBCB13A29DD85326D2A03B38521"
+    },
+    "stage19c_audit": {
+      "path": "data/stage19c_pparg_train668_unidock113_production_audit.json",
+      "sha256": "D98CDFA09B0A7B266FB43C9051957D2032ED98F3C8726FA274EC7B798B529EE6"
+    },
+    "target_id_amendment": {
+      "path": "data/stage19c_pparg_train668_target_id_amendment01_result.json",
+      "sha256": "D5BD90D29B41ECEBAF68E566D9B09A356A8BC3178D6683241C73C131148EE128"
+    },
+    "corrected_scores": {
+      "path": "results/runs/stage19c_pparg_train668_unidock113_target_id_amendment01/scores.csv",
+      "sha256": "D878EE099F57183F4C6B4F320BA49DAED6758E51C244D2289F1382037E4DED0E"
+    },
+    "primary_matrix": {
+      "path": "results/runs/stage19c_pparg_train668_unidock113_production/primary_median_score_matrix.csv",
+      "sha256": "A17F78FA5117045A879E5EF0AC89EAFA8093F22F9D9E74510235FA7103FDCC4C"
+    },
+    "sensitivity_matrix": {
+      "path": "results/runs/stage19c_pparg_train668_unidock113_production/sensitivity_minimum_score_matrix.csv",
+      "sha256": "3E74014423E44104E920EC260BEF40B553A69F4B63A1AB5C18DF9BAD6DE1FB3E"
+    },
+    "ligand_manifest": {
+      "path": "data/processed/stage19b_pparg_train668_unidock_pdbqt_manifest.csv",
+      "sha256": "36EBA0B5A9597EE80F71576E3C50BE88D8DE1406CF4177B708141BA4A99D11B7"
+    },
+    "receptor_manifest": {
+      "path": "data/processed/stage18i_pparg_exploratory_final16_prepared_receptor_manifest.csv",
+      "sha256": "7B219C9367DEFE2428770BC5E521DB54592E95A5C5A4653C9E84FB5939D8BC96"
+    }
+  },
+  "expected": {
+    "ligand_count": 668,
+    "label_counts": {
+      "active": 334,
+      "decoy": 334
+    },
+    "receptor_count": 16,
+    "seed_count": 3,
+    "pair_count": 32064,
+    "allowed_split": "train",
+    "allowed_selection_role": "development_train",
+    "validation_rows": 0,
+    "test_rows": 0
+  },
+  "cross_validation": {
+    "fold_count": 4,
+    "fold_seed": 20261119,
+    "group_column": "split_group_id",
+    "scaffold_guard_column": "scaffold_smiles",
+    "selection_matrix": "primary three-seed median",
+    "normalization": "fit receptor-wise min-max bounds on each training fold and apply without clipping"
+  },
+  "frozen_qubo": {
+    "family": "pair_synergy_qubo v1",
+    "target_size": 3,
+    "aggregation": "min_score",
+    "weights": {
+      "active_coverage": 0.0,
+      "decoy_exposure": 0.0,
+      "active_overlap": 0.0,
+      "redundancy": 0.0,
+      "ensemble_pair_utility": 0.0,
+      "ensemble_pair_synergy": 2.0,
+      "stability": 0.5
+    },
+    "size_penalty": 20.0,
+    "retuning_permitted": false
+  },
+  "qubo_model": {
+    "utility_metric": "bedroc",
+    "coverage_fraction": 0.1,
+    "bedroc_alpha": 20.0
+  },
+  "models": {
+    "model_seed": 20260724,
+    "budget_matched_feature_count": 3,
+    "logistic_regression": {
+      "parameters": {
+        "C": 1.0,
+        "penalty": "l2",
+        "solver": "lbfgs",
+        "fit_intercept": true,
+        "max_iter": 2000,
+        "tol": 0.0001
+      }
+    },
+    "gradient_boosting": {
+      "parameters": {
+        "loss": "log_loss",
+        "learning_rate": 0.1,
+        "n_estimators": 100,
+        "subsample": 1.0,
+        "criterion": "friedman_mse",
+        "min_samples_split": 2,
+        "min_samples_leaf": 1,
+        "max_depth": 3,
+        "max_features": null,
+        "max_leaf_nodes": null,
+        "min_impurity_decrease": 0.0,
+        "n_iter_no_change": null,
+        "tol": 0.0001
+      }
+    },
+    "random_forest": {
+      "parameters": {
+        "n_estimators": 750,
+        "criterion": "gini",
+        "max_depth": null,
+        "min_samples_split": 2,
+        "min_samples_leaf": 1,
+        "max_features": "sqrt",
+        "bootstrap": true,
+        "oob_score": false,
+        "class_weight": "balanced",
+        "max_samples": null
+      }
+    },
+    "selection_policy": "No hyperparameter tuning on PPARG; RFE3 feature selection is fitted inside each training fold only."
+  },
+  "xgboost": {
+    "required_version": "3.1.1",
+    "model_seed": 20261222,
+    "parameter_source": "Frozen MK14 EnOpt all-receptor winner transferred without PPARG tuning",
+    "parameters": {
+      "booster": "gbtree",
+      "subsample": 1.0,
+      "colsample_bytree": 1.0,
+      "reg_alpha": 0.0,
+      "reg_lambda": 1.0,
+      "gamma": 0.0,
+      "max_depth": 2,
+      "min_child_weight": 1.0,
+      "learning_rate": 0.03,
+      "n_estimators": 150
+    }
+  },
+  "bootstrap": {
+    "unit": "split_group_id block",
+    "replicates": 2000,
+    "seed": 20261919,
+    "evidence_class": "exploratory train-only OOF uncertainty"
+  },
+  "geometric_consensus_policy": {
+    "primary_matrix": "Evaluate the historical signed raw-score geometric consensus because every primary median score is negative.",
+    "seed_robustness": "Do not evaluate raw geometric consensus on seed0 or seed1: each contains one adjudicated finite positive-energy outlier, and signed geometric aggregation of 16 mixed-sign values is undefined.",
+    "ranking_role": "Report geometric consensus as primary-only supplementary evidence and exclude it from seed-robust method ranking; do not clip, take absolute values, or silently replace it with another aggregation."
+  },
+  "outputs": {
+    "run_directory": "results/runs/stage19d_pparg_train668_frozen_comparators",
+    "fold_assignments_csv": "results/runs/stage19d_pparg_train668_frozen_comparators/fold_assignments.csv",
+    "fold_method_selections_csv": "results/runs/stage19d_pparg_train668_frozen_comparators/fold_method_selections.csv",
+    "oof_predictions_csv": "results/runs/stage19d_pparg_train668_frozen_comparators/oof_predictions.csv",
+    "oof_metrics_csv": "results/runs/stage19d_pparg_train668_frozen_comparators/oof_metrics.csv",
+    "full_train_selections_csv": "results/runs/stage19d_pparg_train668_frozen_comparators/full_train_selections.csv",
+    "full_train_qubo_json": "results/runs/stage19d_pparg_train668_frozen_comparators/full_train_qubo.json",
+    "frozen_methods_json": "data/stage19d_pparg_train668_frozen_methods.json",
+    "result_json": "data/stage19d_pparg_train668_frozen_comparator_result.json",
+    "report_md": "reports/stage-19d/pparg_train668_frozen_comparator_analysis.md"
+  },
+  "interpretation_boundary": "Stage 19d is post-hoc PPARG Train-668 development evidence after the Stage 18e technical failure. OOF comparisons reduce resubstitution bias but are not fresh validation. They cannot repair Stage 18e, establish cross-target replication, demonstrate quantum execution, or establish quantum advantage."
+}

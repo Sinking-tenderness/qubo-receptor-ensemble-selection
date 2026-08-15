@@ -1,0 +1,118 @@
+{
+  "authorization": {
+    "confirmation_a_preparation_or_docking_authorized": false,
+    "confirmation_b_authorized": false,
+    "locked_test_authorized": false,
+    "quantum_simulation_or_hardware_authorized": false
+  },
+  "checks": {
+    "exact_solution_differs_from_direct_greedy": true,
+    "minimum_fixed_k_state_count": true,
+    "reproducible_multi_move_local_trap": false,
+    "strict_objective_improvement_over_greedy_plus_all_one_swaps": false,
+    "strong_classical_time_and_quality_reported": true
+  },
+  "comparisons": {
+    "exact_minus_direct_greedy": 0.006869039603139032,
+    "exact_minus_greedy_swap": 0.0,
+    "exact_vs_greedy_swap_replacement_distance": 0
+  },
+  "data_boundary": {
+    "confirmation_scores_read": 0,
+    "locked_test_scores_read": 0,
+    "new_docking_jobs": 0,
+    "quantum_jobs": 0
+  },
+  "direct_greedy": {
+    "objective": 0.14727146204544575,
+    "selected_receptor_ids": [
+      "BACE1_2QMD_aligned",
+      "BACE1_2QMF_aligned",
+      "BACE1_3IVH_aligned",
+      "BACE1_4I0J_aligned",
+      "BACE1_4I10_aligned",
+      "BACE1_6PZ4_aligned"
+    ]
+  },
+  "exact": {
+    "components": {
+      "global_low_exposure": 0.07407407407407407,
+      "group_coverages": [
+        0.8461538461538461,
+        0.1951219512195122,
+        0.75,
+        0.14285714285714285,
+        0.344,
+        0.4
+      ],
+      "mean_group_coverage": 0.44635549003841685,
+      "mean_pair_jaccard": 0.22094187690982586,
+      "minimum_group_coverage": 0.14285714285714285,
+      "objective": 0.15414050164858478
+    },
+    "enumeration_seconds": 16.0949628999997,
+    "gap_to_second_best": 0.0027306143567111807,
+    "objective": 0.15414050164858478,
+    "optimal_state_count": 1,
+    "second_best_objective": 0.1514098872918736,
+    "selected_receptor_ids": [
+      "BACE1_2QMD_aligned",
+      "BACE1_3CIC_aligned",
+      "BACE1_3IVH_aligned",
+      "BACE1_3KN0_aligned",
+      "BACE1_4I0J_aligned",
+      "BACE1_4I10_aligned"
+    ]
+  },
+  "experiment_id": "stage92-bace1-group-robust-hardness-adjudication-20260812-v1",
+  "failed_checks": [
+    "strict_objective_improvement_over_greedy_plus_all_one_swaps",
+    "reproducible_multi_move_local_trap"
+  ],
+  "greedy_plus_all_one_swaps": {
+    "local_search_iterations": 2,
+    "objective": 0.15414050164858478,
+    "selected_receptor_ids": [
+      "BACE1_2QMD_aligned",
+      "BACE1_3CIC_aligned",
+      "BACE1_3IVH_aligned",
+      "BACE1_3KN0_aligned",
+      "BACE1_4I0J_aligned",
+      "BACE1_4I10_aligned"
+    ]
+  },
+  "interpretation": "The frozen development instance contains a direct-greedy error, but one-swap local search, strong classical search, and exact enumeration converge to the same solution. The preregistered quantum-value hardness gate therefore fails.",
+  "next_gate": "Do not unlock confirmation assays or quantum hardware from this route; first decide whether to publish the negative hardness result or define a genuinely new prospectively frozen problem family.",
+  "operationalization_timing": "post-score implementation-detail adjudication; no objective weight or threshold was changed",
+  "outputs": {
+    "baseline_csv": {
+      "path": "results/runs/stage92_bace1_group_robust_hardness_adjudication/classical_baselines.csv",
+      "sha256": "DB2E7993473DD0C0DA154C127BD4274643CBB37565D08BC343307C070987F260"
+    },
+    "selection_csv": {
+      "path": "results/runs/stage92_bace1_group_robust_hardness_adjudication/selected_receptors.csv",
+      "sha256": "760D41185726CEA69322E9CBB56B8F1DF6EDA75400AD1E1FF01CB40E67FACDEE"
+    }
+  },
+  "population": {
+    "group_ids": [
+      "BACE1_SCF_4CCB7D8DDF6B",
+      "BACE1_SCF_566EF2928E2C",
+      "BACE1_SCF_861E4F3C99CD",
+      "BACE1_SCF_BFA2FE2EA904",
+      "BACE1_SCF_C2DE60BF77E1",
+      "BACE1_SCF_F124CE8CC5E5"
+    ],
+    "groups": 6,
+    "high": 195,
+    "hit_count": 23,
+    "low": 27,
+    "population": 222
+  },
+  "primary_k": 6,
+  "schema_version": "1.0",
+  "source_audit_status": "independent_stage91c_bace1_chembl365_unidock_matrix_audit_ok",
+  "source_matrix_status": "stage91c_bace1_chembl365_unidock_matrix_ok",
+  "state_count": 1344904,
+  "status": "stage92_bace1_group_robust_hardness_gate_failed"
+}

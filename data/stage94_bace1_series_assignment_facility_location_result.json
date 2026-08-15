@@ -1,0 +1,80 @@
+{
+  "authorization": {
+    "confirmation_assays_authorized": false,
+    "new_docking_authorized": false,
+    "prospective_new_target_problem_freeze_authorized": false,
+    "quantum_simulation_or_hardware_authorized": false
+  },
+  "best_one_swap": {
+    "objective": 0.04699064134096416,
+    "open_receptor_ids": [
+      "BACE1_2QMF_aligned",
+      "BACE1_2QMG_aligned",
+      "BACE1_3CIB_aligned",
+      "BACE1_3IVH_aligned",
+      "BACE1_3KN0_aligned",
+      "BACE1_4I0F_aligned"
+    ],
+    "replacement_distance_to_milp": 0
+  },
+  "checks": {
+    "milp_conditional_recomputation_exact": true,
+    "milp_optimality_certificate": true,
+    "milp_optimum_strictly_improves_best_256_random_restart_one_swap": false,
+    "milp_optimum_strictly_improves_greedy_plus_one_swap": true,
+    "open_set_replacement_distance_from_best_one_swap": false,
+    "routing_policy_has_nonzero_worst_series_coverage": true
+  },
+  "data_boundary": {
+    "confirmation_scores_read": 0,
+    "locked_test_scores_read": 0,
+    "new_docking_jobs": 0,
+    "quantum_jobs": 0
+  },
+  "dimensions": {
+    "groups": 6,
+    "high": 195,
+    "hit_count": 23,
+    "low": 27,
+    "pair_count": 561,
+    "population": 222,
+    "seeds": 3
+  },
+  "experiment_class": "posthoc_development_problem_family_feasibility",
+  "failed_checks": [
+    "milp_optimum_strictly_improves_best_256_random_restart_one_swap",
+    "open_set_replacement_distance_from_best_one_swap"
+  ],
+  "interpretation": "Stage94 tests a cost-aware joint receptor-opening and chemical-series routing problem. A pass authorizes only a prospective new-target freeze; it does not establish efficacy or quantum advantage.",
+  "milp": {
+    "constraint_count": 6745,
+    "elapsed_seconds": 2.5028133999985585,
+    "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+    "mip_gap": 0.0,
+    "mip_node_count": 1,
+    "objective": 0.04699064134096424,
+    "open_receptor_ids": [
+      "BACE1_2QMF_aligned",
+      "BACE1_2QMG_aligned",
+      "BACE1_3CIB_aligned",
+      "BACE1_3IVH_aligned",
+      "BACE1_3KN0_aligned",
+      "BACE1_4I0F_aligned"
+    ],
+    "variable_count": 3401,
+    "worst_series_coverage": 0.024000000000000216
+  },
+  "outputs": {
+    "assignment_csv": {
+      "path": "results/runs/stage94_bace1_series_assignment_facility_location/exact_assignments.csv",
+      "sha256": "90EC646EFF22D65E46E0988921B7B2E09B3106FE0FF7901B8B8B5D0A93560F7A"
+    },
+    "baseline_csv": {
+      "path": "results/runs/stage94_bace1_series_assignment_facility_location/classical_baselines.csv",
+      "sha256": "51F2DB041998C26FCD5786F8630A83AE4EE9050CB3CDDF767DB873F7840AB687"
+    }
+  },
+  "schema_version": "1.0",
+  "status": "stage94_bace1_series_assignment_gate_failed",
+  "stop_rule_applies": true
+}

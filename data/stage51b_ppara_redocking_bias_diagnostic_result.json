@@ -1,0 +1,547 @@
+{
+  "analysis_class": "post-hoc label-free technical diagnostic",
+  "chemotype_clustering": {
+    "cluster_rows": [
+      {
+        "chemotype_cluster_id": "chemotype_01",
+        "member_count": 11,
+        "member_ids": "PPARA_6KAX_aligned;PPARA_6KB0_aligned;PPARA_6KB5_aligned;PPARA_6LX6_aligned;PPARA_6LX7_aligned;PPARA_6LX8_aligned;PPARA_7BQ1_aligned;PPARA_9IWL_aligned;PPARA_9IWN_aligned;PPARA_9VZS_aligned;PPARA_9VZT_aligned",
+        "murcko_scaffolds": "",
+        "passing_fraction": 0.09090909090909091,
+        "passing_member_count": 1,
+        "passing_member_ids": "PPARA_6KB5_aligned"
+      },
+      {
+        "chemotype_cluster_id": "chemotype_02",
+        "member_count": 6,
+        "member_ids": "PPARA_6KAY_aligned;PPARA_6KB3_aligned;PPARA_6KB8_aligned;PPARA_7BQ3_aligned;PPARA_9IWM_aligned;PPARA_9IWO_aligned",
+        "murcko_scaffolds": "O=C(NC1CCCCC1)N(CCCCC1CCCCC1)CCc1ccccc1",
+        "passing_fraction": 0.0,
+        "passing_member_count": 0,
+        "passing_member_ids": ""
+      },
+      {
+        "chemotype_cluster_id": "chemotype_03",
+        "member_count": 4,
+        "member_ids": "PPARA_6KXY_aligned;PPARA_8YT6_aligned;PPARA_8YT9_aligned;PPARA_8YWU_aligned",
+        "murcko_scaffolds": "c1ccc(-c2nc(CCOc3ccc4cnn(-c5ccccc5)c4n3)co2)cc1;c1ccc(-c2nc(COCCc3ccc4cnn(-c5ccccc5)c4n3)co2)cc1;c1ccc(-n2ncc3cccnc32)cc1",
+        "passing_fraction": 1.0,
+        "passing_member_count": 4,
+        "passing_member_ids": "PPARA_6KXY_aligned;PPARA_8YT6_aligned;PPARA_8YT9_aligned;PPARA_8YWU_aligned"
+      },
+      {
+        "chemotype_cluster_id": "chemotype_04",
+        "member_count": 4,
+        "member_ids": "PPARA_6LX4_aligned;PPARA_7BPY_aligned;PPARA_7BPZ_aligned;PPARA_7BQ0_aligned",
+        "murcko_scaffolds": "O=C(NCCc1ccccc1)c1ccccc1;O=C(c1ccccc1)c1ccccc1;c1ccccc1",
+        "passing_fraction": 0.0,
+        "passing_member_count": 0,
+        "passing_member_ids": ""
+      },
+      {
+        "chemotype_cluster_id": "chemotype_05",
+        "member_count": 3,
+        "member_ids": "PPARA_6KB2_aligned;PPARA_6KB7_aligned;PPARA_6KBA_aligned",
+        "murcko_scaffolds": "c1ccc(Nc2ccncn2)cc1",
+        "passing_fraction": 0.0,
+        "passing_member_count": 0,
+        "passing_member_ids": ""
+      },
+      {
+        "chemotype_cluster_id": "chemotype_06",
+        "member_count": 3,
+        "member_ids": "PPARA_6LX9_aligned;PPARA_6LXA_aligned;PPARA_7BQ4_aligned",
+        "murcko_scaffolds": "",
+        "passing_fraction": 0.0,
+        "passing_member_count": 0,
+        "passing_member_ids": ""
+      },
+      {
+        "chemotype_cluster_id": "chemotype_07",
+        "member_count": 3,
+        "member_ids": "PPARA_8YTL_aligned;PPARA_8YU8_aligned;PPARA_8YWV_aligned",
+        "murcko_scaffolds": "c1ccc(-n2ncc3ccc(N4CCNCC4)nc32)cc1",
+        "passing_fraction": 1.0,
+        "passing_member_count": 3,
+        "passing_member_ids": "PPARA_8YTL_aligned;PPARA_8YU8_aligned;PPARA_8YWV_aligned"
+      },
+      {
+        "chemotype_cluster_id": "chemotype_08",
+        "member_count": 2,
+        "member_ids": "PPARA_2ZNN_aligned;PPARA_7E5F_aligned",
+        "murcko_scaffolds": "O=C(NCc1ccccc1)c1ccc(C23CC4CC(CC(C4)C2)C3)cc1",
+        "passing_fraction": 0.5,
+        "passing_member_count": 1,
+        "passing_member_ids": "PPARA_2ZNN_aligned"
+      },
+      {
+        "chemotype_cluster_id": "chemotype_09",
+        "member_count": 2,
+        "member_ids": "PPARA_6KAZ_aligned;PPARA_7BQ2_aligned",
+        "murcko_scaffolds": "c1ccc(CN(CCCOc2ccccc2)c2nc3ccccc3o2)cc1",
+        "passing_fraction": 1.0,
+        "passing_member_count": 2,
+        "passing_member_ids": "PPARA_6KAZ_aligned;PPARA_7BQ2_aligned"
+      },
+      {
+        "chemotype_cluster_id": "chemotype_10",
+        "member_count": 2,
+        "member_ids": "PPARA_6KB1_aligned;PPARA_6KB6_aligned",
+        "murcko_scaffolds": "",
+        "passing_fraction": 0.0,
+        "passing_member_count": 0,
+        "passing_member_ids": ""
+      },
+      {
+        "chemotype_cluster_id": "chemotype_11",
+        "member_count": 2,
+        "member_ids": "PPARA_6L37_aligned;PPARA_6LX5_aligned",
+        "murcko_scaffolds": "c1ccc(C2CC2)cc1",
+        "passing_fraction": 0.0,
+        "passing_member_count": 0,
+        "passing_member_ids": ""
+      },
+      {
+        "chemotype_cluster_id": "chemotype_12",
+        "member_count": 2,
+        "member_ids": "PPARA_6LXB_aligned;PPARA_6LXC_aligned",
+        "murcko_scaffolds": "c1ccc(OCCn2cccc2-c2ccccc2)cc1",
+        "passing_fraction": 0.0,
+        "passing_member_count": 0,
+        "passing_member_ids": ""
+      },
+      {
+        "chemotype_cluster_id": "chemotype_13",
+        "member_count": 2,
+        "member_ids": "PPARA_7E5H_aligned;PPARA_7E5I_aligned",
+        "murcko_scaffolds": "O=C(NCc1ccc(Oc2ccccc2)cc1)c1ccccc1",
+        "passing_fraction": 1.0,
+        "passing_member_count": 2,
+        "passing_member_ids": "PPARA_7E5H_aligned;PPARA_7E5I_aligned"
+      },
+      {
+        "chemotype_cluster_id": "chemotype_14",
+        "member_count": 1,
+        "member_ids": "PPARA_1K7L_aligned",
+        "murcko_scaffolds": "O=C(C=CNCCc1ccc(OCCc2coc(-c3ccccc3)n2)cc1)c1ccccc1",
+        "passing_fraction": 0.0,
+        "passing_member_count": 0,
+        "passing_member_ids": ""
+      },
+      {
+        "chemotype_cluster_id": "chemotype_15",
+        "member_count": 1,
+        "member_ids": "PPARA_2NPA_aligned",
+        "murcko_scaffolds": "c1ccc(OCc2coc(-c3ccccc3)n2)cc1",
+        "passing_fraction": 0.0,
+        "passing_member_count": 0,
+        "passing_member_ids": ""
+      },
+      {
+        "chemotype_cluster_id": "chemotype_16",
+        "member_count": 1,
+        "member_ids": "PPARA_2P54_reference",
+        "murcko_scaffolds": "O=C(NCc1ccccc1)c1cnc(-c2ccccc2)s1",
+        "passing_fraction": 1.0,
+        "passing_member_count": 1,
+        "passing_member_ids": "PPARA_2P54_reference"
+      },
+      {
+        "chemotype_cluster_id": "chemotype_17",
+        "member_count": 1,
+        "member_ids": "PPARA_3ET1_aligned",
+        "murcko_scaffolds": "O=S(=O)(c1ccccc1)n1ccc2ccccc21",
+        "passing_fraction": 1.0,
+        "passing_member_count": 1,
+        "passing_member_ids": "PPARA_3ET1_aligned"
+      },
+      {
+        "chemotype_cluster_id": "chemotype_18",
+        "member_count": 1,
+        "member_ids": "PPARA_3G8I_aligned",
+        "murcko_scaffolds": "c1ccc(-c2nc(CCOc3cccc4sccc34)co2)cc1",
+        "passing_fraction": 1.0,
+        "passing_member_count": 1,
+        "passing_member_ids": "PPARA_3G8I_aligned"
+      },
+      {
+        "chemotype_cluster_id": "chemotype_19",
+        "member_count": 1,
+        "member_ids": "PPARA_3SP6_aligned",
+        "murcko_scaffolds": "C=C1CC2CCCC2C1",
+        "passing_fraction": 0.0,
+        "passing_member_count": 0,
+        "passing_member_ids": ""
+      },
+      {
+        "chemotype_cluster_id": "chemotype_20",
+        "member_count": 1,
+        "member_ids": "PPARA_3VI8_aligned",
+        "murcko_scaffolds": "O=C(NCc1ccccc1)c1ccc2ccc3cccc4ccc1c2c34",
+        "passing_fraction": 1.0,
+        "passing_member_count": 1,
+        "passing_member_ids": "PPARA_3VI8_aligned"
+      },
+      {
+        "chemotype_cluster_id": "chemotype_21",
+        "member_count": 1,
+        "member_ids": "PPARA_5HYK_aligned",
+        "murcko_scaffolds": "c1ccc(-c2cccc3ccccc23)cc1",
+        "passing_fraction": 1.0,
+        "passing_member_count": 1,
+        "passing_member_ids": "PPARA_5HYK_aligned"
+      },
+      {
+        "chemotype_cluster_id": "chemotype_22",
+        "member_count": 1,
+        "member_ids": "PPARA_6KXX_aligned",
+        "murcko_scaffolds": "c1ccc(-n2ncc3cccnc32)cc1",
+        "passing_fraction": 1.0,
+        "passing_member_count": 1,
+        "passing_member_ids": "PPARA_6KXX_aligned"
+      },
+      {
+        "chemotype_cluster_id": "chemotype_23",
+        "member_count": 1,
+        "member_ids": "PPARA_8HUN_aligned",
+        "murcko_scaffolds": "c1ccc(OCCCSc2ccccc2)cc1",
+        "passing_fraction": 0.0,
+        "passing_member_count": 0,
+        "passing_member_ids": ""
+      },
+      {
+        "chemotype_cluster_id": "chemotype_24",
+        "member_count": 1,
+        "member_ids": "PPARA_8HUQ_aligned",
+        "murcko_scaffolds": "O=C(C=Cc1ccccc1)c1ccccc1",
+        "passing_fraction": 0.0,
+        "passing_member_count": 0,
+        "passing_member_ids": ""
+      },
+      {
+        "chemotype_cluster_id": "chemotype_25",
+        "member_count": 1,
+        "member_ids": "PPARA_8RCE_aligned",
+        "murcko_scaffolds": "c1ccc(CCOc2ccc(-c3cccc4ccccc34)cc2)cc1",
+        "passing_fraction": 1.0,
+        "passing_member_count": 1,
+        "passing_member_ids": "PPARA_8RCE_aligned"
+      },
+      {
+        "chemotype_cluster_id": "chemotype_26",
+        "member_count": 1,
+        "member_ids": "PPARA_9SFS_aligned",
+        "murcko_scaffolds": "",
+        "passing_fraction": 0.0,
+        "passing_member_count": 0,
+        "passing_member_ids": ""
+      },
+      {
+        "chemotype_cluster_id": "chemotype_27",
+        "member_count": 1,
+        "member_ids": "PPARA_9T5S_aligned",
+        "murcko_scaffolds": "",
+        "passing_fraction": 0.0,
+        "passing_member_count": 0,
+        "passing_member_ids": ""
+      }
+    ],
+    "passing_cluster_count": 13,
+    "similarity_threshold": 0.6,
+    "total_cluster_count": 27
+  },
+  "config": {
+    "path": "configs/stage51b_ppara_redocking_bias_diagnostic.json",
+    "sha256": "2CB35AC2E127DD8F9F3B79C93D70C112957AB0AD6ABA1EAB2ED215F8E086156A"
+  },
+  "data_boundary": {
+    "activity_labels_read": 0,
+    "development_panel_scores_read": 0,
+    "fresh_validation_rows_read": 0,
+    "locked_test_rows_read": 0,
+    "new_docking_jobs": 0,
+    "quantum_hardware_jobs": 0
+  },
+  "decision": {
+    "confirmatory_development_panel_docking_authorized": false,
+    "exploratory_gate_conditions": {
+      "chemotype_cluster_count": true,
+      "stable_receptor_count": true,
+      "structural_coverage": true
+    },
+    "exploratory_twenty_receptor_branch_candidate": true,
+    "recommended_next_step": "preregister a separate post-hoc exploratory development-panel branch using the frozen passing pool; preserve Stage51 as failed",
+    "stage51_confirmatory_gate_remains_failed": true
+  },
+  "experiment_id": "stage51b-ppara-redocking-bias-diagnostic-20260804-v1",
+  "interpretation_boundary": "Stage51b may diagnose why the frozen Stage51 technical gate failed and whether the 20 passing receptors are worth preserving for an explicitly exploratory branch. It cannot authorize the preregistered confirmatory PPARA development route, relax the Stage51 gate, or establish enrichment, QUBO superiority, quantum speedup, or quantum advantage.",
+  "ligand_descriptor_tests": [
+    {
+      "benjamini_hochberg_q": 0.00025991523815358214,
+      "descriptor": "heavy_atom_count",
+      "failing_median": 22.0,
+      "mann_whitney_p": 8.663841271786072e-05,
+      "mann_whitney_u": 650.0,
+      "passing_median": 34.0,
+      "rank_biserial_effect": 0.625,
+      "spearman_p": 6.3591980130799e-07,
+      "spearman_rho_with_median_rmsd": -0.5918131440671188
+    },
+    {
+      "benjamini_hochberg_q": 0.0094064935128657,
+      "descriptor": "rotatable_bond_count",
+      "failing_median": 12.0,
+      "mann_whitney_p": 0.00783874459405475,
+      "mann_whitney_u": 230.5,
+      "passing_median": 8.5,
+      "rank_biserial_effect": -0.42374999999999996,
+      "spearman_p": 0.04235645005879403,
+      "spearman_rho_with_median_rmsd": 0.26297153431830056
+    },
+    {
+      "benjamini_hochberg_q": 0.000873249288641024,
+      "descriptor": "molecular_weight",
+      "failing_median": 318.75599999999974,
+      "mann_whitney_p": 0.0004786509055500599,
+      "mann_whitney_u": 623.0,
+      "passing_median": 469.48400000000015,
+      "rank_biserial_effect": 0.5575000000000001,
+      "spearman_p": 4.294305640634702e-06,
+      "spearman_rho_with_median_rmsd": -0.5544634110864698
+    },
+    {
+      "benjamini_hochberg_q": 0.7956437039999895,
+      "descriptor": "logp",
+      "failing_median": 5.505300000000005,
+      "mann_whitney_p": 0.7956437039999895,
+      "mann_whitney_u": 383.0,
+      "passing_median": 5.264710000000004,
+      "rank_biserial_effect": -0.04249999999999998,
+      "spearman_p": 0.5675120038606866,
+      "spearman_rho_with_median_rmsd": -0.075287542827602
+    },
+    {
+      "benjamini_hochberg_q": 0.00025991523815358214,
+      "descriptor": "tpsa",
+      "failing_median": 60.69,
+      "mann_whitney_p": 7.56107239899493e-05,
+      "mann_whitney_u": 651.0,
+      "passing_median": 84.86000000000001,
+      "rank_biserial_effect": 0.6275,
+      "spearman_p": 6.372981047274976e-05,
+      "spearman_rho_with_median_rmsd": -0.49264430375514506
+    },
+    {
+      "benjamini_hochberg_q": 0.000873249288641024,
+      "descriptor": "fraction_csp3",
+      "failing_median": 0.6221590909090908,
+      "mann_whitney_p": 0.0005821661924273494,
+      "mann_whitney_u": 180.5,
+      "passing_median": 0.2761904761904762,
+      "rank_biserial_effect": -0.5487500000000001,
+      "spearman_p": 0.024301790367691044,
+      "spearman_rho_with_median_rmsd": 0.2905810733763266
+    }
+  ],
+  "nearest_neighbor_association": {
+    "chemistry_minus_structure_balanced_accuracy": -0.02499999999999991,
+    "cognate_ligand_chemistry": {
+      "balanced_accuracy": 0.875,
+      "null_mean": 0.49167,
+      "null_standard_deviation": 0.08132084511366074,
+      "permutation_p": 9.999000099990002e-05
+    },
+    "dominant_driver": "mixed_or_unresolved",
+    "one_sided_difference_permutation_p": 0.6032396760323968,
+    "receptor_structure": {
+      "balanced_accuracy": 0.8999999999999999,
+      "null_mean": 0.49052875,
+      "null_standard_deviation": 0.08408867223614308,
+      "permutation_p": 9.999000099990002e-05
+    }
+  },
+  "outputs": {
+    "chemotype_cluster_csv": {
+      "path": "data/processed/stage51b_ppara_chemotype_clusters.csv",
+      "sha256": "341AC70DF930F9B417A57EBA2EEE5FF46D141143F9DE425B0029FE2E9EC63E3B"
+    },
+    "diagnostic_table_csv": {
+      "path": "data/processed/stage51b_ppara_redocking_bias_diagnostic.csv",
+      "sha256": "E66739DD0C17529B94C0C437004C76FA6BEE98345F0758F012B47006EFFB1B3B"
+    }
+  },
+  "pdb_family_summary": [
+    {
+      "member_ids": [
+        "PPARA_6KB0_aligned",
+        "PPARA_6KB3_aligned",
+        "PPARA_6KB2_aligned",
+        "PPARA_6KB5_aligned",
+        "PPARA_6KB7_aligned",
+        "PPARA_6KBA_aligned",
+        "PPARA_6KB8_aligned",
+        "PPARA_6KB1_aligned",
+        "PPARA_6KB6_aligned"
+      ],
+      "passing_count": 1,
+      "passing_fraction": 0.1111111111111111,
+      "pdb_family_prefix": "6KB",
+      "prepared_count": 9
+    },
+    {
+      "member_ids": [
+        "PPARA_6LXC_aligned",
+        "PPARA_6LX5_aligned",
+        "PPARA_6LX6_aligned",
+        "PPARA_6LX4_aligned",
+        "PPARA_6LX8_aligned",
+        "PPARA_6LXB_aligned",
+        "PPARA_6LX9_aligned",
+        "PPARA_6LX7_aligned",
+        "PPARA_6LXA_aligned"
+      ],
+      "passing_count": 0,
+      "passing_fraction": 0.0,
+      "pdb_family_prefix": "6LX",
+      "prepared_count": 9
+    },
+    {
+      "member_ids": [
+        "PPARA_7BQ3_aligned",
+        "PPARA_7BQ0_aligned",
+        "PPARA_7BQ2_aligned",
+        "PPARA_7BQ1_aligned",
+        "PPARA_7BQ4_aligned"
+      ],
+      "passing_count": 1,
+      "passing_fraction": 0.2,
+      "pdb_family_prefix": "7BQ",
+      "prepared_count": 5
+    },
+    {
+      "member_ids": [
+        "PPARA_9IWL_aligned",
+        "PPARA_9IWM_aligned",
+        "PPARA_9IWN_aligned",
+        "PPARA_9IWO_aligned"
+      ],
+      "passing_count": 0,
+      "passing_fraction": 0.0,
+      "pdb_family_prefix": "9IW",
+      "prepared_count": 4
+    },
+    {
+      "member_ids": [
+        "PPARA_6KAZ_aligned",
+        "PPARA_6KAY_aligned",
+        "PPARA_6KAX_aligned"
+      ],
+      "passing_count": 1,
+      "passing_fraction": 0.3333333333333333,
+      "pdb_family_prefix": "6KA",
+      "prepared_count": 3
+    },
+    {
+      "member_ids": [
+        "PPARA_7E5F_aligned",
+        "PPARA_7E5H_aligned",
+        "PPARA_7E5I_aligned"
+      ],
+      "passing_count": 2,
+      "passing_fraction": 0.6666666666666666,
+      "pdb_family_prefix": "7E5",
+      "prepared_count": 3
+    },
+    {
+      "member_ids": [
+        "PPARA_8YTL_aligned",
+        "PPARA_8YT6_aligned",
+        "PPARA_8YT9_aligned"
+      ],
+      "passing_count": 3,
+      "passing_fraction": 1.0,
+      "pdb_family_prefix": "8YT",
+      "prepared_count": 3
+    },
+    {
+      "member_ids": [
+        "PPARA_6KXX_aligned",
+        "PPARA_6KXY_aligned"
+      ],
+      "passing_count": 2,
+      "passing_fraction": 1.0,
+      "pdb_family_prefix": "6KX",
+      "prepared_count": 2
+    },
+    {
+      "member_ids": [
+        "PPARA_7BPZ_aligned",
+        "PPARA_7BPY_aligned"
+      ],
+      "passing_count": 0,
+      "passing_fraction": 0.0,
+      "pdb_family_prefix": "7BP",
+      "prepared_count": 2
+    },
+    {
+      "member_ids": [
+        "PPARA_8HUN_aligned",
+        "PPARA_8HUQ_aligned"
+      ],
+      "passing_count": 0,
+      "passing_fraction": 0.0,
+      "pdb_family_prefix": "8HU",
+      "prepared_count": 2
+    },
+    {
+      "member_ids": [
+        "PPARA_8YWU_aligned",
+        "PPARA_8YWV_aligned"
+      ],
+      "passing_count": 2,
+      "passing_fraction": 1.0,
+      "pdb_family_prefix": "8YW",
+      "prepared_count": 2
+    },
+    {
+      "member_ids": [
+        "PPARA_9VZS_aligned",
+        "PPARA_9VZT_aligned"
+      ],
+      "passing_count": 0,
+      "passing_fraction": 0.0,
+      "pdb_family_prefix": "9VZ",
+      "prepared_count": 2
+    }
+  ],
+  "schema_version": "1.0",
+  "stage51_frozen_outcome": {
+    "confirmatory_status_changed": false,
+    "frozen_receptor_count": 64,
+    "passing_receptor_count": 20,
+    "prepared_receptor_count": 60,
+    "stable_three_of_three_receptor_count": 18,
+    "technical_gate_pass": false
+  },
+  "status": "stage51b_ppara_redocking_bias_diagnostic_ok",
+  "structural_coverage": {
+    "passing_twenty": {
+      "coverage_radius": 1.7226052015795568,
+      "coverage_radius_random_percentile": 0.8908109189081092,
+      "mean_distance_random_percentile": 0.9946005399460054,
+      "mean_nearest_distance": 0.60435304167988,
+      "random_coverage_radius_median": 1.644614702010399,
+      "random_mean_distance_median": 0.49403272482383415,
+      "selected_count": 20
+    },
+    "stable_eighteen": {
+      "coverage_radius": 1.7226052015795568,
+      "coverage_radius_random_percentile": 0.8467153284671532,
+      "mean_distance_random_percentile": 0.9965003499650035,
+      "mean_nearest_distance": 0.6419994416782117,
+      "random_coverage_radius_median": 1.651650212186052,
+      "random_mean_distance_median": 0.5299292913373828,
+      "selected_count": 18
+    }
+  }
+}

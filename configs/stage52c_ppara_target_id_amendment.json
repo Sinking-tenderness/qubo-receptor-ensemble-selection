@@ -1,0 +1,49 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage52c-ppara-target-id-metadata-amendment-20260805-v1",
+  "purpose": "Create a non-destructive derived Stage52b score table that corrects only the historical helper-emitted target_id from MK14 to PPARA.",
+  "implementation": {
+    "path": "scripts/amend_stage52c_ppara_target_id.py",
+    "sha256": "8E0AA82AE2702C06E6BAE6B7FB9D5BA296C3283483B2AA1ACEA1857ADD4BB811"
+  },
+  "inputs": {
+    "downloaded_result_audit": {
+      "path": "data/stage52b_ppara_train374_downloaded_result_audit.json",
+      "sha256": "10C3632BDE580E3E45635991D8AB1647DC2589B67E1150A9AD831F16F78FC3AA"
+    },
+    "remote_matrix_audit": {
+      "path": "data/stage52b_ppara_train374_unidock113_production_audit.json",
+      "sha256": "169EAE6DDBB4C2C09224ED40B157BCEC7046237F3AC273687E398F670F386A47"
+    },
+    "production_summary": {
+      "path": "results/runs/stage52b_ppara_train374_unidock113_production/summary.json",
+      "sha256": "230EDDA5114FA009BC008E7ED68A2D8A665CEFE113FB38A63EF24BA4CE1C28E6"
+    },
+    "raw_scores": {
+      "path": "results/runs/stage52b_ppara_train374_unidock113_production/scores.csv",
+      "sha256": "168B7A7911B9DCCBB8626BF67344A84833E8B09ED8570843E21BFA0A5E82EF01"
+    },
+    "receptor_manifest": {
+      "path": "data/processed/stage52b_ppara_stage51_passing20_receptor_manifest.csv",
+      "sha256": "8F08BE3C28EE2A4548D063A02BBE0E1BD82E214AA43844C362CD327BFBB9EF2C"
+    },
+    "ligand_manifest": {
+      "path": "data/processed/stage52a_ppara_train374_unidock_pdbqt_manifest.csv",
+      "sha256": "5B6CA85C2AA9A97A17BDD0D07BDFA9A896E1F9DC30582F49F5B9F4E7AE995D85"
+    }
+  },
+  "expected": {
+    "row_count": 22440,
+    "receptor_count": 20,
+    "ligand_count": 374,
+    "seed_count": 3,
+    "observed_target_id": "MK14",
+    "corrected_target_id": "PPARA",
+    "permitted_changed_columns": ["target_id"]
+  },
+  "outputs": {
+    "corrected_scores_csv": "results/runs/stage52c_ppara_target_id_amendment/scores.csv",
+    "result_json": "data/stage52c_ppara_target_id_amendment_result.json"
+  },
+  "interpretation_boundary": "Stage52c is a metadata-only amendment. It cannot alter any score, pose, label, seed, receptor, ligand, Stage51 decision, validation boundary, QUBO conclusion, or quantum claim."
+}

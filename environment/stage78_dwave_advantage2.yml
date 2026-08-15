@@ -1,0 +1,9 @@
+name: qubo-receptor-stage78-qpu
+channels:
+  - conda-forge
+dependencies:
+  - python=3.11
+  - pip
+  - "numpy>=2,<3"
+  - pip:
+      - dwave-ocean-sdk==9.4.0

@@ -1,0 +1,112 @@
+{
+  "aggregate_score_rows_exact": true,
+  "audit_id": "stage42c-bace1-train266-unidock113-independent-matrix-audit-v1",
+  "batch_count": 102,
+  "config": {
+    "path": "configs/stage42c_bace1_train266_unidock113_production.json",
+    "sha256": "12EA30EDCAF3B5AA2785B295CDB2DE5C3C002C1C0A97728C1F8F6E4D43CC0D78"
+  },
+  "data_boundary": {
+    "test_rows_read": 0,
+    "validation_rows_read": 0
+  },
+  "decision_boundary": "This audit establishes only the outcome-informed BACE1 Train-266 development matrix. It cannot rescue Stage 41c and does not establish independent validation performance, QUBO benefit, or quantum advantage.",
+  "experiment_class": "outcome_informed_posthoc_development",
+  "input_audit": {
+    "expected_batch_count": 102,
+    "expected_pair_count": 27132,
+    "experiment_class": "outcome_informed_posthoc_development",
+    "label_counts": {
+      "active": 133,
+      "decoy": 133
+    },
+    "ligand_count": 266,
+    "macrocycle_closure_pseudoatom_ligand_count": 0,
+    "preparation_variant_counts": {
+      "meeko_flexible": 242,
+      "meeko_rigid_macrocycles": 24
+    },
+    "receptor_count": 34,
+    "receptor_ids": [
+      "BACE1_2QMD_aligned",
+      "BACE1_2QMF_aligned",
+      "BACE1_2QMG_aligned",
+      "BACE1_2QP8_aligned",
+      "BACE1_3CIB_aligned",
+      "BACE1_3CIC_aligned",
+      "BACE1_3CID_aligned",
+      "BACE1_3IVH_aligned",
+      "BACE1_3IVI_aligned",
+      "BACE1_3KN0_aligned",
+      "BACE1_3L59_aligned",
+      "BACE1_3L5E_aligned",
+      "BACE1_4DJU_aligned",
+      "BACE1_4DJV_aligned",
+      "BACE1_4DJW_aligned",
+      "BACE1_4DJX_aligned",
+      "BACE1_4DJY_aligned",
+      "BACE1_4FS4_aligned",
+      "BACE1_4H3F_aligned",
+      "BACE1_4H3G_aligned",
+      "BACE1_4H3I_aligned",
+      "BACE1_4H3J_aligned",
+      "BACE1_4HA5_aligned",
+      "BACE1_4HZT_aligned",
+      "BACE1_4I0F_aligned",
+      "BACE1_4I0G_aligned",
+      "BACE1_4I0J_aligned",
+      "BACE1_4I0Z_aligned",
+      "BACE1_4I10_aligned",
+      "BACE1_4I11_aligned",
+      "BACE1_4RRN_aligned",
+      "BACE1_4RRO_aligned",
+      "BACE1_4RRS_aligned",
+      "BACE1_6PZ4_aligned"
+    ],
+    "seed_count": 3,
+    "stage41c_gate_status": "closed_failed_34_of_49_below_40_required",
+    "status": "audit_only_ok",
+    "target_id": "BACE1",
+    "test_rows": 0,
+    "validation_rows": 0
+  },
+  "known_warning_event_count": 0,
+  "label_counts": {
+    "active": 133,
+    "decoy": 133
+  },
+  "ligand_count": 266,
+  "median_matrix_exact": true,
+  "minimum_matrix_exact": true,
+  "next_gate": "perform frozen train-only QUBO, greedy, exact, and literature-baseline analysis",
+  "outputs": {
+    "median_matrix_csv": {
+      "path": "results/runs/stage42c_bace1_train266_unidock113_production/primary_median_score_matrix.csv",
+      "sha256": "161E24C76933D647595902A8B8F9DD233E4E53127F02F62FF182DA6C211208A4",
+      "size_bytes": 75872
+    },
+    "minimum_matrix_csv": {
+      "path": "results/runs/stage42c_bace1_train266_unidock113_production/sensitivity_minimum_score_matrix.csv",
+      "sha256": "55E9BFF9E5035779BC05ED7D25CD07AC8528C057D3E55E7ADD73F42831B90055",
+      "size_bytes": 76017
+    },
+    "scores_csv": {
+      "path": "results/runs/stage42c_bace1_train266_unidock113_production/scores.csv",
+      "sha256": "1665B0B1C99F6A48989940F3BE90754A46FD9E1FAAF28B326FB7B0277D341818",
+      "size_bytes": 8532163
+    }
+  },
+  "pair_count": 27132,
+  "pose_integrity_failure_count": 0,
+  "receptor_count": 34,
+  "schema_version": "1.0",
+  "seed_count": 3,
+  "source_summary": {
+    "path": "results/runs/stage42c_bace1_train266_unidock113_production/summary.json",
+    "sha256": "5613113D195407745A0B7C81786BB5E04849F6A4AE3B0C67F4A86500E2559420",
+    "size_bytes": 5546
+  },
+  "stage41c_gate_status": "closed_failed_34_of_49_below_40_required",
+  "status": "independent_stage42c_bace1_train266_unidock_matrix_audit_ok",
+  "unresolved_warning_event_count": 0
+}

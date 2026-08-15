@@ -1,0 +1,105 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage61a-ppard-remaining144-unidock-input-preparation-20260805-v1",
+  "target_id": "PPARD",
+  "purpose": "Generate deterministic 3D SDF and macrocycle-safe Meeko PDBQT inputs for the 144 development ligands excluded from Pilot-96 after the Stage60 QUBO and nested-k freeze passed independent audit.",
+  "success_status": "stage61a_ppard_remaining144_unidock_inputs_ok",
+  "implementation": {
+    "preparer": {
+      "path": "scripts/experimental/unidock/prepare_development_ligand_inputs.py",
+      "sha256": "864D9AE9F45665F38EA4631468BD45AC3572351C6F37FAEE51E0AB638BC60343"
+    },
+    "remaining_adapter": {
+      "path": "scripts/experimental/unidock/prepare_stage61a_ppard_remaining144_inputs.py",
+      "sha256": "D5CCBD8B753D588DBAA915FFD5126377CFE3C72ACE3377DFAB5B4C36D7F59536"
+    },
+    "three_d_helper": {
+      "path": "scripts/prepare_ligand_3d_sdf.py",
+      "sha256": "C0D64DA0D2DCA4328513CC044AF98448913FBF122A06A8031AB95D4144EB11A5"
+    },
+    "meeko_helper": {
+      "path": "scripts/batch_prepare_ligand_pdbqt.py",
+      "sha256": "44574F8EDC68AE27EB31388D1FB44F034FBBC3F755506B8DFEBC1E0823471D18"
+    },
+    "pseudoatom_audit_helper": {
+      "path": "scripts/experimental/unidock/run_unidock_gpu_equivalence.py",
+      "sha256": "4E927E959A08526289F7B266BA8CD76232741C878CCE255312F94A561DE433B0"
+    },
+    "independent_auditor": {
+      "path": "scripts/audit_stage61a_ppard_remaining144_inputs.py",
+      "sha256": "AD1FAD6BE5B4FAC477697BE898E8E4FC57769B4596883725130C88662D472802"
+    }
+  },
+  "inputs": {
+    "panel_allocation_summary": {
+      "path": "data/stage56_ppard_ligand_panel_allocation_summary.json",
+      "sha256": "1F4DE024E62F1420433092259E2352B9E66A7F14AB50D7ED0EBF8290B2B522B1"
+    },
+    "stage60_result": {
+      "path": "data/stage60_ppard_transferred_qubo_freeze_result.json",
+      "sha256": "CE233CDB71E4AEEF9282105236B849377F198913136A69B34502CC76DEF1ABB0"
+    },
+    "stage60_audit": {
+      "path": "data/stage60_ppard_transferred_qubo_freeze_audit.json",
+      "sha256": "E23D1B97846433A90521256CBB6727E2475E7E51C2935A1CBE6C85B462D898A4"
+    },
+    "remaining_freeze_summary": {
+      "path": "data/stage61a_ppard_remaining144_manifest_freeze.json",
+      "sha256": "A59675104F61A97EA022638716726BA6E57CBB7A65B94F164A1C1F40FB602039"
+    },
+    "full_train_manifest": {
+      "path": "data/processed/stage56_ppard_train240_ligand_manifest.csv",
+      "sha256": "618B068DC49CBB037DF2B34F0B52A287509341AE879327CE4FC7C9FB1E6F1101"
+    },
+    "train_manifest": {
+      "path": "data/processed/stage61a_ppard_remaining144_ligand_manifest.csv",
+      "sha256": "F7B78025E1530CA7F2F6B32CE0012BEA9E47E022600CAED10D311BAF0C13D4DB"
+    }
+  },
+  "source": {
+    "required_allocation_status": "stage56_ppard_ligand_panels_and_pilot_frozen",
+    "required_zero_allocation_boundaries": [
+      "docking_scores_read",
+      "fresh_validation_docking_scores_read",
+      "locked_test_docking_scores_read"
+    ],
+    "required_split": "train",
+    "required_selection_role": "development_train",
+    "required_row_values": {
+      "pilot_selected": "False",
+      "pilot_outer_fold": "",
+      "pilot_role": ""
+    }
+  },
+  "expected": {
+    "ligand_count": 144,
+    "label_counts": {
+      "active": 72,
+      "decoy": 72
+    },
+    "future_receptor_count": 29,
+    "future_seed_count": 3,
+    "future_pair_count": 12528,
+    "full_development_ligand_count_after_merge": 240,
+    "full_development_pair_count_after_merge": 20880,
+    "fresh_validation_rows": 0,
+    "locked_test_rows": 0
+  },
+  "preparation": {
+    "rdkit_version": "2026.3.1",
+    "meeko_version": "0.7.1",
+    "rdkit_method": "ETKDGv3 with explicit hydrogens, useRandomCoords=true, then MMFF94 or UFF with 500 iterations",
+    "rdkit_embed_base_seed": 20260805,
+    "deterministic_retry_seed_offsets": [0, 1000003, 2000003],
+    "macrocycle_policy": "Run Meeko flexible first. If preparation fails or closure pseudoatoms are detected, rerun once with --rigid_macrocycles; require zero closure pseudoatoms in the final PDBQT.",
+    "local_worker_count": 8,
+    "checkpoint_policy": "one validated JSON checkpoint per ligand; --resume reuses only matching config, row identity, SDF hash, PDBQT hash, and zero-pseudoatom outputs"
+  },
+  "outputs": {
+    "run_directory": "results/runs/stage61a_ppard_remaining144_unidock_inputs",
+    "manifest_csv": "data/processed/stage61a_ppard_remaining144_unidock_pdbqt_manifest.csv",
+    "summary_json": "data/stage61a_ppard_remaining144_unidock_input_summary.json"
+  },
+  "next_gate": "independently audit all 144 prepared ligands, then dock only Remaining-144 against all 29 frozen receptors with the three preregistered seeds",
+  "interpretation_boundary": "Stage61a prepares only development-train ligands excluded from Pilot-96. It reads no PPARD docking score, fresh-validation row, or locked-test row and launches no docking. Preparation success cannot establish QUBO efficacy, superiority over classical methods, independent validation, quantum execution, speedup, or quantum advantage."
+}

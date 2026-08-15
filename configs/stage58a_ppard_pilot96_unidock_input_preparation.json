@@ -1,0 +1,86 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage58a-ppard-pilot96-unidock-input-preparation-20260805-v1",
+  "target_id": "PPARD",
+  "purpose": "Generate deterministic 3D SDF and macrocycle-safe Meeko PDBQT inputs for only the outcome-blind Stage56 PPARD Pilot-96 development panel after the Stage57 redocking gate passed.",
+  "success_status": "stage58a_ppard_pilot96_unidock_inputs_ok",
+  "implementation": {
+    "preparer": {
+      "path": "scripts/experimental/unidock/prepare_development_ligand_inputs.py",
+      "sha256": "864D9AE9F45665F38EA4631468BD45AC3572351C6F37FAEE51E0AB638BC60343"
+    },
+    "pilot_adapter": {
+      "path": "scripts/experimental/unidock/prepare_stage58a_ppard_pilot96_inputs.py",
+      "sha256": "410967626D80383B0B880E180BC286EFDCA05E839F6D9856CD53D1D1CA59E1C5"
+    },
+    "three_d_helper": {
+      "path": "scripts/prepare_ligand_3d_sdf.py",
+      "sha256": "C0D64DA0D2DCA4328513CC044AF98448913FBF122A06A8031AB95D4144EB11A5"
+    },
+    "meeko_helper": {
+      "path": "scripts/batch_prepare_ligand_pdbqt.py",
+      "sha256": "44574F8EDC68AE27EB31388D1FB44F034FBBC3F755506B8DFEBC1E0823471D18"
+    },
+    "pseudoatom_audit_helper": {
+      "path": "scripts/experimental/unidock/run_unidock_gpu_equivalence.py",
+      "sha256": "4E927E959A08526289F7B266BA8CD76232741C878CCE255312F94A561DE433B0"
+    },
+    "independent_auditor": {
+      "path": "scripts/audit_stage58a_ppard_pilot96_inputs.py",
+      "sha256": "32894AA8DB505ADE018BC4668B62F3038B25B76185AC57E2B9A5E680C6699977"
+    }
+  },
+  "inputs": {
+    "panel_allocation_summary": {
+      "path": "data/stage56_ppard_ligand_panel_allocation_summary.json",
+      "sha256": "1F4DE024E62F1420433092259E2352B9E66A7F14AB50D7ED0EBF8290B2B522B1"
+    },
+    "train_manifest": {
+      "path": "data/processed/stage56_ppard_pilot96_ligand_manifest.csv",
+      "sha256": "22C51AD9722894135DCDAFF4B4EADB6458D058217A48F695E00905B7A727FF69"
+    }
+  },
+  "source": {
+    "required_allocation_status": "stage56_ppard_ligand_panels_and_pilot_frozen",
+    "required_zero_allocation_boundaries": [
+      "docking_scores_read",
+      "fresh_validation_docking_scores_read",
+      "locked_test_docking_scores_read"
+    ],
+    "required_split": "train",
+    "required_selection_role": "development_train",
+    "required_row_values": {
+      "pilot_selected": "True",
+      "pilot_role": "development_train_pilot"
+    }
+  },
+  "expected": {
+    "ligand_count": 96,
+    "label_counts": {
+      "active": 48,
+      "decoy": 48
+    },
+    "future_receptor_count": 29,
+    "future_seed_count": 3,
+    "future_pair_count": 8352,
+    "fresh_validation_rows": 0,
+    "locked_test_rows": 0
+  },
+  "preparation": {
+    "rdkit_version": "2026.3.1",
+    "meeko_version": "0.7.1",
+    "rdkit_method": "ETKDGv3 with explicit hydrogens, useRandomCoords=true, then MMFF94 or UFF with 500 iterations",
+    "rdkit_embed_base_seed": 20260805,
+    "deterministic_retry_seed_offsets": [0, 1000003, 2000003],
+    "macrocycle_policy": "Run Meeko flexible first. If preparation fails or closure pseudoatoms are detected, rerun once with --rigid_macrocycles; require zero closure pseudoatoms in the final PDBQT.",
+    "local_worker_count": 8,
+    "checkpoint_policy": "one validated JSON checkpoint per ligand; --resume reuses only matching config, row identity, SDF hash, PDBQT hash, and zero-pseudoatom outputs"
+  },
+  "outputs": {
+    "run_directory": "results/runs/stage58a_ppard_pilot96_unidock_inputs",
+    "manifest_csv": "data/processed/stage58a_ppard_pilot96_unidock_pdbqt_manifest.csv",
+    "summary_json": "data/stage58a_ppard_pilot96_unidock_input_summary.json"
+  },
+  "next_gate": "independently audit all 96 prepared ligands, then dock the frozen Pilot-96 against all 29 Stage57-passing receptors with the three preregistered seeds",
+  "interpretation_boundary": "Stage58a prepares only the outcome-blind development Pilot-96. It reads no PPARD docking score, fresh-validation row, or locked-test row. Preparation success cannot establish enrichment, functional complementarity, QUBO portability, QUBO superiority, quantum execution, speedup, or quantum advantage."
+}

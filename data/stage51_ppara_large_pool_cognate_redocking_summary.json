@@ -1,0 +1,733 @@
+{
+  "config": {
+    "path": "configs/stage51_ppara_large_pool_cognate_redocking.json",
+    "sha256": "3E56FF9CD534A44A8C656BEF7B47AE07B7B2D8AB7B2CA1BA2F4A8D9F41673C33"
+  },
+  "data_boundary": {
+    "benchmark_docking_scores_read": 0,
+    "fresh_validation_rows_read": 0,
+    "ligand_labels_read": 0,
+    "test_rows_read": 0
+  },
+  "decision_boundary": "This is a development-only technical pose gate. Passing authorizes docking the frozen 374-ligand PPARA development panel against every passing receptor without structural max-min compression. It does not establish screening enrichment, QUBO portability, QUBO superiority, quantum execution, speedup, or quantum advantage. The four Stage50 preparation failures remain failures in the frozen 64-receptor denominator and cannot be replaced.",
+  "executed_batches_this_invocation": 180,
+  "experiment_id": "stage51-ppara-large-pool-cognate-redocking-20260804-v1",
+  "failed_receptor_count": 44,
+  "frozen_protocol": {
+    "box": {
+      "center_x": 17.05,
+      "center_y": 40.18,
+      "center_z": 28.03,
+      "size_x": 28.0,
+      "size_y": 30.0,
+      "size_z": 24.0
+    },
+    "cuda_visible_devices": "0",
+    "energy_range": 3,
+    "executable": "unidock",
+    "exhaustiveness": 1024,
+    "max_step": 80,
+    "maximum_absolute_score_kcal_per_mol": 100.0,
+    "num_modes": 1,
+    "profile_id": "enhanced",
+    "refine_step": 5,
+    "required_package_version": "1.1.3",
+    "scoring": "vina",
+    "verbosity": 1
+  },
+  "frozen_receptor_count": 64,
+  "input_audit": {
+    "benchmark_docking_scores_read": 0,
+    "case_count": 60,
+    "common_box": {
+      "center": {
+        "x": 17.05,
+        "y": 40.18,
+        "z": 28.03
+      },
+      "derivation_rule": {
+        "center_decimal_places": 2,
+        "coordinate_population": "all technically prepared cognate crystal ligands from the frozen 64-receptor pool in the common 2P54 PPARA ligand-binding-domain frame",
+        "maximum_axis_size_angstrom": 50.0,
+        "minimum_axis_size_angstrom": 22.0,
+        "minimum_crystal_pose_margin_angstrom": 3.5,
+        "size_increment_angstrom": 2.0
+      },
+      "ligand_maximum_angstrom": [
+        26.9025,
+        50.8378,
+        35.7253
+      ],
+      "ligand_minimum_angstrom": [
+        7.195,
+        29.5295,
+        20.34
+      ],
+      "minimum_observed_margin_angstrom": 4.145,
+      "receptor_count": 60,
+      "schema_version": "1.0",
+      "size": {
+        "x": 28.0,
+        "y": 30.0,
+        "z": 24.0
+      },
+      "status": "stage50_ppara_large_pool_common_box_ok"
+    },
+    "expected_redocking_pair_count": 180,
+    "fresh_validation_rows_read": 0,
+    "frozen_receptor_count": 64,
+    "ligand_labels_read": 0,
+    "receptor_count": 60,
+    "receptor_ids": [
+      "PPARA_2P54_reference",
+      "PPARA_6L37_aligned",
+      "PPARA_1K7L_aligned",
+      "PPARA_5HYK_aligned",
+      "PPARA_6KXX_aligned",
+      "PPARA_3G8I_aligned",
+      "PPARA_3ET1_aligned",
+      "PPARA_6LXC_aligned",
+      "PPARA_7E5F_aligned",
+      "PPARA_8RCE_aligned",
+      "PPARA_7BPZ_aligned",
+      "PPARA_6KB0_aligned",
+      "PPARA_6LX5_aligned",
+      "PPARA_8YU8_aligned",
+      "PPARA_6KB3_aligned",
+      "PPARA_2NPA_aligned",
+      "PPARA_6KXY_aligned",
+      "PPARA_6KB2_aligned",
+      "PPARA_7E5H_aligned",
+      "PPARA_8YTL_aligned",
+      "PPARA_8YWU_aligned",
+      "PPARA_8HUN_aligned",
+      "PPARA_3SP6_aligned",
+      "PPARA_9IWL_aligned",
+      "PPARA_8YT6_aligned",
+      "PPARA_9T5S_aligned",
+      "PPARA_6KAZ_aligned",
+      "PPARA_7BQ3_aligned",
+      "PPARA_6LX6_aligned",
+      "PPARA_3VI8_aligned",
+      "PPARA_8YT9_aligned",
+      "PPARA_9SFS_aligned",
+      "PPARA_7BQ0_aligned",
+      "PPARA_2ZNN_aligned",
+      "PPARA_9IWM_aligned",
+      "PPARA_9IWN_aligned",
+      "PPARA_8HUQ_aligned",
+      "PPARA_7BPY_aligned",
+      "PPARA_6LX4_aligned",
+      "PPARA_6LX8_aligned",
+      "PPARA_6LXB_aligned",
+      "PPARA_6KAY_aligned",
+      "PPARA_9VZS_aligned",
+      "PPARA_6LX9_aligned",
+      "PPARA_8YWV_aligned",
+      "PPARA_6KB5_aligned",
+      "PPARA_7BQ2_aligned",
+      "PPARA_9VZT_aligned",
+      "PPARA_6KB7_aligned",
+      "PPARA_6KBA_aligned",
+      "PPARA_9IWO_aligned",
+      "PPARA_6KB8_aligned",
+      "PPARA_6KB1_aligned",
+      "PPARA_7BQ1_aligned",
+      "PPARA_6KB6_aligned",
+      "PPARA_6KAX_aligned",
+      "PPARA_7E5I_aligned",
+      "PPARA_7BQ4_aligned",
+      "PPARA_6LX7_aligned",
+      "PPARA_6LXA_aligned"
+    ],
+    "seed_count": 3,
+    "status": "audit_only_ok",
+    "target_id": "PPARA",
+    "technical_preparation_failure_count": 4,
+    "technical_preparation_failures": [
+      {
+        "case_id": "4BCR_WY1",
+        "conformer_id": "PPARA_4BCR_aligned",
+        "error": "strict Meeko preparation failed: RDKit oxygen explicit-valence error"
+      },
+      {
+        "case_id": "3KDU_NKS",
+        "conformer_id": "PPARA_3KDU_aligned",
+        "error": "strict Meeko preparation failed: unresolved excess inter-residue bonds near chain gap"
+      },
+      {
+        "case_id": "3KDT_7HA",
+        "conformer_id": "PPARA_3KDT_aligned",
+        "error": "strict Meeko preparation failed: unresolved excess inter-residue bonds near chain gap"
+      },
+      {
+        "case_id": "7E5G_HVX",
+        "conformer_id": "PPARA_7E5G_aligned",
+        "error": "strict Meeko preparation failed: unresolved excess inter-residue bond near chain gap"
+      }
+    ],
+    "test_rows_read": 0
+  },
+  "known_warning_event_count": 0,
+  "minimum_passing_receptor_count": 24,
+  "next_gate": "stop the PPARA large-pool route and preserve all technical failures",
+  "outputs": {
+    "receptor_gate_results_csv": {
+      "path": "data/processed/stage51_ppara_large_pool_receptor_gate_results.csv",
+      "sha256": "17EDDBB2757BDAE6C25DEB2FB283DE541D2F8B7214D7551E1C3AF3D88816E429"
+    },
+    "redocking_results_csv": {
+      "path": "data/processed/stage51_ppara_large_pool_cognate_redocking_results.csv",
+      "sha256": "EA61CC3F20570C0E6B5E2169BFCB38F99E4BA34D4C6570D6729511BE200C9849"
+    }
+  },
+  "passed_receptor_count": 20,
+  "pose_integrity_failure_count": 0,
+  "receptor_gate_results": [
+    {
+      "conformer_id": "PPARA_2P54_reference",
+      "gate_pass": true,
+      "maximum_top_ranked_rmsd_angstrom": 0.87039,
+      "median_top_ranked_rmsd_angstrom": 0.809275,
+      "seed_count": 3,
+      "successful_seed_count": 3
+    },
+    {
+      "conformer_id": "PPARA_6L37_aligned",
+      "gate_pass": false,
+      "maximum_top_ranked_rmsd_angstrom": 6.916285,
+      "median_top_ranked_rmsd_angstrom": 6.914798,
+      "seed_count": 3,
+      "successful_seed_count": 0
+    },
+    {
+      "conformer_id": "PPARA_1K7L_aligned",
+      "gate_pass": false,
+      "maximum_top_ranked_rmsd_angstrom": 8.440435,
+      "median_top_ranked_rmsd_angstrom": 8.27477,
+      "seed_count": 3,
+      "successful_seed_count": 1
+    },
+    {
+      "conformer_id": "PPARA_5HYK_aligned",
+      "gate_pass": true,
+      "maximum_top_ranked_rmsd_angstrom": 1.008215,
+      "median_top_ranked_rmsd_angstrom": 0.945914,
+      "seed_count": 3,
+      "successful_seed_count": 3
+    },
+    {
+      "conformer_id": "PPARA_6KXX_aligned",
+      "gate_pass": true,
+      "maximum_top_ranked_rmsd_angstrom": 0.294683,
+      "median_top_ranked_rmsd_angstrom": 0.247592,
+      "seed_count": 3,
+      "successful_seed_count": 3
+    },
+    {
+      "conformer_id": "PPARA_3G8I_aligned",
+      "gate_pass": true,
+      "maximum_top_ranked_rmsd_angstrom": 8.576019,
+      "median_top_ranked_rmsd_angstrom": 0.405474,
+      "seed_count": 3,
+      "successful_seed_count": 2
+    },
+    {
+      "conformer_id": "PPARA_3ET1_aligned",
+      "gate_pass": true,
+      "maximum_top_ranked_rmsd_angstrom": 1.20968,
+      "median_top_ranked_rmsd_angstrom": 1.058639,
+      "seed_count": 3,
+      "successful_seed_count": 3
+    },
+    {
+      "conformer_id": "PPARA_6LXC_aligned",
+      "gate_pass": false,
+      "maximum_top_ranked_rmsd_angstrom": 7.744005,
+      "median_top_ranked_rmsd_angstrom": 7.730681,
+      "seed_count": 3,
+      "successful_seed_count": 0
+    },
+    {
+      "conformer_id": "PPARA_7E5F_aligned",
+      "gate_pass": false,
+      "maximum_top_ranked_rmsd_angstrom": 2.871735,
+      "median_top_ranked_rmsd_angstrom": 2.816654,
+      "seed_count": 3,
+      "successful_seed_count": 1
+    },
+    {
+      "conformer_id": "PPARA_8RCE_aligned",
+      "gate_pass": true,
+      "maximum_top_ranked_rmsd_angstrom": 0.888154,
+      "median_top_ranked_rmsd_angstrom": 0.842375,
+      "seed_count": 3,
+      "successful_seed_count": 3
+    },
+    {
+      "conformer_id": "PPARA_7BPZ_aligned",
+      "gate_pass": false,
+      "maximum_top_ranked_rmsd_angstrom": 5.42643,
+      "median_top_ranked_rmsd_angstrom": 5.360165,
+      "seed_count": 3,
+      "successful_seed_count": 0
+    },
+    {
+      "conformer_id": "PPARA_6KB0_aligned",
+      "gate_pass": false,
+      "maximum_top_ranked_rmsd_angstrom": 7.881231,
+      "median_top_ranked_rmsd_angstrom": 2.723732,
+      "seed_count": 3,
+      "successful_seed_count": 1
+    },
+    {
+      "conformer_id": "PPARA_6LX5_aligned",
+      "gate_pass": false,
+      "maximum_top_ranked_rmsd_angstrom": 14.524035,
+      "median_top_ranked_rmsd_angstrom": 14.515547,
+      "seed_count": 3,
+      "successful_seed_count": 0
+    },
+    {
+      "conformer_id": "PPARA_8YU8_aligned",
+      "gate_pass": true,
+      "maximum_top_ranked_rmsd_angstrom": 0.524038,
+      "median_top_ranked_rmsd_angstrom": 0.448692,
+      "seed_count": 3,
+      "successful_seed_count": 3
+    },
+    {
+      "conformer_id": "PPARA_6KB3_aligned",
+      "gate_pass": false,
+      "maximum_top_ranked_rmsd_angstrom": 9.354819,
+      "median_top_ranked_rmsd_angstrom": 7.754428,
+      "seed_count": 3,
+      "successful_seed_count": 0
+    },
+    {
+      "conformer_id": "PPARA_2NPA_aligned",
+      "gate_pass": false,
+      "maximum_top_ranked_rmsd_angstrom": 10.16226,
+      "median_top_ranked_rmsd_angstrom": 9.976059,
+      "seed_count": 3,
+      "successful_seed_count": 0
+    },
+    {
+      "conformer_id": "PPARA_6KXY_aligned",
+      "gate_pass": true,
+      "maximum_top_ranked_rmsd_angstrom": 0.840918,
+      "median_top_ranked_rmsd_angstrom": 0.813531,
+      "seed_count": 3,
+      "successful_seed_count": 3
+    },
+    {
+      "conformer_id": "PPARA_6KB2_aligned",
+      "gate_pass": false,
+      "maximum_top_ranked_rmsd_angstrom": 9.666634,
+      "median_top_ranked_rmsd_angstrom": 8.757967,
+      "seed_count": 3,
+      "successful_seed_count": 0
+    },
+    {
+      "conformer_id": "PPARA_7E5H_aligned",
+      "gate_pass": true,
+      "maximum_top_ranked_rmsd_angstrom": 1.230853,
+      "median_top_ranked_rmsd_angstrom": 1.193468,
+      "seed_count": 3,
+      "successful_seed_count": 3
+    },
+    {
+      "conformer_id": "PPARA_8YTL_aligned",
+      "gate_pass": true,
+      "maximum_top_ranked_rmsd_angstrom": 0.536032,
+      "median_top_ranked_rmsd_angstrom": 0.450422,
+      "seed_count": 3,
+      "successful_seed_count": 3
+    },
+    {
+      "conformer_id": "PPARA_8YWU_aligned",
+      "gate_pass": true,
+      "maximum_top_ranked_rmsd_angstrom": 0.654294,
+      "median_top_ranked_rmsd_angstrom": 0.653287,
+      "seed_count": 3,
+      "successful_seed_count": 3
+    },
+    {
+      "conformer_id": "PPARA_8HUN_aligned",
+      "gate_pass": false,
+      "maximum_top_ranked_rmsd_angstrom": 9.334792,
+      "median_top_ranked_rmsd_angstrom": 7.529169,
+      "seed_count": 3,
+      "successful_seed_count": 0
+    },
+    {
+      "conformer_id": "PPARA_3SP6_aligned",
+      "gate_pass": false,
+      "maximum_top_ranked_rmsd_angstrom": 9.438533,
+      "median_top_ranked_rmsd_angstrom": 9.3932,
+      "seed_count": 3,
+      "successful_seed_count": 0
+    },
+    {
+      "conformer_id": "PPARA_9IWL_aligned",
+      "gate_pass": false,
+      "maximum_top_ranked_rmsd_angstrom": 11.512974,
+      "median_top_ranked_rmsd_angstrom": 11.480133,
+      "seed_count": 3,
+      "successful_seed_count": 0
+    },
+    {
+      "conformer_id": "PPARA_8YT6_aligned",
+      "gate_pass": true,
+      "maximum_top_ranked_rmsd_angstrom": 0.498029,
+      "median_top_ranked_rmsd_angstrom": 0.454195,
+      "seed_count": 3,
+      "successful_seed_count": 3
+    },
+    {
+      "conformer_id": "PPARA_9T5S_aligned",
+      "gate_pass": false,
+      "maximum_top_ranked_rmsd_angstrom": 9.309759,
+      "median_top_ranked_rmsd_angstrom": 8.491877,
+      "seed_count": 3,
+      "successful_seed_count": 0
+    },
+    {
+      "conformer_id": "PPARA_6KAZ_aligned",
+      "gate_pass": true,
+      "maximum_top_ranked_rmsd_angstrom": 0.668087,
+      "median_top_ranked_rmsd_angstrom": 0.596165,
+      "seed_count": 3,
+      "successful_seed_count": 3
+    },
+    {
+      "conformer_id": "PPARA_7BQ3_aligned",
+      "gate_pass": false,
+      "maximum_top_ranked_rmsd_angstrom": 10.258665,
+      "median_top_ranked_rmsd_angstrom": 7.692565,
+      "seed_count": 3,
+      "successful_seed_count": 0
+    },
+    {
+      "conformer_id": "PPARA_6LX6_aligned",
+      "gate_pass": false,
+      "maximum_top_ranked_rmsd_angstrom": 11.506538,
+      "median_top_ranked_rmsd_angstrom": 9.062148,
+      "seed_count": 3,
+      "successful_seed_count": 0
+    },
+    {
+      "conformer_id": "PPARA_3VI8_aligned",
+      "gate_pass": true,
+      "maximum_top_ranked_rmsd_angstrom": 0.460877,
+      "median_top_ranked_rmsd_angstrom": 0.431939,
+      "seed_count": 3,
+      "successful_seed_count": 3
+    },
+    {
+      "conformer_id": "PPARA_8YT9_aligned",
+      "gate_pass": true,
+      "maximum_top_ranked_rmsd_angstrom": 0.678385,
+      "median_top_ranked_rmsd_angstrom": 0.558413,
+      "seed_count": 3,
+      "successful_seed_count": 3
+    },
+    {
+      "conformer_id": "PPARA_9SFS_aligned",
+      "gate_pass": false,
+      "maximum_top_ranked_rmsd_angstrom": 10.905448,
+      "median_top_ranked_rmsd_angstrom": 9.482296,
+      "seed_count": 3,
+      "successful_seed_count": 0
+    },
+    {
+      "conformer_id": "PPARA_7BQ0_aligned",
+      "gate_pass": false,
+      "maximum_top_ranked_rmsd_angstrom": 15.605956,
+      "median_top_ranked_rmsd_angstrom": 15.406564,
+      "seed_count": 3,
+      "successful_seed_count": 0
+    },
+    {
+      "conformer_id": "PPARA_2ZNN_aligned",
+      "gate_pass": true,
+      "maximum_top_ranked_rmsd_angstrom": 0.992375,
+      "median_top_ranked_rmsd_angstrom": 0.734512,
+      "seed_count": 3,
+      "successful_seed_count": 3
+    },
+    {
+      "conformer_id": "PPARA_9IWM_aligned",
+      "gate_pass": false,
+      "maximum_top_ranked_rmsd_angstrom": 7.913385,
+      "median_top_ranked_rmsd_angstrom": 7.854103,
+      "seed_count": 3,
+      "successful_seed_count": 0
+    },
+    {
+      "conformer_id": "PPARA_9IWN_aligned",
+      "gate_pass": false,
+      "maximum_top_ranked_rmsd_angstrom": 8.952773,
+      "median_top_ranked_rmsd_angstrom": 8.867543,
+      "seed_count": 3,
+      "successful_seed_count": 0
+    },
+    {
+      "conformer_id": "PPARA_8HUQ_aligned",
+      "gate_pass": false,
+      "maximum_top_ranked_rmsd_angstrom": 9.48251,
+      "median_top_ranked_rmsd_angstrom": 9.479982,
+      "seed_count": 3,
+      "successful_seed_count": 0
+    },
+    {
+      "conformer_id": "PPARA_7BPY_aligned",
+      "gate_pass": false,
+      "maximum_top_ranked_rmsd_angstrom": 13.56168,
+      "median_top_ranked_rmsd_angstrom": 13.558172,
+      "seed_count": 3,
+      "successful_seed_count": 0
+    },
+    {
+      "conformer_id": "PPARA_6LX4_aligned",
+      "gate_pass": false,
+      "maximum_top_ranked_rmsd_angstrom": 15.243362,
+      "median_top_ranked_rmsd_angstrom": 15.200032,
+      "seed_count": 3,
+      "successful_seed_count": 0
+    },
+    {
+      "conformer_id": "PPARA_6LX8_aligned",
+      "gate_pass": false,
+      "maximum_top_ranked_rmsd_angstrom": 9.574594,
+      "median_top_ranked_rmsd_angstrom": 9.335768,
+      "seed_count": 3,
+      "successful_seed_count": 1
+    },
+    {
+      "conformer_id": "PPARA_6LXB_aligned",
+      "gate_pass": false,
+      "maximum_top_ranked_rmsd_angstrom": 7.763213,
+      "median_top_ranked_rmsd_angstrom": 7.658412,
+      "seed_count": 3,
+      "successful_seed_count": 1
+    },
+    {
+      "conformer_id": "PPARA_6KAY_aligned",
+      "gate_pass": false,
+      "maximum_top_ranked_rmsd_angstrom": 9.360512,
+      "median_top_ranked_rmsd_angstrom": 7.674817,
+      "seed_count": 3,
+      "successful_seed_count": 0
+    },
+    {
+      "conformer_id": "PPARA_9VZS_aligned",
+      "gate_pass": false,
+      "maximum_top_ranked_rmsd_angstrom": 11.003117,
+      "median_top_ranked_rmsd_angstrom": 9.4287,
+      "seed_count": 3,
+      "successful_seed_count": 0
+    },
+    {
+      "conformer_id": "PPARA_6LX9_aligned",
+      "gate_pass": false,
+      "maximum_top_ranked_rmsd_angstrom": 10.825499,
+      "median_top_ranked_rmsd_angstrom": 10.67753,
+      "seed_count": 3,
+      "successful_seed_count": 0
+    },
+    {
+      "conformer_id": "PPARA_8YWV_aligned",
+      "gate_pass": true,
+      "maximum_top_ranked_rmsd_angstrom": 0.639318,
+      "median_top_ranked_rmsd_angstrom": 0.586472,
+      "seed_count": 3,
+      "successful_seed_count": 3
+    },
+    {
+      "conformer_id": "PPARA_6KB5_aligned",
+      "gate_pass": true,
+      "maximum_top_ranked_rmsd_angstrom": 7.375839,
+      "median_top_ranked_rmsd_angstrom": 0.800874,
+      "seed_count": 3,
+      "successful_seed_count": 2
+    },
+    {
+      "conformer_id": "PPARA_7BQ2_aligned",
+      "gate_pass": true,
+      "maximum_top_ranked_rmsd_angstrom": 1.09553,
+      "median_top_ranked_rmsd_angstrom": 1.064159,
+      "seed_count": 3,
+      "successful_seed_count": 3
+    },
+    {
+      "conformer_id": "PPARA_9VZT_aligned",
+      "gate_pass": false,
+      "maximum_top_ranked_rmsd_angstrom": 9.650307,
+      "median_top_ranked_rmsd_angstrom": 9.065127,
+      "seed_count": 3,
+      "successful_seed_count": 0
+    },
+    {
+      "conformer_id": "PPARA_6KB7_aligned",
+      "gate_pass": false,
+      "maximum_top_ranked_rmsd_angstrom": 14.915335,
+      "median_top_ranked_rmsd_angstrom": 14.91503,
+      "seed_count": 3,
+      "successful_seed_count": 0
+    },
+    {
+      "conformer_id": "PPARA_6KBA_aligned",
+      "gate_pass": false,
+      "maximum_top_ranked_rmsd_angstrom": 5.116278,
+      "median_top_ranked_rmsd_angstrom": 5.094809,
+      "seed_count": 3,
+      "successful_seed_count": 0
+    },
+    {
+      "conformer_id": "PPARA_9IWO_aligned",
+      "gate_pass": false,
+      "maximum_top_ranked_rmsd_angstrom": 9.445242,
+      "median_top_ranked_rmsd_angstrom": 5.053697,
+      "seed_count": 3,
+      "successful_seed_count": 0
+    },
+    {
+      "conformer_id": "PPARA_6KB8_aligned",
+      "gate_pass": false,
+      "maximum_top_ranked_rmsd_angstrom": 10.105555,
+      "median_top_ranked_rmsd_angstrom": 7.482709,
+      "seed_count": 3,
+      "successful_seed_count": 0
+    },
+    {
+      "conformer_id": "PPARA_6KB1_aligned",
+      "gate_pass": false,
+      "maximum_top_ranked_rmsd_angstrom": 9.17961,
+      "median_top_ranked_rmsd_angstrom": 5.095959,
+      "seed_count": 3,
+      "successful_seed_count": 1
+    },
+    {
+      "conformer_id": "PPARA_7BQ1_aligned",
+      "gate_pass": false,
+      "maximum_top_ranked_rmsd_angstrom": 10.099837,
+      "median_top_ranked_rmsd_angstrom": 9.381803,
+      "seed_count": 3,
+      "successful_seed_count": 0
+    },
+    {
+      "conformer_id": "PPARA_6KB6_aligned",
+      "gate_pass": false,
+      "maximum_top_ranked_rmsd_angstrom": 9.052288,
+      "median_top_ranked_rmsd_angstrom": 5.565596,
+      "seed_count": 3,
+      "successful_seed_count": 1
+    },
+    {
+      "conformer_id": "PPARA_6KAX_aligned",
+      "gate_pass": false,
+      "maximum_top_ranked_rmsd_angstrom": 9.551928,
+      "median_top_ranked_rmsd_angstrom": 9.299231,
+      "seed_count": 3,
+      "successful_seed_count": 0
+    },
+    {
+      "conformer_id": "PPARA_7E5I_aligned",
+      "gate_pass": true,
+      "maximum_top_ranked_rmsd_angstrom": 1.266668,
+      "median_top_ranked_rmsd_angstrom": 1.256343,
+      "seed_count": 3,
+      "successful_seed_count": 3
+    },
+    {
+      "conformer_id": "PPARA_7BQ4_aligned",
+      "gate_pass": false,
+      "maximum_top_ranked_rmsd_angstrom": 9.309901,
+      "median_top_ranked_rmsd_angstrom": 7.596276,
+      "seed_count": 3,
+      "successful_seed_count": 0
+    },
+    {
+      "conformer_id": "PPARA_6LX7_aligned",
+      "gate_pass": false,
+      "maximum_top_ranked_rmsd_angstrom": 9.925522,
+      "median_top_ranked_rmsd_angstrom": 9.806594,
+      "seed_count": 3,
+      "successful_seed_count": 1
+    },
+    {
+      "conformer_id": "PPARA_6LXA_aligned",
+      "gate_pass": false,
+      "maximum_top_ranked_rmsd_angstrom": 9.970015,
+      "median_top_ranked_rmsd_angstrom": 9.755129,
+      "seed_count": 3,
+      "successful_seed_count": 0
+    },
+    {
+      "conformer_id": "PPARA_4BCR_aligned",
+      "failure_reason": "strict Meeko preparation failed: RDKit oxygen explicit-valence error",
+      "failure_stage": "stage50_input_preparation",
+      "gate_pass": false,
+      "maximum_top_ranked_rmsd_angstrom": "",
+      "median_top_ranked_rmsd_angstrom": "",
+      "seed_count": 0,
+      "successful_seed_count": 0
+    },
+    {
+      "conformer_id": "PPARA_3KDU_aligned",
+      "failure_reason": "strict Meeko preparation failed: unresolved excess inter-residue bonds near chain gap",
+      "failure_stage": "stage50_input_preparation",
+      "gate_pass": false,
+      "maximum_top_ranked_rmsd_angstrom": "",
+      "median_top_ranked_rmsd_angstrom": "",
+      "seed_count": 0,
+      "successful_seed_count": 0
+    },
+    {
+      "conformer_id": "PPARA_3KDT_aligned",
+      "failure_reason": "strict Meeko preparation failed: unresolved excess inter-residue bonds near chain gap",
+      "failure_stage": "stage50_input_preparation",
+      "gate_pass": false,
+      "maximum_top_ranked_rmsd_angstrom": "",
+      "median_top_ranked_rmsd_angstrom": "",
+      "seed_count": 0,
+      "successful_seed_count": 0
+    },
+    {
+      "conformer_id": "PPARA_7E5G_aligned",
+      "failure_reason": "strict Meeko preparation failed: unresolved excess inter-residue bond near chain gap",
+      "failure_stage": "stage50_input_preparation",
+      "gate_pass": false,
+      "maximum_top_ranked_rmsd_angstrom": "",
+      "median_top_ranked_rmsd_angstrom": "",
+      "seed_count": 0,
+      "successful_seed_count": 0
+    }
+  ],
+  "redocking_pair_count": 180,
+  "resumed_batches_this_invocation": 0,
+  "runtime": {
+    "conda_environment": "qubo-unidock-stage08",
+    "meeko_version": "0.7.1",
+    "numpy_version": "1.26.4",
+    "python_version": "3.11.15",
+    "rdkit_version": "2026.3.1",
+    "scipy_version": "1.17.1"
+  },
+  "schema_version": "1.0",
+  "status": "stage51_ppara_large_pool_cognate_redocking_gate_failed",
+  "technical_gate_pass": false,
+  "technical_preparation_failure_count": 4,
+  "unidock_executable": {
+    "binary_sha256": "A93E7E3C09A963DBC91E74B5445F111B3E88383D22B2ADADDA2CD7F42B22D2E1",
+    "conda_package_version": "1.1.3",
+    "requested_executable": "unidock",
+    "required_package_version": "1.1.3",
+    "resolved_executable": "/root/miniconda3/envs/qubo-unidock-stage08/bin/unidock",
+    "version_probe_output": "Uni-Dock v1.1.3",
+    "version_probe_returncode": 0,
+    "version_verified": true
+  },
+  "unresolved_warning_event_count": 0
+}

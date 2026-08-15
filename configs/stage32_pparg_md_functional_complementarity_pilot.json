@@ -1,0 +1,117 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage32-pparg-md-functional-complementarity-pilot-20260803-v1",
+  "purpose": "Test whether a label-blind PPARG MD frame panel creates reproducible functional complementarity and a genuinely difficult receptor-subset landscape before any large QUBO or hardware experiment.",
+  "evidence_timing": {
+    "experiment_class": "prospective_train_only_md_functional_pilot",
+    "stage32_docking_outcomes_known_before_freeze": false,
+    "stage31_no_go_known_before_freeze": true,
+    "allowed_split": "train",
+    "allowed_selection_role": "development_train",
+    "ligand_labels_permitted_only_for_panel_balance": true,
+    "ligand_labels_permitted_for_receptor_selection": false,
+    "fresh_validation_rows_permitted": false,
+    "test_rows_permitted": false,
+    "quantum_hardware_execution": false
+  },
+  "inputs": {
+    "stage31_audit": "data/stage31_pparg_objective_landscape_screen_audit.json",
+    "stage31_candidate_manifest": "results/runs/stage31_pparg_objective_landscape_screen/candidate_manifest.csv",
+    "stage28b_frame_manifest": "results/runs/stage28b_pparg_md_ready_multistart_md/ensemble/frame_manifest.csv",
+    "stage28b_start_manifest": "data/processed/stage28b_pparg_md_ready_multistart_md_start_manifest.csv",
+    "stage19b_train_ligand_manifest": "data/processed/stage19b_pparg_train668_unidock_pdbqt_manifest.csv",
+    "stage19b_preparation_summary": "data/stage19b_pparg_train668_unidock_input_summary.json",
+    "stage07c_profile_freeze": "data/stage07c_mk14_unidock113_warning_adjudication_result.json"
+  },
+  "receptor_panel": {
+    "source_cohort_id": "temporal_rank_00_03",
+    "within_start_temporal_maximin_ranks": [0, 1],
+    "required_start_count": 8,
+    "frames_per_start": 2,
+    "receptor_count": 16,
+    "selection_uses_docking_scores": false,
+    "selection_uses_ligand_labels": false,
+    "snapshot_atom_selection": "protein and not element H",
+    "chain_id": "A",
+    "charge_model": "gasteiger"
+  },
+  "ligand_panel": {
+    "selection_seed": "stage32-pparg-md-functional-pilot-v1",
+    "selection_rule": "For each label, hash-order scaffold groups, then select the lowest allocation-rank ligand from each of the first 80 groups.",
+    "active_count": 80,
+    "decoy_count": 80,
+    "ligand_count": 160,
+    "require_unique_scaffold_group_within_label": true
+  },
+  "seeds": [
+    {"seed_id": "seed0", "base_seed": 20260801},
+    {"seed_id": "seed1", "base_seed": 20260802},
+    {"seed_id": "seed2", "base_seed": 20260803}
+  ],
+  "unidock": {
+    "executable": "unidock",
+    "required_package_version": "1.1.3",
+    "profile_id": "enhanced",
+    "scoring": "vina",
+    "exhaustiveness": 1024,
+    "max_step": 80,
+    "refine_step": 5,
+    "num_modes": 1,
+    "energy_range": 3,
+    "verbosity": 1,
+    "cuda_visible_devices": "0",
+    "maximum_absolute_score_kcal_per_mol": 1000.0,
+    "box": {
+      "center_x": 1.61,
+      "center_y": 23.47,
+      "center_z": 16.9,
+      "size_x": 22.0,
+      "size_y": 26.0,
+      "size_z": 28.0
+    }
+  },
+  "expected": {
+    "receptor_count": 16,
+    "ligand_count": 160,
+    "seed_count": 3,
+    "batch_count": 48,
+    "pair_count": 7680,
+    "fresh_validation_rows": 0,
+    "test_rows": 0
+  },
+  "functional_analysis_preregistration": {
+    "bedroc_alpha": 20.0,
+    "outer_scaffold_fold_count": 4,
+    "subset_sizes": [1, 2, 3, 4, 5, 6],
+    "set_aggregation": "receptor-wise outer-train rank-normalized minimum docking score",
+    "robust_utility": "equal-weight mean of primary median-seed BEDROC20, mean individual-seed BEDROC20, and worst individual-seed BEDROC20",
+    "strong_greedy": "best of all singleton starts followed by best-improvement additions and one-swap local search, with lexicographic ties",
+    "exact_oracle": "enumerate all receptor subsets for each k from one through six",
+    "minimum_mean_outer_train_greedy_gap": 0.002,
+    "minimum_positive_gap_folds": 2,
+    "minimum_mean_outer_holdout_gain": 0.0,
+    "minimum_qualifying_subset_sizes": 2,
+    "decision": "Only a reproducible train gap with non-negative outer holdout transfer may authorize a separately frozen Stage33 pairwise or auxiliary QUBO model."
+  },
+  "execution": {
+    "environment": "reuse qubo-receptor-md for MDTraj snapshot extraction and qubo-unidock-stage08 for ProDy, Meeko, and Uni-Dock; never mutate either environment",
+    "trajectory_requirement": "extract Stage32 into an independent workspace and provide the existing Stage28b workspace through --trajectory-root; the remote wrapper auto-discovers it when possible",
+    "resume_contract": "reuse a batch only when the protocol signature, score file, pose hashes, pose-integrity audit, and warning adjudication all pass"
+  },
+  "outputs": {
+    "selected_frame_manifest": "data/processed/stage32_pparg_md_selected16_frame_manifest.csv",
+    "selected_ligand_manifest": "data/processed/stage32_pparg_train160_ligand_manifest.csv",
+    "prepared_receptor_manifest": "data/processed/stage32_pparg_md_selected16_prepared_receptor_manifest.csv",
+    "preparation_result": "data/stage32_pparg_md_functional_pilot_input_preparation_result.json",
+    "run_directory": "results/runs/stage32_pparg_md_functional_complementarity_pilot",
+    "scores_csv": "results/runs/stage32_pparg_md_functional_complementarity_pilot/scores.csv",
+    "batch_runs_csv": "results/runs/stage32_pparg_md_functional_complementarity_pilot/batch_runs.csv",
+    "median_matrix_csv": "results/runs/stage32_pparg_md_functional_complementarity_pilot/primary_median_score_matrix.csv",
+    "minimum_matrix_csv": "results/runs/stage32_pparg_md_functional_complementarity_pilot/sensitivity_minimum_score_matrix.csv",
+    "progress_json": "results/runs/stage32_pparg_md_functional_complementarity_pilot/progress.json",
+    "summary_json": "results/runs/stage32_pparg_md_functional_complementarity_pilot/summary.json",
+    "audit_json": "data/stage32_pparg_md_functional_complementarity_pilot_audit.json",
+    "report_md": "reports/stage-32/pparg_md_functional_complementarity_pilot.md"
+  },
+  "interpretation_boundary": "Stage32 is a train-only PPARG MD-frame functional pilot. It may determine whether a new MD-derived subset landscape deserves a separately frozen Stage33 QUBO model, but it cannot alter prior confirmation failures, establish prospective efficacy, use protected validation or test data, demonstrate quantum speedup, or establish quantum advantage."
+}

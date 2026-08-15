@@ -1,0 +1,89 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage80-local-move-hardness-screen-20260811-v1",
+  "purpose": "Test whether expanding the Stage79 protein-derived local move-QUBO creates genuine multi-move traps before spending any remaining Dirac-3 allocation.",
+  "implementation": {
+    "runner": {
+      "path": "scripts/run_stage80_local_move_hardness_screen.py",
+      "sha256": "65F01C2E7B1522F922795D5ADE4731D32E4F0602E8322A710EDD69B8B895339C",
+      "size_bytes": 15901
+    },
+    "independent_auditor": {
+      "path": "scripts/audit_stage80_local_move_hardness_screen.py",
+      "sha256": "EB5FD7C1BD8C73E40ECD8A4FA1A43A14CA4AF2B391B16F1D6D19E606FE2C04E7",
+      "size_bytes": 5414
+    }
+  },
+  "inputs": {
+    "stage77_config": {
+      "path": "configs/stage77_quantum_hardware_interface_gate.json",
+      "sha256": "FE94CC1AA3C261F2C1FB5E00628A97495D1DD24AFC53750B3F0A7D6C55181F0F",
+      "size_bytes": 12949
+    },
+    "stage77_result": {
+      "path": "data/stage77_quantum_hardware_interface_gate_result.json",
+      "sha256": "402F16018342AF49287671DE2175988D6351D963A9E5D645FC0FBD5972033D8A",
+      "size_bytes": 13886
+    },
+    "stage79_physical_audit": {
+      "path": "data/stage79_qci_dirac3_physical_poc_audit.json",
+      "sha256": "B11EA4EBBB0CF66846E50C9ABFD8B19F189C85BD03E1183B93157244FF3D287D",
+      "size_bytes": 4313
+    },
+    "stage72_model_record": {
+      "path": "data/stage72_constraint_native_cqm_model_record.json",
+      "sha256": "D7BD285F4CB0787C1FF63EEC190CE692F72F2E885CB610BFEA1D70AC2505D1DF",
+      "size_bytes": 737219
+    },
+    "stage74_workload_metrics": {
+      "path": "results/runs/stage74_larger_k_solver_scaling/workload_metrics.csv",
+      "sha256": "84B02EF49939B097244CF4B0543F088FF183C48DD7E9DFB900EC2EA9E5AF355E",
+      "size_bytes": 48587
+    },
+    "stage74_cell_comparison": {
+      "path": "results/runs/stage74_larger_k_solver_scaling/cell_comparison.csv",
+      "sha256": "B1CEE2803DB74AC55BE1C5DA1BA77240ED550DED68A2B47A027A12F86B9781EA",
+      "size_bytes": 89127
+    },
+    "stage74_solver_trials": {
+      "path": "results/runs/stage74_larger_k_solver_scaling/solver_trials.csv",
+      "sha256": "3E0C8DD06991378C7CFCBC00D3CD437C64516445E06389E209885B78C510532D",
+      "size_bytes": 2871104
+    }
+  },
+  "screen": {
+    "canonical_reward_quantile": 0.5,
+    "maximum_qci_binary_variable_count": 474,
+    "qci_total_level_limit": 949,
+    "tabu_reads": 4,
+    "tabu_timeout_milliseconds": 150,
+    "seed_base": 202680000,
+    "local_trap_rule": "A canonical subproblem is a candidate only when no single move improves but a nonconflicting pair or frozen tabu search improves, or when tabu finds a multi-move state strictly below warm steepest descent.",
+    "wall_clock_used_for_decision": false
+  },
+  "decision_gate": {
+    "minimum_local_trap_candidate_count": 1,
+    "minimum_multi_move_tabu_improvement_count": 1,
+    "failure_action": "Do not spend remaining QCI allocation on mechanical local move-cap scaling; review a tighter full variable-k QUBO for Dirac-3 instead."
+  },
+  "data_boundary": {
+    "historical_development_targets_permitted": [
+      "BACE1",
+      "PPARG",
+      "PPARA",
+      "PPARD"
+    ],
+    "fresh_validation_rows_permitted": 0,
+    "locked_test_rows_permitted": 0,
+    "new_docking_jobs_permitted": 0,
+    "qci_cloud_queries_permitted": 0,
+    "quantum_hardware_jobs_permitted": 0
+  },
+  "outputs": {
+    "metrics_csv": "results/runs/stage80_local_move_hardness_screen/hardness_metrics.csv",
+    "result_json": "data/stage80_local_move_hardness_screen_result.json",
+    "audit_json": "data/stage80_local_move_hardness_screen_audit.json",
+    "report_md": "reports/stage-80/local_move_hardness_screen.md"
+  },
+  "interpretation_boundary": "Stage80 can reject an unsupported local scaling experiment, but it cannot prove the absence of every higher-order trap or authorize a quantum-advantage claim."
+}

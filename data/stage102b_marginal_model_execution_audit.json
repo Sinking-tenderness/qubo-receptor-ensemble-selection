@@ -1,0 +1,26 @@
+{
+  "schema_version": "1.0",
+  "status": "stage102b_independent_audit_ok",
+  "target_count": 7,
+  "marginal_edge_count": 70,
+  "fold_decision_count": 700,
+  "target_summary_count": 140,
+  "candidate_policies": [
+    "mechanistic_bootstrap_lcb",
+    "target_held_out_l2_ridge"
+  ],
+  "candidate_passes": {
+    "mechanistic_bootstrap_lcb": false,
+    "target_held_out_l2_ridge": false
+  },
+  "outer_labels_used_by_candidate_selectors": false,
+  "parp1_released": false,
+  "quantum_hardware_authorized": false,
+  "data_boundary": {
+    "new_docking_jobs": 0,
+    "parp1_benchmark_docking_scores_read": 0,
+    "parp1_fresh_validation_rows_read": 0,
+    "parp1_locked_test_rows_read": 0,
+    "quantum_hardware_jobs": 0
+  }
+}

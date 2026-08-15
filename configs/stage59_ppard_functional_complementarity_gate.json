@@ -1,0 +1,82 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage59-ppard-preregistered-functional-complementarity-gate-20260805-v1",
+  "purpose": "Apply the Stage55-preregistered functional-complementarity gate to the independently audited PPARD Pilot-96 matrix without fitting an objective or reading protected panels.",
+  "implementation": {
+    "runner": {
+      "path": "scripts/run_stage59_ppard_functional_complementarity_gate.py",
+      "sha256": "A9E23B7761C763762384B868A8BF2A2B002F26BDCA6C4E0563A6A56F8CD2BF32"
+    },
+    "independent_auditor": {
+      "path": "scripts/audit_stage59_ppard_functional_complementarity_gate.py",
+      "sha256": "4872440CCEFAADA4D7E14861395F190C6AED978E7FA3BED0379EE1A10D5FC8AE"
+    }
+  },
+  "inputs": {
+    "stage58b_summary": {
+      "path": "results/runs/stage58b_ppard_pilot96_unidock113_production/summary.json",
+      "sha256": "2CCAF4052488CE904053BC2022BCC6D504075CA017CF0D487AF76BF0D3F35C65"
+    },
+    "stage58b_audit": {
+      "path": "data/stage58b_ppard_pilot96_unidock113_production_audit.json",
+      "sha256": "88DDF21584076D1DB1BA6E982B16780CCC8564013ABAEDBAB2835D9C2962D916"
+    },
+    "scores_csv": {
+      "path": "results/runs/stage58c_ppard_target_id_amendment/scores.csv",
+      "sha256": "33AFFF6776669B78CE3CAF6E4918A2BE691884B4C27C1500506B69DD30D4FAE2"
+    },
+    "stage58c_target_id_amendment": {
+      "path": "data/stage58c_ppard_target_id_amendment_result.json",
+      "sha256": "5EBF486763F8AF91B499014D211C58963795EA020E38DC350E7D699EB799B286"
+    },
+    "stage58c_target_id_audit": {
+      "path": "data/stage58c_ppard_target_id_amendment_audit.json",
+      "sha256": "143D25DA118862E094165FB2DF48080D14B3ADEE37D86A47E9B580828C17A856"
+    },
+    "ligand_manifest": {
+      "path": "data/processed/stage58a_ppard_pilot96_unidock_pdbqt_manifest.csv",
+      "sha256": "874B1CE40E52503FDF07F92BEBE557B5656F1A07BC7842C863110B2AB00ADA5F"
+    },
+    "receptor_manifest": {
+      "path": "data/processed/stage58b_ppard_stage57_passing29_receptor_manifest.csv",
+      "sha256": "12AB8EC9FC0C7D2CDFFF6D1E9CFD53A0215D4450D4CE12708EB165BED35C7F0A"
+    },
+    "stage55_preregistration": {
+      "path": "configs/stage55_ppard_small_pilot_preregistration.json",
+      "sha256": "01AE005C03E2F3B3CFD2EA5F21400B91EE5EA7328FAF3C5FA229FB946FA7648A"
+    },
+    "stage54_frozen_intake_criteria": {
+      "path": "data/stage54_future_target_intake_criteria.json",
+      "sha256": "A05B8A8E342504B3BE56D93E3326BA399C62035207A2631A09E587EFBCA8F5D7"
+    }
+  },
+  "analysis": {
+    "bedroc_alpha": 20.0,
+    "favorable_rank_fraction": 0.1,
+    "seed_aggregation": "primary seed-median score ranking with mean-seed and worst-seed robustness recorded",
+    "single_receptors_exhaustive": true,
+    "two_receptor_subsets_exhaustive": true,
+    "outer_fold_count": 4,
+    "active_rescue_definition": "active not favorable in a majority of seeds for the baseline receptor but favorable for the pair",
+    "decoy_promotion_definition": "decoy not favorable in a majority of seeds for the baseline receptor but favorable for the pair",
+    "objective_or_weight_fitting_on_pilot_permitted": false
+  },
+  "gate": {
+    "minimum_full_best_pair_gain": 0.01,
+    "minimum_positive_holdout_pair_gain_folds": 2,
+    "minimum_mean_holdout_pair_gain": 0.01,
+    "minimum_positive_rescue_balance_additions": 2,
+    "maximum_median_pair_rank_redundancy": 0.8,
+    "all_checks_required": true,
+    "application_scope": "prospective small-pilot gate for a new independently preregistered target only"
+  },
+  "outputs": {
+    "receptor_metrics_csv": "results/runs/stage59_ppard_functional_complementarity_gate/receptor_metrics.csv",
+    "pair_metrics_csv": "results/runs/stage59_ppard_functional_complementarity_gate/pair_metrics.csv",
+    "fold_gate_csv": "results/runs/stage59_ppard_functional_complementarity_gate/fold_gate.csv",
+    "result_json": "data/stage59_ppard_functional_complementarity_gate_result.json",
+    "audit_json": "data/stage59_ppard_functional_complementarity_gate_audit.json",
+    "report_md": "reports/stage-59/ppard_functional_complementarity_gate.md"
+  },
+  "interpretation_boundary": "Stage59 is the prospective Stage55 small-pilot gate. It may authorize freezing the already transferred QUBO objective and docking the remaining PPARD development-train ligands only if every frozen check passes. It cannot tune an objective on Pilot-96, alter thresholds, access fresh validation or locked test data, establish independent efficacy, run quantum hardware, or claim quantum speedup or advantage."
+}

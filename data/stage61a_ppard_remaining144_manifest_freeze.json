@@ -1,0 +1,40 @@
+{
+  "data_boundary": {
+    "development_identity_rows_read": 240,
+    "docking_score_rows_read": 0,
+    "fresh_validation_rows_read": 0,
+    "locked_test_rows_read": 0
+  },
+  "excluded_pilot_manifest": {
+    "path": "data/processed/stage56_ppard_pilot96_ligand_manifest.csv",
+    "sha256": "22C51AD9722894135DCDAFF4B4EADB6458D058217A48F695E00905B7A727FF69"
+  },
+  "freeze_id": "stage61a-ppard-remaining144-development-manifest-v1",
+  "label_counts": {
+    "active": 72,
+    "decoy": 72
+  },
+  "ligand_count": 144,
+  "next_step": "prepare only these 144 ligands for Uni-Dock without launching docking",
+  "output": {
+    "path": "data/processed/stage61a_ppard_remaining144_ligand_manifest.csv",
+    "sha256": "F7B78025E1530CA7F2F6B32CE0012BEA9E47E022600CAED10D311BAF0C13D4DB",
+    "size_bytes": 58813
+  },
+  "pilot_overlap_count": 0,
+  "schema_version": "1.0",
+  "source_train_manifest": {
+    "path": "data/processed/stage56_ppard_train240_ligand_manifest.csv",
+    "sha256": "618B068DC49CBB037DF2B34F0B52A287509341AE879327CE4FC7C9FB1E6F1101"
+  },
+  "stage60_audit": {
+    "path": "data/stage60_ppard_transferred_qubo_freeze_audit.json",
+    "sha256": "E23D1B97846433A90521256CBB6727E2475E7E51C2935A1CBE6C85B462D898A4"
+  },
+  "stage60_result": {
+    "path": "data/stage60_ppard_transferred_qubo_freeze_result.json",
+    "sha256": "CE233CDB71E4AEEF9282105236B849377F198913136A69B34502CC76DEF1ABB0"
+  },
+  "status": "stage61a_ppard_remaining144_manifest_frozen",
+  "train_partition_complete": true
+}

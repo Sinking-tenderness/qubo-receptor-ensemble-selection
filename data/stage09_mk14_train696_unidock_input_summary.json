@@ -1,0 +1,58 @@
+{
+  "closure_pseudoatom_ligand_count": 0,
+  "config": {
+    "path": "configs/stage09_mk14_train696_unidock_input_preparation.json",
+    "sha256": "9179D1FD1E72C3CCD01A80786783BA0B644F384D04778C923CA6CB4E88F12AC1"
+  },
+  "data_boundary": {
+    "test_rows_read": 0,
+    "validation_rows_read": 0
+  },
+  "experiment_id": "stage09-mk14-train696-unidock113-input-preparation-v1",
+  "interpretation_note": "This train-only compatibility substitution changes exactly 15 PDBQT representations and preserves the other 681 inputs. It does not access validation/test rows, calculate enrichment, select a receptor subset, or establish QUBO or quantum advantage.",
+  "label_counts": {
+    "active": 348,
+    "decoy": 348
+  },
+  "ligand_count": 696,
+  "meeko": {
+    "rigid_macrocycles": true,
+    "script": "C:/Users/MM/anaconda3/envs/qubo-receptor-ensemble/Scripts/mk_prepare_ligand.py",
+    "version": "0.7.1"
+  },
+  "nonreplacement_pdbqt_identity_preserved": true,
+  "operation": "train-only Uni-Dock compatibility substitution",
+  "order_preserved": true,
+  "output": {
+    "path": "data/processed/stage09_mk14_train696_unidock_pdbqt_manifest.csv",
+    "sha256": "CA7174F20B37D03A419E91ED48D3B64FFB825C22C14C9295045AB6A486249139"
+  },
+  "preparation_variant_counts": {
+    "meeko_rigid_macrocycles": 15,
+    "original_meeko_flexible": 681
+  },
+  "replacement_count": 15,
+  "replacement_ligand_ids": [
+    "MK14_active_L000255",
+    "MK14_decoy_L004564",
+    "MK14_decoy_L007259",
+    "MK14_decoy_L012234",
+    "MK14_decoy_L012653",
+    "MK14_decoy_L013324",
+    "MK14_decoy_L017314",
+    "MK14_decoy_L017597",
+    "MK14_decoy_L017675",
+    "MK14_decoy_L018641",
+    "MK14_decoy_L022342",
+    "MK14_decoy_L029808",
+    "MK14_decoy_L030186",
+    "MK14_decoy_L031427",
+    "MK14_decoy_L034559"
+  ],
+  "schema_version": "1.0",
+  "source_manifest": {
+    "path": "data/processed/stage05_mk14_expanded_train_348a348d_pdbqt_manifest.csv",
+    "sha256": "ED697E2D0BC0C0B125FE1C30E0DF417F0B329DEE6817D841A997B5A0728FD98F"
+  },
+  "status": "stage09_train696_unidock_inputs_ok"
+}

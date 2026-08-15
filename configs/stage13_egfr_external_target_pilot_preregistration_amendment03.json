@@ -1,0 +1,72 @@
+{
+  "schema_version": "1.0",
+  "amendment_id": "stage13-egfr-local-pocket-alignment-amendment03-20260731",
+  "created_on": "2026-07-31",
+  "original_preregistration": {
+    "path": "configs/stage13_egfr_external_target_pilot_preregistration.json",
+    "sha256": "8CE02087666FC8F3A97A83889AB61E3E45EB03667DB853EC0D0B9C96FB8D00CD"
+  },
+  "coordinate_gate_amendment": {
+    "path": "configs/stage13_egfr_external_target_pilot_preregistration_amendment01.json",
+    "sha256": "80AE8F05A5D6D8C3B8E40F65FAB4176624A8D15F5B3FA9025B0696CADA7B0533"
+  },
+  "metadata_pool_expansion_amendment": {
+    "path": "configs/stage13_egfr_external_target_pilot_preregistration_amendment02.json",
+    "sha256": "AE4637F8EAC05281D9A3BF167B18759FB0F35323DBE8478A7EDB1032134E16B6"
+  },
+  "trigger": {
+    "summary_path": "data/stage13b_egfr_expanded_rcsb_coordinate_selection_summary.json",
+    "summary_sha256": "E293A20AD3C9B09F7759B8F267C4ECA1BB0CD57FB8EEF7C97971BC83EE6C1D5B",
+    "required_status": "stage13b_egfr_expanded_coordinate_pool_insufficient_stop",
+    "observed_coordinate_eligible_count": 15,
+    "target_receptor_count": 16,
+    "diagnostic_finding": "Fifteen noncovalent candidates failed only the borrowed whole-domain RMSD ceiling even though their frozen ATP-pocket residue, anchor, ligand-location, and completeness checks passed. Whole-domain conformational variation is desired ensemble information and is not a chain-integrity failure."
+  },
+  "scope": "Supersede only the alignment and ATP-site/covalent-intent adjudication rules before ligand preparation or any benchmark docking. Retain the 58-candidate metadata pool, mutation and title filters, minimum 240 matched C-alpha atoms, pocket and anchor residue identities, heavy-atom completeness, explicit covalent-connection gate, structural features, target count, and max-min rule.",
+  "superseded_rule": {
+    "alignment": "whole-domain proper-rotation Kabsch alignment",
+    "maximum_aligned_global_ca_rmsd_angstrom": 3.0,
+    "reason": "This rule penalizes the active/inactive domain motion that a receptor ensemble is intended to represent and can mis-register the ATP pocket in a common docking frame."
+  },
+  "replacement_alignment_gate": {
+    "alignment": "proper-rotation Kabsch alignment using the 20 frozen ATP-pocket anchor C-alpha atoms",
+    "maximum_aligned_anchor_ca_rmsd_angstrom": 2.0,
+    "minimum_same-number_same-residue_global_ca_count": 240,
+    "global_ca_rmsd_policy": "record for diagnosis but do not use as an exclusion criterion",
+    "require_all_frozen_anchor_residues_and_complete_reference_heavy_atom_templates": true
+  },
+  "strengthened_atp_site_gate": {
+    "maximum_selected_ligand_centroid_distance_to_reference_hyz_centroid_angstrom": 6.0,
+    "hinge_residue_number": 793,
+    "hinge_backbone_atom_names": [
+      "N",
+      "O"
+    ],
+    "maximum_selected_ligand_heavy_atom_distance_to_hinge_backbone_angstrom": 4.0,
+    "reason": "Minimum ligand-to-HYZ atom distance alone admitted long allosteric ligands that merely approached one edge of the reference ATP-site ligand."
+  },
+  "strengthened_covalent_intent_gate": {
+    "retain_explicit_mmcif_covalent_connection_exclusion": true,
+    "retain_minimum_protein_ligand_heavy_atom_distance_threshold_angstrom": 2.0,
+    "excluded_primary_citation_title_pattern": "targeted\\s+covalent\\s+inhibitors",
+    "excluded_primary_citation_doi": "10.1021/acs.jmedchem.5c01661",
+    "reason": "The first structural gate missed prereaction or non-bond-modeled targeted covalent ligands, including BDTX-1535 and Canertinib, whose primary RCSB citation explicitly identifies the study as targeted covalent inhibitor work."
+  },
+  "selection": {
+    "expanded_metadata_candidate_count": 58,
+    "target_receptor_count": 16,
+    "selection_rule": "deterministic max-min structural distance seeded by EGFR_2RGP_reference",
+    "failure_action": "stop without ligand-panel docking if fewer than 16 structures pass the corrected gate"
+  },
+  "data_boundary": {
+    "candidate_coordinate_files_read_before_this_method_correction": 58,
+    "structural_preregistration_status": "post-coordinate diagnostic correction; no longer an untouched structural gate",
+    "ligand_labels_read": 0,
+    "docking_scores_read": 0,
+    "MAPK14_stage11_rows_read": 0,
+    "fresh_validation_rows_read": 0,
+    "test_rows_read": 0
+  },
+  "authorization": "Re-audit all 58 frozen metadata candidates with local ATP-pocket alignment and the strengthened ATP-site and covalent-intent gates, then run structural max-min selection only.",
+  "interpretation_boundary": "This correction is post-coordinate and must be reported as such. Because no activity labels, docking scores, train outcomes, validation rows, or test rows were used, downstream EGFR screening remains untouched; passing still establishes only a receptor-preparation candidate pool, not docking validity or any QUBO or quantum claim."
+}

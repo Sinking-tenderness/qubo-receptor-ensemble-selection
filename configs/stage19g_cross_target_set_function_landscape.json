@@ -1,0 +1,85 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage19g-cross-target-set-function-landscape-20260801-v1",
+  "purpose": "Determine whether the frozen robust BEDROC20 receptor-set utility contains reproducible greedy traps, pairwise-closed structure, or stable higher-order residuals before designing another QUBO objective.",
+  "implementation": {
+    "path": "scripts/diagnose_stage19g_set_function_landscape.py",
+    "sha256": "AC2FD4067B153467FCB27C4ED808700A4B6F0787881363C88552FE4B52F18628"
+  },
+  "inputs": {
+    "stage19e_config": {
+      "path": "configs/stage19e_cross_target_qubo_v2_nested_diagnostic.json",
+      "sha256": "E7CB41AC6909DD42A7964FC3842E15612D982CD67AFD57AE999A461871EC3B7D"
+    },
+    "stage19e_result": {
+      "path": "data/stage19e_cross_target_qubo_v2_nested_diagnostic_result.json",
+      "sha256": "68EC0BAE8B84E45907B78E4E309197823EFBAA7810552E49C39B1B23B67763BB"
+    },
+    "stage19e_audit": {
+      "path": "data/stage19e_cross_target_qubo_v2_nested_diagnostic_audit.json",
+      "sha256": "816B1C1FA82C5BF14FD8EF952AF0F33D4B839322E8843BC2531509091E8232B7"
+    },
+    "stage19e_outer_methods": {
+      "path": "results/runs/stage19e_cross_target_qubo_v2_nested/outer_method_results.csv",
+      "sha256": "C90C733B3B16B02FDBE1964A1A01819EFF16359F6C883AD56684C77BF991844F"
+    },
+    "stage19f_result": {
+      "path": "data/stage19f_cross_target_stable_pair_qubo_result.json",
+      "sha256": "CC638A8D1C6CE10BBF5A60E03774119C8A634D6C931289903F56136ECC86C31D"
+    },
+    "stage19f_audit": {
+      "path": "data/stage19f_cross_target_stable_pair_qubo_audit.json",
+      "sha256": "B3C1887A889C01AEFDCC0D3F2F45E8919F1AED03A9C787C3B2DDCA81A52100D2"
+    }
+  },
+  "evidence_timing": {
+    "experiment_class": "posthoc cross-target train-only diagnostic",
+    "mk14_and_pparg_outcomes_known": true,
+    "stage19e_and_stage19f_failures_known": true,
+    "bace1_benchmark_docking_started": false,
+    "fresh_validation_or_test_rows_permitted": false
+  },
+  "diagnostic": {
+    "receptor_count": 16,
+    "maximum_subset_size": 6,
+    "expected_nonempty_subset_count": 14892,
+    "outer_fold_count": 4,
+    "fold_seed": 20261119,
+    "bedroc_alpha": 20.0,
+    "bedroc_batch_size": 1024,
+    "set_aggregation": "receptor-wise train-normalized minimum docking score",
+    "set_utility": "equal-weight mean of primary BEDROC20, mean-seed BEDROC20, and worst-seed BEDROC20",
+    "greedy_definition": "Start from the best singleton under the training set utility and add the receptor giving the highest resulting set utility at every cardinality; break ties lexicographically.",
+    "legacy_greedy_comparator": "Separately reproduce the prior direct_greedy lexicographic rule ordered by worst-seed BEDROC20, primary BEDROC20, mean-seed BEDROC20, primary PR-AUC, and primary ROC-AUC.",
+    "exact_definition": "Enumerate every receptor subset at each cardinality and select the highest training set utility; break ties lexicographically.",
+    "pairwise_closure": "For each triple, predict utility as the sum of its three observed pair utilities minus the sum of its three singleton utilities plus one least-squares intercept fitted over all triples.",
+    "third_order_residual": "Observed triple utility minus the pairwise-closure prediction.",
+    "submodularity_check": "Enumerate all pairwise diminishing-return inequalities with nonempty source sets of size one through four; separately enumerate every marginal edge through size six to measure nonmonotonicity.",
+    "greedy_gap_tolerance": 0.002,
+    "submodularity_tolerance": 1e-09,
+    "top_fractions": [
+      0.01,
+      0.05
+    ]
+  },
+  "route_gate": {
+    "minimum_route_subset_size": 3,
+    "minimum_mean_train_greedy_gap": 0.002,
+    "minimum_gap_folds_per_target_size": 2,
+    "minimum_qualifying_sizes_for_scale_route": 2,
+    "minimum_mean_pairwise_top_1pct_overlap": 0.5,
+    "maximum_mean_pairwise_selected_regret": 0.005,
+    "minimum_outer_residual_stability_spearman": 0.4,
+    "decision_boundary": "A target is a pairwise-closure QUBO candidate only when k=3 has a reproducible greedy gap and pairwise top-tail fidelity passes. It is an auxiliary or higher-order candidate only when at least two cardinalities have reproducible greedy gaps, pairwise fidelity fails, and triple residuals are stable across outer training folds. Mixed target routes do not authorize a cross-target efficacy QUBO.",
+    "bace1_method_amendment_authorized_by_this_stage": false
+  },
+  "outputs": {
+    "greedy_path_csv": "results/runs/stage19g_cross_target_set_function_landscape/greedy_path_diagnostics.csv",
+    "submodularity_csv": "results/runs/stage19g_cross_target_set_function_landscape/submodularity_diagnostics.csv",
+    "pairwise_closure_csv": "results/runs/stage19g_cross_target_set_function_landscape/pairwise_closure_diagnostics.csv",
+    "triple_landscape_csv": "results/runs/stage19g_cross_target_set_function_landscape/triple_landscape.csv",
+    "result_json": "data/stage19g_cross_target_set_function_landscape_result.json",
+    "report_md": "reports/stage-19g/cross_target_set_function_landscape.md"
+  },
+  "interpretation_boundary": "Stage 19g is a post-hoc mathematical diagnostic over MK14 and PPARG training matrices whose outcomes are already known. It adds no docking and reads no BACE1 docking, fresh-validation, or test row. It may choose the representation class for one subsequent train-only development stage, but it cannot amend BACE1, alter prior failures, establish cross-target QUBO superiority, demonstrate quantum execution, or establish quantum advantage."
+}

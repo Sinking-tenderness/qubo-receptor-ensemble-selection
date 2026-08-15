@@ -1,0 +1,35 @@
+{
+  "schema_version": "1.0",
+  "amendment_id": "stage08-mk14-expanded16-common-box-gate-amendment01-20260730",
+  "created_on": "2026-07-30",
+  "stage": "after deterministic structural selection and before Stage 08 receptor preparation or Uni-Dock redocking",
+  "finding": "All eight newly selected co-crystal ligands are fully contained in the frozen Stage 07c box. Seven have at least 4.0 A margin; the 2GFS-PQB crystal pose has a minimum y-lower margin of 3.757 A.",
+  "decision": "Keep the frozen Stage 07c docking box unchanged and preregister 3.5 A as the Stage 08 crystal-pose margin gate. This changes only the geometry-only safety threshold, not the docking search space or Uni-Dock protocol.",
+  "frozen_box": {
+    "center_x": -0.49,
+    "center_y": 3.26,
+    "center_z": 21.83,
+    "size_x": 22,
+    "size_y": 24,
+    "size_z": 32
+  },
+  "geometry_only_observations": {
+    "minimum_margin_case_id": "2GFS_PQB",
+    "minimum_margin_angstrom": 3.757,
+    "new_case_count": 8,
+    "cases_outside_box": 0
+  },
+  "new_gate": {
+    "minimum_crystal_pose_margin_angstrom": 3.5,
+    "all_eight_new_cases_required": true,
+    "failure_action": "stop before Uni-Dock redocking and preregister a new box protocol"
+  },
+  "data_boundary": {
+    "ligand_labels_read": 0,
+    "benchmark_docking_scores_read": 0,
+    "stage08_unidock_runs_completed": 0,
+    "previous_validation_rows_read": 0,
+    "test_rows_read": 0
+  },
+  "interpretation_boundary": "This amendment records a pre-docking geometry observation. It cannot establish pose reproduction, virtual-screening enrichment, receptor complementarity, QUBO benefit, or quantum advantage."
+}

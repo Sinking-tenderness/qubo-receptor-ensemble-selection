@@ -1,0 +1,124 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage43-pparg-md96-rank-sensitive-replication-20260804-v1",
+  "purpose": "Transfer the frozen Stage42f BEDROC20 rank-sensitive pair QUBO to a 96-frame PPARG MD pool and test functional scaling without further target-specific objective tuning.",
+  "evidence_timing": {
+    "experiment_class": "posthoc_cross_target_large_pool_application_with_80_previously_undocked_frames",
+    "stage42f_objective_frozen_before_stage43_docking": true,
+    "stage31_frame_panel_frozen_before_stage43_docking": true,
+    "historical_stage32_outcomes_known": true,
+    "stage43_new_frame_outcomes_known_before_freeze": false,
+    "same_target_objective_weight_search_permitted": false,
+    "fresh_validation_rows_permitted": false,
+    "test_rows_permitted": false,
+    "quantum_hardware_execution": false
+  },
+  "inputs": {
+    "stage42f_result": "data/stage42f_bace1_rank_sensitive_pair_qubo_result.json",
+    "stage42f_audit": "data/stage42f_bace1_rank_sensitive_pair_qubo_audit.json",
+    "stage31_candidate_manifest": "results/runs/stage31_pparg_objective_landscape_screen/candidate_manifest.csv",
+    "stage28b_frame_manifest": "results/runs/stage28b_pparg_md_ready_multistart_md/ensemble/frame_manifest.csv",
+    "stage32_ligand_manifest": "data/processed/stage32_pparg_train160_ligand_manifest.csv",
+    "stage32_prepared_receptor_manifest": "data/processed/stage32_pparg_md_selected16_prepared_receptor_manifest.csv",
+    "stage32_scores": "results/runs/stage32_pparg_md_functional_complementarity_pilot/scores.csv",
+    "stage32_batch_runs": "results/runs/stage32_pparg_md_functional_complementarity_pilot/batch_runs.csv",
+    "stage32_summary": "results/runs/stage32_pparg_md_functional_complementarity_pilot/summary.json",
+    "stage32_matrix_audit": "data/stage32_pparg_md_functional_pilot_matrix_audit.json",
+    "stage19b_preparation_summary": "data/stage19b_pparg_train668_unidock_input_summary.json",
+    "stage07c_profile_freeze": "data/stage07c_mk14_unidock113_warning_adjudication_result.json",
+    "seeds": [
+      {"seed_id": "seed0", "base_seed": 20260801},
+      {"seed_id": "seed1", "base_seed": 20260802},
+      {"seed_id": "seed2", "base_seed": 20260803}
+    ]
+  },
+  "receptor_panel": {
+    "selection_rule": "all 96 Stage31 frames, ordered by eight MD starts and temporal-maximin ranks 0 through 11",
+    "receptor_count": 96,
+    "frames_per_start": 12,
+    "historical_stage32_receptor_count": 16,
+    "new_stage43_receptor_count": 80,
+    "selection_uses_docking_scores": false,
+    "selection_uses_ligand_labels": false,
+    "snapshot_atom_selection": "protein and not element H",
+    "chain_id": "A",
+    "charge_model": "gasteiger"
+  },
+  "objective_freeze": {
+    "source_objective_id": "bedroc20_rank_sensitive_pair_complementarity_v1",
+    "bedroc_alpha": 20.0,
+    "subset_sizes": [1, 2, 3, 4, 5, 6],
+    "singleton_utility": "q_i=(mean_seed(E_active[exp(-20r_i)]-E_decoy[exp(-20r_i)]) + worst_seed(...))/2",
+    "pair_complementarity": "delta_ij=q_ij-max(q_i,q_j), where q_ij uses the better rank from receptor i or j",
+    "fixed_k_qubo": "Q_k(S)=sum_i(q_i/k)x_i + sum_(i<j)(delta_ij/C(k,2))x_i*x_j subject to sum_i x_i=k",
+    "weight_search_on_stage43_outcomes": false
+  },
+  "unidock": {
+    "executable": "unidock",
+    "required_package_version": "1.1.3",
+    "profile_id": "enhanced",
+    "scoring": "vina",
+    "exhaustiveness": 1024,
+    "max_step": 80,
+    "refine_step": 5,
+    "num_modes": 1,
+    "energy_range": 3,
+    "verbosity": 1,
+    "cuda_visible_devices": "0",
+    "maximum_absolute_score_kcal_per_mol": 1000.0,
+    "box": {
+      "center_x": 1.61,
+      "center_y": 23.47,
+      "center_z": 16.9,
+      "size_x": 22.0,
+      "size_y": 26.0,
+      "size_z": 28.0
+    }
+  },
+  "expected": {
+    "receptor_count": 96,
+    "historical_receptor_count": 16,
+    "new_receptor_count": 80,
+    "ligand_count": 160,
+    "active_count": 80,
+    "decoy_count": 80,
+    "seed_count": 3,
+    "combined_batch_count": 288,
+    "new_batch_count": 240,
+    "combined_pair_count": 46080,
+    "historical_pair_count": 7680,
+    "new_pair_count": 38400,
+    "fresh_validation_rows": 0,
+    "test_rows": 0
+  },
+  "solver_preregistration": {
+    "strong_classical": "beam64 plus all-singleton greedy paths plus deterministic fixed-k one-swap local search",
+    "annealing": "four deterministic batches of fixed-k swap simulated annealing",
+    "exact_oracle": "exact enumeration where state count is at most 2000000; otherwise no exact claim",
+    "primary_question": "Does the frozen QUBO select a combination that improves robust BEDROC20 over the best single receptor by at least 0.01?",
+    "solver_question": "Does annealing or another QUBO sampler reproducibly exceed the frozen strong classical baseline on the same objective?",
+    "minimum_combination_over_single_bedroc_gain": 0.01,
+    "minimum_positive_solver_gap_cells": 1,
+    "same_data_retuning_action": "forbidden regardless of outcome"
+  },
+  "outputs": {
+    "frame_manifest": "data/processed/stage43_pparg_md96_frame_manifest.csv",
+    "prepared_receptor_manifest": "data/processed/stage43_pparg_md96_prepared_receptor_manifest.csv",
+    "preparation_result": "data/stage43_pparg_md96_input_preparation_result.json",
+    "run_directory": "results/runs/stage43_pparg_md96_unidock113_production",
+    "scores_csv": "results/runs/stage43_pparg_md96_unidock113_production/scores.csv",
+    "batch_runs_csv": "results/runs/stage43_pparg_md96_unidock113_production/batch_runs.csv",
+    "median_matrix_csv": "results/runs/stage43_pparg_md96_unidock113_production/primary_median_score_matrix.csv",
+    "minimum_matrix_csv": "results/runs/stage43_pparg_md96_unidock113_production/sensitivity_minimum_score_matrix.csv",
+    "progress_json": "results/runs/stage43_pparg_md96_unidock113_production/progress.json",
+    "summary_json": "results/runs/stage43_pparg_md96_unidock113_production/summary.json",
+    "audit_json": "data/stage43_pparg_md96_unidock113_production_audit.json"
+  },
+  "execution": {
+    "environment": "reuse qubo-receptor-md for MDTraj extraction and qubo-unidock-stage08 for receptor preparation and Uni-Dock",
+    "resume_contract": "reuse a new Stage43 batch only when its protocol signature, scores, poses, warning audit, and pose-integrity audit pass",
+    "historical_reuse_contract": "reuse exactly the independently audited Stage32 16x160x3 score matrix; do not rerun or relabel it",
+    "auto_poweroff_supported": true
+  },
+  "interpretation_boundary": "Stage43 is a post-hoc PPARG large-pool application of a BACE1-frozen QUBO formula. It can test transfer, combination utility, and solver scaling on 80 previously undocked MD frames. It cannot provide fresh-target confirmation, locked-test evidence, quantum speedup, or quantum advantage."
+}

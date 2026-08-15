@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage87-quantum-value-instance-gate-20260811-v1",
+  "purpose": "Converge prior biological, classical-hardness, exact-certificate, and physical-hardware evidence into one strict gate before any constraint-preserving QAOA work.",
+  "inputs": {
+    "stage68_config": {
+      "path": "configs/stage68_quality_plateau_portfolio_qubo.json",
+      "sha256": "D3B7E784DEFA67D32D21E8E99EDDF4210C0E2E9DA6E96929D0A4CBA152AF5C6D"
+    },
+    "stage68_fixed_k_metrics": {
+      "path": "results/runs/stage68_quality_plateau_portfolio_qubo/fixed_k_metrics.csv",
+      "sha256": "A0FB718F5951DE2CD81359CBA40F008D8682FE453609A6B465A72EE48E36E7DA"
+    },
+    "stage74_cell_comparison": {
+      "path": "results/runs/stage74_larger_k_solver_scaling/cell_comparison.csv",
+      "sha256": "B1CEE2803DB74AC55BE1C5DA1BA77240ED550DED68A2B47A027A12F86B9781EA"
+    },
+    "stage75_cell_comparison": {
+      "path": "results/runs/stage75_explicit_variable_k_cqm/cell_comparison.csv",
+      "sha256": "AF676E43A9E35F4623CCFC2EB1D91CC5406A9815887332063A6B5D877E52CF54"
+    },
+    "stage80_hardness_metrics": {
+      "path": "results/runs/stage80_local_move_hardness_screen/hardness_metrics.csv",
+      "sha256": "C0AEAE16F79E5620B382EC30E3BF1B6EAC05210D844FB159998693E60576499B"
+    },
+    "stage86a_adjudication": {
+      "path": "data/stage86a_qci_dirac3_rescue_failure_adjudication.json",
+      "sha256": "4D47D8A20609DCA9F960FDDDF631CACED1F46B49FD907F7B2561ECC17EFBE0D1"
+    }
+  },
+  "gate": {
+    "holdout_metrics_requiring_strict_gain": [
+      "holdout_primary_bedroc",
+      "holdout_mean_seed_bedroc",
+      "holdout_worst_seed_bedroc",
+      "holdout_robust_bedroc"
+    ],
+    "maximum_states_considered_exhaustively_trivial": 1000000,
+    "minimum_replicated_outer_folds": 2,
+    "minimum_replicated_targets": 2,
+    "require_exact_certificate": true,
+    "require_strict_objective_gain_over_direct_greedy": true,
+    "require_strict_objective_gain_over_greedy_swap": true,
+    "require_strict_holdout_gain_over_both_classical_baselines": true,
+    "require_nontrivial_classical_search_space": true
+  },
+  "data_boundary": {
+    "historical_development_only": true,
+    "fresh_validation_rows_permitted": 0,
+    "locked_test_rows_permitted": 0,
+    "new_docking_jobs_permitted": 0,
+    "quantum_hardware_jobs_permitted": 0
+  },
+  "outputs": {
+    "candidate_instances_csv": "results/runs/stage87_quantum_value_instance_gate/candidate_instances.csv",
+    "evidence_matrix_csv": "results/runs/stage87_quantum_value_instance_gate/evidence_matrix.csv",
+    "result_json": "data/stage87_quantum_value_instance_gate_result.json",
+    "audit_json": "data/stage87_quantum_value_instance_gate_audit.json",
+    "report_md": "reports/stage-87/quantum_value_instance_gate.md"
+  },
+  "interpretation_boundary": "A passing cell is only an eligible algorithm benchmark. It does not establish quantum advantage. A failing gate blocks QAOA and new hardware work but does not erase the Stage79 physical PoC or the biological value of receptor ensembles."
+}

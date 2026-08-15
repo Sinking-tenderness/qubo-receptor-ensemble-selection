@@ -1,0 +1,179 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage20a-esr1-source-and-active-allocation-20260801-v1",
+  "status": "stage20a_esr1_source_and_active_allocation_ok",
+  "config": {
+    "path": "configs/stage20a_esr1_source_audit.json",
+    "sha256": "548C3E411EA921459473ADEA29F3A5C24DDC0D6FB85FE1E31049F8C3F6F50E8B"
+  },
+  "target": {
+    "target_id": "ESR1_HUMAN",
+    "gene_name": "ESR1",
+    "protein_name": "Estrogen receptor alpha",
+    "organism": "Homo sapiens",
+    "uniprot_accession": "P03372",
+    "dude_target_id": "ESR1",
+    "dude_reference_structure": "1SJ0",
+    "reference_auth_asym_id": "A",
+    "reference_ligand": "E4D",
+    "reference_ligand_auth_seq_id": 600
+  },
+  "dude_source": {
+    "archive": {
+      "path": "data/raw/external_targets/esr1_dude/esr1.tar.gz",
+      "sha256": "B4F6D0232D5ABDAEDEE45D3A5D9358F77CDE338DCF6B7670248D594E2BC89E6D"
+    },
+    "actives": {
+      "path": "data/raw/external_targets/esr1_dude/esr1/actives_final.ism",
+      "sha256": "3070EDE91DE9C838E49E5DCD1656FB675F7B28430D01C4FB801BC9D49689816F",
+      "row_count": 383,
+      "unique_source_molecule_id_count": 383,
+      "duplicate_source_molecule_id_count": 0,
+      "duplicate_source_molecule_row_count": 0,
+      "maximum_source_id_multiplicity": 1,
+      "duplicate_source_molecule_ids": [],
+      "recommended_internal_id_rule": "target_label_plus_source_line_number; preserve source molecule ID as metadata",
+      "rdkit_parsed_count": 383,
+      "rdkit_failure_count": 0,
+      "unique_canonical_smiles_count": 383,
+      "duplicate_canonical_row_count": 0,
+      "charged_molecule_count": 0,
+      "multi_fragment_molecule_count": 0,
+      "heavy_atom_count_min": 17,
+      "heavy_atom_count_max": 45,
+      "molecular_weight_min": 229.235,
+      "molecular_weight_max": 596.7670000000005
+    },
+    "decoys": {
+      "path": "data/raw/external_targets/esr1_dude/esr1/decoys_final.ism",
+      "sha256": "3D602B9DCC197895FBDCEDA88E517671338AB459D50713F9B3D1EEFC5074FA21",
+      "row_count": 20685,
+      "unique_source_molecule_id_count": 20663,
+      "duplicate_source_molecule_id_count": 22,
+      "duplicate_source_molecule_row_count": 44,
+      "maximum_source_id_multiplicity": 2,
+      "duplicate_source_molecule_ids": [
+        "C01296524",
+        "C02268321",
+        "C02918367",
+        "C04872000",
+        "C13138798",
+        "C18068097",
+        "C19961394",
+        "C19964594",
+        "C20617558",
+        "C33069036",
+        "C33274065",
+        "C38688908",
+        "C38899560",
+        "C38905941",
+        "C38965220",
+        "C38965239",
+        "C38981363",
+        "C38995134",
+        "C38995135",
+        "C39011980",
+        "C39361402",
+        "C39881508"
+      ],
+      "recommended_internal_id_rule": "target_label_plus_source_line_number; preserve source molecule ID as metadata",
+      "rdkit_parsed_count": 20685,
+      "rdkit_failure_count": 0,
+      "unique_canonical_smiles_count": 20675,
+      "duplicate_canonical_row_count": 10,
+      "charged_molecule_count": 11028,
+      "multi_fragment_molecule_count": 0,
+      "heavy_atom_count_min": 7,
+      "heavy_atom_count_max": 46,
+      "molecular_weight_min": 203.18099999999998,
+      "molecular_weight_max": 645.8540000000002
+    }
+  },
+  "active_allocation": {
+    "source_active_count": 383,
+    "selected_active_count": 383,
+    "unallocated_source_surplus_count": 0,
+    "unique_canonical_smiles_count": 383,
+    "scaffold_group_count": 383,
+    "maximum_scaffold_group_size": 1,
+    "panel_counts": {
+      "development_train": 233,
+      "fresh_validation": 75,
+      "locked_test": 75
+    },
+    "scaffold_disjoint": true,
+    "path": "data/processed/stage20a_esr1_active_panel_allocation.csv",
+    "sha256": "09FD3B377C390FDCEA0750A02D210820AFB967287C9A0CF93010699EF441678A"
+  },
+  "reference_structure": {
+    "pdb_id": "1SJ0",
+    "dude_receptor": {
+      "path": "data/raw/external_targets/esr1_dude/esr1/receptor.pdb",
+      "sha256": "900A04E0AA62EC66FADE6FCDAAA600315ED983D7CBAF6E950445C9D52DC1E275",
+      "atom_record_count": 2060,
+      "protein_atom_record_count": 2060,
+      "protein_residue_count": 213,
+      "protein_chain_ids": [
+        ""
+      ],
+      "hydrogen_atom_count": 350
+    },
+    "official_pdb": {
+      "path": "data/raw/rcsb/esr1/1SJ0.pdb",
+      "sha256": "33EA400521636A24EF344798FAA30C7235045EC63E59E73B5526D80CCD9D623E",
+      "reference_auth_asym_id": "A",
+      "reference_chain_a_ca_count": 243,
+      "cognate_ligand_comp_id": "E4D",
+      "cognate_ligand_auth_asym_id": "A",
+      "cognate_ligand_auth_seq_id": 600,
+      "cognate_ligand_heavy_atom_count": 33,
+      "resolution_angstrom": 1.9
+    },
+    "official_mmcif": {
+      "path": "data/raw/rcsb/esr1/1SJ0.cif",
+      "sha256": "E7DBCB6D039756877F42C99BC69ED2F42B2B0E20FDB6E7FAB09E3B1B0A6007F2"
+    },
+    "protein_frame_provenance": {
+      "dude_ca_count": 213,
+      "official_chain_a_ca_count": 243,
+      "exact_coordinate_intersection_count": 213,
+      "dude_only_ca_count": 0,
+      "official_only_ca_count": 30,
+      "interpretation": "DUD-E retains a prepared 1SJ0 chain-A subset; all 213 retained C-alpha coordinates are exactly in the official frame."
+    },
+    "ligand_identity": {
+      "dude_mol2_path": "data/raw/external_targets/esr1_dude/esr1/crystal_ligand.mol2",
+      "dude_mol2_sha256": "A8C29180F6491837370861ABFF88E417C8707346574FE8A245E40AC04CF8D4FA",
+      "official_sdf_path": "data/raw/rcsb/esr1/1SJ0_E4D_A600.sdf",
+      "official_sdf_sha256": "CEB0711BB64333E44E1147A4B4E8E28EB90C0775A90B97E42CD11EC67F7356C9",
+      "heavy_atom_count": 33,
+      "heavy_atom_elements": {
+        "C": 27,
+        "N": 1,
+        "O": 4,
+        "S": 1
+      },
+      "heavy_atom_bond_types": {
+        "AROMATIC": 18,
+        "SINGLE": 19
+      },
+      "dude_formula": "C27H30NO4S+",
+      "official_formula": "C27H29NO4S",
+      "dude_formal_charge": 1,
+      "official_formal_charge": 0,
+      "protonation_difference_only": true,
+      "charge_neutralized_fixed_frame_rmsd_angstrom": 0.0,
+      "heavy_atom_coordinate_identity": true
+    }
+  },
+  "data_boundary": {
+    "ligand_identity_and_source_labels_read": true,
+    "coordinate_pool_selected": false,
+    "docking_scores_read": 0,
+    "fresh_validation_rows_read": 0,
+    "test_rows_read": 0,
+    "pparg_stage19c_enrichment_rows_read": 0
+  },
+  "next_gate": "run frozen ESR1 RCSB metadata discovery, coordinate audit, and deterministic structural max-min selection",
+  "interpretation_boundary": "Passing this audit establishes only ESR1 input identity, reference-ligand identity, and exact ligand-panel feasibility. It does not establish receptor-pool adequacy, redocking success, screening enrichment, QUBO portability, QUBO superiority, quantum execution, or quantum advantage."
+}

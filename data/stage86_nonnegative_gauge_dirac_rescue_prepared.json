@@ -1,0 +1,53 @@
+{
+  "checks": {
+    "all_dynamic_ranges_pass": true,
+    "all_float32_coefficients_retained": true,
+    "all_global_penalty_certificates": true,
+    "all_pair_gauges_nonnegative": true,
+    "all_reference_identities_pass": true,
+    "rescue_exact_oracle_preserved": true,
+    "rescue_free_tier_compatible": true
+  },
+  "decision": {
+    "allocation_only_preflight_authorized": true,
+    "production_authorized": false,
+    "qci_device_jobs_authorized": 0
+  },
+  "encoding_count": 100,
+  "hardware_protocol": {
+    "api_url": "https://api.qci-prod.com",
+    "device": "Dirac-3",
+    "job_type": "sample-hamiltonian-integer",
+    "maximum_recorded_device_usage_seconds": 60,
+    "planned_device_jobs": 1,
+    "provider": "Quantum Computing Inc.",
+    "relaxation_schedule": 1,
+    "require_unpaid_allocation": true,
+    "required_free_seconds_before_job": 60,
+    "samples": 25
+  },
+  "interpretation_boundary": "A local pass proves algebraic exactness and authorizes only one separately gated physical fidelity rerun. It does not establish biological efficacy, classical speedup, scaling advantage, or quantum advantage.",
+  "rescue_instance": {
+    "instance_id": "ppara_of0_k10_nonnegative_gauge_exact",
+    "integer_variable_count": 27,
+    "mapping": {
+      "path": "results/runs/stage86_nonnegative_gauge_dirac_rescue/instance/ppara_of0_k10_nonnegative_gauge_exact.qci-mapping.json",
+      "sha256": "77CD2E2CEDA7A848559C6F0626679273075C1D89A4E8DAD720E3AD58200A617C",
+      "size_bytes": 2602
+    },
+    "payload": {
+      "path": "results/runs/stage86_nonnegative_gauge_dirac_rescue/instance/ppara_of0_k10_nonnegative_gauge_exact.qci-polynomial.json",
+      "sha256": "2F88A01855C105191D4954654F619EC29C622828213A95FC9FF06FF336440374",
+      "size_bytes": 42411
+    },
+    "polynomial_term_count": 331,
+    "total_levels": 127
+  },
+  "schema_version": "1.0",
+  "status": "stage86_nonnegative_gauge_local_gate_ok",
+  "summary": {
+    "free_tier_compatible_encoding_count": 72,
+    "maximum_normalized_dynamic_range": 902.1476941496485,
+    "minimum_global_penalty_margin": 1.0
+  }
+}

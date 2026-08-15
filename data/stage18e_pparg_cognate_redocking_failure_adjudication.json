@@ -1,0 +1,107 @@
+{
+  "schema_version": "1.0",
+  "adjudication_id": "stage18e-pparg-cognate-redocking-failure-adjudication-20260801-v1",
+  "created_on": "2026-08-01",
+  "status": "stage18e_pparg_confirmatory_technical_gate_closed",
+  "inputs": {
+    "core_archive": {
+      "path": "E:/LeStoreDownload/stage18e_pparg_cognate_redocking_core_v1.tar.gz",
+      "sha256": "28223A990BF76D19915E350A80D46E9C5868F82D6FE70010C5433274C3D6D00D"
+    },
+    "diagnostics_archive": {
+      "path": "E:/LeStoreDownload/stage18e_pparg_cognate_redocking_diagnostics_v1.tar.gz",
+      "sha256": "9070DBBB5DE21374CE440FB315BE362711C55E2E2E86C48FBAC9E63C672955EA"
+    },
+    "summary": {
+      "path": "data/stage18e_pparg_cognate_redocking_summary.json",
+      "sha256": "AC7C4E4F3165C002C5A3FBF6C9B08939582D7285CC911C00DE97AD3B07D5EE16"
+    },
+    "pair_results": {
+      "path": "data/processed/stage18e_pparg_cognate_redocking_results.csv",
+      "sha256": "3BA52E8A6E5B65E5FBCDB2F857F7D137EF5C2E9AB3FC24C3428F47E8E2BE5D27"
+    },
+    "receptor_gate_results": {
+      "path": "data/processed/stage18e_pparg_receptor_gate_results.csv",
+      "sha256": "09893A067892E954CDC943A5A3648B41F08C42D0556E067ACA078894449DE8C0"
+    }
+  },
+  "completion_audit": {
+    "expected_pair_count": 72,
+    "observed_pair_count": 72,
+    "unique_receptor_seed_pair_count": 72,
+    "pose_integrity_failure_count": 0,
+    "unresolved_warning_event_count": 0,
+    "known_warning_event_count": 0
+  },
+  "frozen_gate": {
+    "maximum_rmsd_angstrom": 2.0,
+    "minimum_successful_seeds_per_receptor": 2,
+    "minimum_passing_receptor_count": 16
+  },
+  "outcome": {
+    "passed_receptor_count": 14,
+    "failed_receptor_count": 10,
+    "required_passing_receptor_count": 16,
+    "shortfall": 2,
+    "confirmatory_gate_pass": false,
+    "passing_receptors": [
+      "PPARG_2GTK_reference",
+      "PPARG_8B8X_aligned",
+      "PPARG_2HFP_aligned",
+      "PPARG_6AD9_aligned",
+      "PPARG_2Q6S_aligned",
+      "PPARG_3V9V_aligned",
+      "PPARG_3TY0_aligned",
+      "PPARG_2G0H_aligned",
+      "PPARG_4HEE_aligned",
+      "PPARG_5DWL_aligned",
+      "PPARG_6MS7_aligned",
+      "PPARG_2HWR_aligned",
+      "PPARG_2FVJ_aligned",
+      "PPARG_5Y2T_aligned"
+    ],
+    "failed_receptors": [
+      "PPARG_5F9B_aligned",
+      "PPARG_3CS8_aligned",
+      "PPARG_5UGM_aligned",
+      "PPARG_8FHF_aligned",
+      "PPARG_3HOD_aligned",
+      "PPARG_3H0A_aligned",
+      "PPARG_6ENQ_aligned",
+      "PPARG_1ZEO_aligned",
+      "PPARG_8ZFQ_aligned",
+      "PPARG_8ZFP_aligned"
+    ]
+  },
+  "diagnosis": {
+    "passing_receptor_median_rmsd_median_angstrom": 0.753157,
+    "failed_receptor_median_rmsd_median_angstrom": 8.470768,
+    "near_threshold_failures": [
+      {
+        "conformer_id": "PPARG_3H0A_aligned",
+        "successful_seed_count": 1,
+        "median_rmsd_angstrom": 2.072222
+      },
+      {
+        "conformer_id": "PPARG_8ZFP_aligned",
+        "successful_seed_count": 0,
+        "median_rmsd_angstrom": 2.356801
+      }
+    ],
+    "interpretation": "The result is bimodal and reproducible across seeds. It is not a runtime, warning, pose-integrity, or stochastic-repeat failure. Repeating the unchanged 72 jobs is not justified."
+  },
+  "decision": {
+    "original_confirmatory_gate": "closed_failed",
+    "threshold_relaxation_permitted": false,
+    "near_threshold_promotion_permitted": false,
+    "benchmark_docking_authorized": false,
+    "posthoc_structural_reserve_recovery_authorized": true,
+    "recovery_boundary": "A reserve extension may use only the pre-existing preparation-ready structural pool and frozen structural distances. It must not use PPARG docking scores to rank reserve candidates, and it cannot retroactively convert Stage 18e into a confirmatory pass."
+  },
+  "data_boundary": {
+    "benchmark_docking_scores_read": 0,
+    "fresh_validation_rows_read": 0,
+    "test_rows_read": 0
+  },
+  "interpretation_boundary": "Stage 18e is a failed confirmatory technical gate. Any reserve recovery is explicitly post hoc and may support only exploratory PPARG continuation."
+}

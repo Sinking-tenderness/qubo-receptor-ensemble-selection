@@ -1,0 +1,1719 @@
+{
+  "config": {
+    "path": "configs/stage20_adaptive_k_objective_screen.json",
+    "sha256": "FADD17719A0D3276E11EC6E70671B9D04CDBC8162D1054C09F8CFDC879F0AFBC"
+  },
+  "data_boundary": {
+    "bace1_docking_rows_read": 0,
+    "fresh_validation_rows_read": 0,
+    "new_docking_jobs": 0,
+    "quantum_hardware_jobs": 0,
+    "test_rows_read": 0,
+    "train_rows_read_by_target": {
+      "MK14": 696,
+      "PPARG": 668
+    }
+  },
+  "experiment_class": "posthoc_cross_target_train_only_adaptive_cardinality_review",
+  "experiment_id": "stage20-adaptive-k-objective-screen-20260802-v1",
+  "fold_method_aggregate": [
+    {
+      "fold_count": 4,
+      "k": 1,
+      "mean_holdout_primary": 0.8951028676725323,
+      "mean_holdout_rank": 5407.25,
+      "mean_holdout_robust_composite": 0.8936504422208149,
+      "method": "adaptive_qubo",
+      "objective_ids": [
+        "singleton_threshold1"
+      ],
+      "selected_subsets": [
+        "MK14_3BV2_aligned",
+        "MK14_3BV2_aligned",
+        "MK14_3BV2_aligned",
+        "MK14_3KQ7_aligned"
+      ],
+      "standard_error_holdout_robust_composite": 0.022253121979721024,
+      "target_id": "MK14",
+      "worst_holdout_robust_composite": 0.8270653961752746
+    },
+    {
+      "fold_count": 4,
+      "k": 1,
+      "mean_holdout_primary": 0.8951028676725323,
+      "mean_holdout_rank": 5407.25,
+      "mean_holdout_robust_composite": 0.8936504422208149,
+      "method": "additive_top_k",
+      "objective_ids": [
+        "singleton_threshold1"
+      ],
+      "selected_subsets": [
+        "MK14_3BV2_aligned",
+        "MK14_3BV2_aligned",
+        "MK14_3BV2_aligned",
+        "MK14_3KQ7_aligned"
+      ],
+      "standard_error_holdout_robust_composite": 0.022253121979721024,
+      "target_id": "MK14",
+      "worst_holdout_robust_composite": 0.8270653961752746
+    },
+    {
+      "fold_count": 4,
+      "k": 1,
+      "mean_holdout_primary": 0.8951028676725323,
+      "mean_holdout_rank": 5407.25,
+      "mean_holdout_robust_composite": 0.8936504422208149,
+      "method": "direct_greedy",
+      "objective_ids": [
+        "singleton_threshold1"
+      ],
+      "selected_subsets": [
+        "MK14_3BV2_aligned",
+        "MK14_3BV2_aligned",
+        "MK14_3BV2_aligned",
+        "MK14_3KQ7_aligned"
+      ],
+      "standard_error_holdout_robust_composite": 0.022253121979721024,
+      "target_id": "MK14",
+      "worst_holdout_robust_composite": 0.8270653961752746
+    },
+    {
+      "fold_count": 4,
+      "k": 1,
+      "mean_holdout_primary": 0.8951028676725323,
+      "mean_holdout_rank": 5407.25,
+      "mean_holdout_robust_composite": 0.8936504422208149,
+      "method": "exact_robust_oracle",
+      "objective_ids": [
+        "singleton_threshold1"
+      ],
+      "selected_subsets": [
+        "MK14_3BV2_aligned",
+        "MK14_3BV2_aligned",
+        "MK14_3BV2_aligned",
+        "MK14_3KQ7_aligned"
+      ],
+      "standard_error_holdout_robust_composite": 0.022253121979721024,
+      "target_id": "MK14",
+      "worst_holdout_robust_composite": 0.8270653961752746
+    },
+    {
+      "fold_count": 4,
+      "k": 2,
+      "mean_holdout_primary": 0.9164299051069293,
+      "mean_holdout_rank": 1862.5,
+      "mean_holdout_robust_composite": 0.9149891519434571,
+      "method": "adaptive_qubo",
+      "objective_ids": [
+        "union_threshold1_k2"
+      ],
+      "selected_subsets": [
+        "MK14_3K3J_aligned+MK14_4AAC_aligned",
+        "MK14_3K3J_aligned+MK14_4AAC_aligned",
+        "MK14_3K3J_aligned+MK14_4AAC_aligned",
+        "MK14_3K3J_aligned+MK14_4AAC_aligned"
+      ],
+      "standard_error_holdout_robust_composite": 0.0265528630169904,
+      "target_id": "MK14",
+      "worst_holdout_robust_composite": 0.8651763015016561
+    },
+    {
+      "fold_count": 4,
+      "k": 2,
+      "mean_holdout_primary": 0.9117848320486015,
+      "mean_holdout_rank": 4248.25,
+      "mean_holdout_robust_composite": 0.9100020877641077,
+      "method": "additive_top_k",
+      "objective_ids": [
+        "union_threshold1_k2"
+      ],
+      "selected_subsets": [
+        "MK14_3BV2_aligned+MK14_3K3J_aligned",
+        "MK14_3BV2_aligned+MK14_3K3J_aligned",
+        "MK14_3BV2_aligned+MK14_4AAC_aligned",
+        "MK14_3BV2_aligned+MK14_3KQ7_aligned"
+      ],
+      "standard_error_holdout_robust_composite": 0.017547714354760442,
+      "target_id": "MK14",
+      "worst_holdout_robust_composite": 0.8576102919583485
+    },
+    {
+      "fold_count": 4,
+      "k": 2,
+      "mean_holdout_primary": 0.8993868359011989,
+      "mean_holdout_rank": 3911.25,
+      "mean_holdout_robust_composite": 0.8980243118774796,
+      "method": "direct_greedy",
+      "objective_ids": [
+        "union_threshold1_k2"
+      ],
+      "selected_subsets": [
+        "MK14_3BV2_aligned+MK14_4AAC_aligned",
+        "MK14_2BAJ_aligned+MK14_3BV2_aligned",
+        "MK14_2QD9_reference+MK14_3BV2_aligned",
+        "MK14_2QD9_reference+MK14_3KQ7_aligned"
+      ],
+      "standard_error_holdout_robust_composite": 0.01800378489939237,
+      "target_id": "MK14",
+      "worst_holdout_robust_composite": 0.8624945939401117
+    },
+    {
+      "fold_count": 4,
+      "k": 2,
+      "mean_holdout_primary": 0.9170343496676032,
+      "mean_holdout_rank": 2868.0,
+      "mean_holdout_robust_composite": 0.9157850214463279,
+      "method": "exact_robust_oracle",
+      "objective_ids": [
+        "union_threshold1_k2"
+      ],
+      "selected_subsets": [
+        "MK14_3BV2_aligned+MK14_4AAC_aligned",
+        "MK14_2BAJ_aligned+MK14_3BV2_aligned",
+        "MK14_2QD9_reference+MK14_3BV2_aligned",
+        "MK14_2QD9_reference+MK14_3BV2_aligned"
+      ],
+      "standard_error_holdout_robust_composite": 0.014794945337066096,
+      "target_id": "MK14",
+      "worst_holdout_robust_composite": 0.8761965347732331
+    },
+    {
+      "fold_count": 4,
+      "k": 3,
+      "mean_holdout_primary": 0.8883465816649269,
+      "mean_holdout_rank": 5405.5,
+      "mean_holdout_robust_composite": 0.8891093411184806,
+      "method": "adaptive_qubo",
+      "objective_ids": [
+        "consensus_threshold2_k3"
+      ],
+      "selected_subsets": [
+        "MK14_3BV2_aligned+MK14_3K3J_aligned+MK14_4AAC_aligned",
+        "MK14_3BV2_aligned+MK14_3K3J_aligned+MK14_3KQ7_aligned",
+        "MK14_3BV2_aligned+MK14_3K3J_aligned+MK14_3KQ7_aligned",
+        "MK14_3BV2_aligned+MK14_3ITZ_aligned+MK14_3KQ7_aligned"
+      ],
+      "standard_error_holdout_robust_composite": 0.027604067173842426,
+      "target_id": "MK14",
+      "worst_holdout_robust_composite": 0.8129008154164636
+    },
+    {
+      "fold_count": 4,
+      "k": 3,
+      "mean_holdout_primary": 0.9216637644064128,
+      "mean_holdout_rank": 3694.75,
+      "mean_holdout_robust_composite": 0.918691691037191,
+      "method": "additive_top_k",
+      "objective_ids": [
+        "consensus_threshold2_k3"
+      ],
+      "selected_subsets": [
+        "MK14_3BV2_aligned+MK14_3K3J_aligned+MK14_3KQ7_aligned",
+        "MK14_3BV2_aligned+MK14_3K3J_aligned+MK14_3KQ7_aligned",
+        "MK14_3BV2_aligned+MK14_3KQ7_aligned+MK14_4AAC_aligned",
+        "MK14_3BV2_aligned+MK14_3K3J_aligned+MK14_3KQ7_aligned"
+      ],
+      "standard_error_holdout_robust_composite": 0.013592322730114927,
+      "target_id": "MK14",
+      "worst_holdout_robust_composite": 0.8788878323806074
+    },
+    {
+      "fold_count": 4,
+      "k": 3,
+      "mean_holdout_primary": 0.9225343090227859,
+      "mean_holdout_rank": 1721.75,
+      "mean_holdout_robust_composite": 0.9194497726992181,
+      "method": "direct_greedy",
+      "objective_ids": [
+        "consensus_threshold2_k3"
+      ],
+      "selected_subsets": [
+        "MK14_2BAJ_aligned+MK14_3BV2_aligned+MK14_4AAC_aligned",
+        "MK14_2BAJ_aligned+MK14_2QD9_reference+MK14_3BV2_aligned",
+        "MK14_2BAJ_aligned+MK14_2QD9_reference+MK14_3BV2_aligned",
+        "MK14_2BAJ_aligned+MK14_2QD9_reference+MK14_3KQ7_aligned"
+      ],
+      "standard_error_holdout_robust_composite": 0.01939961439553784,
+      "target_id": "MK14",
+      "worst_holdout_robust_composite": 0.8833541200235708
+    },
+    {
+      "fold_count": 4,
+      "k": 3,
+      "mean_holdout_primary": 0.9398309269378394,
+      "mean_holdout_rank": 1106.0,
+      "mean_holdout_robust_composite": 0.9373330380481619,
+      "method": "exact_robust_oracle",
+      "objective_ids": [
+        "consensus_threshold2_k3"
+      ],
+      "selected_subsets": [
+        "MK14_2BAJ_aligned+MK14_3BV2_aligned+MK14_4AAC_aligned",
+        "MK14_2BAJ_aligned+MK14_2QD9_reference+MK14_3BV2_aligned",
+        "MK14_2BAJ_aligned+MK14_2QD9_reference+MK14_3BV2_aligned",
+        "MK14_2BAJ_aligned+MK14_2QD9_reference+MK14_3BV2_aligned"
+      ],
+      "standard_error_holdout_robust_composite": 0.016303909400560482,
+      "target_id": "MK14",
+      "worst_holdout_robust_composite": 0.8951481484998439
+    },
+    {
+      "fold_count": 4,
+      "k": 4,
+      "mean_holdout_primary": 0.910085289794966,
+      "mean_holdout_rank": 2509.75,
+      "mean_holdout_robust_composite": 0.9078055419195583,
+      "method": "adaptive_qubo",
+      "objective_ids": [
+        "consensus_threshold2_diverse_k4"
+      ],
+      "selected_subsets": [
+        "MK14_3BV2_aligned+MK14_3KQ7_aligned+MK14_3MPT_aligned+MK14_4AAC_aligned",
+        "MK14_3BV2_aligned+MK14_3KQ7_aligned+MK14_3MPT_aligned+MK14_4AAC_aligned",
+        "MK14_3BV2_aligned+MK14_3K3J_aligned+MK14_3KQ7_aligned+MK14_4AAC_aligned",
+        "MK14_3ITZ_aligned+MK14_3K3J_aligned+MK14_3KQ7_aligned+MK14_4AAC_aligned"
+      ],
+      "standard_error_holdout_robust_composite": 0.033523818622601814,
+      "target_id": "MK14",
+      "worst_holdout_robust_composite": 0.8340547046738066
+    },
+    {
+      "fold_count": 4,
+      "k": 4,
+      "mean_holdout_primary": 0.9175260346640779,
+      "mean_holdout_rank": 4550.5,
+      "mean_holdout_robust_composite": 0.9140825518669722,
+      "method": "additive_top_k",
+      "objective_ids": [
+        "consensus_threshold2_diverse_k4"
+      ],
+      "selected_subsets": [
+        "MK14_2BAJ_aligned+MK14_3BV2_aligned+MK14_3K3J_aligned+MK14_3KQ7_aligned",
+        "MK14_2BAJ_aligned+MK14_3BV2_aligned+MK14_3K3J_aligned+MK14_3KQ7_aligned",
+        "MK14_2BAJ_aligned+MK14_3BV2_aligned+MK14_3KQ7_aligned+MK14_4AAC_aligned",
+        "MK14_3BV2_aligned+MK14_3ITZ_aligned+MK14_3K3J_aligned+MK14_3KQ7_aligned"
+      ],
+      "standard_error_holdout_robust_composite": 0.030949280126047286,
+      "target_id": "MK14",
+      "worst_holdout_robust_composite": 0.8216387105359036
+    },
+    {
+      "fold_count": 4,
+      "k": 4,
+      "mean_holdout_primary": 0.9150763530111888,
+      "mean_holdout_rank": 1400.5,
+      "mean_holdout_robust_composite": 0.9136668689706315,
+      "method": "direct_greedy",
+      "objective_ids": [
+        "consensus_threshold2_diverse_k4"
+      ],
+      "selected_subsets": [
+        "MK14_2BAJ_aligned+MK14_2QD9_reference+MK14_3BV2_aligned+MK14_4AAC_aligned",
+        "MK14_2BAJ_aligned+MK14_2QD9_reference+MK14_3BV2_aligned+MK14_3K3J_aligned",
+        "MK14_2BAJ_aligned+MK14_2QD9_reference+MK14_3BV2_aligned+MK14_3MPT_aligned",
+        "MK14_2BAJ_aligned+MK14_2QD9_reference+MK14_3BV2_aligned+MK14_3KQ7_aligned"
+      ],
+      "standard_error_holdout_robust_composite": 0.019518132297408383,
+      "target_id": "MK14",
+      "worst_holdout_robust_composite": 0.8898705789464514
+    },
+    {
+      "fold_count": 4,
+      "k": 4,
+      "mean_holdout_primary": 0.9267576136364282,
+      "mean_holdout_rank": 1074.0,
+      "mean_holdout_robust_composite": 0.9256481281222129,
+      "method": "exact_robust_oracle",
+      "objective_ids": [
+        "consensus_threshold2_diverse_k4"
+      ],
+      "selected_subsets": [
+        "MK14_2BAJ_aligned+MK14_2QD9_reference+MK14_3BV2_aligned+MK14_4AAC_aligned",
+        "MK14_2BAJ_aligned+MK14_2QD9_reference+MK14_3BV2_aligned+MK14_3K3J_aligned",
+        "MK14_2BAJ_aligned+MK14_2QD9_reference+MK14_3BV2_aligned+MK14_3MPT_aligned",
+        "MK14_2BAJ_aligned+MK14_2QD9_reference+MK14_3BV2_aligned+MK14_3K3J_aligned"
+      ],
+      "standard_error_holdout_robust_composite": 0.019439011834076383,
+      "target_id": "MK14",
+      "worst_holdout_robust_composite": 0.8898705789464514
+    },
+    {
+      "fold_count": 4,
+      "k": 5,
+      "mean_holdout_primary": 0.907578696284802,
+      "mean_holdout_rank": 1790.5,
+      "mean_holdout_robust_composite": 0.9067250323843516,
+      "method": "adaptive_qubo",
+      "objective_ids": [
+        "consensus_threshold3_diverse_k5"
+      ],
+      "selected_subsets": [
+        "MK14_3BV2_aligned+MK14_3K3J_aligned+MK14_3KQ7_aligned+MK14_3MPT_aligned+MK14_4AAC_aligned",
+        "MK14_3BV2_aligned+MK14_3K3J_aligned+MK14_3KQ7_aligned+MK14_3MPT_aligned+MK14_4AAC_aligned",
+        "MK14_3BV2_aligned+MK14_3K3J_aligned+MK14_3KQ7_aligned+MK14_3MPT_aligned+MK14_4AAC_aligned",
+        "MK14_3BV2_aligned+MK14_3ITZ_aligned+MK14_3K3J_aligned+MK14_3KQ7_aligned+MK14_4AAC_aligned"
+      ],
+      "standard_error_holdout_robust_composite": 0.02559752685275332,
+      "target_id": "MK14",
+      "worst_holdout_robust_composite": 0.8669144587998159
+    },
+    {
+      "fold_count": 4,
+      "k": 5,
+      "mean_holdout_primary": 0.9285624959599227,
+      "mean_holdout_rank": 1799.0,
+      "mean_holdout_robust_composite": 0.9263616471588032,
+      "method": "additive_top_k",
+      "objective_ids": [
+        "consensus_threshold3_diverse_k5"
+      ],
+      "selected_subsets": [
+        "MK14_2BAJ_aligned+MK14_3BV2_aligned+MK14_3K3J_aligned+MK14_3KQ7_aligned+MK14_4AAC_aligned",
+        "MK14_2BAJ_aligned+MK14_3BV2_aligned+MK14_3K3J_aligned+MK14_3KQ7_aligned+MK14_4AAC_aligned",
+        "MK14_2BAJ_aligned+MK14_3BV2_aligned+MK14_3K3J_aligned+MK14_3KQ7_aligned+MK14_4AAC_aligned",
+        "MK14_3BV2_aligned+MK14_3ITZ_aligned+MK14_3K3J_aligned+MK14_3KQ7_aligned+MK14_4AAC_aligned"
+      ],
+      "standard_error_holdout_robust_composite": 0.024293914886812682,
+      "target_id": "MK14",
+      "worst_holdout_robust_composite": 0.8669144587998159
+    },
+    {
+      "fold_count": 4,
+      "k": 5,
+      "mean_holdout_primary": 0.9170106588231484,
+      "mean_holdout_rank": 1328.25,
+      "mean_holdout_robust_composite": 0.9148010124626953,
+      "method": "direct_greedy",
+      "objective_ids": [
+        "consensus_threshold3_diverse_k5"
+      ],
+      "selected_subsets": [
+        "MK14_2BAJ_aligned+MK14_2QD9_reference+MK14_3BV2_aligned+MK14_3K3J_aligned+MK14_4AAC_aligned",
+        "MK14_2BAJ_aligned+MK14_2QD9_reference+MK14_3BV2_aligned+MK14_3K3J_aligned+MK14_3KQ7_aligned",
+        "MK14_2BAJ_aligned+MK14_2QD9_reference+MK14_3BV2_aligned+MK14_3MPT_aligned+MK14_4AAC_aligned",
+        "MK14_2BAJ_aligned+MK14_2QD9_reference+MK14_3BV2_aligned+MK14_3K3J_aligned+MK14_3KQ7_aligned"
+      ],
+      "standard_error_holdout_robust_composite": 0.019140152169898953,
+      "target_id": "MK14",
+      "worst_holdout_robust_composite": 0.8915925817153024
+    },
+    {
+      "fold_count": 4,
+      "k": 5,
+      "mean_holdout_primary": 0.9306203871749593,
+      "mean_holdout_rank": 1223.25,
+      "mean_holdout_robust_composite": 0.927416322770799,
+      "method": "exact_robust_oracle",
+      "objective_ids": [
+        "consensus_threshold3_diverse_k5"
+      ],
+      "selected_subsets": [
+        "MK14_2BAJ_aligned+MK14_2QD9_reference+MK14_3BV2_aligned+MK14_3K3J_aligned+MK14_4AAC_aligned",
+        "MK14_2BAJ_aligned+MK14_2QD9_reference+MK14_3BV2_aligned+MK14_3K3J_aligned+MK14_3KQ7_aligned",
+        "MK14_2BAJ_aligned+MK14_2QD9_reference+MK14_3BV2_aligned+MK14_3K3J_aligned+MK14_3KQ7_aligned",
+        "MK14_2BAJ_aligned+MK14_2QD9_reference+MK14_3BV2_aligned+MK14_3K3J_aligned+MK14_3KQ7_aligned"
+      ],
+      "standard_error_holdout_robust_composite": 0.019147602148756673,
+      "target_id": "MK14",
+      "worst_holdout_robust_composite": 0.8915925817153024
+    },
+    {
+      "fold_count": 4,
+      "k": 6,
+      "mean_holdout_primary": 0.8891034396647037,
+      "mean_holdout_rank": 2838.5,
+      "mean_holdout_robust_composite": 0.8824530186622394,
+      "method": "adaptive_qubo",
+      "objective_ids": [
+        "consensus_threshold3_diverse_k6"
+      ],
+      "selected_subsets": [
+        "MK14_3BV2_aligned+MK14_3K3J_aligned+MK14_3KQ7_aligned+MK14_3OCG_aligned+MK14_3ZSG_aligned+MK14_4AAC_aligned",
+        "MK14_3BV2_aligned+MK14_3K3J_aligned+MK14_3KQ7_aligned+MK14_3OCG_aligned+MK14_3ZSG_aligned+MK14_4AAC_aligned",
+        "MK14_3BV2_aligned+MK14_3K3J_aligned+MK14_3KQ7_aligned+MK14_3MPT_aligned+MK14_3ZSG_aligned+MK14_4AAC_aligned",
+        "MK14_2BAJ_aligned+MK14_3BV2_aligned+MK14_3ITZ_aligned+MK14_3K3J_aligned+MK14_3KQ7_aligned+MK14_4AAC_aligned"
+      ],
+      "standard_error_holdout_robust_composite": 0.03523492140057972,
+      "target_id": "MK14",
+      "worst_holdout_robust_composite": 0.803762698071253
+    },
+    {
+      "fold_count": 4,
+      "k": 6,
+      "mean_holdout_primary": 0.9216460432560774,
+      "mean_holdout_rank": 1377.25,
+      "mean_holdout_robust_composite": 0.9188495251460231,
+      "method": "additive_top_k",
+      "objective_ids": [
+        "consensus_threshold3_diverse_k6"
+      ],
+      "selected_subsets": [
+        "MK14_2BAJ_aligned+MK14_3BV2_aligned+MK14_3K3J_aligned+MK14_3KQ7_aligned+MK14_3MPT_aligned+MK14_4AAC_aligned",
+        "MK14_2BAJ_aligned+MK14_3BV2_aligned+MK14_3K3J_aligned+MK14_3KQ7_aligned+MK14_3ZSG_aligned+MK14_4AAC_aligned",
+        "MK14_2BAJ_aligned+MK14_3BV2_aligned+MK14_3K3J_aligned+MK14_3KQ7_aligned+MK14_3MPT_aligned+MK14_4AAC_aligned",
+        "MK14_2BAJ_aligned+MK14_3BV2_aligned+MK14_3ITZ_aligned+MK14_3K3J_aligned+MK14_3KQ7_aligned+MK14_4AAC_aligned"
+      ],
+      "standard_error_holdout_robust_composite": 0.020300041228150958,
+      "target_id": "MK14",
+      "worst_holdout_robust_composite": 0.8852773762684049
+    },
+    {
+      "fold_count": 4,
+      "k": 6,
+      "mean_holdout_primary": 0.897118060034497,
+      "mean_holdout_rank": 2041.5,
+      "mean_holdout_robust_composite": 0.890153886596599,
+      "method": "direct_greedy",
+      "objective_ids": [
+        "consensus_threshold3_diverse_k6"
+      ],
+      "selected_subsets": [
+        "MK14_2BAJ_aligned+MK14_2QD9_reference+MK14_3BV2_aligned+MK14_3K3J_aligned+MK14_3MPT_aligned+MK14_4AAC_aligned",
+        "MK14_2BAJ_aligned+MK14_2QD9_reference+MK14_3BV2_aligned+MK14_3K3J_aligned+MK14_3KQ7_aligned+MK14_4AAC_aligned",
+        "MK14_2BAJ_aligned+MK14_2QD9_reference+MK14_3BV2_aligned+MK14_3MPT_aligned+MK14_4AAC_aligned+MK14_4FA2_aligned",
+        "MK14_2BAJ_aligned+MK14_2QD9_reference+MK14_3BV2_aligned+MK14_3ITZ_aligned+MK14_3K3J_aligned+MK14_3KQ7_aligned"
+      ],
+      "standard_error_holdout_robust_composite": 0.03233868532908216,
+      "target_id": "MK14",
+      "worst_holdout_robust_composite": 0.828078228848165
+    },
+    {
+      "fold_count": 4,
+      "k": 6,
+      "mean_holdout_primary": 0.9198761874247725,
+      "mean_holdout_rank": 1679.75,
+      "mean_holdout_robust_composite": 0.9153845137083133,
+      "method": "exact_robust_oracle",
+      "objective_ids": [
+        "consensus_threshold3_diverse_k6"
+      ],
+      "selected_subsets": [
+        "MK14_2BAJ_aligned+MK14_2QD9_reference+MK14_3BV2_aligned+MK14_3K3J_aligned+MK14_3MPT_aligned+MK14_4AAC_aligned",
+        "MK14_2BAJ_aligned+MK14_2QD9_reference+MK14_3BV2_aligned+MK14_3K3J_aligned+MK14_3KQ7_aligned+MK14_4AAC_aligned",
+        "MK14_2BAJ_aligned+MK14_2QD9_reference+MK14_3BV2_aligned+MK14_3K3J_aligned+MK14_3KQ7_aligned+MK14_3MPT_aligned",
+        "MK14_2BAJ_aligned+MK14_2QD9_reference+MK14_3BV2_aligned+MK14_3ITZ_aligned+MK14_3K3J_aligned+MK14_3KQ7_aligned"
+      ],
+      "standard_error_holdout_robust_composite": 0.025263344942564693,
+      "target_id": "MK14",
+      "worst_holdout_robust_composite": 0.8622795651084211
+    },
+    {
+      "fold_count": 4,
+      "k": 1,
+      "mean_holdout_primary": 0.866787477513306,
+      "mean_holdout_rank": 3376.75,
+      "mean_holdout_robust_composite": 0.8680214687638116,
+      "method": "adaptive_qubo",
+      "objective_ids": [
+        "singleton_threshold1"
+      ],
+      "selected_subsets": [
+        "PPARG_2Q6S_aligned",
+        "PPARG_5DWL_aligned",
+        "PPARG_5DWL_aligned",
+        "PPARG_2Q6S_aligned"
+      ],
+      "standard_error_holdout_robust_composite": 0.017662712582092056,
+      "target_id": "PPARG",
+      "worst_holdout_robust_composite": 0.8184000272489981
+    },
+    {
+      "fold_count": 4,
+      "k": 1,
+      "mean_holdout_primary": 0.866787477513306,
+      "mean_holdout_rank": 3376.75,
+      "mean_holdout_robust_composite": 0.8680214687638116,
+      "method": "additive_top_k",
+      "objective_ids": [
+        "singleton_threshold1"
+      ],
+      "selected_subsets": [
+        "PPARG_2Q6S_aligned",
+        "PPARG_5DWL_aligned",
+        "PPARG_5DWL_aligned",
+        "PPARG_2Q6S_aligned"
+      ],
+      "standard_error_holdout_robust_composite": 0.017662712582092056,
+      "target_id": "PPARG",
+      "worst_holdout_robust_composite": 0.8184000272489981
+    },
+    {
+      "fold_count": 4,
+      "k": 1,
+      "mean_holdout_primary": 0.866787477513306,
+      "mean_holdout_rank": 3376.75,
+      "mean_holdout_robust_composite": 0.8680214687638116,
+      "method": "direct_greedy",
+      "objective_ids": [
+        "singleton_threshold1"
+      ],
+      "selected_subsets": [
+        "PPARG_2Q6S_aligned",
+        "PPARG_5DWL_aligned",
+        "PPARG_5DWL_aligned",
+        "PPARG_2Q6S_aligned"
+      ],
+      "standard_error_holdout_robust_composite": 0.017662712582092056,
+      "target_id": "PPARG",
+      "worst_holdout_robust_composite": 0.8184000272489981
+    },
+    {
+      "fold_count": 4,
+      "k": 1,
+      "mean_holdout_primary": 0.866787477513306,
+      "mean_holdout_rank": 3376.75,
+      "mean_holdout_robust_composite": 0.8680214687638116,
+      "method": "exact_robust_oracle",
+      "objective_ids": [
+        "singleton_threshold1"
+      ],
+      "selected_subsets": [
+        "PPARG_2Q6S_aligned",
+        "PPARG_5DWL_aligned",
+        "PPARG_5DWL_aligned",
+        "PPARG_2Q6S_aligned"
+      ],
+      "standard_error_holdout_robust_composite": 0.017662712582092056,
+      "target_id": "PPARG",
+      "worst_holdout_robust_composite": 0.8184000272489981
+    },
+    {
+      "fold_count": 4,
+      "k": 2,
+      "mean_holdout_primary": 0.825806022003435,
+      "mean_holdout_rank": 5572.5,
+      "mean_holdout_robust_composite": 0.8238520245021885,
+      "method": "adaptive_qubo",
+      "objective_ids": [
+        "union_threshold1_k2"
+      ],
+      "selected_subsets": [
+        "PPARG_2Q6S_aligned+PPARG_5Y2T_aligned",
+        "PPARG_2Q6S_aligned+PPARG_5DWL_aligned",
+        "PPARG_2Q6S_aligned+PPARG_4HEE_aligned",
+        "PPARG_5Y2T_aligned+PPARG_6MS7_aligned"
+      ],
+      "standard_error_holdout_robust_composite": 0.04509647879009214,
+      "target_id": "PPARG",
+      "worst_holdout_robust_composite": 0.724550438872234
+    },
+    {
+      "fold_count": 4,
+      "k": 2,
+      "mean_holdout_primary": 0.8632840677323138,
+      "mean_holdout_rank": 3173.75,
+      "mean_holdout_robust_composite": 0.8574247404181259,
+      "method": "additive_top_k",
+      "objective_ids": [
+        "union_threshold1_k2"
+      ],
+      "selected_subsets": [
+        "PPARG_2Q6S_aligned+PPARG_5DWL_aligned",
+        "PPARG_2Q6S_aligned+PPARG_5DWL_aligned",
+        "PPARG_2G0H_aligned+PPARG_5DWL_aligned",
+        "PPARG_2G0H_aligned+PPARG_2Q6S_aligned"
+      ],
+      "standard_error_holdout_robust_composite": 0.05317701756814259,
+      "target_id": "PPARG",
+      "worst_holdout_robust_composite": 0.6986828399818098
+    },
+    {
+      "fold_count": 4,
+      "k": 2,
+      "mean_holdout_primary": 0.864424980875745,
+      "mean_holdout_rank": 2924.0,
+      "mean_holdout_robust_composite": 0.8609066481062005,
+      "method": "direct_greedy",
+      "objective_ids": [
+        "union_threshold1_k2"
+      ],
+      "selected_subsets": [
+        "PPARG_2Q6S_aligned+PPARG_5DWL_aligned",
+        "PPARG_2Q6S_aligned+PPARG_5DWL_aligned",
+        "PPARG_2Q6S_aligned+PPARG_5DWL_aligned",
+        "PPARG_2G0H_aligned+PPARG_2Q6S_aligned"
+      ],
+      "standard_error_holdout_robust_composite": 0.054742256403021154,
+      "target_id": "PPARG",
+      "worst_holdout_robust_composite": 0.6986828399818098
+    },
+    {
+      "fold_count": 4,
+      "k": 2,
+      "mean_holdout_primary": 0.864424980875745,
+      "mean_holdout_rank": 2924.0,
+      "mean_holdout_robust_composite": 0.8609066481062005,
+      "method": "exact_robust_oracle",
+      "objective_ids": [
+        "union_threshold1_k2"
+      ],
+      "selected_subsets": [
+        "PPARG_2Q6S_aligned+PPARG_5DWL_aligned",
+        "PPARG_2Q6S_aligned+PPARG_5DWL_aligned",
+        "PPARG_2Q6S_aligned+PPARG_5DWL_aligned",
+        "PPARG_2G0H_aligned+PPARG_2Q6S_aligned"
+      ],
+      "standard_error_holdout_robust_composite": 0.054742256403021154,
+      "target_id": "PPARG",
+      "worst_holdout_robust_composite": 0.6986828399818098
+    },
+    {
+      "fold_count": 4,
+      "k": 3,
+      "mean_holdout_primary": 0.8065269082557478,
+      "mean_holdout_rank": 6520.5,
+      "mean_holdout_robust_composite": 0.8114492413209491,
+      "method": "adaptive_qubo",
+      "objective_ids": [
+        "consensus_threshold2_k3"
+      ],
+      "selected_subsets": [
+        "PPARG_2GTK_reference+PPARG_2Q6S_aligned+PPARG_4HEE_aligned",
+        "PPARG_2GTK_reference+PPARG_2Q6S_aligned+PPARG_5DWL_aligned",
+        "PPARG_2GTK_reference+PPARG_4HEE_aligned+PPARG_5DWL_aligned",
+        "PPARG_2G0H_aligned+PPARG_2Q6S_aligned+PPARG_6MS7_aligned"
+      ],
+      "standard_error_holdout_robust_composite": 0.046201251395622804,
+      "target_id": "PPARG",
+      "worst_holdout_robust_composite": 0.7117915568836831
+    },
+    {
+      "fold_count": 4,
+      "k": 3,
+      "mean_holdout_primary": 0.9055139137708053,
+      "mean_holdout_rank": 995.0,
+      "mean_holdout_robust_composite": 0.8902561255186903,
+      "method": "additive_top_k",
+      "objective_ids": [
+        "consensus_threshold2_k3"
+      ],
+      "selected_subsets": [
+        "PPARG_2G0H_aligned+PPARG_2Q6S_aligned+PPARG_5DWL_aligned",
+        "PPARG_2G0H_aligned+PPARG_2Q6S_aligned+PPARG_5DWL_aligned",
+        "PPARG_2G0H_aligned+PPARG_2Q6S_aligned+PPARG_5DWL_aligned",
+        "PPARG_2G0H_aligned+PPARG_2Q6S_aligned+PPARG_5DWL_aligned"
+      ],
+      "standard_error_holdout_robust_composite": 0.03658923068476888,
+      "target_id": "PPARG",
+      "worst_holdout_robust_composite": 0.781904765761678
+    },
+    {
+      "fold_count": 4,
+      "k": 3,
+      "mean_holdout_primary": 0.8416441079641058,
+      "mean_holdout_rank": 4139.75,
+      "mean_holdout_robust_composite": 0.8418589954325251,
+      "method": "direct_greedy",
+      "objective_ids": [
+        "consensus_threshold2_k3"
+      ],
+      "selected_subsets": [
+        "PPARG_2FVJ_aligned+PPARG_2Q6S_aligned+PPARG_5DWL_aligned",
+        "PPARG_2FVJ_aligned+PPARG_2Q6S_aligned+PPARG_5DWL_aligned",
+        "PPARG_2FVJ_aligned+PPARG_2Q6S_aligned+PPARG_5DWL_aligned",
+        "PPARG_2G0H_aligned+PPARG_2Q6S_aligned+PPARG_5Y2T_aligned"
+      ],
+      "standard_error_holdout_robust_composite": 0.06897674609742596,
+      "target_id": "PPARG",
+      "worst_holdout_robust_composite": 0.635078629588278
+    },
+    {
+      "fold_count": 4,
+      "k": 3,
+      "mean_holdout_primary": 0.8416441079641058,
+      "mean_holdout_rank": 4139.75,
+      "mean_holdout_robust_composite": 0.8418589954325251,
+      "method": "exact_robust_oracle",
+      "objective_ids": [
+        "consensus_threshold2_k3"
+      ],
+      "selected_subsets": [
+        "PPARG_2FVJ_aligned+PPARG_2Q6S_aligned+PPARG_5DWL_aligned",
+        "PPARG_2FVJ_aligned+PPARG_2Q6S_aligned+PPARG_5DWL_aligned",
+        "PPARG_2FVJ_aligned+PPARG_2Q6S_aligned+PPARG_5DWL_aligned",
+        "PPARG_2G0H_aligned+PPARG_2Q6S_aligned+PPARG_5Y2T_aligned"
+      ],
+      "standard_error_holdout_robust_composite": 0.06897674609742596,
+      "target_id": "PPARG",
+      "worst_holdout_robust_composite": 0.635078629588278
+    },
+    {
+      "fold_count": 4,
+      "k": 4,
+      "mean_holdout_primary": 0.8146265318055994,
+      "mean_holdout_rank": 5748.5,
+      "mean_holdout_robust_composite": 0.8213720311877021,
+      "method": "adaptive_qubo",
+      "objective_ids": [
+        "consensus_threshold2_diverse_k4"
+      ],
+      "selected_subsets": [
+        "PPARG_2Q6S_aligned+PPARG_3TY0_aligned+PPARG_4HEE_aligned+PPARG_5Y2T_aligned",
+        "PPARG_2G0H_aligned+PPARG_2Q6S_aligned+PPARG_3V9V_aligned+PPARG_5DWL_aligned",
+        "PPARG_2GTK_reference+PPARG_2Q6S_aligned+PPARG_4HEE_aligned+PPARG_5DWL_aligned",
+        "PPARG_2G0H_aligned+PPARG_2Q6S_aligned+PPARG_5Y2T_aligned+PPARG_6MS7_aligned"
+      ],
+      "standard_error_holdout_robust_composite": 0.05306807227930193,
+      "target_id": "PPARG",
+      "worst_holdout_robust_composite": 0.6893864505806299
+    },
+    {
+      "fold_count": 4,
+      "k": 4,
+      "mean_holdout_primary": 0.8947862728472268,
+      "mean_holdout_rank": 1316.75,
+      "mean_holdout_robust_composite": 0.8843630248161072,
+      "method": "additive_top_k",
+      "objective_ids": [
+        "consensus_threshold2_diverse_k4"
+      ],
+      "selected_subsets": [
+        "PPARG_2G0H_aligned+PPARG_2Q6S_aligned+PPARG_5DWL_aligned+PPARG_5Y2T_aligned",
+        "PPARG_2G0H_aligned+PPARG_2Q6S_aligned+PPARG_5DWL_aligned+PPARG_5Y2T_aligned",
+        "PPARG_2G0H_aligned+PPARG_2Q6S_aligned+PPARG_5DWL_aligned+PPARG_5Y2T_aligned",
+        "PPARG_2G0H_aligned+PPARG_2Q6S_aligned+PPARG_5DWL_aligned+PPARG_5Y2T_aligned"
+      ],
+      "standard_error_holdout_robust_composite": 0.04722901642310844,
+      "target_id": "PPARG",
+      "worst_holdout_robust_composite": 0.7439536019244611
+    },
+    {
+      "fold_count": 4,
+      "k": 4,
+      "mean_holdout_primary": 0.864123081025473,
+      "mean_holdout_rank": 2724.5,
+      "mean_holdout_robust_composite": 0.8645926932004051,
+      "method": "direct_greedy",
+      "objective_ids": [
+        "consensus_threshold2_diverse_k4"
+      ],
+      "selected_subsets": [
+        "PPARG_2FVJ_aligned+PPARG_2Q6S_aligned+PPARG_3TY0_aligned+PPARG_5DWL_aligned",
+        "PPARG_2FVJ_aligned+PPARG_2Q6S_aligned+PPARG_5DWL_aligned+PPARG_5Y2T_aligned",
+        "PPARG_2FVJ_aligned+PPARG_2Q6S_aligned+PPARG_5DWL_aligned+PPARG_6AD9_aligned",
+        "PPARG_2G0H_aligned+PPARG_2Q6S_aligned+PPARG_5DWL_aligned+PPARG_5Y2T_aligned"
+      ],
+      "standard_error_holdout_robust_composite": 0.04043348504822362,
+      "target_id": "PPARG",
+      "worst_holdout_robust_composite": 0.7439536019244611
+    },
+    {
+      "fold_count": 4,
+      "k": 4,
+      "mean_holdout_primary": 0.885625352357674,
+      "mean_holdout_rank": 1958.75,
+      "mean_holdout_robust_composite": 0.8823870982168204,
+      "method": "exact_robust_oracle",
+      "objective_ids": [
+        "consensus_threshold2_diverse_k4"
+      ],
+      "selected_subsets": [
+        "PPARG_2FVJ_aligned+PPARG_2Q6S_aligned+PPARG_3TY0_aligned+PPARG_5DWL_aligned",
+        "PPARG_2FVJ_aligned+PPARG_2Q6S_aligned+PPARG_5DWL_aligned+PPARG_5Y2T_aligned",
+        "PPARG_2FVJ_aligned+PPARG_2Q6S_aligned+PPARG_5DWL_aligned+PPARG_6AD9_aligned",
+        "PPARG_2Q6S_aligned+PPARG_3TY0_aligned+PPARG_5DWL_aligned+PPARG_5Y2T_aligned"
+      ],
+      "standard_error_holdout_robust_composite": 0.02281170012038097,
+      "target_id": "PPARG",
+      "worst_holdout_robust_composite": 0.8151312219901223
+    },
+    {
+      "fold_count": 4,
+      "k": 5,
+      "mean_holdout_primary": 0.8357912479482894,
+      "mean_holdout_rank": 4292.0,
+      "mean_holdout_robust_composite": 0.8438517580222358,
+      "method": "adaptive_qubo",
+      "objective_ids": [
+        "consensus_threshold3_diverse_k5"
+      ],
+      "selected_subsets": [
+        "PPARG_2GTK_reference+PPARG_2Q6S_aligned+PPARG_3V9V_aligned+PPARG_4HEE_aligned+PPARG_5DWL_aligned",
+        "PPARG_2G0H_aligned+PPARG_2GTK_reference+PPARG_2Q6S_aligned+PPARG_3V9V_aligned+PPARG_5DWL_aligned",
+        "PPARG_2G0H_aligned+PPARG_2GTK_reference+PPARG_2Q6S_aligned+PPARG_4HEE_aligned+PPARG_5DWL_aligned",
+        "PPARG_2G0H_aligned+PPARG_2GTK_reference+PPARG_5DWL_aligned+PPARG_5Y2T_aligned+PPARG_6MS7_aligned"
+      ],
+      "standard_error_holdout_robust_composite": 0.037050466577815834,
+      "target_id": "PPARG",
+      "worst_holdout_robust_composite": 0.747942965390318
+    },
+    {
+      "fold_count": 4,
+      "k": 5,
+      "mean_holdout_primary": 0.830803501736838,
+      "mean_holdout_rank": 4083.5,
+      "mean_holdout_robust_composite": 0.8465090501205798,
+      "method": "additive_top_k",
+      "objective_ids": [
+        "consensus_threshold3_diverse_k5"
+      ],
+      "selected_subsets": [
+        "PPARG_2G0H_aligned+PPARG_2Q6S_aligned+PPARG_5DWL_aligned+PPARG_5Y2T_aligned+PPARG_6MS7_aligned",
+        "PPARG_2G0H_aligned+PPARG_2GTK_reference+PPARG_2Q6S_aligned+PPARG_5DWL_aligned+PPARG_5Y2T_aligned",
+        "PPARG_2G0H_aligned+PPARG_2Q6S_aligned+PPARG_4HEE_aligned+PPARG_5DWL_aligned+PPARG_5Y2T_aligned",
+        "PPARG_2G0H_aligned+PPARG_2Q6S_aligned+PPARG_5DWL_aligned+PPARG_5Y2T_aligned+PPARG_6MS7_aligned"
+      ],
+      "standard_error_holdout_robust_composite": 0.034406081835091896,
+      "target_id": "PPARG",
+      "worst_holdout_robust_composite": 0.751692849426565
+    },
+    {
+      "fold_count": 4,
+      "k": 5,
+      "mean_holdout_primary": 0.8770281608278025,
+      "mean_holdout_rank": 2014.25,
+      "mean_holdout_robust_composite": 0.8740252633883068,
+      "method": "direct_greedy",
+      "objective_ids": [
+        "consensus_threshold3_diverse_k5"
+      ],
+      "selected_subsets": [
+        "PPARG_2FVJ_aligned+PPARG_2Q6S_aligned+PPARG_3TY0_aligned+PPARG_5DWL_aligned+PPARG_6AD9_aligned",
+        "PPARG_2FVJ_aligned+PPARG_2Q6S_aligned+PPARG_3TY0_aligned+PPARG_5DWL_aligned+PPARG_5Y2T_aligned",
+        "PPARG_2FVJ_aligned+PPARG_2Q6S_aligned+PPARG_3TY0_aligned+PPARG_5DWL_aligned+PPARG_6AD9_aligned",
+        "PPARG_2G0H_aligned+PPARG_2Q6S_aligned+PPARG_3TY0_aligned+PPARG_5DWL_aligned+PPARG_5Y2T_aligned"
+      ],
+      "standard_error_holdout_robust_composite": 0.042393819074247545,
+      "target_id": "PPARG",
+      "worst_holdout_robust_composite": 0.748448365970559
+    },
+    {
+      "fold_count": 4,
+      "k": 5,
+      "mean_holdout_primary": 0.8949039881819935,
+      "mean_holdout_rank": 1215.75,
+      "mean_holdout_robust_composite": 0.8899802302449336,
+      "method": "exact_robust_oracle",
+      "objective_ids": [
+        "consensus_threshold3_diverse_k5"
+      ],
+      "selected_subsets": [
+        "PPARG_2FVJ_aligned+PPARG_2Q6S_aligned+PPARG_3TY0_aligned+PPARG_5DWL_aligned+PPARG_6AD9_aligned",
+        "PPARG_2FVJ_aligned+PPARG_2Q6S_aligned+PPARG_3TY0_aligned+PPARG_5DWL_aligned+PPARG_5Y2T_aligned",
+        "PPARG_2FVJ_aligned+PPARG_2Q6S_aligned+PPARG_3TY0_aligned+PPARG_5DWL_aligned+PPARG_5Y2T_aligned",
+        "PPARG_2HWR_aligned+PPARG_2Q6S_aligned+PPARG_3TY0_aligned+PPARG_5DWL_aligned+PPARG_5Y2T_aligned"
+      ],
+      "standard_error_holdout_robust_composite": 0.039921208341685936,
+      "target_id": "PPARG",
+      "worst_holdout_robust_composite": 0.7774338196435208
+    },
+    {
+      "fold_count": 4,
+      "k": 6,
+      "mean_holdout_primary": 0.8366475379441879,
+      "mean_holdout_rank": 4366.25,
+      "mean_holdout_robust_composite": 0.844954145055598,
+      "method": "adaptive_qubo",
+      "objective_ids": [
+        "consensus_threshold3_diverse_k6"
+      ],
+      "selected_subsets": [
+        "PPARG_2GTK_reference+PPARG_2HWR_aligned+PPARG_2Q6S_aligned+PPARG_3TY0_aligned+PPARG_4HEE_aligned+PPARG_5Y2T_aligned",
+        "PPARG_2G0H_aligned+PPARG_2GTK_reference+PPARG_2Q6S_aligned+PPARG_3V9V_aligned+PPARG_4HEE_aligned+PPARG_5DWL_aligned",
+        "PPARG_2G0H_aligned+PPARG_2GTK_reference+PPARG_2Q6S_aligned+PPARG_3V9V_aligned+PPARG_4HEE_aligned+PPARG_5DWL_aligned",
+        "PPARG_2G0H_aligned+PPARG_2GTK_reference+PPARG_2Q6S_aligned+PPARG_5DWL_aligned+PPARG_5Y2T_aligned+PPARG_6MS7_aligned"
+      ],
+      "standard_error_holdout_robust_composite": 0.03520537153551426,
+      "target_id": "PPARG",
+      "worst_holdout_robust_composite": 0.7544354941014767
+    },
+    {
+      "fold_count": 4,
+      "k": 6,
+      "mean_holdout_primary": 0.8354254374474068,
+      "mean_holdout_rank": 3816.75,
+      "mean_holdout_robust_composite": 0.8506529572825603,
+      "method": "additive_top_k",
+      "objective_ids": [
+        "consensus_threshold3_diverse_k6"
+      ],
+      "selected_subsets": [
+        "PPARG_2G0H_aligned+PPARG_2Q6S_aligned+PPARG_3TY0_aligned+PPARG_5DWL_aligned+PPARG_5Y2T_aligned+PPARG_6MS7_aligned",
+        "PPARG_2G0H_aligned+PPARG_2GTK_reference+PPARG_2Q6S_aligned+PPARG_3TY0_aligned+PPARG_5DWL_aligned+PPARG_5Y2T_aligned",
+        "PPARG_2G0H_aligned+PPARG_2Q6S_aligned+PPARG_3TY0_aligned+PPARG_4HEE_aligned+PPARG_5DWL_aligned+PPARG_5Y2T_aligned",
+        "PPARG_2G0H_aligned+PPARG_2GTK_reference+PPARG_2Q6S_aligned+PPARG_5DWL_aligned+PPARG_5Y2T_aligned+PPARG_6MS7_aligned"
+      ],
+      "standard_error_holdout_robust_composite": 0.034393267512802306,
+      "target_id": "PPARG",
+      "worst_holdout_robust_composite": 0.7544354941014767
+    },
+    {
+      "fold_count": 4,
+      "k": 6,
+      "mean_holdout_primary": 0.8837804536854386,
+      "mean_holdout_rank": 1756.75,
+      "mean_holdout_robust_composite": 0.8771522030197691,
+      "method": "direct_greedy",
+      "objective_ids": [
+        "consensus_threshold3_diverse_k6"
+      ],
+      "selected_subsets": [
+        "PPARG_2FVJ_aligned+PPARG_2Q6S_aligned+PPARG_3TY0_aligned+PPARG_5DWL_aligned+PPARG_5Y2T_aligned+PPARG_6AD9_aligned",
+        "PPARG_2FVJ_aligned+PPARG_2HWR_aligned+PPARG_2Q6S_aligned+PPARG_3TY0_aligned+PPARG_5DWL_aligned+PPARG_5Y2T_aligned",
+        "PPARG_2FVJ_aligned+PPARG_2Q6S_aligned+PPARG_3TY0_aligned+PPARG_5DWL_aligned+PPARG_5Y2T_aligned+PPARG_6AD9_aligned",
+        "PPARG_2G0H_aligned+PPARG_2HWR_aligned+PPARG_2Q6S_aligned+PPARG_3TY0_aligned+PPARG_5DWL_aligned+PPARG_5Y2T_aligned"
+      ],
+      "standard_error_holdout_robust_composite": 0.051037108439485265,
+      "target_id": "PPARG",
+      "worst_holdout_robust_composite": 0.7250404991370272
+    },
+    {
+      "fold_count": 4,
+      "k": 6,
+      "mean_holdout_primary": 0.9081560536805922,
+      "mean_holdout_rank": 767.5,
+      "mean_holdout_robust_composite": 0.8955446099734061,
+      "method": "exact_robust_oracle",
+      "objective_ids": [
+        "consensus_threshold3_diverse_k6"
+      ],
+      "selected_subsets": [
+        "PPARG_2FVJ_aligned+PPARG_2Q6S_aligned+PPARG_3TY0_aligned+PPARG_5DWL_aligned+PPARG_5Y2T_aligned+PPARG_6AD9_aligned",
+        "PPARG_2FVJ_aligned+PPARG_2HWR_aligned+PPARG_2Q6S_aligned+PPARG_3TY0_aligned+PPARG_5DWL_aligned+PPARG_5Y2T_aligned",
+        "PPARG_2FVJ_aligned+PPARG_2Q6S_aligned+PPARG_3TY0_aligned+PPARG_5DWL_aligned+PPARG_5Y2T_aligned+PPARG_6AD9_aligned",
+        "PPARG_2FVJ_aligned+PPARG_2HWR_aligned+PPARG_2Q6S_aligned+PPARG_3TY0_aligned+PPARG_5DWL_aligned+PPARG_5Y2T_aligned"
+      ],
+      "standard_error_holdout_robust_composite": 0.03283189756822323,
+      "target_id": "PPARG",
+      "worst_holdout_robust_composite": 0.7986101269515747
+    }
+  ],
+  "full_train_models": {
+    "MK14": {
+      "1": {
+        "coefficient_dynamic_range": 2.0,
+        "equivalence_residual_sample": 0.0,
+        "equivalence_states_evaluated": 2,
+        "full_train_metrics": {
+          "mean_seed": 0.9204174738657019,
+          "primary": 0.9198340802708643,
+          "robust_composite": 0.9196607722199701,
+          "sensitivity": 0.9206523463013847,
+          "worst_seed": 0.918730762523344
+        },
+        "k": 1,
+        "linear_count": 16,
+        "max_abs_coefficient": 40.0,
+        "min_nonzero_abs_coefficient": 20.0,
+        "objective_id": "singleton_threshold1",
+        "quadratic_count": 120,
+        "raw_best_second_gap": 0.0759402096027344,
+        "scaled_best_second_gap": 0.00189850524006836,
+        "schedule": {
+          "active_threshold": 1,
+          "k": 1,
+          "objective_id": "singleton_threshold1",
+          "rationale": "Single receptor baseline; no ensemble redundancy term.",
+          "redundancy_weight": 0.0
+        },
+        "selected_energy": -1.0,
+        "selected_objective": 0.9196607722199701,
+        "selected_subset": [
+          "MK14_3BV2_aligned"
+        ],
+        "state_count": 16,
+        "variable_count": 16
+      },
+      "2": {
+        "coefficient_dynamic_range": 2786442.747833179,
+        "equivalence_residual_sample": 6.262768081910508e-13,
+        "equivalence_states_evaluated": 2,
+        "full_train_metrics": {
+          "mean_seed": 0.9064771556688012,
+          "primary": 0.906370236300001,
+          "robust_composite": 0.9057448945442669,
+          "sensitivity": 0.9073798232006589,
+          "worst_seed": 0.9043872916639981
+        },
+        "k": 2,
+        "linear_count": 844,
+        "max_abs_coefficient": 10440.0,
+        "min_nonzero_abs_coefficient": 0.0037467125452760354,
+        "objective_id": "union_threshold1_k2",
+        "quadratic_count": 4992,
+        "raw_best_second_gap": 0.05245829039631644,
+        "scaled_best_second_gap": 5.024740459417284e-06,
+        "schedule": {
+          "active_threshold": 1,
+          "k": 2,
+          "objective_id": "union_threshold1_k2",
+          "rationale": "Two-receptor union coverage; a ligand needs one supporting conformation.",
+          "redundancy_weight": 0.0
+        },
+        "selected_energy": -0.43781210142333293,
+        "selected_objective": 0.43781210142474813,
+        "selected_subset": [
+          "MK14_3K3J_aligned",
+          "MK14_4AAC_aligned"
+        ],
+        "state_count": 120,
+        "variable_count": 844
+      },
+      "3": {
+        "coefficient_dynamic_range": 2786442.747833179,
+        "equivalence_residual_sample": 1.2470857679858227e-12,
+        "equivalence_states_evaluated": 2,
+        "full_train_metrics": {
+          "mean_seed": 0.9157198763134177,
+          "primary": 0.9152780752136481,
+          "robust_composite": 0.9138551905259825,
+          "sensitivity": 0.9147818542096005,
+          "worst_seed": 0.9105676200508819
+        },
+        "k": 3,
+        "linear_count": 844,
+        "max_abs_coefficient": 10440.0,
+        "min_nonzero_abs_coefficient": 0.0037467125452760354,
+        "objective_id": "consensus_threshold2_k3",
+        "quadratic_count": 4992,
+        "raw_best_second_gap": 0.012468270695535466,
+        "scaled_best_second_gap": 1.194278802254355e-06,
+        "schedule": {
+          "active_threshold": 2,
+          "k": 3,
+          "objective_id": "consensus_threshold2_k3",
+          "rationale": "Two independent conformations must support an active ligand.",
+          "redundancy_weight": 0.0
+        },
+        "selected_energy": -0.13507629405648913,
+        "selected_objective": 0.13507629405967686,
+        "selected_subset": [
+          "MK14_3BV2_aligned",
+          "MK14_3K3J_aligned",
+          "MK14_3KQ7_aligned"
+        ],
+        "state_count": 560,
+        "variable_count": 844
+      },
+      "4": {
+        "coefficient_dynamic_range": 2786451.2937066257,
+        "equivalence_residual_sample": 8.228001613375113e-12,
+        "equivalence_states_evaluated": 2,
+        "full_train_metrics": {
+          "mean_seed": 0.9120738928291128,
+          "primary": 0.9061097592364629,
+          "robust_composite": 0.9084628003153291,
+          "sensitivity": 0.9113468974068774,
+          "worst_seed": 0.9072047488804116
+        },
+        "k": 4,
+        "linear_count": 844,
+        "max_abs_coefficient": 10440.032018931253,
+        "min_nonzero_abs_coefficient": 0.0037467125452760354,
+        "objective_id": "consensus_threshold2_diverse_k4",
+        "quadratic_count": 4992,
+        "raw_best_second_gap": 0.00968015480611939,
+        "scaled_best_second_gap": 9.272150495866341e-07,
+        "schedule": {
+          "active_threshold": 2,
+          "k": 4,
+          "objective_id": "consensus_threshold2_diverse_k4",
+          "rationale": "Two-hit consensus with a modest positive-correlation redundancy penalty.",
+          "redundancy_weight": 0.25
+        },
+        "selected_energy": -0.004678504221374169,
+        "selected_objective": 0.004678504220700874,
+        "selected_subset": [
+          "MK14_3BV2_aligned",
+          "MK14_3KQ7_aligned",
+          "MK14_3MPT_aligned",
+          "MK14_4AAC_aligned"
+        ],
+        "state_count": 1820,
+        "variable_count": 844
+      },
+      "5": {
+        "coefficient_dynamic_range": 2786447.875357247,
+        "equivalence_residual_sample": 4.627048744154649e-12,
+        "equivalence_states_evaluated": 2,
+        "full_train_metrics": {
+          "mean_seed": 0.9135918317794273,
+          "primary": 0.9080958484617638,
+          "robust_composite": 0.9100280826251413,
+          "sensitivity": 0.912253393393731,
+          "worst_seed": 0.9083965676342329
+        },
+        "k": 5,
+        "linear_count": 844,
+        "max_abs_coefficient": 10440.01921135875,
+        "min_nonzero_abs_coefficient": 0.0037467125452760354,
+        "objective_id": "consensus_threshold3_diverse_k5",
+        "quadratic_count": 4992,
+        "raw_best_second_gap": 0.04108478389389347,
+        "scaled_best_second_gap": 3.935316886121549e-06,
+        "schedule": {
+          "active_threshold": 3,
+          "k": 5,
+          "objective_id": "consensus_threshold3_diverse_k5",
+          "rationale": "Three-hit consensus prevents a five-member pool from relying on a small subpool.",
+          "redundancy_weight": 0.25
+        },
+        "selected_energy": 0.15681370865786448,
+        "selected_objective": -0.15681370866648925,
+        "selected_subset": [
+          "MK14_3BV2_aligned",
+          "MK14_3K3J_aligned",
+          "MK14_3KQ7_aligned",
+          "MK14_3MPT_aligned",
+          "MK14_4AAC_aligned"
+        ],
+        "state_count": 4368,
+        "variable_count": 844
+      },
+      "6": {
+        "coefficient_dynamic_range": 2786446.1661825576,
+        "equivalence_residual_sample": 5.3235194030776256e-14,
+        "equivalence_states_evaluated": 2,
+        "full_train_metrics": {
+          "mean_seed": 0.902288276233142,
+          "primary": 0.8968002727442588,
+          "robust_composite": 0.8975950205316692,
+          "sensitivity": 0.8970370831442268,
+          "worst_seed": 0.8936965126176067
+        },
+        "k": 6,
+        "linear_count": 844,
+        "max_abs_coefficient": 10440.0128075725,
+        "min_nonzero_abs_coefficient": 0.0037467125452760354,
+        "objective_id": "consensus_threshold3_diverse_k6",
+        "quadratic_count": 4992,
+        "raw_best_second_gap": 0.005831423026393168,
+        "scaled_best_second_gap": 5.585647387485421e-07,
+        "schedule": {
+          "active_threshold": 3,
+          "k": 6,
+          "objective_id": "consensus_threshold3_diverse_k6",
+          "rationale": "Three-hit consensus with structural-score diversity for the largest screened pool.",
+          "redundancy_weight": 0.25
+        },
+        "selected_energy": 0.1887508749641711,
+        "selected_objective": -0.1887508749623148,
+        "selected_subset": [
+          "MK14_3BV2_aligned",
+          "MK14_3ITZ_aligned",
+          "MK14_3K3J_aligned",
+          "MK14_3KQ7_aligned",
+          "MK14_3MPT_aligned",
+          "MK14_4AAC_aligned"
+        ],
+        "state_count": 8008,
+        "variable_count": 844
+      }
+    },
+    "PPARG": {
+      "1": {
+        "coefficient_dynamic_range": 2.0,
+        "equivalence_residual_sample": 0.0,
+        "equivalence_states_evaluated": 2,
+        "full_train_metrics": {
+          "mean_seed": 0.9124646179752268,
+          "primary": 0.924133582782812,
+          "robust_composite": 0.9058028728029046,
+          "sensitivity": 0.8933963777060447,
+          "worst_seed": 0.8808104176506749
+        },
+        "k": 1,
+        "linear_count": 16,
+        "max_abs_coefficient": 40.0,
+        "min_nonzero_abs_coefficient": 20.0,
+        "objective_id": "singleton_threshold1",
+        "quadratic_count": 120,
+        "raw_best_second_gap": 0.0034293765616162375,
+        "scaled_best_second_gap": 8.573441404040594e-05,
+        "schedule": {
+          "active_threshold": 1,
+          "k": 1,
+          "objective_id": "singleton_threshold1",
+          "rationale": "Single receptor baseline; no ensemble redundancy term.",
+          "redundancy_weight": 0.0
+        },
+        "selected_energy": -1.0,
+        "selected_objective": 0.9058028728029046,
+        "selected_subset": [
+          "PPARG_5DWL_aligned"
+        ],
+        "state_count": 16,
+        "variable_count": 16
+      },
+      "2": {
+        "coefficient_dynamic_range": 1617480.2787355692,
+        "equivalence_residual_sample": 7.038813976123492e-14,
+        "equivalence_states_evaluated": 2,
+        "full_train_metrics": {
+          "mean_seed": 0.8795932036756348,
+          "primary": 0.8862585368640366,
+          "robust_composite": 0.8712741173368315,
+          "sensitivity": 0.8993550232967765,
+          "worst_seed": 0.8479706114708229
+        },
+        "k": 2,
+        "linear_count": 659,
+        "max_abs_coefficient": 7040.0,
+        "min_nonzero_abs_coefficient": 0.004352448739284395,
+        "objective_id": "union_threshold1_k2",
+        "quadratic_count": 4836,
+        "raw_best_second_gap": 0.01892651102389209,
+        "scaled_best_second_gap": 2.6884248613483082e-06,
+        "schedule": {
+          "active_threshold": 1,
+          "k": 2,
+          "objective_id": "union_threshold1_k2",
+          "rationale": "Two-receptor union coverage; a ligand needs one supporting conformation.",
+          "redundancy_weight": 0.0
+        },
+        "selected_energy": -0.34510428122302983,
+        "selected_objective": 0.3451042812233844,
+        "selected_subset": [
+          "PPARG_2GTK_reference",
+          "PPARG_2Q6S_aligned"
+        ],
+        "state_count": 120,
+        "variable_count": 659
+      },
+      "3": {
+        "coefficient_dynamic_range": 1617480.2787355692,
+        "equivalence_residual_sample": 4.0800696154974503e-13,
+        "equivalence_states_evaluated": 2,
+        "full_train_metrics": {
+          "mean_seed": 0.8601742906572624,
+          "primary": 0.8476000416507186,
+          "robust_composite": 0.8445614847776529,
+          "sensitivity": 0.848929732779718,
+          "worst_seed": 0.825910122024978
+        },
+        "k": 3,
+        "linear_count": 659,
+        "max_abs_coefficient": 7040.0,
+        "min_nonzero_abs_coefficient": 0.004352448739284395,
+        "objective_id": "consensus_threshold2_k3",
+        "quadratic_count": 4836,
+        "raw_best_second_gap": 0.03090964994044043,
+        "scaled_best_second_gap": 4.390575275630743e-06,
+        "schedule": {
+          "active_threshold": 2,
+          "k": 3,
+          "objective_id": "consensus_threshold2_k3",
+          "rationale": "Two independent conformations must support an active ligand.",
+          "redundancy_weight": 0.0
+        },
+        "selected_energy": -0.07847125367698027,
+        "selected_objective": 0.07847125367955338,
+        "selected_subset": [
+          "PPARG_2GTK_reference",
+          "PPARG_2Q6S_aligned",
+          "PPARG_4HEE_aligned"
+        ],
+        "state_count": 560,
+        "variable_count": 659
+      },
+      "4": {
+        "coefficient_dynamic_range": 1617487.722785638,
+        "equivalence_residual_sample": 4.4413916988617075e-12,
+        "equivalence_states_evaluated": 2,
+        "full_train_metrics": {
+          "mean_seed": 0.881869022835866,
+          "primary": 0.8440872483797668,
+          "robust_composite": 0.8483383991539708,
+          "sensitivity": 0.8434740601954337,
+          "worst_seed": 0.8190589262462796
+        },
+        "k": 4,
+        "linear_count": 659,
+        "max_abs_coefficient": 7040.032399846337,
+        "min_nonzero_abs_coefficient": 0.004352448739284395,
+        "objective_id": "consensus_threshold2_diverse_k4",
+        "quadratic_count": 4836,
+        "raw_best_second_gap": 0.03771347204747144,
+        "scaled_best_second_gap": 5.357002625200221e-06,
+        "schedule": {
+          "active_threshold": 2,
+          "k": 4,
+          "objective_id": "consensus_threshold2_diverse_k4",
+          "rationale": "Two-hit consensus with a modest positive-correlation redundancy penalty.",
+          "redundancy_weight": 0.25
+        },
+        "selected_energy": 0.09159315543365665,
+        "selected_objective": -0.09159315543696381,
+        "selected_subset": [
+          "PPARG_2G0H_aligned",
+          "PPARG_2GTK_reference",
+          "PPARG_2Q6S_aligned",
+          "PPARG_4HEE_aligned"
+        ],
+        "state_count": 1820,
+        "variable_count": 659
+      },
+      "5": {
+        "coefficient_dynamic_range": 1617484.7451656105,
+        "equivalence_residual_sample": 1.367583823963514e-11,
+        "equivalence_states_evaluated": 2,
+        "full_train_metrics": {
+          "mean_seed": 0.8673194841583235,
+          "primary": 0.8485133803058658,
+          "robust_composite": 0.8515264708099006,
+          "sensitivity": 0.8448375503476545,
+          "worst_seed": 0.8387465479655124
+        },
+        "k": 5,
+        "linear_count": 659,
+        "max_abs_coefficient": 7040.019439907803,
+        "min_nonzero_abs_coefficient": 0.004352448739284395,
+        "objective_id": "consensus_threshold3_diverse_k5",
+        "quadratic_count": 4836,
+        "raw_best_second_gap": 0.01750812487443909,
+        "scaled_best_second_gap": 2.486942688707743e-06,
+        "schedule": {
+          "active_threshold": 3,
+          "k": 5,
+          "objective_id": "consensus_threshold3_diverse_k5",
+          "rationale": "Three-hit consensus prevents a five-member pool from relying on a small subpool.",
+          "redundancy_weight": 0.25
+        },
+        "selected_energy": 0.28932167089078575,
+        "selected_objective": -0.2893216708827314,
+        "selected_subset": [
+          "PPARG_2GTK_reference",
+          "PPARG_2Q6S_aligned",
+          "PPARG_3V9V_aligned",
+          "PPARG_4HEE_aligned",
+          "PPARG_5DWL_aligned"
+        ],
+        "state_count": 4368,
+        "variable_count": 659
+      },
+      "6": {
+        "coefficient_dynamic_range": 1617483.2563555967,
+        "equivalence_residual_sample": 1.500466417780899e-12,
+        "equivalence_states_evaluated": 2,
+        "full_train_metrics": {
+          "mean_seed": 0.8902881259239309,
+          "primary": 0.8453624526551697,
+          "robust_composite": 0.8578561933881121,
+          "sensitivity": 0.8383994584945045,
+          "worst_seed": 0.8379180015852358
+        },
+        "k": 6,
+        "linear_count": 659,
+        "max_abs_coefficient": 7040.012959938535,
+        "min_nonzero_abs_coefficient": 0.004352448739284395,
+        "objective_id": "consensus_threshold3_diverse_k6",
+        "quadratic_count": 4836,
+        "raw_best_second_gap": 0.00825721092405729,
+        "scaled_best_second_gap": 1.1728971197986803e-06,
+        "schedule": {
+          "active_threshold": 3,
+          "k": 6,
+          "objective_id": "consensus_threshold3_diverse_k6",
+          "rationale": "Three-hit consensus with structural-score diversity for the largest screened pool.",
+          "redundancy_weight": 0.25
+        },
+        "selected_energy": 0.2871035588614177,
+        "selected_objective": -0.28710355885098354,
+        "selected_subset": [
+          "PPARG_2G0H_aligned",
+          "PPARG_2GTK_reference",
+          "PPARG_2Q6S_aligned",
+          "PPARG_3V9V_aligned",
+          "PPARG_4HEE_aligned",
+          "PPARG_5DWL_aligned"
+        ],
+        "state_count": 8008,
+        "variable_count": 659
+      }
+    }
+  },
+  "global_candidate_curve": [
+    {
+      "fold_count": 8,
+      "k": 1,
+      "mean": 0.8808359554923132,
+      "standard_error": 0.014015146655967039
+    },
+    {
+      "fold_count": 8,
+      "k": 2,
+      "mean": 0.8694205882228229,
+      "standard_error": 0.029724002806913792
+    },
+    {
+      "fold_count": 8,
+      "k": 3,
+      "mean": 0.8502792912197148,
+      "standard_error": 0.028915104821158177
+    },
+    {
+      "fold_count": 8,
+      "k": 4,
+      "mean": 0.8645887865536303,
+      "standard_error": 0.03333335525969221
+    },
+    {
+      "fold_count": 8,
+      "k": 5,
+      "mean": 0.8752883952032937,
+      "standard_error": 0.023994695363679222
+    },
+    {
+      "fold_count": 8,
+      "k": 6,
+      "mean": 0.8637035818589187,
+      "standard_error": 0.024121472908799558
+    }
+  ],
+  "incremental_results": [
+    {
+      "consecutive_failure_count": 0,
+      "continue_condition_passed": null,
+      "k": 1,
+      "mean_delta": null,
+      "positive_fold_count": null,
+      "previous_k": null,
+      "target_id": "MK14"
+    },
+    {
+      "consecutive_failure_count": 1,
+      "continue_condition_passed": false,
+      "current_mean": 0.9149891519434571,
+      "fold_deltas": [
+        -0.04442723318659447,
+        0.06196627141910949,
+        0.02970489533167242,
+        0.038110905326381506
+      ],
+      "k": 2,
+      "mean_delta": 0.021338709722642235,
+      "positive_fold_count": 3,
+      "previous_k": 1,
+      "previous_mean": 0.8936504422208149,
+      "target_id": "MK14"
+    },
+    {
+      "consecutive_failure_count": 2,
+      "continue_condition_passed": false,
+      "current_mean": 0.8891093411184806,
+      "fold_deltas": [
+        0.0082275259422242,
+        -0.04247652728649254,
+        -0.016994755870445077,
+        -0.0522754860851925
+      ],
+      "k": 3,
+      "mean_delta": -0.02587981082497648,
+      "positive_fold_count": 1,
+      "previous_k": 2,
+      "previous_mean": 0.9149891519434571,
+      "target_id": "MK14"
+    },
+    {
+      "consecutive_failure_count": 3,
+      "continue_condition_passed": false,
+      "current_mean": 0.9078055419195583,
+      "fold_deltas": [
+        -0.014208846795877417,
+        0.04468547644942067,
+        0.023154284293424587,
+        0.02115388925734296
+      ],
+      "k": 4,
+      "mean_delta": 0.0186962008010777,
+      "positive_fold_count": 3,
+      "previous_k": 3,
+      "previous_mean": 0.8891093411184806,
+      "target_id": "MK14"
+    },
+    {
+      "consecutive_failure_count": 4,
+      "continue_condition_passed": false,
+      "current_mean": 0.9067250323843516,
+      "fold_deltas": [
+        0.0016307410104785536,
+        5.741861615682353e-05,
+        -0.03886995189347131,
+        0.03285975412600928
+      ],
+      "k": 5,
+      "mean_delta": -0.001080509535206664,
+      "positive_fold_count": 3,
+      "previous_k": 4,
+      "previous_mean": 0.9078055419195583,
+      "target_id": "MK14"
+    },
+    {
+      "consecutive_failure_count": 5,
+      "continue_condition_passed": false,
+      "current_mean": 0.8824530186622394,
+      "fold_deltas": [
+        -0.0678462735408425,
+        -0.0033076113728967016,
+        -0.04429708744329908,
+        0.01836291746858898
+      ],
+      "k": 6,
+      "mean_delta": -0.024272013722112323,
+      "positive_fold_count": 1,
+      "previous_k": 5,
+      "previous_mean": 0.9067250323843516,
+      "target_id": "MK14"
+    },
+    {
+      "consecutive_failure_count": 0,
+      "continue_condition_passed": null,
+      "k": 1,
+      "mean_delta": null,
+      "positive_fold_count": null,
+      "previous_k": null,
+      "target_id": "PPARG"
+    },
+    {
+      "consecutive_failure_count": 1,
+      "continue_condition_passed": false,
+      "current_mean": 0.8238520245021885,
+      "fold_deltas": [
+        0.028333916488263,
+        0.019852466786015377,
+        -0.13101457194400623,
+        -0.09384958837676405
+      ],
+      "k": 2,
+      "mean_delta": -0.044169444261622975,
+      "positive_fold_count": 2,
+      "previous_k": 1,
+      "previous_mean": 0.8680214687638116,
+      "target_id": "PPARG"
+    },
+    {
+      "consecutive_failure_count": 2,
+      "continue_condition_passed": false,
+      "current_mean": 0.8114492413209491,
+      "fold_deltas": [
+        -0.009535108616974153,
+        -0.010842469413996136,
+        -0.01647467270543701,
+        -0.012758881988550907
+      ],
+      "k": 3,
+      "mean_delta": -0.012402783181239552,
+      "positive_fold_count": 0,
+      "previous_k": 2,
+      "previous_mean": 0.8238520245021885,
+      "target_id": "PPARG"
+    },
+    {
+      "consecutive_failure_count": 3,
+      "continue_condition_passed": false,
+      "current_mean": 0.8213720311877021,
+      "fold_deltas": [
+        0.020970519669624155,
+        0.013397078410748109,
+        0.027728667689693287,
+        -0.022405106303053257
+      ],
+      "k": 4,
+      "mean_delta": 0.009922789866753073,
+      "positive_fold_count": 3,
+      "previous_k": 3,
+      "previous_mean": 0.8114492413209491,
+      "target_id": "PPARG"
+    },
+    {
+      "consecutive_failure_count": 4,
+      "continue_condition_passed": false,
+      "current_mean": 0.8438517580222358,
+      "fold_deltas": [
+        -0.0045727774517545505,
+        -0.005635429755602939,
+        0.04157059973580424,
+        0.058556514809688154
+      ],
+      "k": 5,
+      "mean_delta": 0.022479726834533725,
+      "positive_fold_count": 2,
+      "previous_k": 4,
+      "previous_mean": 0.8213720311877021,
+      "target_id": "PPARG"
+    },
+    {
+      "consecutive_failure_count": 5,
+      "continue_condition_passed": false,
+      "current_mean": 0.844954145055598,
+      "fold_deltas": [
+        0.004166639394739491,
+        -0.00858149401235686,
+        0.0023318740399073112,
+        0.006492528711158685
+      ],
+      "k": 6,
+      "mean_delta": 0.0011023870333621566,
+      "positive_fold_count": 3,
+      "previous_k": 5,
+      "previous_mean": 0.8438517580222358,
+      "target_id": "PPARG"
+    }
+  ],
+  "interpretation_boundary": "Stage 20 is a post-hoc train-only cardinality design review over MK14 and PPARG. It adds no docking, reads no fresh-validation, locked-test, or BACE1 rows, and does not demonstrate quantum execution or quantum advantage. Its output is a recommendation for the next preregistered cardinality and objective, not a revised validation claim.",
+  "next_gate": "freeze_recommended_k_and_objective_for_independent_target_review_before_hardware",
+  "one_standard_error": {
+    "best_k": 1,
+    "best_mean": 0.8808359554923132,
+    "best_standard_error": 0.014015146655967039,
+    "recommended_smallest_k": 1,
+    "threshold": 0.8668208088363462
+  },
+  "outputs": {
+    "fold_methods_csv": {
+      "path": "results/runs/stage20_adaptive_k_objective_screen/fold_method_results.csv",
+      "sha256": "43528DB5389E7053FDB1F2F149ABC4803B7DD5E0E84B29B3E52715EB5FD31151",
+      "size_bytes": 65724
+    },
+    "incremental_csv": {
+      "path": "results/runs/stage20_adaptive_k_objective_screen/incremental_k_results.csv",
+      "sha256": "650C8FC1451C4ECDA62A83356ADA747E5CA86E7038D7D7018AA630EADA7A537B",
+      "size_bytes": 1875
+    },
+    "model_record_json": {
+      "path": "data/stage20_adaptive_k_objective_screen_model_record.json",
+      "sha256": "87B7AA9A898898C1F6D2199DA116F931997D9CBF233F1F5D13063AC7F93228DA",
+      "size_bytes": 6103804
+    }
+  },
+  "schema_version": "1.0",
+  "status": "stage20_adaptive_k_train_only_screen_complete",
+  "stopping_recommendation": {
+    "recommended_stop_k": 3,
+    "rule": {
+      "bace1_method_amendment_authorized": false,
+      "continue_condition": "both targets have positive mean increment and at least five positive folds out of eight",
+      "increment_definition": "mean outer-holdout robust composite at k minus mean outer-holdout robust composite at k-1",
+      "selection_rule": "report the smallest k within one standard error of the best observed mean; do not use a single noisy fold as a stop signal",
+      "stop_condition": "two consecutive k increments fail the continue condition, or maximum_k is reached"
+    }
+  },
+  "target_dimensions": {
+    "MK14": {
+      "active_count": 348,
+      "ligand_count": 696,
+      "receptor_count": 16,
+      "subset_counts_by_k": {
+        "1": 16,
+        "2": 120,
+        "3": 560,
+        "4": 1820,
+        "5": 4368,
+        "6": 8008
+      }
+    },
+    "PPARG": {
+      "active_count": 334,
+      "ligand_count": 668,
+      "receptor_count": 16,
+      "subset_counts_by_k": {
+        "1": 16,
+        "2": 120,
+        "3": 560,
+        "4": 1820,
+        "5": 4368,
+        "6": 8008
+      }
+    }
+  }
+}

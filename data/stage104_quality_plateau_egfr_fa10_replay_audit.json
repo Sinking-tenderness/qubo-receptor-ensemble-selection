@@ -1,0 +1,19 @@
+{
+  "schema_version": "1.0",
+  "status": "stage104_independent_audit_ok",
+  "target_count": 2,
+  "fold_metric_count": 40,
+  "target_summary_count": 4,
+  "transfer_passing_cell_count": 2,
+  "transfer_cell_count": 4,
+  "outer_labels_used_by_selector": false,
+  "parp1_released": false,
+  "quantum_hardware_authorized": false,
+  "data_boundary": {
+    "new_docking_jobs": 0,
+    "parp1_benchmark_docking_scores_read": 0,
+    "parp1_fresh_validation_rows_read": 0,
+    "parp1_locked_test_rows_read": 0,
+    "quantum_hardware_jobs": 0
+  }
+}

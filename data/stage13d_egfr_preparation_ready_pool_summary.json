@@ -1,0 +1,72 @@
+{
+  "config": {
+    "path": "configs/stage13d_egfr_preparation_ready_pool.json",
+    "sha256": "B0BF30A8FB120A259A1E10A5C08C7F161130E32DA9CB3BF8F64045F706974070"
+  },
+  "counts": {
+    "pairwise_distance_count": 153,
+    "preparation_ready_candidate_count": 17,
+    "raw_feature_count": 1122,
+    "reserve_receptor_count": 1,
+    "selected_receptor_count": 16,
+    "selection_seed_count": 1,
+    "variable_feature_count": 1122
+  },
+  "data_boundary": {
+    "MAPK14_stage11_rows_read": 0,
+    "benchmark_docking_scores_read": 0,
+    "fresh_validation_rows_read": 0,
+    "ligand_labels_read": 0,
+    "test_rows_read": 0
+  },
+  "experiment_id": "stage13d-egfr-preparation-ready-pool-20260731-v1",
+  "interpretation_boundary": "Preparation readiness and structural selection do not establish receptor parameterization, cognate-pose reproduction, screening enrichment, QUBO portability, QUBO superiority, quantum application, or quantum advantage.",
+  "next_gate": "prepare all 16 receptors and cognate ligands, audit one common ATP-site box, and run three-seed Uni-Dock redocking",
+  "outputs": {
+    "reserve_receptor_manifest_csv": {
+      "path": "data/processed/stage13d_egfr_preparation_ready_reserve.csv",
+      "sha256": "BB146C4D8120098EF383D83414AD2706555600A012C143DEC2F2D414005F3A17"
+    },
+    "selected_receptor_manifest_csv": {
+      "path": "data/processed/stage13d_egfr_preparation_ready_selected16.csv",
+      "sha256": "EE4113CEAD2BB02E6A92386791F7F20D45D9CF3CC42088EA4F99E55C152AEFA8"
+    },
+    "selection_distances_csv": {
+      "path": "data/processed/stage13d_egfr_preparation_ready_structural_distances.csv",
+      "sha256": "EB203B82D3F89BC5D029733ADAC1EF382278F1A2C88E6772D5E53602E91D295C"
+    }
+  },
+  "preparation_readiness_amendment": {
+    "path": "configs/stage13_egfr_external_target_pilot_preregistration_amendment04.json",
+    "sha256": "47E03A2BF9A8CB29686EE8AA9E451066B302DBD599DC897F6B42A565A7CA2B7D"
+  },
+  "reserve_receptor_ids": [
+    "EGFR_7U99_aligned"
+  ],
+  "runtime": {
+    "conda_environment": "qubo-receptor-ensemble",
+    "numpy_version": "1.26.4",
+    "python_version": "3.11.15"
+  },
+  "schema_version": "1.0",
+  "selected_receptor_ids": [
+    "EGFR_9KL4_aligned",
+    "EGFR_7KXZ_aligned",
+    "EGFR_9H47_aligned",
+    "EGFR_9FRD_aligned",
+    "EGFR_4I23_aligned",
+    "EGFR_3W2S_aligned",
+    "EGFR_8SC7_aligned",
+    "EGFR_5CAV_aligned",
+    "EGFR_3W32_aligned",
+    "EGFR_5EM8_aligned",
+    "EGFR_5UGB_aligned",
+    "EGFR_8F1Z_aligned",
+    "EGFR_3POZ_aligned",
+    "EGFR_7U9A_aligned",
+    "EGFR_3W33_aligned",
+    "EGFR_9QXN_aligned"
+  ],
+  "selection_seed": "EGFR_2RGP_reference",
+  "status": "stage13d_egfr_preparation_ready_pool_ok"
+}

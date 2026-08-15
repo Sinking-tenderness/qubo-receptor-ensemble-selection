@@ -1,0 +1,179 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage55-ppard-small-pilot-preregistration-20260805-v1",
+  "purpose": "Select the next outcome-unseen target by the existing Stage47b ranking, audit PPARD source identity, and freeze a low-cost functional-complementarity pilot before ligand allocation, coordinate auditing, or docking.",
+  "implementation": {
+    "path": "scripts/audit_stage55_ppard_small_pilot_source.py",
+    "sha256": "91E6A82ED0D3A88EDCCCD47A74C2BDF7406CB7BB3C86B442517CD40196D0B97A"
+  },
+  "inputs": {
+    "target_screen_result": {
+      "path": "data/stage47b_expanded_new_target_feasibility_screen_result.json",
+      "sha256": "694B6E918403F610495975B2B340777F0959E6255162DAE911A71D879C18A180"
+    },
+    "target_screen_csv": {
+      "path": "data/processed/stage47b_expanded_new_target_feasibility_screen.csv",
+      "sha256": "1CC037C3426CB0AD53ADC27DC8CDB8E4141E5A5365A7B9B39E93475E9FE642EC"
+    },
+    "stage54_future_intake_criteria": {
+      "path": "data/stage54_future_target_intake_criteria.json",
+      "sha256": "A05B8A8E342504B3BE56D93E3326BA399C62035207A2631A09E587EFBCA8F5D7"
+    },
+    "archive": {
+      "path": "data/raw/external_targets/ppard_dude/ppard.tar.gz",
+      "sha256": "B137CA49B63B7334E35FAFEF6B5A8283FB6E842980F19FFE3F3EEAAC90C2EC75"
+    },
+    "actives": {
+      "path": "data/raw/external_targets/ppard_dude/ppard/actives_final.ism",
+      "sha256": "9C583152538E0DC02882A1DCF319FD9088E44D3A823565CDED007AD94D19491B"
+    },
+    "decoys": {
+      "path": "data/raw/external_targets/ppard_dude/ppard/decoys_final.ism",
+      "sha256": "0AEC3330EB3E9EBBD9589F32D87E831A4B09B527B109D0D0D2F67BEA5B89F996"
+    },
+    "dude_receptor": {
+      "path": "data/raw/external_targets/ppard_dude/ppard/receptor.pdb",
+      "sha256": "91BF32398A8D7193D72EC169BB7FB6592EDC6AAAE01B10F6C8CFC58C91C69243"
+    },
+    "dude_ligand": {
+      "path": "data/raw/external_targets/ppard_dude/ppard/crystal_ligand.mol2",
+      "sha256": "6E0516518768DDBC3CD2F2F61265C7C9E52B7D9CD90EF1307E9FCC752E67A8BD"
+    },
+    "official_pdb": {
+      "path": "data/raw/rcsb/ppard/2ZNP.pdb",
+      "sha256": "0880108F60AA64ECFCFA5FE978D598C85BCFA24B0C29337A7B655C2E547141B8"
+    },
+    "official_mmcif": {
+      "path": "data/raw/rcsb/ppard/2ZNP.cif",
+      "sha256": "C76F05A2721DA4C7D18420B038BB26A1AE06ACEC1003DB9B9BB13C564E287E0E"
+    },
+    "official_ligand": {
+      "path": "data/raw/rcsb/ppard/2ZNP_K55_A922.sdf",
+      "sha256": "C87BDCAE13681DF9ED9373354EB0D4DCCF2875EA5DB13436D97BB9120F8C0E05"
+    }
+  },
+  "selection_rule": {
+    "source": "unchanged Stage47b ranking: maximum metadata-eligible structure count, then maximum DUD-E clustered-active count, then target ID",
+    "completed_targets": [
+      "PPARA"
+    ],
+    "expected_eligible_order": [
+      "PPARA",
+      "PPARD",
+      "ESR2"
+    ],
+    "selection_timing": "PPARD selected without reading any PPARD docking or enrichment outcome"
+  },
+  "target": {
+    "target_id": "PPARD",
+    "gene_name": "PPARD",
+    "protein_name": "Peroxisome proliferator-activated receptor delta",
+    "organism": "Homo sapiens",
+    "uniprot_accession": "Q03181",
+    "dude_reference_structure": "2ZNP",
+    "reference_chain": "A",
+    "reference_ligand": "K55",
+    "reference_ligand_auth_seq_id": 922
+  },
+  "source_expectations": {
+    "actives": {
+      "row_count": 240,
+      "unique_source_id_count": 240,
+      "duplicate_source_id_count": 0,
+      "maximum_source_id_multiplicity": 1
+    },
+    "decoys": {
+      "row_count": 12250,
+      "unique_source_id_count": 12224,
+      "duplicate_source_id_count": 25,
+      "maximum_source_id_multiplicity": 3
+    }
+  },
+  "frozen_protocol": {
+    "evidence_timing": "Frozen after Stage54 criteria and outcome-blind PPARD source identity inspection; before molecule allocation, coordinate auditing, receptor preparation, redocking, pilot docking, enrichment evaluation, or objective fitting.",
+    "ligand_allocation": {
+      "grouping": "Bemis-Murcko scaffold joined with source-ID and canonical-SMILES duplicate components",
+      "development_train": {
+        "active_count": 120,
+        "decoy_count": 120
+      },
+      "fresh_validation": {
+        "active_count": 60,
+        "decoy_count": 1200
+      },
+      "locked_test": {
+        "active_count": 60,
+        "decoy_count": 1200
+      },
+      "unused_decoys_remain_protected": true,
+      "failure_action": "Stop before docking if exact source-ID-, canonical-SMILES-, and scaffold-disjoint allocation is infeasible."
+    },
+    "pilot_panel": {
+      "selection_role": "development_train_pilot",
+      "active_count": 48,
+      "decoy_count": 48,
+      "selection_from": "development_train only",
+      "selection_rule": "deterministic scaffold-group allocation independent of docking outcomes",
+      "outer_fold_count": 4,
+      "target_active_count_per_fold": 12,
+      "target_decoy_count_per_fold": 12,
+      "remaining_development_train_docking_before_gate_permitted": false
+    },
+    "structural_pool": {
+      "metadata_eligible_count_at_freeze": 51,
+      "minimum_coordinate_eligible_count": 24,
+      "minimum_cognate_redocking_pass_count": 24,
+      "maximum_cognate_rmsd_angstrom": 2.0,
+      "retain_all_hard_gate_passing_structures": true,
+      "max_min_or_outcome_informed_compression_permitted": false,
+      "coordinate_or_redocking_thresholds_may_not_be_lowered": true
+    },
+    "docking": {
+      "engine": "Uni-Dock 1.1.3",
+      "profile": "enhanced",
+      "scoring": "vina",
+      "exhaustiveness": 1024,
+      "max_step": 80,
+      "refine_step": 5,
+      "num_modes": 1,
+      "energy_range": 3,
+      "seed_count": 3,
+      "seeds": [
+        20260801,
+        20260802,
+        20260803
+      ],
+      "common_box": "align every receptor to 2ZNP chain A; center on the K55 heavy-atom centroid; each axis is ligand span plus 12 angstrom, clamped to 22-30 angstrom",
+      "maximum_seeded_docking_jobs": 14688
+    },
+    "functional_diagnosis": {
+      "bedroc_alpha": 20.0,
+      "favorable_rank_fraction": 0.1,
+      "seed_aggregation": "primary seed-median score ranking with mean-seed and worst-seed robustness recorded",
+      "single_receptors_exhaustive": true,
+      "two_receptor_subsets_exhaustive": true,
+      "outer_fold_count": 4,
+      "active_rescue_definition": "active not favorable in a majority of seeds for the baseline receptor but favorable for the pair",
+      "decoy_promotion_definition": "decoy not favorable in a majority of seeds for the baseline receptor but favorable for the pair",
+      "objective_or_weight_fitting_on_pilot_permitted": false
+    },
+    "functional_gate": {
+      "minimum_full_best_pair_gain": 0.01,
+      "minimum_positive_holdout_pair_gain_folds": 2,
+      "minimum_mean_holdout_pair_gain": 0.01,
+      "minimum_positive_rescue_balance_additions": 2,
+      "maximum_median_pair_rank_redundancy": 0.8,
+      "all_checks_required": true,
+      "application_scope": "prospective small-pilot gate for a new independently preregistered target only"
+    },
+    "gate_actions": {
+      "pass": "freeze the transferred QUBO objective and stopping rule, then authorize docking the remaining development-train ligands",
+      "fail": "stop PPARD before the full development matrix and proceed to the next outcome-unseen eligible target",
+      "same_target_threshold_or_objective_retuning_permitted": false,
+      "fresh_validation_before_full_development_pass_permitted": false,
+      "quantum_hardware_before_independent_validation_permitted": false
+    }
+  },
+  "output_json": "data/stage55_ppard_small_pilot_preregistration_result.json",
+  "interpretation_boundary": "Stage55 can establish outcome-blind PPARD selection, source identity, and a prospective small-pilot protocol. It cannot establish coordinate-pool adequacy, redocking success, enrichment, functional complementarity, QUBO superiority, independent validation, quantum execution, speedup, or quantum advantage."
+}

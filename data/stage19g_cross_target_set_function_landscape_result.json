@@ -1,0 +1,258 @@
+{
+  "config": {
+    "path": "configs/stage19g_cross_target_set_function_landscape.json",
+    "sha256": "67663CA603C0BE420D7EDA88BC8EC2C5DCD3BC3F3E2CADE094D355D901454673"
+  },
+  "data_boundary": {
+    "bace1_docking_rows_read": 0,
+    "fresh_validation_rows_read": 0,
+    "new_docking_jobs": 0,
+    "test_rows_read": 0,
+    "train_rows_read_by_target": {
+      "MK14": 696,
+      "PPARG": 668
+    }
+  },
+  "decision": {
+    "bace1_method_amendment_authorized": false,
+    "cross_target_route": "no_cross_target_efficacy_qubo_route_authorized",
+    "next_stage": "review_target_selection_or_quantum_application_only_claim"
+  },
+  "experiment_class": "posthoc_cross_target_train_only_diagnostic",
+  "experiment_id": "stage19g-cross-target-set-function-landscape-20260801-v1",
+  "input_dimensions": {
+    "MK14": {
+      "ligand_count": 696,
+      "maximum_subset_size": 6,
+      "nonempty_subset_count": 14892,
+      "receptor_count": 16
+    },
+    "PPARG": {
+      "ligand_count": 668,
+      "maximum_subset_size": 6,
+      "nonempty_subset_count": 14892,
+      "receptor_count": 16
+    }
+  },
+  "interpretation_boundary": "Stage 19g is a post-hoc mathematical diagnostic over MK14 and PPARG training matrices whose outcomes are already known. It adds no docking and reads no BACE1 docking, fresh-validation, or test row. It may choose the representation class for one subsequent train-only development stage, but it cannot amend BACE1, alter prior failures, establish cross-target QUBO superiority, demonstrate quantum execution, or establish quantum advantage.",
+  "outputs": {
+    "greedy_path_csv": {
+      "path": "results/runs/stage19g_cross_target_set_function_landscape/greedy_path_diagnostics.csv",
+      "sha256": "2A99CFADB3A4776CAE6D10A20253FA0CFAE827CF7565ACB7C412B39B517E8B4F",
+      "size_bytes": 56889
+    },
+    "pairwise_closure_csv": {
+      "path": "results/runs/stage19g_cross_target_set_function_landscape/pairwise_closure_diagnostics.csv",
+      "sha256": "6EFCF9278C053EF9E2F55C06D227F4F9ACEF0F779BA7F8D20D7294EB698233FB",
+      "size_bytes": 5700
+    },
+    "submodularity_csv": {
+      "path": "results/runs/stage19g_cross_target_set_function_landscape/submodularity_diagnostics.csv",
+      "sha256": "DB7F4496C62B1C26DA7194945393B0356D015D001E2B5B5C6BF7F3C206A9D564",
+      "size_bytes": 3492
+    },
+    "triple_landscape_csv": {
+      "path": "results/runs/stage19g_cross_target_set_function_landscape/triple_landscape.csv",
+      "sha256": "400CF9589167FA57FD602BDBF300DB8B10215953048DCAF8B89D763F2E103E12",
+      "size_bytes": 997555
+    }
+  },
+  "schema_version": "1.0",
+  "size_aggregate": [
+    {
+      "fold_count": 4,
+      "holdout_exact_win_fold_count": 0,
+      "maximum_train_exact_minus_greedy": 0.0,
+      "mean_holdout_composite_greedy_rank": 4.5,
+      "mean_holdout_exact_minus_greedy": 0.0,
+      "mean_holdout_exact_rank": 4.5,
+      "mean_train_exact_minus_greedy": 0.0,
+      "strict_train_gap_fold_count": 0,
+      "subset_difference_fold_count": 0,
+      "subset_size": 1,
+      "target_id": "MK14"
+    },
+    {
+      "fold_count": 4,
+      "holdout_exact_win_fold_count": 1,
+      "maximum_train_exact_minus_greedy": 0.0016728740418421317,
+      "mean_holdout_composite_greedy_rank": 28.25,
+      "mean_holdout_exact_minus_greedy": 0.017760709568848232,
+      "mean_holdout_exact_rank": 22.0,
+      "mean_train_exact_minus_greedy": 0.00041821851046053293,
+      "strict_train_gap_fold_count": 0,
+      "subset_difference_fold_count": 1,
+      "subset_size": 2,
+      "target_id": "MK14"
+    },
+    {
+      "fold_count": 4,
+      "holdout_exact_win_fold_count": 1,
+      "maximum_train_exact_minus_greedy": 0.0012082728931703812,
+      "mean_holdout_composite_greedy_rank": 62.0,
+      "mean_holdout_exact_minus_greedy": 0.0178832653489438,
+      "mean_holdout_exact_rank": 43.75,
+      "mean_train_exact_minus_greedy": 0.0003020682232925953,
+      "strict_train_gap_fold_count": 0,
+      "subset_difference_fold_count": 1,
+      "subset_size": 3,
+      "target_id": "MK14"
+    },
+    {
+      "fold_count": 4,
+      "holdout_exact_win_fold_count": 1,
+      "maximum_train_exact_minus_greedy": 0.0005273181821920936,
+      "mean_holdout_composite_greedy_rank": 185.25,
+      "mean_holdout_exact_minus_greedy": 0.011981259151581325,
+      "mean_holdout_exact_rank": 146.75,
+      "mean_train_exact_minus_greedy": 0.0001318295455480234,
+      "strict_train_gap_fold_count": 0,
+      "subset_difference_fold_count": 1,
+      "subset_size": 4,
+      "target_id": "MK14"
+    },
+    {
+      "fold_count": 4,
+      "holdout_exact_win_fold_count": 1,
+      "maximum_train_exact_minus_greedy": 0.0014496019677230354,
+      "mean_holdout_composite_greedy_rank": 398.75,
+      "mean_holdout_exact_minus_greedy": 0.0126153103081037,
+      "mean_holdout_exact_rank": 362.25,
+      "mean_train_exact_minus_greedy": 0.00036240049193075885,
+      "strict_train_gap_fold_count": 0,
+      "subset_difference_fold_count": 1,
+      "subset_size": 5,
+      "target_id": "MK14"
+    },
+    {
+      "fold_count": 4,
+      "holdout_exact_win_fold_count": 1,
+      "maximum_train_exact_minus_greedy": 0.0069316650676800595,
+      "mean_holdout_composite_greedy_rank": 1008.25,
+      "mean_holdout_exact_minus_greedy": 0.025230627111714338,
+      "mean_holdout_exact_rank": 865.5,
+      "mean_train_exact_minus_greedy": 0.0017329162669200149,
+      "strict_train_gap_fold_count": 1,
+      "subset_difference_fold_count": 1,
+      "subset_size": 6,
+      "target_id": "MK14"
+    },
+    {
+      "fold_count": 4,
+      "holdout_exact_win_fold_count": 0,
+      "maximum_train_exact_minus_greedy": 0.0,
+      "mean_holdout_composite_greedy_rank": 4.5,
+      "mean_holdout_exact_minus_greedy": 0.0,
+      "mean_holdout_exact_rank": 4.5,
+      "mean_train_exact_minus_greedy": 0.0,
+      "strict_train_gap_fold_count": 0,
+      "subset_difference_fold_count": 0,
+      "subset_size": 1,
+      "target_id": "PPARG"
+    },
+    {
+      "fold_count": 4,
+      "holdout_exact_win_fold_count": 0,
+      "maximum_train_exact_minus_greedy": 0.0,
+      "mean_holdout_composite_greedy_rank": 31.0,
+      "mean_holdout_exact_minus_greedy": 0.0,
+      "mean_holdout_exact_rank": 31.0,
+      "mean_train_exact_minus_greedy": 0.0,
+      "strict_train_gap_fold_count": 0,
+      "subset_difference_fold_count": 0,
+      "subset_size": 2,
+      "target_id": "PPARG"
+    },
+    {
+      "fold_count": 4,
+      "holdout_exact_win_fold_count": 0,
+      "maximum_train_exact_minus_greedy": 0.0,
+      "mean_holdout_composite_greedy_rank": 166.5,
+      "mean_holdout_exact_minus_greedy": 0.0,
+      "mean_holdout_exact_rank": 166.5,
+      "mean_train_exact_minus_greedy": 0.0,
+      "strict_train_gap_fold_count": 0,
+      "subset_difference_fold_count": 0,
+      "subset_size": 3,
+      "target_id": "PPARG"
+    },
+    {
+      "fold_count": 4,
+      "holdout_exact_win_fold_count": 1,
+      "maximum_train_exact_minus_greedy": 0.004152474196488232,
+      "mean_holdout_composite_greedy_rank": 369.5,
+      "mean_holdout_exact_minus_greedy": 0.0177944050164153,
+      "mean_holdout_exact_rank": 268.75,
+      "mean_train_exact_minus_greedy": 0.001038118549122058,
+      "strict_train_gap_fold_count": 1,
+      "subset_difference_fold_count": 1,
+      "subset_size": 4,
+      "target_id": "PPARG"
+    },
+    {
+      "fold_count": 4,
+      "holdout_exact_win_fold_count": 2,
+      "maximum_train_exact_minus_greedy": 0.004769447756894252,
+      "mean_holdout_composite_greedy_rank": 613.25,
+      "mean_holdout_exact_minus_greedy": 0.015954966856626868,
+      "mean_holdout_exact_rank": 376.75,
+      "mean_train_exact_minus_greedy": 0.0014028123197002973,
+      "strict_train_gap_fold_count": 1,
+      "subset_difference_fold_count": 2,
+      "subset_size": 5,
+      "target_id": "PPARG"
+    },
+    {
+      "fold_count": 4,
+      "holdout_exact_win_fold_count": 1,
+      "maximum_train_exact_minus_greedy": 0.0021976478850386227,
+      "mean_holdout_composite_greedy_rank": 861.5,
+      "mean_holdout_exact_minus_greedy": 0.01839240695363689,
+      "mean_holdout_exact_rank": 334.25,
+      "mean_train_exact_minus_greedy": 0.0005494119712596557,
+      "strict_train_gap_fold_count": 1,
+      "subset_difference_fold_count": 1,
+      "subset_size": 6,
+      "target_id": "PPARG"
+    }
+  ],
+  "status": "stage19g_cross_target_set_function_landscape_complete",
+  "target_diagnosis": {
+    "MK14": {
+      "current_k3_gap_fold_count": 0,
+      "current_k3_mean_train_greedy_gap": 0.0003020682232925953,
+      "larger_k_greedy_gap_gate": false,
+      "mean_k3_exact_minus_legacy_holdout": 0.0178832653489438,
+      "mean_k3_exact_minus_legacy_train": 0.0003020682232925953,
+      "mean_pairwise_rank_spearman": 0.8154318834380395,
+      "mean_pairwise_selected_regret": 0.001292681202783308,
+      "mean_pairwise_top_1pct_overlap": 0.41666666666666663,
+      "mean_train_holdout_residual_spearman": 0.5549401863526351,
+      "mean_train_negative_marginal_fraction": 0.31227872749342506,
+      "mean_train_submodularity_violation_fraction": 0.3897165532879818,
+      "outer_train_residual_stability_spearman": 0.754579984538945,
+      "pairwise_fidelity_gate": false,
+      "qualifying_subset_sizes": [],
+      "recommended_route": "no_stable_greedy_gap_for_efficacy_claim",
+      "stable_higher_order_gate": true
+    },
+    "PPARG": {
+      "current_k3_gap_fold_count": 0,
+      "current_k3_mean_train_greedy_gap": 0.0,
+      "larger_k_greedy_gap_gate": false,
+      "mean_k3_exact_minus_legacy_holdout": -0.0062362428526522296,
+      "mean_k3_exact_minus_legacy_train": 0.004823999959600117,
+      "mean_pairwise_rank_spearman": 0.6024043500958687,
+      "mean_pairwise_selected_regret": 0.005418162895020728,
+      "mean_pairwise_top_1pct_overlap": 0.20833333333333331,
+      "mean_train_holdout_residual_spearman": 0.5781308465815991,
+      "mean_train_negative_marginal_fraction": 0.46908190875986244,
+      "mean_train_submodularity_violation_fraction": 0.5030513038548753,
+      "outer_train_residual_stability_spearman": 0.8369458744629744,
+      "pairwise_fidelity_gate": false,
+      "qualifying_subset_sizes": [],
+      "recommended_route": "no_stable_greedy_gap_for_efficacy_claim",
+      "stable_higher_order_gate": true
+    }
+  }
+}

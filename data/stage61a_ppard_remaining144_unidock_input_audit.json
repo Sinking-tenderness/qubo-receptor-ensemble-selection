@@ -1,0 +1,32 @@
+{
+  "audit_id": "stage61a-ppard-remaining144-independent-input-audit-v1",
+  "data_boundary": {
+    "development_rows_prepared": 144,
+    "docking_scores_read": 0,
+    "fresh_validation_structures_prepared": 0,
+    "locked_test_structures_prepared": 0
+  },
+  "decision_boundary": "Input integrity only; no QUBO efficacy, classical superiority, independent validation, or quantum claim is established.",
+  "experiment_class": "prospective_remaining_development_train",
+  "failed_ligand_count": 0,
+  "future_pair_count": 12528,
+  "future_receptor_count": 29,
+  "future_seed_count": 3,
+  "label_counts": {
+    "active": 72,
+    "decoy": 72
+  },
+  "ligand_count": 144,
+  "macrocycle_closure_pseudoatom_ligand_count": 0,
+  "next_gate": "dock Remaining-144 against all 29 frozen receptors with three seeds, then combine with Pilot-96",
+  "pilot_overlap_count": 0,
+  "preparation_variant_counts": {
+    "meeko_flexible": 144
+  },
+  "schema_version": "1.0",
+  "sdf_warning_counts": {
+    "MMFF94_not_converged_code_1": 13
+  },
+  "status": "independent_stage61a_ppard_remaining144_input_audit_ok",
+  "verified_prepared_file_count": 288
+}

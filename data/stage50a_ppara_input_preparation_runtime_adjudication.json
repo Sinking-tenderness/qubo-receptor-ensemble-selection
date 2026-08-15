@@ -1,0 +1,54 @@
+{
+  "schema_version": "1.0",
+  "status": "stage50a_ppara_runtime_amendment01_retry_authorized",
+  "timing": "After Stage50 input preparation and before any PPARA cognate redocking, production docking, enrichment evaluation, validation access, QUBO fitting, or hardware execution.",
+  "first_run_archives": {
+    "core": {
+      "filename": "stage50_ppara_large_pool_redocking_inputs_core_v1.tar.gz",
+      "sha256": "4E1ADE97458472FCA4811B679217BB05301995D267B1DABAE87679ACF8ED88CD"
+    },
+    "diagnostics": {
+      "filename": "stage50_ppara_large_pool_redocking_inputs_diagnostics_v1.tar.gz",
+      "sha256": "BF54E3896A836692D32283F767AFACECEDC2AE005257D5FBBB72605B79DF0C48"
+    },
+    "summary_sha256": "E1F5C6AFA3E49755FAEB1042ABB6DCBB36CAD464C11FACDF502865136B276EC2"
+  },
+  "first_run_counts": {
+    "frozen_receptor_count": 64,
+    "prepared_receptor_count": 31,
+    "failed_case_count": 33,
+    "minimum_prepared_receptor_count": 24,
+    "technical_gate_ready": true
+  },
+  "failure_audit": {
+    "distinct_failure_signature_count": 1,
+    "uniform_failure_signature": "AttributeError: 'str' object has no attribute 'name'",
+    "affected_case_count": 33,
+    "root_cause": "PDBFixer 1.12 can expose missing-terminal atom names as strings; the Stage50 wrapper assumed every entry had a name attribute.",
+    "scientific_or_structure_failure": false
+  },
+  "amendment": {
+    "scope": "Normalize PDBFixer missing-atom entries from either atom objects or strings to string names.",
+    "same_failed_case_ids_retried": true,
+    "successful_case_checkpoints_reused": true,
+    "receptor_replacement_permitted": false,
+    "completion_protocol_changed": false,
+    "coordinate_gate_changed": false,
+    "minimum_prepared_receptor_count_changed": false,
+    "docking_parameters_changed": false
+  },
+  "evidence_boundary": {
+    "cognate_redocking_jobs": 0,
+    "production_docking_jobs": 0,
+    "fresh_validation_rows_read": 0,
+    "locked_test_rows_read": 0,
+    "qubo_outcomes_read": 0,
+    "quantum_hardware_jobs": 0
+  },
+  "decision": {
+    "continue_directly_to_redocking_from_first_run": false,
+    "retry_same_33_cases_with_runtime_amendment01": true,
+    "replace_failed_receptors": false
+  },
+  "interpretation_boundary": "The first run shows that at least 31 frozen receptors are technically preparable and that the common box is geometrically valid. It does not justify treating the 33 parser failures as receptor failures or proceeding before the same frozen cases are retried with the generic compatibility correction."
+}

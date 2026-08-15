@@ -1,0 +1,410 @@
+{
+  "config": {
+    "path": "configs/stage19f_cross_target_stable_pair_qubo.json",
+    "sha256": "D80AFC0CBCE634F953DA0A55168C546AB3AC73865C44610349715CDB42D9E06F"
+  },
+  "data_boundary": {
+    "bace1_docking_rows_read": 0,
+    "fresh_validation_rows_read": 0,
+    "test_rows_read": 0,
+    "train_rows_read_by_target": {
+      "MK14": 696,
+      "PPARG": 668
+    }
+  },
+  "experiment_class": "posthoc_cross_target_train_only_development",
+  "experiment_id": "stage19f-cross-target-stable-pair-qubo-20260801-v1",
+  "full_train_models": {
+    "MK14": {
+      "candidate_selection": {
+        "fold_count": 4,
+        "folds_with_selected_nonzero_pair": 4,
+        "mean_retained_pair_count": 11.0,
+        "mean_subset_jaccard": 0.5833333333333334,
+        "mean_validation_primary": 0.9238502535451726,
+        "mean_validation_rank_spearman": 0.563952343825805,
+        "mean_validation_robust_composite": 0.922936210075466,
+        "mean_validation_worst_seed": 0.9188034256633755,
+        "pair_weight": 0.5,
+        "risk_kappa": 0.0,
+        "selected_subsets": [
+          "MK14_2BAJ_aligned+MK14_3BV2_aligned+MK14_4AAC_aligned",
+          "MK14_2BAJ_aligned+MK14_2QD9_reference+MK14_3BV2_aligned",
+          "MK14_2BAJ_aligned+MK14_2QD9_reference+MK14_3BV2_aligned",
+          "MK14_2BAJ_aligned+MK14_3BV2_aligned+MK14_3ITZ_aligned"
+        ],
+        "target_id": "MK14",
+        "worst_validation_robust_composite": 0.8951481484998439
+      },
+      "exact_all_cardinalities_energy": -3.634419000026554,
+      "exact_all_cardinalities_subset": [
+        "MK14_2BAJ_aligned",
+        "MK14_3BV2_aligned",
+        "MK14_4AAC_aligned"
+      ],
+      "fixed_cardinality_energy": -3.634419000026554,
+      "full_train_metrics": {
+        "mean_seed": 0.9456133761096313,
+        "primary": 0.9466248640779374,
+        "robust_composite": 0.9445148905551211,
+        "sensitivity": 0.9489347456246893,
+        "worst_seed": 0.9413064314777941
+      },
+      "full_train_rank": 2,
+      "objective_vs_train_rank_spearman": 0.8842478315118535,
+      "retained_pair_count": 7,
+      "selected_pair_weight": 0.5,
+      "selected_risk_kappa": 0.0,
+      "selected_subset": [
+        "MK14_2BAJ_aligned",
+        "MK14_3BV2_aligned",
+        "MK14_4AAC_aligned"
+      ],
+      "selected_subset_pair_count": 2
+    },
+    "PPARG": {
+      "candidate_selection": {
+        "fold_count": 4,
+        "folds_with_selected_nonzero_pair": 3,
+        "mean_retained_pair_count": 1.5,
+        "mean_subset_jaccard": 0.25,
+        "mean_validation_primary": 0.9186518929929314,
+        "mean_validation_rank_spearman": 0.5122676571034984,
+        "mean_validation_robust_composite": 0.9042033843092876,
+        "mean_validation_worst_seed": 0.88340985035006,
+        "pair_weight": 1.0,
+        "risk_kappa": 0.5,
+        "selected_subsets": [
+          "PPARG_2Q6S_aligned+PPARG_3TY0_aligned+PPARG_5Y2T_aligned",
+          "PPARG_2G0H_aligned+PPARG_2Q6S_aligned+PPARG_5DWL_aligned",
+          "PPARG_2FVJ_aligned+PPARG_5DWL_aligned+PPARG_5Y2T_aligned",
+          "PPARG_2Q6S_aligned+PPARG_5DWL_aligned+PPARG_6AD9_aligned"
+        ],
+        "target_id": "PPARG",
+        "worst_validation_robust_composite": 0.8603303839344143
+      },
+      "exact_all_cardinalities_energy": -3.5350420426906908,
+      "exact_all_cardinalities_subset": [
+        "PPARG_3TY0_aligned",
+        "PPARG_5DWL_aligned",
+        "PPARG_5Y2T_aligned"
+      ],
+      "fixed_cardinality_energy": -3.5350420426906908,
+      "full_train_metrics": {
+        "mean_seed": 0.905095093946096,
+        "primary": 0.9138000557255119,
+        "robust_composite": 0.905857251681054,
+        "sensitivity": 0.8983543080700745,
+        "worst_seed": 0.8986766053715542
+      },
+      "full_train_rank": 5,
+      "objective_vs_train_rank_spearman": 0.8752998711275045,
+      "retained_pair_count": 1,
+      "selected_pair_weight": 1.0,
+      "selected_risk_kappa": 0.5,
+      "selected_subset": [
+        "PPARG_3TY0_aligned",
+        "PPARG_5DWL_aligned",
+        "PPARG_5Y2T_aligned"
+      ],
+      "selected_subset_pair_count": 1
+    }
+  },
+  "gate": {
+    "bace1_amendment_authorized": false,
+    "comparison_checks": {
+      "stable_pair_vs_additive_nested": false,
+      "stable_pair_vs_direct_greedy": false,
+      "stable_pair_vs_stable_singleton_linear": false,
+      "stable_pair_vs_v1_qubo_exact": false
+    },
+    "folds_with_selected_nonzero_pair": 5,
+    "meaningful_pair_check": true,
+    "passed": false,
+    "rule": {
+      "all_checks_required": true,
+      "decision": "Authorize a BACE1 secondary stable-pair QUBO only if it has a strictly positive mean outer-fold robust-composite delta on both MK14 and PPARG against all four comparators, wins at least five of eight paired folds against each, and the selected triple uses at least one retained nonzero pair term in at least five folds.",
+      "minimum_folds_with_selected_nonzero_pair": 5,
+      "minimum_positive_folds_of_eight": 5,
+      "minimum_target_mean_delta": 0.0,
+      "required_comparators": [
+        "direct_greedy",
+        "additive_nested",
+        "pair_synergy_qubo_v1",
+        "stable_singleton_linear"
+      ]
+    }
+  },
+  "interpretation_boundary": "Stage 19f is post-hoc development evidence built after MK14 and PPARG outcomes were known. Nested scaffold-CV can reject unstable pair terms but cannot create independent validation. This stage reads no BACE1 docking, fresh-validation, or locked-test row; it cannot alter prior failures, establish QUBO superiority, demonstrate quantum execution, or establish quantum advantage.",
+  "method_aggregate": [
+    {
+      "fold_count": 4,
+      "mean_holdout_primary": 0.9334889539609974,
+      "mean_holdout_rank": 28.0,
+      "mean_holdout_robust_composite": 0.9336697238970535,
+      "mean_holdout_worst_seed": 0.9327897671621973,
+      "mean_subset_jaccard": 0.3,
+      "method": "additive_nested",
+      "target_id": "MK14",
+      "worst_holdout_robust_composite": 0.8951481484998439
+    },
+    {
+      "fold_count": 4,
+      "mean_holdout_primary": 0.9225343090227859,
+      "mean_holdout_rank": 62.0,
+      "mean_holdout_robust_composite": 0.9194497726992181,
+      "mean_holdout_worst_seed": 0.9148790095179926,
+      "mean_subset_jaccard": 0.5333333333333333,
+      "method": "direct_greedy",
+      "target_id": "MK14",
+      "worst_holdout_robust_composite": 0.8833541200235708
+    },
+    {
+      "fold_count": 4,
+      "mean_holdout_primary": 0.908243658140347,
+      "mean_holdout_rank": 123.75,
+      "mean_holdout_robust_composite": 0.903561158853497,
+      "mean_holdout_worst_seed": 0.8978881881260972,
+      "mean_subset_jaccard": 0.5333333333333333,
+      "method": "stable_pair_nested",
+      "target_id": "MK14",
+      "worst_holdout_robust_composite": 0.8197996646406865
+    },
+    {
+      "fold_count": 4,
+      "mean_holdout_primary": 0.9216637644064128,
+      "mean_holdout_rank": 114.0,
+      "mean_holdout_robust_composite": 0.918691691037191,
+      "mean_holdout_worst_seed": 0.9130456315479342,
+      "mean_subset_jaccard": 0.75,
+      "method": "stable_singleton_linear",
+      "target_id": "MK14",
+      "worst_holdout_robust_composite": 0.8788878323806074
+    },
+    {
+      "fold_count": 4,
+      "mean_holdout_primary": 0.9402419118321514,
+      "mean_holdout_rank": 38.75,
+      "mean_holdout_robust_composite": 0.9379281868452144,
+      "mean_holdout_worst_seed": 0.9343960915196622,
+      "mean_subset_jaccard": 0.6666666666666666,
+      "method": "v1_qubo_exact",
+      "target_id": "MK14",
+      "worst_holdout_robust_composite": 0.8951481484998439
+    },
+    {
+      "fold_count": 4,
+      "mean_holdout_primary": 0.9123904368198074,
+      "mean_holdout_rank": 49.0,
+      "mean_holdout_robust_composite": 0.9021518621758757,
+      "mean_holdout_worst_seed": 0.8823382647603777,
+      "mean_subset_jaccard": 1.0,
+      "method": "additive_nested",
+      "target_id": "PPARG",
+      "worst_holdout_robust_composite": 0.82442575644024
+    },
+    {
+      "fold_count": 4,
+      "mean_holdout_primary": 0.850125760207535,
+      "mean_holdout_rank": 151.25,
+      "mean_holdout_robust_composite": 0.8480952382851774,
+      "mean_holdout_worst_seed": 0.824857360295293,
+      "mean_subset_jaccard": 0.48333333333333334,
+      "method": "direct_greedy",
+      "target_id": "PPARG",
+      "worst_holdout_robust_composite": 0.635078629588278
+    },
+    {
+      "fold_count": 4,
+      "mean_holdout_primary": 0.8431377945715155,
+      "mean_holdout_rank": 183.5,
+      "mean_holdout_robust_composite": 0.8315413099279885,
+      "mean_holdout_worst_seed": 0.7995050879215733,
+      "mean_subset_jaccard": 0.5,
+      "method": "stable_pair_nested",
+      "target_id": "PPARG",
+      "worst_holdout_robust_composite": 0.7072361483747353
+    },
+    {
+      "fold_count": 4,
+      "mean_holdout_primary": 0.9055139137708053,
+      "mean_holdout_rank": 58.0,
+      "mean_holdout_robust_composite": 0.8902561255186903,
+      "mean_holdout_worst_seed": 0.8630484626615768,
+      "mean_subset_jaccard": 1.0,
+      "method": "stable_singleton_linear",
+      "target_id": "PPARG",
+      "worst_holdout_robust_composite": 0.781904765761678
+    },
+    {
+      "fold_count": 4,
+      "mean_holdout_primary": 0.7944412184482443,
+      "mean_holdout_rank": 261.75,
+      "mean_holdout_robust_composite": 0.8075927174869232,
+      "mean_holdout_worst_seed": 0.794053276817718,
+      "mean_subset_jaccard": 0.3,
+      "method": "v1_qubo_exact",
+      "target_id": "PPARG",
+      "worst_holdout_robust_composite": 0.635078629588278
+    }
+  ],
+  "next_gate": "stop target-specific QUBO retuning and review the quantum-application claim",
+  "outputs": {
+    "comparison_method_results_csv": {
+      "path": "results/runs/stage19f_cross_target_stable_pair_qubo/comparison_method_results.csv",
+      "sha256": "099A14D17CE737DD15FC4F305DD645902ECB9F34E304D573FCC06AC4212DF456",
+      "size_bytes": 13041
+    },
+    "inner_candidate_trials_csv": {
+      "path": "results/runs/stage19f_cross_target_stable_pair_qubo/inner_candidate_trials.csv",
+      "sha256": "FF9301E79BF04D367DE81068AA71A170ADCC88402627CB2271AFD8B0901EE6E8",
+      "size_bytes": 92197
+    },
+    "model_record_json": {
+      "path": "data/stage19f_cross_target_stable_pair_qubo_model_record.json",
+      "sha256": "643CCB39A115DB90D79B0D33212860834339123F58B91BD0436E5F01FC966EE3",
+      "size_bytes": 53927
+    },
+    "outer_candidate_trials_csv": {
+      "path": "results/runs/stage19f_cross_target_stable_pair_qubo/outer_candidate_trials.csv",
+      "sha256": "3AB5147B58749385066BDD6DF1E296A18DA82DE21D1131E5C61F31FC192C67E8",
+      "size_bytes": 31508
+    }
+  },
+  "paired_comparisons": {
+    "stable_pair_vs_additive_nested": {
+      "direction": "stable_pair_nested minus additive_nested",
+      "fold_count": 8,
+      "mean_delta": -0.050359558645721905,
+      "per_target": {
+        "MK14": {
+          "fold_count": 4,
+          "fold_deltas": [
+            0.0,
+            -0.009494922182419874,
+            0.0032097209894218492,
+            -0.11414905898122796
+          ],
+          "mean_delta": -0.030108565043556496,
+          "positive_fold_count": 1,
+          "worst_delta": -0.11414905898122796
+        },
+        "PPARG": {
+          "fold_count": 4,
+          "fold_deltas": [
+            -0.005545371112805619,
+            0.014496347658773834,
+            -0.2488721948589555,
+            -0.042520990678561965
+          ],
+          "mean_delta": -0.07061055224788731,
+          "positive_fold_count": 1,
+          "worst_delta": -0.2488721948589555
+        }
+      },
+      "positive_fold_count": 2,
+      "worst_delta": -0.2488721948589555
+    },
+    "stable_pair_vs_direct_greedy": {
+      "direction": "stable_pair_nested minus direct_greedy",
+      "fold_count": 8,
+      "mean_delta": -0.016221271101454993,
+      "per_target": {
+        "MK14": {
+          "fold_count": 4,
+          "fold_deltas": [
+            0.0,
+            0.0,
+            0.0,
+            -0.06355445538288429
+          ],
+          "mean_delta": -0.015888613845721072,
+          "positive_fold_count": 0,
+          "worst_delta": -0.06355445538288429
+        },
+        "PPARG": {
+          "fold_count": 4,
+          "fold_deltas": [
+            0.009683800171170542,
+            0.012133612589481202,
+            -0.2348592623628074,
+            0.1468261361734
+          ],
+          "mean_delta": -0.016553928357188913,
+          "positive_fold_count": 3,
+          "worst_delta": -0.2348592623628074
+        }
+      },
+      "positive_fold_count": 3,
+      "worst_delta": -0.2348592623628074
+    },
+    "stable_pair_vs_stable_singleton_linear": {
+      "direction": "stable_pair_nested minus stable_singleton_linear",
+      "fold_count": 8,
+      "mean_delta": -0.036922673887197915,
+      "per_target": {
+        "MK14": {
+          "fold_count": 4,
+          "fold_deltas": [
+            -0.029159014341857192,
+            0.03673762962407123,
+            -0.009012576277069084,
+            -0.05908816773992087
+          ],
+          "mean_delta": -0.015130532183693979,
+          "positive_fold_count": 1,
+          "worst_delta": -0.05908816773992087
+        },
+        "PPARG": {
+          "fold_count": 4,
+          "fold_deltas": [
+            0.0,
+            0.0,
+            -0.2348592623628074,
+            0.0
+          ],
+          "mean_delta": -0.05871481559070185,
+          "positive_fold_count": 0,
+          "worst_delta": -0.2348592623628074
+        }
+      },
+      "positive_fold_count": 1,
+      "worst_delta": -0.2348592623628074
+    },
+    "stable_pair_vs_v1_qubo_exact": {
+      "direction": "stable_pair_nested minus v1_qubo_exact",
+      "fold_count": 8,
+      "mean_delta": -0.005209217775326083,
+      "per_target": {
+        "MK14": {
+          "fold_count": 4,
+          "fold_deltas": [
+            0.0,
+            -0.0023805951882102105,
+            0.0,
+            -0.1350875167786595
+          ],
+          "mean_delta": -0.034367027991717425,
+          "positive_fold_count": 0,
+          "worst_delta": -0.1350875167786595
+        },
+        "PPARG": {
+          "fold_count": 4,
+          "fold_deltas": [
+            0.047899156843630664,
+            0.013749424863266912,
+            -0.11268034811603655,
+            0.1468261361734
+          ],
+          "mean_delta": 0.02394859244106526,
+          "positive_fold_count": 3,
+          "worst_delta": -0.11268034811603655
+        }
+      },
+      "positive_fold_count": 3,
+      "worst_delta": -0.1350875167786595
+    }
+  },
+  "schema_version": "1.0",
+  "status": "stage19f_stable_pair_qubo_not_supported_do_not_amend_bace1"
+}

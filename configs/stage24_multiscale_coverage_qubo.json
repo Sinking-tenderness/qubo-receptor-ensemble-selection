@@ -1,0 +1,70 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage24-multiscale-coverage-qubo-20260802-v1",
+  "purpose": "Remove single-neighborhood-scale dependence by optimizing one equal-weight multiscale structural-state coverage QUBO before any docking is authorized.",
+  "evidence_timing": {
+    "experiment_class": "posthoc_structure_only_multiscale_model_design",
+    "docking_outcomes_known": true,
+    "schedule_frozen_before_run": true,
+    "new_docking_jobs": false,
+    "fresh_validation_or_test_rows_permitted": false,
+    "quantum_hardware_execution": false
+  },
+  "targets": {
+    "MK14": {
+      "reference_id": "MK14_2QD9_reference",
+      "inputs": {
+        "eligible_pool": "data/processed/stage05_mk14_rcsb_coordinate_eligible_pool_v3.csv",
+        "coordinate_audit": "data/processed/stage05_mk14_rcsb_coordinate_candidate_audit_v3.csv",
+        "feature_matrix": "data/processed/stage05_mk14_rcsb_pocket_distance_features_v3.csv",
+        "pairwise_distances": "data/processed/stage05_mk14_rcsb_structural_distances_v3.csv"
+      }
+    },
+    "PPARG": {
+      "reference_id": "PPARG_2GTK_reference",
+      "inputs": {
+        "eligible_pool": "data/processed/stage18c_pparg_coordinate_eligible_pool.csv",
+        "coordinate_audit": "data/processed/stage18c_pparg_coordinate_candidate_audit.csv",
+        "feature_matrix": "data/processed/stage18c_pparg_structural_features.csv",
+        "pairwise_distances": "data/processed/stage18c_pparg_structural_distances.csv"
+      }
+    }
+  },
+  "objective": {
+    "k": 8,
+    "neighborhood_fractions": [0.05, 0.10, 0.20],
+    "scale_weights": [0.3333333333333333, 0.3333333333333333, 0.3333333333333333],
+    "diversity_weight": 0.15,
+    "cardinality_penalty": 20.0,
+    "coverage_constraint_penalty": 100.0
+  },
+  "classical_baselines": {
+    "beam_widths": [128, 512, 2048],
+    "refine_with_one_swap": true
+  },
+  "sampler": {
+    "batch_count": 4,
+    "reads_per_batch": 64,
+    "sweeps_per_read": 3000,
+    "temperature_start": 0.04,
+    "temperature_end": 0.0002,
+    "base_seed": 20260802,
+    "initialization": "uniform_random_fixed_cardinality_subset",
+    "move": "one_selected_conformer_swapped_with_one_unselected_conformer"
+  },
+  "gate": {
+    "objective_tolerance": 0.0001,
+    "minimum_batch_fraction_within_tolerance": 0.75,
+    "minimum_batch_fraction_above_strong_classical": 0.75,
+    "minimum_gain_vs_strong_classical": 1e-9
+  },
+  "outputs": {
+    "read_csv": "results/runs/stage24_multiscale_coverage_qubo/read_results.csv",
+    "batch_csv": "results/runs/stage24_multiscale_coverage_qubo/batch_results.csv",
+    "baseline_csv": "results/runs/stage24_multiscale_coverage_qubo/classical_baselines.csv",
+    "model_record_json": "data/stage24_multiscale_coverage_qubo_model_record.json",
+    "result_json": "data/stage24_multiscale_coverage_qubo_result.json",
+    "report_md": "reports/stage-24/multiscale_coverage_qubo.md"
+  },
+  "interpretation_boundary": "This post-hoc structure-only stage can establish only mathematical validity, sampler stability, and performance on the frozen multiscale structural objective relative to the recorded same-objective classical baselines. It cannot establish docking enrichment, prospective generalization, quantum speedup, quantum advantage, or biological benefit. A passing gate authorizes only a separately preregistered small matched Uni-Dock experiment."
+}

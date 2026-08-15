@@ -1,0 +1,94 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage26-variable-budget-consensus-qubo-20260802-v1",
+  "purpose": "Test a frozen non-submodular, variable-cardinality structural consensus QUBO across three proteins and increasing candidate-pool sizes before any functional docking or hardware execution.",
+  "evidence_timing": {
+    "experiment_class": "posthoc_structure_only_complexity_and_hardware_readiness_benchmark",
+    "stage26_objective_outcomes_known_before_freeze": false,
+    "objective_solver_and_gate_frozen_before_run": true,
+    "docking_scores_permitted": false,
+    "ligand_labels_permitted": false,
+    "new_docking_jobs": false,
+    "quantum_hardware_execution": false
+  },
+  "targets": {
+    "MK14": {
+      "reference_id": "MK14_2QD9_reference",
+      "instance_sizes": [16, 24, 32, 43],
+      "inputs": {
+        "eligible_pool": "data/processed/stage05_mk14_rcsb_coordinate_eligible_pool_v3.csv",
+        "coordinate_audit": "data/processed/stage05_mk14_rcsb_coordinate_candidate_audit_v3.csv",
+        "feature_matrix": "data/processed/stage05_mk14_rcsb_pocket_distance_features_v3.csv",
+        "pairwise_distances": "data/processed/stage05_mk14_rcsb_structural_distances_v3.csv"
+      }
+    },
+    "PPARG": {
+      "reference_id": "PPARG_2GTK_reference",
+      "instance_sizes": [16, 24, 32, 64, 98],
+      "inputs": {
+        "eligible_pool": "data/processed/stage18c_pparg_coordinate_eligible_pool.csv",
+        "coordinate_audit": "data/processed/stage18c_pparg_coordinate_candidate_audit.csv",
+        "feature_matrix": "data/processed/stage18c_pparg_structural_features.csv",
+        "pairwise_distances": "data/processed/stage18c_pparg_structural_distances.csv"
+      }
+    },
+    "BACE1": {
+      "reference_id": "BACE1_3L5D_reference",
+      "instance_sizes": [16, 24, 32, 49],
+      "inputs": {
+        "eligible_pool": "data/processed/stage21c_bace1_coordinate_eligible_pool.csv",
+        "coordinate_audit": "data/processed/stage21c_bace1_coordinate_candidate_audit.csv",
+        "feature_matrix": "data/processed/stage21c_bace1_structural_features.csv",
+        "pairwise_distances": "data/processed/stage21c_bace1_structural_distances.csv"
+      }
+    }
+  },
+  "objective": {
+    "maximum_selected": 8,
+    "neighborhood_fraction": 0.10,
+    "single_coverage_weight": 0.25,
+    "double_coverage_weight": 0.75,
+    "pair_diversity_weight": 0.10,
+    "per_conformer_cost": 0.04,
+    "budget_constraint_penalty": 20.0,
+    "coverage_constraint_penalty": 100.0,
+    "interpretation": "A structural state earns 0.25 after one representative and the remaining 0.75 only after a second independent representative; the increasing second-hit marginal creates genuine complementarity and removes the usual submodular-coverage guarantee for greedy selection."
+  },
+  "instances": {
+    "nested_order": "reference_first_then_sha256_of_target_and_conformer_id",
+    "small_exact_oracle_size": 16,
+    "exact_oracle_state_limit": 1000000
+  },
+  "classical_baselines": {
+    "methods": ["direct_greedy_plus_variable_local_search", "beam_plus_variable_local_search"],
+    "beam_widths": [128, 512]
+  },
+  "sampler": {
+    "batch_count": 3,
+    "reads_per_batch": 32,
+    "sweeps_per_read": 2000,
+    "temperature_start": 0.04,
+    "temperature_end": 0.0002,
+    "base_seed": 20260826,
+    "initialization": "uniform_random_cardinality_from_zero_to_maximum_selected",
+    "moves": ["add", "remove", "swap"]
+  },
+  "gate": {
+    "objective_tolerance": 0.0001,
+    "minimum_full_instance_batch_fraction_within_tolerance": 0.75,
+    "minimum_full_targets_strictly_above_strong_classical": 2,
+    "minimum_gain_vs_strong_classical": 1e-9,
+    "maximum_small_instance_gap_to_exact": 0.0001,
+    "direct_qpu_max_variables": 200,
+    "direct_qpu_max_coefficient_dynamic_range": 100.0
+  },
+  "outputs": {
+    "solver_csv": "results/runs/stage26_variable_budget_consensus_qubo/solver_results.csv",
+    "batch_csv": "results/runs/stage26_variable_budget_consensus_qubo/batch_results.csv",
+    "read_csv": "results/runs/stage26_variable_budget_consensus_qubo/read_results.csv",
+    "model_csv": "results/runs/stage26_variable_budget_consensus_qubo/model_scaling.csv",
+    "result_json": "data/stage26_variable_budget_consensus_qubo_result.json",
+    "report_md": "reports/stage-26/variable_budget_consensus_qubo.md"
+  },
+  "interpretation_boundary": "A pass can establish only that a frozen label-independent non-submodular QUBO is sampled stably and outperforms the recorded same-objective classical heuristics on the tested structural instances. It cannot establish docking enrichment, biological benefit, quantum speedup, quantum advantage, or hardware readiness. Only a pass authorizes a separately preregistered functional-complementarity experiment."
+}

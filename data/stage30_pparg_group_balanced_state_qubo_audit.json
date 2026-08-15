@@ -1,0 +1,55 @@
+{
+  "checks": {
+    "all_input_and_output_descriptors_verified": true,
+    "all_reported_subsets_satisfy_exactly_one_per_start": true,
+    "all_solver_and_read_objectives_recomputed": true,
+    "batch_summaries_recomputed": true,
+    "candidate_scaling_nested_and_balanced": true,
+    "data_boundary_zero": true,
+    "decision_recomputed": true,
+    "qubo_energy_equivalence_recomputed": true,
+    "ward_state_labels_recomputed": true,
+    "within_start_centrality_recomputed": true
+  },
+  "config": {
+    "path": "configs/stage30_pparg_group_balanced_state_qubo.json",
+    "sha256": "B24E15CDD34C05E2179A8D5070F67CA930940B101C14C711204779C25683C5D5"
+  },
+  "coverage": {
+    "annealing_batch_count": 32,
+    "annealing_read_count": 512,
+    "frame_count": 1200,
+    "maximum_recomputed_objective_abs_difference": 1.6653345369377348e-15,
+    "scaling_cell_count": 8,
+    "solver_result_count": 34,
+    "state_resolution_count": 3
+  },
+  "data_boundary": {
+    "docking_scores_read": 0,
+    "fresh_validation_rows_read": 0,
+    "ligand_labels_read": 0,
+    "new_docking_jobs": 0,
+    "quantum_hardware_jobs": 0,
+    "test_rows_read": 0
+  },
+  "decision": {
+    "annealing_stability_gate_passed": true,
+    "cells_strictly_above_strong_classical": 0,
+    "direct_qpu_readiness_gate_passed": false,
+    "exactly_one_per_start_verified": true,
+    "exactness_gate_passed": true,
+    "input_gate_passed": true,
+    "new_docking_jobs_authorized_by_this_stage": false,
+    "quantum_hardware_authorized": false,
+    "qubo_equivalence_gate_passed": true,
+    "scaling_complete": true,
+    "solver_novelty_gate_passed": false
+  },
+  "interpretation_boundary": "Stage30 can establish deterministic multiscale state construction, exact multiple-choice QUBO equivalence, and same-objective solver quality on a start-balanced real PPARG MD frame-selection problem. It cannot establish MD convergence, docking enrichment, biological superiority, quantum speedup, quantum advantage, or hardware readiness. Because the objective was redesigned after Stage29, Stage30 is prospective only with respect to its own frozen solver outcomes and cannot retroactively rescue the Stage29 novelty failure.",
+  "result": {
+    "path": "data/stage30_pparg_group_balanced_state_qubo_result.json",
+    "sha256": "4B754BDA824E03D53D4D2F3916A6DF00AEAA66AD1719E09858D25028B3DFB8AF"
+  },
+  "schema_version": "1.0",
+  "status": "stage30_pparg_group_balanced_state_qubo_audit_ok"
+}

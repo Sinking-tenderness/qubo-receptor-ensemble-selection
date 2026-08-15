@@ -1,0 +1,116 @@
+{
+  "schema_version": "1.0",
+  "audit_id": "stage08-mk14-expanded16-structural-selection-independent-audit-v1",
+  "status": "independent_expanded16_structural_audit_ok",
+  "config": {
+    "path": "configs/stage08_mk14_expanded16_structural_selection_audit.json",
+    "sha256": "CE885AE1F123FB31A92270F4D3BA6FC081F2A6CC7C6D7D18A9CD133A816669CE"
+  },
+  "eligible_pool_count": 43,
+  "pairwise_distance_count": 903,
+  "seed_receptor_ids": [
+    "MK14_2QD9_reference",
+    "MK14_1A9U_aligned",
+    "MK14_3K3J_aligned",
+    "MK14_3KQ7_aligned"
+  ],
+  "independently_reconstructed_additions": [
+    {
+      "selection_rank": 1,
+      "conformer_id": "MK14_2BAJ_aligned",
+      "minimum_standardized_distance_to_selected_pool": 1.648714223809538
+    },
+    {
+      "selection_rank": 2,
+      "conformer_id": "MK14_4F9W_aligned",
+      "minimum_standardized_distance_to_selected_pool": 1.4323697049174453
+    },
+    {
+      "selection_rank": 3,
+      "conformer_id": "MK14_3OCG_aligned",
+      "minimum_standardized_distance_to_selected_pool": 1.4255311045773316
+    },
+    {
+      "selection_rank": 4,
+      "conformer_id": "MK14_3MPT_aligned",
+      "minimum_standardized_distance_to_selected_pool": 1.3614278944509344
+    },
+    {
+      "selection_rank": 5,
+      "conformer_id": "MK14_3ZSI_aligned",
+      "minimum_standardized_distance_to_selected_pool": 1.3486583853767813
+    },
+    {
+      "selection_rank": 6,
+      "conformer_id": "MK14_5N65_aligned",
+      "minimum_standardized_distance_to_selected_pool": 1.3305054375167666
+    },
+    {
+      "selection_rank": 7,
+      "conformer_id": "MK14_3ZSH_aligned",
+      "minimum_standardized_distance_to_selected_pool": 1.262170539459783
+    },
+    {
+      "selection_rank": 8,
+      "conformer_id": "MK14_3ZSG_aligned",
+      "minimum_standardized_distance_to_selected_pool": 1.2404573990862326
+    },
+    {
+      "selection_rank": 9,
+      "conformer_id": "MK14_3BV2_aligned",
+      "minimum_standardized_distance_to_selected_pool": 1.21147111868724
+    },
+    {
+      "selection_rank": 10,
+      "conformer_id": "MK14_2GFS_aligned",
+      "minimum_standardized_distance_to_selected_pool": 1.196104442563288
+    },
+    {
+      "selection_rank": 11,
+      "conformer_id": "MK14_4FA2_aligned",
+      "minimum_standardized_distance_to_selected_pool": 1.1681874418692455
+    },
+    {
+      "selection_rank": 12,
+      "conformer_id": "MK14_4AAC_aligned",
+      "minimum_standardized_distance_to_selected_pool": 1.1581730300343458
+    }
+  ],
+  "reproduced_expanded8_prefix_count": 4,
+  "new_expanded16_receptor_ids": [
+    "MK14_3ZSI_aligned",
+    "MK14_5N65_aligned",
+    "MK14_3ZSH_aligned",
+    "MK14_3ZSG_aligned",
+    "MK14_3BV2_aligned",
+    "MK14_2GFS_aligned",
+    "MK14_4FA2_aligned",
+    "MK14_4AAC_aligned"
+  ],
+  "final_receptor_ids": [
+    "MK14_2QD9_reference",
+    "MK14_1A9U_aligned",
+    "MK14_3K3J_aligned",
+    "MK14_3KQ7_aligned",
+    "MK14_2BAJ_aligned",
+    "MK14_4F9W_aligned",
+    "MK14_3OCG_aligned",
+    "MK14_3MPT_aligned",
+    "MK14_3ZSI_aligned",
+    "MK14_5N65_aligned",
+    "MK14_3ZSH_aligned",
+    "MK14_3ZSG_aligned",
+    "MK14_3BV2_aligned",
+    "MK14_2GFS_aligned",
+    "MK14_4FA2_aligned",
+    "MK14_4AAC_aligned"
+  ],
+  "data_boundary": {
+    "ligand_labels_read": 0,
+    "benchmark_docking_scores_read": 0,
+    "previous_validation_rows_read": 0,
+    "test_rows_read": 0
+  },
+  "next_gate": "prepare and cognate-redock the eight new expanded16 receptors",
+  "decision_boundary": "This audit establishes deterministic structural selection only; it does not establish docking quality, enrichment, receptor complementarity, QUBO benefit, or quantum advantage."
+}

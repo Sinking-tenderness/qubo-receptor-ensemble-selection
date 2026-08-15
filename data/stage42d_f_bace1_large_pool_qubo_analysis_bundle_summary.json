@@ -1,0 +1,21 @@
+{
+  "archive": "D:/\u91cf\u5b50\u00d7\u86cb\u767d\u8d28/qubo-receptor-ensemble-selection/deliverables/stage42d_f_bace1_large_pool_qubo_analysis_core_v1.tar.gz",
+  "archive_entry_count": 31,
+  "archive_sha256": "BF06309FEEA179A0B72A7CE53A8CAE0EFC72D8CE2D441CCF4090A16D75C68D4A",
+  "archive_size_bytes": 2077567,
+  "best_combination_over_single_bedroc_gain": 0.019206108494594032,
+  "deterministic_metadata": true,
+  "exact_classical_positive_gap_count": 0,
+  "fresh_validation_authorized": false,
+  "full_state_count_k1_to_k6": 1676115,
+  "manifest_line_ending": "LF",
+  "operation": "Stage42d-f BACE1 large-pool QUBO analysis core results",
+  "quantum_hardware_authorized": false,
+  "schema_version": "1.0",
+  "source_file_count": 30,
+  "stage42c_pair_count": 27132,
+  "stage42d_old_objective_supported": false,
+  "stage42f_rank_sensitive_pair_qubo_supported": false,
+  "status": "ok",
+  "target_id": "BACE1"
+}

@@ -1,0 +1,95 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage30-pparg-group-balanced-state-qubo-20260803-v1",
+  "purpose": "Test a biologically motivated multiple-choice QUBO that selects exactly one representative frame from each of eight independent PPARG MD starts while balancing within-start representativeness, cross-start diversity, and multiscale structural-state separation.",
+  "trigger": "Stage29 selected eight frames from only six of eight MD starts and its unconstrained smooth objective remained easy for greedy plus one-swap search.",
+  "evidence_timing": {
+    "experiment_class": "prospective_post_stage29_structure_only_objective_redesign",
+    "stage30_solver_outcomes_known_before_freeze": false,
+    "stage29_results_known_before_freeze": true,
+    "docking_scores_permitted": false,
+    "ligand_labels_permitted": false,
+    "fresh_validation_rows_permitted": false,
+    "test_rows_permitted": false,
+    "new_docking_jobs": false,
+    "quantum_hardware_execution": false
+  },
+  "inputs": {
+    "stage28b_audit": "data/stage28b_pparg_md_ready_multistart_md_ensemble_audit.json",
+    "stage29_audit": "data/stage29_pparg_md_qubo_solver_scaling_audit.json",
+    "frame_manifest": "results/runs/stage28b_pparg_md_ready_multistart_md/ensemble/frame_manifest.csv",
+    "feature_archive": "results/runs/stage28b_pparg_md_ready_multistart_md/ensemble/pocket_features.npz",
+    "distance_archive": "results/runs/stage28b_pparg_md_ready_multistart_md/ensemble/pairwise_distances_condensed.npz"
+  },
+  "candidate_scaling": {
+    "frames_per_start": [2, 4, 8, 16, 32, 64, 100, 150],
+    "total_candidate_counts": [16, 32, 64, 128, 256, 512, 800, 1200],
+    "within_start_order": "deterministic one-dimensional temporal maximin order",
+    "selection_constraint": "exactly one frame from each of the eight MD starts"
+  },
+  "structural_states": {
+    "method": "Ward hierarchical clustering of the complete frozen 1200 by 870 standardized pocket-feature matrix",
+    "cluster_counts": [8, 16, 32],
+    "state_separation": "fraction of frozen cluster resolutions at which two frames have different labels"
+  },
+  "objective": {
+    "selected_count": 8,
+    "group_count": 8,
+    "within_start_centrality_weight": 0.3,
+    "cross_start_pair_diversity_weight": 0.5,
+    "multiscale_state_separation_weight": 0.2,
+    "distance_normalization": "divide by the maximum complete-pool RMS standardized Euclidean distance",
+    "within_start_centrality": "one minus mean normalized distance to the other 149 frames from the same MD start",
+    "fixed_feasible_objective": "0.3*mean_selected_within_start_centrality + 0.5*mean_cross_start_pair_distance + 0.2*mean_cross_start_multiscale_state_separation",
+    "exactly_one_group_penalty": 2.0,
+    "qubo_convention": "minimize negative objective plus exactly_one_group_penalty times the sum over starts of (sum_group_x-1)^2"
+  },
+  "exact_oracle": {
+    "maximum_states": 1000000
+  },
+  "classical_baselines": {
+    "cyclic_group_order_count": 16,
+    "beam_width": 64,
+    "random_coordinate_restart_count": 64,
+    "methods": [
+      "cyclic_greedy_plus_coordinate_descent",
+      "beam64_plus_coordinate_descent",
+      "random64_coordinate_descent"
+    ]
+  },
+  "annealing_sampler": {
+    "batch_count": 4,
+    "reads_per_batch": 16,
+    "minimum_sweeps_per_read": 5000,
+    "sweeps_per_candidate": 25,
+    "temperature_start": 0.05,
+    "temperature_end": 0.0001,
+    "initialization": "one uniformly random frame per MD start",
+    "move": "replace the selected frame within one randomly selected MD-start group",
+    "base_seed": 20260830
+  },
+  "gate": {
+    "objective_tolerance": 0.0001,
+    "minimum_batch_fraction_within_tolerance": 0.75,
+    "maximum_exact_gap": 1e-8,
+    "minimum_primary_cells_strictly_above_strong_classical": 2,
+    "minimum_strict_gain": 1e-6,
+    "maximum_qubo_equivalence_residual": 1e-8,
+    "required_scaling_cell_count": 8,
+    "direct_qpu_max_logical_variables": 200,
+    "direct_qpu_max_quadratic_couplers": 20000,
+    "direct_qpu_max_coefficient_dynamic_range": 100.0
+  },
+  "outputs": {
+    "state_manifest_csv": "results/runs/stage30_pparg_group_balanced_state_qubo/state_manifest.csv",
+    "candidate_manifest_csv": "results/runs/stage30_pparg_group_balanced_state_qubo/candidate_manifest.csv",
+    "solver_results_csv": "results/runs/stage30_pparg_group_balanced_state_qubo/solver_results.csv",
+    "batch_results_csv": "results/runs/stage30_pparg_group_balanced_state_qubo/batch_results.csv",
+    "read_results_csv": "results/runs/stage30_pparg_group_balanced_state_qubo/read_results.csv",
+    "model_scaling_csv": "results/runs/stage30_pparg_group_balanced_state_qubo/model_scaling.csv",
+    "result_json": "data/stage30_pparg_group_balanced_state_qubo_result.json",
+    "audit_json": "data/stage30_pparg_group_balanced_state_qubo_audit.json",
+    "report_md": "reports/stage-30/pparg_group_balanced_state_qubo.md"
+  },
+  "interpretation_boundary": "Stage30 can establish deterministic multiscale state construction, exact multiple-choice QUBO equivalence, and same-objective solver quality on a start-balanced real PPARG MD frame-selection problem. It cannot establish MD convergence, docking enrichment, biological superiority, quantum speedup, quantum advantage, or hardware readiness. Because the objective was redesigned after Stage29, Stage30 is prospective only with respect to its own frozen solver outcomes and cannot retroactively rescue the Stage29 novelty failure."
+}

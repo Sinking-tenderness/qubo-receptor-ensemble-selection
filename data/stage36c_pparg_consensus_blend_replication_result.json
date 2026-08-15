@@ -1,0 +1,272 @@
+{
+  "config": {
+    "path": "configs/stage36c_pparg_consensus_blend_replication.json",
+    "sha256": "8783EBD7487CCB53ABEF475EE91F8E17A9AD3DC0905AE3EB61EB154C4FE04845"
+  },
+  "data_boundary": {
+    "docking_scores_read": 0,
+    "fresh_validation_rows_read": 0,
+    "ligand_labels_read": 0,
+    "new_docking_jobs": 0,
+    "quantum_hardware_jobs": 0,
+    "test_rows_read": 0
+  },
+  "decision": {
+    "heldout_replication_complete": true,
+    "new_docking_jobs_authorized_by_this_stage": false,
+    "primary_difficulty_replication_passed": false,
+    "primary_objective_id": "consensus_support_blend_v1",
+    "primary_passing_cohort_count": 0,
+    "quantum_hardware_authorized": false,
+    "stage37_sparse_qubo_encoding_authorized": false
+  },
+  "implementation": {
+    "path": "scripts/run_stage36c_pparg_consensus_blend_replication.py",
+    "sha256": "7F51A506C10F667EDAA642FCA80745D2B1EDF081B8E20A55561355885809254E",
+    "size_bytes": 10343
+  },
+  "inputs": {
+    "feature_archive": {
+      "path": "results/runs/stage28b_pparg_md_ready_multistart_md/ensemble/pocket_features.npz",
+      "sha256": "8D68CE5EDCC2C32CBF64B5E63AD09F9CC11428D19506D0223CE932DB36B87A0E",
+      "size_bytes": 7416862
+    },
+    "stage36b_config": {
+      "path": "configs/stage36b_pparg_start_centered_consensus_landscape.json",
+      "sha256": "E75FDE9ACFEC67CEFE11029E11F79DBDF620A2897F2E01FB1A554169C2C0375B",
+      "size_bytes": 2840
+    },
+    "stage36b_result": {
+      "path": "data/stage36b_pparg_start_centered_consensus_landscape_result.json",
+      "sha256": "DF82953F4230B7EC0406A0E44B8F9DCEB53AB676273793BAE9549BD5426ABC4C",
+      "size_bytes": 26704
+    }
+  },
+  "interpretation_boundary": "Stage36c can establish whether one frozen consensus-support objective reproduces a strong-greedy gap and nontrivial exact landscape on three untouched PPARG temporal cohorts. Passing authorizes sparse-QUBO encoding and scaling, not docking efficacy, cross-protein generalization, hardware readiness, speedup, or quantum advantage.",
+  "objective_records": {
+    "coarse_triple_supported_portfolio": {
+      "cohorts": {
+        "heldout_temporal_rank_12_15": {
+          "absolute_greedy_gap": 0.02169233271662596,
+          "cohort_id": "heldout_temporal_rank_12_15",
+          "difficulty_gate_passed": true,
+          "exact_best_state_index": 29759,
+          "exact_optimum": 0.8588347877442711,
+          "global_optimum_basin_fraction": 0.07061767578125,
+          "normalized_greedy_gap": 0.04010931423427787,
+          "objective_id": "coarse_triple_supported_portfolio",
+          "objective_minimum": 0.3180044810997499,
+          "objective_range": 0.5408303066445213,
+          "objective_role": "diagnostic_control",
+          "runtime_seconds": 0.32715689999895403,
+          "state_count": 65536,
+          "strict_local_optimum_count": 15,
+          "strong_greedy_objective": 0.8371424550276452,
+          "strong_greedy_state_index": 247,
+          "tie_broken_sink_count": 15,
+          "weak_local_optimum_count": 15
+        },
+        "heldout_temporal_rank_16_19": {
+          "absolute_greedy_gap": 0.0,
+          "cohort_id": "heldout_temporal_rank_16_19",
+          "difficulty_gate_passed": false,
+          "exact_best_state_index": 61748,
+          "exact_optimum": 0.921595659738236,
+          "global_optimum_basin_fraction": 0.045623779296875,
+          "normalized_greedy_gap": 0.0,
+          "objective_id": "coarse_triple_supported_portfolio",
+          "objective_minimum": 0.3168229187681376,
+          "objective_range": 0.6047727409700984,
+          "objective_role": "diagnostic_control",
+          "runtime_seconds": 0.3832285000025877,
+          "state_count": 65536,
+          "strict_local_optimum_count": 76,
+          "strong_greedy_objective": 0.921595659738236,
+          "strong_greedy_state_index": 61748,
+          "tie_broken_sink_count": 76,
+          "weak_local_optimum_count": 76
+        },
+        "heldout_temporal_rank_20_23": {
+          "absolute_greedy_gap": 0.0,
+          "cohort_id": "heldout_temporal_rank_20_23",
+          "difficulty_gate_passed": false,
+          "exact_best_state_index": 50005,
+          "exact_optimum": 0.8613782182356033,
+          "global_optimum_basin_fraction": 0.170318603515625,
+          "normalized_greedy_gap": 0.0,
+          "objective_id": "coarse_triple_supported_portfolio",
+          "objective_minimum": 0.3145083824328265,
+          "objective_range": 0.5468698358027768,
+          "objective_role": "diagnostic_control",
+          "runtime_seconds": 0.48762250000072527,
+          "state_count": 65536,
+          "strict_local_optimum_count": 9,
+          "strong_greedy_objective": 0.8613782182356033,
+          "strong_greedy_state_index": 50005,
+          "tie_broken_sink_count": 9,
+          "weak_local_optimum_count": 9
+        }
+      },
+      "passing_cohort_count": 1
+    },
+    "consensus_support_blend_v1": {
+      "cohorts": {
+        "heldout_temporal_rank_12_15": {
+          "absolute_greedy_gap": 0.0,
+          "cohort_id": "heldout_temporal_rank_12_15",
+          "difficulty_gate_passed": false,
+          "exact_best_state_index": 34039,
+          "exact_optimum": 0.7394495691314866,
+          "global_optimum_basin_fraction": 0.1404571533203125,
+          "normalized_greedy_gap": 0.0,
+          "objective_id": "consensus_support_blend_v1",
+          "objective_minimum": 0.29536084143581437,
+          "objective_range": 0.44408872769567226,
+          "objective_role": "primary",
+          "runtime_seconds": 0.352480800000194,
+          "state_count": 65536,
+          "strict_local_optimum_count": 15,
+          "strong_greedy_objective": 0.7394495691314866,
+          "strong_greedy_state_index": 34039,
+          "tie_broken_sink_count": 15,
+          "weak_local_optimum_count": 15
+        },
+        "heldout_temporal_rank_16_19": {
+          "absolute_greedy_gap": 0.0,
+          "cohort_id": "heldout_temporal_rank_16_19",
+          "difficulty_gate_passed": false,
+          "exact_best_state_index": 29124,
+          "exact_optimum": 0.7732076464551052,
+          "global_optimum_basin_fraction": 0.0590972900390625,
+          "normalized_greedy_gap": 0.0,
+          "objective_id": "consensus_support_blend_v1",
+          "objective_minimum": 0.2937052947526735,
+          "objective_range": 0.4795023517024317,
+          "objective_role": "primary",
+          "runtime_seconds": 0.3714919000012742,
+          "state_count": 65536,
+          "strict_local_optimum_count": 78,
+          "strong_greedy_objective": 0.7732076464551052,
+          "strong_greedy_state_index": 29124,
+          "tie_broken_sink_count": 78,
+          "weak_local_optimum_count": 78
+        },
+        "heldout_temporal_rank_20_23": {
+          "absolute_greedy_gap": 0.0,
+          "cohort_id": "heldout_temporal_rank_20_23",
+          "difficulty_gate_passed": false,
+          "exact_best_state_index": 49940,
+          "exact_optimum": 0.6828252121233462,
+          "global_optimum_basin_fraction": 0.125518798828125,
+          "normalized_greedy_gap": 0.0,
+          "objective_id": "consensus_support_blend_v1",
+          "objective_minimum": 0.22879258102680183,
+          "objective_range": 0.4540326310965444,
+          "objective_role": "primary",
+          "runtime_seconds": 0.43395979999695555,
+          "state_count": 65536,
+          "strict_local_optimum_count": 7,
+          "strong_greedy_objective": 0.6828252121233462,
+          "strong_greedy_state_index": 49940,
+          "tie_broken_sink_count": 7,
+          "weak_local_optimum_count": 7
+        }
+      },
+      "passing_cohort_count": 0
+    },
+    "hierarchical_double_consensus": {
+      "cohorts": {
+        "heldout_temporal_rank_12_15": {
+          "absolute_greedy_gap": 0.0,
+          "cohort_id": "heldout_temporal_rank_12_15",
+          "difficulty_gate_passed": false,
+          "exact_best_state_index": 33988,
+          "exact_optimum": 0.8549482421622513,
+          "global_optimum_basin_fraction": 0.0972442626953125,
+          "normalized_greedy_gap": 0.0,
+          "objective_id": "hierarchical_double_consensus",
+          "objective_minimum": 0.21024104622531464,
+          "objective_range": 0.6447071959369366,
+          "objective_role": "diagnostic_control",
+          "runtime_seconds": 0.4308367999983602,
+          "state_count": 65536,
+          "strict_local_optimum_count": 19,
+          "strong_greedy_objective": 0.8549482421622513,
+          "strong_greedy_state_index": 33988,
+          "tie_broken_sink_count": 19,
+          "weak_local_optimum_count": 19
+        },
+        "heldout_temporal_rank_16_19": {
+          "absolute_greedy_gap": 0.0,
+          "cohort_id": "heldout_temporal_rank_16_19",
+          "difficulty_gate_passed": false,
+          "exact_best_state_index": 16674,
+          "exact_optimum": 0.7401348480825855,
+          "global_optimum_basin_fraction": 0.031829833984375,
+          "normalized_greedy_gap": 0.0,
+          "objective_id": "hierarchical_double_consensus",
+          "objective_minimum": 0.20435647871485502,
+          "objective_range": 0.5357783693677305,
+          "objective_role": "diagnostic_control",
+          "runtime_seconds": 0.397777700000006,
+          "state_count": 65536,
+          "strict_local_optimum_count": 107,
+          "strong_greedy_objective": 0.7401348480825855,
+          "strong_greedy_state_index": 16674,
+          "tie_broken_sink_count": 107,
+          "weak_local_optimum_count": 107
+        },
+        "heldout_temporal_rank_20_23": {
+          "absolute_greedy_gap": 0.0,
+          "cohort_id": "heldout_temporal_rank_20_23",
+          "difficulty_gate_passed": false,
+          "exact_best_state_index": 62228,
+          "exact_optimum": 0.5052363115170618,
+          "global_optimum_basin_fraction": 0.2660369873046875,
+          "normalized_greedy_gap": 0.0,
+          "objective_id": "hierarchical_double_consensus",
+          "objective_minimum": 0.14254378094460218,
+          "objective_range": 0.36269253057245965,
+          "objective_role": "diagnostic_control",
+          "runtime_seconds": 0.4176909000016167,
+          "state_count": 65536,
+          "strict_local_optimum_count": 5,
+          "strong_greedy_objective": 0.5052363115170618,
+          "strong_greedy_state_index": 62228,
+          "tie_broken_sink_count": 5,
+          "weak_local_optimum_count": 5
+        }
+      },
+      "passing_cohort_count": 0
+    }
+  },
+  "outputs": {
+    "candidate_manifest_csv": {
+      "path": "results/runs/stage36c_pparg_consensus_blend_replication/candidate_manifest.csv",
+      "sha256": "C330947A71ED4BE14C745BC4E5044E9121610DABD6AAA3A531F963F4A458C8A9",
+      "size_bytes": 7191
+    },
+    "landscape_metrics_csv": {
+      "path": "results/runs/stage36c_pparg_consensus_blend_replication/landscape_metrics.csv",
+      "sha256": "BF6241470967E9CB04532BC86984B855145C926AF756A577FB203D8FC6746883",
+      "size_bytes": 2447
+    },
+    "local_optima_csv": {
+      "path": "results/runs/stage36c_pparg_consensus_blend_replication/local_optima.csv",
+      "sha256": "10F6F5BDB3CB610918EEA82AB0701E6D4B6422335A26DE2BDF245B6B9BC09966",
+      "size_bytes": 41929
+    },
+    "report_md": {
+      "path": "reports/stage-36c/pparg_consensus_blend_replication.md",
+      "sha256": "348E35DA66A4BFF6D9654CFA25344531591392FF9A4C523A94FFE43B5BE68B45",
+      "size_bytes": 777
+    }
+  },
+  "representation_statistics": {
+    "maximum_absolute_start_residual_mean": 2.842170943040401e-15,
+    "raw_feature_count": 870,
+    "retained_residual_feature_count": 870
+  },
+  "schema_version": "1.0",
+  "status": "stage36c_pparg_consensus_blend_replication_complete"
+}

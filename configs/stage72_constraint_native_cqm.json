@@ -1,0 +1,105 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage72-stage70-constraint-native-cqm-precision-rescue-20260806-v1",
+  "purpose": "Preserve the frozen Stage70 pair-redundancy objective while replacing penalty-expanded cardinality and quality constraints with explicit CQM constraints, then test whether the resulting objective is robust to matched and stress coefficient noise.",
+  "implementation": {
+    "runner": {
+      "path": "scripts/run_stage72_constraint_native_cqm.py",
+      "sha256": "BDA3F782A0A937D894823AE2E2C5910F70C35F86EFB57CB735A04FF141E5C04C"
+    },
+    "independent_auditor": {
+      "path": "scripts/audit_stage72_constraint_native_cqm.py",
+      "sha256": "D54905C865A3B286E56401486B045F0EFE81DC05244FD0D850EE3EEEAFCB7ED8"
+    }
+  },
+  "inputs": {
+    "stage70_model_record": {
+      "path": "data/stage70_constraint_aware_qubo_encoding_model_record.json",
+      "sha256": "42A81A8D5119EB4AAEA04AEFA4F84B9740924294CEB29C2F7024E12F5D3C0618",
+      "size_bytes": 712429
+    },
+    "stage71_config": {
+      "path": "configs/stage71_qubo_coefficient_noise_robustness.json",
+      "sha256": "C5567BBBB12662D3CE7721FA3BD4BF07C9C268A1921D54D7E12B762D46D97950",
+      "size_bytes": 5858
+    },
+    "stage71_result": {
+      "path": "data/stage71_qubo_coefficient_noise_robustness_result.json",
+      "sha256": "068905AF791DC9DE791FE60CB570A197A26C9F439013EB0287C2BCA00A4FBF94",
+      "size_bytes": 6136
+    },
+    "stage71_audit": {
+      "path": "data/stage71_qubo_coefficient_noise_robustness_audit.json",
+      "sha256": "9C557B9F6C7732CBFE019EBC46319FB0A84ABB8D4ED4B6E5E1A8A01411610F37",
+      "size_bytes": 992
+    },
+    "stage71_exact_landscape": {
+      "path": "results/runs/stage71_qubo_coefficient_noise_robustness/exact_feasible_landscape.csv",
+      "sha256": "21298AEBAC48B669FDC769281412A6546E5A102E45D1621DAACBBFE08AF7D946",
+      "size_bytes": 5490
+    },
+    "stage71_noise_summary": {
+      "path": "results/runs/stage71_qubo_coefficient_noise_robustness/noise_summary.csv",
+      "sha256": "9CC58D4B0D8C4112CC7E7CF3F24AEAFD9512EB396E567A5435824BED5500FCE8",
+      "size_bytes": 15969
+    }
+  },
+  "experiment": {
+    "target_order": ["BACE1", "PPARG", "PPARA", "PPARD"],
+    "outer_fold_count": 4,
+    "reference_k": 3,
+    "required_model_count": 16,
+    "historical_development_only": true,
+    "hardware_execution": false
+  },
+  "constraint_native_model": {
+    "algorithm_id": "stage72-midpoint-centered-pair-objective-explicit-cardinality-quality-cqm-v1",
+    "objective_rule": "Minimize the frozen Stage70 stable pair redundancy without penalty terms.",
+    "pair_center_rule": "Subtract c=(minimum pair coefficient + maximum pair coefficient)/2 from every pair coefficient and add c*choose(k,2) to the constant; this preserves all fixed-k objective energies exactly.",
+    "cardinality_constraint": "sum_i x_i == k",
+    "quality_constraint": "sum_i d_i*x_i <= D",
+    "normalization_rule": "Divide centered objective coefficients and the constant by the maximum absolute centered pair coefficient. Explicit constraints are not folded into objective coefficients.",
+    "runtime_versions": {
+      "python": "3.11.15",
+      "numpy": "1.26.4",
+      "dimod": "0.12.22"
+    }
+  },
+  "noise_screen": {
+    "coefficient_noise_seed_base": 202672000,
+    "quantization_rule": "Round each normalized centered objective coefficient independently to the nearest multiple of the stated full-scale step; the constant and explicit constraints are not perturbed.",
+    "quantization_steps": [1e-6, 3e-6, 1e-5, 3e-5, 1e-4, 3e-4, 1e-3, 3e-3, 1e-2, 3e-2],
+    "gaussian_rule": "Add independent zero-mean Gaussian noise with the stated sigma to every normalized centered objective coefficient; the constant and explicit constraints are not perturbed.",
+    "gaussian_sigmas": [1e-6, 3e-6, 1e-5, 3e-5, 1e-4, 3e-4, 1e-3, 3e-3, 1e-2, 3e-2],
+    "gaussian_repeats_per_level": 16,
+    "interpretation": "All levels are dimensionless project sensitivity probes relative to normalized objective full scale. They are not specifications for any physical QPU or hybrid service."
+  },
+  "formulation_gate": {
+    "required_exact_source_optimum_count": 16,
+    "required_connected_feasible_swap_graph_count": 16,
+    "minimum_normalized_gap_improvement_factor_vs_stage71": 1000000.0,
+    "maximum_native_logical_variable_count": 96,
+    "matched_stage71_reference": 1e-6,
+    "stress_reference": 1e-3,
+    "minimum_overall_exact_unique_rate": 0.95,
+    "minimum_worst_target_exact_unique_rate": 0.75,
+    "interpretation": "The matched and stress levels are frozen project decision rules. A pass authorizes only a later solver-scaling benchmark, not direct QPU execution or a quantum-advantage claim."
+  },
+  "data_boundary": {
+    "historical_development_targets_permitted": ["BACE1", "PPARG", "PPARA", "PPARD"],
+    "fresh_validation_rows_permitted": 0,
+    "locked_test_rows_permitted": 0,
+    "new_docking_jobs_permitted": 0,
+    "quantum_hardware_jobs_permitted": 0
+  },
+  "outputs": {
+    "model_metrics_csv": "results/runs/stage72_constraint_native_cqm/model_metrics.csv",
+    "noise_trials_csv": "results/runs/stage72_constraint_native_cqm/noise_trials.csv",
+    "noise_summary_csv": "results/runs/stage72_constraint_native_cqm/noise_summary.csv",
+    "model_record_json": "data/stage72_constraint_native_cqm_model_record.json",
+    "result_json": "data/stage72_constraint_native_cqm_result.json",
+    "audit_json": "data/stage72_constraint_native_cqm_audit.json",
+    "report_md": "reports/stage-72/constraint_native_cqm.md"
+  },
+  "interpretation_boundary": "Stage72 is a post-hoc logical-formulation study on four consumed historical targets. It tests exact objective preservation, feasible-state topology, and software coefficient sensitivity with explicit constraints. It does not test a physical embedding, a hardware sampler, hybrid-service scaling, independent target efficacy, wall-clock speedup, or quantum advantage."
+}

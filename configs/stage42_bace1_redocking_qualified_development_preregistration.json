@@ -1,0 +1,94 @@
+{
+  "schema_version": "1.0",
+  "preregistration_id": "stage42-bace1-redocking-qualified-development-20260804-v1",
+  "created_on": "2026-08-04",
+  "purpose": "Freeze a new outcome-informed BACE1 development experiment using the 34 Stage41c redocking-qualified receptors, without reinterpreting the failed Stage41c gate or opening fresh-validation or locked-test data.",
+  "evidence_timing": {
+    "stage41c_gate_failure_known": true,
+    "stage41c_passing_receptor_ids_known": true,
+    "stage41d_structural_coverage_known": true,
+    "development_docking_scores_known": false,
+    "fresh_validation_docking_scores_known": false,
+    "locked_test_docking_scores_known": false,
+    "classification": "post-hoc development and algorithmic-scaling experiment"
+  },
+  "inputs": {
+    "stage41c_summary": {
+      "path": "data/stage41c_bace1_large_pool_cognate_redocking_summary.json",
+      "sha256": "ADF76C4B8FE6E60089817A153EDC66ABDAF7C8E3246571AC3839CF885F48FCD1"
+    },
+    "stage41d_result": {
+      "path": "data/stage41d_bace1_redocking_qualified_structural_coverage_result.json",
+      "sha256": "530283E5EE79829B8CF54E9F4B485062085EAE066439E2CA5FB51B7CD79F00CE"
+    },
+    "stage41b_receptor_manifest": {
+      "path": "data/processed/stage41b_bace1_large_pool_prepared_receptor_manifest.csv",
+      "sha256": "B3B596A64857487529D8C72AE61C21F36BAFD6E6886683FAC73A40ED7CC1D8E5"
+    }
+  },
+  "receptor_pool": {
+    "source_frozen_count": 49,
+    "redocking_qualified_count": 34,
+    "selection_rule": "retain exactly every Stage41c gate-passing receptor in the frozen Stage41c order; no activity label or development docking score is available",
+    "receptor_ids": [
+      "BACE1_2QMD_aligned", "BACE1_2QMF_aligned", "BACE1_2QMG_aligned", "BACE1_2QP8_aligned",
+      "BACE1_3CIB_aligned", "BACE1_3CIC_aligned", "BACE1_3CID_aligned", "BACE1_3IVH_aligned",
+      "BACE1_3IVI_aligned", "BACE1_3KN0_aligned", "BACE1_3L59_aligned", "BACE1_3L5E_aligned",
+      "BACE1_4DJU_aligned", "BACE1_4DJV_aligned", "BACE1_4DJW_aligned", "BACE1_4DJX_aligned",
+      "BACE1_4DJY_aligned", "BACE1_4FS4_aligned", "BACE1_4H3F_aligned", "BACE1_4H3G_aligned",
+      "BACE1_4H3I_aligned", "BACE1_4H3J_aligned", "BACE1_4HA5_aligned", "BACE1_4HZT_aligned",
+      "BACE1_4I0F_aligned", "BACE1_4I0G_aligned", "BACE1_4I0J_aligned", "BACE1_4I0Z_aligned",
+      "BACE1_4I10_aligned", "BACE1_4I11_aligned", "BACE1_4RRN_aligned", "BACE1_4RRO_aligned",
+      "BACE1_4RRS_aligned", "BACE1_6PZ4_aligned"
+    ],
+    "failed_stage41c_receptors_may_not_be_reintroduced": true
+  },
+  "ligand_panel": {
+    "source": "BACE1 DUD-E actives_final.ism and decoys_final.ism",
+    "grouping_rule": "shared source molecule ID, canonical isomeric SMILES, or achiral Bemis-Murcko scaffold forms an indivisible connected component",
+    "development_train": {"active_count": 133, "decoy_count": 133},
+    "fresh_validation": {"active_count": 75, "decoy_count": 1501},
+    "locked_test": {"active_count": 75, "decoy_count": 1501},
+    "current_stage_permitted_rows": "development_train only",
+    "fresh_validation_preparation_permitted": false,
+    "locked_test_preparation_permitted": false
+  },
+  "production_protocol": {
+    "engine": "Uni-Dock 1.1.3",
+    "profile": "enhanced",
+    "scoring": "vina",
+    "exhaustiveness": 1024,
+    "max_step": 80,
+    "refine_step": 5,
+    "num_modes": 1,
+    "seed_ids": ["seed0", "seed1", "seed2"],
+    "base_seeds": [20260801, 20260802, 20260803],
+    "score_aggregation": "median across seeds per receptor-ligand pair",
+    "subset_aggregation": "minimum score across selected receptors",
+    "receptor_count": 34,
+    "ligand_count": 266,
+    "receptor_ligand_seed_pair_count": 27132
+  },
+  "analysis_protocol": {
+    "subset_sizes": [1, 2, 3, 4, 5, 6],
+    "state_count_by_k": {"1": 34, "2": 561, "3": 5984, "4": 46376, "5": 278256, "6": 1344904},
+    "primary_metric": "BEDROC alpha=20",
+    "required_baselines": [
+      "exact additive singleton selection",
+      "direct greedy",
+      "multi-start greedy",
+      "beam-64 plus add/drop/swap local search",
+      "random matched-budget subsets",
+      "exact enumeration where feasible"
+    ],
+    "QUBO_objective_freeze": "deferred until the complete development matrix is independently audited; objective variants must be compared under nested development-only evaluation",
+    "fresh_validation_use_in_objective_design": false,
+    "locked_test_use_in_objective_design": false
+  },
+  "stop_rules": {
+    "input_preparation": "stop before production if any of the 266 development ligands lacks an audited PDBQT",
+    "production": "stop analysis if the complete 34 by 266 by 3 grid is not present or any warning or pose-integrity event is unresolved",
+    "claims": "do not claim independent efficacy, QUBO superiority, quantum execution, or quantum advantage from Stage42 development results"
+  },
+  "interpretation_boundary": "Stage42 tests whether a redocking-qualified 34-receptor BACE1 pool creates a useful large combinatorial development problem. It is outcome-informed and cannot rescue Stage41c or serve as independent target replication."
+}

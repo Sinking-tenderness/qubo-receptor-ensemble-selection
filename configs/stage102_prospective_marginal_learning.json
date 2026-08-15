@@ -1,0 +1,159 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage102-prospective-marginal-learning-20260812-v1",
+  "purpose": "Collect two new target-level marginal-value datasets, freeze one transferable adaptive-cardinality rule, and reserve PARP1 for a later untouched prospective test.",
+  "parents": {
+    "stage101_result": {
+      "path": "data/stage101_marginal_transfer_gate_result.json",
+      "sha256": "6D4555BB4A9359F495FFDAA7538A32CC352055AC5307DAF277EA4F1856AB0B16"
+    },
+    "stage101_audit": {
+      "path": "data/stage101_marginal_transfer_gate_audit.json",
+      "sha256": "D7B3A506917E2324E08D27C58E45524B9C91A5930820FBD1C773B2EC9780E798"
+    },
+    "egfr_redocking_adjudication": {
+      "path": "data/stage13g_egfr_cognate_redocking_failure_adjudication.json",
+      "sha256": "C0B7239092F5C3122CCE79AB5206CD50613D72E4585D8A9CB7A00F109D319ED0"
+    },
+    "fa10_redocking_adjudication": {
+      "path": "data/stage14e_fa10_cognate_redocking_failure_adjudication.json",
+      "sha256": "BF30E70AACB5B5BAF2FE38A5741F6A2C9EA9383501F76E179F5A16137FBEB3A1"
+    },
+    "parp1_source_audit": {
+      "path": "data/stage17a_parp1_source_and_active_allocation_summary.json",
+      "sha256": "06B1D768D05B9BA4B59572E35FBDF77B05A715BBF6C792CF4F4F9F3BCD2B9859"
+    }
+  },
+  "phase_a_development_expansion": {
+    "targets": {
+      "EGFR": {
+        "target_class": "receptor tyrosine kinase",
+        "passing_receptor_count": 12,
+        "receptor_ids_source": "parents.egfr_redocking_adjudication.passing_receptor_ids",
+        "source_receptor_manifest": "data/processed/stage13e_egfr_prepared_receptor_manifest.csv",
+        "active_source": "data/raw/external_targets/egfr_dude/egfr/actives_final.ism",
+        "decoy_source": "data/raw/external_targets/egfr_dude/egfr/decoys_final.ism",
+        "box": {"center_x": 18.56, "center_y": 33.55, "center_z": 88.93, "size_x": 22.0, "size_y": 22.0, "size_z": 30.0}
+      },
+      "FA10": {
+        "target_class": "trypsin-like serine protease",
+        "passing_receptor_count": 13,
+        "receptor_ids_source": "parents.fa10_redocking_adjudication.passing_receptor_ids",
+        "source_receptor_manifest": "data/processed/stage14c_fa10_prepared_receptor_manifest.csv",
+        "active_source": "data/raw/external_targets/fa10_dude/fa10/actives_final.ism",
+        "decoy_source": "data/raw/external_targets/fa10_dude/fa10/decoys_final.ism",
+        "box": {"center_x": 1.34, "center_y": -8.5, "center_z": -15.76, "size_x": 22.0, "size_y": 22.0, "size_z": 28.0}
+      }
+    },
+    "ligand_panel_per_target": {
+      "active_count": 120,
+      "decoy_count": 480,
+      "total_count": 600,
+      "allocation": "deterministic hash allocation after joining duplicate source IDs, duplicate canonical SMILES, and Bemis-Murcko scaffolds",
+      "outer_folds": 5,
+      "minimum_active_count_per_outer_fold": 20,
+      "minimum_decoy_count_per_outer_fold": 80
+    },
+    "docking": {
+      "engine": "Uni-Dock 1.1.3",
+      "profile": "enhanced",
+      "exhaustiveness": 1024,
+      "max_step": 80,
+      "refine_step": 5,
+      "num_modes": 1,
+      "seed_count": 3,
+      "base_seeds": [20260821, 20260822, 20260823],
+      "score_aggregation": "retain every seed and use the median only for the primary matrix",
+      "expected_receptor_ligand_seed_pairs": {
+        "EGFR": 21600,
+        "FA10": 23400,
+        "total": 45000
+      }
+    },
+    "evidence_role": "posthoc development expansion; neither target is a final confirmation target"
+  },
+  "marginal_feature_family": {
+    "statistical": [
+      "mean and standard error of inner-fold marginal BEDROC20",
+      "scaffold-bootstrap probability that marginal BEDROC20 is positive",
+      "worst bootstrap marginal gain",
+      "selected-subset Jaccard stability"
+    ],
+    "functional": [
+      "active top-1-percent and top-5-percent rescue fractions",
+      "decoy top-1-percent and top-5-percent rescue fractions",
+      "active-versus-decoy rescue contrast",
+      "receptor empirical-rank disagreement and Spearman correlation"
+    ],
+    "technical": [
+      "three-seed sign agreement",
+      "per-seed marginal-gain variance",
+      "QUBO optimum gap",
+      "incremental receptor cost"
+    ],
+    "structural": [
+      "aligned pocket heavy-atom distance",
+      "pocket-state cluster novelty"
+    ],
+    "outer_fold_labels_visible_during_feature_construction": false
+  },
+  "frozen_model_candidates": [
+    {
+      "model_id": "mechanistic_bootstrap_lcb",
+      "definition": "continue only when scaffold-bootstrap marginal BEDROC20 lower confidence bound is positive and active rescue exceeds decoy rescue"
+    },
+    {
+      "model_id": "target_held_out_l2_ridge",
+      "definition": "standardized L2 ridge on the frozen marginal feature family; alpha=1.0; every target prediction is fit without that target"
+    }
+  ],
+  "phase_a_gate": {
+    "minimum_mean_target_gain_over_train_selected_single": 0.02,
+    "minimum_worst_target_gain": -0.02,
+    "minimum_target_count_with_gain_at_least_0p02": 4,
+    "minimum_nontrivial_outer_fold_count": 12,
+    "minimum_new_target_count_with_positive_gain": 1,
+    "minimum_new_target_sign_accuracy": 0.60,
+    "all_required": true,
+    "failure_action": "Stop adaptive-cardinality development. Do not prepare or dock PARP1 and do not run quantum hardware."
+  },
+  "phase_b_untouched_validation": {
+    "target_id": "PARP1",
+    "target_class": "DNA repair enzyme",
+    "release_condition": "all Phase A gates pass and exactly one adaptive rule is frozen",
+    "minimum_redocking_qualified_receptor_count": 12,
+    "fresh_validation_panel": {
+      "active_count": 75,
+      "decoy_count": 1501,
+      "scaffold_disjoint_from_model_development": true
+    },
+    "maximum_expected_receptor_ligand_seed_pairs_at_12_receptors": 56736,
+    "same_target_retuning_permitted": false,
+    "locked_test_release": "prohibited until the PARP1 fresh-validation report and decision are frozen"
+  },
+  "adaptive_qubo_after_biological_gate": {
+    "formula": "maximize sum_i u_i*x_i + eta*sum_{i<j}delta_ij*x_i*x_j + sum_k gamma_k*y_k - A*(sum_i x_i-sum_k k*y_k)^2 - B*(sum_k y_k-1)^2",
+    "candidate_k_values": [1, 2, 3],
+    "gamma_k_source": "the single frozen transferable marginal model; no target-specific fitting on PARP1",
+    "hardware_release_condition": "PARP1 fresh validation passes and the exact QUBO solution differs from and improves over direct greedy or one-swap local search on a validated hard instance"
+  },
+  "comparators": [
+    "train-selected single receptor",
+    "fixed k=2 and fixed k=3 robust pair QUBO",
+    "direct BEDROC forward greedy with the same stopping budget",
+    "one-standard-error stopping",
+    "mean singleton Top-k",
+    "exact outer oracle reported only as an unattainable ceiling"
+  ],
+  "data_boundary": {
+    "stage102_new_docking_jobs_started": 0,
+    "parp1_benchmark_docking_scores_read": 0,
+    "parp1_fresh_validation_rows_read": 0,
+    "parp1_locked_test_rows_read": 0,
+    "quantum_hardware_jobs": 0
+  },
+  "outputs": {
+    "readiness_json": "data/stage102_prospective_marginal_learning_readiness.json",
+    "report_md": "reports/stage-102/prospective_marginal_learning_plan.md"
+  }
+}

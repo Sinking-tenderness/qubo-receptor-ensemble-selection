@@ -1,0 +1,19 @@
+{
+  "allocation_only_preflight_authorized": true,
+  "checks": {
+    "dynamic_range": true,
+    "exact_payload_energy": true,
+    "exact_vector_feasible": true,
+    "float32_retention": true,
+    "free_tier_limit": true,
+    "global_certificates": true,
+    "metric_count": true,
+    "no_local_hardware": true,
+    "stage85_failure_frozen": true
+  },
+  "encoding_count": 100,
+  "qci_device_jobs_authorized": 0,
+  "rescue_variable_count": 27,
+  "schema_version": "1.0",
+  "status": "stage86_nonnegative_gauge_independent_audit_ok"
+}

@@ -1,0 +1,159 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage62-ppard-train240-frozen-nested-qubo-20260805-v1",
+  "purpose": "Merge the prospectively generated PPARD Pilot-96 and Remaining-144 matrices, then apply the unchanged Stage60 rank-pair QUBO and nested k rule against all frozen classical comparators.",
+  "implementation": {
+    "runner": {
+      "path": "scripts/run_stage62_ppard_train240_nested_qubo.py",
+      "sha256": "53ACE767BFDC0D9987D82B2B6FB5F8DA3A5FDA8FFDC49B4E640484FB3C5F84A6"
+    },
+    "full_recomputation_auditor": {
+      "path": "scripts/audit_stage62_ppard_train240_nested_qubo.py",
+      "sha256": "B4E24D9D3C7F8FA7EE3ABB70362506D7450D01981E21055BD47954CC61435EA2"
+    }
+  },
+  "inputs": {
+    "stage60_result": {
+      "path": "data/stage60_ppard_transferred_qubo_freeze_result.json",
+      "sha256": "CE233CDB71E4AEEF9282105236B849377F198913136A69B34502CC76DEF1ABB0"
+    },
+    "stage60_audit": {
+      "path": "data/stage60_ppard_transferred_qubo_freeze_audit.json",
+      "sha256": "E23D1B97846433A90521256CBB6727E2475E7E51C2935A1CBE6C85B462D898A4"
+    },
+    "stage60_model_record": {
+      "path": "data/stage60_ppard_transferred_qubo_model_record.json",
+      "sha256": "B6EA0D1E3C20CDBA702FB6A3078C42B088D0ECD8DD20E5EAEA06379D48D64E82"
+    },
+    "train_manifest": {
+      "path": "data/processed/stage56_ppard_train240_ligand_manifest.csv",
+      "sha256": "618B068DC49CBB037DF2B34F0B52A287509341AE879327CE4FC7C9FB1E6F1101"
+    },
+    "receptor_manifest": {
+      "path": "data/processed/stage58b_ppard_stage57_passing29_receptor_manifest.csv",
+      "sha256": "12AB8EC9FC0C7D2CDFFF6D1E9CFD53A0215D4450D4CE12708EB165BED35C7F0A"
+    },
+    "outer_assignments": {
+      "path": "data/processed/stage60_ppard_full_development_outer_fold_assignments.csv",
+      "sha256": "1F4695685AC1E7B590E733FA3019465746F1B9C7002F4E1E5BA8C719536A5A0E"
+    },
+    "inner_assignments": {
+      "path": "data/processed/stage60_ppard_full_development_inner_fold_assignments.csv",
+      "sha256": "7C513D68775B7424A568F0CA0E13161243A45264FB4A1D57C024493F3049BDC0"
+    },
+    "pilot_matrix_audit": {
+      "path": "data/stage58b_ppard_pilot96_unidock113_production_audit.json",
+      "sha256": "88DDF21584076D1DB1BA6E982B16780CCC8564013ABAEDBAB2835D9C2962D916"
+    },
+    "pilot_target_id_audit": {
+      "path": "data/stage58c_ppard_target_id_amendment_audit.json",
+      "sha256": "143D25DA118862E094165FB2DF48080D14B3ADEE37D86A47E9B580828C17A856"
+    },
+    "pilot_scores": {
+      "path": "results/runs/stage58c_ppard_target_id_amendment/scores.csv",
+      "sha256": "33AFFF6776669B78CE3CAF6E4918A2BE691884B4C27C1500506B69DD30D4FAE2"
+    },
+    "remaining_matrix_audit": {
+      "path": "data/stage61b_ppard_remaining144_unidock113_production_audit.json",
+      "sha256": "0F01E3F675E268E26782128872BA8708078ABCD98D56729F88533341A387C18D"
+    },
+    "remaining_target_id_audit": {
+      "path": "data/stage61c_ppard_target_id_amendment_audit.json",
+      "sha256": "3219DB5F9F808214583F3B10D565C4B9422E8EFFFB60B835BFA04408F5BA37D0"
+    },
+    "remaining_scores": {
+      "path": "results/runs/stage61c_ppard_target_id_amendment/scores.csv",
+      "sha256": "C64C66D29C948C3597D672A00AC2751CB725ADD823B1FEC330EC75439AAA57DA"
+    }
+  },
+  "objective": {
+    "bedroc_alpha": 20.0,
+    "fixed_k_qubo": "Q_k(S)=mean_{i in S}(q_i)+mean_{i<j in S}(delta_ij); for k=1 the pair term is zero",
+    "maximum_subset_size": 6,
+    "minimum_subset_size": 1,
+    "normalization_reason": "separate normalization at each fixed k removes the Stage42d cardinality pressure and implements the previously proposed k=1..6 ladder",
+    "objective_id": "bedroc20_rank_sensitive_pair_complementarity_v1",
+    "pair_complementarity": "delta_ij=q_{ij}-max(q_i,q_j), where q_{ij} uses the better rank from receptor i or j",
+    "qubo_form": "For each frozen k, maximize sum_i(q_i/k)x_i + sum_{i<j}(delta_ij/C(k,2))x_i x_j subject to sum_i x_i=k.",
+    "rank_normalization": "per-seed per-receptor empirical CDF fitted on outer-train rows only",
+    "singleton_utility": "q_i=(mean_seed(E_active[exp(-20r_i)]-E_decoy[exp(-20r_i)]) + worst_seed(...))/2"
+  },
+  "nested_cv": {
+    "candidate_k_values": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "final_development_model_rule": "After reporting nested outer-fold results, select the smallest k within one standard error of the highest mean outer-holdout robust BEDROC20 and refit once on all Train-240 rows.",
+    "grouping_columns": [
+      "split_group_id",
+      "scaffold_smiles"
+    ],
+    "inner_evaluation_metric": "robust BEDROC20=(primary median-seed BEDROC20 + mean seed BEDROC20 + worst seed BEDROC20)/3",
+    "inner_fold_count": 3,
+    "inner_fold_seeds": [
+      20261201,
+      20261202,
+      20261203,
+      20261204
+    ],
+    "inner_training_action": "Fit train-only empirical rank transforms and QUBO coefficients, then exactly optimize each fixed k.",
+    "k_selection_definition": "Let k_star maximize mean inner-holdout robust BEDROC20. Compute the sample standard error at k_star across the three inner folds. Select the smallest k whose mean is at least mean(k_star)-SE(k_star). Break numerical ties by smaller k.",
+    "k_selection_rule": "one_standard_error_smallest_k",
+    "literal_early_docking_stop": false,
+    "outer_evaluation_action": "Refit coefficients and exact fixed-k QUBO on the complete outer-train partition at the inner-selected k, then evaluate the untouched outer holdout.",
+    "outer_fold_count": 4,
+    "outer_fold_seed": 20261119,
+    "reason_no_literal_early_docking_stop": "All k values reuse one receptor-by-ligand score matrix; increasing k does not launch additional docking jobs. The stopping rule controls model complexity, not docking execution.",
+    "tie_tolerance": 1e-12
+  },
+  "comparators": [
+    "exact transferred rank-pair QUBO",
+    "beam-64 plus all-singleton-start fixed-k swap local search on the same QUBO",
+    "direct greedy on the same QUBO",
+    "best single receptor",
+    "linear Top-k by singleton BEDROC20 utility",
+    "nested greedy directly maximizing robust BEDROC20",
+    "random matched-k search",
+    "all 29 receptors"
+  ],
+  "execution": {
+    "classical_beam_width": 64,
+    "random_samples_per_size": 1024,
+    "random_seed": 20260805,
+    "implementation_resolution": "The beam width and random baseline budget are inherited unchanged from the pre-PPARD Stage53 implementation; all fixed-k efficacy comparators use the inner-selected QUBO k for matched cardinality."
+  },
+  "claim_gates": {
+    "application_support": {
+      "all_checks_required": true,
+      "minimum_mean_outer_holdout_gain_over_best_single": 0.01,
+      "minimum_mean_outer_holdout_gain_over_linear_topk": 0.0,
+      "minimum_mean_outer_holdout_gain_over_nested_bedroc_greedy": 0.0,
+      "minimum_positive_outer_holdout_gain_folds": 3
+    },
+    "fresh_validation_action": "Authorize one frozen PPARD fresh-validation run only if the complete nested application-support gate passes; otherwise stop PPARD outcome fitting.",
+    "optimization_novelty": {
+      "does_not_establish_quantum_advantage": true,
+      "minimum_positive_objective_gap_cells_over_strong_classical": 1,
+      "separate_from_application_support": true
+    },
+    "quantum_hardware_action": "Not authorized by Stage60 or by a Train-240 result. Hardware requires a later successful independent validation and a separately frozen hardware protocol."
+  },
+  "outputs": {
+    "merged_scores_csv": "results/runs/stage62_ppard_train240_nested_qubo/merged_scores.csv",
+    "inner_k_metrics_csv": "results/runs/stage62_ppard_train240_nested_qubo/inner_k_metrics.csv",
+    "inner_k_selection_csv": "results/runs/stage62_ppard_train240_nested_qubo/inner_k_selection.csv",
+    "outer_k_metrics_csv": "results/runs/stage62_ppard_train240_nested_qubo/outer_k_metrics.csv",
+    "nested_outer_metrics_csv": "results/runs/stage62_ppard_train240_nested_qubo/nested_outer_metrics.csv",
+    "objective_gap_cells_csv": "results/runs/stage62_ppard_train240_nested_qubo/objective_gap_cells.csv",
+    "final_method_metrics_csv": "results/runs/stage62_ppard_train240_nested_qubo/final_method_metrics.csv",
+    "model_record_json": "data/stage62_ppard_train240_final_model_record.json",
+    "result_json": "data/stage62_ppard_train240_nested_qubo_result.json",
+    "audit_json": "data/stage62_ppard_train240_nested_qubo_audit.json",
+    "report_md": "reports/stage-62/ppard_train240_nested_qubo.md"
+  },
+  "interpretation_boundary": "Stage62 is the prospectively frozen PPARD development application test authorized by Stage59 and specified by Stage60. It may decide whether one untouched PPARD fresh-validation run is warranted. It cannot access fresh validation or locked test rows, retune the QUBO, establish independent efficacy, authorize quantum hardware, or claim quantum speedup or quantum advantage."
+}

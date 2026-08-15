@@ -1,0 +1,54 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage18f-pparg-posthoc-structural-reserves-amendment01-20260801-v1",
+  "purpose": "Preserve the original Stage 18f reserve selection while replacing one pre-docking input that the frozen Meeko and Uni-Dock pipeline cannot represent.",
+  "amendment_timing": "Post hoc to the failed Stage 18e confirmatory gate and to the original Stage 18f structural selection, but before any reserve redocking job or reserve RMSD result. The amendment was triggered only by a deterministic ligand-PDBQT preparation failure.",
+  "implementation": {
+    "path": "scripts/amend_stage18f_pparg_structural_reserves.py",
+    "sha256": "B48C5FF3CB4E199C79CE2D36F2EC3794486FD39BA23DBC401110436F87781C98"
+  },
+  "inputs": {
+    "original_selection_summary": {
+      "path": "data/stage18f_pparg_posthoc_structural_reserve_selection_summary.json",
+      "sha256": "85316C977DDFD04A51ED86B015E6F266E324DF780B8DB1ED580030D571FBFD68"
+    },
+    "original_reserve_manifest": {
+      "path": "data/processed/stage18f_pparg_posthoc_structural_reserves.csv",
+      "sha256": "64CD83AE6D58F7A851C18DAD5EE6F38D3B39D8769C77E5C9665A3E383D0F3133"
+    },
+    "eligible_pool": {
+      "path": "data/processed/stage18c_pparg_coordinate_eligible_pool.csv",
+      "sha256": "DE64D1C6B89BDD9B288A71A7BB131DC0A69D2D51984230DB567EE89F5A26C38C"
+    },
+    "selected24_manifest": {
+      "path": "data/processed/stage18c_pparg_preparation_ready_selected24.csv",
+      "sha256": "90BE10D16C858CF30C43987FD47D5D923BF7B26C72ED4473E7A1824D187FEC5F"
+    },
+    "pairwise_distances": {
+      "path": "data/processed/stage18c_pparg_structural_distances.csv",
+      "sha256": "214B1E8D32009425B36D1CDAEBB020663D08490201405074D4B82451E1455517"
+    }
+  },
+  "technical_amendment": {
+    "excluded_conformer_id": "PPARG_3WJ4_aligned",
+    "observed_unsupported_elements": ["SN"],
+    "observed_error_signature": "Meeko 0.7.1 reported a None atom type and non-finite charges for the TBY tin atom, then wrote zero PDBQT files.",
+    "replacement_conformer_id": "PPARG_7RLE_aligned",
+    "replacement_meeko_preflight_status": "passed: EDK contains only C/N/O and Meeko 0.7.1 wrote a flexible 39-atom PDBQT",
+    "replacement_rule": "Take the next member, rank 9, from the unchanged deterministic max-min structural order. Do not use any reserve redocking result or activity label."
+  },
+  "selection_rule": "Retain the seven technically representable members of the original Stage 18f top eight and replace PPARG_3WJ4_aligned/TBY with PPARG_7RLE_aligned/EDK, the next candidate in the already defined max-min structural sequence.",
+  "recovery_gate": {
+    "seed_count": 3,
+    "maximum_rmsd_angstrom": 2.0,
+    "minimum_successful_seeds_per_receptor": 2,
+    "minimum_new_passing_receptor_count": 2,
+    "maximum_reserve_receptors_docked": 8,
+    "failure_action": "If fewer than two reserves pass, stop PPARG benchmark docking and retain only the 14 technically validated Stage 18e receptors as descriptive evidence."
+  },
+  "outputs": {
+    "amended_reserve_manifest_csv": "data/processed/stage18f_pparg_posthoc_structural_reserves_amendment01.csv",
+    "summary_json": "data/stage18f_pparg_posthoc_structural_reserve_selection_amendment01_summary.json"
+  },
+  "interpretation_boundary": "The Stage 18e confirmatory technical gate remains failed. This technical input replacement and every downstream PPARG result are explicitly post-hoc exploratory and cannot establish independent confirmation, QUBO superiority, or quantum advantage."
+}

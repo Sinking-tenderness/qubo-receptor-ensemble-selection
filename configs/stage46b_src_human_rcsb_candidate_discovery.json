@@ -1,0 +1,87 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage46b-src-human-rcsb-candidate-discovery-20260804-v1",
+  "purpose": "Apply the frozen human-P12931 metadata gate after transparently separating the avian DUD-E reference from the prospective human receptor pool.",
+  "retrieved_on": "2026-08-04",
+  "implementation": {
+    "path": "scripts/discover_stage46b_src_human_rcsb_candidates.py",
+    "sha256": "F4EE5C9520CC2BDE0A7EF852F4458E8D696F5DDA660D6A3D04C97AAAE02C9F65"
+  },
+  "source_audit": {
+    "path": "data/stage46_src_source_audit.json",
+    "sha256": "05493CF8858A92FBE5552685D278F7DA61AB1A5D50E9CC3770AD7AA88AB9D07D"
+  },
+  "identity_amendment": {
+    "path": "configs/stage46_src_independent_k6_preregistration_amendment01.json",
+    "sha256": "06FE253D8F778A7ACB00B6B14AA58C94D421A7FB0A2F77A4EA437DE1F007DAA5"
+  },
+  "discovery_rules": {
+    "experimental_method": "X-RAY DIFFRACTION",
+    "minimum_metadata_eligible_count": 32,
+    "metadata_eligibility": {
+      "required_mutation_count": 0,
+      "maximum_resolution_angstrom": 3.0,
+      "minimum_reference_sequence_coverage": 0.45,
+      "minimum_sample_sequence_length": 230,
+      "maximum_sample_sequence_length": 550,
+      "require_same_chain_drug_like_nonpolymer": true,
+      "minimum_nonpolymer_formula_weight_kda": 0.15,
+      "maximum_nonpolymer_formula_weight_kda": 0.9,
+      "excluded_nonpolymer_ids": [
+        "ACT",
+        "ADP",
+        "AMP",
+        "ATP",
+        "BME",
+        "CA",
+        "CD",
+        "CIT",
+        "CL",
+        "CO",
+        "DMS",
+        "EDO",
+        "FLC",
+        "GOL",
+        "K",
+        "MES",
+        "MG",
+        "MN",
+        "MPD",
+        "NA",
+        "NI",
+        "PEG",
+        "PG4",
+        "PGE",
+        "PO4",
+        "SO4",
+        "TRS",
+        "ZN"
+      ],
+      "excluded_title_patterns": [
+        "\\bapo\\b",
+        "unliganded",
+        "covalent",
+        "irreversible",
+        "mutant",
+        "mutation"
+      ]
+    }
+  },
+  "rcsb": {
+    "search_endpoint": "https://search.rcsb.org/rcsbsearch/v2/query",
+    "graphql_endpoint": "https://data.rcsb.org/graphql",
+    "metadata_chunk_size": 40,
+    "request_timeout_seconds": 60,
+    "maximum_retries": 4,
+    "retry_backoff_seconds": 1.0
+  },
+  "outputs": {
+    "search_snapshot_json": "data/raw/rcsb/src/p12931_human_xray_search_snapshot_20260804.json",
+    "metadata_snapshot_json": "data/raw/rcsb/src/p12931_human_xray_metadata_snapshot_20260804.json",
+    "candidate_metadata_csv": "data/processed/stage46b_src_human_rcsb_candidate_metadata.csv",
+    "eligible_candidates_csv": "data/processed/stage46b_src_human_rcsb_metadata_eligible_candidates.csv",
+    "summary_json": "data/stage46b_src_human_rcsb_candidate_discovery_summary.json",
+    "report_md": "reports/stage-46b/src_human_rcsb_candidate_discovery.md"
+  },
+  "interpretation_boundary": "Stage46b corrects the reference-species role while leaving every human metadata threshold unchanged. Passing authorizes only coordinate auditing; it cannot establish preparation quality, redocking success, enrichment, QUBO superiority, quantum execution, or quantum advantage."
+}

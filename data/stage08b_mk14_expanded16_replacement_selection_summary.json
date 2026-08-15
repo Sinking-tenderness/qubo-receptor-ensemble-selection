@@ -1,0 +1,52 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage08b-mk14-expanded16-technical-replacement-selection-v1",
+  "status": "stage08b_replacement_selection_ok",
+  "config": {
+    "path": "configs/stage08b_mk14_expanded16_replacement_preregistration.json",
+    "sha256": "168C230E40A874926A47FCF460B7889D6811F05DDAABC2B3238A691AD4D4FCA8"
+  },
+  "admitted_receptor_count_before_replacement": 14,
+  "permanently_excluded_receptor_ids": [
+    "MK14_3ZSH_aligned",
+    "MK14_2GFS_aligned"
+  ],
+  "replacement_selection": [
+    {
+      "selection_rank": 1,
+      "conformer_id": "MK14_3ITZ_aligned",
+      "minimum_standardized_distance_to_selected_pool": 1.2135569147369143
+    },
+    {
+      "selection_rank": 2,
+      "conformer_id": "MK14_2BAK_aligned",
+      "minimum_standardized_distance_to_selected_pool": 1.123263627801624
+    }
+  ],
+  "replacement_receptor_ids": [
+    "MK14_3ITZ_aligned",
+    "MK14_2BAK_aligned"
+  ],
+  "final_receptor_count_if_both_pass": 16,
+  "data_used_for_selection": {
+    "structural_distances": true,
+    "binary_redocking_admission_status": true,
+    "docking_affinities": false,
+    "rmsd_magnitudes_for_ranking": false,
+    "benchmark_labels": false
+  },
+  "data_boundary": {
+    "benchmark_ligand_labels_read": 0,
+    "benchmark_docking_scores_read": 0,
+    "previous_validation_rows_read": 0,
+    "test_rows_read": 0
+  },
+  "outputs": {
+    "replacement_selection_csv": {
+      "path": "data/processed/stage08b_mk14_expanded16_replacement_selection.csv",
+      "sha256": "827B582940C75B99C1FF2DCFE04ED60C6B2D57E7263E87EBED15386B5461C5AD"
+    }
+  },
+  "next_gate": "prepare and three-seed cognate-redock 3ITZ-P66 and 2BAK-AQZ under the unchanged Stage 08 Uni-Dock protocol",
+  "decision_boundary": "The selected replacements must pass the unchanged three-seed Uni-Dock cognate-redocking gate before entering the final 16-receptor production manifest. Failure triggers another separately preregistered replacement cycle, not threshold relaxation."
+}

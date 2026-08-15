@@ -1,0 +1,53 @@
+{
+  "checks": {
+    "all_input_and_output_descriptors_verified": true,
+    "all_solver_and_read_objectives_recomputed": true,
+    "batch_summaries_recomputed": true,
+    "data_boundary_zero": true,
+    "decision_recomputed": true,
+    "pool_rules_and_counts_reproduced": true,
+    "primary_pools_nested_and_start_balanced": true,
+    "qubo_energy_equivalence_recomputed": true,
+    "stage28b_gate_verified": true
+  },
+  "config": {
+    "path": "configs/stage29_pparg_md_qubo_solver_scaling.json",
+    "sha256": "5BA7D65EC7C006FF263D1AE663FA06E31C1DBAF1E36FFA5FA6177CE3AA212949"
+  },
+  "coverage": {
+    "annealing_batch_count": 44,
+    "annealing_read_count": 1056,
+    "candidate_frame_count": 1200,
+    "maximum_recomputed_objective_abs_difference": 1.9984014443252818e-14,
+    "pool_count": 11,
+    "primary_pool_count": 8,
+    "solver_result_count": 45
+  },
+  "data_boundary": {
+    "docking_scores_read": 0,
+    "fresh_validation_rows_read": 0,
+    "ligand_labels_read": 0,
+    "new_docking_jobs": 0,
+    "quantum_hardware_jobs": 0,
+    "test_rows_read": 0
+  },
+  "decision": {
+    "annealing_stability_gate_passed": false,
+    "direct_qpu_readiness_gate_passed": false,
+    "exactness_gate_passed": true,
+    "input_gate_passed": true,
+    "new_docking_jobs_authorized_by_this_stage": false,
+    "primary_cells_strictly_above_strong_classical": 0,
+    "quantum_hardware_authorized": false,
+    "qubo_equivalence_gate_passed": true,
+    "solver_novelty_gate_passed": false,
+    "solver_scaling_complete": true
+  },
+  "interpretation_boundary": "Stage29 can establish deterministic construction and exact energy equivalence of a structure-only PPARG MD QUBO, same-objective solver quality and stability, and logical scaling from 16 to 1200 candidate frames. It cannot establish MD convergence, docking enrichment, biological superiority, quantum speedup, quantum advantage, or hardware readiness. The 3D6D exclusion is explicitly post-hoc sensitivity evidence and cannot alter the primary gate.",
+  "result": {
+    "path": "data/stage29_pparg_md_qubo_solver_scaling_result.json",
+    "sha256": "EEE018D8D8ACC5DF3500257B2634B562BF5C4868335A6B8451CC5A02F2DE18C2"
+  },
+  "schema_version": "1.0",
+  "status": "stage29_pparg_md_qubo_solver_scaling_audit_ok"
+}

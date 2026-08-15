@@ -1,0 +1,343 @@
+{
+  "config": {
+    "path": "configs/stage18e_pparg_cognate_redocking.json",
+    "sha256": "EE0DF8F72535C90B42DFBF39DD71906464E4AFBC52964972A6DEB796510DF15B"
+  },
+  "data_boundary": {
+    "benchmark_docking_scores_read": 0,
+    "fresh_validation_rows_read": 0,
+    "ligand_labels_read": 0,
+    "test_rows_read": 0
+  },
+  "decision_boundary": "This technical gate uses no PPARG activity labels or benchmark docking scores. At least 16 passing receptors authorize a coordinate-only final-16 selection. A fail is preserved without receptor replacement or protocol retuning. Redocking success does not establish enrichment, QUBO portability, QUBO superiority, quantum execution, or quantum advantage.",
+  "executed_batches_this_invocation": 72,
+  "experiment_id": "stage18e-pparg-24-receptor-cognate-redocking-20260801-v1",
+  "failed_receptor_count": 10,
+  "frozen_protocol": {
+    "box": {
+      "center_x": 1.61,
+      "center_y": 23.47,
+      "center_z": 16.9,
+      "size_x": 22.0,
+      "size_y": 26.0,
+      "size_z": 28.0
+    },
+    "cuda_visible_devices": "0",
+    "energy_range": 3,
+    "executable": "unidock",
+    "exhaustiveness": 1024,
+    "max_step": 80,
+    "maximum_absolute_score_kcal_per_mol": 100.0,
+    "num_modes": 1,
+    "profile_id": "enhanced",
+    "refine_step": 5,
+    "required_package_version": "1.1.3",
+    "scoring": "vina",
+    "verbosity": 1
+  },
+  "input_audit": {
+    "benchmark_docking_scores_read": 0,
+    "case_count": 24,
+    "common_box": {
+      "center": {
+        "x": 1.61,
+        "y": 23.47,
+        "z": 16.9
+      },
+      "derivation_rule": {
+        "center_decimal_places": 2,
+        "coordinate_population": "all 24 audited cognate crystal ligands in the common 2GTK PPARG ligand-binding-domain frame",
+        "maximum_axis_size_angstrom": 50.0,
+        "minimum_axis_size_angstrom": 22.0,
+        "minimum_crystal_pose_margin_angstrom": 3.5,
+        "size_increment_angstrom": 2.0
+      },
+      "ligand_maximum_angstrom": [
+        9.1052,
+        32.4504,
+        27.2685
+      ],
+      "ligand_minimum_angstrom": [
+        -5.879,
+        14.4952,
+        6.5391
+      ],
+      "minimum_observed_margin_angstrom": 3.5047999999999995,
+      "receptor_count": 24,
+      "schema_version": "1.0",
+      "size": {
+        "x": 22.0,
+        "y": 26.0,
+        "z": 28.0
+      },
+      "status": "stage18d_pparg_common_box_ok"
+    },
+    "expected_redocking_pair_count": 72,
+    "fresh_validation_rows_read": 0,
+    "ligand_labels_read": 0,
+    "receptor_count": 24,
+    "receptor_ids": [
+      "PPARG_2GTK_reference",
+      "PPARG_8B8X_aligned",
+      "PPARG_5F9B_aligned",
+      "PPARG_2HFP_aligned",
+      "PPARG_6AD9_aligned",
+      "PPARG_2Q6S_aligned",
+      "PPARG_3CS8_aligned",
+      "PPARG_5UGM_aligned",
+      "PPARG_3V9V_aligned",
+      "PPARG_3TY0_aligned",
+      "PPARG_8FHF_aligned",
+      "PPARG_2G0H_aligned",
+      "PPARG_4HEE_aligned",
+      "PPARG_3HOD_aligned",
+      "PPARG_3H0A_aligned",
+      "PPARG_5DWL_aligned",
+      "PPARG_6MS7_aligned",
+      "PPARG_2HWR_aligned",
+      "PPARG_6ENQ_aligned",
+      "PPARG_2FVJ_aligned",
+      "PPARG_5Y2T_aligned",
+      "PPARG_1ZEO_aligned",
+      "PPARG_8ZFQ_aligned",
+      "PPARG_8ZFP_aligned"
+    ],
+    "seed_count": 3,
+    "status": "audit_only_ok",
+    "target_id": "PPARG",
+    "test_rows_read": 0
+  },
+  "known_warning_event_count": 0,
+  "minimum_passing_receptor_count": 16,
+  "next_gate": "stop PPARG benchmark docking and preserve the technical failure",
+  "outputs": {
+    "receptor_gate_results_csv": {
+      "path": "data/processed/stage18e_pparg_receptor_gate_results.csv",
+      "sha256": "09893A067892E954CDC943A5A3648B41F08C42D0556E067ACA078894449DE8C0"
+    },
+    "redocking_results_csv": {
+      "path": "data/processed/stage18e_pparg_cognate_redocking_results.csv",
+      "sha256": "3BA52E8A6E5B65E5FBCDB2F857F7D137EF5C2E9AB3FC24C3428F47E8E2BE5D27"
+    }
+  },
+  "passed_receptor_count": 14,
+  "pose_integrity_failure_count": 0,
+  "receptor_gate_results": [
+    {
+      "conformer_id": "PPARG_2GTK_reference",
+      "gate_pass": true,
+      "maximum_top_ranked_rmsd_angstrom": 0.76134,
+      "median_top_ranked_rmsd_angstrom": 0.75869,
+      "seed_count": 3,
+      "successful_seed_count": 3
+    },
+    {
+      "conformer_id": "PPARG_8B8X_aligned",
+      "gate_pass": true,
+      "maximum_top_ranked_rmsd_angstrom": 1.077686,
+      "median_top_ranked_rmsd_angstrom": 0.895743,
+      "seed_count": 3,
+      "successful_seed_count": 3
+    },
+    {
+      "conformer_id": "PPARG_5F9B_aligned",
+      "gate_pass": false,
+      "maximum_top_ranked_rmsd_angstrom": 11.469599,
+      "median_top_ranked_rmsd_angstrom": 11.464475,
+      "seed_count": 3,
+      "successful_seed_count": 0
+    },
+    {
+      "conformer_id": "PPARG_2HFP_aligned",
+      "gate_pass": true,
+      "maximum_top_ranked_rmsd_angstrom": 0.619544,
+      "median_top_ranked_rmsd_angstrom": 0.599148,
+      "seed_count": 3,
+      "successful_seed_count": 3
+    },
+    {
+      "conformer_id": "PPARG_6AD9_aligned",
+      "gate_pass": true,
+      "maximum_top_ranked_rmsd_angstrom": 0.380666,
+      "median_top_ranked_rmsd_angstrom": 0.347253,
+      "seed_count": 3,
+      "successful_seed_count": 3
+    },
+    {
+      "conformer_id": "PPARG_2Q6S_aligned",
+      "gate_pass": true,
+      "maximum_top_ranked_rmsd_angstrom": 0.761006,
+      "median_top_ranked_rmsd_angstrom": 0.747624,
+      "seed_count": 3,
+      "successful_seed_count": 3
+    },
+    {
+      "conformer_id": "PPARG_3CS8_aligned",
+      "gate_pass": false,
+      "maximum_top_ranked_rmsd_angstrom": 9.143612,
+      "median_top_ranked_rmsd_angstrom": 9.050984,
+      "seed_count": 3,
+      "successful_seed_count": 0
+    },
+    {
+      "conformer_id": "PPARG_5UGM_aligned",
+      "gate_pass": false,
+      "maximum_top_ranked_rmsd_angstrom": 10.675536,
+      "median_top_ranked_rmsd_angstrom": 10.594523,
+      "seed_count": 3,
+      "successful_seed_count": 0
+    },
+    {
+      "conformer_id": "PPARG_3V9V_aligned",
+      "gate_pass": true,
+      "maximum_top_ranked_rmsd_angstrom": 1.793974,
+      "median_top_ranked_rmsd_angstrom": 1.754917,
+      "seed_count": 3,
+      "successful_seed_count": 3
+    },
+    {
+      "conformer_id": "PPARG_3TY0_aligned",
+      "gate_pass": true,
+      "maximum_top_ranked_rmsd_angstrom": 0.927036,
+      "median_top_ranked_rmsd_angstrom": 0.867933,
+      "seed_count": 3,
+      "successful_seed_count": 3
+    },
+    {
+      "conformer_id": "PPARG_8FHF_aligned",
+      "gate_pass": false,
+      "maximum_top_ranked_rmsd_angstrom": 11.705955,
+      "median_top_ranked_rmsd_angstrom": 11.671245,
+      "seed_count": 3,
+      "successful_seed_count": 0
+    },
+    {
+      "conformer_id": "PPARG_2G0H_aligned",
+      "gate_pass": true,
+      "maximum_top_ranked_rmsd_angstrom": 0.97993,
+      "median_top_ranked_rmsd_angstrom": 0.904682,
+      "seed_count": 3,
+      "successful_seed_count": 3
+    },
+    {
+      "conformer_id": "PPARG_4HEE_aligned",
+      "gate_pass": true,
+      "maximum_top_ranked_rmsd_angstrom": 0.407162,
+      "median_top_ranked_rmsd_angstrom": 0.405441,
+      "seed_count": 3,
+      "successful_seed_count": 3
+    },
+    {
+      "conformer_id": "PPARG_3HOD_aligned",
+      "gate_pass": false,
+      "maximum_top_ranked_rmsd_angstrom": 12.22694,
+      "median_top_ranked_rmsd_angstrom": 12.191841,
+      "seed_count": 3,
+      "successful_seed_count": 0
+    },
+    {
+      "conformer_id": "PPARG_3H0A_aligned",
+      "gate_pass": false,
+      "maximum_top_ranked_rmsd_angstrom": 2.226592,
+      "median_top_ranked_rmsd_angstrom": 2.072222,
+      "seed_count": 3,
+      "successful_seed_count": 1
+    },
+    {
+      "conformer_id": "PPARG_5DWL_aligned",
+      "gate_pass": true,
+      "maximum_top_ranked_rmsd_angstrom": 0.222558,
+      "median_top_ranked_rmsd_angstrom": 0.222228,
+      "seed_count": 3,
+      "successful_seed_count": 3
+    },
+    {
+      "conformer_id": "PPARG_6MS7_aligned",
+      "gate_pass": true,
+      "maximum_top_ranked_rmsd_angstrom": 1.809755,
+      "median_top_ranked_rmsd_angstrom": 1.733995,
+      "seed_count": 3,
+      "successful_seed_count": 3
+    },
+    {
+      "conformer_id": "PPARG_2HWR_aligned",
+      "gate_pass": true,
+      "maximum_top_ranked_rmsd_angstrom": 1.953704,
+      "median_top_ranked_rmsd_angstrom": 1.817972,
+      "seed_count": 3,
+      "successful_seed_count": 3
+    },
+    {
+      "conformer_id": "PPARG_6ENQ_aligned",
+      "gate_pass": false,
+      "maximum_top_ranked_rmsd_angstrom": 7.89584,
+      "median_top_ranked_rmsd_angstrom": 7.890552,
+      "seed_count": 3,
+      "successful_seed_count": 0
+    },
+    {
+      "conformer_id": "PPARG_2FVJ_aligned",
+      "gate_pass": true,
+      "maximum_top_ranked_rmsd_angstrom": 0.398855,
+      "median_top_ranked_rmsd_angstrom": 0.390517,
+      "seed_count": 3,
+      "successful_seed_count": 3
+    },
+    {
+      "conformer_id": "PPARG_5Y2T_aligned",
+      "gate_pass": true,
+      "maximum_top_ranked_rmsd_angstrom": 0.895903,
+      "median_top_ranked_rmsd_angstrom": 0.677116,
+      "seed_count": 3,
+      "successful_seed_count": 3
+    },
+    {
+      "conformer_id": "PPARG_1ZEO_aligned",
+      "gate_pass": false,
+      "maximum_top_ranked_rmsd_angstrom": 3.527593,
+      "median_top_ranked_rmsd_angstrom": 3.521595,
+      "seed_count": 3,
+      "successful_seed_count": 1
+    },
+    {
+      "conformer_id": "PPARG_8ZFQ_aligned",
+      "gate_pass": false,
+      "maximum_top_ranked_rmsd_angstrom": 3.500964,
+      "median_top_ranked_rmsd_angstrom": 3.4944,
+      "seed_count": 3,
+      "successful_seed_count": 0
+    },
+    {
+      "conformer_id": "PPARG_8ZFP_aligned",
+      "gate_pass": false,
+      "maximum_top_ranked_rmsd_angstrom": 2.43994,
+      "median_top_ranked_rmsd_angstrom": 2.356801,
+      "seed_count": 3,
+      "successful_seed_count": 0
+    }
+  ],
+  "redocking_pair_count": 72,
+  "resumed_batches_this_invocation": 0,
+  "runtime": {
+    "conda_environment": "qubo-unidock-stage13",
+    "meeko_version": "0.7.1",
+    "numpy_version": "1.26.4",
+    "python_version": "3.11.15",
+    "rdkit_version": "2026.3.1",
+    "scipy_version": "1.17.1"
+  },
+  "schema_version": "1.0",
+  "status": "stage18e_pparg_cognate_redocking_gate_failed",
+  "technical_gate_pass": false,
+  "unidock_executable": {
+    "binary_sha256": "61D5464177200EDC19F769E8E5D46FB586CE840891785FCB001859922A192A0A",
+    "conda_package_version": "1.1.3",
+    "requested_executable": "unidock",
+    "required_package_version": "1.1.3",
+    "resolved_executable": "/root/miniconda3/envs/qubo-unidock-stage13/bin/unidock",
+    "version_probe_output": "libgomp: Invalid value for environment variable OMP_NUM_THREADS: 0\nUni-Dock v1.1.3",
+    "version_probe_returncode": 0,
+    "version_verified": true
+  },
+  "unresolved_warning_event_count": 0
+}

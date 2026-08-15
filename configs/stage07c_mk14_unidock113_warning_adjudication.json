@@ -1,0 +1,169 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage07c-mk14-unidock113-enhanced-warning-adjudication-v1",
+  "purpose": "Adjudicate the known Uni-Dock coordinate warning and confirm the enhanced 1024/80 profile with one new paired seed before any larger training matrix is generated.",
+  "implementation": {
+    "runner": {
+      "path": "scripts/experimental/unidock/run_stage07c_unidock_warning_adjudication.py",
+      "sha256": "9729941976A15D6A91C45493807218CF3E24141063439AFBA948E0A2F2635153"
+    },
+    "evaluator": {
+      "path": "scripts/experimental/unidock/evaluate_stage07c_unidock_warning_adjudication.py",
+      "sha256": "268EDC755D729D034F63EA57B631FDAFCD492FA851368B2749870C7CC059B360"
+    },
+    "unidock_batch_helper": {
+      "path": "scripts/experimental/unidock/run_unidock_gpu_equivalence.py",
+      "sha256": "4E927E959A08526289F7B266BA8CD76232741C878CCE255312F94A561DE433B0"
+    },
+    "pose_audit_helper": {
+      "path": "scripts/experimental/unidock/run_stage07b_unidock_enhanced_confirmation.py",
+      "sha256": "192E6BF7700442EA508082F47D96494125B41ADAD04C81B141FE3F4889312EE4"
+    },
+    "evidence_preparer": {
+      "path": "scripts/experimental/unidock/prepare_stage07c_existing_evidence.py",
+      "sha256": "BDA3F6412BB72BF0919A8B6C7BB6A8A0C11A6963E595BACA0E82BDB04C77BF3F"
+    },
+    "pose_diagnostics_builder": {
+      "path": "scripts/experimental/unidock/build_stage07c_pose_diagnostics.py",
+      "sha256": "D1B511823C30FC693AFE7314D5D9AA70D15F22A9760F5ACE4CEB5FE10CAB007B"
+    }
+  },
+  "data_boundary": {
+    "allowed_split": "train",
+    "allowed_selection_role": "development_train",
+    "ligand_count": 160,
+    "label_counts": {
+      "active": 80,
+      "decoy": 80
+    },
+    "fresh_validation_rows_permitted": 0,
+    "test_rows_permitted": 0,
+    "evidence_class": "development technical warning adjudication"
+  },
+  "inputs": {
+    "receptor_manifest": {
+      "path": "data/processed/stage05_mk14_unidock_train160_receptor_manifest.csv",
+      "sha256": "EFAA41D3C685F30F3BEF3D16F408107F82E3930CF94D481939D046ECEBFBEFCC"
+    },
+    "ligand_manifest": {
+      "path": "data/processed/stage05_mk14_unidock_rigid_train160_pdbqt_manifest.csv",
+      "sha256": "5501B259C897B596E10A2E124F4863ACD7368CFEB02BA9C78BD677CF78A9903E"
+    },
+    "prior_scores": {
+      "path": "data/processed/stage07c_mk14_unidock113_enhanced_seed012_scores.csv",
+      "sha256": "07684211C8A6C0AA0C86950EEE2CD8721988B944238A9E83E91071C904B1A909"
+    },
+    "replay_reference": {
+      "path": "data/processed/stage07c_mk14_unidock113_enhanced_warning_replay_reference.csv",
+      "sha256": "B4C4F3EADDD72D88684BBBCB0B53C335225677DB35498E526394BA82BB2BD158"
+    },
+    "evidence_provenance": {
+      "path": "data/stage07c_mk14_unidock113_existing_evidence_provenance.json",
+      "sha256": "2EF66E83F42207E7029185E706B357F9BE3399E6A5EC94065335A4F20A684452"
+    },
+    "seeds": [
+      {
+        "seed_id": "seed0",
+        "base_seed": 20260801
+      },
+      {
+        "seed_id": "seed1",
+        "base_seed": 20260802
+      },
+      {
+        "seed_id": "seed2",
+        "base_seed": 20260803
+      },
+      {
+        "seed_id": "seed3",
+        "base_seed": 20260804
+      }
+    ]
+  },
+  "expected": {
+    "receptor_ids": [
+      "MK14_2BAJ_aligned",
+      "MK14_2QD9_reference",
+      "MK14_3KQ7_aligned",
+      "MK14_3MPT_aligned"
+    ],
+    "receptor_count": 4,
+    "ligand_count": 160,
+    "label_counts": {
+      "active": 80,
+      "decoy": 80
+    },
+    "prior_seed_count": 3,
+    "combined_seed_count": 4,
+    "prior_score_count": 1920,
+    "new_seed_pair_count": 640,
+    "warning_replay_pair_count": 160,
+    "total_pair_count": 800,
+    "total_gpu_pair_count": 800,
+    "batch_count": 5,
+    "validation_rows": 0,
+    "test_rows": 0
+  },
+  "unidock": {
+    "executable": "unidock",
+    "required_package_version": "1.1.3",
+    "profile_id": "enhanced",
+    "scoring": "vina",
+    "exhaustiveness": 1024,
+    "max_step": 80,
+    "refine_step": 5,
+    "num_modes": 1,
+    "energy_range": 3,
+    "verbosity": 1,
+    "cuda_visible_devices": "0",
+    "maximum_absolute_score_kcal_per_mol": 100.0,
+    "box": {
+      "center_x": -0.49,
+      "center_y": 3.26,
+      "center_z": 21.83,
+      "size_x": 22,
+      "size_y": 24,
+      "size_z": 32
+    }
+  },
+  "warning_adjudication": {
+    "approved_warning_class": {
+      "first_line_prefix": "WARNING: in add_to_output_container",
+      "second_line_pattern": "t.coords.size()=N, out[0].coords.size()=N+1",
+      "required_pose_integrity_failure_count": 0,
+      "interpretation": "A known warning event is resolved only when every requested pose exists, has one mode, preserves atom count and atom types, and the replay gate passes. All other warnings remain unresolved."
+    },
+    "replay": {
+      "run_id": "seed2_replay",
+      "base_seed": 20260803,
+      "receptor_id": "MK14_3MPT_aligned",
+      "require_exact_scores": true,
+      "require_exact_pose_sha256": true
+    }
+  },
+  "profile_gate": {
+    "candidate_profile_id": "enhanced",
+    "minimum_seed_pair_spearman": 0.9,
+    "maximum_seed_pair_bedroc_delta": 0.05,
+    "require_complete_new_seed": true,
+    "require_complete_warning_replay": true,
+    "require_zero_unresolved_warning_events": true,
+    "require_zero_pose_integrity_failures": true,
+    "require_exact_replay_scores": true,
+    "require_exact_replay_pose_sha256": true,
+    "selection_rule": "Freeze enhanced only if all four-seed stability, new-seed completeness, warning adjudication, pose integrity, and exact replay checks pass. Statistical thresholds are unchanged from Stage 07b."
+  },
+  "outputs": {
+    "run_directory": "results/runs/stage07c_mk14_unidock113_warning_adjudication",
+    "scores_csv": "results/runs/stage07c_mk14_unidock113_warning_adjudication/scores.csv",
+    "batch_runs_csv": "results/runs/stage07c_mk14_unidock113_warning_adjudication/batch_runs.csv",
+    "run_summary_json": "results/runs/stage07c_mk14_unidock113_warning_adjudication/run_summary.json",
+    "group_metrics_csv": "results/runs/stage07c_mk14_unidock113_warning_adjudication/group_metrics.csv",
+    "seed_stability_csv": "results/runs/stage07c_mk14_unidock113_warning_adjudication/seed_stability.csv",
+    "replay_comparison_csv": "results/runs/stage07c_mk14_unidock113_warning_adjudication/replay_comparison.csv",
+    "evaluation_result_json": "data/stage07c_mk14_unidock113_warning_adjudication_result.json",
+    "evaluation_report_md": "reports/stage-07/mk14_unidock113_warning_adjudication.md",
+    "pose_diagnostics_summary_json": "data/stage07c_mk14_unidock113_pose_diagnostics_summary.json"
+  },
+  "decision_boundary": "This consumed-train technical confirmation may freeze Uni-Dock 1.1.3 enhanced 1024/80 for a separately preregistered larger training matrix. It cannot alter historical CPU Vina evidence, authorize validation or test access, select a QUBO objective, or establish biological or quantum advantage."
+}

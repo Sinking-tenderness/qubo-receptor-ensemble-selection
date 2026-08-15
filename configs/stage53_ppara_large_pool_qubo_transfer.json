@@ -1,0 +1,120 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage53-ppara-large-pool-frozen-qubo-transfer-20260805-v1",
+  "purpose": "Test two previously frozen QUBO objectives on the post-hoc PPARA Train-374 by Stage51-passing20 matrix against direct greedy, nested greedy, strong classical, additive, random, single-receptor, and all-receptor baselines.",
+  "implementation": {
+    "path": "scripts/run_stage53_ppara_large_pool_qubo_transfer.py",
+    "sha256": "C870668F955FED967B1C7406A9715AF873DA0092E5BEADA42356E4D9E08D2614"
+  },
+  "inputs": {
+    "stage52c_amendment": {
+      "path": "data/stage52c_ppara_target_id_amendment_result.json",
+      "sha256": "87C70993383E9AAB0B1CBD95E20CB137ABB8A459FAD4650659FDF77B7DF511F3"
+    },
+    "corrected_scores": {
+      "path": "results/runs/stage52c_ppara_target_id_amendment/scores.csv",
+      "sha256": "673604EC2662F6AFFD872927DBD0DF4C9398CE39501DE31D7A69D4B10EF29E84"
+    },
+    "ligand_manifest": {
+      "path": "data/processed/stage52a_ppara_train374_unidock_pdbqt_manifest.csv",
+      "sha256": "5B6CA85C2AA9A97A17BDD0D07BDFA9A896E1F9DC30582F49F5B9F4E7AE995D85"
+    },
+    "receptor_manifest": {
+      "path": "data/processed/stage52b_ppara_stage51_passing20_receptor_manifest.csv",
+      "sha256": "8F08BE3C28EE2A4548D063A02BBE0E1BD82E214AA43844C362CD327BFBB9EF2C"
+    },
+    "stage37_objective_config": {
+      "path": "configs/stage37_cross_target_robust_functional_qubo.json",
+      "sha256": "261E489567403D6CDA170833849DCA85AE21674134731A8CDE6867F9FFA04812"
+    },
+    "stage42f_objective_config": {
+      "path": "configs/stage42f_bace1_rank_sensitive_pair_qubo.json",
+      "sha256": "C314EB3F6565F95FD4DD6160F09C9BCFACC8E5922890BCFF5B72D8F98E7BA054"
+    },
+    "stage52_preregistration": {
+      "path": "configs/stage52_ppara_posthoc_exploratory_development_preregistration.json",
+      "sha256": "B04A145908D7D88B66A61AE461A01C5576001E7ECDC4334FDFB2E376D7C3AE28"
+    }
+  },
+  "evidence_timing": {
+    "experiment_class": "post-hoc PPARA train-only transfer of objectives frozen before PPARA functional scores",
+    "stage37_coverage_weights_changed": false,
+    "stage42f_rank_pair_weights_changed": false,
+    "stage53_outcomes_known_before_this_freeze": false,
+    "fresh_validation_or_locked_test_rows_permitted": false,
+    "new_docking_permitted": false,
+    "quantum_hardware_permitted": false
+  },
+  "objectives": {
+    "coverage_qubo": {
+      "objective_id": "seed_robust_functional_complementarity_v1",
+      "lower_docking_score_is_better": true,
+      "normalization": "per-seed per-receptor empirical CDF fitted on the outer-train rows only",
+      "favorable_rank_fraction": 0.1,
+      "minimum_subset_size": 1,
+      "maximum_subset_size": 6,
+      "weights": {
+        "active_majority_seed_coverage": 0.35,
+        "active_all_seed_coverage": 0.25,
+        "active_double_receptor_majority_seed_support": 0.2,
+        "decoy_any_seed_exposure": 0.15,
+        "receptor_cost": 0.05
+      },
+      "formula": "F(S)=0.35*A_majority(S)+0.25*A_all3(S)+0.20*A_double_majority(S)-0.15*D_any(S)-0.05*|S|/6"
+    },
+    "rank_pair_qubo": {
+      "objective_id": "bedroc20_rank_sensitive_pair_complementarity_v1",
+      "bedroc_alpha": 20.0,
+      "minimum_subset_size": 1,
+      "maximum_subset_size": 6,
+      "rank_normalization": "per-seed per-receptor empirical CDF fitted on outer-train rows only",
+      "singleton_utility": "q_i=(mean_seed(E_active[exp(-20r_i)]-E_decoy[exp(-20r_i)]) + worst_seed(...))/2",
+      "pair_complementarity": "delta_ij=q_{ij}-max(q_i,q_j), where q_{ij} uses the better rank from receptor i or j",
+      "fixed_k_qubo": "Q_k(S)=mean_{i in S}(q_i)+mean_{i<j in S}(delta_ij); for k=1 the pair term is zero",
+      "normalization_reason": "separate normalization at each fixed k removes the Stage42d cardinality pressure and implements the previously proposed k=1..6 ladder",
+      "qubo_form": "For each frozen k, maximize sum_i(q_i/k)x_i + sum_{i<j}(delta_ij/C(k,2))x_i x_j subject to sum_i x_i=k."
+    }
+  },
+  "screen": {
+    "outer_fold_count": 4,
+    "fold_seed": 20261119,
+    "bedroc_alpha": 20.0,
+    "minimum_subset_size": 1,
+    "maximum_subset_size": 6,
+    "classical_beam_width": 64,
+    "random_samples_per_size": 1024,
+    "random_seed": 20260805,
+    "tie_tolerance": 1e-12
+  },
+  "required_comparators": [
+    "exact frozen rank-pair QUBO",
+    "beam-64 plus multi-start fixed-k swap local search",
+    "direct greedy on the rank-pair QUBO",
+    "exact frozen coverage QUBO",
+    "strong classical add/drop/swap search on the coverage objective",
+    "direct greedy on the coverage objective",
+    "linear additive coverage selection",
+    "linear Top-k by singleton BEDROC20",
+    "nested greedy directly maximizing BEDROC20",
+    "random matched-budget search",
+    "best single receptor",
+    "all receptors"
+  ],
+  "support_gate": {
+    "minimum_mean_holdout_over_single": 0.01,
+    "minimum_positive_holdout_over_single_folds": 2,
+    "minimum_mean_holdout_over_linear": 0.0,
+    "minimum_mean_holdout_over_nested_greedy": 0.0,
+    "minimum_positive_objective_gap_cells_over_strong_classical": 1,
+    "all_application_checks_required": true,
+    "failure_action": "Freeze the transferred objectives as unsupported on PPARA and forbid PPARA-specific weight tuning. Preserve any direct-greedy gap only as an optimization diagnostic, not an efficacy claim."
+  },
+  "outputs": {
+    "fold_assignments_csv": "results/runs/stage53_ppara_large_pool_qubo_transfer/fold_assignments.csv",
+    "selection_metrics_csv": "results/runs/stage53_ppara_large_pool_qubo_transfer/selection_metrics.csv",
+    "fixed_k_landscape_csv": "results/runs/stage53_ppara_large_pool_qubo_transfer/fixed_k_landscape.csv",
+    "result_json": "data/stage53_ppara_large_pool_qubo_transfer_result.json",
+    "report_md": "reports/stage-53/ppara_large_pool_qubo_transfer.md"
+  },
+  "interpretation_boundary": "Stage53 is train-only and post-hoc because the PPARA receptor pool was filtered using Stage51 outcomes. Scaffold holdouts test internal transfer only. A positive result can justify a new preregistered independent experiment, but cannot repair Stage51, establish QUBO superiority on independent data, authorize same-data tuning, or establish quantum execution, speedup, or advantage."
+}

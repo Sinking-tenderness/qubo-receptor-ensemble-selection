@@ -1,0 +1,92 @@
+{
+  "config": {
+    "path": "configs/stage45_pparg_md96_generalization_diagnosis.json",
+    "sha256": "7A4CCF4000BDF36602D10A72E513C908C062B57C50B19439A67AF056D4E5D700",
+    "size_bytes": 3391
+  },
+  "data_boundary": {
+    "fresh_validation_rows_read": 0,
+    "new_docking_jobs": 0,
+    "quantum_hardware_jobs": 0,
+    "test_rows_read": 0,
+    "train_rows_read": 160
+  },
+  "decision": {
+    "cross_target_stability_redesign_authorized": true,
+    "failure_mechanism_resolved": true,
+    "fresh_validation_authorized": false,
+    "k6_new_target_preregistration_authorized": true,
+    "quantum_hardware_authorized": false,
+    "same_pparg_retuning_authorized": false
+  },
+  "diagnosis": {
+    "k3_selection_instability": true,
+    "k6_exploratory_signal": {
+      "eligible_for_new_target_preregistration": true,
+      "mean_holdout_gain": 0.017175207620625743,
+      "mean_pairwise_fold_jaccard": 0.2888888888888889,
+      "positive_fold_count": 2
+    },
+    "rank_generalization_failure": false,
+    "train_holdout_landscape_instability": false
+  },
+  "implementation": {
+    "path": "scripts/diagnose_stage45_pparg_md96_generalization.py",
+    "sha256": "4695B7EA87018B886175AB85049C5D4C984A6F4114C7FAF6F907F20AE85ECE33",
+    "size_bytes": 16752
+  },
+  "interpretation_boundary": "Stage45 is a fixed, same-data failure diagnosis. It may identify coefficient, landscape, or selection instability and may authorize only a separately preregistered cross-target stability experiment. It cannot support PPARG-specific retuning, fresh-validation access, quantum-hardware execution, quantum speedup, or quantum advantage.",
+  "outputs": {
+    "coefficient_correlations_csv": {
+      "path": "results/runs/stage45_pparg_md96_generalization_diagnosis/coefficient_correlations.csv",
+      "sha256": "3EB0B2D2187D3795CA876164D1437A78F9F04B0B84B29D0592E364DA22EAFEE3",
+      "size_bytes": 605
+    },
+    "coefficient_stability_csv": {
+      "path": "results/runs/stage45_pparg_md96_generalization_diagnosis/coefficient_stability.csv",
+      "sha256": "665392538FF4438E1E6083A3122AD16FA186584C274860C86836EC36BB1DC8E8",
+      "size_bytes": 19329
+    },
+    "landscape_correlations_csv": {
+      "path": "results/runs/stage45_pparg_md96_generalization_diagnosis/landscape_correlations.csv",
+      "sha256": "FC6A94952CB8B73222543DFA5A14EDA539B3C1D7A6360BA63CA9ED882FC71433",
+      "size_bytes": 1417
+    },
+    "report_md": {
+      "path": "reports/stage-45/pparg_md96_generalization_diagnosis.md",
+      "sha256": "4635D4946240EC8155CF52B4731F19C112ABF2B4977BFA42A666AE9DEE5F4322",
+      "size_bytes": 693
+    },
+    "selection_stability_csv": {
+      "path": "results/runs/stage45_pparg_md96_generalization_diagnosis/selection_stability.csv",
+      "sha256": "CC165409D2E3522491ECA845FB1C8DEA8134B47F9D0C2DB6483C05EA2340012C",
+      "size_bytes": 419
+    }
+  },
+  "schema_version": "1.0",
+  "status": "stage45_pparg_md96_generalization_diagnosis_complete",
+  "summary": {
+    "k3_selection_stability": {
+      "full_subset": "PPARG_MD_00037_2HFP+PPARG_MD_00187_8CPI+PPARG_MD_00927_3GBK",
+      "mean_full_to_fold_jaccard": 0.3,
+      "mean_pairwise_fold_jaccard": 0.15,
+      "method": "exact",
+      "minimum_full_to_fold_jaccard": 0.0,
+      "subset_size": 3,
+      "unique_fold_subset_count": 4
+    },
+    "k6_selection_stability": {
+      "full_subset": "PPARG_MD_00037_2HFP+PPARG_MD_00187_8CPI+PPARG_MD_00468_2ATH+PPARG_MD_01030_3GBK+PPARG_MD_00927_3GBK+PPARG_MD_01105_2I4J",
+      "mean_full_to_fold_jaccard": 0.5119047619047619,
+      "mean_pairwise_fold_jaccard": 0.2888888888888889,
+      "method": "strong_classical",
+      "minimum_full_to_fold_jaccard": 0.3333333333333333,
+      "subset_size": 6,
+      "unique_fold_subset_count": 4
+    },
+    "median_objective_holdout_spearman": 0.29502280838850015,
+    "median_pair_fold_spearman": 0.6874405780254527,
+    "median_singleton_fold_spearman": 0.8161964188822572,
+    "median_train_holdout_bedroc_spearman": 0.2773799958679235
+  }
+}

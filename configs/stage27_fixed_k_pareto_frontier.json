@@ -1,0 +1,123 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage27-fixed-k-pareto-frontier-20260802-v1",
+  "purpose": "Remove the arbitrary Stage26 per-conformer cost by solving the frozen two-hit structural benefit separately for k=1..8, derive exact supported cost intervals, and benchmark strong classical and annealing solvers on five audited real-protein pools.",
+  "evidence_timing": {
+    "experiment_class": "posthoc_structure_only_pareto_and_solver_scaling_benchmark",
+    "stage27_frontier_outcomes_known_before_freeze": false,
+    "objective_solver_and_gate_frozen_before_run": true,
+    "docking_scores_permitted": false,
+    "ligand_labels_permitted": false,
+    "new_docking_jobs": false,
+    "quantum_hardware_execution": false
+  },
+  "targets": {
+    "MK14": {
+      "loader": "stage21_hard_gate",
+      "reference_id": "MK14_2QD9_reference",
+      "inputs": {
+        "eligible_pool": "data/processed/stage05_mk14_rcsb_coordinate_eligible_pool_v3.csv",
+        "coordinate_audit": "data/processed/stage05_mk14_rcsb_coordinate_candidate_audit_v3.csv",
+        "feature_matrix": "data/processed/stage05_mk14_rcsb_pocket_distance_features_v3.csv",
+        "pairwise_distances": "data/processed/stage05_mk14_rcsb_structural_distances_v3.csv"
+      }
+    },
+    "PPARG": {
+      "loader": "stage21_hard_gate",
+      "reference_id": "PPARG_2GTK_reference",
+      "inputs": {
+        "eligible_pool": "data/processed/stage18c_pparg_coordinate_eligible_pool.csv",
+        "coordinate_audit": "data/processed/stage18c_pparg_coordinate_candidate_audit.csv",
+        "feature_matrix": "data/processed/stage18c_pparg_structural_features.csv",
+        "pairwise_distances": "data/processed/stage18c_pparg_structural_distances.csv"
+      }
+    },
+    "BACE1": {
+      "loader": "stage21_hard_gate",
+      "reference_id": "BACE1_3L5D_reference",
+      "inputs": {
+        "eligible_pool": "data/processed/stage21c_bace1_coordinate_eligible_pool.csv",
+        "coordinate_audit": "data/processed/stage21c_bace1_coordinate_candidate_audit.csv",
+        "feature_matrix": "data/processed/stage21c_bace1_structural_features.csv",
+        "pairwise_distances": "data/processed/stage21c_bace1_structural_distances.csv"
+      }
+    },
+    "EGFR": {
+      "loader": "summary_distance_pool",
+      "reference_id": "EGFR_2RGP_reference",
+      "summary_status": "stage13d_egfr_preparation_ready_pool_ok",
+      "inputs": {
+        "summary_json": "data/stage13d_egfr_preparation_ready_pool_summary.json",
+        "pairwise_distances": "data/processed/stage13d_egfr_preparation_ready_structural_distances.csv"
+      },
+      "distance_column": "standardized_pocket_distance"
+    },
+    "FA10": {
+      "loader": "csv_distance_pool",
+      "reference_id": "FA10_3KL6_reference",
+      "summary_status": "stage14b_fa10_structural_pool_ok",
+      "inputs": {
+        "summary_json": "data/stage14b_fa10_structural_pool_summary.json",
+        "eligible_pool": "data/processed/stage14b_fa10_preparation_ready_pool.csv",
+        "pairwise_distances": "data/processed/stage14b_fa10_structural_distances.csv"
+      },
+      "distance_column": "standardized_active_site_distance"
+    }
+  },
+  "objective": {
+    "k_values": [1, 2, 3, 4, 5, 6, 7, 8],
+    "maximum_selected": 8,
+    "neighborhood_fraction": 0.10,
+    "single_coverage_weight": 0.25,
+    "double_coverage_weight": 0.75,
+    "pair_diversity_weight": 0.10,
+    "pair_diversity_denominator": "common_choose_maximum_selected_2",
+    "cardinality_penalty": 20.0,
+    "coverage_constraint_penalty": 100.0,
+    "per_conformer_cost_in_optimization": 0.0
+  },
+  "pareto_analysis": {
+    "include_k_zero": true,
+    "derive_supported_nonnegative_cost_intervals_analytically": true,
+    "do_not_select_cost_posthoc": true
+  },
+  "exact_oracle": {
+    "maximum_candidate_count": 19,
+    "state_limit_per_k": 1000000
+  },
+  "classical_baselines": {
+    "methods": ["direct_greedy_plus_fixed_swap", "beam_plus_fixed_swap"],
+    "beam_widths": [128, 512, 2048]
+  },
+  "sampler": {
+    "batch_count": 3,
+    "reads_per_batch": 32,
+    "sweeps_per_read": 2000,
+    "temperature_start": 0.04,
+    "temperature_end": 0.0002,
+    "base_seed": 20260827,
+    "initialization": "uniform_random_fixed_cardinality_subset",
+    "move": "one_selected_conformer_swapped_with_one_unselected_conformer"
+  },
+  "gate": {
+    "objective_tolerance": 0.0001,
+    "minimum_batch_fraction_within_tolerance": 0.75,
+    "maximum_exact_gap": 0.0001,
+    "minimum_targets_with_nontrivial_supported_positive_k": 3,
+    "minimum_target_k_cells_strictly_above_strong_classical": 5,
+    "minimum_gain_vs_strong_classical": 1e-9,
+    "direct_qpu_max_variables": 200,
+    "direct_qpu_max_coefficient_dynamic_range": 100.0
+  },
+  "outputs": {
+    "frontier_csv": "results/runs/stage27_fixed_k_pareto_frontier/frontier_results.csv",
+    "solver_csv": "results/runs/stage27_fixed_k_pareto_frontier/solver_results.csv",
+    "batch_csv": "results/runs/stage27_fixed_k_pareto_frontier/batch_results.csv",
+    "read_csv": "results/runs/stage27_fixed_k_pareto_frontier/read_results.csv",
+    "cost_interval_csv": "results/runs/stage27_fixed_k_pareto_frontier/cost_intervals.csv",
+    "model_csv": "results/runs/stage27_fixed_k_pareto_frontier/model_scaling.csv",
+    "result_json": "data/stage27_fixed_k_pareto_frontier_result.json",
+    "report_md": "reports/stage-27/fixed_k_pareto_frontier.md"
+  },
+  "interpretation_boundary": "This stage can establish a reproducible fixed-k structural-benefit frontier, exact nonnegative cost intervals, optimization gaps against recorded same-objective solvers, and QUBO scaling on five audited real-protein pools. It cannot establish docking enrichment, biological benefit, quantum speedup, quantum advantage, or direct hardware readiness."
+}

@@ -1,0 +1,125 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage48-ppara-source-and-k6-preregistration-20260804-v1",
+  "purpose": "Audit the Stage47b-selected PPARA source and freeze its third-protein k=6 validation protocol before ligand allocation, coordinate auditing, or docking.",
+  "implementation": {
+    "path": "scripts/audit_stage48_ppara_source.py",
+    "sha256": "37C3D91D2FEC7E446208C842063E2DAB5647FD0096389FA535FFCC3673CB53DB"
+  },
+  "inputs": {
+    "target_screen": {
+      "path": "data/stage47b_expanded_new_target_feasibility_screen_result.json",
+      "sha256": "694B6E918403F610495975B2B340777F0959E6255162DAE911A71D879C18A180"
+    },
+    "archive": {
+      "path": "data/raw/external_targets/ppara_dude/ppara.tar.gz",
+      "sha256": "2576789A973B89C48531472A6A6C456FF63F84B6F5808E95C469CAB254EE73CA"
+    },
+    "actives": {
+      "path": "data/raw/external_targets/ppara_dude/ppara/actives_final.ism",
+      "sha256": "286E8454C80C82A908107F875BD96D11A79B71FD7E52939D55109514D71EC891"
+    },
+    "decoys": {
+      "path": "data/raw/external_targets/ppara_dude/ppara/decoys_final.ism",
+      "sha256": "259683ED8B19FCE473709F95B1DA17CECF4180C80685AE163BFF748169BD945D"
+    },
+    "dude_receptor": {
+      "path": "data/raw/external_targets/ppara_dude/ppara/receptor.pdb",
+      "sha256": "3C2932B1AE93CBD7B3E4E8C891663A9860872FE88636DFCD1596C3F193D200C2"
+    },
+    "dude_ligand": {
+      "path": "data/raw/external_targets/ppara_dude/ppara/crystal_ligand.mol2",
+      "sha256": "BCD32D7C569A393C6290B5D9CB11B37C49652E6C01AB96770DF3B2D46E30EB0A"
+    },
+    "official_pdb": {
+      "path": "data/raw/rcsb/ppara/2P54.pdb",
+      "sha256": "EF512E8793F13159719520A7F9AF9628E05C55FEFFF537E18A1E7FA46A1D7FC5"
+    },
+    "official_mmcif": {
+      "path": "data/raw/rcsb/ppara/2P54.cif",
+      "sha256": "AA5F374C358CFDFFF995676FB575BBCDC2780D1D8C671279BEB317B7890155E4"
+    },
+    "official_ligand": {
+      "path": "data/raw/rcsb/ppara/2P54_735_A469.sdf",
+      "sha256": "33F0CD625FC13493EE777A44478CD8080CDC9513DB771B675753469A840D2705"
+    }
+  },
+  "target": {
+    "target_id": "PPARA",
+    "gene_name": "PPARA",
+    "protein_name": "Peroxisome proliferator-activated receptor alpha",
+    "organism": "Homo sapiens",
+    "uniprot_accession": "Q07869",
+    "dude_reference_structure": "2P54",
+    "reference_chain": "A",
+    "reference_ligand": "735",
+    "reference_ligand_auth_seq_id": 469
+  },
+  "source_expectations": {
+    "actives": {
+      "row_count": 373,
+      "unique_source_id_count": 373,
+      "duplicate_source_id_count": 0,
+      "maximum_source_id_multiplicity": 1
+    },
+    "decoys": {
+      "row_count": 19399,
+      "unique_source_id_count": 19358,
+      "duplicate_source_id_count": 41,
+      "maximum_source_id_multiplicity": 2
+    }
+  },
+  "frozen_protocol": {
+    "evidence_timing": "Frozen after Stage47b label-independent target selection and source-coordinate identity inspection; before molecule allocation, coordinate auditing, receptor preparation, redocking, production docking, or any PPARA enrichment result.",
+    "ligand_allocation": {
+      "grouping": "Bemis-Murcko scaffold joined with source-ID and canonical-SMILES duplicate components",
+      "development_train": {
+        "active_count": 187,
+        "decoy_count": 187
+      },
+      "fresh_validation": {
+        "active_count": 93,
+        "decoy_count": 1860
+      },
+      "locked_test": {
+        "active_count": 93,
+        "decoy_count": 1860
+      },
+      "failure_action": "Stop before docking if exact molecule-, source-ID-, canonical-SMILES-, and scaffold-disjoint allocation is infeasible."
+    },
+    "structural_pool": {
+      "metadata_eligible_count_at_freeze": 75,
+      "minimum_coordinate_eligible_count": 32,
+      "maximum_frozen_redocking_count": 64,
+      "minimum_redocking_pass_count": 24,
+      "coordinate_and_redocking_thresholds_may_not_be_lowered": true
+    },
+    "docking": {
+      "engine": "Uni-Dock 1.1.3",
+      "profile": "enhanced",
+      "exhaustiveness": 1024,
+      "max_step": 80,
+      "refine_step": 5,
+      "num_modes": 1,
+      "seed_count": 3,
+      "maximum_cognate_rmsd_angstrom": 2.0
+    },
+    "qubo": {
+      "objective_id": "bedroc20_rank_sensitive_pair_complementarity_v1",
+      "objective_source": "Stage42f BACE1; no PPARA-specific term or weight change",
+      "primary_subset_size": 6,
+      "bedroc_alpha": 20.0,
+      "minimum_mean_holdout_gain_over_best_single": 0.01,
+      "minimum_positive_holdout_fold_count": 2,
+      "outer_fold_count": 4,
+      "minimum_mean_pairwise_fold_jaccard": 0.25,
+      "same_target_retuning_permitted": false,
+      "fallback_k_search_permitted": false
+    },
+    "fresh_validation_release_condition": "all source, allocation, coordinate, redocking, production-integrity, and development QUBO gates pass",
+    "locked_test_release_condition": "fresh validation passes the same direction-of-effect gate",
+    "quantum_hardware_before_fresh_validation_permitted": false
+  },
+  "output_json": "data/stage48_ppara_source_audit.json",
+  "interpretation_boundary": "Stage48 can establish PPARA source integrity and a prospective protocol. It cannot establish coordinate-pool adequacy, redocking success, enrichment, QUBO superiority, cross-family generalization, quantum execution, quantum speedup, or quantum advantage."
+}

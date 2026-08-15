@@ -1,0 +1,84 @@
+{
+  "config": {
+    "path": "configs/stage42f_bace1_rank_sensitive_pair_qubo.json",
+    "sha256": "C314EB3F6565F95FD4DD6160F09C9BCFACC8E5922890BCFF5B72D8F98E7BA054",
+    "size_bytes": 4119
+  },
+  "data_boundary": {
+    "fresh_validation_rows_read": 0,
+    "locked_test_rows_read": 0,
+    "new_docking_jobs": 0,
+    "quantum_hardware_jobs": 0,
+    "train_rows_read": 266
+  },
+  "decision": {
+    "best_combination_over_single_bedroc_gain": 0.019206108494594032,
+    "checks": {
+      "full_data_positive_gap_exists": false,
+      "minimum_combination_over_single_bedroc_gain": true,
+      "minimum_positive_gap_cells": false,
+      "minimum_positive_gap_folds": false,
+      "nonnegative_mean_holdout_bedroc_delta": true,
+      "nonnegative_mean_holdout_qubo_delta": true
+    },
+    "fresh_validation_authorized": false,
+    "full_data_positive_gap_k_values": [],
+    "mean_holdout_bedroc_delta": 0.0,
+    "mean_holdout_qubo_delta": 0.0,
+    "positive_gap_cell_count": 0,
+    "positive_gap_fold_count": 0,
+    "quantum_hardware_authorized": false,
+    "rank_sensitive_pair_qubo_supported": false,
+    "same_data_retuning_authorized": false,
+    "sparse_qubo_encoding_authorized": false
+  },
+  "implementation": {
+    "path": "scripts/run_stage42f_bace1_rank_sensitive_pair_qubo.py",
+    "sha256": "4134FE20DA7C0937B88216D5611E4909AEBE61BE1E3586954C1B5E44D40BA772",
+    "size_bytes": 18253
+  },
+  "input_statistics": {
+    "exact_full_enumeration_seconds": 122.1789189000001,
+    "ligand_count": 266,
+    "receptor_count": 34,
+    "seed_count": 3,
+    "state_count_k1_to_k6": 1676115
+  },
+  "interpretation_boundary": "Stage42f is a train-only, outcome-informed BACE1 objective redesign evaluated with scaffold holdouts. A pass would authorize sparse fixed-k QUBO construction and one protected fresh-validation experiment, not quantum hardware or quantum advantage. A failure forbids further BACE1-specific tuning.",
+  "objective": {
+    "bedroc_alpha": 20.0,
+    "fixed_k_qubo": "Q_k(S)=mean_{i in S}(q_i)+mean_{i<j in S}(delta_ij); for k=1 the pair term is zero",
+    "maximum_subset_size": 6,
+    "minimum_subset_size": 1,
+    "normalization_reason": "separate normalization at each fixed k removes the Stage42d cardinality pressure and implements the previously proposed k=1..6 ladder",
+    "objective_id": "bedroc20_rank_sensitive_pair_complementarity_v1",
+    "pair_complementarity": "delta_ij=q_{ij}-max(q_i,q_j), where q_{ij} uses the better rank from receptor i or j",
+    "qubo_form": "For each frozen k, maximize sum_i(q_i/k)x_i + sum_{i<j}(delta_ij/C(k,2))x_i x_j subject to sum_i x_i=k.",
+    "rank_normalization": "per-seed per-receptor empirical CDF fitted on outer-train rows only",
+    "singleton_utility": "q_i=(mean_seed(E_active[exp(-20r_i)]-E_decoy[exp(-20r_i)]) + worst_seed(...))/2"
+  },
+  "outputs": {
+    "fold_assignments_csv": {
+      "path": "results/runs/stage42f_bace1_rank_sensitive_pair_qubo/fold_assignments.csv",
+      "sha256": "0EDDD412A055EBEFC61C821251532780EBC5197DEC2BE4A1AE15145F8369CD15",
+      "size_bytes": 16933
+    },
+    "fold_metrics_csv": {
+      "path": "results/runs/stage42f_bace1_rank_sensitive_pair_qubo/fold_metrics.csv",
+      "sha256": "EBBCEBEFFF563FB146ADD6AF1E423164DD78392BF2B4087CF5BEBFAF35C7A212",
+      "size_bytes": 7687
+    },
+    "full_metrics_csv": {
+      "path": "results/runs/stage42f_bace1_rank_sensitive_pair_qubo/full_metrics.csv",
+      "sha256": "A8EEE9BB95FBA66ECE45EE74A400DB0C7CC72832F9BC9346172D7D8BA5D6E4C4",
+      "size_bytes": 2198
+    },
+    "report_md": {
+      "path": "reports/stage-42f/bace1_rank_sensitive_pair_qubo.md",
+      "sha256": "A7149FD57A714C3B97CCB3D53396159A3DF1087BFED80502920EA7FACA0273EF",
+      "size_bytes": 1537
+    }
+  },
+  "schema_version": "1.0",
+  "status": "stage42f_bace1_rank_sensitive_pair_qubo_complete"
+}

@@ -1,0 +1,27 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage112-historical-candidate-pool-amendment01-20260815-v1",
+  "purpose": "Amend the Stage110 historical candidate-pool closure after Stage111 established that DUD-E slug THRB was mapped to an unrelated protein. Preserve history while reopening only the corrected thrombin identity for a new preregistration.",
+  "inputs": {
+    "stage110_closure": {
+      "path": "data/stage110_historical_candidate_pool_closure_result.json",
+      "sha256": "5E5F858231CCD5F2CCA82B04C8BF4CA71A1751748705C6FE423E1E1B0AC1E99E"
+    },
+    "stage111_identity_adjudication": {
+      "path": "data/stage111_thrb_identity_adjudication_result.json",
+      "sha256": "7874AA602508FDE3CFFEDB9CAC6B7965C301BBB70AC0D47846BD1D0F0C6CE346"
+    }
+  },
+  "data_boundary": {
+    "new_target_source_downloads": 0,
+    "new_target_coordinate_downloads": 0,
+    "new_ligand_rows_read": 0,
+    "new_docking_jobs": 0,
+    "quantum_hardware_jobs": 0
+  },
+  "outputs": {
+    "summary_json": "data/stage112_historical_candidate_pool_amendment01_result.json",
+    "audit_json": "data/stage112_historical_candidate_pool_amendment01_audit.json",
+    "report_md": "reports/stage-112/historical_candidate_pool_amendment01.md"
+  }
+}

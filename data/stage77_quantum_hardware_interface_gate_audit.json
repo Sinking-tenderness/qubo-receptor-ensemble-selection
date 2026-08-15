@@ -1,0 +1,18 @@
+{
+  "cqm_models_independently_rebuilt": 80,
+  "direct_bqm_metrics_independently_recomputed": 80,
+  "emulation_runs_deterministically_replayed": 10000,
+  "emulation_summaries_independently_recomputed": 5,
+  "full_direct_qpu_route_authorized": false,
+  "local_reverse_annealing_poc_ready_for_budget_request": true,
+  "local_swap_bqms_independently_rebuilt": 500,
+  "paid_qpu_execution_authorized": false,
+  "quantum_advantage_claim_authorized": false,
+  "schema_version": "1.0",
+  "source_result": {
+    "path": "data/stage77_quantum_hardware_interface_gate_result.json",
+    "sha256": "402F16018342AF49287671DE2175988D6351D963A9E5D645FC0FBD5972033D8A",
+    "size_bytes": 13886
+  },
+  "status": "stage77_quantum_hardware_interface_independent_audit_ok"
+}

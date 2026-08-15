@@ -1,0 +1,214 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage14-fa10-external-target-source-audit-20260731-v1",
+  "authorization_id": "stage14-fa10-external-target-preregistration-20260731-v1",
+  "created_on": "2026-07-31",
+  "purpose": "Run the second frozen external-target validation on human coagulation factor Xa without using the EGFR technical failure to retune the receptor protocol, QUBO, panel sizes, or decision rules.",
+  "implementation": {
+    "path": "scripts/audit_stage14_fa10_source.py",
+    "sha256": "9F3723C970F5C143A70E4FCEC572CF036EDA4BD2B7E271D77B033F980539B33B"
+  },
+  "master_preregistration": {
+    "path": "configs/stage13_multitarget_external_validation_master_preregistration.json",
+    "sha256": "568D445852230E8F904342494EC25B070C9A994B19DAEB2DF76A55C6E95CD68D"
+  },
+  "upstream_egfr_adjudication": {
+    "path": "data/stage13g_egfr_cognate_redocking_failure_adjudication.json",
+    "sha256": "C0B7239092F5C3122CCE79AB5206CD50613D72E4585D8A9CB7A00F109D319ED0"
+  },
+  "target": {
+    "target_id": "FA10_HUMAN",
+    "gene_name": "F10",
+    "protein_name": "Coagulation factor X",
+    "active_enzyme_name": "Coagulation factor Xa",
+    "organism": "Homo sapiens",
+    "uniprot_accession": "P00742",
+    "dude_target_id": "FA10",
+    "dude_reference_structure": "3KL6",
+    "dude_reference_heavy_chain": "A",
+    "dude_reference_light_chain": "B",
+    "dude_reference_ligand": "443",
+    "dude_reference_ligand_auth_seq_id": 1
+  },
+  "evidence_timing": "Frozen after the Stage 13g EGFR technical adjudication and FA10 source-identity audit inputs, but before FA10 RCSB candidate discovery, receptor selection, benchmark docking, QUBO fitting, or enrichment evaluation.",
+  "dude_source": {
+    "target_url": "https://dude.docking.org/targets/fa10",
+    "archive": {
+      "path": "data/raw/external_targets/fa10_dude/fa10.tar.gz",
+      "source_url": "https://dude.docking.org/targets/fa10/fa10.tar.gz",
+      "sha256": "EBF81BC5BC9CF4A866D367D7529D4EFF4FE7C6364E7A063001C47E6F04D27BF1"
+    },
+    "actives": {
+      "path": "data/raw/external_targets/fa10_dude/fa10/actives_final.ism",
+      "sha256": "EE99EC63BCED31AA66145EA272C49C700ED12912FB6CD620FC855FEDA9F90B16",
+      "row_count": 537,
+      "unique_source_id_count": 537,
+      "duplicate_source_id_count": 0,
+      "maximum_source_id_multiplicity": 1
+    },
+    "decoys": {
+      "path": "data/raw/external_targets/fa10_dude/fa10/decoys_final.ism",
+      "sha256": "19849230FC71304E5A7E76FD476DB17086FE9CDE6E35D94B01508365649D0D90",
+      "row_count": 28325,
+      "unique_source_id_count": 28247,
+      "duplicate_source_id_count": 75,
+      "maximum_source_id_multiplicity": 3
+    }
+  },
+  "reference_structure": {
+    "dude_receptor_pdb": {
+      "path": "data/raw/external_targets/fa10_dude/fa10/receptor.pdb",
+      "sha256": "3D69C9386E6F57DC72A2A7D3D4DB1EEAA5BB63D80C22798C70D0CD827EAB8EA8"
+    },
+    "dude_crystal_ligand_mol2": {
+      "path": "data/raw/external_targets/fa10_dude/fa10/crystal_ligand.mol2",
+      "sha256": "51240E12A81912995303D83DA6E2514D9DCA4803E8D39D4BBB285173B0728133"
+    },
+    "official_pdb": {
+      "path": "data/raw/rcsb/fa10/3KL6.pdb",
+      "source_url": "https://files.rcsb.org/download/3KL6.pdb",
+      "sha256": "67AC0A3F46D5B99A6C898E3261E26E417B9961583252618F33636DABA4940BAC"
+    },
+    "official_mmcif": {
+      "path": "data/raw/rcsb/fa10/3KL6.cif",
+      "source_url": "https://files.rcsb.org/download/3KL6.cif",
+      "sha256": "0BAD93FBB2F96A2436321E7E18473B94682671E7D8F92D575F72CDCF6742262D"
+    },
+    "official_ligand_sdf": {
+      "path": "data/raw/rcsb/fa10/3KL6_443_A1.sdf",
+      "source_url": "https://models.rcsb.org/v1/3KL6/ligand?auth_asym_id=A&auth_seq_id=1&encoding=sdf",
+      "sha256": "72124CFCF4D20D2AEB14D193DA319B81085BA3B580E589FF915895066D26463D"
+    }
+  },
+  "ligand_panel_plan": {
+    "internal_id_rule": "FA10 label plus one-based source line number; preserve the possibly duplicated DUD-E source ID as metadata",
+    "split_group": "Bemis-Murcko scaffold joined with duplicate source IDs before allocation",
+    "development_train": {
+      "active_count": 348,
+      "decoy_count": 348
+    },
+    "fresh_validation": {
+      "active_count": 75,
+      "decoy_count": 1501,
+      "status": "locked_not_sampled"
+    },
+    "locked_test": {
+      "active_count": 75,
+      "decoy_count": 1501,
+      "status": "locked_not_sampled"
+    },
+    "failure_action": "Stop FA10 before ligand preparation if exact molecule-, source-, canonical-SMILES-, and scaffold-disjoint panel sizes cannot be constructed."
+  },
+  "rcsb_discovery": {
+    "uniprot_accession": "P00742",
+    "experimental_method": "X-RAY DIFFRACTION",
+    "retrieved_on": "2026-07-31",
+    "metadata_eligibility": {
+      "required_mutation_count": 0,
+      "maximum_resolution_angstrom": 2.5,
+      "minimum_reference_sequence_coverage": 0.35,
+      "minimum_sample_sequence_length": 200,
+      "maximum_sample_sequence_length": 300,
+      "require_same_chain_drug_like_nonpolymer": true,
+      "minimum_nonpolymer_formula_weight_kda": 0.2,
+      "maximum_nonpolymer_formula_weight_kda": 0.8,
+      "excluded_nonpolymer_ids": [
+        "ACT",
+        "ADP",
+        "AMP",
+        "ANP",
+        "ATP",
+        "BME",
+        "CA",
+        "CD",
+        "CIT",
+        "CL",
+        "CO",
+        "DMS",
+        "EDO",
+        "FLC",
+        "GOL",
+        "K",
+        "MES",
+        "MG",
+        "MN",
+        "MPD",
+        "NA",
+        "NI",
+        "PEG",
+        "PG4",
+        "PGE",
+        "PO4",
+        "SO4",
+        "TRS",
+        "ZN"
+      ],
+      "excluded_title_patterns": [
+        "\\bapo\\b",
+        "covalent",
+        "irreversible",
+        "mutant",
+        "mutation",
+        "zymogen"
+      ]
+    }
+  },
+  "receptor_pool_plan": {
+    "reference": "3KL6 auth chain A",
+    "metadata_minimum_eligible_count_including_reference": 17,
+    "coordinate_gate": "proper-rotation alignment to 3KL6 chain A, complete catalytic and S1-pocket anchors, and a noncovalent drug-like ligand in the 3KL6 active-site frame",
+    "required_anchor_residues_chymotrypsin_numbering": [
+      "HIS57",
+      "ASP102",
+      "ASP189",
+      "SER195",
+      "TRP215",
+      "GLY216",
+      "GLY219"
+    ],
+    "selection_rule": "label-independent deterministic max-min selection over active-site residue geometry",
+    "target_receptor_count": 16,
+    "reserve_receptor_count": 1,
+    "co_crystal_redocking_required": true,
+    "redocking_rmsd_gate_angstrom": 2.0,
+    "failure_action": "Report a technical failure and continue to HIVPR if fewer than 16 selected FA10 receptors pass the unchanged redocking gate."
+  },
+  "method_transfer": {
+    "docking_engine": "Uni-Dock 1.1.3",
+    "profile": "enhanced: exhaustiveness 1024, max_step 80, refine_step 5, num_modes 1",
+    "seed_count": 3,
+    "primary_aggregation": "median across seeds, then min_score across selected receptors",
+    "primary_metric": "BEDROC alpha 20",
+    "qubo_family": "pair_synergy_qubo v1",
+    "qubo_weights": {
+      "ensemble_pair_synergy": 2.0,
+      "stability": 0.5
+    },
+    "target_size": 3,
+    "retuning_permitted": false
+  },
+  "data_boundary": {
+    "labels_allowed_only_for_source_audit_and_frozen_panel_allocation": true,
+    "labels_allowed_during_receptor_discovery_or_structural_selection": false,
+    "docking_scores_allowed_during_receptor_discovery_or_structural_selection": false,
+    "FA10_benchmark_docking_scores_read": 0,
+    "fresh_validation_rows_read": 0,
+    "test_rows_read": 0
+  },
+  "authorization": {
+    "authorized_now": [
+      "DUD-E source identity audit",
+      "RCSB metadata discovery",
+      "coordinate download and label-independent structural audit",
+      "receptor-pool selection and cognate-redocking input preparation"
+    ],
+    "not_authorized_yet": [
+      "FA10 benchmark ligand docking",
+      "FA10 QUBO coefficient fitting",
+      "fresh-validation access",
+      "test access"
+    ]
+  },
+  "output_json": "data/stage14_fa10_source_audit.json",
+  "interpretation_boundary": "Passing source intake establishes only FA10 identity, count, and reference-coordinate provenance. It does not establish receptor-pool adequacy, redocking success, screening enrichment, QUBO portability, QUBO superiority, quantum execution, or quantum advantage."
+}

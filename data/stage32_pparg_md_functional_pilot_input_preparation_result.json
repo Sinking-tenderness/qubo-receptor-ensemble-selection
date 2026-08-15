@@ -1,0 +1,46 @@
+{
+  "config": {
+    "path": "configs/stage32_pparg_md_functional_complementarity_pilot.json",
+    "sha256": "94D379025882C673E1D2064846A8709CBE3EBE11217434BA80BD624A3F354385",
+    "size_bytes": 6417
+  },
+  "counts": {
+    "expected_pairs": 7680,
+    "labels": {
+      "active": 80,
+      "decoy": 80
+    },
+    "ligands": 160,
+    "receptors": 16,
+    "seed_count": 3,
+    "starts": 8
+  },
+  "data_boundary": {
+    "docking_scores_read": 0,
+    "fresh_validation_rows_read": 0,
+    "new_docking_jobs": 0,
+    "quantum_hardware_jobs": 0,
+    "test_rows_read": 0,
+    "train_rows_read": 668
+  },
+  "experiment_id": "stage32-pparg-md-functional-complementarity-pilot-20260803-v1",
+  "interpretation_boundary": "Stage32 is a train-only PPARG MD-frame functional pilot. It may determine whether a new MD-derived subset landscape deserves a separately frozen Stage33 QUBO model, but it cannot alter prior confirmation failures, establish prospective efficacy, use protected validation or test data, demonstrate quantum speedup, or establish quantum advantage.",
+  "next_gate": "run Stage32 audit-only before GPU docking",
+  "prepared_receptor_manifest": {
+    "path": "data/processed/stage32_pparg_md_selected16_prepared_receptor_manifest.csv",
+    "sha256": "C8D6D9A5BFAE37407BD157DA93DA99510145F8BC7E73B6100A14609E83C533AA",
+    "size_bytes": 17354
+  },
+  "schema_version": "1.0",
+  "selected_frame_manifest": {
+    "path": "data/processed/stage32_pparg_md_selected16_frame_manifest.csv",
+    "sha256": "C8D6D9A5BFAE37407BD157DA93DA99510145F8BC7E73B6100A14609E83C533AA",
+    "size_bytes": 17354
+  },
+  "selected_ligand_manifest": {
+    "path": "data/processed/stage32_pparg_train160_ligand_manifest.csv",
+    "sha256": "4FCA64D6B2AAEB11CA83A2A205996AAFF28ADF1AC1D35F3FB81DFC600882E3BC",
+    "size_bytes": 139429
+  },
+  "status": "stage32_inputs_ok"
+}

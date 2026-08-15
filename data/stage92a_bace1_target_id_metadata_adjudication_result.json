@@ -1,0 +1,34 @@
+{
+  "changed_non_target_cell_count": 0,
+  "changed_target_id_cell_count": 37230,
+  "checks": {
+    "amended_target_id_is_uniformly_bace1": true,
+    "only_target_id_cells_changed": true,
+    "row_count_preserved": true,
+    "row_order_preserved": true,
+    "scores_preserved_exactly": true,
+    "source_rows_are_all_bace1_by_ligand_id": true,
+    "source_rows_are_all_bace1_by_receptor_id": true,
+    "source_target_id_is_uniformly_mk14": true
+  },
+  "data_boundary": {
+    "confirmation_scores_read": 0,
+    "locked_test_scores_read": 0,
+    "new_docking_jobs": 0,
+    "quantum_jobs": 0
+  },
+  "failed_checks": [],
+  "issue": "The shared Uni-Dock batch helper hard-coded target_id=MK14 while all Stage91c receptor, ligand, path, and experiment identities were BACE1.",
+  "output": {
+    "path": "results/runs/stage92a_bace1_target_id_metadata_adjudication/scores_target_id_amended.csv",
+    "sha256": "5EE4CE31CA1DB0C7236CA3BBB37531E24CECAB89221142EB28442F6D2849E3A9"
+  },
+  "row_count": 37230,
+  "schema_version": "1.0",
+  "scientific_effect": "metadata-only; no score, pose, receptor, ligand, seed, order, or aggregate matrix value changed",
+  "source": {
+    "path": "analysis/stage91c_bace1_result_20260812/results/runs/stage91c_bace1_chembl365_unidock113_production/scores.csv",
+    "sha256": "91626C6A8484EBE38D69946DA556325D72A7BFA3352218B282919DF156790B47"
+  },
+  "status": "stage92a_bace1_target_id_metadata_adjudication_ok"
+}

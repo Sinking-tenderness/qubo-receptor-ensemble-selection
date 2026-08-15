@@ -1,0 +1,130 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage19c-pparg-train668-exploratory-final16-unidock113-production-20260801-v1",
+  "purpose": "Generate the complete train-only PPARG 668-ligand by exploratory-final16 receptor by three-seed Uni-Dock score matrix under the frozen enhanced profile.",
+  "implementation": {
+    "runner": {
+      "path": "scripts/experimental/unidock/run_stage19c_pparg_train668_production.py",
+      "sha256": "064D4C1AD4AEDB8F60143E79AB1BDBDBB37C931777D0A257003C6782C4D782AB"
+    },
+    "independent_auditor": {
+      "path": "scripts/experimental/unidock/audit_stage19c_pparg_train668_production.py",
+      "sha256": "E0A3CE268FB6521C7FE446F21205BF602FB2133B307420E92A98AE658AE08225"
+    },
+    "unidock_batch_helper": {
+      "path": "scripts/experimental/unidock/run_unidock_gpu_equivalence.py",
+      "sha256": "4E927E959A08526289F7B266BA8CD76232741C878CCE255312F94A561DE433B0"
+    },
+    "pose_audit_helper": {
+      "path": "scripts/experimental/unidock/run_stage07b_unidock_enhanced_confirmation.py",
+      "sha256": "192E6BF7700442EA508082F47D96494125B41ADAD04C81B141FE3F4889312EE4"
+    },
+    "warning_adjudication_helper": {
+      "path": "scripts/experimental/unidock/run_stage07c_unidock_warning_adjudication.py",
+      "sha256": "9729941976A15D6A91C45493807218CF3E24141063439AFBA948E0A2F2635153"
+    }
+  },
+  "data_boundary": {
+    "allowed_split": "train",
+    "allowed_selection_role": "development_train",
+    "validation_rows_permitted": 0,
+    "test_rows_permitted": 0,
+    "train_enrichment_during_score_generation_permitted": false
+  },
+  "inputs": {
+    "receptor_manifest": {
+      "path": "data/processed/stage18i_pparg_exploratory_final16_prepared_receptor_manifest.csv",
+      "sha256": "7B219C9367DEFE2428770BC5E521DB54592E95A5C5A4653C9E84FB5939D8BC96"
+    },
+    "receptor_selection_summary": {
+      "path": "data/stage18i_pparg_exploratory_final16_selection_summary.json",
+      "sha256": "F8D80A5493ADA439C994ECA3A4A393803643689FBE09AF28E6BDCFBAA37EF26F"
+    },
+    "ligand_manifest": {
+      "path": "data/processed/stage19b_pparg_train668_unidock_pdbqt_manifest.csv",
+      "sha256": "36EBA0B5A9597EE80F71576E3C50BE88D8DE1406CF4177B708141BA4A99D11B7"
+    },
+    "ligand_preparation_summary": {
+      "path": "data/stage19b_pparg_train668_unidock_input_summary.json",
+      "sha256": "F031A23CB8685426DFE4F5C877550269CB83411786F10CB5F233791A60EC464A"
+    },
+    "profile_freeze_result": {
+      "path": "data/stage07c_mk14_unidock113_warning_adjudication_result.json",
+      "sha256": "55C6EE2C9E32EC4A71A0EBDF02FEE761E99B15840D6DB56299F1799C8A772DDB"
+    },
+    "seeds": [
+      {"seed_id": "seed0", "base_seed": 20260801},
+      {"seed_id": "seed1", "base_seed": 20260802},
+      {"seed_id": "seed2", "base_seed": 20260803}
+    ]
+  },
+  "expected": {
+    "receptor_ids": [
+      "PPARG_2GTK_reference",
+      "PPARG_8B8X_aligned",
+      "PPARG_2HFP_aligned",
+      "PPARG_6AD9_aligned",
+      "PPARG_2Q6S_aligned",
+      "PPARG_3V9V_aligned",
+      "PPARG_3TY0_aligned",
+      "PPARG_2G0H_aligned",
+      "PPARG_4HEE_aligned",
+      "PPARG_5DWL_aligned",
+      "PPARG_6MS7_aligned",
+      "PPARG_2HWR_aligned",
+      "PPARG_2FVJ_aligned",
+      "PPARG_5Y2T_aligned",
+      "PPARG_2P4Y_aligned",
+      "PPARG_3FUR_aligned"
+    ],
+    "receptor_count": 16,
+    "ligand_count": 668,
+    "label_counts": {"active": 334, "decoy": 334},
+    "seed_count": 3,
+    "batch_count": 48,
+    "pair_count": 32064,
+    "validation_rows": 0,
+    "test_rows": 0
+  },
+  "unidock": {
+    "executable": "unidock",
+    "required_package_version": "1.1.3",
+    "profile_id": "enhanced",
+    "scoring": "vina",
+    "exhaustiveness": 1024,
+    "max_step": 80,
+    "refine_step": 5,
+    "num_modes": 1,
+    "energy_range": 3,
+    "verbosity": 1,
+    "cuda_visible_devices": "0",
+    "maximum_absolute_score_kcal_per_mol": 1000.0,
+    "box": {
+      "center_x": 1.61,
+      "center_y": 23.47,
+      "center_z": 16.9,
+      "size_x": 22.0,
+      "size_y": 26.0,
+      "size_z": 28.0
+    }
+  },
+  "execution": {
+    "batch_order": "seed-major, then frozen receptor-manifest order",
+    "batch_unit": "one receptor and one seed with all 668 training ligands",
+    "resume_contract": "reuse only a checkpoint whose protocol signature, score hash, pose hashes, pose-integrity audit, and warning adjudication all pass",
+    "partition_contract": "optional seed-id and receptor-id filters create disjoint checkpoint directories that may be merged before finalize-only",
+    "technical_gate": "zero unresolved warnings and zero pose-integrity failures",
+    "finite_score_guard_note": "The 1000 kcal/mol parser guard follows the previously adjudicated Uni-Dock finite high-positive-energy policy and is not a score clipping rule."
+  },
+  "outputs": {
+    "run_directory": "results/runs/stage19c_pparg_train668_unidock113_production",
+    "scores_csv": "results/runs/stage19c_pparg_train668_unidock113_production/scores.csv",
+    "batch_runs_csv": "results/runs/stage19c_pparg_train668_unidock113_production/batch_runs.csv",
+    "median_matrix_csv": "results/runs/stage19c_pparg_train668_unidock113_production/primary_median_score_matrix.csv",
+    "minimum_matrix_csv": "results/runs/stage19c_pparg_train668_unidock113_production/sensitivity_minimum_score_matrix.csv",
+    "progress_json": "results/runs/stage19c_pparg_train668_unidock113_production/progress.json",
+    "summary_json": "results/runs/stage19c_pparg_train668_unidock113_production/summary.json",
+    "audit_json": "data/stage19c_pparg_train668_unidock113_production_audit.json"
+  },
+  "decision_boundary": "This stage generates and audits a post-hoc exploratory PPARG Train-668 Uni-Dock matrix only. Stage 18e remains failed. Scores cannot be mixed with CPU Vina matrices, and this stage does not access validation/test rows, select a receptor subset, establish QUBO benefit, or establish quantum advantage."
+}

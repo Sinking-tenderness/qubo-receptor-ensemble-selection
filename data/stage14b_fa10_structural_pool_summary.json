@@ -1,0 +1,152 @@
+{
+  "config": {
+    "path": "configs/stage14b_fa10_structural_pool.json",
+    "sha256": "F7D3BF14E216D4C2C579F17EC2B34F6AC9DD9A96E9C88222F0191381FB7FAA4F"
+  },
+  "counts": {
+    "audited_count": 98,
+    "coordinate_eligible_count": 19,
+    "download_failure_count": 0,
+    "pairwise_distance_count": 171,
+    "preparation_ready_count": 19,
+    "raw_feature_count": 992,
+    "reserve_receptor_count": 1,
+    "selected_receptor_count": 16,
+    "variable_feature_count": 990
+  },
+  "data_boundary": {
+    "docking_scores_read": 0,
+    "fresh_validation_rows_read": 0,
+    "ligand_labels_read": 0,
+    "test_rows_read": 0
+  },
+  "exclusion_reason_counts": {
+    "aligned_global_ca_rmsd_above_limit": 2,
+    "explicit_target_ligand_covalent_connection": 2,
+    "global_incomplete_standard_amino_acid_template": 27,
+    "incomplete_anchor_heavy_atom_template": 14,
+    "missing_required_anchor_residue": 50,
+    "pocket_heavy_atom_completeness_below_limit": 27,
+    "pocket_residue_fraction_below_limit": 26,
+    "pocket_residue_name_mismatch": 26,
+    "protein_ligand_distance_indicates_covalency": 2,
+    "too_few_matched_ca": 2
+  },
+  "experiment_id": "stage14b-fa10-structural-pool-20260731-v1",
+  "interpretation_boundary": "This coordinate-only gate can establish a preparation-ready and structurally diverse FA10 receptor cohort. It cannot establish cognate-pose recovery, screening enrichment, QUBO portability, QUBO superiority, quantum execution, or quantum advantage.",
+  "next_gate": "prepare the selected FA10 receptors and cognate ligands, derive one common box, and run three-seed Uni-Dock redocking",
+  "outputs": {
+    "coordinate_audit_csv": {
+      "path": "data/processed/stage14b_fa10_coordinate_audit.csv",
+      "sha256": "C428B7CC60606DBE7545C133EACD3993B1820BAA1A67A2D44B4E5551FECF1C1F"
+    },
+    "eligible_pool_csv": {
+      "path": "data/processed/stage14b_fa10_preparation_ready_pool.csv",
+      "sha256": "A593B8D6E5613206994D33A21B30CE2160605B61934878D2B895EB4567329F1E"
+    },
+    "feature_matrix_csv": {
+      "path": "data/processed/stage14b_fa10_active_site_features.csv",
+      "sha256": "50EBDA2CD9A39461851FAD38DCC9509C3AC7D26A7EE44AD63A0EE369AC4CC088"
+    },
+    "pairwise_distances_csv": {
+      "path": "data/processed/stage14b_fa10_structural_distances.csv",
+      "sha256": "EEEC6048257CF4882FCF88C71BFB69DC3AF0A881C557CC77BEB2DB9C41F436AC"
+    },
+    "reserve_csv": {
+      "path": "data/processed/stage14b_fa10_reserve.csv",
+      "sha256": "1D618C22F3E39A28139DFAAA2CDCE061466241789119756E300BCF0E2805D64D"
+    },
+    "selected16_csv": {
+      "path": "data/processed/stage14b_fa10_selected16.csv",
+      "sha256": "05BAA11276D1F2570FE32651BDD3227E8198080138BFD522BEFD851449659E6C"
+    }
+  },
+  "reference": {
+    "anchor_residue_numbers": [
+      96,
+      97,
+      98,
+      99,
+      174,
+      189,
+      190,
+      191,
+      192,
+      195,
+      213,
+      214,
+      215,
+      216,
+      217,
+      219,
+      220,
+      226,
+      227,
+      228
+    ],
+    "conformer_id": "FA10_3KL6_reference",
+    "pocket_residue_numbers": [
+      57,
+      96,
+      97,
+      98,
+      99,
+      138,
+      143,
+      147,
+      174,
+      175,
+      183,
+      189,
+      190,
+      191,
+      192,
+      193,
+      194,
+      195,
+      212,
+      213,
+      214,
+      215,
+      216,
+      217,
+      219,
+      220,
+      221,
+      222,
+      225,
+      226,
+      227,
+      228
+    ]
+  },
+  "reserve_receptor_ids": [
+    "FA10_2Q1J_aligned"
+  ],
+  "runtime": {
+    "conda_environment": "qubo-receptor-ensemble",
+    "gemmi_version": "0.7.5",
+    "numpy_version": "1.26.4",
+    "python_version": "3.11.15"
+  },
+  "schema_version": "1.0",
+  "selected_receptor_ids": [
+    "FA10_3KL6_reference",
+    "FA10_1LPK_aligned",
+    "FA10_1KSN_aligned",
+    "FA10_2WYJ_aligned",
+    "FA10_1F0S_aligned",
+    "FA10_2PHB_aligned",
+    "FA10_1EZQ_aligned",
+    "FA10_5K0H_aligned",
+    "FA10_4A7I_aligned",
+    "FA10_2W3K_aligned",
+    "FA10_1NFU_aligned",
+    "FA10_1F0R_aligned",
+    "FA10_1LPG_aligned",
+    "FA10_2J2U_aligned",
+    "FA10_2Y81_aligned",
+    "FA10_1LPZ_aligned"
+  ],
+  "status": "stage14b_fa10_structural_pool_ok"
+}

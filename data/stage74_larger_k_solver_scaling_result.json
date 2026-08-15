@@ -1,0 +1,138 @@
+{
+  "analysis_payload_sha256": "7073EA7F9CB7EC7F8F743027D7DBE47BD048AA4C454E9A7002AD783DC1E2C1F7",
+  "config": {
+    "path": "configs/stage74_larger_k_solver_scaling.json",
+    "sha256": "91FE3B8EFA080BEE0F161F3894AEE8B66E9E66E8E24E9031F0E6E808E73DE6EE",
+    "size_bytes": 6835
+  },
+  "data_boundary": {
+    "cloud_cqm_jobs": 0,
+    "fresh_validation_rows_read": 0,
+    "historical_development_targets_read": 4,
+    "locked_test_rows_read": 0,
+    "new_docking_jobs": 0,
+    "quantum_hardware_jobs": 0
+  },
+  "decision": {
+    "direct_qpu_execution_authorized": false,
+    "explicit_variable_k_cqm_design_authorized": true,
+    "hardware_shaped_sampler_poc_authorized": true,
+    "new_target_preregistration_remains_authorized": true,
+    "next_action": "freeze an explicit variable-k constraint-native CQM and compare it with the larger-k strong classical frontier",
+    "quantum_advantage_claim_authorized": false,
+    "quantum_scaling_claim_authorized": false
+  },
+  "exact_validation": {
+    "sampler_exact_cell_success_rate": 1.0,
+    "sampler_nonexact_competitive_fraction": 0.7722222222222223,
+    "strong_classical_exact_cell_success_rate": 1.0
+  },
+  "experiment_class": "post-hoc larger-k deterministic-work-unit scaling on frozen historical constraint-native objectives",
+  "hardness_summary": {
+    "maximum_solver_best_mean_pair_spread": 0.1634287503748418,
+    "nonexact_solver_disagreement_cell_count": 108,
+    "nonexact_solver_disagreement_fraction": 0.6,
+    "nonexact_workload_cell_count": 180,
+    "sampler_strict_win_cell_count": 19,
+    "sampler_tie_within_tolerance_cell_count": 120,
+    "strong_classical_strict_win_cell_count": 41
+  },
+  "implementation": {
+    "independent_auditor": {
+      "path": "scripts/audit_stage74_larger_k_solver_scaling.py",
+      "sha256": "F1D559AD43C92FCDC261AF380E2585C607A1084BBF062F3E157CCC839EFB2091",
+      "size_bytes": 45725
+    },
+    "runner": {
+      "path": "scripts/run_stage74_larger_k_solver_scaling.py",
+      "sha256": "1033E1B30049532D8CA047C16EBD3ADDAA5B68257B3848ACFDAA5A7B6C066B75",
+      "size_bytes": 47879
+    }
+  },
+  "inputs": {
+    "stage72_model_record": {
+      "path": "data/stage72_constraint_native_cqm_model_record.json",
+      "sha256": "D7BD285F4CB0787C1FF63EEC190CE692F72F2E885CB610BFEA1D70AC2505D1DF",
+      "size_bytes": 737219
+    },
+    "stage73_audit": {
+      "path": "data/stage73_constraint_native_solver_scaling_audit.json",
+      "sha256": "7D299D984280E2133F59230BE694B3C24D3C122CF51692D83A26EC9B273916A8",
+      "size_bytes": 1041
+    },
+    "stage73_config": {
+      "path": "configs/stage73_constraint_native_solver_scaling.json",
+      "sha256": "D49CA4ADFB27B285F24C11012B99900166AF9793ED85CD1E6B5DDBB55C3F7AD8",
+      "size_bytes": 5917
+    },
+    "stage73_result": {
+      "path": "data/stage73_constraint_native_solver_scaling_result.json",
+      "sha256": "145B1FBA9EF7F2A0DDB17452F2AC66481CAB3CD4FF35411A3DD2765AB38B3132",
+      "size_bytes": 6197
+    },
+    "stage73_solver_trials": {
+      "path": "results/runs/stage73_constraint_native_solver_scaling/solver_trials.csv",
+      "sha256": "5DF34C5CC471E5634A236B8D57EED7F6759D62F76C67EF497B2C645C9CCE62F4",
+      "size_bytes": 1544109
+    },
+    "stage73_workload_metrics": {
+      "path": "results/runs/stage73_constraint_native_solver_scaling/workload_metrics.csv",
+      "sha256": "FABBD6D91EC023FD9346A3A9FDC7D81B2AC43F2ABE8A073081F27AAF7038C92D",
+      "size_bytes": 62867
+    }
+  },
+  "interpretation_boundary": "Stage74 is a post-hoc optimization-scaling diagnostic on four consumed historical development targets. It reuses frozen pair and quality coefficients, does not select a biologically optimal k, and does not measure screening efficacy, independent-target generalization, certified global optima above the enumeration limit, physical embedding, cloud-hybrid speed, QPU performance, quantum scaling, or quantum advantage.",
+  "outputs": {
+    "cell_comparison_csv": {
+      "path": "results/runs/stage74_larger_k_solver_scaling/cell_comparison.csv",
+      "sha256": "B1CEE2803DB74AC55BE1C5DA1BA77240ED550DED68A2B47A027A12F86B9781EA",
+      "size_bytes": 89127
+    },
+    "report_md": {
+      "path": "reports/stage-74/larger_k_solver_scaling.md",
+      "sha256": "7860CF2029F037B16A5D56CA2AB29E6747FB14DFB9B4EC077F9EA38225953FB3",
+      "size_bytes": 1750
+    },
+    "solver_summary_csv": {
+      "path": "results/runs/stage74_larger_k_solver_scaling/solver_summary.csv",
+      "sha256": "3198414CAE89CCEA2D0DE9093D0202D416FF8713A77E7A5C035B72D2040F7819",
+      "size_bytes": 50056
+    },
+    "solver_trials_csv": {
+      "path": "results/runs/stage74_larger_k_solver_scaling/solver_trials.csv",
+      "sha256": "3E0C8DD06991378C7CFCBC00D3CD437C64516445E06389E209885B78C510532D",
+      "size_bytes": 2871104
+    },
+    "workload_metrics_csv": {
+      "path": "results/runs/stage74_larger_k_solver_scaling/workload_metrics.csv",
+      "sha256": "84B02EF49939B097244CF4B0543F088FF183C48DD7E9DFB900EC2EA9E5AF355E",
+      "size_bytes": 48587
+    }
+  },
+  "route_gate": {
+    "large_scale_state_space_reached": true,
+    "nonexact_solver_hardness_observed": true,
+    "qubo_sampler_analog_competitiveness_passed": true,
+    "strong_classical_exact_validation_passed": true
+  },
+  "runtime": {
+    "numpy": "1.26.4",
+    "python": "3.11.15",
+    "wall_clock_used_for_decision": false
+  },
+  "scaling_summary": {
+    "exact_oracle_cell_count": 120,
+    "exact_oracle_unique_state_checks": 2312464,
+    "maximum_candidate_count": 96,
+    "maximum_k": 16,
+    "maximum_log10_total_fixed_k_subset_count": 17.821023333880582,
+    "maximum_quadratic_coupler_count": 4560,
+    "maximum_total_fixed_k_subset_count": 662252084388541314,
+    "model_count": 16,
+    "model_k_count": 100,
+    "solver_trial_count": 7620,
+    "workload_cell_count": 300
+  },
+  "schema_version": "1.0",
+  "status": "stage74_larger_k_solver_scaling_complete"
+}

@@ -1,0 +1,30 @@
+{
+  "all_output_hashes_exact": true,
+  "baseline_reproduction_cells_independently_verified": 96,
+  "candidate_summaries_independently_recomputed": true,
+  "config": {
+    "path": "configs/stage64_cross_target_uncertainty_shrunk_qubo.json",
+    "sha256": "F302FEA7CB2B22D39824A3433DC165FAE2E8E7D0A0A79C07AA73768F69AFB458",
+    "size_bytes": 11299
+  },
+  "data_boundary_exact": true,
+  "freeze_gate_independently_recomputed": true,
+  "interpretation_boundary": "Stage64 is post-hoc objective development on consumed historical targets. A pass can authorize nested-k development and future preregistration, but cannot establish independent efficacy, solver advantage, quantum execution, speedup, or quantum advantage.",
+  "loto_selection_independently_recomputed": true,
+  "objective_v2_frozen": false,
+  "row_counts": {
+    "fixed_k_metrics": 960,
+    "global_summary": 10,
+    "loto_summary": 4,
+    "pair_diagnostics": 160,
+    "target_summary": 40
+  },
+  "schema_version": "1.0",
+  "selected_candidate_id": "pair_scale_0p25",
+  "source_result": {
+    "path": "data/stage64_cross_target_uncertainty_shrunk_qubo_result.json",
+    "sha256": "254C444BC462EABA3B0797CC05975F427FC9735F7D52281FF357FF02904DAD2D",
+    "size_bytes": 9557
+  },
+  "status": "stage64_cross_target_uncertainty_shrunk_qubo_independent_audit_ok"
+}

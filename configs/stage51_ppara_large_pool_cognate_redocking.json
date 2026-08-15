@@ -1,0 +1,203 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage51-ppara-large-pool-cognate-redocking-20260804-v1",
+  "purpose": "Run the frozen three-seed Uni-Dock cognate-pose gate for all 60 successfully prepared receptors from the 64-receptor PPARA pool before any development-panel or protected-panel docking.",
+  "implementation": {
+    "runner": {
+      "path": "scripts/experimental/unidock/run_stage51_ppara_large_pool_cognate_redocking.py",
+      "sha256": "1AD5889F8F61ECEC247133BED6EE6BB5EC1B3E28E568F6778002BCB6805F8B9C"
+    },
+    "batch_helper": {
+      "path": "scripts/experimental/unidock/run_unidock_gpu_equivalence.py",
+      "sha256": "4E927E959A08526289F7B266BA8CD76232741C878CCE255312F94A561DE433B0"
+    },
+    "pose_audit_helper": {
+      "path": "scripts/experimental/unidock/run_stage07b_unidock_enhanced_confirmation.py",
+      "sha256": "192E6BF7700442EA508082F47D96494125B41ADAD04C81B141FE3F4889312EE4"
+    },
+    "warning_helper": {
+      "path": "scripts/experimental/unidock/run_stage07c_unidock_warning_adjudication.py",
+      "sha256": "9729941976A15D6A91C45493807218CF3E24141063439AFBA948E0A2F2635153"
+    },
+    "rmsd_helper": {
+      "path": "scripts/evaluate_redocking_rmsd.py",
+      "sha256": "F761FE14374198DD314B78976349C413DC2FA0C90EDDDBE6595AA001EB3D86F5"
+    }
+  },
+  "runtime": {
+    "conda_environment": "qubo-unidock-stage08",
+    "python_version": "3.11.15",
+    "numpy_version": "1.26.4",
+    "scipy_version": "1.17.1",
+    "rdkit_version": "2026.3.1",
+    "meeko_version": "0.7.1"
+  },
+  "data_boundary": {
+    "ligand_labels_read": 0,
+    "benchmark_docking_scores_read": 0,
+    "fresh_validation_rows_read": 0,
+    "locked_test_rows_read": 0,
+    "quantum_hardware_jobs": 0
+  },
+  "inputs": {
+    "preparation_summary": {
+      "path": "data/stage50_ppara_large_pool_redocking_input_preparation_summary.json",
+      "sha256": "6A82C4F4CCDDDC4C8FACBE8F207092233984C21FD00CE91E07F8CCF5816B87E7"
+    },
+    "preparation_audit": {
+      "path": "data/stage50_ppara_large_pool_inputs_independent_audit.json",
+      "sha256": "BF9CE1F0D60F5E017C86E2F7629C4D5BC39E0ABDAA79BF313FD7821DA0258F38"
+    },
+    "receptor_manifest": {
+      "path": "data/processed/stage50_ppara_large_pool_prepared_receptor_manifest.csv",
+      "sha256": "0F84A51286B7084C526F8824011637F55AD4D49C0FF0B040FB92182CFAB512A8"
+    },
+    "case_manifest": {
+      "path": "data/processed/stage50_ppara_large_pool_cognate_redocking_case_manifest.csv",
+      "sha256": "04B9E3E1099F2A21821E459469CDF401CABB47C78B5DD22FB50B3245FB18A69E"
+    },
+    "common_box": {
+      "path": "data/stage50_ppara_large_pool_common_box.json",
+      "sha256": "0C4C7115AA531AB867103BE669BAA0757ADDD3D16C2426C9E551812854236770"
+    },
+    "evaluate_rmsd_script": {
+      "path": "scripts/evaluate_redocking_rmsd.py",
+      "sha256": "F761FE14374198DD314B78976349C413DC2FA0C90EDDDBE6595AA001EB3D86F5"
+    },
+    "seeds": [
+      {"seed_id": "seed0", "base_seed": 20260801},
+      {"seed_id": "seed1", "base_seed": 20260802},
+      {"seed_id": "seed2", "base_seed": 20260803}
+    ]
+  },
+  "expected": {
+    "frozen_receptor_count": 64,
+    "receptor_count": 60,
+    "case_count": 60,
+    "seed_count": 3,
+    "redocking_pair_count": 180,
+    "preparation_failures": [
+      {
+        "conformer_id": "PPARA_4BCR_aligned",
+        "case_id": "4BCR_WY1",
+        "error": "strict Meeko preparation failed: RDKit oxygen explicit-valence error"
+      },
+      {
+        "conformer_id": "PPARA_3KDU_aligned",
+        "case_id": "3KDU_NKS",
+        "error": "strict Meeko preparation failed: unresolved excess inter-residue bonds near chain gap"
+      },
+      {
+        "conformer_id": "PPARA_3KDT_aligned",
+        "case_id": "3KDT_7HA",
+        "error": "strict Meeko preparation failed: unresolved excess inter-residue bonds near chain gap"
+      },
+      {
+        "conformer_id": "PPARA_7E5G_aligned",
+        "case_id": "7E5G_HVX",
+        "error": "strict Meeko preparation failed: unresolved excess inter-residue bond near chain gap"
+      }
+    ],
+    "receptor_ids": [
+      "PPARA_2P54_reference",
+      "PPARA_6L37_aligned",
+      "PPARA_1K7L_aligned",
+      "PPARA_5HYK_aligned",
+      "PPARA_6KXX_aligned",
+      "PPARA_3G8I_aligned",
+      "PPARA_3ET1_aligned",
+      "PPARA_6LXC_aligned",
+      "PPARA_7E5F_aligned",
+      "PPARA_8RCE_aligned",
+      "PPARA_7BPZ_aligned",
+      "PPARA_6KB0_aligned",
+      "PPARA_6LX5_aligned",
+      "PPARA_8YU8_aligned",
+      "PPARA_6KB3_aligned",
+      "PPARA_2NPA_aligned",
+      "PPARA_6KXY_aligned",
+      "PPARA_6KB2_aligned",
+      "PPARA_7E5H_aligned",
+      "PPARA_8YTL_aligned",
+      "PPARA_8YWU_aligned",
+      "PPARA_8HUN_aligned",
+      "PPARA_3SP6_aligned",
+      "PPARA_9IWL_aligned",
+      "PPARA_8YT6_aligned",
+      "PPARA_9T5S_aligned",
+      "PPARA_6KAZ_aligned",
+      "PPARA_7BQ3_aligned",
+      "PPARA_6LX6_aligned",
+      "PPARA_3VI8_aligned",
+      "PPARA_8YT9_aligned",
+      "PPARA_9SFS_aligned",
+      "PPARA_7BQ0_aligned",
+      "PPARA_2ZNN_aligned",
+      "PPARA_9IWM_aligned",
+      "PPARA_9IWN_aligned",
+      "PPARA_8HUQ_aligned",
+      "PPARA_7BPY_aligned",
+      "PPARA_6LX4_aligned",
+      "PPARA_6LX8_aligned",
+      "PPARA_6LXB_aligned",
+      "PPARA_6KAY_aligned",
+      "PPARA_9VZS_aligned",
+      "PPARA_6LX9_aligned",
+      "PPARA_8YWV_aligned",
+      "PPARA_6KB5_aligned",
+      "PPARA_7BQ2_aligned",
+      "PPARA_9VZT_aligned",
+      "PPARA_6KB7_aligned",
+      "PPARA_6KBA_aligned",
+      "PPARA_9IWO_aligned",
+      "PPARA_6KB8_aligned",
+      "PPARA_6KB1_aligned",
+      "PPARA_7BQ1_aligned",
+      "PPARA_6KB6_aligned",
+      "PPARA_6KAX_aligned",
+      "PPARA_7E5I_aligned",
+      "PPARA_7BQ4_aligned",
+      "PPARA_6LX7_aligned",
+      "PPARA_6LXA_aligned"
+    ]
+  },
+  "unidock": {
+    "executable": "unidock",
+    "required_package_version": "1.1.3",
+    "profile_id": "enhanced",
+    "scoring": "vina",
+    "exhaustiveness": 1024,
+    "max_step": 80,
+    "refine_step": 5,
+    "num_modes": 1,
+    "energy_range": 3,
+    "verbosity": 1,
+    "cuda_visible_devices": "0",
+    "maximum_absolute_score_kcal_per_mol": 100.0,
+    "box": {
+      "center_x": 17.05,
+      "center_y": 40.18,
+      "center_z": 28.03,
+      "size_x": 28.0,
+      "size_y": 30.0,
+      "size_z": 24.0
+    }
+  },
+  "redocking_gate": {
+    "rmsd_definition": "symmetry-corrected heavy-atom RMSD in the fixed receptor frame without post-docking pose alignment",
+    "maximum_rmsd_angstrom": 2.0,
+    "minimum_successful_seeds_per_receptor": 2,
+    "maximum_median_rmsd_angstrom": 2.0,
+    "minimum_passing_receptor_count": 24,
+    "require_zero_unresolved_warning_events": true,
+    "require_zero_pose_integrity_failures": true,
+    "failure_action": "Stop the PPARA large-pool route if fewer than 24 of the frozen 64 receptors pass. Do not add replacements or retune the protocol after outcomes are known."
+  },
+  "outputs": {
+    "run_directory": "results/runs/stage51_ppara_large_pool_cognate_redocking",
+    "redocking_results_csv": "data/processed/stage51_ppara_large_pool_cognate_redocking_results.csv",
+    "receptor_gate_results_csv": "data/processed/stage51_ppara_large_pool_receptor_gate_results.csv",
+    "summary_json": "data/stage51_ppara_large_pool_cognate_redocking_summary.json"
+  },
+  "decision_boundary": "This is a development-only technical pose gate. Passing authorizes docking the frozen 374-ligand PPARA development panel against every passing receptor without structural max-min compression. It does not establish screening enrichment, QUBO portability, QUBO superiority, quantum execution, speedup, or quantum advantage. The four Stage50 preparation failures remain failures in the frozen 64-receptor denominator and cannot be replaced."
+}

@@ -1,0 +1,252 @@
+{
+  "analysis_payload_sha256": "FE620A5DB6B5F81955DB55841D86BA705D44023527CC415BD18BAFAE195C2267",
+  "candidate_count": 3,
+  "config": {
+    "path": "configs/stage68_quality_plateau_portfolio_qubo.json",
+    "sha256": "D3B7E784DEFA67D32D21E8E99EDDF4210C0E2E9DA6E96929D0A4CBA152AF5C6D",
+    "size_bytes": 5413
+  },
+  "data_boundary": {
+    "fresh_validation_rows_read": 0,
+    "historical_development_targets_read": 4,
+    "locked_test_rows_read": 0,
+    "new_docking_jobs": 0,
+    "quantum_hardware_jobs": 0
+  },
+  "decision": {
+    "alternate_partition_probe_passed": false,
+    "future_new_target_preregistration_authorized": true,
+    "new_docking_authorized_in_stage68": false,
+    "next_action": "freeze Stage68 for one genuinely new target and compress coefficients before hardware",
+    "quantum_hardware_authorized": false,
+    "robustness_claim_authorized": false,
+    "same_target_retuning_authorized": false
+  },
+  "experiment_class": "post-hoc cross-target constrained-objective development",
+  "fixed_k_metric_count": 800,
+  "implementation": {
+    "independent_auditor": {
+      "path": "scripts/audit_stage68_quality_plateau_portfolio_qubo.py",
+      "sha256": "26DC6DC3430295467AB8EDC8D1C092483068FEB329CBE11A9330CAA9CB5D0B36",
+      "size_bytes": 15510
+    },
+    "runner": {
+      "path": "scripts/run_stage68_quality_plateau_portfolio_qubo.py",
+      "sha256": "8E9073EF72E95E3B7E9F3049C879718442821584DEE380D35BAD09E6AAAC2182",
+      "size_bytes": 54382
+    }
+  },
+  "inputs": {
+    "stage64_config": {
+      "path": "configs/stage64_cross_target_uncertainty_shrunk_qubo.json",
+      "sha256": "F302FEA7CB2B22D39824A3433DC165FAE2E8E7D0A0A79C07AA73768F69AFB458",
+      "size_bytes": 11299
+    },
+    "stage67_audit": {
+      "path": "data/stage67_bedroc_rankbin_qubo_audit.json",
+      "sha256": "4DA09586C803234F4D95C976BA5FBB0CA2FF418262EC4D723CF9037D0B738F8A",
+      "size_bytes": 1543
+    },
+    "stage67_result": {
+      "path": "data/stage67_bedroc_rankbin_qubo_result.json",
+      "sha256": "F3E53295C3C69958822708D1A768E3F9C4674C329764BB83DF13402AAABF8A41",
+      "size_bytes": 9999
+    }
+  },
+  "interpretation_boundary": "Stage68 is post-hoc constrained-objective development on four consumed historical targets. A pass freezes only the quality-floor and stable-redundancy rule for preregistration on one genuinely new target. Exact MILP remains the strongest classical baseline. This stage cannot establish independent efficacy, solver speedup, quantum execution, or quantum advantage.",
+  "loto_gate": {
+    "held_target_count_within_0p01": 4,
+    "mean_held_target_gain_over_pair_off": -0.004057227724122002,
+    "worst_held_target_gain_over_pair_off": -0.009346393366583744
+  },
+  "milp_certificate_count": 400,
+  "outputs": {
+    "fixed_k_metrics_csv": {
+      "path": "results/runs/stage68_quality_plateau_portfolio_qubo/fixed_k_metrics.csv",
+      "sha256": "A0FB718F5951DE2CD81359CBA40F008D8682FE453609A6B465A72EE48E36E7DA",
+      "size_bytes": 268183
+    },
+    "global_summary_csv": {
+      "path": "results/runs/stage68_quality_plateau_portfolio_qubo/global_summary.csv",
+      "sha256": "440A0FA7D22A62E2531C6DC1AD53DBCA1CC37E60F246382D2D446CD12BCF8FA3",
+      "size_bytes": 677
+    },
+    "loto_summary_csv": {
+      "path": "results/runs/stage68_quality_plateau_portfolio_qubo/loto_summary.csv",
+      "sha256": "3F4CDC36A0126EB1DFEDF8E8F9E102D4F11300D33A07DACC84B460C41A5D6B1F",
+      "size_bytes": 668
+    },
+    "model_record_json": {
+      "path": "data/stage68_quality_plateau_portfolio_qubo_model_record.json",
+      "sha256": "6A0ACAD455A6913C596E73D9987D34A8391AECC44516A9984BA02F38ED09FC69",
+      "size_bytes": 707076
+    },
+    "qubo_fidelity_csv": {
+      "path": "results/runs/stage68_quality_plateau_portfolio_qubo/qubo_fidelity.csv",
+      "sha256": "E36248013CC80BDA20A50D500711D731A3D55CEF3B1910A1E8508A83526DA697",
+      "size_bytes": 27567
+    },
+    "report_md": {
+      "path": "reports/stage-68/quality_plateau_portfolio_qubo.md",
+      "sha256": "4DA1F552D1D1D3B5016F3031D5D64E0274B4BF429C91E736274FE79F07208C19",
+      "size_bytes": 2060
+    },
+    "target_summary_csv": {
+      "path": "results/runs/stage68_quality_plateau_portfolio_qubo/target_summary.csv",
+      "sha256": "617E859626E4A93F6717008E67E7AA88ABF2EFFF92980E66538862013796A2FF",
+      "size_bytes": 2017
+    }
+  },
+  "qubo_fidelity": {
+    "cell_count": 80,
+    "maximum_absolute_holdout_bedroc_gap_vs_continuous": 0.0,
+    "maximum_coefficient_dynamic_range": 16572104.899480449,
+    "maximum_factorized_energy_residual": 0.0,
+    "maximum_logical_variable_count": 105,
+    "mean_holdout_bedroc_gap_vs_continuous": 0.0,
+    "mean_subset_jaccard_vs_continuous": 1.0,
+    "minimum_actual_quality_floor_margin": 5.891780474664987e-06,
+    "minimum_subset_jaccard_vs_continuous": 1.0
+  },
+  "route_gate": {
+    "checks": {
+      "loto_all_targets_within_0p01": true,
+      "loto_minimum_mean_gain": true,
+      "loto_minimum_worst_gain": true,
+      "qubo_energy_equivalent": true,
+      "qubo_minimum_mean_jaccard": true,
+      "qubo_quality_floor_preserved": true,
+      "qubo_variable_count_within_limit": true,
+      "selected_all_targets_within_0p01": true,
+      "selected_candidate_exists": true,
+      "selected_minimum_mean_target_gain": true,
+      "selected_minimum_redundancy_reduction": true,
+      "selected_minimum_worst_target_gain": true
+    },
+    "quality_plateau_qubo_freeze_authorized": true
+  },
+  "schema_version": "1.0",
+  "selected_candidate": {
+    "candidate_id": "uncertainty_0p5x",
+    "mean_target_gain_over_pair_off": -0.0009203326323847434,
+    "mean_target_selection_jaccard": 0.3901190476190476,
+    "mean_target_stable_redundancy_reduction": 0.029811055194393053,
+    "positive_target_count_over_pair_off": 2,
+    "selection_difference_count_vs_pair_off": 56,
+    "target_count_with_nonnegative_redundancy_reduction": 4,
+    "target_count_within_0p01_of_pair_off": 4,
+    "uncertainty_multiplier": 0.5,
+    "worst_target_gain_over_pair_off": -0.009346393366583744
+  },
+  "status": "stage68_quality_plateau_portfolio_qubo_complete",
+  "target_input_audits": {
+    "BACE1": {
+      "input_descriptors": {
+        "ligand_manifest": {
+          "path": "data/processed/stage42b_bace1_train266_unidock_pdbqt_manifest.csv",
+          "sha256": "957F75B362A2A123080A5CE6F8003BC96F2A55548EE04747235166D42BBE5DCC",
+          "size_bytes": 223019
+        },
+        "outer_assignments": {
+          "path": "results/runs/stage42f_bace1_rank_sensitive_pair_qubo/fold_assignments.csv",
+          "sha256": "0EDDD412A055EBEFC61C821251532780EBC5197DEC2BE4A1AE15145F8369CD15",
+          "size_bytes": 16933
+        },
+        "receptor_manifest": {
+          "path": "data/processed/stage42c_bace1_redocking_qualified34_receptor_manifest.csv",
+          "sha256": "FFC5D239D4E880B07FBAEB04EDB87885302B893B54631F91424CDEE0B9026BC0",
+          "size_bytes": 13791
+        },
+        "scores": {
+          "path": "results/runs/stage42c_bace1_train266_unidock113_production/scores.csv",
+          "sha256": "1665B0B1C99F6A48989940F3BE90754A46FD9E1FAAF28B326FB7B0277D341818",
+          "size_bytes": 8532163
+        }
+      },
+      "ligand_count": 266,
+      "receptor_count": 34,
+      "score_row_count": 27132
+    },
+    "PPARA": {
+      "input_descriptors": {
+        "ligand_manifest": {
+          "path": "data/processed/stage52a_ppara_train374_unidock_pdbqt_manifest.csv",
+          "sha256": "5B6CA85C2AA9A97A17BDD0D07BDFA9A896E1F9DC30582F49F5B9F4E7AE995D85",
+          "size_bytes": 311258
+        },
+        "outer_assignments": {
+          "path": "results/runs/stage53_ppara_large_pool_qubo_transfer/fold_assignments.csv",
+          "sha256": "C729EEB5A93DB931A42DB821BD5A1343B6D8531890AF29A99957AC13EF7DF1FC",
+          "size_bytes": 23791
+        },
+        "receptor_manifest": {
+          "path": "data/processed/stage52b_ppara_stage51_passing20_receptor_manifest.csv",
+          "sha256": "8F08BE3C28EE2A4548D063A02BBE0E1BD82E214AA43844C362CD327BFBB9EF2C",
+          "size_bytes": 12853
+        },
+        "scores": {
+          "path": "results/runs/stage52c_ppara_target_id_amendment/scores.csv",
+          "sha256": "673604EC2662F6AFFD872927DBD0DF4C9398CE39501DE31D7A69D4B10EF29E84",
+          "size_bytes": 7064586
+        }
+      },
+      "ligand_count": 374,
+      "receptor_count": 20,
+      "score_row_count": 22440
+    },
+    "PPARD": {
+      "input_descriptors": {
+        "ligand_manifest": {
+          "path": "data/processed/stage56_ppard_train240_ligand_manifest.csv",
+          "sha256": "618B068DC49CBB037DF2B34F0B52A287509341AE879327CE4FC7C9FB1E6F1101",
+          "size_bytes": 99357
+        },
+        "outer_assignments": {
+          "path": "data/processed/stage60_ppard_full_development_outer_fold_assignments.csv",
+          "sha256": "1F4695685AC1E7B590E733FA3019465746F1B9C7002F4E1E5BA8C719536A5A0E",
+          "size_bytes": 26395
+        },
+        "receptor_manifest": {
+          "path": "data/processed/stage58b_ppard_stage57_passing29_receptor_manifest.csv",
+          "sha256": "12AB8EC9FC0C7D2CDFFF6D1E9CFD53A0215D4450D4CE12708EB165BED35C7F0A",
+          "size_bytes": 18271
+        },
+        "scores": {
+          "path": "results/runs/stage62_ppard_train240_nested_qubo/merged_scores.csv",
+          "sha256": "A58D9D2611AC6176BB57C919304F68D8D6C097418C9A4A891BA3D8AAF71506B4",
+          "size_bytes": 6616390
+        }
+      },
+      "ligand_count": 240,
+      "receptor_count": 29,
+      "score_row_count": 20880
+    },
+    "PPARG": {
+      "input_descriptors": {
+        "ligand_manifest": {
+          "path": "data/processed/stage32_pparg_train160_ligand_manifest.csv",
+          "sha256": "4FCA64D6B2AAEB11CA83A2A205996AAFF28ADF1AC1D35F3FB81DFC600882E3BC",
+          "size_bytes": 139429
+        },
+        "outer_assignments": {
+          "path": "results/runs/stage44_pparg_md96_rank_sensitive_qubo/fold_assignments.csv",
+          "sha256": "09886BD66D75E40442F45BD66FC30F7CE0407BD7A2B21D0461856B8B50BBB98D",
+          "size_bytes": 10202
+        },
+        "receptor_manifest": {
+          "path": "data/processed/stage43_pparg_md96_prepared_receptor_manifest.csv",
+          "sha256": "EC889123EEFE403189124E7DFA2E81820EB83F61C41A594FEB8146CA547B957E",
+          "size_bytes": 96283
+        },
+        "scores": {
+          "path": "results/runs/stage43_pparg_md96_unidock113_production/scores.csv",
+          "sha256": "4E3C11ED42FCC5B8663C78E4E647996BF6F68D9FAD5304206F7B4CD8D58956E4",
+          "size_bytes": 15426054
+        }
+      },
+      "ligand_count": 160,
+      "receptor_count": 96,
+      "score_row_count": 46080
+    }
+  }
+}

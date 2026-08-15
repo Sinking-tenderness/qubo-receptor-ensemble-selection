@@ -1,0 +1,85 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage20c-esr1-label-independent-structural-selection-20260801-v1",
+  "purpose": "Download, align, audit, and deterministically select 24 ESR1 receptor candidates for cognate redocking without reading docking outcomes or held-out rows.",
+  "implementation": {
+    "path": "scripts/select_stage20c_esr1_structural_pool.py",
+    "sha256": "92E90DD0615553AD8E55704EA552E6C8DCD3883B29F8F9000A6C2D827A1C229A"
+  },
+  "preregistration": {
+    "path": "configs/stage20_esr1_independent_exploratory_preregistration.json",
+    "sha256": "70B52FD45EDE636411D13E2ABFAC781EDD6B172F9A20A67C9A204CB5ED4D807D"
+  },
+  "discovery_summary": {
+    "path": "data/stage20b_esr1_rcsb_candidate_discovery_summary.json",
+    "sha256": "62F250CDA68023B39C00D6DF5A133073406DBAAB9C61867E61071052D73CA342"
+  },
+  "inputs": {
+    "eligible_metadata_csv": {
+      "path": "data/processed/stage20b_esr1_rcsb_metadata_eligible_candidates.csv",
+      "sha256": "3FF0A05E6DCB114F9E8D1AA1199E2310CA97A78AEF4491BCC5735D8C65FC6500"
+    },
+    "reference_mmcif": {
+      "path": "data/raw/rcsb/esr1/1SJ0.cif",
+      "sha256": "E7DBCB6D039756877F42C99BC69ED2F42B2B0E20FDB6E7FAB09E3B1B0A6007F2"
+    }
+  },
+  "reference": {
+    "pdb_id": "1SJ0",
+    "auth_chain": "A",
+    "ligand_comp_id": "E4D",
+    "visible_protein_ca_count": 243,
+    "pocket_derivation": "wild-type chain-A standard amino-acid residues with a heavy atom within 6.0 A of any E4D heavy atom",
+    "anchor_derivation": "the reference-pocket subset with a heavy atom within 4.0 A of any E4D heavy atom",
+    "pocket_residue_numbers": [343, 346, 347, 349, 350, 351, 353, 354, 383, 384, 387, 388, 390, 391, 394, 404, 420, 421, 424, 425, 428, 517, 520, 521, 522, 523, 524, 525, 528, 530, 536, 539],
+    "anchor_residue_numbers": [343, 346, 347, 350, 351, 353, 354, 383, 387, 388, 394, 404, 421, 424, 521, 524, 525, 530, 536]
+  },
+  "coordinate_gate": {
+    "coordinate_format": "RCSB mmCIF",
+    "chain_identifier": "author chain from the frozen metadata candidate CSV",
+    "alternate_location_rule": "highest occupancy, then blank, A, and lexical tie-break",
+    "alignment": "proper-rotation Kabsch alignment using same-number, same-residue-name protein C-alpha atoms",
+    "minimum_matched_ca_count": 200,
+    "maximum_aligned_global_ca_rmsd_angstrom": 3.5,
+    "minimum_pocket_residue_fraction": 0.9,
+    "require_all_anchor_residues": true,
+    "require_reference_residue_name_match": true,
+    "minimum_pocket_heavy_atom_completeness_fraction": 0.85,
+    "require_complete_reference_heavy_atom_template_for_each_anchor": true,
+    "require_qualifying_ligand_within_reference_ligand_angstrom": 6.0,
+    "hidden_covalency": {
+      "exclude_explicit_mmcif_covalent_connection_between_target_chain_and_qualifying_ligand": true,
+      "exclude_if_minimum_protein_ligand_heavy_atom_distance_at_or_below_angstrom": 2.0
+    },
+    "missing_nonanchor_feature_imputation": "aligned 1SJ0 reference coordinate",
+    "record_global_incomplete_standard_amino_acid_residues": true,
+    "global_incomplete_residue_policy": "record only during structural selection; before preparation, require a prospectively frozen preparation-readiness rule without reading docking scores"
+  },
+  "structural_selection": {
+    "features": ["pairwise ligand-pocket C-alpha distances", "pairwise ligand-pocket side-chain heavy-atom centroid distances"],
+    "minimum_variable_feature_sd_angstrom": 0.01,
+    "standardization": "feature-wise z score over all coordinate-eligible structures, then division by the square root of retained feature count",
+    "selection_rule": "deterministic max-min structural distance seeded by ESR1_1SJ0_reference; ties resolved by lexical conformer ID",
+    "target_receptor_count": 24,
+    "failure_action": "stop before receptor preparation, redocking, production docking, QUBO fitting, validation sampling, or validation access if fewer than 24 structures pass"
+  },
+  "download": {
+    "url_template": "https://files.rcsb.org/download/{pdb_id}.cif",
+    "workers": 12,
+    "timeout_seconds": 60,
+    "maximum_retries": 4,
+    "retry_backoff_seconds": 1.0
+  },
+  "outputs": {
+    "raw_mmcif_directory": "data/raw/rcsb/esr1",
+    "aligned_protein_pdb_directory": "results/runs/stage20c_esr1_structural_pool/aligned",
+    "coordinate_audit_csv": "data/processed/stage20c_esr1_coordinate_candidate_audit.csv",
+    "eligible_pool_manifest_csv": "data/processed/stage20c_esr1_coordinate_eligible_pool.csv",
+    "feature_matrix_csv": "data/processed/stage20c_esr1_structural_features.csv",
+    "pairwise_distances_csv": "data/processed/stage20c_esr1_structural_distances.csv",
+    "selected24_manifest_csv": "data/processed/stage20c_esr1_selected24_structural_pool.csv",
+    "summary_json": "data/stage20c_esr1_structural_selection_summary.json",
+    "report_md": "reports/stage-20c/esr1_structural_selection.md"
+  },
+  "interpretation_boundary": "Passing this gate establishes only a structurally diverse, label-independent ESR1 receptor candidate pool. Receptor preparation and three-seed cognate redocking remain mandatory before benchmark docking; no enrichment, QUBO, quantum-application, or quantum-advantage conclusion follows."
+}

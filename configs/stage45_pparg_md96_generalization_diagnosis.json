@@ -1,0 +1,66 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage45-pparg-md96-generalization-diagnosis-20260804-v1",
+  "purpose": "Diagnose the Stage44 scaffold-transfer failure without retuning the PPARG objective or reading fresh validation data.",
+  "implementation": {
+    "path": "scripts/diagnose_stage45_pparg_md96_generalization.py",
+    "sha256": "4695B7EA87018B886175AB85049C5D4C984A6F4114C7FAF6F907F20AE85ECE33"
+  },
+  "inputs": {
+    "stage44_result": {
+      "path": "data/stage44_pparg_md96_rank_sensitive_qubo_result.json",
+      "sha256": "C85A50CAB8AD8E4B0B5C8DD1ECD68325DFC3C3343CEEFF5811360D2CB9ED1DC3"
+    },
+    "stage44_audit": {
+      "path": "data/stage44_pparg_md96_rank_sensitive_qubo_audit.json",
+      "sha256": "F20461B6C0AEF25271D03BCADCD8187F881D666A3DD528F6A5DA266E9B093FAA"
+    },
+    "stage44_metrics": {
+      "path": "results/runs/stage44_pparg_md96_rank_sensitive_qubo/selection_metrics.csv",
+      "sha256": "F490BF5BC5128406C94A6064CB905D01D91C45DDDE5E5E76FBA58B2052CC376A"
+    },
+    "fold_assignments": {
+      "path": "results/runs/stage44_pparg_md96_rank_sensitive_qubo/fold_assignments.csv",
+      "sha256": "09886BD66D75E40442F45BD66FC30F7CE0407BD7A2B21D0461856B8B50BBB98D"
+    },
+    "scores": {
+      "path": "results/runs/stage43_pparg_md96_unidock113_production/scores.csv",
+      "sha256": "4E3C11ED42FCC5B8663C78E4E647996BF6F68D9FAD5304206F7B4CD8D58956E4"
+    },
+    "receptor_manifest": {
+      "path": "data/processed/stage43_pparg_md96_prepared_receptor_manifest.csv",
+      "sha256": "EC889123EEFE403189124E7DFA2E81820EB83F61C41A594FEB8146CA547B957E"
+    },
+    "ligand_manifest": {
+      "path": "data/processed/stage32_pparg_train160_ligand_manifest.csv",
+      "sha256": "4FCA64D6B2AAEB11CA83A2A205996AAFF28ADF1AC1D35F3FB81DFC600882E3BC"
+    }
+  },
+  "objective": {
+    "source_objective_id": "bedroc20_rank_sensitive_pair_complementarity_v1",
+    "bedroc_alpha": 20.0,
+    "weights_or_terms_retuned": false
+  },
+  "landscape_sampling": {
+    "k1_exhaustive": true,
+    "k2_exhaustive": true,
+    "k3_sample_count": 4096,
+    "seed": 20260845
+  },
+  "diagnostic_thresholds": {
+    "minimum_median_objective_holdout_spearman": 0.10,
+    "minimum_median_train_holdout_spearman": 0.10,
+    "minimum_mean_pairwise_fold_jaccard": 0.25,
+    "minimum_k6_mean_holdout_gain": 0.01,
+    "minimum_k6_positive_fold_count": 2
+  },
+  "outputs": {
+    "coefficient_stability_csv": "results/runs/stage45_pparg_md96_generalization_diagnosis/coefficient_stability.csv",
+    "coefficient_correlations_csv": "results/runs/stage45_pparg_md96_generalization_diagnosis/coefficient_correlations.csv",
+    "landscape_correlations_csv": "results/runs/stage45_pparg_md96_generalization_diagnosis/landscape_correlations.csv",
+    "selection_stability_csv": "results/runs/stage45_pparg_md96_generalization_diagnosis/selection_stability.csv",
+    "result_json": "data/stage45_pparg_md96_generalization_diagnosis_result.json",
+    "report_md": "reports/stage-45/pparg_md96_generalization_diagnosis.md"
+  },
+  "interpretation_boundary": "Stage45 is a fixed, same-data failure diagnosis. It may identify coefficient, landscape, or selection instability and may authorize only a separately preregistered cross-target stability experiment. It cannot support PPARG-specific retuning, fresh-validation access, quantum-hardware execution, quantum speedup, or quantum advantage."
+}

@@ -1,0 +1,184 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage08c-mk14-final-replacement-unidock113-redocking-v1",
+  "purpose": "Test the final nonredundant 1OZ1-FPH replacement with three paired seeds under the unchanged frozen Uni-Dock and RMSD gates.",
+  "implementation": {
+    "runner": {
+      "path": "scripts/experimental/unidock/run_stage08c_mk14_final_replacement_redocking.py",
+      "sha256": "696CB442A47958EDC4C35BDEAC4087E94AC6AD72348CB46E6AA89304F2B95B7B"
+    },
+    "stage08_preparation_helper": {
+      "path": "scripts/experimental/unidock/run_stage08_mk14_expanded16_redocking.py",
+      "sha256": "5503BBB682CF5C21AA6B0C34D4F04A0F2FFC5E443E7AE789AE1D71C8A8CCC921"
+    },
+    "unidock_batch_helper": {
+      "path": "scripts/experimental/unidock/run_unidock_gpu_equivalence.py",
+      "sha256": "4E927E959A08526289F7B266BA8CD76232741C878CCE255312F94A561DE433B0"
+    },
+    "pose_audit_helper": {
+      "path": "scripts/experimental/unidock/run_stage07b_unidock_enhanced_confirmation.py",
+      "sha256": "192E6BF7700442EA508082F47D96494125B41ADAD04C81B141FE3F4889312EE4"
+    },
+    "warning_adjudication_helper": {
+      "path": "scripts/experimental/unidock/run_stage07c_unidock_warning_adjudication.py",
+      "sha256": "9729941976A15D6A91C45493807218CF3E24141063439AFBA948E0A2F2635153"
+    },
+    "independent_auditor": {
+      "path": "scripts/experimental/unidock/audit_stage08c_mk14_final_replacement.py",
+      "sha256": "6955ED9E86A4998B2994AC0BEEACC8080157CFB50A2F2C23C72BA2093C2650A0"
+    }
+  },
+  "runtime": {
+    "conda_environment": "qubo-unidock-stage08",
+    "python_version": "3.11.15",
+    "numpy_version": "1.26.4",
+    "scipy_version": "1.17.1",
+    "rdkit_version": "2026.3.1",
+    "meeko_version": "0.7.1",
+    "prody_version": "2.4.1"
+  },
+  "data_boundary": {
+    "benchmark_ligand_labels_read": 0,
+    "benchmark_docking_scores_read": 0,
+    "previous_validation_rows_read": 0,
+    "test_rows_read": 0
+  },
+  "inputs": {
+    "selection_preregistration": {
+      "path": "configs/stage08c_mk14_final_replacement_preregistration.json",
+      "sha256": "785987C31B18A730B7EE8D7E86AD5FDB13EFE5734A4506C80D4B40B09161BED7"
+    },
+    "selection_summary": {
+      "path": "data/stage08c_mk14_final_replacement_selection_summary.json",
+      "sha256": "7493AA8AE6628C791D3A1FC032A886A79FBD7692BD3334E541A8E1A3B5F7CF79"
+    },
+    "replacement_selection": {
+      "path": "data/processed/stage08c_mk14_final_replacement_selection.csv",
+      "sha256": "C64CA857D037DF0253525370DA25ED124010B545F09529C7AF436B2922649DB0"
+    },
+    "current15_summary": {
+      "path": "data/stage08c_mk14_current15_receptor_manifest_summary.json",
+      "sha256": "1DEEA620315013C5171B74B064F60721F6E0F220098965C6F21290395C29BCE1"
+    },
+    "current15_manifest": {
+      "path": "data/processed/stage08c_mk14_current15_receptor_manifest.csv",
+      "sha256": "E783D9FC79585934F546495D8721EBA2A4E4FB20C74920B2CEDEF42553ED0457"
+    },
+    "reference_pdb": {
+      "path": "receptors/raw/mk14/2QD9.pdb",
+      "sha256": "BDA572D8710F5E841A77F46DAB6D98053B152DFC5484B9D043CC3EC5EC8A01D6"
+    },
+    "prepare_receptor_script": {
+      "path": "scripts/prepare_receptor.py",
+      "sha256": "FFC7D1986B501AE90818024ED2441CB9AE0F37B27BF6F46C622B0C723711C580"
+    },
+    "transform_sdf_script": {
+      "path": "scripts/transform_sdf_coordinates.py",
+      "sha256": "31EA492C5E2955BF5AC0E39C28702795E275452C2F0B90135913DBF06599624F"
+    },
+    "evaluate_rmsd_script": {
+      "path": "scripts/evaluate_redocking_rmsd.py",
+      "sha256": "F761FE14374198DD314B78976349C413DC2FA0C90EDDDBE6595AA001EB3D86F5"
+    },
+    "seeds": [
+      {
+        "seed_id": "seed0",
+        "base_seed": 20260801
+      },
+      {
+        "seed_id": "seed1",
+        "base_seed": 20260802
+      },
+      {
+        "seed_id": "seed2",
+        "base_seed": 20260803
+      }
+    ]
+  },
+  "case": {
+    "conformer_id": "MK14_1OZ1_aligned",
+    "pdb_id": "1OZ1",
+    "chain": "A",
+    "selected_ligand_resname": "FPH",
+    "selected_ligand_resseq": 500,
+    "selected_ligand_icode": "",
+    "selected_ligand_heavy_atom_count": 23
+  },
+  "expected": {
+    "current_receptor_count": 15,
+    "current_receptor_ids": [
+      "MK14_2QD9_reference",
+      "MK14_1A9U_aligned",
+      "MK14_3K3J_aligned",
+      "MK14_3KQ7_aligned",
+      "MK14_2BAJ_aligned",
+      "MK14_4F9W_aligned",
+      "MK14_3OCG_aligned",
+      "MK14_3MPT_aligned",
+      "MK14_3ZSI_aligned",
+      "MK14_5N65_aligned",
+      "MK14_3ZSG_aligned",
+      "MK14_3BV2_aligned",
+      "MK14_4FA2_aligned",
+      "MK14_4AAC_aligned",
+      "MK14_3ITZ_aligned"
+    ],
+    "replacement_receptor_id": "MK14_1OZ1_aligned",
+    "redocking_pair_count": 3,
+    "final_receptor_count": 16,
+    "validation_rows": 0,
+    "test_rows": 0
+  },
+  "ligand_download": {
+    "url_template": "https://models.rcsb.org/v1/{pdb_id}/ligand",
+    "timeout_seconds": 60,
+    "maximum_retries": 4,
+    "retry_backoff_seconds": 1.0
+  },
+  "reference_coordinate_gate": {
+    "comparison": "minimum-cost element-matched point-set RMSD in the fixed common frame; no rigid-body fitting",
+    "maximum_element_matched_rmsd_angstrom": 0.05
+  },
+  "common_box_gate": {
+    "minimum_crystal_pose_margin_angstrom": 3.5
+  },
+  "unidock": {
+    "executable": "unidock",
+    "required_package_version": "1.1.3",
+    "profile_id": "enhanced",
+    "scoring": "vina",
+    "exhaustiveness": 1024,
+    "max_step": 80,
+    "refine_step": 5,
+    "num_modes": 1,
+    "energy_range": 3,
+    "verbosity": 1,
+    "cuda_visible_devices": "0",
+    "maximum_absolute_score_kcal_per_mol": 100.0,
+    "box": {
+      "center_x": -0.49,
+      "center_y": 3.26,
+      "center_z": 21.83,
+      "size_x": 22,
+      "size_y": 24,
+      "size_z": 32
+    }
+  },
+  "redocking_gate": {
+    "maximum_rmsd_angstrom": 2.0,
+    "minimum_successful_seeds_per_receptor": 2,
+    "maximum_median_rmsd_angstrom": 2.0,
+    "require_zero_unresolved_warning_events": true,
+    "require_zero_pose_integrity_failures": true,
+    "failure_action": "continue the preregistered nonredundant replacement cascade without relaxing thresholds"
+  },
+  "outputs": {
+    "run_directory": "results/runs/stage08c_mk14_final_replacement_redocking",
+    "replacement_receptor_manifest_csv": "data/processed/stage08c_mk14_final_replacement_receptor_manifest.csv",
+    "final_receptor_manifest_csv": "data/processed/stage08c_mk14_final16_receptor_manifest.csv",
+    "redocking_results_csv": "data/processed/stage08c_mk14_final_replacement_redocking_results.csv",
+    "summary_json": "data/stage08c_mk14_final_replacement_redocking_summary.json",
+    "audit_json": "data/stage08c_mk14_final_replacement_redocking_audit.json"
+  },
+  "decision_boundary": "Passing this gate and its independent audit authorizes a separately preregistered Train-696 x 16 x 3 Uni-Dock production bundle. It does not establish enrichment, QUBO benefit, or quantum advantage and does not authorize validation/test access."
+}

@@ -1,0 +1,81 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage08c-mk14-current15-admitted-receptor-manifest-v1",
+  "inputs": {
+    "existing8_receptor_manifest": {
+      "path": "data/processed/stage05_mk14_expanded8_receptor_manifest.csv",
+      "sha256": "FBB92AB50C8AE00955D463E6E0F7ECBF2D3826E64878D3C00095BF5E0824124C"
+    },
+    "eligible_pool": {
+      "path": "data/processed/stage05_mk14_rcsb_coordinate_eligible_pool_v3.csv",
+      "sha256": "5E8C7E097E1B7E154CF722335932865FAE554A0F50D148DAC0D47594DDEB8CC6"
+    },
+    "stage08_failure_adjudication": {
+      "path": "data/stage08_mk14_expanded16_redocking_failure_adjudication.json",
+      "sha256": "DE767F7922BDA5FDBAEFB03A7637C83178871B6BF79BBFFCA72F053800989359"
+    },
+    "stage08b_failure_adjudication": {
+      "path": "data/stage08b_mk14_replacement_redocking_failure_adjudication.json",
+      "sha256": "75B547F0B2374C943C69E24445D25A2D3EDBAFC14BF30AC69BD99D30BCEE6C1A"
+    },
+    "stage08_config": {
+      "path": "configs/stage08_mk14_expanded16_unidock_redocking.json",
+      "sha256": "A9B41591C923390215E75E752A5BBE9C9EE26A147FFFFFEA680E26C61C95F045"
+    },
+    "stage08b_config": {
+      "path": "configs/stage08b_mk14_expanded16_replacement_redocking.json",
+      "sha256": "864584E02FB407066A22C87F1E6708DABBCCBBA6F7577869AB6E4FB8C73E58D1"
+    },
+    "stage08_run_directory": "results/runs/stage08_mk14_expanded16_unidock_redocking",
+    "stage08b_run_directory": "results/runs/stage08b_mk14_expanded16_replacement_redocking"
+  },
+  "expected": {
+    "existing_receptor_count": 8,
+    "stage08_admitted_receptor_ids": [
+      "MK14_3ZSI_aligned",
+      "MK14_5N65_aligned",
+      "MK14_3ZSG_aligned",
+      "MK14_3BV2_aligned",
+      "MK14_4FA2_aligned",
+      "MK14_4AAC_aligned"
+    ],
+    "stage08b_admitted_receptor_ids": [
+      "MK14_3ITZ_aligned"
+    ],
+    "excluded_receptor_ids": [
+      "MK14_3ZSH_aligned",
+      "MK14_2GFS_aligned",
+      "MK14_2BAK_aligned"
+    ],
+    "current_receptor_count": 15,
+    "current_receptor_ids": [
+      "MK14_2QD9_reference",
+      "MK14_1A9U_aligned",
+      "MK14_3K3J_aligned",
+      "MK14_3KQ7_aligned",
+      "MK14_2BAJ_aligned",
+      "MK14_4F9W_aligned",
+      "MK14_3OCG_aligned",
+      "MK14_3MPT_aligned",
+      "MK14_3ZSI_aligned",
+      "MK14_5N65_aligned",
+      "MK14_3ZSG_aligned",
+      "MK14_3BV2_aligned",
+      "MK14_4FA2_aligned",
+      "MK14_4AAC_aligned",
+      "MK14_3ITZ_aligned"
+    ],
+    "validation_rows": 0,
+    "test_rows": 0
+  },
+  "outputs": {
+    "current_receptor_manifest_csv": "data/processed/stage08c_mk14_current15_receptor_manifest.csv",
+    "summary_json": "data/stage08c_mk14_current15_receptor_manifest_summary.json"
+  },
+  "data_boundary": {
+    "benchmark_ligand_labels_read": 0,
+    "benchmark_docking_scores_read": 0,
+    "previous_validation_rows_read": 0,
+    "test_rows_read": 0
+  }
+}

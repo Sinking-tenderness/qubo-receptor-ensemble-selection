@@ -1,0 +1,66 @@
+{
+  "config": {
+    "path": "configs/stage28b_pparg_md_ready_start_selection.json",
+    "sha256": "2534F166F31D91F8D130F81DDE1394F5509F8D6469CBA5C8E39A64AF9C99F4D4",
+    "size_bytes": 2324
+  },
+  "counts": {
+    "coordinate_eligible": 157,
+    "md_ineligible": 145,
+    "md_ready": 12,
+    "md_ready_distance_pairs": 66,
+    "selected": 8
+  },
+  "data_boundary": {
+    "docking_scores_read": 0,
+    "ligand_labels_read": 0,
+    "quantum_hardware_jobs": 0,
+    "stage28_trajectory_metrics_used_for_selection": 0
+  },
+  "inputs": {
+    "coordinate_eligible_pool": {
+      "path": "data/processed/stage18c_pparg_coordinate_eligible_pool.csv",
+      "sha256": "DE64D1C6B89BDD9B288A71A7BB131DC0A69D2D51984230DB567EE89F5A26C38C",
+      "size_bytes": 109008
+    },
+    "pairwise_structural_distances": {
+      "path": "data/processed/stage18c_pparg_structural_distances.csv",
+      "sha256": "214B1E8D32009425B36D1CDAEBB020663D08490201405074D4B82451E1455517",
+      "size_bytes": 695309
+    },
+    "prior_maxmin_selection": {
+      "path": "data/processed/stage18c_pparg_selected24_structural_pool.csv",
+      "sha256": "1F4B1A090F3C384485A9FFB98D21A976BC1583C4B1548CA5BF54C0A20FBEAEDD",
+      "size_bytes": 18948
+    }
+  },
+  "interpretation_boundary": "This amendment corrects the MD-topology feasibility gate and quarantines the original Stage28 trajectory. It cannot establish MD convergence, docking enrichment, QUBO superiority, quantum speedup, or quantum advantage.",
+  "outputs": {
+    "preflight_audit_csv": {
+      "path": "data/processed/stage28b_pparg_md_ready_preflight_audit.csv",
+      "sha256": "73F2CCEFE9D47DE7EC0DD73DEACB99AABF0495003AC205E409D8ED876EA8753E",
+      "size_bytes": 38740
+    },
+    "selected_start_manifest_csv": {
+      "path": "data/processed/stage28b_pparg_md_ready_selected8.csv",
+      "sha256": "17980DF1F06F2A428CA7E4FCECD1D18922AB8F6323A9B56BEABCBF5992D593D2",
+      "size_bytes": 2629
+    }
+  },
+  "quarantined_stage28_conformer_ids": [
+    "PPARG_2GTK_reference"
+  ],
+  "schema_version": "1.0",
+  "seed_conformer_id": "PPARG_2HFP_aligned",
+  "selected_conformer_ids": [
+    "PPARG_2HFP_aligned",
+    "PPARG_8CPI_aligned",
+    "PPARG_3TY0_aligned",
+    "PPARG_2ATH_aligned",
+    "PPARG_3D6D_aligned",
+    "PPARG_2PRG_aligned",
+    "PPARG_3GBK_aligned",
+    "PPARG_2I4J_aligned"
+  ],
+  "status": "stage28b_pparg_md_ready_start_selection_ok"
+}

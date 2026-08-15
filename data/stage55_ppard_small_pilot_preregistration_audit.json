@@ -1,0 +1,61 @@
+{
+  "config": {
+    "path": "configs/stage55_ppard_small_pilot_preregistration.json",
+    "sha256": "01AE005C03E2F3B3CFD2EA5F21400B91EE5EA7328FAF3C5FA229FB946FA7648A",
+    "size_bytes": 7946
+  },
+  "data_boundary": {
+    "docking_scores_read": 0,
+    "fresh_validation_rows_read": 0,
+    "locked_test_rows_read": 0,
+    "new_docking_jobs": 0,
+    "quantum_hardware_jobs": 0,
+    "source_label_rows_read": 12490
+  },
+  "decision": {
+    "coordinate_audit_authorized": true,
+    "fresh_validation_authorized": false,
+    "full_training_matrix_authorized": false,
+    "ligand_panel_allocation_authorized": true,
+    "pilot_production_docking_authorized": false,
+    "quantum_hardware_authorized": false,
+    "source_gate_passed": true
+  },
+  "implementation": {
+    "path": "scripts/audit_stage55_ppard_small_pilot_source.py",
+    "sha256": "91E6A82ED0D3A88EDCCCD47A74C2BDF7406CB7BB3C86B442517CD40196D0B97A",
+    "size_bytes": 11453
+  },
+  "interpretation_boundary": "Stage55 can establish outcome-blind PPARD selection, source identity, and a prospective small-pilot protocol. It cannot establish coordinate-pool adequacy, redocking success, enrichment, functional complementarity, QUBO superiority, independent validation, quantum execution, speedup, or quantum advantage.",
+  "outcome_blind_target_selection_exact": true,
+  "pilot_budget": {
+    "full_training_matrix_before_gate_permitted": false,
+    "maximum_receptor_ligand_pairs": 4896,
+    "maximum_seeded_docking_jobs": 14688
+  },
+  "pilot_budget_exact": true,
+  "reference_ligand_identity_exact": true,
+  "schema_version": "1.0",
+  "selection": {
+    "completed_targets_before_selection": [
+      "PPARA"
+    ],
+    "dude_clustered_active_count": 240,
+    "eligible_target_order": [
+      "PPARA",
+      "PPARD",
+      "ESR2"
+    ],
+    "metadata_eligible_structure_count": 51,
+    "selected_target": "PPARD",
+    "selection_was_outcome_blind": true
+  },
+  "source_multiplicity_exact": true,
+  "source_result": {
+    "path": "data/stage55_ppard_small_pilot_preregistration_result.json",
+    "sha256": "3642EFDA1323817DFA5FC758597E4637E04B80B2D00228ECF280DFA77CE06788",
+    "size_bytes": 10833
+  },
+  "stage54_functional_gate_exact": true,
+  "status": "stage55_ppard_small_pilot_independent_audit_ok"
+}

@@ -1,0 +1,58 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage42e-bace1-qubo-rank-alignment-diagnosis-20260804-v1",
+  "purpose": "Diagnose, without retuning, why the frozen binary coverage QUBO objective increases with receptor count while BACE1 BEDROC20 declines.",
+  "implementation": {
+    "path": "scripts/diagnose_stage42e_bace1_qubo_rank_alignment.py",
+    "sha256": "FFFBC6D7C10F572F8539C80795FE97BF4C49674E2B2B6EAAEE31FB48CE3E2440"
+  },
+  "inputs": {
+    "stage42d_result": {
+      "path": "data/stage42d_bace1_large_pool_qubo_screen_result.json",
+      "sha256": "EA9D3C8C708729B23F75E7B2736026DE6F69D126BA361268B569D6340FA96482"
+    },
+    "stage42d_selection_metrics": {
+      "path": "results/runs/stage42d_bace1_large_pool_qubo_screen/selection_metrics.csv",
+      "sha256": "2052F0248EB958093FED9EE182F23696BCAC18CBAD1F03861BAC12CE5C775A9B"
+    },
+    "scores": {
+      "path": "results/runs/stage42c_bace1_train266_unidock113_production/scores.csv",
+      "sha256": "1665B0B1C99F6A48989940F3BE90754A46FD9E1FAAF28B326FB7B0277D341818"
+    },
+    "ligand_manifest": {
+      "path": "data/processed/stage42b_bace1_train266_unidock_pdbqt_manifest.csv",
+      "sha256": "957F75B362A2A123080A5CE6F8003BC96F2A55548EE04747235166D42BBE5DCC"
+    },
+    "receptor_manifest": {
+      "path": "data/processed/stage42c_bace1_redocking_qualified34_receptor_manifest.csv",
+      "sha256": "FFC5D239D4E880B07FBAEB04EDB87885302B893B54631F91424CDEE0B9026BC0"
+    }
+  },
+  "evidence_timing": {
+    "stage42d_failure_known": true,
+    "diagnostic_only": true,
+    "objective_weight_search_permitted": false,
+    "fresh_validation_or_locked_test_rows_permitted": false,
+    "new_docking_permitted": false,
+    "quantum_hardware_permitted": false
+  },
+  "sampling": {
+    "subsets_per_size": 2048,
+    "seed": 20260804,
+    "subset_sizes": [1, 2, 3, 4, 5, 6]
+  },
+  "bedroc_alpha": 20.0,
+  "diagnostic_gate": {
+    "maximum_supported_pooled_spearman": 0.25,
+    "rank_misalignment_rule": "Declare the binary top-10-percent objective misaligned if its pooled Spearman correlation with robust BEDROC20 is below 0.25 or its optimal cardinality differs from the BEDROC-optimal cardinality.",
+    "permitted_next_action": "Design one analytically weighted, multi-threshold rank-sensitive objective without searching weights on BACE1; evaluate it by the same scaffold-holdout and strong-classical protocol.",
+    "forbidden_next_action": "Do not tune the five Stage37 weights or favorable-rank threshold to maximize these BACE1 outcomes."
+  },
+  "outputs": {
+    "sample_metrics_csv": "results/runs/stage42e_bace1_qubo_rank_alignment_diagnosis/sample_metrics.csv",
+    "correlations_csv": "results/runs/stage42e_bace1_qubo_rank_alignment_diagnosis/correlations.csv",
+    "result_json": "data/stage42e_bace1_qubo_rank_alignment_diagnosis_result.json",
+    "report_md": "reports/stage-42e/bace1_qubo_rank_alignment_diagnosis.md"
+  },
+  "interpretation_boundary": "Stage42e is an outcome-informed diagnosis on BACE1 Train-266. It may identify a mechanism and authorize a single analytically defined redesign, but it cannot validate a redesigned objective, open protected data, authorize hardware, or support quantum advantage claims."
+}

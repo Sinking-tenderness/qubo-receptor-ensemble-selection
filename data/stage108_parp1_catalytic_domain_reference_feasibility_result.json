@@ -1,0 +1,67 @@
+{
+  "schema_version": "1.0",
+  "status": "stage108_parp1_catalytic_domain_reference_feasibility_no_go",
+  "evidence_status": "posthoc scope-definition feasibility audit using only previously collected public metadata; not an efficacy result, trained rule, or confirmation experiment",
+  "config": {
+    "path": "configs/stage108_parp1_catalytic_domain_reference_feasibility.json",
+    "sha256": "EF3212EB468421863F801E44187BA72EE9F285F8EBD0F7F426A1B1851A87C98C"
+  },
+  "parent_stage": {
+    "path": "data/stage107_parp1_contact_state_metadata_intake_result.json",
+    "sha256": "32336A8D1F9A38C8822A4916CF490E5A250C0A06A4CAB52DA7E8733930AC2EA3",
+    "status": "stage107_parp1_contact_state_metadata_intake_no_go"
+  },
+  "scope": {
+    "target_id": "PARP1",
+    "protein_scope": "catalytic_domain",
+    "status": "new exploratory structural definition; it is not an amendment to, or a rescue of, the full-length Stage107 protocol",
+    "reason_for_rescoping": "The Stage107 public metadata show that the former full-length reference-coverage threshold systematically excludes catalytic-domain structures. Entity sequence coverage, rather than full-length reference coverage, is the relevant integrity check within this explicitly redefined structural scope."
+  },
+  "counts": {
+    "input_metadata_count": 94,
+    "metadata_eligible_count": 10,
+    "minimum_required_count": 16,
+    "pool_gate_passes": false
+  },
+  "eligible_pdb_ids": [
+    "7KK5",
+    "4ZZZ",
+    "7KK4",
+    "6XVW",
+    "8VYH",
+    "7KK3",
+    "7KK6",
+    "6GHK",
+    "2RD6",
+    "4HHY"
+  ],
+  "provisional_reference": {
+    "pdb_id": "7KK5",
+    "resolution_angstrom": 1.7,
+    "selection_status": "metadata-only provisional reference; coordinate work remains locked"
+  },
+  "pool_gate": {
+    "minimum_receptors_for_contact_state_protocol": 16,
+    "selection_rule_if_pool_gate_passes": "Choose the lowest-resolution wild-type metadata-eligible entry, breaking ties by PDB identifier. This rule is recorded only for feasibility; it does not authorize coordinate download in this stage.",
+    "decision_rule": "If fewer than 16 metadata-eligible catalytic-domain structures are available, record No-Go. Do not lower the pool threshold after observing the candidate count; a future smaller-pool project would require a separate protocol and cannot be called a confirmation of the 16-receptor experiment."
+  },
+  "data_boundary": {
+    "parp1_coordinate_downloads": 0,
+    "parp1_individual_ligand_rows_read": 0,
+    "parp1_benchmark_docking_scores_read": 0,
+    "parp1_fresh_validation_rows_read": 0,
+    "parp1_locked_test_rows_read": 0,
+    "new_docking_jobs": 0,
+    "quantum_hardware_jobs": 0
+  },
+  "decision": {
+    "coordinate_structural_audit_authorized": false,
+    "ligand_preparation_authorized": false,
+    "redocking_authorized": false,
+    "production_docking_authorized": false,
+    "fresh_validation_released": false,
+    "locked_test_released": false,
+    "quantum_hardware_authorized": false,
+    "next_action": "Stop PARP1 under the frozen 16-receptor protocol. A future smaller-pool study requires a separately reviewed protocol and is not a confirmation of this branch."
+  }
+}

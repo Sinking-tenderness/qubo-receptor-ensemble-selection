@@ -1,0 +1,96 @@
+{
+  "schema_version": "1.0",
+  "adjudication_id": "stage08-mk14-expanded16-unidock-redocking-failure-adjudication-v1",
+  "status": "stage08_redocking_gate_failed_two_receptors",
+  "config": {
+    "path": "configs/stage08_mk14_expanded16_redocking_failure_adjudication.json",
+    "sha256": "BE444EA0AB0A07F47771F170BB0B5B5F6286BEBAA46782D3843626103D332028"
+  },
+  "source_archive": {
+    "basename": "stage08_mk14_expanded16_unidock_redocking_failed_diagnostics_v1.tar.gz",
+    "sha256": "C7E1BA99750EC998B1936D9E5475E8A6B51664E18666CFBD8206226455E17CD1"
+  },
+  "completed_pair_count": 24,
+  "expected_pair_count": 24,
+  "engine_failure_count": 0,
+  "unresolved_warning_event_count": 0,
+  "pose_integrity_failure_count": 0,
+  "receptor_gate_results": [
+    {
+      "conformer_id": "MK14_3ZSI_aligned",
+      "successful_seed_count": 3,
+      "median_rmsd_angstrom": 0.218638,
+      "maximum_rmsd_angstrom": 0.238886,
+      "gate_pass": true
+    },
+    {
+      "conformer_id": "MK14_5N65_aligned",
+      "successful_seed_count": 2,
+      "median_rmsd_angstrom": 1.092252,
+      "maximum_rmsd_angstrom": 13.330033,
+      "gate_pass": true
+    },
+    {
+      "conformer_id": "MK14_3ZSH_aligned",
+      "successful_seed_count": 0,
+      "median_rmsd_angstrom": 10.175014,
+      "maximum_rmsd_angstrom": 10.179062,
+      "gate_pass": false
+    },
+    {
+      "conformer_id": "MK14_3ZSG_aligned",
+      "successful_seed_count": 3,
+      "median_rmsd_angstrom": 0.591285,
+      "maximum_rmsd_angstrom": 0.652997,
+      "gate_pass": true
+    },
+    {
+      "conformer_id": "MK14_3BV2_aligned",
+      "successful_seed_count": 3,
+      "median_rmsd_angstrom": 0.450923,
+      "maximum_rmsd_angstrom": 0.470746,
+      "gate_pass": true
+    },
+    {
+      "conformer_id": "MK14_2GFS_aligned",
+      "successful_seed_count": 1,
+      "median_rmsd_angstrom": 2.216417,
+      "maximum_rmsd_angstrom": 2.366733,
+      "gate_pass": false
+    },
+    {
+      "conformer_id": "MK14_4FA2_aligned",
+      "successful_seed_count": 3,
+      "median_rmsd_angstrom": 0.275659,
+      "maximum_rmsd_angstrom": 0.282959,
+      "gate_pass": true
+    },
+    {
+      "conformer_id": "MK14_4AAC_aligned",
+      "successful_seed_count": 3,
+      "median_rmsd_angstrom": 0.968996,
+      "maximum_rmsd_angstrom": 1.027624,
+      "gate_pass": true
+    }
+  ],
+  "admitted_receptor_ids": [
+    "MK14_3ZSI_aligned",
+    "MK14_5N65_aligned",
+    "MK14_3ZSG_aligned",
+    "MK14_3BV2_aligned",
+    "MK14_4FA2_aligned",
+    "MK14_4AAC_aligned"
+  ],
+  "failed_receptor_ids": [
+    "MK14_3ZSH_aligned",
+    "MK14_2GFS_aligned"
+  ],
+  "data_boundary": {
+    "benchmark_ligand_labels_read": 0,
+    "benchmark_docking_scores_read": 0,
+    "previous_validation_rows_read": 0,
+    "test_rows_read": 0
+  },
+  "decision": "Do not relax the preregistered RMSD gate and do not rerun the same deterministic checkpoints. Exclude the two failed receptors and preregister a structural-distance replacement cascade.",
+  "decision_boundary": "This post-failure adjudication reads only the preregistered cognate-redocking technical controls. It may identify receptor admission failures and authorize a structural replacement amendment, but it cannot alter the 2 A gate, inspect benchmark labels or scores, authorize validation/test access, or establish enrichment or QUBO benefit."
+}

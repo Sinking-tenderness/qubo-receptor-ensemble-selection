@@ -1,0 +1,101 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage51b-ppara-redocking-bias-diagnostic-20260804-v1",
+  "analysis_class": "post-hoc label-free technical diagnostic",
+  "implementation": {
+    "analysis_script": {
+      "path": "scripts/diagnose_stage51b_ppara_redocking_bias.py",
+      "sha256": "FAF0A8D4DFF1B5CB28C712D6D8C294E2A0D534A87C4FC3FFBA9B673F7E935F0C"
+    }
+  },
+  "inputs": {
+    "stage51_summary": {
+      "path": "data/stage51_ppara_large_pool_cognate_redocking_summary.json",
+      "sha256": "B6A0D1E2C7006ABA9D3659FE4E9E73C889AEF2C99D94A04145A7BAB7BE973491"
+    },
+    "stage51_redocking_results": {
+      "path": "data/processed/stage51_ppara_large_pool_cognate_redocking_results.csv",
+      "sha256": "EA61CC3F20570C0E6B5E2169BFCB38F99E4BA34D4C6570D6729511BE200C9849"
+    },
+    "stage51_receptor_gate_results": {
+      "path": "data/processed/stage51_ppara_large_pool_receptor_gate_results.csv",
+      "sha256": "17EDDBB2757BDAE6C25DEB2FB283DE541D2F8B7214D7551E1C3AF3D88816E429"
+    },
+    "stage51_independent_audit": {
+      "path": "data/stage51_ppara_large_pool_cognate_redocking_independent_audit.json",
+      "sha256": "5C71EC4DEFBC8256111CFF0D725CF30B0D5AB4C9A30F76C2CD843BFEC15E704A"
+    },
+    "stage50_case_manifest": {
+      "path": "data/processed/stage50_ppara_large_pool_cognate_redocking_case_manifest.csv",
+      "sha256": "04B9E3E1099F2A21821E459469CDF401CABB47C78B5DD22FB50B3245FB18A69E"
+    },
+    "stage49b_structural_distances": {
+      "path": "data/processed/stage49b_ppara_structural_distances.csv",
+      "sha256": "759A20794C541B36B7F5D8314B221E154FCC8A1464D68087992EB24341734863"
+    },
+    "stage49b_coordinate_pool": {
+      "path": "data/processed/stage49b_ppara_coordinate_eligible_pool.csv",
+      "sha256": "4EF3A7FBD1B1BF55642BF92E87783C9BCFF5405029D31E5B630EE9F03C6A8D8B"
+    }
+  },
+  "expected": {
+    "frozen_receptor_count": 64,
+    "prepared_receptor_count": 60,
+    "passing_receptor_count": 20,
+    "stable_three_of_three_receptor_count": 18,
+    "seed_count": 3,
+    "redocking_result_count": 180
+  },
+  "ligand_chemistry": {
+    "descriptor_names": [
+      "heavy_atom_count",
+      "rotatable_bond_count",
+      "molecular_weight",
+      "logp",
+      "tpsa",
+      "fraction_csp3"
+    ],
+    "fingerprint": "Morgan count-independent bit fingerprint",
+    "morgan_radius": 2,
+    "fingerprint_size": 2048,
+    "butina_tanimoto_similarity_threshold": 0.6,
+    "multiple_testing_method": "Benjamini-Hochberg",
+    "family_prefix_length": 3
+  },
+  "structure": {
+    "distance_column": "standardized_pocket_distance",
+    "coverage_subset": "all Stage51 gate-passing prepared receptors",
+    "stable_coverage_subset": "Stage51 three-of-three passing receptors",
+    "random_subset_draw_count": 10000,
+    "random_seed": 20260804
+  },
+  "association_tests": {
+    "leave_one_out_nearest_neighbor": true,
+    "balanced_accuracy": true,
+    "permutation_count": 10000,
+    "permutation_seed": 20260804,
+    "dominant_driver_minimum_balanced_accuracy_difference": 0.1,
+    "dominant_driver_maximum_permutation_p": 0.05
+  },
+  "exploratory_branch_gate": {
+    "minimum_stable_three_of_three_receptors": 16,
+    "maximum_structural_coverage_radius_random_percentile": 0.95,
+    "minimum_passing_chemotype_cluster_count": 6,
+    "confirmatory_status_can_be_changed": false
+  },
+  "outputs": {
+    "diagnostic_table_csv": "data/processed/stage51b_ppara_redocking_bias_diagnostic.csv",
+    "chemotype_cluster_csv": "data/processed/stage51b_ppara_chemotype_clusters.csv",
+    "result_json": "data/stage51b_ppara_redocking_bias_diagnostic_result.json",
+    "audit_json": "data/stage51b_ppara_redocking_bias_diagnostic_audit.json"
+  },
+  "data_boundary": {
+    "activity_labels_read": 0,
+    "development_panel_scores_read": 0,
+    "fresh_validation_rows_read": 0,
+    "locked_test_rows_read": 0,
+    "new_docking_jobs": 0,
+    "quantum_hardware_jobs": 0
+  },
+  "interpretation_boundary": "Stage51b may diagnose why the frozen Stage51 technical gate failed and whether the 20 passing receptors are worth preserving for an explicitly exploratory branch. It cannot authorize the preregistered confirmatory PPARA development route, relax the Stage51 gate, or establish enrichment, QUBO superiority, quantum speedup, or quantum advantage."
+}

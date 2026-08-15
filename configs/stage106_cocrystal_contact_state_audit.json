@@ -1,0 +1,53 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage106-cocrystal-contact-state-audit-20260813-v1",
+  "purpose": "Posthoc feasibility audit of whether co-crystal ligand contact-state diversity, available before prospective screening, distinguishes the observed FA10 two-receptor positive case from the EGFR negative case. It is not a trained selector and does not authorize any new docking, protected-data read, or hardware task.",
+  "parent": {
+    "stage102a_result": "analysis/stage102a_received_20260813/analysis/result.json",
+    "stage102a_fold_metrics": "analysis/stage102a_received_20260813/analysis/fold_metrics.csv",
+    "stage102a_receptor_freeze": "data/stage102a_phase_a_receptor_freeze_summary.json"
+  },
+  "inputs": {
+    "EGFR": {
+      "receptor_manifest": "data/processed/stage102a_egfr_passing_receptor_manifest.csv",
+      "pairwise_structural_distances": "data/processed/stage13c_egfr_local_pocket_structural_distances.csv",
+      "preparation_root": "results/runs/stage13e_egfr_cognate_redocking_input_preparation/preparation",
+      "expected_receptor_count": 12,
+      "contact_cutoff_angstrom": 4.0
+    },
+    "FA10": {
+      "receptor_manifest": "data/processed/stage102a_fa10_passing_receptor_manifest.csv",
+      "pairwise_structural_distances": "data/processed/stage14b_fa10_structural_distances.csv",
+      "preparation_root": "results/runs/stage14c_fa10_cognate_redocking_input_preparation/preparation",
+      "expected_receptor_count": 13,
+      "contact_cutoff_angstrom": 4.0
+    }
+  },
+  "frozen_diagnostic": {
+    "positive_case": "FA10 fixed-k2 selected pair FA10_2PHB_aligned+FA10_5K0H_aligned, which was selected in every Stage102A outer fold and had positive gain in every fold.",
+    "negative_case": "EGFR fixed-k2 outer-fold pairs and gains, including the recurrent EGFR_3W32_aligned+EGFR_3POZ_aligned pair.",
+    "pair_outcome": "For each target, all receptor pairs are scored only after descriptors are frozen: mean outer-fold BEDROC20 of the pair minus the Stage102A training-selected singleton baseline in the corresponding fold.",
+    "descriptors": [
+      "precomputed standardized pocket distance",
+      "co-crystal ligand heavy-atom count difference",
+      "4.0 A protein-residue contact-set Jaccard distance"
+    ],
+    "interpretation": "A descriptor can motivate an untouched-target protocol only if it places the FA10 positive pair in a nontrivial, pre-specified contact-diverse region while EGFR does not show comparable positive pair gain. No threshold, coefficient, or selection rule is learned in this stage."
+  },
+  "data_boundary": {
+    "new_docking_jobs": 0,
+    "new_structure_downloads": 0,
+    "parp1_benchmark_docking_scores_read": 0,
+    "parp1_fresh_validation_rows_read": 0,
+    "parp1_locked_test_rows_read": 0,
+    "quantum_hardware_jobs": 0
+  },
+  "outputs": {
+    "contact_csv": "results/runs/stage106_cocrystal_contact_state_audit/receptor_contacts.csv",
+    "pair_csv": "results/runs/stage106_cocrystal_contact_state_audit/pair_diagnostics.csv",
+    "target_csv": "results/runs/stage106_cocrystal_contact_state_audit/target_summary.csv",
+    "result_json": "data/stage106_cocrystal_contact_state_audit_result.json",
+    "audit_json": "data/stage106_cocrystal_contact_state_audit_audit.json",
+    "report_md": "reports/stage-106/cocrystal_contact_state_audit.md"
+  }
+}

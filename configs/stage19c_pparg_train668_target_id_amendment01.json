@@ -1,0 +1,53 @@
+{
+  "schema_version": "1.0",
+  "amendment_id": "stage19c-pparg-train668-target-id-amendment01-20260801-v1",
+  "purpose": "Correct the aggregate Stage 19c target_id metadata bug without changing any docking score, pose reference, receptor matrix, or data boundary.",
+  "erroneous_target_id": "MK14",
+  "corrected_target_id": "PPARG",
+  "implementation": {
+    "path": "scripts/amend_stage19c_pparg_target_id.py",
+    "sha256": "97F915864616BBC7C11177A58AE2DB04D262D0D29FEF49AE184458E7018962F8"
+  },
+  "inputs": {
+    "source_summary": {
+      "path": "results/runs/stage19c_pparg_train668_unidock113_production/summary.json",
+      "sha256": "9D742A9345691E19EC345CBB95E3937416C12CBCB13A29DD85326D2A03B38521"
+    },
+    "source_audit": {
+      "path": "data/stage19c_pparg_train668_unidock113_production_audit.json",
+      "sha256": "D98CDFA09B0A7B266FB43C9051957D2032ED98F3C8726FA274EC7B798B529EE6"
+    },
+    "source_scores": {
+      "path": "results/runs/stage19c_pparg_train668_unidock113_production/scores.csv",
+      "sha256": "ACA7662F499AC60997DB89FAE6F9E2F17EB406CACEAE474027C1991B1181ACCE"
+    },
+    "primary_matrix": {
+      "path": "results/runs/stage19c_pparg_train668_unidock113_production/primary_median_score_matrix.csv",
+      "sha256": "A17F78FA5117045A879E5EF0AC89EAFA8093F22F9D9E74510235FA7103FDCC4C"
+    },
+    "sensitivity_matrix": {
+      "path": "results/runs/stage19c_pparg_train668_unidock113_production/sensitivity_minimum_score_matrix.csv",
+      "sha256": "3E74014423E44104E920EC260BEF40B553A69F4B63A1AB5C18DF9BAD6DE1FB3E"
+    },
+    "ligand_manifest": {
+      "path": "data/processed/stage19b_pparg_train668_unidock_pdbqt_manifest.csv",
+      "sha256": "36EBA0B5A9597EE80F71576E3C50BE88D8DE1406CF4177B708141BA4A99D11B7"
+    },
+    "receptor_manifest": {
+      "path": "data/processed/stage18i_pparg_exploratory_final16_prepared_receptor_manifest.csv",
+      "sha256": "7B219C9367DEFE2428770BC5E521DB54592E95A5C5A4653C9E84FB5939D8BC96"
+    }
+  },
+  "expected": {
+    "pair_count": 32064,
+    "ligand_count": 668,
+    "receptor_count": 16,
+    "seed_ids": ["seed0", "seed1", "seed2"]
+  },
+  "outputs": {
+    "corrected_scores_csv": "results/runs/stage19c_pparg_train668_unidock113_target_id_amendment01/scores.csv",
+    "result_json": "data/stage19c_pparg_train668_target_id_amendment01_result.json",
+    "report_md": "reports/stage-19c/pparg_train668_target_id_amendment01.md"
+  },
+  "decision_boundary": "This amendment repairs aggregate metadata only. It preserves the failed Stage 18e confirmatory gate and cannot establish PPARG validation performance, QUBO benefit, quantum execution, or quantum advantage."
+}

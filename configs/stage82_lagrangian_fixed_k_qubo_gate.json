@@ -1,0 +1,119 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage82-lagrangian-fixed-k-qubo-gate-20260811-v1",
+  "purpose": "Test a Dirac-compatible hybrid decomposition that preserves the Stage75 quality constraint by fixed-k QUBO candidate generation followed by exact classical feasibility guards.",
+  "implementation": {
+    "runner": {
+      "path": "scripts/run_stage82_lagrangian_fixed_k_qubo_gate.py",
+      "sha256": "FD00B7B778E8F2093718493209AED4FE5C53FDDEFDABBFF28FEAFBF752894F11",
+      "size_bytes": 19815
+    },
+    "independent_auditor": {
+      "path": "scripts/audit_stage82_lagrangian_fixed_k_qubo_gate.py",
+      "sha256": "64CC190255C400CF878F2CB48F73203C24DCD27AE5B98324FE6A02102BC0EC97",
+      "size_bytes": 5804
+    }
+  },
+  "inputs": {
+    "stage77_config": {
+      "path": "configs/stage77_quantum_hardware_interface_gate.json",
+      "sha256": "FE94CC1AA3C261F2C1FB5E00628A97495D1DD24AFC53750B3F0A7D6C55181F0F",
+      "size_bytes": 12949
+    },
+    "stage72_model_record": {
+      "path": "data/stage72_constraint_native_cqm_model_record.json",
+      "sha256": "D7BD285F4CB0787C1FF63EEC190CE692F72F2E885CB610BFEA1D70AC2505D1DF",
+      "size_bytes": 737219
+    },
+    "stage74_workload_metrics": {
+      "path": "results/runs/stage74_larger_k_solver_scaling/workload_metrics.csv",
+      "sha256": "84B02EF49939B097244CF4B0543F088FF183C48DD7E9DFB900EC2EA9E5AF355E",
+      "size_bytes": 48587
+    },
+    "stage74_cell_comparison": {
+      "path": "results/runs/stage74_larger_k_solver_scaling/cell_comparison.csv",
+      "sha256": "B1CEE2803DB74AC55BE1C5DA1BA77240ED550DED68A2B47A027A12F86B9781EA",
+      "size_bytes": 89127
+    },
+    "stage74_solver_trials": {
+      "path": "results/runs/stage74_larger_k_solver_scaling/solver_trials.csv",
+      "sha256": "3E0C8DD06991378C7CFCBC00D3CD437C64516445E06389E209885B78C510532D",
+      "size_bytes": 2871104
+    },
+    "stage79_physical_audit": {
+      "path": "data/stage79_qci_dirac3_physical_poc_audit.json",
+      "sha256": "B11EA4EBBB0CF66846E50C9ABFD8B19F189C85BD03E1183B93157244FF3D287D",
+      "size_bytes": 4313
+    },
+    "stage81_result": {
+      "path": "data/stage81_dirac_global_qubo_formulation_gate_result.json",
+      "sha256": "761B5BECF3C287EFF410AAF12EAD3F1425C7C29D678B424A61E087192F25AF9B",
+      "size_bytes": 4842
+    },
+    "stage81_audit": {
+      "path": "data/stage81_dirac_global_qubo_formulation_gate_audit.json",
+      "sha256": "53C503E1995B6AA1DE08CA41987AC824008665124A8541142190B198F12AA234",
+      "size_bytes": 465
+    }
+  },
+  "experiment": {
+    "canonical_reward_quantile": 0.5,
+    "canonical_model_count": 16,
+    "fixed_k_cell_count": 100,
+    "qci_total_level_limit": 949,
+    "wall_clock_used_for_decision": false
+  },
+  "lagrangian_screen": {
+    "quality_weights": [
+      0,
+      0.0625,
+      0.125,
+      0.25,
+      0.5,
+      1,
+      2,
+      4,
+      8,
+      16,
+      32
+    ],
+    "cardinality_penalty_multiplier": 1.05,
+    "signed_precision_bits": 24,
+    "tabu_reads": 2,
+    "tabu_timeout_milliseconds": 25,
+    "seed_base": 202682000,
+    "candidate_rule": "For each fixed k and quality weight, sample the scaled pair objective plus a normalized linear quality Lagrangian and an analytically dominating exact-k penalty.",
+    "feasibility_rule": "Classically reject every sample whose cardinality differs from k or whose original integer deficit exceeds the frozen Stage74 D_k threshold.",
+    "selection_rule": "Across weights and k, compare only feasible samples using the original unscaled Stage75 variable-k objective."
+  },
+  "decision_gate": {
+    "minimum_coefficient_retention_fraction": 0.99,
+    "minimum_fixed_k_frontier_competitive_fraction": 0.75,
+    "minimum_per_target_frontier_competitive_fraction": 0.5,
+    "minimum_variable_k_frontier_competitive_fraction": 0.75,
+    "success_action": "Freeze a very small Dirac-3 positive/negative calibration using only a preregistered subset of conditions; do not authorize full production.",
+    "failure_action": "Preserve the remaining QCI allocation and do not claim that unconstrained Dirac-3 can represent the Stage75 global task faithfully."
+  },
+  "data_boundary": {
+    "historical_development_targets_permitted": [
+      "BACE1",
+      "PPARG",
+      "PPARA",
+      "PPARD"
+    ],
+    "fresh_validation_rows_permitted": 0,
+    "locked_test_rows_permitted": 0,
+    "new_docking_jobs_permitted": 0,
+    "qci_cloud_queries_permitted": 0,
+    "quantum_hardware_jobs_permitted": 0
+  },
+  "outputs": {
+    "trial_metrics_csv": "results/runs/stage82_lagrangian_fixed_k_qubo_gate/trial_metrics.csv",
+    "fixed_k_metrics_csv": "results/runs/stage82_lagrangian_fixed_k_qubo_gate/fixed_k_metrics.csv",
+    "variable_k_metrics_csv": "results/runs/stage82_lagrangian_fixed_k_qubo_gate/variable_k_metrics.csv",
+    "result_json": "data/stage82_lagrangian_fixed_k_qubo_gate_result.json",
+    "audit_json": "data/stage82_lagrangian_fixed_k_qubo_gate_audit.json",
+    "report_md": "reports/stage-82/lagrangian_fixed_k_qubo_gate.md"
+  },
+  "interpretation_boundary": "Stage82 is a hybrid candidate-generation gate. Passing it does not prove exact QUBO equivalence, physical hardware fidelity, solver speedup, quantum scaling, or quantum advantage."
+}

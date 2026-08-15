@@ -1,0 +1,140 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage19i-objective-adequacy-noise-screen-20260802-v1",
+  "purpose": "Screen fixed, scientifically motivated receptor-ensemble objectives for classical transfer, effective energy gaps, and coefficient-noise robustness before any quantum-hardware execution.",
+  "implementation": {
+    "path": "scripts/diagnose_stage19i_objective_adequacy_noise_screen.py",
+    "sha256": "7EA7701AD199C66EFA1A2C8A911B91ABAA6AA1B5FAD8D822963BA8AF19B088DF"
+  },
+  "inputs": {
+    "stage19e_config": {
+      "path": "configs/stage19e_cross_target_qubo_v2_nested_diagnostic.json",
+      "sha256": "E7CB41AC6909DD42A7964FC3842E15612D982CD67AFD57AE999A461871EC3B7D"
+    },
+    "stage19e_result": {
+      "path": "data/stage19e_cross_target_qubo_v2_nested_diagnostic_result.json",
+      "sha256": "68EC0BAE8B84E45907B78E4E309197823EFBAA7810552E49C39B1B23B67763BB"
+    },
+    "stage19e_audit": {
+      "path": "data/stage19e_cross_target_qubo_v2_nested_diagnostic_audit.json",
+      "sha256": "816B1C1FA82C5BF14FD8EF952AF0F33D4B839322E8843BC2531509091E8232B7"
+    },
+    "stage19h_config": {
+      "path": "configs/stage19h_auxiliary_coverage_qubo.json",
+      "sha256": "7CF93381A2F7034837B1261731AECA4382D82BA76520082C9277A2D5BA602367"
+    },
+    "stage19h_result": {
+      "path": "data/stage19h_auxiliary_coverage_qubo_result.json",
+      "sha256": "F177DC67C67BAE4DEEE7EC6BDC86B547F0EE197D20C59D4D9642F27ED729490C"
+    },
+    "stage19h_audit": {
+      "path": "data/stage19h_auxiliary_coverage_qubo_audit.json",
+      "sha256": "901880C953CA421C0F4088EB37078EC634FD82EFDEDE967FF79129212E3139C6"
+    }
+  },
+  "evidence_timing": {
+    "experiment_class": "posthoc_cross_target_train_only_objective_design_review",
+    "mk14_and_pparg_outcomes_known": true,
+    "candidate_objectives_frozen_before_this_run": true,
+    "new_docking_jobs": false,
+    "fresh_validation_or_test_rows_permitted": false,
+    "quantum_hardware_execution": false
+  },
+  "diagnostic": {
+    "target_size": 3,
+    "outer_fold_count": 4,
+    "fold_seed": 20261119,
+    "bedroc_alpha": 20.0,
+    "coverage_fraction": 0.1,
+    "decoy_weight": 1.0,
+    "cardinality_penalty": 20.0,
+    "constraint_penalty": 100.0,
+    "noise_levels": [
+      0.0,
+      0.01,
+      0.05,
+      0.1
+    ],
+    "noise_models": [
+      {
+        "noise_model_id": "absolute_full_scale",
+        "description": "Additive Gaussian noise with standard deviation equal to noise_level times the max-absolute scaled coefficient.",
+        "mode": "absolute"
+      },
+      {
+        "noise_model_id": "relative_coefficient",
+        "description": "Multiplicative Gaussian noise with standard deviation equal to noise_level times each scaled coefficient magnitude.",
+        "mode": "relative"
+      }
+    ],
+    "noise_repeats": 32,
+    "noise_seed": 20260802,
+    "hardware_reference_noise_level": 0.05,
+    "hardware_gap_threshold_scaled": 0.01,
+    "hardware_stability_threshold": 0.9,
+    "classical_minimum_target_mean_delta": 0.0,
+    "classical_minimum_positive_folds_of_eight": 5,
+    "all_hardware_checks_required": true,
+    "candidates": [
+      {
+        "candidate_id": "union_threshold_1",
+        "active_threshold": 1,
+        "decoy_threshold": 1,
+        "redundancy_weight": 0.0,
+        "rationale": "An active ligand counts when at least one selected receptor ranks it in the frozen early-rank band."
+      },
+      {
+        "candidate_id": "consensus_threshold_2",
+        "active_threshold": 2,
+        "decoy_threshold": 1,
+        "redundancy_weight": 0.0,
+        "rationale": "An active ligand must be supported by at least two selected receptor conformations."
+      },
+      {
+        "candidate_id": "consensus_threshold_3",
+        "active_threshold": 3,
+        "decoy_threshold": 1,
+        "redundancy_weight": 0.0,
+        "rationale": "An active ligand must be supported by all three selected receptor conformations."
+      },
+      {
+        "candidate_id": "consensus_threshold_2_diverse",
+        "active_threshold": 2,
+        "decoy_threshold": 1,
+        "redundancy_weight": 0.25,
+        "rationale": "Two-hit active consensus with an explicit penalty for positively correlated receptor scores."
+      }
+    ]
+  },
+  "algorithm": {
+    "active_encoding": "threshold*y_active + slack = sum_i incidence_ai*x_i; negative active coefficient selects y_active when threshold is feasible",
+    "decoy_encoding": "z_decoy >= x_i for every receptor i exposing the decoy; positive decoy coefficient penalizes exposure",
+    "objective": "weighted active threshold coverage - decoy_weight*weighted decoy exposure - redundancy_weight*mean positive score correlation",
+    "classical_comparators": [
+      "direct_greedy",
+      "additive_top3",
+      "exact_robust_oracle"
+    ],
+    "selection_solver": "enumerate all 560 receptor triples with the lowest-energy feasible auxiliary assignment",
+    "noise_model": "independent Gaussian perturbation of every nonconstant QUBO coefficient after max-absolute scaling; feasibility is evaluated through reconstructed auxiliary assignments",
+    "hardware_execution": false
+  },
+  "hardware_readiness_gate": {
+    "requirements": [
+      "candidate beats direct greedy with positive mean delta on both targets and at least five positive folds out of eight",
+      "candidate has scaled best-versus-second-best feasible energy gap at least hardware_gap_threshold_scaled on both targets",
+      "candidate retains the same selected triple in at least hardware_stability_threshold of 5-percent trials under both absolute-full-scale and relative-coefficient noise on both targets"
+    ],
+    "decision_boundary": "This screen can authorize only a separately preregistered hardware pilot; it never amends a prior validation gate or establishes quantum advantage.",
+    "bace1_method_amendment_authorized": false
+  },
+  "outputs": {
+    "fold_methods_csv": "results/runs/stage19i_objective_adequacy_noise_screen/fold_method_results.csv",
+    "noise_trials_csv": "results/runs/stage19i_objective_adequacy_noise_screen/noise_trials.csv",
+    "noise_summary_csv": "results/runs/stage19i_objective_adequacy_noise_screen/noise_summary.csv",
+    "model_record_json": "data/stage19i_objective_adequacy_noise_screen_model_record.json",
+    "result_json": "data/stage19i_objective_adequacy_noise_screen_result.json",
+    "report_md": "reports/stage-19i/objective_adequacy_noise_screen.md"
+  },
+  "interpretation_boundary": "Stage 19i is a post-hoc train-only design review over MK14 and PPARG. It adds no docking and reads no fresh-validation, locked-test, or BACE1 rows. A passing candidate would be a hardware-readiness signal only; a failure means the candidate is not ready for hardware, not that all quantum approaches are impossible."
+}

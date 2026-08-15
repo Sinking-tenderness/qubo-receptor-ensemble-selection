@@ -1,0 +1,155 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage09-mk14-train696-unidock113-input-preparation-v1",
+  "purpose": "Create a Train-696 Uni-Dock manifest by replacing exactly the preregistered flexible-macrocycle PDBQTs with Meeko rigid-macrocycle preparations.",
+  "implementation": {
+    "preparer": {
+      "path": "scripts/experimental/unidock/prepare_stage09_mk14_train696_inputs.py",
+      "sha256": "58088FC661E3CC50D40386F9AF39628099863CDACCA9351F972E2C3B19C46CD7"
+    },
+    "batch_prepare_helper": {
+      "path": "scripts/batch_prepare_ligand_pdbqt.py",
+      "sha256": "44574F8EDC68AE27EB31388D1FB44F034FBBC3F755506B8DFEBC1E0823471D18"
+    },
+    "pseudoatom_audit_helper": {
+      "path": "scripts/experimental/unidock/run_unidock_gpu_equivalence.py",
+      "sha256": "4E927E959A08526289F7B266BA8CD76232741C878CCE255312F94A561DE433B0"
+    }
+  },
+  "data_boundary": {
+    "allowed_split": "train",
+    "allowed_selection_role": "development_train_expanded",
+    "validation_rows_permitted": 0,
+    "test_rows_permitted": 0
+  },
+  "input_manifest": {
+    "path": "data/processed/stage05_mk14_expanded_train_348a348d_pdbqt_manifest.csv",
+    "sha256": "ED697E2D0BC0C0B125FE1C30E0DF417F0B329DEE6817D841A997B5A0728FD98F"
+  },
+  "expected": {
+    "ligand_count": 696,
+    "label_counts": {
+      "active": 348,
+      "decoy": 348
+    },
+    "replacement_count": 15
+  },
+  "macrocycle_ligands": [
+    {
+      "ligand_id": "MK14_active_L000255",
+      "label": "active",
+      "source_manifest_index": 148,
+      "source_pdbqt_sha256": "3106011E80DCF469E7554D85ACC005EC44699E34774F098222CA3B7367E4B6FE",
+      "sdf_sha256": "705CAEA04BDDE70E37372100568EBB3BCDD673394A652FD4B112E8E4CDAA5204"
+    },
+    {
+      "ligand_id": "MK14_decoy_L004564",
+      "label": "decoy",
+      "source_manifest_index": 384,
+      "source_pdbqt_sha256": "107AB720B7A91E2B3B56BF0E74053C022850D0A7E93556FB7446016CAEE4119F",
+      "sdf_sha256": "80CB417E438C4061577203BF18D35023DF83BE311CAF8FA021C5CF83A4EC18F6"
+    },
+    {
+      "ligand_id": "MK14_decoy_L007259",
+      "label": "decoy",
+      "source_manifest_index": 412,
+      "source_pdbqt_sha256": "AFD2F57441CBBBEF04194529A2EAF12CFFE55A0089B2EBDCA506B7EA7AE12113",
+      "sdf_sha256": "B31909D468A18E080904AFFEDE784AF13FC41AE07DFE0710AC80412F334E3457"
+    },
+    {
+      "ligand_id": "MK14_decoy_L012234",
+      "label": "decoy",
+      "source_manifest_index": 463,
+      "source_pdbqt_sha256": "291EEAD211C944064A4A6D2576FB26C43134AF3CBC053AE5CBDE2EE4EB6BE760",
+      "sdf_sha256": "479004B7062535896B5DF5CFD459ED469A116F2FB1FA5EE133AE227F2AC60E2D"
+    },
+    {
+      "ligand_id": "MK14_decoy_L012653",
+      "label": "decoy",
+      "source_manifest_index": 468,
+      "source_pdbqt_sha256": "40AA9659DF454CCEC82943E6829213DE3DDC5636779A2C6A654C6CC7131C256E",
+      "sdf_sha256": "905EC05E5C8F7C381A52CC3831347EA85D5E902A559E386EFFD7CEDBFB90B240"
+    },
+    {
+      "ligand_id": "MK14_decoy_L013324",
+      "label": "decoy",
+      "source_manifest_index": 476,
+      "source_pdbqt_sha256": "B27C41AE8DA23D4DA0B03A55693062AC00756FC8D0A8755013A2283EA94A25C9",
+      "sdf_sha256": "44B2F69ACC015B7ABD273304FC5207CEA4F31DBD6E59D48A93D325F47F23C84B"
+    },
+    {
+      "ligand_id": "MK14_decoy_L017314",
+      "label": "decoy",
+      "source_manifest_index": 514,
+      "source_pdbqt_sha256": "D3937A6DB3A70659564F2F56CA0F2D58A07C5296D046D0B3438D475FE08D2E9F",
+      "sdf_sha256": "C177F8C81E930D5CDA33A9D9B9A44B7C43A6DA82BFE471D0835DBDF89E741D47"
+    },
+    {
+      "ligand_id": "MK14_decoy_L017597",
+      "label": "decoy",
+      "source_manifest_index": 518,
+      "source_pdbqt_sha256": "1DA9680FE6DE59802D9812E15930F764FF8BAE67AE22A627213BE0BD3C535062",
+      "sdf_sha256": "F6CF734D9F33D6475E68B88A323B7387CB80FEEE8C673B17C1F6DF19F332E99F"
+    },
+    {
+      "ligand_id": "MK14_decoy_L017675",
+      "label": "decoy",
+      "source_manifest_index": 519,
+      "source_pdbqt_sha256": "3F74780AEFEAA759C9ACFDB455B5A9843D0ACA3E54833B7487997581D69453B5",
+      "sdf_sha256": "A2CBD4D78E996201C668E125C1BE5CBF09E7E159D32E7DFE32E9D90F937DD850"
+    },
+    {
+      "ligand_id": "MK14_decoy_L018641",
+      "label": "decoy",
+      "source_manifest_index": 529,
+      "source_pdbqt_sha256": "73CA67336DD0B647EEAD0E43C4795C4D9446E8BC8AE0E15D2D388AAE0F2F0D3B",
+      "sdf_sha256": "5716E9C334920FDA8B03E6B5453593DF7377FE83E5AB644F2535F78AB276D136"
+    },
+    {
+      "ligand_id": "MK14_decoy_L022342",
+      "label": "decoy",
+      "source_manifest_index": 567,
+      "source_pdbqt_sha256": "3A8C23DAC64E1347A453773DEFEDB4AF9AF88AB5990BE525D3A5AB769595701B",
+      "sdf_sha256": "855A8490F4D2F003A1208352E330EB5AD717AC6E94ED9BB442954B7641498A2B"
+    },
+    {
+      "ligand_id": "MK14_decoy_L029808",
+      "label": "decoy",
+      "source_manifest_index": 645,
+      "source_pdbqt_sha256": "916ADD47151B7CC307C214C782E9B686B2A239BFADF9926F1CDEF1C8BE466250",
+      "sdf_sha256": "83478FBA115C62C9F3C55E0A5A87DF72E64073077C06A3091980FE2C4C179B7C"
+    },
+    {
+      "ligand_id": "MK14_decoy_L030186",
+      "label": "decoy",
+      "source_manifest_index": 648,
+      "source_pdbqt_sha256": "DEA0941116820853F4B79499E3E9386B2EC90D81F263790E056BF9B90684B54C",
+      "sdf_sha256": "CB178B0C6C421567EF4B30ADB04F2A8656A27FEB7BCA6CCA3813DED31191EFA1"
+    },
+    {
+      "ligand_id": "MK14_decoy_L031427",
+      "label": "decoy",
+      "source_manifest_index": 654,
+      "source_pdbqt_sha256": "1584BAB46AC44FE0A54A51C447C32781ACE195B42D7EC28EC9725562FE11F3C7",
+      "sdf_sha256": "5EE5D404C5E2A8D325F49F85F0F98A419B0406B23D33C49A87014CBDC2F923E3"
+    },
+    {
+      "ligand_id": "MK14_decoy_L034559",
+      "label": "decoy",
+      "source_manifest_index": 687,
+      "source_pdbqt_sha256": "2B2CD230ACA069C35D42304E3F4A46C2485C1F87CB36F5CE73C4575111F9FB1D",
+      "sdf_sha256": "7ABCDD50E10BFCB36C6ABD2E220C937E103B4E3E0B48AA9BFD08F64840F5504A"
+    }
+  ],
+  "preparation": {
+    "meeko_version": "0.7.1",
+    "rigid_macrocycles": true,
+    "coordinate_policy": "reuse the frozen source SDF coordinates; do not re-embed or re-optimize"
+  },
+  "outputs": {
+    "pdbqt_directory": "results/runs/stage09_mk14_train696_unidock_inputs/rigid_macrocycles",
+    "manifest_csv": "data/processed/stage09_mk14_train696_unidock_pdbqt_manifest.csv",
+    "summary_json": "data/stage09_mk14_train696_unidock_input_summary.json"
+  },
+  "interpretation_boundary": "This train-only compatibility substitution changes exactly 15 PDBQT representations and preserves the other 681 inputs. It does not access validation/test rows, calculate enrichment, select a receptor subset, or establish QUBO or quantum advantage."
+}

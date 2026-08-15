@@ -1,0 +1,95 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage95-pparg-md96-series-routing-scaling-20260812-v1",
+  "purpose": "Test whether a deployment-relevant receptor-opening and chemistry-series routing problem develops a reproducible gap between global optimization and strong classical search as the real PPARG MD receptor pool grows.",
+  "experiment_class": "posthoc_real_matrix_solver_scaling_diagnostic",
+  "inputs": {
+    "stage43_audit": {
+      "path": "data/stage43_pparg_md96_unidock113_production_audit.json",
+      "sha256": "00E29B2A9AC5CF9D505C8407096894FF1423B7C5F96547F8B14AE8E050CFB117"
+    },
+    "scores": {
+      "path": "analysis/stage43_pparg_md96_result_20260804/results/runs/stage43_pparg_md96_unidock113_production/scores.csv",
+      "sha256": "4E3C11ED42FCC5B8663C78E4E647996BF6F68D9FAD5304206F7B4CD8D58956E4"
+    },
+    "ligand_manifest": {
+      "path": "data/processed/stage32_pparg_train160_ligand_manifest.csv",
+      "sha256": "4FCA64D6B2AAEB11CA83A2A205996AAFF28ADF1AC1D35F3FB81DFC600882E3BC"
+    },
+    "frame_manifest": {
+      "path": "data/processed/stage43_pparg_md96_frame_manifest.csv",
+      "sha256": "EC889123EEFE403189124E7DFA2E81820EB83F61C41A594FEB8146CA547B957E"
+    },
+    "series_manifest": "data/processed/stage95_pparg_active_series_manifest.csv",
+    "series_summary": "data/stage95_pparg_active_series_summary.json"
+  },
+  "chemistry_series_freeze": {
+    "eligible_ligands": "80 active ligands only; all 80 decoys remain a global exposure panel",
+    "fingerprint": "RDKit Morgan radius 2, 2048 bits, chirality disabled",
+    "distance": "one minus Tanimoto similarity",
+    "clustering": "deterministic complete-linkage hierarchy over ligand_id-sorted fingerprints; selected before solver execution because it had the smallest maximum cluster at every frozen cluster count among single, complete, average, and weighted linkage",
+    "cluster_counts": [6, 12, 24, 48],
+    "docking_scores_used_for_clustering": false
+  },
+  "objective": {
+    "receptor_hit_fraction_per_seed": 0.10,
+    "hit_count_rounding": "ceil",
+    "series_assignment": "each active chemical series is routed to exactly one pair of opened receptors",
+    "pair_hit_rule": "union: a ligand is hit when either receptor ranks it in the seed-specific top 10 percent",
+    "pair_series_utility": "0.40*minimum_seed_active_series_coverage + 0.30*mean_seed_active_series_coverage - 0.20*mean_seed_decoy_exposure - 0.10*mean_seed_pair_hit_jaccard",
+    "global_objective": "active-count-weighted mean pair-series utility over all chemical series",
+    "reason_for_active_count_weighting": "routing value scales with the number of active ligands represented and does not allow singleton clusters to dominate the objective"
+  },
+  "nested_scale_grid": [
+    {"scale_id": "r16_g6_k4", "receptor_count": 16, "series_count": 6, "open_receptor_count": 4},
+    {"scale_id": "r32_g12_k8", "receptor_count": 32, "series_count": 12, "open_receptor_count": 8},
+    {"scale_id": "r48_g24_k12", "receptor_count": 48, "series_count": 24, "open_receptor_count": 12},
+    {"scale_id": "r64_g48_k16", "receptor_count": 64, "series_count": 48, "open_receptor_count": 16},
+    {"scale_id": "r96_g48_k16", "receptor_count": 96, "series_count": 48, "open_receptor_count": 16}
+  ],
+  "nested_receptor_rule": "For an R-receptor scale, retain temporal_maximin_rank < R/8 from each of the eight pre-existing MD starts. This uses no docking score or ligand label.",
+  "classical_baselines": {
+    "direct_greedy": true,
+    "greedy_plus_exhaustive_one_swap": true,
+    "adaptive_escalation_rule": "run preliminary baselines first; if and only if a certified MILP optimum exceeds the preliminary best by at least 1 percent, run the full confirmation baselines before adjudication",
+    "preliminary": {
+      "random_restart_one_swap": {"restart_count": 32, "seed": 20260821},
+      "tabu": {"restart_count": 8, "iteration_count": 40, "tabu_tenure": 5, "seed": 20260822},
+      "simulated_annealing": {"restart_count": 8, "steps_per_restart": 1000, "seed": 20260823}
+    },
+    "confirmation": {
+      "random_restart_one_swap": {"restart_count": 256, "seed": 20260821},
+      "tabu": {"restart_count": 16, "iteration_count": 80, "tabu_tenure": 5, "seed": 20260822},
+      "simulated_annealing": {"restart_count": 32, "steps_per_restart": 3000, "seed": 20260823}
+    }
+  },
+  "milp": {
+    "solver": "scipy.optimize.milp using bundled HiGHS",
+    "time_limit_seconds_per_scale": 180,
+    "required_relative_gap_for_exact_claim": 0.0
+  },
+  "quantum_value_gate": {
+    "minimum_certified_relative_objective_gap_over_best_strong_classical": 0.01,
+    "minimum_open_set_replacement_distance": 2,
+    "minimum_passing_scale_count": 2,
+    "all_scales_must_use_real_docking_scores": true,
+    "biological_generalization_required_before_hardware": true
+  },
+  "stop_rule": "If no scale has a certified classical gap, do not encode Stage95 for quantum hardware and do not tune this objective on the same PPARG matrix.",
+  "data_boundary": {
+    "real_ligand_count": 160,
+    "real_receptor_count": 96,
+    "real_seed_count": 3,
+    "synthetic_scores_permitted": 0,
+    "fresh_validation_rows_permitted": 0,
+    "test_rows_permitted": 0,
+    "new_docking_jobs_permitted": 0,
+    "quantum_jobs_permitted": 0
+  },
+  "outputs": {
+    "result_json": "data/stage95_pparg_md96_series_routing_scaling_result.json",
+    "scale_csv": "results/runs/stage95_pparg_md96_series_routing_scaling/scale_results.csv",
+    "solution_csv": "results/runs/stage95_pparg_md96_series_routing_scaling/solutions.csv",
+    "report_md": "reports/stage-95/pparg_md96_series_routing_scaling.md"
+  }
+}

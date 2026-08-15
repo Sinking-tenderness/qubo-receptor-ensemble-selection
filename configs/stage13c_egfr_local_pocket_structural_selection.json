@@ -1,0 +1,70 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage13c-egfr-local-pocket-structural-selection-20260731-v1",
+  "purpose": "Re-audit the frozen 58-candidate EGFR pool using local ATP-pocket alignment, strengthened ATP-site occupancy, and targeted-covalent citation gates before any ligand preparation or benchmark docking.",
+  "implementation": {
+    "path": "scripts/select_stage13c_egfr_local_pocket_pool.py",
+    "sha256": "D5991E9D19067DEC433B42BECDF1F1FCF6638E13EE8B9F3D0EF1144964F37832",
+    "base_dependency_path": "scripts/select_stage13_egfr_coordinate_pool.py",
+    "base_dependency_sha256": "8386C04F5549A2FA83BEB44B788A32293C596FA9845C782AA8114FEA3D05395C",
+    "expansion_dependency_path": "scripts/select_stage13b_egfr_expanded_coordinate_pool.py",
+    "expansion_dependency_sha256": "703B901DC4105DCEBA662E90523406AD086739B83CD33BA4E4423A58B4C8A2F6",
+    "math_dependency_path": "scripts/select_mk14_rcsb_coordinate_pool.py",
+    "math_dependency_sha256": "34FEB2A69E2DD793953C1A12AB3E083B704D38DDC70B1F4E10BB38C69234D0A5"
+  },
+  "preregistration": {
+    "path": "configs/stage13_egfr_external_target_pilot_preregistration.json",
+    "sha256": "8CE02087666FC8F3A97A83889AB61E3E45EB03667DB853EC0D0B9C96FB8D00CD"
+  },
+  "preregistration_amendment": {
+    "path": "configs/stage13_egfr_external_target_pilot_preregistration_amendment01.json",
+    "sha256": "80AE8F05A5D6D8C3B8E40F65FAB4176624A8D15F5B3FA9025B0696CADA7B0533"
+  },
+  "pool_expansion_amendment": {
+    "path": "configs/stage13_egfr_external_target_pilot_preregistration_amendment02.json",
+    "sha256": "AE4637F8EAC05281D9A3BF167B18759FB0F35323DBE8478A7EDB1032134E16B6"
+  },
+  "method_correction_amendment": {
+    "path": "configs/stage13_egfr_external_target_pilot_preregistration_amendment03.json",
+    "sha256": "064F5E2A0300F94D57162C82852B5B2ADC886FB72C976B2350211A642312E24D"
+  },
+  "runtime": {
+    "conda_environment": "qubo-receptor-ensemble",
+    "python_version": "3.11.15",
+    "numpy_version": "1.26.4",
+    "gemmi_version": "0.7.5"
+  },
+  "inputs": {
+    "candidate_metadata_csv": {
+      "path": "data/processed/stage13_egfr_rcsb_candidate_metadata.csv",
+      "sha256": "B1CFC3F944235D5C3EDA55DFA5B1C750AD34374340F6FB3CC36364B8D1523509"
+    },
+    "stage13b_summary": {
+      "path": "data/stage13b_egfr_expanded_rcsb_coordinate_selection_summary.json",
+      "sha256": "E293A20AD3C9B09F7759B8F267C4ECA1BB0CD57FB8EEF7C97971BC83EE6C1D5B"
+    },
+    "reference_mmcif": {
+      "path": "data/raw/rcsb/egfr/2RGP.cif",
+      "sha256": "2C557B019C22C21FE1286F2EBFE8A7FA9171CF60A6B9563242AA5F2FCBF09DD9"
+    }
+  },
+  "download": {
+    "url_template": "https://files.rcsb.org/download/{pdb_id}.cif",
+    "workers": 8,
+    "timeout_seconds": 60,
+    "maximum_retries": 4,
+    "retry_backoff_seconds": 1.0
+  },
+  "outputs": {
+    "raw_mmcif_directory": "data/raw/rcsb/egfr",
+    "aligned_protein_pdb_directory": "results/runs/stage13c_egfr_local_pocket_pool/aligned",
+    "coordinate_audit_csv": "data/processed/stage13c_egfr_local_pocket_candidate_audit.csv",
+    "eligible_pool_manifest_csv": "data/processed/stage13c_egfr_local_pocket_eligible_pool.csv",
+    "feature_matrix_csv": "data/processed/stage13c_egfr_local_pocket_distance_features.csv",
+    "pairwise_distances_csv": "data/processed/stage13c_egfr_local_pocket_structural_distances.csv",
+    "selected16_manifest_csv": "data/processed/stage13c_egfr_selected16_structural_pool.csv",
+    "summary_json": "data/stage13c_egfr_local_pocket_structural_selection_summary.json",
+    "report_md": "reports/stage-13c/egfr_local_pocket_structural_selection.md"
+  },
+  "interpretation_boundary": "This documented post-coordinate structural-method correction remains independent of activity labels and docking outcomes. Passing establishes only a receptor-preparation candidate pool; redocking, screening enrichment, QUBO portability, QUBO superiority, quantum application, and quantum advantage remain untested."
+}

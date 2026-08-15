@@ -1,0 +1,99 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage42d-bace1-large-pool-frozen-qubo-screen-20260804-v1",
+  "purpose": "Test whether expansion from 16 to 34 BACE1 receptors makes the previously frozen seed-robust functional complementarity QUBO objective separate from a strong classical search while retaining scaffold-holdout utility.",
+  "implementation": {
+    "path": "scripts/run_stage42d_bace1_large_pool_qubo_screen.py",
+    "sha256": "CE8C9B0E3011FAA1E753F8D6DFBEA70033AC67E57F2FF2942E2693BE093EBAD4"
+  },
+  "inputs": {
+    "stage42c_audit": {
+      "path": "data/stage42c_bace1_train266_unidock113_production_audit.json",
+      "sha256": "F1FDD0D7E48C19076C903E4DE170F300FB8E96979E1CB2C22003B71C70AE56FC"
+    },
+    "scores": {
+      "path": "results/runs/stage42c_bace1_train266_unidock113_production/scores.csv",
+      "sha256": "1665B0B1C99F6A48989940F3BE90754A46FD9E1FAAF28B326FB7B0277D341818"
+    },
+    "ligand_manifest": {
+      "path": "data/processed/stage42b_bace1_train266_unidock_pdbqt_manifest.csv",
+      "sha256": "957F75B362A2A123080A5CE6F8003BC96F2A55548EE04747235166D42BBE5DCC"
+    },
+    "receptor_manifest": {
+      "path": "data/processed/stage42c_bace1_redocking_qualified34_receptor_manifest.csv",
+      "sha256": "FFC5D239D4E880B07FBAEB04EDB87885302B893B54631F91424CDEE0B9026BC0"
+    },
+    "frozen_stage37_objective": {
+      "path": "configs/stage37_cross_target_robust_functional_qubo.json",
+      "sha256": "261E489567403D6CDA170833849DCA85AE21674134731A8CDE6867F9FFA04812"
+    }
+  },
+  "evidence_timing": {
+    "experiment_class": "outcome-informed BACE1 train-only replication of a pre-BACE1 objective",
+    "stage37_objective_frozen_before_bace1_functional_scores": true,
+    "stage42c_matrix_known_before_stage42d_gate_freeze": true,
+    "stage42d_selection_outcomes_known_before_freeze": false,
+    "fresh_validation_or_locked_test_rows_permitted": false,
+    "new_docking_permitted": false,
+    "quantum_hardware_permitted": false
+  },
+  "objective": {
+    "objective_id": "seed_robust_functional_complementarity_v1",
+    "lower_docking_score_is_better": true,
+    "normalization": "per-seed per-receptor empirical CDF fitted on the outer-train rows only",
+    "favorable_rank_fraction": 0.1,
+    "minimum_subset_size": 1,
+    "maximum_subset_size": 6,
+    "weights": {
+      "active_majority_seed_coverage": 0.35,
+      "active_all_seed_coverage": 0.25,
+      "active_double_receptor_majority_seed_support": 0.2,
+      "decoy_any_seed_exposure": 0.15,
+      "receptor_cost": 0.05
+    },
+    "formula": "F(S)=0.35*A_majority(S)+0.25*A_all3(S)+0.20*A_double_majority(S)-0.15*D_any(S)-0.05*|S|/6"
+  },
+  "qubo_interpretation": {
+    "receptor_variables": "x_i=1 iff receptor i is selected",
+    "active_auxiliaries": "binary auxiliaries encode per-active per-seed single and double receptor support plus majority/all-seed thresholds",
+    "decoy_auxiliaries": "binary auxiliaries encode exposure by any selected receptor in any seed",
+    "screen_solver": "exact enumeration of every feasible receptor subset after analytically minimizing valid auxiliary relations",
+    "claim_boundary": "exact objective optimization is a QUBO upper-bound screen, not a quantum or annealing execution"
+  },
+  "screen": {
+    "outer_fold_count": 4,
+    "fold_seed": 20261119,
+    "bedroc_alpha": 20.0,
+    "classical_beam_width": 64,
+    "random_samples_per_size": 4096,
+    "random_seed": 20260804,
+    "tie_tolerance": 1e-12
+  },
+  "required_comparators": [
+    "exact QUBO-objective optimum",
+    "beam-64 plus singleton multi-start plus add/drop/swap local search",
+    "direct greedy",
+    "exact additive singleton selection",
+    "random matched-budget subsets",
+    "best single receptor",
+    "all receptors",
+    "exact optimum at each k from 1 through 6"
+  ],
+  "support_gate": {
+    "minimum_positive_train_gap_folds": 2,
+    "minimum_full_data_exact_gap": 1e-9,
+    "minimum_mean_holdout_objective_delta": 0.0,
+    "minimum_mean_holdout_robust_bedroc_delta": 0.0,
+    "minimum_exact_over_single_robust_bedroc_gain": 0.01,
+    "all_checks_required": true,
+    "failure_action": "Freeze this objective as unsupported on BACE1 and forbid weight retuning on the same BACE1 outcomes. Diagnose which objective component remains classically easy before any new experiment."
+  },
+  "outputs": {
+    "fold_assignments_csv": "results/runs/stage42d_bace1_large_pool_qubo_screen/fold_assignments.csv",
+    "fold_metrics_csv": "results/runs/stage42d_bace1_large_pool_qubo_screen/fold_metrics.csv",
+    "selection_metrics_csv": "results/runs/stage42d_bace1_large_pool_qubo_screen/selection_metrics.csv",
+    "result_json": "data/stage42d_bace1_large_pool_qubo_screen_result.json",
+    "report_md": "reports/stage-42d/bace1_large_pool_qubo_screen.md"
+  },
+  "interpretation_boundary": "Stage42d uses only the outcome-informed BACE1 Train-266 matrix and a functional objective frozen before BACE1 scores existed. A pass would justify sparse auxiliary-QUBO construction and one protected fresh-validation test; it would not establish independent multi-protein replication, quantum execution, or quantum advantage. A failure does not permit BACE1-specific weight tuning."
+}

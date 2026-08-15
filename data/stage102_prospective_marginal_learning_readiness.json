@@ -1,0 +1,67 @@
+{
+  "schema_version": "1.0",
+  "status": "stage102_phase_a_readiness_ok",
+  "config": {
+    "path": "configs/stage102_prospective_marginal_learning.json",
+    "sha256": "2C1980E2A0C9B3F08DFAD30A82E2D4AF7063E16AE22515607EB280A613D1FA43"
+  },
+  "phase_a_targets": {
+    "EGFR": {
+      "passing_receptor_count": 12,
+      "passing_receptor_ids": [
+        "EGFR_9KL4_aligned",
+        "EGFR_7KXZ_aligned",
+        "EGFR_9FRD_aligned",
+        "EGFR_4I23_aligned",
+        "EGFR_3W2S_aligned",
+        "EGFR_5CAV_aligned",
+        "EGFR_3W32_aligned",
+        "EGFR_8F1Z_aligned",
+        "EGFR_3POZ_aligned",
+        "EGFR_7U9A_aligned",
+        "EGFR_3W33_aligned",
+        "EGFR_9QXN_aligned"
+      ]
+    },
+    "FA10": {
+      "passing_receptor_count": 13,
+      "passing_receptor_ids": [
+        "FA10_3KL6_reference",
+        "FA10_1LPK_aligned",
+        "FA10_1KSN_aligned",
+        "FA10_2WYJ_aligned",
+        "FA10_2PHB_aligned",
+        "FA10_1EZQ_aligned",
+        "FA10_5K0H_aligned",
+        "FA10_4A7I_aligned",
+        "FA10_2W3K_aligned",
+        "FA10_1NFU_aligned",
+        "FA10_1F0R_aligned",
+        "FA10_2Y81_aligned",
+        "FA10_1LPZ_aligned"
+      ]
+    }
+  },
+  "source_ligand_counts": {
+    "EGFR": {
+      "active": 542,
+      "decoy": 35050
+    },
+    "FA10": {
+      "active": 537,
+      "decoy": 28325
+    }
+  },
+  "phase_a_expected_receptor_ligand_seed_pairs": {
+    "EGFR": 21600,
+    "FA10": 23400,
+    "total": 45000
+  },
+  "phase_b_target": "PARP1",
+  "phase_b_source_gate": "stage17a_parp1_source_and_active_allocation_ok",
+  "phase_b_released": false,
+  "new_docking_jobs_started": 0,
+  "parp1_fresh_validation_rows_read": 0,
+  "quantum_hardware_jobs": 0,
+  "next_action": "Build the deterministic EGFR and FA10 600-ligand Phase A input bundle; do not prepare PARP1 yet."
+}

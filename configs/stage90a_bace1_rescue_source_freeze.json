@@ -1,0 +1,46 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage90a-bace1-rescue-source-freeze-20260811-v1",
+  "purpose": "Adjudicate the Stage90 receptor-count-only near miss against the pre-existing Stage41d large-pool certificate, then freeze disjoint BACE1 development, confirmation, and locked-test assays before any docking outcome is generated.",
+  "inputs": {
+    "stage90_config": "configs/stage90_chembl_analog_series_intake.json",
+    "stage90_result": "data/stage90_chembl_analog_series_intake_result.json",
+    "stage90_normalized_activities": "results/runs/stage90_chembl_analog_series_intake/normalized_activities.csv",
+    "stage90_assay_candidates": "results/runs/stage90_chembl_analog_series_intake/assay_candidates.csv",
+    "stage41d_large_pool_certificate": "data/stage41d_bace1_redocking_qualified_structural_coverage_result.json",
+    "receptor_manifest": "data/processed/stage42c_bace1_redocking_qualified34_receptor_manifest.csv"
+  },
+  "selection_rules": {
+    "target_id": "BACE1",
+    "standard_type": "IC50",
+    "require_analog_series_gate": true,
+    "require_potency_contrast_gate": true,
+    "require_distinct_assay_and_document": true,
+    "require_zero_molecule_overlap": true,
+    "require_zero_scaffold_overlap": true,
+    "development_rule": "maximum molecules_in_repeat_series, then maximum unique_molecule_count, then assay_chembl_id",
+    "confirmation_a_rule": "maximum unique_molecule_count among remaining eligible assays",
+    "confirmation_b_rule": "maximum low_potency_count among remaining eligible assays",
+    "locked_test_rule": "maximum unique_molecule_count among remaining eligible assays"
+  },
+  "large_pool_override": {
+    "stage90_minimum_receptor_count_is_not_retroactively_changed": true,
+    "use_preexisting_stage41d_certificate": true,
+    "minimum_stage41d_total_states_k1_to_k6": 1000000,
+    "minimum_stage41d_k6_states": 1000000,
+    "minimum_receptor_count": 30
+  },
+  "data_boundary": {
+    "metadata_only_selection": true,
+    "fresh_validation_rows_permitted": 0,
+    "locked_test_docking_scores_permitted": 0,
+    "new_docking_jobs_permitted": 0,
+    "quantum_hardware_jobs_permitted": 0
+  },
+  "outputs": {
+    "assay_roles_csv": "results/runs/stage90a_bace1_rescue_source_freeze/assay_roles.csv",
+    "overlap_matrix_csv": "results/runs/stage90a_bace1_rescue_source_freeze/assay_overlap_matrix.csv",
+    "result_json": "data/stage90a_bace1_rescue_source_freeze_result.json",
+    "report_md": "reports/stage-90a/bace1_rescue_source_freeze.md"
+  }
+}

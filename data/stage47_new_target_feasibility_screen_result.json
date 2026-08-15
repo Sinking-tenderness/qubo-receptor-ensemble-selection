@@ -1,0 +1,39 @@
+{
+  "candidate_count": 3,
+  "config": {
+    "path": "configs/stage47_new_target_feasibility_screen.json",
+    "sha256": "1EDBB9EBA0D26023F924EEEDB4E7A0B4D3305326ED01E8AD4A016322C7340C96"
+  },
+  "data_boundary": {
+    "docking_scores_read": 0,
+    "fresh_validation_rows_read": 0,
+    "individual_ligand_rows_read": 0,
+    "locked_test_rows_read": 0,
+    "new_docking_jobs": 0
+  },
+  "decision": {
+    "fresh_validation_authorized": false,
+    "new_target_source_intake_authorized": false,
+    "production_docking_authorized": false,
+    "quantum_hardware_authorized": false
+  },
+  "eligible_target_count": 0,
+  "interpretation_boundary": "Stage47 uses no individual ligand, docking, validation, or test outcome. It may select one source-intake candidate but cannot establish coordinate quality, redocking success, enrichment, QUBO superiority, quantum execution, or quantum advantage.",
+  "outputs": {
+    "candidate_metadata_csv": {
+      "path": "data/processed/stage47_new_target_candidate_metadata.csv",
+      "sha256": "4D1758A8D46C35E84CF03A541377EA964FFF3CC91EABA53AB8669BA17FAE6168"
+    },
+    "screen_csv": {
+      "path": "data/processed/stage47_new_target_feasibility_screen.csv",
+      "sha256": "146FE71DD83B3916204A66E403428ABA650B0ED5C29980B9966E3F230F657EFA"
+    },
+    "snapshot_json": {
+      "path": "data/raw/rcsb/stage47_new_target_metadata_snapshot_20260804.json",
+      "sha256": "5CB0DD3528F95147DF97CE91623DCB7E71C248834EE9C667D538DED1D106D5F9"
+    }
+  },
+  "schema_version": "1.0",
+  "selected_target": null,
+  "status": "stage47_new_target_feasibility_screen_complete"
+}

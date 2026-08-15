@@ -1,0 +1,143 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage60-ppard-transferred-qubo-and-nested-k-freeze-20260805-v1",
+  "purpose": "Freeze one pre-PPARD second-order objective and a leakage-safe k=1..6 nested scaffold-CV rule after the preregistered Stage59 functional-complementarity gate passed and before docking the remaining PPARD development ligands.",
+  "implementation": {
+    "freezer": {
+      "path": "scripts/freeze_stage60_ppard_transferred_qubo.py",
+      "sha256": "A177A7C0F479FDDBC826171124F675C91B66EB145D9A00A60AAE84A9D360EC6B"
+    },
+    "independent_auditor": {
+      "path": "scripts/audit_stage60_ppard_transferred_qubo.py",
+      "sha256": "B655DB8080789983F66D5992F74A1F0796F277CC1102FC8C3542B9C7B6F9429B"
+    }
+  },
+  "inputs": {
+    "stage55_preregistration": {
+      "path": "configs/stage55_ppard_small_pilot_preregistration.json",
+      "sha256": "01AE005C03E2F3B3CFD2EA5F21400B91EE5EA7328FAF3C5FA229FB946FA7648A"
+    },
+    "stage59_result": {
+      "path": "data/stage59_ppard_functional_complementarity_gate_result.json",
+      "sha256": "FE89E4F4536EB42B098630AABB1B6383AA39A73500A7DA5AB28566CCFCC95822"
+    },
+    "stage59_audit": {
+      "path": "data/stage59_ppard_functional_complementarity_gate_audit.json",
+      "sha256": "88F9431E8AB219220A8AAAEC15FA8DB96299FC76C466ECAC91CB0303BBDFA63C"
+    },
+    "stage37_config": {
+      "path": "configs/stage37_cross_target_robust_functional_qubo.json",
+      "sha256": "261E489567403D6CDA170833849DCA85AE21674134731A8CDE6867F9FFA04812"
+    },
+    "stage37_result": {
+      "path": "data/stage37_cross_target_robust_functional_qubo_result.json",
+      "sha256": "31B04566BDE24BB05BFB698CD915CE3943D829BC1E72E2540A2EB84BCAD5D0AB"
+    },
+    "stage40_config": {
+      "path": "configs/stage40_bedroc_aligned_signed_hubo.json",
+      "sha256": "C0AE462FC8E87CD3AEE05B111E7BCD1E9A900148C06C43D0479FE8D64F5A628F"
+    },
+    "stage40_result": {
+      "path": "data/stage40_bedroc_aligned_signed_hubo_result.json",
+      "sha256": "BAD5A67CC8655BB6AFA9986F9DCF7EB66B28D386C4C3C9C597B1C883CEAB555A"
+    },
+    "stage42f_config": {
+      "path": "configs/stage42f_bace1_rank_sensitive_pair_qubo.json",
+      "sha256": "C314EB3F6565F95FD4DD6160F09C9BCFACC8E5922890BCFF5B72D8F98E7BA054"
+    },
+    "stage42f_result": {
+      "path": "data/stage42f_bace1_rank_sensitive_pair_qubo_result.json",
+      "sha256": "1C7E0581B75B59D702CAFC6D8E2D20ABA3B3EC18977A868DCBE535E1FAEA9BB1"
+    },
+    "stage53_config": {
+      "path": "configs/stage53_ppara_large_pool_qubo_transfer.json",
+      "sha256": "B83F7F8F6F2D3DBAFCF6D27A72F0D16478DE9CE70AA8F78386A7377EA7133E67"
+    },
+    "stage53_result": {
+      "path": "data/stage53_ppara_large_pool_qubo_transfer_result.json",
+      "sha256": "B42AB5C02F2ED5FD893771BAA370D648F52B2962E316E409FBBD2227D59490C4"
+    },
+    "train_manifest": {
+      "path": "data/processed/stage56_ppard_train240_ligand_manifest.csv",
+      "sha256": "618B068DC49CBB037DF2B34F0B52A287509341AE879327CE4FC7C9FB1E6F1101"
+    },
+    "pilot_manifest": {
+      "path": "data/processed/stage56_ppard_pilot96_ligand_manifest.csv",
+      "sha256": "22C51AD9722894135DCDAFF4B4EADB6458D058217A48F695E00905B7A727FF69"
+    }
+  },
+  "evidence_timing": {
+    "stage59_gate_outcome_known": true,
+    "stage59_pilot_scores_permitted_for_objective_fitting": false,
+    "candidate_selection_basis": "Only objective definitions and target results frozen before any PPARD pilot outcome are used. Stage59 contributes pass authorization only.",
+    "objective_coefficient_changes_after_stage42f": 0,
+    "remaining_development_scores_known": false,
+    "fresh_validation_or_locked_test_rows_permitted": false,
+    "new_docking_permitted_in_stage60": false,
+    "quantum_hardware_permitted": false
+  },
+  "transferred_objective": {
+    "bedroc_alpha": 20.0,
+    "fixed_k_qubo": "Q_k(S)=mean_{i in S}(q_i)+mean_{i<j in S}(delta_ij); for k=1 the pair term is zero",
+    "maximum_subset_size": 6,
+    "minimum_subset_size": 1,
+    "normalization_reason": "separate normalization at each fixed k removes the Stage42d cardinality pressure and implements the previously proposed k=1..6 ladder",
+    "objective_id": "bedroc20_rank_sensitive_pair_complementarity_v1",
+    "pair_complementarity": "delta_ij=q_{ij}-max(q_i,q_j), where q_{ij} uses the better rank from receptor i or j",
+    "qubo_form": "For each frozen k, maximize sum_i(q_i/k)x_i + sum_{i<j}(delta_ij/C(k,2))x_i x_j subject to sum_i x_i=k.",
+    "rank_normalization": "per-seed per-receptor empirical CDF fitted on outer-train rows only",
+    "singleton_utility": "q_i=(mean_seed(E_active[exp(-20r_i)]-E_decoy[exp(-20r_i)]) + worst_seed(...))/2"
+  },
+  "nested_cv": {
+    "outer_fold_count": 4,
+    "outer_fold_seed": 20261119,
+    "inner_fold_count": 3,
+    "inner_fold_seeds": [20261201, 20261202, 20261203, 20261204],
+    "grouping_columns": ["split_group_id", "scaffold_smiles"],
+    "candidate_k_values": [1, 2, 3, 4, 5, 6],
+    "inner_training_action": "Fit train-only empirical rank transforms and QUBO coefficients, then exactly optimize each fixed k.",
+    "inner_evaluation_metric": "robust BEDROC20=(primary median-seed BEDROC20 + mean seed BEDROC20 + worst seed BEDROC20)/3",
+    "k_selection_rule": "one_standard_error_smallest_k",
+    "k_selection_definition": "Let k_star maximize mean inner-holdout robust BEDROC20. Compute the sample standard error at k_star across the three inner folds. Select the smallest k whose mean is at least mean(k_star)-SE(k_star). Break numerical ties by smaller k.",
+    "outer_evaluation_action": "Refit coefficients and exact fixed-k QUBO on the complete outer-train partition at the inner-selected k, then evaluate the untouched outer holdout.",
+    "final_development_model_rule": "After reporting nested outer-fold results, select the smallest k within one standard error of the highest mean outer-holdout robust BEDROC20 and refit once on all Train-240 rows.",
+    "tie_tolerance": 1e-12,
+    "literal_early_docking_stop": false,
+    "reason_no_literal_early_docking_stop": "All k values reuse one receptor-by-ligand score matrix; increasing k does not launch additional docking jobs. The stopping rule controls model complexity, not docking execution."
+  },
+  "comparators": [
+    "exact transferred rank-pair QUBO",
+    "beam-64 plus all-singleton-start fixed-k swap local search on the same QUBO",
+    "direct greedy on the same QUBO",
+    "best single receptor",
+    "linear Top-k by singleton BEDROC20 utility",
+    "nested greedy directly maximizing robust BEDROC20",
+    "random matched-k search",
+    "all 29 receptors"
+  ],
+  "claim_gates": {
+    "application_support": {
+      "minimum_mean_outer_holdout_gain_over_best_single": 0.01,
+      "minimum_positive_outer_holdout_gain_folds": 3,
+      "minimum_mean_outer_holdout_gain_over_linear_topk": 0.0,
+      "minimum_mean_outer_holdout_gain_over_nested_bedroc_greedy": 0.0,
+      "all_checks_required": true
+    },
+    "optimization_novelty": {
+      "minimum_positive_objective_gap_cells_over_strong_classical": 1,
+      "separate_from_application_support": true,
+      "does_not_establish_quantum_advantage": true
+    },
+    "fresh_validation_action": "Authorize one frozen PPARD fresh-validation run only if the complete nested application-support gate passes; otherwise stop PPARD outcome fitting.",
+    "quantum_hardware_action": "Not authorized by Stage60 or by a Train-240 result. Hardware requires a later successful independent validation and a separately frozen hardware protocol."
+  },
+  "outputs": {
+    "candidate_audit_csv": "results/runs/stage60_ppard_transferred_qubo_freeze/candidate_audit.csv",
+    "outer_fold_assignments_csv": "data/processed/stage60_ppard_full_development_outer_fold_assignments.csv",
+    "inner_fold_assignments_csv": "data/processed/stage60_ppard_full_development_inner_fold_assignments.csv",
+    "model_record_json": "data/stage60_ppard_transferred_qubo_model_record.json",
+    "result_json": "data/stage60_ppard_transferred_qubo_freeze_result.json",
+    "report_md": "reports/stage-60/ppard_transferred_qubo_freeze.md"
+  },
+  "interpretation_boundary": "Stage60 freezes a prospective PPARD application test of an unchanged, previously unsupported QUBO. It does not claim that the objective is effective, that exact QUBO beats strong classical optimization, or that quantum hardware has an advantage. Only the remaining development-train preparation and docking are authorized; fresh validation, locked test, and quantum hardware remain closed."
+}

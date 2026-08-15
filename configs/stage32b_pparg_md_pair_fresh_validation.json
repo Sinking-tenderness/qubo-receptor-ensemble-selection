@@ -1,0 +1,120 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage32b-pparg-md-pair-fresh-validation-20260803-v1",
+  "purpose": "Prospectively confirm whether the Train-160-selected PPARG MD receptor pair improves early enrichment over its frozen best single receptor on the untouched Stage19a fresh-validation panel.",
+  "evidence_timing": {
+    "experiment_class": "prospective_fresh_validation_confirmation",
+    "stage32_train_matrix_known_before_freeze": true,
+    "stage32a_cross_validation_outcomes_known_before_freeze": true,
+    "fresh_validation_ligand_identities_and_labels_known_from_frozen_allocation": true,
+    "fresh_validation_docking_scores_known_before_freeze": false,
+    "locked_test_rows_permitted": false,
+    "quantum_hardware_execution": false
+  },
+  "inputs": {
+    "stage32a_audit": "data/stage32a_pparg_md_functional_landscape_audit.json",
+    "stage32_scores_csv": "results/runs/stage32_pparg_md_functional_complementarity_pilot/scores.csv",
+    "stage32_median_matrix_csv": "results/runs/stage32_pparg_md_functional_complementarity_pilot/primary_median_score_matrix.csv",
+    "stage32_minimum_matrix_csv": "results/runs/stage32_pparg_md_functional_complementarity_pilot/sensitivity_minimum_score_matrix.csv",
+    "stage32_train_ligand_manifest": "data/processed/stage32_pparg_train160_ligand_manifest.csv",
+    "stage32_prepared_receptor_manifest": "data/processed/stage32_pparg_md_selected16_prepared_receptor_manifest.csv",
+    "stage19a_allocation_summary": "data/stage19a_pparg_ligand_panel_allocation_summary.json",
+    "stage19a_all_panel_manifest": "data/processed/stage19a_pparg_selected_ligand_panel_manifest.csv",
+    "stage07c_profile_freeze": "data/stage07c_mk14_unidock113_warning_adjudication_result.json"
+  },
+  "train_selection": {
+    "per_receptor_normalization": "Empirical midrank CDF fitted on all 160 Stage32 training rows; lower fractions are favorable.",
+    "set_aggregation": "minimum normalized rank fraction across selected receptors",
+    "primary": "median score across seed0, seed1, and seed2",
+    "sensitivity": "minimum score across seed0, seed1, and seed2",
+    "robust_utility": "(primary BEDROC20 + mean seed BEDROC20 + worst seed BEDROC20)/3",
+    "bedroc_alpha": 20.0,
+    "single_rule": "Enumerate all 16 singletons and choose maximum robust utility, breaking ties by receptor ID.",
+    "pair_rule": "Enumerate all 120 pairs and choose maximum robust utility, breaking ties by sorted receptor IDs.",
+    "validation_comparator": "The frozen best singleton, whether or not it is a member of the selected pair."
+  },
+  "fresh_validation_panel": {
+    "selection_role": "fresh_validation",
+    "split": "validation",
+    "active_count": 75,
+    "decoy_count": 1501,
+    "ligand_count": 1576,
+    "identity_sha256": "E1CD98D5833FCC150D654E6681D7E63A3156DD7E8C04A3676823E3B978A2265C",
+    "require_disjoint_from_development_train": true,
+    "locked_test_rows": 0
+  },
+  "seeds": [
+    {"seed_id": "seed0", "base_seed": 20260801},
+    {"seed_id": "seed1", "base_seed": 20260802},
+    {"seed_id": "seed2", "base_seed": 20260803}
+  ],
+  "ligand_preparation": {
+    "rdkit_version": "2026.3.1",
+    "meeko_version": "0.7.1",
+    "rdkit_embed_base_seed": 20320803,
+    "deterministic_retry_seed_offsets": [0, 1000003, 2000003],
+    "macrocycle_policy": "Run Meeko flexible first; rerun with rigid macrocycles after failure or closure-pseudoatom detection; require zero remaining closure pseudoatoms.",
+    "worker_count": 8,
+    "checkpoint_each_ligand": true
+  },
+  "unidock": {
+    "executable": "unidock",
+    "required_package_version": "1.1.3",
+    "profile_id": "enhanced",
+    "scoring": "vina",
+    "exhaustiveness": 1024,
+    "max_step": 80,
+    "refine_step": 5,
+    "num_modes": 1,
+    "energy_range": 3,
+    "verbosity": 1,
+    "cuda_visible_devices": "0",
+    "maximum_absolute_score_kcal_per_mol": 1000.0,
+    "box": {
+      "center_x": 1.61,
+      "center_y": 23.47,
+      "center_z": 16.9,
+      "size_x": 22.0,
+      "size_y": 26.0,
+      "size_z": 28.0
+    }
+  },
+  "expected": {
+    "receptor_count": 2,
+    "ligand_count": 1576,
+    "seed_count": 3,
+    "batch_count": 6,
+    "score_row_count": 9456,
+    "locked_test_rows": 0
+  },
+  "confirmation_analysis": {
+    "normalization": "Transform fresh-validation scores with the receptor- and scenario-specific empirical CDF frozen from all 160 training rows.",
+    "pair_aggregation": "minimum normalized fraction across the two selected receptors",
+    "primary_metric": "BEDROC with alpha=20 on median-seed scores",
+    "secondary_metrics": ["individual-seed BEDROC20", "sensitivity-minimum BEDROC20", "EF1%", "EF5%"],
+    "paired_uncertainty": "2000 label-stratified ligand bootstrap replicates with seed stage32b-pparg-md-pair-bootstrap-v1",
+    "confirmation_gate": {
+      "minimum_primary_bedroc20_gain": 0.02,
+      "minimum_positive_individual_seed_count": 2,
+      "minimum_stratified_bootstrap_95ci_lower_bound": 0.0,
+      "all_conditions_required": true
+    }
+  },
+  "outputs": {
+    "train_selection_json": "data/stage32b_pparg_md_pair_train_selection.json",
+    "fresh_validation_source_manifest": "data/processed/stage32b_pparg_fresh_validation_source_manifest.csv",
+    "prepared_ligand_manifest": "data/processed/stage32b_pparg_fresh_validation_pdbqt_manifest.csv",
+    "selected_receptor_manifest": "data/processed/stage32b_pparg_md_pair_prepared_receptor_manifest.csv",
+    "preparation_result": "data/stage32b_pparg_md_pair_fresh_validation_preparation_result.json",
+    "run_directory": "results/runs/stage32b_pparg_md_pair_fresh_validation",
+    "scores_csv": "results/runs/stage32b_pparg_md_pair_fresh_validation/scores.csv",
+    "batch_runs_csv": "results/runs/stage32b_pparg_md_pair_fresh_validation/batch_runs.csv",
+    "median_matrix_csv": "results/runs/stage32b_pparg_md_pair_fresh_validation/primary_median_score_matrix.csv",
+    "minimum_matrix_csv": "results/runs/stage32b_pparg_md_pair_fresh_validation/sensitivity_minimum_score_matrix.csv",
+    "progress_json": "results/runs/stage32b_pparg_md_pair_fresh_validation/progress.json",
+    "summary_json": "results/runs/stage32b_pparg_md_pair_fresh_validation/summary.json",
+    "evaluation_json": "data/stage32b_pparg_md_pair_fresh_validation_result.json",
+    "report_md": "reports/stage-32b/pparg_md_pair_fresh_validation.md"
+  },
+  "decision_boundary": "A pass confirms only that the frozen PPARG MD pair prospectively improves fresh-validation early enrichment over its frozen single-receptor comparator. It does not revive the failed Stage32a QUBO-efficacy gate, access the locked test set, demonstrate cross-target transfer, quantum execution, speedup, or quantum advantage."
+}

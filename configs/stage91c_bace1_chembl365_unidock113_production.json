@@ -1,0 +1,134 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage91c-bace1-chembl365-qualified34-unidock113-production-20260811-v1",
+  "purpose": "Generate the complete frozen BACE1 ChEMBL development-assay by redocking-qualified34 receptor by three-seed Uni-Dock matrix.",
+  "implementation": {
+    "runner": {
+      "path": "scripts/experimental/unidock/run_stage91c_bace1_chembl365_production.py",
+      "sha256": "7396189DC418441A7E4A6775DAC4D79D440ACBD0C093F9B293A53DDE23029916"
+    },
+    "independent_auditor": {
+      "path": "scripts/experimental/unidock/audit_stage91c_bace1_chembl365_production.py",
+      "sha256": "F11BD2C6DD1F3BB0812670B5B1EBC800BE6ADDCF0E086A973276D17040642024"
+    },
+    "unidock_batch_helper": {
+      "path": "scripts/experimental/unidock/run_unidock_gpu_equivalence.py",
+      "sha256": "4E927E959A08526289F7B266BA8CD76232741C878CCE255312F94A561DE433B0"
+    },
+    "pose_audit_helper": {
+      "path": "scripts/experimental/unidock/run_stage07b_unidock_enhanced_confirmation.py",
+      "sha256": "192E6BF7700442EA508082F47D96494125B41ADAD04C81B141FE3F4889312EE4"
+    },
+    "warning_adjudication_helper": {
+      "path": "scripts/experimental/unidock/run_stage07c_unidock_warning_adjudication.py",
+      "sha256": "9729941976A15D6A91C45493807218CF3E24141063439AFBA948E0A2F2635153"
+    }
+  },
+  "data_boundary": {
+    "allowed_role": "development",
+    "allowed_split": "development",
+    "allowed_selection_role": "chembl_single_assay_development",
+    "confirmation_rows_permitted": 0,
+    "locked_test_rows_permitted": 0,
+    "enrichment_during_score_generation_permitted": false
+  },
+  "inputs": {
+    "receptor_manifest": {
+      "path": "data/processed/stage42c_bace1_redocking_qualified34_receptor_manifest.csv",
+      "sha256": "FFC5D239D4E880B07FBAEB04EDB87885302B893B54631F91424CDEE0B9026BC0"
+    },
+    "structural_coverage_gate": {
+      "path": "data/stage41d_bace1_redocking_qualified_structural_coverage_result.json",
+      "sha256": "530283E5EE79829B8CF54E9F4B485062085EAE066439E2CA5FB51B7CD79F00CE"
+    },
+    "stage91_preregistration": {
+      "path": "data/stage91_bace1_group_robust_rescue_preregistration_result.json",
+      "sha256": "DA676E5A06CFB369500055EAE4CC985F8F9F36586A7C94EAE986AB383A5CB653"
+    },
+    "docking_preregistration": {
+      "path": "configs/stage91c_bace1_group_robust_development_docking_preregistration.json",
+      "sha256": "55E7F1A5581AFF5F8ACAFFAA6A156013EB176EBC8A07133C2283E451EAFE5DBF"
+    },
+    "ligand_manifest": {
+      "path": "data/processed/stage91b_bace1_chembl365_unidock_pdbqt_manifest.csv",
+      "sha256": "00A996ED7C66112D7F7BB1CE8DA5D7CE8785883E665B35E563AD60885DC9E5FC"
+    },
+    "ligand_preparation_summary": {
+      "path": "data/stage91b_bace1_chembl365_unidock_input_summary.json",
+      "sha256": "FF8A9A77CB8861F4E31002D2B540653DF290E8E86157FC976C9524303BCBA834"
+    },
+    "input_preparation_audit": {
+      "path": "data/stage91b_bace1_chembl365_unidock_input_audit.json",
+      "sha256": "83E8BEEFA66E398A58470B27FFA32379E5E540D17F8D24DAA2D477B4E1CA90DD"
+    },
+    "profile_freeze_result": {
+      "path": "data/stage07c_mk14_unidock113_warning_adjudication_result.json",
+      "sha256": "55C6EE2C9E32EC4A71A0EBDF02FEE761E99B15840D6DB56299F1799C8A772DDB"
+    },
+    "seeds": [
+      {"seed_id": "seed0", "base_seed": 20260801},
+      {"seed_id": "seed1", "base_seed": 20260802},
+      {"seed_id": "seed2", "base_seed": 20260803}
+    ]
+  },
+  "expected": {
+    "receptor_ids": [
+      "BACE1_2QMD_aligned", "BACE1_2QMF_aligned", "BACE1_2QMG_aligned", "BACE1_2QP8_aligned",
+      "BACE1_3CIB_aligned", "BACE1_3CIC_aligned", "BACE1_3CID_aligned", "BACE1_3IVH_aligned",
+      "BACE1_3IVI_aligned", "BACE1_3KN0_aligned", "BACE1_3L59_aligned", "BACE1_3L5E_aligned",
+      "BACE1_4DJU_aligned", "BACE1_4DJV_aligned", "BACE1_4DJW_aligned", "BACE1_4DJX_aligned",
+      "BACE1_4DJY_aligned", "BACE1_4FS4_aligned", "BACE1_4H3F_aligned", "BACE1_4H3G_aligned",
+      "BACE1_4H3I_aligned", "BACE1_4H3J_aligned", "BACE1_4HA5_aligned", "BACE1_4HZT_aligned",
+      "BACE1_4I0F_aligned", "BACE1_4I0G_aligned", "BACE1_4I0J_aligned", "BACE1_4I0Z_aligned",
+      "BACE1_4I10_aligned", "BACE1_4I11_aligned", "BACE1_4RRN_aligned", "BACE1_4RRO_aligned",
+      "BACE1_4RRS_aligned", "BACE1_6PZ4_aligned"
+    ],
+    "receptor_count": 34,
+    "ligand_count": 365,
+    "potency_label_counts": {"high": 248, "low": 52, "gray": 65},
+    "seed_count": 3,
+    "batch_count": 102,
+    "pair_count": 37230,
+    "confirmation_rows": 0,
+    "locked_test_rows": 0
+  },
+  "unidock": {
+    "executable": "unidock",
+    "required_package_version": "1.1.3",
+    "profile_id": "enhanced",
+    "scoring": "vina",
+    "exhaustiveness": 1024,
+    "max_step": 80,
+    "refine_step": 5,
+    "num_modes": 1,
+    "energy_range": 3,
+    "verbosity": 1,
+    "cuda_visible_devices": "0",
+    "maximum_absolute_score_kcal_per_mol": 1000.0,
+    "box": {
+      "center_x": 24.35,
+      "center_y": 13.96,
+      "center_z": 23.58,
+      "size_x": 30.0,
+      "size_y": 22.0,
+      "size_z": 22.0
+    }
+  },
+  "execution": {
+    "batch_order": "seed-major, then frozen qualified-receptor order",
+    "batch_unit": "one receptor and one seed with all 365 development ligands",
+    "resume_contract": "reuse only checkpoints whose protocol signature, score hash, pose hashes, pose-integrity audit, and warning adjudication all pass",
+    "technical_gate": "zero unresolved warnings and zero pose-integrity failures"
+  },
+  "outputs": {
+    "run_directory": "results/runs/stage91c_bace1_chembl365_unidock113_production",
+    "scores_csv": "results/runs/stage91c_bace1_chembl365_unidock113_production/scores.csv",
+    "batch_runs_csv": "results/runs/stage91c_bace1_chembl365_unidock113_production/batch_runs.csv",
+    "median_matrix_csv": "results/runs/stage91c_bace1_chembl365_unidock113_production/primary_median_score_matrix.csv",
+    "minimum_matrix_csv": "results/runs/stage91c_bace1_chembl365_unidock113_production/sensitivity_minimum_score_matrix.csv",
+    "progress_json": "results/runs/stage91c_bace1_chembl365_unidock113_production/progress.json",
+    "summary_json": "results/runs/stage91c_bace1_chembl365_unidock113_production/summary.json",
+    "audit_json": "data/stage91c_bace1_chembl365_unidock113_production_audit.json"
+  },
+  "decision_boundary": "Stage91c contains only the frozen ChEMBL development assay. It cannot establish independent assay transfer, QUBO superiority, drug discovery, quantum execution, or quantum advantage."
+}

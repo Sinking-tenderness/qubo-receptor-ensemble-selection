@@ -1,0 +1,230 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage15-hivpr-external-target-source-audit-20260731-v1",
+  "authorization_id": "stage15-hivpr-external-target-preregistration-20260731-v1",
+  "created_on": "2026-07-31",
+  "purpose": "Run the third frozen external-target validation on HIV-1 protease without using the EGFR or FA10 technical failures to retune the receptor protocol, QUBO, panel sizes, or decision rules.",
+  "implementation": {
+    "path": "scripts/audit_stage15_hivpr_source.py",
+    "sha256": "3BC0B1B48244CC3A8D9CBB5D9DB39333921784D44E25831B3589581EFAB07A00"
+  },
+  "master_preregistration": {
+    "path": "configs/stage13_multitarget_external_validation_master_preregistration.json",
+    "sha256": "568D445852230E8F904342494EC25B070C9A994B19DAEB2DF76A55C6E95CD68D"
+  },
+  "upstream_fa10_adjudication": {
+    "path": "data/stage14e_fa10_cognate_redocking_failure_adjudication.json",
+    "sha256": "BF30E70AACB5B5BAF2FE38A5741F6A2C9EA9383501F76E179F5A16137FBEB3A1"
+  },
+  "target": {
+    "target_id": "HIVPR",
+    "protein_name": "Human immunodeficiency virus type 1 protease",
+    "enzyme_class": "homodimeric aspartyl protease",
+    "organism": "Human immunodeficiency virus 1",
+    "reference_uniprot_accession": "P03367",
+    "dude_target_id": "HIVPR",
+    "dude_reference_structure": "1XL2",
+    "dude_reference_protein_chains": [
+      "A",
+      "B"
+    ],
+    "dude_reference_ligand": "189",
+    "dude_reference_ligand_auth_asym_id": "A",
+    "dude_reference_ligand_auth_seq_id": 1001
+  },
+  "evidence_timing": "Frozen after the Stage 14e FA10 technical adjudication and HIVPR source-identity audit inputs, but before HIVPR RCSB candidate discovery, receptor selection, benchmark docking, QUBO fitting, or enrichment evaluation.",
+  "dude_source": {
+    "target_url": "https://dude.docking.org/targets/hivpr",
+    "archive": {
+      "path": "data/raw/external_targets/hivpr_dude/hivpr.tar.gz",
+      "source_url": "https://dude.docking.org/targets/hivpr/hivpr.tar.gz",
+      "sha256": "B4D0663622B7DF5CB2B5DB90FBC0C5075C1E0A071AE0B8C092293EE145C8CBFC"
+    },
+    "actives": {
+      "path": "data/raw/external_targets/hivpr_dude/hivpr/actives_final.ism",
+      "sha256": "60F6B3CCBB815F1089330908B52D18A8592828E377A61DB9F920466E8109FCDC",
+      "row_count": 536,
+      "unique_source_id_count": 536,
+      "duplicate_source_id_count": 0,
+      "maximum_source_id_multiplicity": 1
+    },
+    "decoys": {
+      "path": "data/raw/external_targets/hivpr_dude/hivpr/decoys_final.ism",
+      "sha256": "BF67AE7FCEC2F822F9C853575D9DF72485F3D19666EF7E095BEE357CD365C0EC",
+      "row_count": 35750,
+      "unique_source_id_count": 35688,
+      "duplicate_source_id_count": 60,
+      "maximum_source_id_multiplicity": 3
+    }
+  },
+  "reference_structure": {
+    "dude_receptor_pdb": {
+      "path": "data/raw/external_targets/hivpr_dude/hivpr/receptor.pdb",
+      "sha256": "A39F4456B05A2B9F816944849F934F8EA71DE4FC085D689204C359111C9190BC"
+    },
+    "dude_crystal_ligand_mol2": {
+      "path": "data/raw/external_targets/hivpr_dude/hivpr/crystal_ligand.mol2",
+      "sha256": "73820866824323987FE207EE559FF19E9ACDC7548EFEC4628EF828049D894A22"
+    },
+    "official_pdb": {
+      "path": "data/raw/rcsb/hivpr/1XL2.pdb",
+      "source_url": "https://files.rcsb.org/download/1XL2.pdb",
+      "sha256": "572B75884F4CDF195E428656068B776E7E050D1D2E84920F3BCF74FE16545642"
+    },
+    "official_mmcif": {
+      "path": "data/raw/rcsb/hivpr/1XL2.cif",
+      "source_url": "https://files.rcsb.org/download/1XL2.cif",
+      "sha256": "F6360A36A883463DC96163827457570D9B61B84E23BDE07378BD85B6467B28AF"
+    },
+    "official_ligand_sdf": {
+      "path": "data/raw/rcsb/hivpr/1XL2_189_A1001.sdf",
+      "source_url": "https://models.rcsb.org/v1/1XL2/ligand?auth_asym_id=A&auth_seq_id=1001&encoding=sdf",
+      "sha256": "0AF0D4DAB5E09E48601086549BE01DFCCB7A5E93958A9583AE1B9C4AE0258C0E"
+    },
+    "reference_chain_sequence": {
+      "auth_asym_id": "A",
+      "length": 99,
+      "sequence": "PQITLWQRPLVTIKIGGQLKEALLDTGADDTVLEEMSLPGRWKPKMIGGIGGFIKVRQYDQILIEICGHKAIGTVLVGPTPVNIIGRNLLTQIGCTLNF",
+      "sha256": "7933B1F14C15EAF02D7380194E89894E342895CBB65AA13D9F7F9172072C23F6"
+    }
+  },
+  "ligand_panel_plan": {
+    "internal_id_rule": "HIVPR label plus one-based source line number; preserve the possibly duplicated DUD-E source ID as metadata",
+    "split_group": "Bemis-Murcko scaffold joined with duplicate source IDs before allocation",
+    "development_train": {
+      "active_count": 348,
+      "decoy_count": 348
+    },
+    "fresh_validation": {
+      "active_count": 75,
+      "decoy_count": 1501,
+      "status": "locked_not_sampled"
+    },
+    "locked_test": {
+      "active_count": 75,
+      "decoy_count": 1501,
+      "status": "locked_not_sampled"
+    },
+    "failure_action": "Stop HIVPR before preparation if exact molecule-, source-, canonical-SMILES-, and scaffold-disjoint panel sizes cannot be constructed."
+  },
+  "rcsb_discovery": {
+    "uniprot_accession": "P03367",
+    "experimental_method": "X-RAY DIFFRACTION",
+    "retrieved_on": "2026-07-31",
+    "metadata_eligibility": {
+      "required_mutation_count": 0,
+      "maximum_resolution_angstrom": 2.5,
+      "minimum_reference_sequence_coverage": 0.9,
+      "minimum_sample_sequence_length": 90,
+      "maximum_sample_sequence_length": 110,
+      "minimum_target_auth_chain_count": 2,
+      "require_same_chain_drug_like_nonpolymer": true,
+      "minimum_nonpolymer_formula_weight_kda": 0.2,
+      "maximum_nonpolymer_formula_weight_kda": 1.2,
+      "excluded_nonpolymer_ids": [
+        "ACT",
+        "ADP",
+        "AMP",
+        "ATP",
+        "BME",
+        "CA",
+        "CD",
+        "CIT",
+        "CL",
+        "CO",
+        "DMS",
+        "EDO",
+        "FLC",
+        "GOL",
+        "K",
+        "MES",
+        "MG",
+        "MN",
+        "MPD",
+        "NA",
+        "NI",
+        "PEG",
+        "PG4",
+        "PGE",
+        "PO4",
+        "SO4",
+        "TRS",
+        "ZN"
+      ],
+      "excluded_title_patterns": [
+        "\\bapo\\b",
+        "unliganded",
+        "drug.resistant",
+        "multidrug.resistant",
+        "mutant",
+        "mutation"
+      ]
+    }
+  },
+  "receptor_pool_plan": {
+    "reference": "1XL2 auth chains A and B as one biological homodimer",
+    "metadata_minimum_eligible_count_including_reference": 17,
+    "coordinate_gate": "proper-rotation alignment of both protease monomers to the 1XL2 A/B dimer, complete catalytic and flap anchors in both chains, and a noncovalent drug-like ligand in the dimer active site",
+    "required_anchor_residues_per_chain": [
+      8,
+      23,
+      25,
+      27,
+      28,
+      30,
+      32,
+      47,
+      48,
+      49,
+      50,
+      80,
+      81,
+      82,
+      84
+    ],
+    "selection_rule": "label-independent deterministic max-min selection over symmetric dimer active-site and flap geometry",
+    "target_receptor_count": 16,
+    "reserve_receptor_count": 1,
+    "co_crystal_redocking_required": true,
+    "redocking_rmsd_gate_angstrom": 2.0,
+    "failure_action": "Report the final target as a technical failure if fewer than 16 selected HIVPR receptors pass the unchanged redocking gate; do not substitute another target."
+  },
+  "method_transfer": {
+    "docking_engine": "Uni-Dock 1.1.3",
+    "profile": "enhanced: exhaustiveness 1024, max_step 80, refine_step 5, num_modes 1",
+    "seed_count": 3,
+    "primary_aggregation": "median across seeds, then min_score across selected receptors",
+    "primary_metric": "BEDROC alpha 20",
+    "qubo_family": "pair_synergy_qubo v1",
+    "qubo_weights": {
+      "ensemble_pair_synergy": 2.0,
+      "stability": 0.5
+    },
+    "target_size": 3,
+    "retuning_permitted": false
+  },
+  "data_boundary": {
+    "labels_allowed_only_for_source_audit_and_frozen_panel_allocation": true,
+    "labels_allowed_during_receptor_discovery_or_structural_selection": false,
+    "docking_scores_allowed_during_receptor_discovery_or_structural_selection": false,
+    "HIVPR_benchmark_docking_scores_read": 0,
+    "fresh_validation_rows_read": 0,
+    "test_rows_read": 0
+  },
+  "authorization": {
+    "authorized_now": [
+      "DUD-E source identity audit",
+      "RCSB metadata discovery",
+      "coordinate download and label-independent structural audit",
+      "receptor-pool selection and cognate-redocking input preparation"
+    ],
+    "not_authorized_yet": [
+      "HIVPR benchmark ligand docking",
+      "HIVPR QUBO coefficient fitting",
+      "fresh-validation access",
+      "test access"
+    ]
+  },
+  "output_json": "data/stage15_hivpr_source_audit.json",
+  "interpretation_boundary": "Passing source intake establishes only HIVPR identity, count, dimer, and reference-coordinate provenance. It does not establish receptor-pool adequacy, redocking success, screening enrichment, QUBO portability, QUBO superiority, quantum execution, or quantum advantage."
+}

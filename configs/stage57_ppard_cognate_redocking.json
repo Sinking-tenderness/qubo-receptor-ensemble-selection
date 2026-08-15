@@ -1,0 +1,106 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage57-ppard-three-seed-cognate-redocking-20260805-v1",
+  "purpose": "Run the frozen three-seed Uni-Dock cognate-pose gate for every technically prepared receptor from the 51-receptor PPARD hard-gate pool.",
+  "implementation": {
+    "runner": {
+      "path": "scripts/experimental/unidock/run_stage57_ppard_cognate_redocking.py",
+      "sha256": "3026A960523CEAC80F81EE8A958AE39BD32898C9A5606CB8A682B41B51ACD816"
+    },
+    "batch_helper": {
+      "path": "scripts/experimental/unidock/run_unidock_gpu_equivalence.py",
+      "sha256": "4E927E959A08526289F7B266BA8CD76232741C878CCE255312F94A561DE433B0"
+    },
+    "pose_audit_helper": {
+      "path": "scripts/experimental/unidock/run_stage07b_unidock_enhanced_confirmation.py",
+      "sha256": "192E6BF7700442EA508082F47D96494125B41ADAD04C81B141FE3F4889312EE4"
+    },
+    "warning_helper": {
+      "path": "scripts/experimental/unidock/run_stage07c_unidock_warning_adjudication.py",
+      "sha256": "9729941976A15D6A91C45493807218CF3E24141063439AFBA948E0A2F2635153"
+    },
+    "rmsd_helper": {
+      "path": "scripts/evaluate_redocking_rmsd.py",
+      "sha256": "F761FE14374198DD314B78976349C413DC2FA0C90EDDDBE6595AA001EB3D86F5"
+    }
+  },
+  "runtime": {
+    "conda_environment": "qubo-unidock-stage08",
+    "python_version": "3.11.15",
+    "numpy_version": "1.26.4",
+    "scipy_version": "1.17.1",
+    "rdkit_version": "2026.3.1",
+    "meeko_version": "0.7.1"
+  },
+  "data_boundary": {
+    "ligand_labels_read": 0,
+    "benchmark_docking_scores_read": 0,
+    "fresh_validation_rows_read": 0,
+    "locked_test_rows_read": 0,
+    "quantum_hardware_jobs": 0
+  },
+  "inputs": {
+    "preparation_config": {
+      "path": "configs/stage57_ppard_cognate_redocking_input_preparation.json",
+      "sha256": "E4C888D14A4D1FA4D7AE4415916EE6B3624FFEBC8EAA238410A362B2F20FEB1B"
+    },
+    "frozen_receptor_manifest": {
+      "path": "data/processed/stage56b_ppard_hard_gate_redocking_pool_amendment01.csv",
+      "sha256": "55AADE4F24D8C1DA3A16D095BDC88D8EE20D909A4705908924F8C0817FB3AE83"
+    },
+    "preparation_summary_path": "data/stage57_ppard_cognate_redocking_input_preparation_summary.json",
+    "receptor_manifest_path": "data/processed/stage57_ppard_prepared_receptor_manifest.csv",
+    "case_manifest_path": "data/processed/stage57_ppard_cognate_redocking_case_manifest.csv",
+    "common_box_path": "data/stage57_ppard_frozen_common_box.json",
+    "seeds": [
+      {"seed_id": "seed0", "base_seed": 20260801},
+      {"seed_id": "seed1", "base_seed": 20260802},
+      {"seed_id": "seed2", "base_seed": 20260803}
+    ]
+  },
+  "expected": {
+    "frozen_receptor_count": 51,
+    "minimum_prepared_receptor_count": 24,
+    "seed_count": 3,
+    "maximum_redocking_pair_count": 153
+  },
+  "unidock": {
+    "executable": "unidock",
+    "required_package_version": "1.1.3",
+    "profile_id": "enhanced",
+    "scoring": "vina",
+    "exhaustiveness": 1024,
+    "max_step": 80,
+    "refine_step": 5,
+    "num_modes": 1,
+    "energy_range": 3,
+    "verbosity": 1,
+    "cuda_visible_devices": "0",
+    "maximum_absolute_score_kcal_per_mol": 100.0,
+    "box": {
+      "center_x": 15.38,
+      "center_y": 2.56,
+      "center_z": 38.05,
+      "size_x": 22.0,
+      "size_y": 24.0,
+      "size_z": 24.0
+    }
+  },
+  "redocking_gate": {
+    "rmsd_definition": "symmetry-corrected heavy-atom RMSD in the fixed receptor frame without post-docking pose alignment",
+    "maximum_rmsd_angstrom": 2.0,
+    "minimum_successful_seeds_per_receptor": 2,
+    "maximum_median_rmsd_angstrom": 2.0,
+    "minimum_passing_receptor_count": 24,
+    "require_zero_unresolved_warning_events": true,
+    "require_zero_pose_integrity_failures": true,
+    "failure_action": "Stop PPARD before pilot production if fewer than 24 of the frozen 51 receptors pass. Do not add replacements or retune the protocol after outcomes are known."
+  },
+  "outputs": {
+    "run_directory": "results/runs/stage57_ppard_cognate_redocking",
+    "redocking_results_csv": "data/processed/stage57_ppard_cognate_redocking_results.csv",
+    "receptor_gate_results_csv": "data/processed/stage57_ppard_receptor_gate_results.csv",
+    "summary_json": "data/stage57_ppard_cognate_redocking_summary.json"
+  },
+  "decision_boundary": "This is a development-only technical pose gate. Passing authorizes docking the frozen 96-ligand PPARD development pilot against every passing receptor without structural max-min compression. It does not establish screening enrichment, functional complementarity, QUBO portability, QUBO superiority, quantum execution, speedup, or quantum advantage. Preparation failures remain failures in the frozen 51-receptor denominator and cannot be replaced."
+}

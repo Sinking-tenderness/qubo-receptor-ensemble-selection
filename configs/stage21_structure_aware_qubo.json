@@ -1,0 +1,60 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage21-structure-aware-conformation-pool-qubo-20260802-v1",
+  "purpose": "Move the label-independent structural diversity and final conformation-pool choice into an auditable QUBO before any new docking is authorized.",
+  "evidence_timing": {
+    "experiment_class": "posthoc_structure_only_concept_validation",
+    "mk14_and_pparg_docking_outcomes_known": true,
+    "schedule_frozen_before_run": true,
+    "new_docking_jobs": false,
+    "fresh_validation_or_test_rows_permitted": false,
+    "quantum_hardware_execution": false
+  },
+  "targets": {
+    "MK14": {
+      "reference_id": "MK14_2QD9_reference",
+      "inputs": {
+        "eligible_pool": "data/processed/stage05_mk14_rcsb_coordinate_eligible_pool_v3.csv",
+        "coordinate_audit": "data/processed/stage05_mk14_rcsb_coordinate_candidate_audit_v3.csv",
+        "feature_matrix": "data/processed/stage05_mk14_rcsb_pocket_distance_features_v3.csv",
+        "pairwise_distances": "data/processed/stage05_mk14_rcsb_structural_distances_v3.csv"
+      }
+    },
+    "PPARG": {
+      "reference_id": "PPARG_2GTK_reference",
+      "inputs": {
+        "eligible_pool": "data/processed/stage18c_pparg_coordinate_eligible_pool.csv",
+        "coordinate_audit": "data/processed/stage18c_pparg_coordinate_candidate_audit.csv",
+        "feature_matrix": "data/processed/stage18c_pparg_structural_features.csv",
+        "pairwise_distances": "data/processed/stage18c_pparg_structural_distances.csv"
+      }
+    }
+  },
+  "diagnostic": {
+    "k_values": [
+      2,
+      3,
+      4,
+      6,
+      8
+    ],
+    "lambda_distance": 1.0,
+    "lambda_quality": 0.0,
+    "cardinality_penalty_scale": 4.0,
+    "restart_count": 24,
+    "base_seed": 20260803,
+    "solver": "deterministic exact-cardinality one-swap local search",
+    "classical_baselines": [
+      "maxmin_seeded",
+      "maxsum_greedy"
+    ]
+  },
+  "outputs": {
+    "selection_csv": "results/runs/stage21_structure_aware_qubo/selection_results.csv",
+    "restart_csv": "results/runs/stage21_structure_aware_qubo/restart_results.csv",
+    "model_record_json": "data/stage21_structure_aware_qubo_model_record.json",
+    "result_json": "data/stage21_structure_aware_qubo_result.json",
+    "report_md": "reports/stage-21/structure_aware_qubo.md"
+  },
+  "interpretation_boundary": "This stage can establish only whether a structural QUBO produces reproducible, non-identical conformation subsets on the existing label-independent candidate pools. It cannot establish enrichment, QUBO superiority on docking outcomes, quantum speedup, quantum advantage, or biological benefit. New docking requires a separate preregistered matched gate."
+}

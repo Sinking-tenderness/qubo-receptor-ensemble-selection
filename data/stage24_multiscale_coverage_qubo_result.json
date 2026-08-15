@@ -1,0 +1,153 @@
+{
+  "config": {
+    "path": "configs/stage24_multiscale_coverage_qubo.json",
+    "sha256": "6380E874F020D00F615EE651C18C1872FC305EB6BC406F7CD17A7CF357390660"
+  },
+  "data_boundary": {
+    "docking_scores_read": 0,
+    "fresh_validation_rows_read": 0,
+    "ligand_labels_read": 0,
+    "new_docking_jobs": 0,
+    "quantum_hardware_jobs": 0
+  },
+  "decision": {
+    "matched_small_docking_preregistration_authorized": false,
+    "multiscale_qubo_gate_passed": false,
+    "new_docking_jobs_authorized_by_this_stage": false,
+    "quantum_hardware_authorized": false
+  },
+  "implementation": {
+    "path": "scripts/run_stage24_multiscale_coverage_qubo.py",
+    "sha256": "7D652CDB71B26964A0CAB9B65E9B3847B9AC1A33B9F304BF53630D3B769CFA9A"
+  },
+  "inputs": {
+    "MK14": {
+      "coordinate_audit": {
+        "path": "data/processed/stage05_mk14_rcsb_coordinate_candidate_audit_v3.csv",
+        "sha256": "4369E7A3DD89BCD4EE41F1182F07648AAA73240A2EB3905E59A21D25C14548F9",
+        "size_bytes": 93479
+      },
+      "eligible_pool": {
+        "path": "data/processed/stage05_mk14_rcsb_coordinate_eligible_pool_v3.csv",
+        "sha256": "5E8C7E097E1B7E154CF722335932865FAE554A0F50D148DAC0D47594DDEB8CC6",
+        "size_bytes": 14065
+      },
+      "feature_matrix": {
+        "path": "data/processed/stage05_mk14_rcsb_pocket_distance_features_v3.csv",
+        "sha256": "D46ABA2CF0A6A194734F2048E39F4F92E7E575778B80934D6F50E42F69F075B5",
+        "size_bytes": 656729
+      },
+      "pairwise_distances": {
+        "path": "data/processed/stage05_mk14_rcsb_structural_distances_v3.csv",
+        "sha256": "E205B8E50C3096B48997F20AC0769EC8313416D2B0028FB3394DB08B0B3F2F62",
+        "size_bytes": 50460
+      }
+    },
+    "PPARG": {
+      "coordinate_audit": {
+        "path": "data/processed/stage18c_pparg_coordinate_candidate_audit.csv",
+        "sha256": "BBE231188745EE0CB2C5E80BD69E756A8BF04C452C841D09C74D54256EA43F25",
+        "size_bytes": 205864
+      },
+      "eligible_pool": {
+        "path": "data/processed/stage18c_pparg_coordinate_eligible_pool.csv",
+        "sha256": "DE64D1C6B89BDD9B288A71A7BB131DC0A69D2D51984230DB567EE89F5A26C38C",
+        "size_bytes": 109008
+      },
+      "feature_matrix": {
+        "path": "data/processed/stage18c_pparg_structural_features.csv",
+        "sha256": "D59347E3F37D4267ABF51DB6BCB228C3F38D0DE07C9E8E11A9628A7A2F1D9626",
+        "size_bytes": 2543213
+      },
+      "pairwise_distances": {
+        "path": "data/processed/stage18c_pparg_structural_distances.csv",
+        "sha256": "214B1E8D32009425B36D1CDAEBB020663D08490201405074D4B82451E1455517",
+        "size_bytes": 695309
+      }
+    }
+  },
+  "interpretation_boundary": "This post-hoc structure-only stage can establish only mathematical validity, sampler stability, and performance on the frozen multiscale structural objective relative to the recorded same-objective classical baselines. It cannot establish docking enrichment, prospective generalization, quantum speedup, quantum advantage, or biological benefit. A passing gate authorizes only a separately preregistered small matched Uni-Dock experiment.",
+  "outputs": {
+    "baseline_csv": {
+      "path": "results/runs/stage24_multiscale_coverage_qubo/classical_baselines.csv",
+      "sha256": "C746E67D5B66E7374862C26EBD2F755A4D8F1A1EB09C6C276F0F6BDB3F441682",
+      "size_bytes": 2140
+    },
+    "batch_csv": {
+      "path": "results/runs/stage24_multiscale_coverage_qubo/batch_results.csv",
+      "sha256": "77AFFACEE680DDFC8FFC4842BCEA218FC8AC5F4A7C37D1E3BC1166C1ED85A6C4",
+      "size_bytes": 1632
+    },
+    "model_record_json": {
+      "path": "data/stage24_multiscale_coverage_qubo_model_record.json",
+      "sha256": "3B3F16841CDB92B4A4E7E72B1BBD5D182AC7D81B516B1486E9CFB5DE9036CA8C",
+      "size_bytes": 1465
+    },
+    "read_csv": {
+      "path": "results/runs/stage24_multiscale_coverage_qubo/read_results.csv",
+      "sha256": "1E0D3FA3ABCAFE71A35095100FCAC8A79FC3599E0F2BE44A5D1E97E8DA5AC3D3",
+      "size_bytes": 162541
+    },
+    "report_md": {
+      "path": "reports/stage-24/multiscale_coverage_qubo.md",
+      "sha256": "B710FF003713671B4E6E405C5FB50E7B518CBD3737F2B9D672269B7D64593F17",
+      "size_bytes": 993
+    }
+  },
+  "schema_version": "1.0",
+  "status": "stage24_multiscale_coverage_qubo_complete",
+  "target_records": {
+    "MK14": {
+      "above_strong_classical_batch_fraction": 0.0,
+      "best_sampler_objective": 1.0537627201887048,
+      "best_sampler_scale_coverages": [
+        0.8837209302325582,
+        1.0,
+        1.0
+      ],
+      "best_sampler_subset": [
+        "MK14_1BL7_aligned",
+        "MK14_3FL4_aligned",
+        "MK14_3FLW_aligned",
+        "MK14_3ITZ_aligned",
+        "MK14_3K3I_aligned",
+        "MK14_3U8W_aligned",
+        "MK14_4FA2_aligned",
+        "MK14_6HWV_aligned"
+      ],
+      "candidate_count": 43,
+      "delta_vs_strong_classical": 0.0,
+      "hard_gate_excluded_count": 0,
+      "strong_classical_beam_width": 0,
+      "strong_classical_method": "direct_greedy_plus_swap",
+      "strong_classical_objective": 1.0537627201887048,
+      "within_tolerance_batch_fraction": 1.0
+    },
+    "PPARG": {
+      "above_strong_classical_batch_fraction": 0.0,
+      "best_sampler_objective": 0.9681701964233707,
+      "best_sampler_scale_coverages": [
+        0.7653061224489796,
+        0.9489795918367347,
+        1.0
+      ],
+      "best_sampler_subset": [
+        "PPARG_2F4B_aligned",
+        "PPARG_2I4J_aligned",
+        "PPARG_2XKW_aligned",
+        "PPARG_5F9B_aligned",
+        "PPARG_5GTP_aligned",
+        "PPARG_6D8X_aligned",
+        "PPARG_6MCZ_aligned",
+        "PPARG_8PBO_aligned"
+      ],
+      "candidate_count": 98,
+      "delta_vs_strong_classical": 0.0,
+      "hard_gate_excluded_count": 59,
+      "strong_classical_beam_width": 512,
+      "strong_classical_method": "beam_plus_swap",
+      "strong_classical_objective": 0.9681701964233707,
+      "within_tolerance_batch_fraction": 1.0
+    }
+  }
+}

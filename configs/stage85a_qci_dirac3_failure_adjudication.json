@@ -1,0 +1,41 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage85a-qci-dirac3-failure-adjudication-20260811-v1",
+  "purpose": "Independently decode the two completed Stage85 Dirac-3 jobs, classify the free-tier rejection of the third job, and freeze the hardware stop decision.",
+  "inputs": {
+    "execution_root": "stage85_mixed_radix_dirac_calibration_external_input_v1",
+    "responses": [
+      {
+        "instance_id": "ppara_of0_k10_high_k_exact",
+        "path": "external_results/stage85_mixed_radix_dirac_calibration/raw/ppara_of0_k10_high_k_exact.response.json",
+        "sha256": "638DF8EF612176A85A49E7279DB27F2C577D7B71511071D40C67EC1F946C3E47"
+      },
+      {
+        "instance_id": "bace1_of0_k4_medium_pool_exact",
+        "path": "external_results/stage85_mixed_radix_dirac_calibration/raw/bace1_of0_k4_medium_pool_exact.response.json",
+        "sha256": "4761B6E059B212309F9A7F5FF71B4151F039125B30FB70026657FD4CB1F6D732"
+      }
+    ],
+    "execution_log": {
+      "path": "stage85_qci_calibration.log",
+      "sha256": "777E731ABA650D7A7E56B88CBB2B7AAF5A04CCC37DFC1EEBAF6429A4AE5C98AB"
+    }
+  },
+  "expected_execution": {
+    "completed_device_jobs": 2,
+    "samples_per_completed_job": 25,
+    "recorded_device_usage_seconds": 71,
+    "rejected_instance_id": "pparg_of0_k3_large_pool_exact",
+    "rejected_variable_count": 103,
+    "free_tier_variable_limit": 100,
+    "allocation_after_completed_jobs_seconds": 95
+  },
+  "decision": {
+    "primary_endpoint": "Each completed exact-oracle instance must return at least one fully feasible exact optimum.",
+    "failure_action": "Stop Stage85. Do not submit a replacement third job. Repair and globally certify the unconstrained penalty encoding before any additional device use."
+  },
+  "outputs": {
+    "result_json": "data/stage85a_qci_dirac3_failure_adjudication.json",
+    "report_md": "reports/stage-85a/qci_dirac3_failure_adjudication.md"
+  }
+}

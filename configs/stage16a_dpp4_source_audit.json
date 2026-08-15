@@ -1,0 +1,184 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage16a-dpp4-source-audit-20260731-v1",
+  "purpose": "Audit the DPP4 DUD-E archive, ligand counts, 2I78 reference coordinates, and KIQ identity before receptor discovery or docking.",
+  "implementation": {
+    "path": "scripts/audit_stage16a_dpp4_source.py",
+    "sha256": "50D86717B93C2FDDFA8675D7A85DE6C1B1897EA0B8CF2FCC28D0A7938996BBB6",
+    "dependency": {
+      "path": "scripts/audit_stage15_hivpr_source.py",
+      "sha256": "3BC0B1B48244CC3A8D9CBB5D9DB39333921784D44E25831B3589581EFAB07A00"
+    }
+  },
+  "preregistration": {
+    "path": "configs/stage16_dpp4_replacement_exploratory_preregistration.json",
+    "sha256": "511E8CCC5A4AC7B6BB48809046CE0A417CCDC4AFD068F552AC2220F7B4F2D166"
+  },
+  "target": {
+    "target_id": "DPP4_HUMAN",
+    "gene_name": "DPP4",
+    "protein_name": "Dipeptidyl peptidase 4",
+    "organism": "Homo sapiens",
+    "uniprot_accession": "P27487",
+    "dude_target_id": "DPP4",
+    "dude_reference_structure": "2I78",
+    "reference_auth_asym_id": "B",
+    "reference_ligand": "KIQ",
+    "reference_ligand_auth_seq_id": 901
+  },
+  "dude_source": {
+    "target_url": "https://dude.docking.org/targets/dpp4",
+    "archive": {
+      "path": "data/raw/external_targets/dpp4_dude/dpp4.tar.gz",
+      "source_url": "https://dude.docking.org/targets/dpp4/dpp4.tar.gz",
+      "sha256": "B1A81CE26E1D15A9CB9F37307B813E168028B1F855B019DC06F0BDD8D2F8DEB6"
+    },
+    "actives": {
+      "path": "data/raw/external_targets/dpp4_dude/dpp4/actives_final.ism",
+      "sha256": "817D9E4394303525428F8DB82193EEC1B174785C541DC202452A3A13C75332E3",
+      "row_count": 533,
+      "unique_source_id_count": 533,
+      "duplicate_source_id_count": 0,
+      "maximum_source_id_multiplicity": 1
+    },
+    "decoys": {
+      "path": "data/raw/external_targets/dpp4_dude/dpp4/decoys_final.ism",
+      "sha256": "D2F1FFC84D96BEA4565EEA0C726910BA9F36F00E85A3F23327F1A892DA6B6652",
+      "row_count": 40950,
+      "valid_row_count": 40949,
+      "valid_unique_source_id_count": 40915,
+      "valid_duplicate_source_id_count": 34,
+      "maximum_source_id_multiplicity": 2,
+      "allowed_invalid_rows": [
+        {
+          "line_number": 37602,
+          "source_id": "C06001798",
+          "smiles": "c1cc(ccc1C=N(=Cc2ccc(cc2)Cl)N(CCO)C3=[NH+]CCN3)Cl",
+          "reason": "RDKit explicit-valence failure in the immutable DUD-E source"
+        }
+      ]
+    }
+  },
+  "reference_structure": {
+    "dude_receptor_pdb": {
+      "path": "data/raw/external_targets/dpp4_dude/dpp4/receptor.pdb",
+      "sha256": "AEB706F0A831503884860AE71A647B6C1628FE0C9B7B024C7E6998B19B2A7A2C"
+    },
+    "dude_crystal_ligand_mol2": {
+      "path": "data/raw/external_targets/dpp4_dude/dpp4/crystal_ligand.mol2",
+      "sha256": "45C953BC320E5E9B7CABABEBDDDA14DE1865EF21231531830A04405171BC2B3C"
+    },
+    "official_pdb": {
+      "path": "data/raw/rcsb/dpp4/2I78.pdb",
+      "source_url": "https://files.rcsb.org/download/2I78.pdb",
+      "sha256": "606C21F4E1ADC67BA1B8B5ED6319094F0DAB1893D05FB255AED9A19AE9B89931"
+    },
+    "official_mmcif": {
+      "path": "data/raw/rcsb/dpp4/2I78.cif",
+      "source_url": "https://files.rcsb.org/download/2I78.cif",
+      "sha256": "4C01C0B72F18B43D9525C31356EC0E3A6DA8F6431DE717144C23D87FEF80CD2F"
+    },
+    "official_ligand_sdf": {
+      "path": "data/raw/rcsb/dpp4/2I78_KIQ_B901.sdf",
+      "source_url": "https://models.rcsb.org/v1/2I78/ligand?auth_asym_id=B&auth_seq_id=901&encoding=sdf",
+      "sha256": "06496A12DADE3890726EB574FA3E12055636CCB15459F4F34848A6894B6F7FF2"
+    }
+  },
+  "rcsb_discovery": {
+    "uniprot_accession": "P27487",
+    "experimental_method": "X-RAY DIFFRACTION",
+    "retrieved_on": "2026-07-31",
+    "metadata_eligibility": {
+      "required_mutation_count": 0,
+      "maximum_resolution_angstrom": 2.5,
+      "minimum_reference_sequence_coverage": 0.65,
+      "minimum_sample_sequence_length": 500,
+      "maximum_sample_sequence_length": 800,
+      "require_same_chain_drug_like_nonpolymer": true,
+      "minimum_nonpolymer_formula_weight_kda": 0.15,
+      "maximum_nonpolymer_formula_weight_kda": 0.9,
+      "excluded_nonpolymer_ids": [
+        "ACT",
+        "ADP",
+        "AMP",
+        "ATP",
+        "BME",
+        "CA",
+        "CD",
+        "CIT",
+        "CL",
+        "CO",
+        "DMS",
+        "EDO",
+        "FLC",
+        "GOL",
+        "K",
+        "MES",
+        "MG",
+        "MN",
+        "MPD",
+        "NA",
+        "NI",
+        "PEG",
+        "PG4",
+        "PGE",
+        "PO4",
+        "SO4",
+        "TRS",
+        "ZN"
+      ],
+      "excluded_title_patterns": [
+        "\\bapo\\b",
+        "unliganded",
+        "covalent",
+        "irreversible",
+        "mutant",
+        "mutation"
+      ]
+    }
+  },
+  "receptor_pool_plan": {
+    "reference": "2I78 auth chain B aligned in the KIQ active-site frame",
+    "metadata_minimum_eligible_count_including_reference": 25,
+    "coordinate_gate": "proper-rotation alignment over shared catalytic-region C-alpha atoms, complete standard amino-acid heavy atoms after deterministic residue 199-766 trimming, complete DPP4 catalytic and specificity anchors, and a noncovalent drug-like ligand in the 2I78 KIQ pocket",
+    "required_anchor_residues": [
+      205,
+      206,
+      229,
+      232,
+      233,
+      234,
+      286,
+      547,
+      550,
+      553,
+      630,
+      631,
+      656,
+      657,
+      662,
+      663,
+      664,
+      666,
+      708,
+      709,
+      710,
+      711,
+      740,
+      741
+    ],
+    "structural_selection": "deterministic max-min active-site geometry from the 2I78 reference seed",
+    "pre_redocking_candidate_count": 24,
+    "post_redocking_final_receptor_count": 16
+  },
+  "data_boundary": {
+    "labels_allowed_only_for_source_audit": true,
+    "labels_allowed_during_receptor_discovery_or_structural_selection": false,
+    "docking_scores_allowed_during_receptor_discovery_or_structural_selection": false,
+    "DPP4_benchmark_docking_scores_read": 0,
+    "fresh_validation_rows_read": 0,
+    "test_rows_read": 0
+  },
+  "output_json": "data/stage16a_dpp4_source_audit.json",
+  "interpretation_boundary": "Passing source intake establishes only DPP4 identity, ligand counts, and 2I78 coordinate provenance. It does not establish receptor-pool adequacy, redocking success, screening enrichment, QUBO portability, QUBO superiority, quantum execution, or quantum advantage."
+}

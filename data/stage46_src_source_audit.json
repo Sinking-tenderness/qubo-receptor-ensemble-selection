@@ -1,0 +1,242 @@
+{
+  "config": {
+    "path": "configs/stage46_src_independent_k6_preregistration.json",
+    "sha256": "7BEBFFA6053CF2B9A84075DD5233092B3C2AEDC5A48B77B9F11CC5479D0E45D0"
+  },
+  "data_boundary": {
+    "docking_scores_read": 0,
+    "fresh_validation_rows_read": 0,
+    "locked_test_rows_read": 0,
+    "new_docking_jobs": 0,
+    "quantum_hardware_jobs": 0,
+    "source_label_rows_read": 35024,
+    "structural_candidate_outcomes_read": 0
+  },
+  "decision": {
+    "fresh_validation_authorized": false,
+    "production_docking_authorized": false,
+    "quantum_hardware_authorized": false,
+    "source_gate_passed": true,
+    "structural_metadata_discovery_authorized": true
+  },
+  "dude_source": {
+    "actives": {
+      "charged_molecule_count": 2,
+      "duplicate_canonical_row_count": 0,
+      "duplicate_source_molecule_id_count": 0,
+      "duplicate_source_molecule_ids": [],
+      "duplicate_source_molecule_row_count": 0,
+      "heavy_atom_count_max": 44,
+      "heavy_atom_count_min": 14,
+      "maximum_source_id_multiplicity": 1,
+      "molecular_weight_max": 598.4929999999999,
+      "molecular_weight_min": 216.214,
+      "multi_fragment_molecule_count": 0,
+      "path": "data/raw/external_targets/src_dude/src/actives_final.ism",
+      "rdkit_failure_count": 0,
+      "rdkit_parsed_count": 524,
+      "recommended_internal_id_rule": "target_label_plus_source_line_number; preserve source molecule ID as metadata",
+      "row_count": 524,
+      "sha256": "6408AF7028681A4130286EC695AE4D883A1C957E71BA58920B216191F3958BCD",
+      "unique_canonical_smiles_count": 524,
+      "unique_source_molecule_id_count": 524
+    },
+    "archive": {
+      "path": "data/raw/external_targets/src_dude/src.tar.gz",
+      "sha256": "CB5A2DBD18F4EF554B4DECF0C3DE201D815C495BE005DEC159E88774DECCCEC6"
+    },
+    "decoys": {
+      "charged_molecule_count": 18610,
+      "duplicate_canonical_row_count": 9,
+      "duplicate_source_molecule_id_count": 43,
+      "duplicate_source_molecule_ids": [
+        "C01192407",
+        "C04042773",
+        "C04473496",
+        "C08845389",
+        "C08845390",
+        "C08845395",
+        "C08845454",
+        "C08845518",
+        "C09124431",
+        "C09243649",
+        "C09312514",
+        "C09408986",
+        "C09410234",
+        "C09673397",
+        "C12445652",
+        "C12950465",
+        "C13005051",
+        "C13121892",
+        "C13524092",
+        "C13661199",
+        "C15319720",
+        "C16001703",
+        "C17123782",
+        "C17820585",
+        "C18068097",
+        "C18197534",
+        "C20849418",
+        "C21123135",
+        "C25107868",
+        "C27550182",
+        "C32537303",
+        "C38966614",
+        "C38976586",
+        "C38984858",
+        "C38995135",
+        "C40375168",
+        "C44920981",
+        "C63097159",
+        "C63314203",
+        "C63472991",
+        "C63473051",
+        "C63479997",
+        "C63480119"
+      ],
+      "duplicate_source_molecule_row_count": 88,
+      "heavy_atom_count_max": 48,
+      "heavy_atom_count_min": 9,
+      "maximum_source_id_multiplicity": 3,
+      "molecular_weight_max": 719.8480000000005,
+      "molecular_weight_min": 136.10599999999997,
+      "multi_fragment_molecule_count": 0,
+      "path": "data/raw/external_targets/src_dude/src/decoys_final.ism",
+      "rdkit_failure_count": 0,
+      "rdkit_parsed_count": 34500,
+      "recommended_internal_id_rule": "target_label_plus_source_line_number; preserve source molecule ID as metadata",
+      "row_count": 34500,
+      "sha256": "4313EB9F16AA0382705A2F0BBA874DDC45D4BC80042F19E6F40E401FBC3715E5",
+      "unique_canonical_smiles_count": 34491,
+      "unique_source_molecule_id_count": 34455
+    }
+  },
+  "experiment_id": "stage46-src-independent-k6-preregistration-20260804-v1",
+  "frozen_hypothesis": {
+    "bedroc_alpha": 20.0,
+    "development_support_gate": {
+      "minimum_mean_holdout_gain_over_best_single": 0.01,
+      "minimum_mean_pairwise_fold_jaccard": 0.25,
+      "minimum_positive_holdout_fold_count": 2,
+      "outer_fold_count": 4
+    },
+    "fallback_k_search_permitted": false,
+    "objective_id": "bedroc20_rank_sensitive_pair_complementarity_v1",
+    "objective_source": "Stage42f BACE1; applied without SRC-specific term or weight changes",
+    "primary_claim": "A fixed k=6 QUBO-selected receptor ensemble improves robust BEDROC20 over the best single SRC receptor on scaffold-held-out development folds and on one untouched fresh-validation panel.",
+    "primary_subset_size": 6,
+    "same_target_objective_retuning_permitted": false,
+    "selection_aggregation": "minimum rank across selected receptors after per-seed receptor empirical-CDF normalization"
+  },
+  "future_protocol": {
+    "cognate_redocking": {
+      "engine": "Uni-Dock 1.1.3",
+      "exhaustiveness": 1024,
+      "failure_action": "Stop before benchmark docking if fewer than 24 frozen receptors pass; do not add replacements after outcomes are known.",
+      "max_step": 80,
+      "maximum_rmsd_angstrom": 2.0,
+      "minimum_passing_receptor_count": 24,
+      "minimum_successful_seed_count": 2,
+      "num_modes": 1,
+      "profile": "enhanced",
+      "refine_step": 5,
+      "seed_count": 3
+    },
+    "ligand_allocation": {
+      "development_train": {
+        "active_count": 262,
+        "decoy_count": 262
+      },
+      "failure_action": "Stop before docking if exact molecule-, canonical-SMILES-, source-ID-, and scaffold-disjoint allocation is infeasible.",
+      "fresh_validation": {
+        "active_count": 131,
+        "decoy_count": 2620
+      },
+      "grouping": "Bemis-Murcko scaffold joined with duplicate source IDs and canonical-SMILES duplicates before deterministic allocation",
+      "locked_test": {
+        "active_count": 131,
+        "decoy_count": 2620
+      }
+    },
+    "production": {
+      "development_first": true,
+      "engine": "Uni-Dock 1.1.3",
+      "fresh_validation_release_condition": "all development support gates pass without SRC-specific retuning",
+      "locked_test_release_condition": "fresh validation passes the same direction-of-effect gate",
+      "profile": "enhanced",
+      "score_aggregation": "median across seeds per receptor-ligand pair",
+      "seed_count": 3
+    },
+    "quantum_hardware_before_fresh_validation_permitted": false,
+    "required_classical_comparators": [
+      "best single receptor",
+      "additive singleton top-6",
+      "direct greedy k=6",
+      "beam-64 plus fixed-k swap local search",
+      "exact enumeration when state count is feasible",
+      "random matched-budget subsets"
+    ],
+    "structural_pool": {
+      "coordinate_hard_gates": "reference-alignable chain, complete anchor and pocket templates, no explicit covalent target-ligand bond, no required metal-mediated scoring chemistry",
+      "failure_action": "Stop SRC before production docking if fewer than 32 structures pass label-independent coordinate hard gates.",
+      "maximum_frozen_redocking_count": 64,
+      "metadata": "wild-type human SRC kinase-domain X-ray structures, resolution at or below 3.0 A, ordinary noncovalent ATP-site ligand",
+      "minimum_preparation_ready_count": 32
+    }
+  },
+  "interpretation_boundary": "Stage46 source intake and preregistration can establish SRC identity, source integrity, and a prospective third-target protocol. It cannot establish structural-pool adequacy, redocking success, enrichment improvement, QUBO superiority, quantum execution, quantum speedup, or quantum advantage.",
+  "next_gate": "freeze and run label-independent RCSB metadata discovery for wild-type human SRC structures",
+  "reference_structure": {
+    "dude_receptor": {
+      "atom_record_count": 2273,
+      "hydrogen_atom_count": 403,
+      "path": "data/raw/external_targets/src_dude/src/receptor.pdb",
+      "protein_atom_record_count": 2273,
+      "protein_chain_ids": [
+        ""
+      ],
+      "protein_residue_count": 233,
+      "sha256": "01F00DDE7CAB0FA16FEC56F3F83CA89133C02D1A44DFB33F48A7731B70F16B37"
+    },
+    "ligand_identity": {
+      "coordinate_identity": true,
+      "dude_mol2_path": "data/raw/external_targets/src_dude/src/crystal_ligand.mol2",
+      "dude_mol2_sha256": "BD8670AACABB61C374CEF29B7E7A4AD72DF11AD04A4D90E2C3F9821DE192C893",
+      "fixed_frame_symmetry_corrected_rmsd_angstrom": 0.0,
+      "heavy_atom_count": 33,
+      "molecular_formula": "C22H20F3N7O",
+      "official_sdf_path": "data/raw/rcsb/src/3EL8_PD5_A601.sdf",
+      "official_sdf_sha256": "D5D9F40FD7AA0752AEF61D2663AACB04A93177645A69FCF065D0F899B57D404E"
+    },
+    "official_mmcif": {
+      "path": "data/raw/rcsb/src/3EL8.cif",
+      "sha256": "CCA5177840C78E9A3EA0A8F36988649164610C2E83BD4E71B1CA61C370685618"
+    },
+    "official_pdb": {
+      "auth_asym_id": "A",
+      "cognate_ligand_auth_seq_id": 601,
+      "cognate_ligand_comp_id": "PD5",
+      "cognate_ligand_heavy_atom_count": 33,
+      "path": "data/raw/rcsb/src/3EL8.pdb",
+      "protein_atom_count": 2105,
+      "protein_residue_count": 263,
+      "resolution_angstrom": 2.3,
+      "sha256": "6810FE858902F0194A498590EF2FF94AF573D539B8F8C4001EE6CF1FEB6D0AD9"
+    },
+    "pdb_id": "3EL8"
+  },
+  "schema_version": "1.0",
+  "status": "stage46_src_source_audit_ok",
+  "target": {
+    "dude_reference_structure": "3EL8",
+    "dude_target_id": "SRC",
+    "gene_name": "SRC",
+    "organism": "Homo sapiens",
+    "protein_name": "Proto-oncogene tyrosine-protein kinase Src",
+    "reference_chain": "A",
+    "reference_ligand": "PD5",
+    "reference_ligand_auth_seq_id": 601,
+    "target_id": "SRC",
+    "uniprot_accession": "P12931"
+  }
+}

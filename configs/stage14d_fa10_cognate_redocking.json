@@ -1,0 +1,142 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage14d-fa10-16-receptor-cognate-redocking-20260731-v1",
+  "purpose": "Run the frozen three-seed Uni-Dock cognate-pose gate for all 16 structurally selected FA10 receptors before benchmark ligand preparation or activity-label access.",
+  "implementation": {
+    "runner": {
+      "path": "scripts/experimental/unidock/run_stage14d_fa10_cognate_redocking.py",
+      "sha256": "6639885166F4152FBB1A5A17960B157D238122434CAD1B56916088A9C1AC31BE"
+    },
+    "batch_helper": {
+      "path": "scripts/experimental/unidock/run_unidock_gpu_equivalence.py",
+      "sha256": "4E927E959A08526289F7B266BA8CD76232741C878CCE255312F94A561DE433B0"
+    },
+    "pose_audit_helper": {
+      "path": "scripts/experimental/unidock/run_stage07b_unidock_enhanced_confirmation.py",
+      "sha256": "192E6BF7700442EA508082F47D96494125B41ADAD04C81B141FE3F4889312EE4"
+    },
+    "warning_helper": {
+      "path": "scripts/experimental/unidock/run_stage07c_unidock_warning_adjudication.py",
+      "sha256": "9729941976A15D6A91C45493807218CF3E24141063439AFBA948E0A2F2635153"
+    },
+    "rmsd_helper": {
+      "path": "scripts/evaluate_redocking_rmsd.py",
+      "sha256": "F761FE14374198DD314B78976349C413DC2FA0C90EDDDBE6595AA001EB3D86F5"
+    }
+  },
+  "runtime": {
+    "conda_environment": "qubo-unidock-stage13",
+    "python_version": "3.11.15",
+    "numpy_version": "1.26.4",
+    "scipy_version": "1.17.1",
+    "rdkit_version": "2026.3.1",
+    "meeko_version": "0.7.1"
+  },
+  "data_boundary": {
+    "ligand_labels_read": 0,
+    "benchmark_docking_scores_read": 0,
+    "fresh_validation_rows_read": 0,
+    "test_rows_read": 0,
+    "MAPK14_stage11_rows_read": 0,
+    "EGFR_benchmark_rows_read": 0
+  },
+  "inputs": {
+    "preparation_summary": {
+      "path": "data/stage14c_fa10_redocking_input_preparation_summary.json",
+      "sha256": "CCC898CC5F5EBE82175DB5BFDBCB4161AF6ADCA61A48159865C210915F978070"
+    },
+    "receptor_manifest": {
+      "path": "data/processed/stage14c_fa10_prepared_receptor_manifest.csv",
+      "sha256": "2F6D11A98AE946FE22227A20B8067A8CAEEA61556FE02735DA2F82906754AF86"
+    },
+    "case_manifest": {
+      "path": "data/processed/stage14c_fa10_cognate_redocking_case_manifest.csv",
+      "sha256": "881550D7B029A909F6F0768978CF72DB28CBCD5E413728A83C80885E4287E5F1"
+    },
+    "common_box": {
+      "path": "data/stage14c_fa10_common_box.json",
+      "sha256": "D65104D2857D296661E354C573CCC2D2C490F6F5498E2F24A0F1A8D74972B3AA"
+    },
+    "evaluate_rmsd_script": {
+      "path": "scripts/evaluate_redocking_rmsd.py",
+      "sha256": "F761FE14374198DD314B78976349C413DC2FA0C90EDDDBE6595AA001EB3D86F5"
+    },
+    "seeds": [
+      {
+        "seed_id": "seed0",
+        "base_seed": 20260801
+      },
+      {
+        "seed_id": "seed1",
+        "base_seed": 20260802
+      },
+      {
+        "seed_id": "seed2",
+        "base_seed": 20260803
+      }
+    ]
+  },
+  "expected": {
+    "receptor_count": 16,
+    "case_count": 16,
+    "seed_count": 3,
+    "redocking_pair_count": 48,
+    "receptor_ids": [
+      "FA10_3KL6_reference",
+      "FA10_1LPK_aligned",
+      "FA10_1KSN_aligned",
+      "FA10_2WYJ_aligned",
+      "FA10_1F0S_aligned",
+      "FA10_2PHB_aligned",
+      "FA10_1EZQ_aligned",
+      "FA10_5K0H_aligned",
+      "FA10_4A7I_aligned",
+      "FA10_2W3K_aligned",
+      "FA10_1NFU_aligned",
+      "FA10_1F0R_aligned",
+      "FA10_1LPG_aligned",
+      "FA10_2J2U_aligned",
+      "FA10_2Y81_aligned",
+      "FA10_1LPZ_aligned"
+    ]
+  },
+  "unidock": {
+    "executable": "unidock",
+    "required_package_version": "1.1.3",
+    "profile_id": "enhanced",
+    "scoring": "vina",
+    "exhaustiveness": 1024,
+    "max_step": 80,
+    "refine_step": 5,
+    "num_modes": 1,
+    "energy_range": 3,
+    "verbosity": 1,
+    "cuda_visible_devices": "0",
+    "maximum_absolute_score_kcal_per_mol": 100.0,
+    "box": {
+      "center_x": 1.34,
+      "center_y": -8.5,
+      "center_z": -15.76,
+      "size_x": 22.0,
+      "size_y": 22.0,
+      "size_z": 28.0
+    }
+  },
+  "redocking_gate": {
+    "rmsd_definition": "symmetry-corrected heavy-atom RMSD in the fixed receptor frame without post-docking pose alignment",
+    "maximum_rmsd_angstrom": 2.0,
+    "minimum_successful_seeds_per_receptor": 2,
+    "maximum_median_rmsd_angstrom": 2.0,
+    "require_zero_unresolved_warning_events": true,
+    "require_zero_pose_integrity_failures": true,
+    "all_16_selected_receptors_required": true,
+    "failure_action": "stop before FA10 benchmark ligand preparation, preserve the technical failure, and continue to the preregistered HIVPR target"
+  },
+  "outputs": {
+    "run_directory": "results/runs/stage14d_fa10_cognate_redocking",
+    "redocking_results_csv": "data/processed/stage14d_fa10_cognate_redocking_results.csv",
+    "receptor_gate_results_csv": "data/processed/stage14d_fa10_receptor_gate_results.csv",
+    "summary_json": "data/stage14d_fa10_cognate_redocking_summary.json"
+  },
+  "decision_boundary": "This technical gate uses no FA10 activity labels or benchmark docking scores. A pass authorizes preparation and docking of the frozen FA10 Train-696 panel only. A fail must be reported without receptor replacement or protocol retuning, after which work continues to the preregistered HIVPR target. Redocking success does not establish screening enrichment, QUBO portability, QUBO superiority, statistical significance, quantum execution, or quantum advantage."
+}

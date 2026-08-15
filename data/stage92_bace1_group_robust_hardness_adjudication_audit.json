@@ -1,0 +1,43 @@
+{
+  "audit_id": "stage92-bace1-group-robust-hardness-independent-audit-v1",
+  "checks": {
+    "baseline_methods_complete": true,
+    "confirmation_and_quantum_remain_locked": true,
+    "direct_greedy_recomputed": true,
+    "exact_selection_recomputed": true,
+    "exact_value_recomputed": true,
+    "greedy_swap_is_one_swap_local_optimum": true,
+    "greedy_swap_recomputed": true,
+    "hardness_failure_recomputed": true,
+    "population_exact": true,
+    "protected_scores_unread": true,
+    "second_best_recomputed": true,
+    "source_input_hashes_match": true,
+    "strong_methods_match_exact": true,
+    "unique_exact_optimum": true
+  },
+  "data_boundary": {
+    "confirmation_scores_read": 0,
+    "locked_test_scores_read": 0,
+    "new_docking_jobs": 0,
+    "quantum_jobs": 0
+  },
+  "direct_greedy_objective": 0.14727146204544575,
+  "exact_objective": 0.15414050164858478,
+  "exact_selected_receptor_ids": [
+    "BACE1_2QMD_aligned",
+    "BACE1_3CIC_aligned",
+    "BACE1_3IVH_aligned",
+    "BACE1_3KN0_aligned",
+    "BACE1_4I0J_aligned",
+    "BACE1_4I10_aligned"
+  ],
+  "failed_checks": [],
+  "greedy_swap_iterations": 2,
+  "greedy_swap_objective": 0.15414050164858478,
+  "hardness_gate_passed": false,
+  "maximum_one_swap_neighbor_objective": 0.1514098872918736,
+  "schema_version": "1.0",
+  "state_count_reenumerated": 1344904,
+  "status": "independent_stage92_bace1_group_robust_hardness_audit_ok"
+}

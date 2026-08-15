@@ -1,0 +1,38 @@
+{
+  "audited_result": {
+    "path": "data/stage45_pparg_md96_generalization_diagnosis_result.json",
+    "sha256": "7CDDD14B37B6AB04635E85E68493A20B2DD0BFAEB0A6094A437FF996BA39DF68"
+  },
+  "evidence_boundary_ok": true,
+  "k6_gate_recomputed": true,
+  "k6_holdout_gains": [
+    -0.012727933522680646,
+    0.062000657196954134,
+    -0.07090156328372954,
+    0.09032967009195902
+  ],
+  "recomputed_summary": {
+    "median_objective_holdout_spearman": 0.29502280838850015,
+    "median_pair_fold_spearman": 0.6874405780254527,
+    "median_singleton_fold_spearman": 0.8161964188822572,
+    "median_train_holdout_bedroc_spearman": 0.2773799958679235
+  },
+  "row_counts": {
+    "coefficient_correlations": 6,
+    "coefficient_stability": 96,
+    "landscape_correlations": 12,
+    "selection_stability": 2
+  },
+  "schema_version": "1.0",
+  "selection_checks": {
+    "3": {
+      "mean_pairwise_fold_jaccard": 0.15,
+      "unique_fold_subset_count": 4
+    },
+    "6": {
+      "mean_pairwise_fold_jaccard": 0.2888888888888889,
+      "unique_fold_subset_count": 4
+    }
+  },
+  "status": "stage45_pparg_md96_generalization_diagnosis_independent_audit_ok"
+}

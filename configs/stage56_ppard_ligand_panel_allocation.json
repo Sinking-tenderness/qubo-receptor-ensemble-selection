@@ -1,0 +1,66 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage56-ppard-ligand-panel-and-pilot-allocation-20260805-v1",
+  "purpose": "Freeze source-ID-, canonical-SMILES-, and scaffold-disjoint PPARD panels and a balanced 96-ligand four-fold pilot without reading docking outcomes.",
+  "implementation": {
+    "path": "scripts/allocate_stage56_ppard_ligand_panels.py",
+    "sha256": "634FAA791F659374693401FF20EDF84C4A4A90F1A56DCADE25A541EF6BD1FB41"
+  },
+  "inputs": {
+    "stage55_result": {
+      "path": "data/stage55_ppard_small_pilot_preregistration_result.json",
+      "sha256": "3642EFDA1323817DFA5FC758597E4637E04B80B2D00228ECF280DFA77CE06788"
+    },
+    "stage55_audit": {
+      "path": "data/stage55_ppard_small_pilot_preregistration_audit.json",
+      "sha256": "416655F554FAC64C55F393F5D8DE9915EF6DD56AA0D4215796BF2817AC82CFF1"
+    },
+    "actives": {
+      "path": "data/raw/external_targets/ppard_dude/ppard/actives_final.ism",
+      "sha256": "9C583152538E0DC02882A1DCF319FD9088E44D3A823565CDED007AD94D19491B"
+    },
+    "decoys": {
+      "path": "data/raw/external_targets/ppard_dude/ppard/decoys_final.ism",
+      "sha256": "0AEC3330EB3E9EBBD9589F32D87E831A4B09B527B109D0D0D2F67BEA5B89F996"
+    }
+  },
+  "expected": {
+    "source_active_count": 240,
+    "source_decoy_count": 12250,
+    "train_active_count": 120,
+    "train_decoy_count": 120,
+    "fresh_validation_active_count": 60,
+    "fresh_validation_decoy_count": 1200,
+    "locked_test_active_count": 60,
+    "locked_test_decoy_count": 1200,
+    "pilot_outer_fold_count": 4,
+    "pilot_active_count_per_fold": 12,
+    "pilot_decoy_count_per_fold": 12
+  },
+  "allocation_seeds": {
+    "active_fresh_validation": "stage56-ppard-active-validation-20260805-v1",
+    "active_locked_test": "stage56-ppard-active-test-20260805-v1",
+    "active_train_remainder": "stage56-ppard-active-train-remainder-20260805-v1",
+    "decoy_train": "stage56-ppard-decoy-train-20260805-v1",
+    "decoy_fresh_validation": "stage56-ppard-decoy-validation-20260805-v1",
+    "decoy_locked_test": "stage56-ppard-decoy-test-20260805-v1",
+    "pilot_active_fold0": "stage56-ppard-pilot-active-fold0-20260805-v1",
+    "pilot_active_fold1": "stage56-ppard-pilot-active-fold1-20260805-v1",
+    "pilot_active_fold2": "stage56-ppard-pilot-active-fold2-20260805-v1",
+    "pilot_active_fold3": "stage56-ppard-pilot-active-fold3-20260805-v1",
+    "pilot_decoy_fold0": "stage56-ppard-pilot-decoy-fold0-20260805-v1",
+    "pilot_decoy_fold1": "stage56-ppard-pilot-decoy-fold1-20260805-v1",
+    "pilot_decoy_fold2": "stage56-ppard-pilot-decoy-fold2-20260805-v1",
+    "pilot_decoy_fold3": "stage56-ppard-pilot-decoy-fold3-20260805-v1"
+  },
+  "outputs": {
+    "selected_panel_manifest_csv": "data/processed/stage56_ppard_selected_ligand_panel_manifest.csv",
+    "train_manifest_csv": "data/processed/stage56_ppard_train240_ligand_manifest.csv",
+    "pilot_manifest_csv": "data/processed/stage56_ppard_pilot96_ligand_manifest.csv",
+    "pilot_fold_assignments_csv": "data/processed/stage56_ppard_pilot96_fold_assignments.csv",
+    "fresh_validation_manifest_csv": "data/protected/stage56_ppard_fresh_validation1260_ligand_manifest.csv",
+    "locked_test_manifest_csv": "data/protected/stage56_ppard_locked_test1260_ligand_manifest.csv",
+    "summary_json": "data/stage56_ppard_ligand_panel_allocation_summary.json"
+  },
+  "interpretation_boundary": "Stage56 allocation may use source labels only to freeze disjoint panels and balanced pilot folds. It reads no docking outcome and cannot establish preparation success, structural-pool adequacy, enrichment, complementarity, QUBO performance, validation success, quantum execution, speedup, or quantum advantage."
+}

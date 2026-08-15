@@ -1,0 +1,121 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage50-ppara-large-pool-redocking-input-preparation-20260804-v1",
+  "purpose": "Prepare all 64 frozen PPARA receptors and cognate ligands in the 2P54 frame using one preregistered missing-heavy-atom completion protocol before any redocking outcome is known.",
+  "technical_amendment01": {
+    "timing": "Frozen after the first input-preparation run and before any PPARA cognate-redocking, production-docking, enrichment, validation, QUBO, or hardware outcome.",
+    "trigger": "All 33 first-run failures had the same AttributeError because PDBFixer 1.12 may represent missing-terminal atom names as strings while the wrapper assumed objects with a name attribute.",
+    "correction": "Normalize each PDBFixer missing-atom entry from either an atom object or a string to a string atom name.",
+    "same_frozen_receptors_retried": true,
+    "successful_checkpoints_reused": true,
+    "receptor_replacement_permitted": false,
+    "structural_or_docking_threshold_changed": false,
+    "docking_outcomes_read": 0,
+    "protected_validation_rows_read": 0,
+    "quantum_hardware_jobs": 0
+  },
+  "implementation": {
+    "path": "scripts/prepare_stage50_ppara_large_pool_redocking_inputs.py",
+    "sha256": "CD9F3A835EC10ED3F5AB45422CEB13C0F01CBE9A0F0ED98DAD1EB79E3CAB3971"
+  },
+  "dependencies": [
+    {
+      "path": "scripts/prepare_receptor_stage50.py",
+      "sha256": "828303B1BA29B90A7F83A547778E5BAAE4B4BC853C74E0D7EE2E6D97D1B3BA0E"
+    },
+    {
+      "path": "scripts/prepare_receptor.py",
+      "sha256": "FFC7D1986B501AE90818024ED2441CB9AE0F37B27BF6F46C622B0C723711C580"
+    },
+    {
+      "path": "scripts/prepare_stage18d_pparg_redocking_inputs.py",
+      "sha256": "9D2CF3AE5C75840C9431F7178A0107D8CFB34613D9D1A3037546B6167C63AF73"
+    },
+    {
+      "path": "scripts/prepare_stage13e_egfr_redocking_inputs.py",
+      "sha256": "69B9300708D049DAF09343442711F8886FBF5C89053AE48E28F751FEABACE324"
+    },
+    {
+      "path": "scripts/prepare_stage14c_fa10_redocking_inputs.py",
+      "sha256": "9E14044D203BDB217397A1C2AEC7F1046A633DD7DFA273EAB29443ACC71393CF"
+    },
+    {
+      "path": "scripts/select_mk14_rcsb_coordinate_pool.py",
+      "sha256": "34FEB2A69E2DD793953C1A12AB3E083B704D38DDC70B1F4E10BB38C69234D0A5"
+    },
+    {
+      "path": "scripts/select_stage13_egfr_coordinate_pool.py",
+      "sha256": "8386C04F5549A2FA83BEB44B788A32293C596FA9845C782AA8114FEA3D05395C"
+    },
+    {
+      "path": "scripts/select_stage13b_egfr_expanded_coordinate_pool.py",
+      "sha256": "703B901DC4105DCEBA662E90523406AD086739B83CD33BA4E4423A58B4C8A2F6"
+    }
+  ],
+  "inputs": {
+    "stage49b_result": {
+      "path": "data/stage49b_ppara_structural_selection_summary.json",
+      "sha256": "91385262427AB62E8193FCD82E4A12EBA812AECAC946297D6B98A7DA9BF6D6C8"
+    },
+    "stage49b_audit": {
+      "path": "data/stage49b_ppara_structural_selection_independent_audit.json",
+      "sha256": "ED73CD7D621E07D137A45B09B8E4F409A8D366408FE26972876A7CFCF1DE7666"
+    },
+    "selected_receptor_manifest": {
+      "path": "data/processed/stage49b_ppara_selected_redocking_pool.csv",
+      "sha256": "BE10F08F7E51C63B464CEBAC93FE9FC2198B2E7CCE89ECC63A2F0F2171D5A31E"
+    },
+    "reference_mmcif": {
+      "path": "data/raw/rcsb/ppara/2P54.cif",
+      "sha256": "AA5F374C358CFDFFF995676FB575BBCDC2780D1D8C671279BEB317B7890155E4"
+    },
+    "prepare_receptor_script": {
+      "path": "scripts/prepare_receptor_stage50.py",
+      "sha256": "828303B1BA29B90A7F83A547778E5BAAE4B4BC853C74E0D7EE2E6D97D1B3BA0E"
+    }
+  },
+  "reference": {
+    "pdb_id": "2P54",
+    "auth_chain": "A",
+    "anchor_residue_numbers": [241, 250, 251, 255, 273, 275, 276, 277, 279, 280, 314, 321, 330, 332, 354, 355, 440, 444, 460, 464]
+  },
+  "expected": {
+    "receptor_count": 64,
+    "cognate_ligand_count": 64,
+    "minimum_prepared_receptor_count": 24
+  },
+  "preparation_protocol": {
+    "maximum_element_matched_coordinate_error_angstrom": 0.05,
+    "maximum_existing_atom_displacement_angstrom": 0.001,
+    "completion_engine": "PDBFixer",
+    "add_missing_standard_residue_heavy_atoms": true,
+    "add_missing_residues": false,
+    "replace_nonstandard_residues": false,
+    "add_hydrogens_with_pdbfixer": false,
+    "allow_bad_residue_deletion": false,
+    "allow_receptor_replacement_after_outcomes": false,
+    "protonation_note": "Cognate redocking ligands use the RCSB ModelServer chemical component followed by the same RDKit explicit-H and Meeko protocol for every receptor; the DUD-E versus RCSB 2P54 protonation difference remains recorded and is not used for target-specific tuning."
+  },
+  "ligand_download": {
+    "url_template": "https://models.rcsb.org/v1/{pdb_id}/ligand",
+    "timeout_seconds": 60,
+    "maximum_retries": 8,
+    "retry_backoff_seconds": 2.0
+  },
+  "common_box_rule": {
+    "coordinate_population": "all technically prepared cognate crystal ligands from the frozen 64-receptor pool in the common 2P54 PPARA ligand-binding-domain frame",
+    "minimum_crystal_pose_margin_angstrom": 3.5,
+    "size_increment_angstrom": 2.0,
+    "minimum_axis_size_angstrom": 22.0,
+    "maximum_axis_size_angstrom": 50.0,
+    "center_decimal_places": 2
+  },
+  "outputs": {
+    "run_directory": "results/runs/stage50_ppara_large_pool_redocking_input_preparation",
+    "receptor_manifest_csv": "data/processed/stage50_ppara_large_pool_prepared_receptor_manifest.csv",
+    "redocking_case_manifest_csv": "data/processed/stage50_ppara_large_pool_cognate_redocking_case_manifest.csv",
+    "common_box_json": "data/stage50_ppara_large_pool_common_box.json",
+    "summary_json": "data/stage50_ppara_large_pool_redocking_input_preparation_summary.json"
+  },
+  "interpretation_boundary": "Passing Stage50 establishes only technical readiness of at least 24 frozen PPARA receptors and cognate ligands in one common frame. It does not establish pose recovery, screening enrichment, QUBO portability, QUBO superiority, quantum execution, speedup, or quantum advantage. Preparation failures count as frozen receptor failures and cannot be replaced after outcomes are known."
+}

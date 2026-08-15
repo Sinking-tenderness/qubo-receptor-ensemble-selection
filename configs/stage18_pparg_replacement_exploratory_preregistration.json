@@ -1,0 +1,132 @@
+{
+  "schema_version": "1.0",
+  "preregistration_id": "stage18-pparg-replacement-exploratory-20260801-v1",
+  "created_on": "2026-08-01",
+  "purpose": "Run a new human, non-pathogen, non-metal-dependent exploratory receptor-ensemble replication on PPARG after the DPP4 branch was terminated by user preference and the PARP1 structural-pool gate was closed before docking.",
+  "evidence_timing": "Frozen after public DUD-E target-page counts, label-independent RCSB metadata feasibility screening, and PPARG source-identity inspection. No PPARG coordinate-pool selection, receptor preparation, redocking, production docking, QUBO fitting, validation metric, or test metric has been read or run at this freeze.",
+  "prior_branch_record": {
+    "dpp4": {
+      "source_audit": {
+        "path": "data/stage16a_dpp4_source_audit.json",
+        "sha256": "03D4A125846FAE0008D0CBA73FA5F25F60469CEEDB7F39615BE084731F0F8C39"
+      },
+      "termination_reason": "user preference for a different non-toxic protein target",
+      "coordinate_pool_completed": false,
+      "docking_pairs_completed": 0,
+      "enrichment_rows_read": 0
+    },
+    "parp1": {
+      "source_audit": {
+        "path": "data/stage17a_parp1_source_and_active_allocation_summary.json",
+        "sha256": "06B1D768D05B9BA4B59572E35FBDF77B05A715BBF6C792CF4F4F9F3BCD2B9859"
+      },
+      "termination_reason": "the DUD-E reference is a V762A mutant and the strict wild-type catalytic-domain metadata pool contains only 11 candidates, below the 24-candidate requirement",
+      "coordinate_pool_completed": false,
+      "docking_pairs_completed": 0,
+      "enrichment_rows_read": 0
+    },
+    "replacement_status": "PPARG is a new preregistered exploratory extension. It does not alter, repair, or erase earlier confirmatory-gate records."
+  },
+  "target_selection": {
+    "selection_criteria": [
+      "human, non-pathogen protein target",
+      "ordinary noncovalent small-molecule complexes without a required catalytic metal or covalent scoring mechanism",
+      "at least 480 clustered DUD-E actives supporting a scaffold-disjoint train, fresh-validation, and locked-test allocation",
+      "at least 24 public wild-type X-ray structures satisfying label-independent metadata criteria"
+    ],
+    "public_feasibility_evidence": {
+      "dude_target_page": "https://dude.docking.org/targets/pparg",
+      "dude_clustered_active_count": 484,
+      "dude_reference_structure": "2GTK",
+      "rcsb_xray_entry_count": 379,
+      "rcsb_metadata_eligible_count": 262,
+      "uniprot_accession": "P37231"
+    },
+    "result_driven_target_selection": false
+  },
+  "target": {
+    "target_id": "PPARG",
+    "protein_name": "Peroxisome proliferator-activated receptor gamma",
+    "target_class": "Nuclear receptor",
+    "organism": "Homo sapiens",
+    "uniprot_accession": "P37231",
+    "dude_target_url": "https://dude.docking.org/targets/pparg",
+    "dude_reference_structure": "2GTK"
+  },
+  "ligand_panel": {
+    "source": "PPARG DUD-E actives_final.ism and decoys_final.ism",
+    "split_group": "Bemis-Murcko scaffold joined with duplicate source IDs before allocation",
+    "development_train": {
+      "active_count": 334,
+      "decoy_count": 334
+    },
+    "fresh_validation": {
+      "active_count": 75,
+      "decoy_count": 1501
+    },
+    "locked_test": {
+      "active_count": 75,
+      "decoy_count": 1501
+    },
+    "exact_active_count_required": 484,
+    "rationale_for_train_count": "PPARG has 484, rather than at least 498, clustered DUD-E actives. Fresh-validation and locked-test panels retain 75 actives each; the development-training panel uses the remaining 334 actives.",
+    "failure_action": "Stop PPARG before receptor production docking if all 484 source active molecules cannot be assigned to molecule-, source-, canonical-SMILES-, and scaffold-disjoint panels."
+  },
+  "receptor_protocol": {
+    "coordinate_selection_data": "coordinates and metadata only; activity labels and benchmark docking scores prohibited",
+    "pre_redocking_candidate_count": 24,
+    "pre_redocking_selection": "deterministic max-min active-site geometry with the DUD-E reference included",
+    "cognate_redocking": {
+      "engine": "Uni-Dock 1.1.3",
+      "profile": "enhanced",
+      "exhaustiveness": 1024,
+      "max_step": 80,
+      "refine_step": 5,
+      "num_modes": 1,
+      "seed_ids": ["seed0", "seed1", "seed2"],
+      "base_seeds": [20260801, 20260802, 20260803],
+      "maximum_rmsd_angstrom": 2.0,
+      "minimum_successful_seeds_per_receptor": 2,
+      "maximum_median_rmsd_angstrom": 2.0
+    },
+    "post_redocking_final_selection": "from passing candidates, deterministically select 16 by max-min active-site geometry; no activity labels or benchmark scores",
+    "required_final_receptor_count": 16,
+    "failure_action": "If fewer than 16 of 24 candidates pass the fixed redocking gate, report a PPARG technical failure without adding structures after reading enrichment results."
+  },
+  "production_protocol": {
+    "engine": "Uni-Dock 1.1.3",
+    "profile": "enhanced",
+    "exhaustiveness": 1024,
+    "max_step": 80,
+    "refine_step": 5,
+    "num_modes": 1,
+    "seed_count": 3,
+    "score_aggregation": "median across seeds per receptor-ligand pair; selected receptor subsets use min_score",
+    "primary_metric": "BEDROC alpha=20"
+  },
+  "qubo": {
+    "family": "pair_synergy_qubo v1",
+    "target_size": 3,
+    "aggregation": "min_score",
+    "weights": {
+      "active_coverage": 0.0,
+      "decoy_exposure": 0.0,
+      "active_overlap": 0.0,
+      "redundancy": 0.0,
+      "ensemble_pair_utility": 0.0,
+      "ensemble_pair_synergy": 2.0,
+      "stability": 0.5
+    },
+    "size_penalty": 20.0,
+    "coverage_fraction": 0.1,
+    "bedroc_alpha": 20.0,
+    "retuning_permitted": false
+  },
+  "data_boundary": {
+    "PPARG_coordinate_pool_selected_at_freeze": false,
+    "PPARG_benchmark_docking_scores_read": 0,
+    "PPARG_fresh_validation_rows_read": 0,
+    "PPARG_test_rows_read": 0
+  },
+  "interpretation_boundary": "PPARG can provide prospective exploratory evidence for receptor-ensemble and QUBO behavior on a human nuclear receptor. It cannot erase earlier target records, retroactively satisfy the original three-target confirmatory gate, establish quantum advantage, or establish experimental binding."
+}

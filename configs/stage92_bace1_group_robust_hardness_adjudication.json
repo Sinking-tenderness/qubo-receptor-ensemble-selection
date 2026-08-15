@@ -1,0 +1,71 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage92-bace1-group-robust-hardness-adjudication-20260812-v1",
+  "purpose": "Evaluate the frozen Stage91 development objective against exact enumeration and strong classical baselines without accessing confirmation or locked-test scores.",
+  "inputs": {
+    "stage91_result": {
+      "path": "data/stage91_bace1_group_robust_rescue_preregistration_result.json",
+      "sha256": "DA676E5A06CFB369500055EAE4CC985F8F9F36586A7C94EAE986AB383A5CB653"
+    },
+    "stage91c_summary": {
+      "path": "analysis/stage91c_bace1_result_20260812/results/runs/stage91c_bace1_chembl365_unidock113_production/summary.json",
+      "sha256": "E5A2F3ED455FFD66E8E795315B61AAC151BD921E30EC24B5CDE2914B58E370E6"
+    },
+    "stage91c_audit": {
+      "path": "analysis/stage91c_bace1_result_20260812/data/stage91c_bace1_chembl365_unidock113_production_audit.json",
+      "sha256": "2C1399F7AA9FD091AB0418824CCD4D5DCB60BCCC4B560B626048B917187CD7E8"
+    },
+    "primary_median_matrix": {
+      "path": "analysis/stage91c_bace1_result_20260812/results/runs/stage91c_bace1_chembl365_unidock113_production/primary_median_score_matrix.csv",
+      "sha256": "9E4E7AADB570C3FFC4290A948984A007DE316C3165E2DC4C722B0FE692E136FD"
+    },
+    "development_manifest": {
+      "path": "analysis/stage91c_bace1_result_20260812/data/processed/stage91b_bace1_chembl365_unidock_pdbqt_manifest.csv",
+      "sha256": "00A996ED7C66112D7F7BB1CE8DA5D7CE8785883E665B35E563AD60885DC9E5FC"
+    }
+  },
+  "literal_operationalization": {
+    "status": "post-score implementation-detail adjudication; no objective weight or threshold was changed",
+    "primary_population": "high and low potency molecules in the six development core series",
+    "primary_population_size": 222,
+    "high_count": 195,
+    "low_count": 27,
+    "core_series_count": 6,
+    "per_receptor_hit_count": 23,
+    "hit_count_rule": "ceil(0.10 * 222)",
+    "score_order": "ascending median Uni-Dock score; ligand_id lexicographic tie-break",
+    "coverage_rule": "a molecule is covered when it occurs in at least one selected receptor hit set",
+    "pair_overlap": "Jaccard similarity of the two receptor hit sets",
+    "selected_pair_overlap": "mean over all unordered selected-receptor pairs",
+    "objective": "0.40*minimum_core_series_high_coverage + 0.30*mean_core_series_high_coverage - 0.20*global_low_exposure - 0.10*mean_pair_jaccard",
+    "primary_k": 6
+  },
+  "classical_baselines": {
+    "direct_greedy": "best objective addition from the empty set with lexicographic ties",
+    "greedy_plus_all_one_swaps": "deterministic best-improvement swaps to convergence",
+    "all_singleton_greedy_plus_swaps": "34 singleton starts, greedy growth to k=6, then best-improvement swaps",
+    "multistart_tabu": {"restart_count": 32, "iteration_count": 100, "tabu_tenure": 5, "seed": 20260812},
+    "simulated_annealing": {"restart_count": 32, "steps_per_restart": 5000, "seed": 20260813},
+    "uniform_random": {"sample_count": 10000, "seed": 20260814},
+    "exact_enumeration": "all C(34,6)=1,344,904 subsets with lexicographic ties"
+  },
+  "hardness_gate": {
+    "exact_solution_differs_from_direct_greedy": true,
+    "strict_objective_improvement_over_greedy_plus_all_one_swaps": true,
+    "reproducible_multi_move_local_trap": true,
+    "minimum_fixed_k_state_count": 1000000,
+    "all_criteria_required": true
+  },
+  "data_boundary": {
+    "confirmation_scores_permitted": 0,
+    "locked_test_scores_permitted": 0,
+    "new_docking_jobs_permitted": 0,
+    "quantum_jobs_permitted": 0
+  },
+  "outputs": {
+    "result_json": "data/stage92_bace1_group_robust_hardness_adjudication_result.json",
+    "baseline_csv": "results/runs/stage92_bace1_group_robust_hardness_adjudication/classical_baselines.csv",
+    "selection_csv": "results/runs/stage92_bace1_group_robust_hardness_adjudication/selected_receptors.csv",
+    "report_md": "reports/stage-92/bace1_group_robust_hardness_adjudication.md"
+  }
+}

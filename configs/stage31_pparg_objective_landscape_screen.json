@@ -1,0 +1,95 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage31-pparg-objective-landscape-screen-20260803-v1",
+  "purpose": "Screen scientifically interpretable PPARG MD frame-selection objectives for demonstrable combinatorial difficulty before constructing another large QUBO.",
+  "trigger": "Stage30 had a nominal search space of 150^8 but only one or two local optima and no annealing gain over strong classical coordinate descent.",
+  "evidence_timing": {
+    "experiment_class": "prospective_post_stage30_exact_landscape_diagnostic",
+    "stage31_landscape_outcomes_known_before_freeze": false,
+    "stage30_results_known_before_freeze": true,
+    "docking_scores_permitted": false,
+    "ligand_labels_permitted": false,
+    "fresh_validation_rows_permitted": false,
+    "test_rows_permitted": false,
+    "new_docking_jobs": false,
+    "quantum_hardware_execution": false
+  },
+  "inputs": {
+    "stage30_audit": "data/stage30_pparg_group_balanced_state_qubo_audit.json",
+    "frame_manifest": "results/runs/stage28b_pparg_md_ready_multistart_md/ensemble/frame_manifest.csv",
+    "feature_archive": "results/runs/stage28b_pparg_md_ready_multistart_md/ensemble/pocket_features.npz",
+    "distance_archive": "results/runs/stage28b_pparg_md_ready_multistart_md/ensemble/pairwise_distances_condensed.npz"
+  },
+  "exact_candidate_cohorts": [
+    {
+      "cohort_id": "temporal_rank_00_03",
+      "within_start_temporal_maximin_ranks": [0, 1, 2, 3]
+    },
+    {
+      "cohort_id": "temporal_rank_04_07",
+      "within_start_temporal_maximin_ranks": [4, 5, 6, 7]
+    },
+    {
+      "cohort_id": "temporal_rank_08_11",
+      "within_start_temporal_maximin_ranks": [8, 9, 10, 11]
+    }
+  ],
+  "coverage": {
+    "reference_frame_count": 1200,
+    "global_distance_quantiles": [0.05, 0.10, 0.20],
+    "smooth_control_ward_cluster_counts": [8, 16, 32],
+    "coverage_rule": "a selected candidate covers a reference frame when their frozen normalized pocket distance does not exceed the corresponding complete-pool off-diagonal distance quantile",
+    "start_robustness_groups": 8
+  },
+  "objective_families_in_priority_order": [
+    {
+      "objective_id": "robust_coverage_pair",
+      "formula": "0.15*single_q05 + 0.15*single_q10 + 0.25*double_q10 + 0.30*worst_two_start_single_q10 + 0.15*mean_pair_distance"
+    },
+    {
+      "objective_id": "multiscale_robust_coverage",
+      "formula": "0.20*single_q05 + 0.20*single_q10 + 0.20*single_q20 + 0.20*double_q10 + 0.20*worst_start_single_q10"
+    },
+    {
+      "objective_id": "worst_two_single_double",
+      "formula": "0.30*single_q10 + 0.30*double_q10 + 0.40*worst_two_start_single_q10"
+    },
+    {
+      "objective_id": "worst_start_single",
+      "formula": "worst_start_single_q10"
+    },
+    {
+      "objective_id": "global_single_double",
+      "formula": "0.25*single_q10 + 0.75*double_q10"
+    },
+    {
+      "objective_id": "smooth_pair_control",
+      "formula": "0.30*mean_within_start_centrality + 0.50*mean_pair_distance + 0.20*mean_multiscale_state_separation"
+    }
+  ],
+  "landscape": {
+    "state_count_per_cohort": 65536,
+    "feasible_state_rule": "choose exactly one of four candidate frames from each of eight MD starts",
+    "neighborhood": "replace the selected frame within exactly one MD-start group",
+    "local_search": "deterministic best-improvement with lowest encoded-state tie break",
+    "strong_greedy": "best of sixteen forward and reverse cyclic start orders followed by deterministic best-improvement"
+  },
+  "difficulty_gate": {
+    "minimum_absolute_greedy_gap": 0.0001,
+    "minimum_normalized_greedy_gap": 0.001,
+    "minimum_strict_local_optimum_count": 8,
+    "maximum_global_optimum_basin_fraction": 0.25,
+    "minimum_passing_cohorts_per_objective": 2,
+    "required_cohort_count": 3,
+    "objective_tie_tolerance": 1e-12
+  },
+  "outputs": {
+    "candidate_manifest_csv": "results/runs/stage31_pparg_objective_landscape_screen/candidate_manifest.csv",
+    "landscape_metrics_csv": "results/runs/stage31_pparg_objective_landscape_screen/landscape_metrics.csv",
+    "local_optima_csv": "results/runs/stage31_pparg_objective_landscape_screen/local_optima.csv",
+    "result_json": "data/stage31_pparg_objective_landscape_screen_result.json",
+    "audit_json": "data/stage31_pparg_objective_landscape_screen_audit.json",
+    "report_md": "reports/stage-31/pparg_objective_landscape_screen.md"
+  },
+  "interpretation_boundary": "Stage31 can establish exact feasible-landscape statistics and pre-registered difficulty-gate outcomes for six structure-only objective families on three independent 32-candidate PPARG MD cohorts. It cannot establish large-scale solver superiority, docking enrichment, biological superiority, quantum speedup, quantum advantage, or hardware readiness. Passing only authorizes a separately frozen Stage32 QUBO encoding and scaling experiment."
+}

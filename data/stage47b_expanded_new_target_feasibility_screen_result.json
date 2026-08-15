@@ -1,0 +1,51 @@
+{
+  "candidate_count": 5,
+  "config": {
+    "path": "configs/stage47b_expanded_new_target_feasibility_screen.json",
+    "sha256": "FEBE03ABF949E134AC4979779C9AD6DAE77349A5DFD811CF0A2E8FBE4BD08E60"
+  },
+  "data_boundary": {
+    "docking_scores_read": 0,
+    "fresh_validation_rows_read": 0,
+    "individual_ligand_rows_read": 0,
+    "locked_test_rows_read": 0,
+    "new_docking_jobs": 0
+  },
+  "decision": {
+    "fresh_validation_authorized": false,
+    "new_target_source_intake_authorized": true,
+    "production_docking_authorized": false,
+    "quantum_hardware_authorized": false
+  },
+  "eligible_target_count": 3,
+  "interpretation_boundary": "Stage47b changes only the frozen candidate list after Stage47 selected none. It leaves all gates unchanged and reads no individual ligand, docking, validation, or test outcome.",
+  "outputs": {
+    "candidate_metadata_csv": {
+      "path": "data/processed/stage47b_expanded_new_target_candidate_metadata.csv",
+      "sha256": "2E4F65A40CC311E575B58991123557264CA9CC3DA7DD878A140626702797029E"
+    },
+    "screen_csv": {
+      "path": "data/processed/stage47b_expanded_new_target_feasibility_screen.csv",
+      "sha256": "1CC037C3426CB0AD53ADC27DC8CDB8E4141E5A5365A7B9B39E93475E9FE642EC"
+    },
+    "snapshot_json": {
+      "path": "data/raw/rcsb/stage47b_expanded_new_target_metadata_snapshot_20260804.json",
+      "sha256": "25566AE4BFA055F484161254F9C2A6AAA7F974A1980B17DDE097340C2297EDA9"
+    }
+  },
+  "schema_version": "1.0",
+  "selected_target": {
+    "dude_clustered_active_count": 373,
+    "dude_target_url": "https://dude.docking.org/targets/ppara",
+    "eligible_for_selection": true,
+    "eligible_pdb_ids": "1I7G;1K7L;1KKQ;2NPA;2P54;2REW;2ZNN;3ET1;3FEI;3G8I;3KDT;3KDU;3SP6;3VI8;4BCR;4CI4;5HYK;6KAX;6KAY;6KAZ;6KB0;6KB1;6KB2;6KB3;6KB4;6KB5;6KB6;6KB7;6KB8;6KB9;6KBA;6KXX;6KXY;6KYP;6L37;6L38;6LX4;6LX5;6LX6;6LX7;6LX8;6LX9;6LXA;6LXB;6LXC;7BPY;7BPZ;7BQ0;7BQ1;7BQ2;7BQ3;7BQ4;7C6Q;7E5F;7E5G;7E5H;7E5I;8HUK;8HUN;8HUQ;8RCE;8YT6;8YT9;8YTL;8YU8;8YWU;8YWV;9IWL;9IWM;9IWN;9IWO;9SFS;9T5S;9VZS;9VZT",
+    "exclusion_reason_counts_json": "{\"missing_same_chain_drug_like_nonpolymer\": 1, \"mutation_count_differs\": 1, \"resolution_above_limit\": 3}",
+    "metadata_eligible_count": 75,
+    "metadata_excluded_count": 4,
+    "protein_name": "Peroxisome proliferator-activated receptor alpha",
+    "target_id": "PPARA",
+    "uniprot_accession": "Q07869",
+    "xray_search_count": 79
+  },
+  "status": "stage47_new_target_feasibility_screen_complete"
+}

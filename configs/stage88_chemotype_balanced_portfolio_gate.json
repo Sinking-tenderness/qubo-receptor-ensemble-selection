@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage88-chemotype-balanced-portfolio-gate-20260811-v1",
+  "purpose": "Test whether receptor ensembles must balance distinct active-ligand chemotypes before formulating a new constrained optimization model.",
+  "inputs": {
+    "stage64_config": {
+      "path": "configs/stage64_cross_target_uncertainty_shrunk_qubo.json",
+      "sha256": "F302FEA7CB2B22D39824A3433DC165FAE2E8E7D0A0A79C07AA73768F69AFB458"
+    },
+    "stage87_result": {
+      "path": "data/stage87_quantum_value_instance_gate_result.json",
+      "sha256": "7A8CECCB741F41C2B238C4878E1B36155EC36163808A68834B6A8E9D62F7CBCE"
+    }
+  },
+  "chemotype_clustering": {
+    "active_only": true,
+    "fingerprint": "Morgan count-free bit fingerprint",
+    "radius": 2,
+    "bit_count": 2048,
+    "cluster_count": 4,
+    "algorithm": "average-linkage agglomerative clustering on Tanimoto distance",
+    "cluster_label_policy": "Relabel clusters by the lexicographically smallest ligand ID in each cluster."
+  },
+  "portfolio": {
+    "subset_size": 3,
+    "bedroc_alpha": 20.0,
+    "train_group_utility": "For each chemotype and receptor, robust BEDROC of that chemotype's train actives versus all train decoys, using the frozen three docking seeds.",
+    "balanced_objective": "Lexicographically maximize the minimum and then the mean, across chemotypes, of the best selected-receptor singleton utility.",
+    "baselines": [
+      "overall_train_singleton_top3",
+      "balanced_objective_sequential_greedy"
+    ],
+    "exact_solver": "Complete fixed-k enumeration"
+  },
+  "gate": {
+    "minimum_active_count_per_global_cluster": 10,
+    "minimum_train_active_count_per_fold_cluster": 5,
+    "minimum_holdout_active_count_per_fold_cluster": 2,
+    "maximum_median_train_group_utility_spearman": 0.85,
+    "minimum_fold_count_with_two_distinct_group_best_receptors": 12,
+    "minimum_exact_selection_difference_folds_vs_overall_top3": 8,
+    "minimum_positive_worst_group_holdout_gain_folds": 8,
+    "minimum_mean_worst_group_holdout_gain_vs_overall_top3": 0.0,
+    "minimum_exact_objective_gap_folds_over_balanced_greedy": 1
+  },
+  "data_boundary": {
+    "historical_development_only": true,
+    "fresh_validation_rows_permitted": 0,
+    "locked_test_rows_permitted": 0,
+    "new_docking_jobs_permitted": 0,
+    "quantum_hardware_jobs_permitted": 0
+  },
+  "outputs": {
+    "cluster_assignments_csv": "results/runs/stage88_chemotype_balanced_portfolio_gate/cluster_assignments.csv",
+    "fold_metrics_csv": "results/runs/stage88_chemotype_balanced_portfolio_gate/fold_metrics.csv",
+    "result_json": "data/stage88_chemotype_balanced_portfolio_gate_result.json",
+    "audit_json": "data/stage88_chemotype_balanced_portfolio_gate_audit.json",
+    "report_md": "reports/stage-88/chemotype_balanced_portfolio_gate.md"
+  },
+  "interpretation_boundary": "A pass authorizes formulation of a chemotype-balanced CQM on historical development data only. It does not authorize QAOA, hardware, new docking, biological efficacy, or quantum advantage claims."
+}

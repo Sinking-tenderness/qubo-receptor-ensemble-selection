@@ -1,0 +1,141 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage14b-fa10-structural-pool-20260731-v1",
+  "purpose": "Download, align, audit, and deterministically select 16 FA10 receptors plus one frozen reserve without reading activity labels or benchmark docking scores.",
+  "implementation": {
+    "path": "scripts/select_stage14b_fa10_structural_pool.py",
+    "sha256": "E79AF08A8DC80655B1D7F0EA4862012708FA3A67D764D00E6FB0EFB4EC215D7D",
+    "dependencies": [
+      {
+        "path": "scripts/select_stage13_egfr_coordinate_pool.py",
+        "sha256": "8386C04F5549A2FA83BEB44B788A32293C596FA9845C782AA8114FEA3D05395C"
+      },
+      {
+        "path": "scripts/select_mk14_rcsb_coordinate_pool.py",
+        "sha256": "34FEB2A69E2DD793953C1A12AB3E083B704D38DDC70B1F4E10BB38C69234D0A5"
+      }
+    ]
+  },
+  "preregistration": {
+    "path": "configs/stage14_fa10_external_target_preregistration.json",
+    "sha256": "E7341ED050C6176A1AD42435CBC220FE5186E32CC70A7ADD26FA278003B320A3"
+  },
+  "discovery_summary": {
+    "path": "data/stage14a_fa10_rcsb_candidate_discovery_summary.json",
+    "sha256": "7ECE8715AD22C00C06ACCAF731BF9FE14BC5504D068DD340BDFD56EF9C652769"
+  },
+  "runtime": {
+    "conda_environment": "qubo-receptor-ensemble",
+    "python_version": "3.11.15",
+    "gemmi_version": "0.7.5",
+    "numpy_version": "1.26.4"
+  },
+  "inputs": {
+    "eligible_metadata_csv": {
+      "path": "data/processed/stage14a_fa10_rcsb_metadata_eligible_candidates.csv",
+      "sha256": "8719DF7F3B0AD8A5F76218C58467BDE0AFE9B41EAC6A7800427A9AF6416BCC87"
+    },
+    "reference_mmcif": {
+      "path": "data/raw/rcsb/fa10/3KL6.cif",
+      "sha256": "0BAD93FBB2F96A2436321E7E18473B94682671E7D8F92D575F72CDCF6742262D"
+    }
+  },
+  "reference": {
+    "pdb_id": "3KL6",
+    "auth_chain": "A",
+    "ligand_comp_id": "443",
+    "ligand_auth_seq_id": 1,
+    "visible_protein_ca_count": 232,
+    "pocket_residue_numbers": [
+      57,
+      96,
+      97,
+      98,
+      99,
+      138,
+      143,
+      147,
+      174,
+      175,
+      183,
+      189,
+      190,
+      191,
+      192,
+      193,
+      194,
+      195,
+      212,
+      213,
+      214,
+      215,
+      216,
+      217,
+      219,
+      220,
+      221,
+      222,
+      225,
+      226,
+      227,
+      228
+    ],
+    "anchor_residue_numbers": [
+      96,
+      97,
+      98,
+      99,
+      174,
+      189,
+      190,
+      191,
+      192,
+      195,
+      213,
+      214,
+      215,
+      216,
+      217,
+      219,
+      220,
+      226,
+      227,
+      228
+    ]
+  },
+  "coordinate_gate": {
+    "minimum_matched_ca_count": 180,
+    "maximum_aligned_global_ca_rmsd_angstrom": 2.0,
+    "minimum_pocket_residue_fraction": 0.95,
+    "minimum_pocket_heavy_atom_completeness_fraction": 0.95,
+    "require_qualifying_ligand_within_reference_ligand_angstrom": 6.0,
+    "hidden_covalency": {
+      "exclude_if_minimum_protein_ligand_heavy_atom_distance_at_or_below_angstrom": 1.9
+    }
+  },
+  "structural_selection": {
+    "method": "deterministic max-min active-site geometry from 3KL6 reference seed",
+    "minimum_variable_feature_sd_angstrom": 0.01,
+    "tie_break": "lexical conformer_id"
+  },
+  "download": {
+    "url_template": "https://files.rcsb.org/download/{pdb_id}.cif",
+    "workers": 16,
+    "timeout_seconds": 60,
+    "maximum_retries": 4,
+    "retry_backoff_seconds": 1.0
+  },
+  "outputs": {
+    "raw_mmcif_directory": "data/raw/rcsb/fa10/coordinate_pool",
+    "aligned_directory": "results/runs/stage14b_fa10_structural_pool/aligned",
+    "coordinate_audit_csv": "data/processed/stage14b_fa10_coordinate_audit.csv",
+    "eligible_pool_csv": "data/processed/stage14b_fa10_preparation_ready_pool.csv",
+    "feature_matrix_csv": "data/processed/stage14b_fa10_active_site_features.csv",
+    "pairwise_distances_csv": "data/processed/stage14b_fa10_structural_distances.csv",
+    "selected16_csv": "data/processed/stage14b_fa10_selected16.csv",
+    "reserve_csv": "data/processed/stage14b_fa10_reserve.csv",
+    "summary_json": "data/stage14b_fa10_structural_pool_summary.json",
+    "report_md": "reports/stage-14b/fa10_structural_pool.md"
+  },
+  "interpretation_boundary": "This coordinate-only gate can establish a preparation-ready and structurally diverse FA10 receptor cohort. It cannot establish cognate-pose recovery, screening enrichment, QUBO portability, QUBO superiority, quantum execution, or quantum advantage."
+}

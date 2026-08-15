@@ -1,0 +1,35 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage18c-pparg-preparation-ready-amendment01-20260801-v1",
+  "purpose": "Before any PPARG docking, exclude coordinate-eligible structures with globally incomplete standard amino-acid templates and repeat the unchanged deterministic max-min selection.",
+  "trigger": "The first coordinate-only selection showed that 7 of 24 selected structures contain globally incomplete standard amino-acid templates outside the frozen pocket anchors. Deterministic completion would add unnecessary modeling uncertainty, so this label-independent preparation-readiness rule is frozen before receptor preparation or any docking score is read.",
+  "implementation": {
+    "path": "scripts/select_stage18c_pparg_preparation_ready_pool.py",
+    "sha256": "A324D97434D60FD4F28F0D12896E6C147B3BE0FEBD15354B706CF9BB87503DC7"
+  },
+  "inputs": {
+    "structural_summary": {
+      "path": "data/stage18c_pparg_structural_selection_summary.json",
+      "sha256": "6A521129912341C245388DCAA18B696097D77493B4B28FF75676828552514054"
+    },
+    "eligible_pool": {
+      "path": "data/processed/stage18c_pparg_coordinate_eligible_pool.csv",
+      "sha256": "DE64D1C6B89BDD9B288A71A7BB131DC0A69D2D51984230DB567EE89F5A26C38C"
+    },
+    "pairwise_distances": {
+      "path": "data/processed/stage18c_pparg_structural_distances.csv",
+      "sha256": "214B1E8D32009425B36D1CDAEBB020663D08490201405074D4B82451E1455517"
+    }
+  },
+  "selection": {
+    "preparation_ready_rule": "global_incomplete_standard_amino_acid_residue_count equals zero",
+    "reference_conformer_id": "PPARG_2GTK_reference",
+    "target_receptor_count": 24,
+    "selection_rule": "unchanged deterministic max-min standardized pocket distance over the preparation-ready pool; ties resolved by lexical conformer ID"
+  },
+  "outputs": {
+    "selected24_manifest_csv": "data/processed/stage18c_pparg_preparation_ready_selected24.csv",
+    "summary_json": "data/stage18c_pparg_preparation_ready_selection_summary.json"
+  },
+  "interpretation_boundary": "This prospective technical correction uses coordinates only and prevents unregistered residue modeling. It cannot establish redocking success, enrichment, QUBO portability, QUBO superiority, quantum execution, or quantum advantage."
+}

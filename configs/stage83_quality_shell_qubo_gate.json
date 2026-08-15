@@ -1,0 +1,118 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage83-quality-shell-qubo-gate-20260811-v1",
+  "purpose": "Test whether a shared quadratic quality-shell scalarization can recover non-convex Stage75 frontiers while keeping a compact Dirac-compatible QUBO and exact classical feasibility guards.",
+  "implementation": {
+    "runner": {
+      "path": "scripts/run_stage83_quality_shell_qubo_gate.py",
+      "sha256": "AD40F35DE8761D4EA9CC12E81556B400041EDF5E2A6093D28653EFF41551AC48",
+      "size_bytes": 20100
+    },
+    "independent_auditor": {
+      "path": "scripts/audit_stage83_quality_shell_qubo_gate.py",
+      "sha256": "C945E7EF1E5CE8C9B5EAFACEC3EF0AE5FE10B719A5AFDC7880A09C07EEE5E884",
+      "size_bytes": 6088
+    }
+  },
+  "inputs": {
+    "stage77_config": {
+      "path": "configs/stage77_quantum_hardware_interface_gate.json",
+      "sha256": "FE94CC1AA3C261F2C1FB5E00628A97495D1DD24AFC53750B3F0A7D6C55181F0F",
+      "size_bytes": 12949
+    },
+    "stage72_model_record": {
+      "path": "data/stage72_constraint_native_cqm_model_record.json",
+      "sha256": "D7BD285F4CB0787C1FF63EEC190CE692F72F2E885CB610BFEA1D70AC2505D1DF",
+      "size_bytes": 737219
+    },
+    "stage74_workload_metrics": {
+      "path": "results/runs/stage74_larger_k_solver_scaling/workload_metrics.csv",
+      "sha256": "84B02EF49939B097244CF4B0543F088FF183C48DD7E9DFB900EC2EA9E5AF355E",
+      "size_bytes": 48587
+    },
+    "stage74_cell_comparison": {
+      "path": "results/runs/stage74_larger_k_solver_scaling/cell_comparison.csv",
+      "sha256": "B1CEE2803DB74AC55BE1C5DA1BA77240ED550DED68A2B47A027A12F86B9781EA",
+      "size_bytes": 89127
+    },
+    "stage74_solver_trials": {
+      "path": "results/runs/stage74_larger_k_solver_scaling/solver_trials.csv",
+      "sha256": "3E0C8DD06991378C7CFCBC00D3CD437C64516445E06389E209885B78C510532D",
+      "size_bytes": 2871104
+    },
+    "stage79_physical_audit": {
+      "path": "data/stage79_qci_dirac3_physical_poc_audit.json",
+      "sha256": "B11EA4EBBB0CF66846E50C9ABFD8B19F189C85BD03E1183B93157244FF3D287D",
+      "size_bytes": 4313
+    },
+    "stage82_result": {
+      "path": "data/stage82_lagrangian_fixed_k_qubo_gate_result.json",
+      "sha256": "22A3632C7BE96C185C143EB5548D756A2EEB67F4B4A21CA03CD855688EE29120",
+      "size_bytes": 2922
+    },
+    "stage82_audit": {
+      "path": "data/stage82_lagrangian_fixed_k_qubo_gate_audit.json",
+      "sha256": "DA71D4815D649209A20BCA1DEC588C996E097DE769F9A862EDF94CC473DD7899",
+      "size_bytes": 505
+    }
+  },
+  "experiment": {
+    "canonical_reward_quantile": 0.5,
+    "canonical_model_count": 16,
+    "fixed_k_cell_count": 100,
+    "qci_total_level_limit": 949,
+    "wall_clock_used_for_decision": false
+  },
+  "quality_shell_screen": {
+    "conditions": [
+      {"center": 0.875, "strength": 16},
+      {"center": 0.75, "strength": 16},
+      {"center": 1.0, "strength": 64},
+      {"center": 0.875, "strength": 64},
+      {"center": 0.875, "strength": 32},
+      {"center": 0.875, "strength": 8},
+      {"center": 0.625, "strength": 8},
+      {"center": 1.0, "strength": 32}
+    ],
+    "condition_freeze_rule": "Greedy coverage of the shared 5-by-11 quality-shell grid using only one-swap support on the four consumed historical development targets; no target-specific condition is permitted.",
+    "cardinality_penalty_multiplier": 1.05,
+    "signed_precision_bits": 24,
+    "tabu_reads": 2,
+    "tabu_timeout_milliseconds": 25,
+    "seed_base": 202683000,
+    "candidate_objective": "For fixed k, minimize scaled Stage75 pair energy plus beta*(sum_i deficit_i*x_i/D_k - tau)^2 and an analytically dominating exact-k penalty.",
+    "feasibility_rule": "Classically reject every sample whose cardinality differs from k or whose original integer deficit exceeds D_k.",
+    "selection_rule": "Compare only guarded feasible candidates using the original unscaled Stage75 objective."
+  },
+  "decision_gate": {
+    "minimum_coefficient_retention_fraction": 0.99,
+    "minimum_reference_support_fraction": 0.75,
+    "minimum_fixed_k_frontier_competitive_fraction": 0.6,
+    "minimum_per_target_frontier_competitive_fraction": 0.35,
+    "minimum_variable_k_frontier_competitive_fraction": 0.75,
+    "success_action": "Prepare exactly three frozen Dirac-3 calibration jobs spanning a supported positive, a difficult positive, and an unsupported negative control; full production remains prohibited.",
+    "failure_action": "Do not consume the remaining QCI allocation; retain the quality-shell result as a local post-hoc formulation study."
+  },
+  "data_boundary": {
+    "historical_development_targets_permitted": [
+      "BACE1",
+      "PPARG",
+      "PPARA",
+      "PPARD"
+    ],
+    "fresh_validation_rows_permitted": 0,
+    "locked_test_rows_permitted": 0,
+    "new_docking_jobs_permitted": 0,
+    "qci_cloud_queries_permitted": 0,
+    "quantum_hardware_jobs_permitted": 0
+  },
+  "outputs": {
+    "trial_metrics_csv": "results/runs/stage83_quality_shell_qubo_gate/trial_metrics.csv",
+    "fixed_k_metrics_csv": "results/runs/stage83_quality_shell_qubo_gate/fixed_k_metrics.csv",
+    "variable_k_metrics_csv": "results/runs/stage83_quality_shell_qubo_gate/variable_k_metrics.csv",
+    "result_json": "data/stage83_quality_shell_qubo_gate_result.json",
+    "audit_json": "data/stage83_quality_shell_qubo_gate_audit.json",
+    "report_md": "reports/stage-83/quality_shell_qubo_gate.md"
+  },
+  "interpretation_boundary": "Stage83 is post-hoc on consumed development targets and its condition grid was selected from historical one-swap support. It may authorize only a physical fidelity calibration, never efficacy, scaling, speedup, or quantum-advantage claims."
+}

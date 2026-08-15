@@ -1,0 +1,78 @@
+{
+  "claim_gates": {
+    "application_support": {
+      "all_checks_required": true,
+      "minimum_mean_outer_holdout_gain_over_best_single": 0.01,
+      "minimum_mean_outer_holdout_gain_over_linear_topk": 0.0,
+      "minimum_mean_outer_holdout_gain_over_nested_bedroc_greedy": 0.0,
+      "minimum_positive_outer_holdout_gain_folds": 3
+    },
+    "fresh_validation_action": "Authorize one frozen PPARD fresh-validation run only if the complete nested application-support gate passes; otherwise stop PPARD outcome fitting.",
+    "optimization_novelty": {
+      "does_not_establish_quantum_advantage": true,
+      "minimum_positive_objective_gap_cells_over_strong_classical": 1,
+      "separate_from_application_support": true
+    },
+    "quantum_hardware_action": "Not authorized by Stage60 or by a Train-240 result. Hardware requires a later successful independent validation and a separately frozen hardware protocol."
+  },
+  "coefficient_changes_after_stage42f": 0,
+  "comparators": [
+    "exact transferred rank-pair QUBO",
+    "beam-64 plus all-singleton-start fixed-k swap local search on the same QUBO",
+    "direct greedy on the same QUBO",
+    "best single receptor",
+    "linear Top-k by singleton BEDROC20 utility",
+    "nested greedy directly maximizing robust BEDROC20",
+    "random matched-k search",
+    "all 29 receptors"
+  ],
+  "model_id": "stage60-ppard-transferred-rank-pair-qubo-v1",
+  "nested_cv": {
+    "candidate_k_values": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "final_development_model_rule": "After reporting nested outer-fold results, select the smallest k within one standard error of the highest mean outer-holdout robust BEDROC20 and refit once on all Train-240 rows.",
+    "grouping_columns": [
+      "split_group_id",
+      "scaffold_smiles"
+    ],
+    "inner_evaluation_metric": "robust BEDROC20=(primary median-seed BEDROC20 + mean seed BEDROC20 + worst seed BEDROC20)/3",
+    "inner_fold_count": 3,
+    "inner_fold_seeds": [
+      20261201,
+      20261202,
+      20261203,
+      20261204
+    ],
+    "inner_training_action": "Fit train-only empirical rank transforms and QUBO coefficients, then exactly optimize each fixed k.",
+    "k_selection_definition": "Let k_star maximize mean inner-holdout robust BEDROC20. Compute the sample standard error at k_star across the three inner folds. Select the smallest k whose mean is at least mean(k_star)-SE(k_star). Break numerical ties by smaller k.",
+    "k_selection_rule": "one_standard_error_smallest_k",
+    "literal_early_docking_stop": false,
+    "outer_evaluation_action": "Refit coefficients and exact fixed-k QUBO on the complete outer-train partition at the inner-selected k, then evaluate the untouched outer holdout.",
+    "outer_fold_count": 4,
+    "outer_fold_seed": 20261119,
+    "reason_no_literal_early_docking_stop": "All k values reuse one receptor-by-ligand score matrix; increasing k does not launch additional docking jobs. The stopping rule controls model complexity, not docking execution.",
+    "tie_tolerance": 1e-12
+  },
+  "objective": {
+    "bedroc_alpha": 20.0,
+    "fixed_k_qubo": "Q_k(S)=mean_{i in S}(q_i)+mean_{i<j in S}(delta_ij); for k=1 the pair term is zero",
+    "maximum_subset_size": 6,
+    "minimum_subset_size": 1,
+    "normalization_reason": "separate normalization at each fixed k removes the Stage42d cardinality pressure and implements the previously proposed k=1..6 ladder",
+    "objective_id": "bedroc20_rank_sensitive_pair_complementarity_v1",
+    "pair_complementarity": "delta_ij=q_{ij}-max(q_i,q_j), where q_{ij} uses the better rank from receptor i or j",
+    "qubo_form": "For each frozen k, maximize sum_i(q_i/k)x_i + sum_{i<j}(delta_ij/C(k,2))x_i x_j subject to sum_i x_i=k.",
+    "rank_normalization": "per-seed per-receptor empirical CDF fitted on outer-train rows only",
+    "singleton_utility": "q_i=(mean_seed(E_active[exp(-20r_i)]-E_decoy[exp(-20r_i)]) + worst_seed(...))/2"
+  },
+  "ppard_pilot_outcomes_used_for_coefficient_selection": false,
+  "ppard_pilot_outcomes_used_for_weight_fitting": false,
+  "schema_version": "1.0",
+  "status": "stage60_ppard_transferred_qubo_frozen"
+}

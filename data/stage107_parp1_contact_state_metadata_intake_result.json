@@ -1,0 +1,67 @@
+{
+  "schema_version": "1.0",
+  "status": "stage107_parp1_contact_state_metadata_intake_no_go",
+  "evidence_status": "posthoc mechanism-guided, outcome-unseen structural feasibility intake; it is not an efficacy result or a trained selector.",
+  "config": {
+    "path": "configs/stage107_parp1_contact_state_metadata_intake.json",
+    "sha256": "0FCF66552E6260EEC28FB5B1B055E52DED1E7A8F55F80989127DC87E22EED022"
+  },
+  "parent_stage106_status": "stage106_cocrystal_contact_state_audit_complete",
+  "query": {
+    "uniprot_accession": "P09874",
+    "experimental_method": "X-RAY DIFFRACTION",
+    "search_result_count": 94
+  },
+  "counts": {
+    "metadata_entry_count": 94,
+    "metadata_eligible_count": 0,
+    "new_metadata_eligible_count": 0,
+    "reference_eligible": false,
+    "structural_count_passes": false,
+    "gate_passes": false
+  },
+  "reference_metadata_record": {
+    "pdb_id": "3L3M",
+    "status": "metadata_excluded",
+    "exclusion_reasons": "mutation_count_differs;reference_sequence_coverage_below_limit",
+    "is_existing_receptor_structure": true,
+    "title": "PARP complexed with A927929",
+    "initial_release_date": "2010-06-23T00:00:00Z",
+    "resolution_angstrom": 2.5,
+    "target_polymer_entity_id": "3L3M_1",
+    "target_auth_chains": "A",
+    "selected_auth_chain": "A",
+    "mutation_count": 1,
+    "pdbx_mutation_note": "V762A",
+    "sample_sequence_length": 350,
+    "reference_sequence_coverage": 0.34516765285996054,
+    "entity_sequence_coverage": 1.0,
+    "qualifying_ligand_count": 1,
+    "qualifying_ligand_ids": "A92",
+    "qualifying_ligand_weights_kda": "0.338",
+    "qualifying_ligand_names": "2-{2-fluoro-4-[(2S)-piperidin-2-yl]phenyl}-1H-benzimidazole-7-carboxamide",
+    "excluded_title_patterns": "",
+    "is_dude_reference_structure": true
+  },
+  "eligible_pdb_ids": [],
+  "data_boundary": {
+    "parp1_coordinate_downloads": 0,
+    "parp1_individual_ligand_rows_read": 0,
+    "parp1_benchmark_docking_scores_read": 0,
+    "parp1_fresh_validation_rows_read": 0,
+    "parp1_locked_test_rows_read": 0,
+    "new_docking_jobs": 0,
+    "quantum_hardware_jobs": 0
+  },
+  "decision": {
+    "coordinate_structural_audit_authorized": false,
+    "ligand_preparation_authorized": false,
+    "redocking_authorized": false,
+    "production_docking_authorized": false,
+    "parp1_fresh_validation_released": false,
+    "parp1_locked_test_released": false,
+    "quantum_hardware_authorized": false,
+    "next_action": "Stop the legacy PARP1 branch before coordinate download because its 3L3M reference does not meet the frozen mutation and coverage rules. A future protocol, if any, must select and freeze a different wild-type reference using a separately audited public-metadata survey."
+  },
+  "interpretation": "The legacy reference fails because RCSB records V762A and 0.345 reference coverage. This is a No-Go under the frozen rules, not a reason to loosen them after seeing current metadata."
+}

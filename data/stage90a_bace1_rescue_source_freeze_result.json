@@ -1,0 +1,107 @@
+{
+  "adjudication": "Stage90 remains a failed preregistered 50-receptor intake gate. A separate prospective BACE1 route is nevertheless justified by the earlier Stage41d certificate: the 34 redocking-qualified receptors already passed label-independent structural coverage criteria and define more than one million k<=6 subsets. No Stage90 threshold is changed.",
+  "authorization": {
+    "confirmation_or_test_docking_authorized": false,
+    "new_docking_jobs_authorized": 0,
+    "quantum_hardware_jobs_authorized": 0,
+    "stage91_preregistration_and_development_ligand_freeze_authorized": true
+  },
+  "checks": {
+    "all_assays_distinct": true,
+    "all_documents_distinct": true,
+    "all_pairwise_document_disjoint": true,
+    "all_pairwise_molecule_disjoint": true,
+    "all_pairwise_scaffold_disjoint": true,
+    "four_assays_frozen": true,
+    "large_k6_state_space": true,
+    "large_total_state_space": true,
+    "manifest_matches_stage41d_pool": true,
+    "stage41d_predates_stage90": true,
+    "stage41d_receptor_count_passes": true,
+    "stage41d_status_allows_development": true,
+    "stage90_remains_failed": true
+  },
+  "data_boundary": {
+    "fresh_validation_rows_read": 0,
+    "locked_test_docking_scores_read": 0,
+    "new_docking_jobs": 0,
+    "quantum_hardware_jobs": 0
+  },
+  "failed_checks": [],
+  "frozen_assays": [
+    {
+      "assay_chembl_id": "CHEMBL3706316",
+      "docking_scores_locked": false,
+      "document_chembl_id": "CHEMBL3639225",
+      "high_potency_count": 248,
+      "low_potency_count": 52,
+      "molecules_in_repeat_series": 258,
+      "pchembl_range": 4.61,
+      "repeat_series_count": 6,
+      "role": "development",
+      "standard_type": "IC50",
+      "target_id": "BACE1",
+      "unique_molecule_count": 365
+    },
+    {
+      "assay_chembl_id": "CHEMBL3888176",
+      "docking_scores_locked": true,
+      "document_chembl_id": "CHEMBL3886610",
+      "high_potency_count": 168,
+      "low_potency_count": 26,
+      "molecules_in_repeat_series": 149,
+      "pchembl_range": 4.9,
+      "repeat_series_count": 6,
+      "role": "confirmation_a",
+      "standard_type": "IC50",
+      "target_id": "BACE1",
+      "unique_molecule_count": 221
+    },
+    {
+      "assay_chembl_id": "CHEMBL3705666",
+      "docking_scores_locked": true,
+      "document_chembl_id": "CHEMBL3638878",
+      "high_potency_count": 30,
+      "low_potency_count": 56,
+      "molecules_in_repeat_series": 95,
+      "pchembl_range": 3.2199999999999998,
+      "repeat_series_count": 7,
+      "role": "confirmation_b",
+      "standard_type": "IC50",
+      "target_id": "BACE1",
+      "unique_molecule_count": 185
+    },
+    {
+      "assay_chembl_id": "CHEMBL3888330",
+      "docking_scores_locked": true,
+      "document_chembl_id": "CHEMBL3886197",
+      "high_potency_count": 59,
+      "low_potency_count": 20,
+      "molecules_in_repeat_series": 58,
+      "pchembl_range": 4.71,
+      "repeat_series_count": 4,
+      "role": "locked_test",
+      "standard_type": "IC50",
+      "target_id": "BACE1",
+      "unique_molecule_count": 115
+    }
+  ],
+  "large_pool_certificate": {
+    "evidence_timing": "Stage41d certificate existed before Stage90 ChEMBL intake.",
+    "k6_states": 1344904,
+    "receptor_count": 34,
+    "total_states_k1_to_k6": 1676115
+  },
+  "outputs": {
+    "assay_roles_csv": {
+      "path": "results/runs/stage90a_bace1_rescue_source_freeze/assay_roles.csv",
+      "sha256": "3552D5D07F228BBAE22243D5F2281DC9E76AE0F35D38458E0BABAB9FF1D3359C"
+    },
+    "overlap_matrix_csv": {
+      "path": "results/runs/stage90a_bace1_rescue_source_freeze/assay_overlap_matrix.csv",
+      "sha256": "808403EA3DB2C1F17BB78B71727D5497EE43BCD3D0AA18766841956DAA264182"
+    }
+  },
+  "schema_version": "1.0",
+  "status": "stage90a_bace1_rescue_source_freeze_passed"
+}

@@ -1,0 +1,18 @@
+{
+  "schema_version": "1.0",
+  "status": "stage108_independent_audit_ok",
+  "metadata_eligible_count": 10,
+  "minimum_required_count": 16,
+  "pool_gate_passes": false,
+  "provisional_reference": "7KK5",
+  "later_stages_locked": true,
+  "data_boundary": {
+    "parp1_coordinate_downloads": 0,
+    "parp1_individual_ligand_rows_read": 0,
+    "parp1_benchmark_docking_scores_read": 0,
+    "parp1_fresh_validation_rows_read": 0,
+    "parp1_locked_test_rows_read": 0,
+    "new_docking_jobs": 0,
+    "quantum_hardware_jobs": 0
+  }
+}

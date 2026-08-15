@@ -1,0 +1,53 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage16b-dpp4-rcsb-candidate-discovery-20260801-v1",
+  "purpose": "Snapshot and audit all RCSB P27487 X-ray entries using the frozen DPP4 metadata rules without reading benchmark docking scores or held-out rows.",
+  "retrieved_on": "2026-08-01",
+  "implementation": {
+    "path": "scripts/discover_stage16b_dpp4_rcsb_candidates.py",
+    "sha256": "C59849639CC0B7C82254A3E7F8AA9A6F0EFED7941B4A1782943C5DA810536300",
+    "dependencies": [
+      {
+        "path": "scripts/discover_stage13_external_target_rcsb_candidates.py",
+        "sha256": "4AC112D3AD34BD0E53B97AE0F716BC2C58DCF5EE575E68593FAD41132CECC248"
+      },
+      {
+        "path": "scripts/discover_mk14_rcsb_receptor_candidates.py",
+        "sha256": "970F964E3217D58D21B1E3B88FA6BDADE7EC42F24DC74B62B5D56502837808E6"
+      }
+    ]
+  },
+  "preregistration": {
+    "path": "configs/stage16_dpp4_replacement_exploratory_preregistration.json",
+    "sha256": "511E8CCC5A4AC7B6BB48809046CE0A417CCDC4AFD068F552AC2220F7B4F2D166"
+  },
+  "source_configuration": {
+    "path": "configs/stage16a_dpp4_source_audit.json",
+    "sha256": "487EEBFFF225D90D6CEFCE12CCC2B35E893EF985EF0458FAB97A62A402468DF1"
+  },
+  "source_audit": {
+    "path": "data/stage16a_dpp4_source_audit.json",
+    "sha256": "03D4A125846FAE0008D0CBA73FA5F25F60469CEEDB7F39615BE084731F0F8C39"
+  },
+  "runtime": {
+    "conda_environment": "qubo-receptor-ensemble",
+    "python_version": "3.11.15"
+  },
+  "rcsb": {
+    "search_endpoint": "https://search.rcsb.org/rcsbsearch/v2/query",
+    "graphql_endpoint": "https://data.rcsb.org/graphql",
+    "metadata_chunk_size": 40,
+    "request_timeout_seconds": 60,
+    "maximum_retries": 4,
+    "retry_backoff_seconds": 1.0
+  },
+  "outputs": {
+    "search_snapshot_json": "data/raw/rcsb/dpp4/p27487_xray_search_snapshot_20260801.json",
+    "metadata_snapshot_json": "data/raw/rcsb/dpp4/p27487_xray_metadata_snapshot_20260801.json",
+    "candidate_metadata_csv": "data/processed/stage16b_dpp4_rcsb_candidate_metadata.csv",
+    "eligible_candidates_csv": "data/processed/stage16b_dpp4_rcsb_metadata_eligible_candidates.csv",
+    "summary_json": "data/stage16b_dpp4_rcsb_candidate_discovery_summary.json",
+    "report_md": "reports/stage-16b/dpp4_rcsb_candidate_discovery.md"
+  },
+  "interpretation_boundary": "Metadata eligibility is label-independent and only authorizes coordinate download and structural auditing. It does not establish active-site suitability, noncovalency, preparation quality, redocking success, enrichment, QUBO portability, QUBO superiority, or quantum advantage."
+}

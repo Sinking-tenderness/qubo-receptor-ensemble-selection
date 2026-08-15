@@ -1,0 +1,54 @@
+{
+  "schema_version": "1.0",
+  "adjudication_id": "stage46b-src-human-metadata-pool-failure-20260804-v1",
+  "status": "stage46b_src_human_metadata_pool_closed",
+  "config": {
+    "path": "configs/stage46b_src_human_rcsb_candidate_discovery.json",
+    "sha256": "261B8F50218617E695A843C3288ADDF1337B66B6F8BB3D400FFF1A75B4EA5209"
+  },
+  "query": {
+    "uniprot_accession": "P12931",
+    "experimental_method": "X-RAY DIFFRACTION",
+    "search_result_count": 74,
+    "metadata_eligible_count": 10,
+    "minimum_required_count": 32,
+    "eligible_pdb_ids": [
+      "1Y57",
+      "2BDF",
+      "2BDJ",
+      "2H8H",
+      "4MXO",
+      "7NG7",
+      "7OTE",
+      "8HAQ",
+      "8JF3",
+      "9IRL"
+    ]
+  },
+  "exclusion_reason_counts": {
+    "excluded_title_pattern": 16,
+    "missing_same_chain_drug_like_nonpolymer": 27,
+    "mutation_count_differs": 21,
+    "reference_sequence_coverage_below_limit": 49,
+    "resolution_above_limit": 2,
+    "sample_sequence_length_outside_limits": 49
+  },
+  "completed_outputs": 0,
+  "decision": {
+    "lower_metadata_threshold": false,
+    "use_ortholog_structures_to_fill_human_pool": false,
+    "coordinate_audit_authorized": false,
+    "production_docking_authorized": false,
+    "close_src_branch": true,
+    "select_new_result_unseen_target": true
+  },
+  "data_boundary": {
+    "ligand_labels_read": 0,
+    "docking_scores_read": 0,
+    "fresh_validation_rows_read": 0,
+    "locked_test_rows_read": 0,
+    "new_docking_jobs": 0,
+    "quantum_hardware_jobs": 0
+  },
+  "interpretation_boundary": "SRC failed a pre-docking structural-abundance gate. The branch cannot be revived by lowering the threshold, mixing orthologs, or relabeling this as an efficacy result."
+}

@@ -1,0 +1,96 @@
+{
+  "checks": {
+    "balanced_greedy_trap_exists": false,
+    "balanced_selection_differs": false,
+    "distinct_group_best_receptors": false,
+    "fold_holdout_cluster_sizes": false,
+    "fold_train_cluster_sizes": false,
+    "global_cluster_sizes": false,
+    "group_specialization": false,
+    "mean_worst_group_holdout_gain": false,
+    "positive_worst_group_holdout_gain_folds": false
+  },
+  "chemotype_balanced_cqm_design_authorized": false,
+  "cluster_summaries": [
+    {
+      "active_count": 133,
+      "cluster_counts": {
+        "0": 97,
+        "1": 23,
+        "2": 12,
+        "3": 1
+      },
+      "minimum_cluster_count": 1,
+      "silhouette": 0.14230490665483558,
+      "target_id": "BACE1"
+    },
+    {
+      "active_count": 80,
+      "cluster_counts": {
+        "0": 77,
+        "1": 1,
+        "2": 1,
+        "3": 1
+      },
+      "minimum_cluster_count": 1,
+      "silhouette": 0.11340079038408106,
+      "target_id": "PPARG"
+    },
+    {
+      "active_count": 187,
+      "cluster_counts": {
+        "0": 181,
+        "1": 3,
+        "2": 2,
+        "3": 1
+      },
+      "minimum_cluster_count": 1,
+      "silhouette": 0.06850086197066728,
+      "target_id": "PPARA"
+    },
+    {
+      "active_count": 120,
+      "cluster_counts": {
+        "0": 114,
+        "1": 4,
+        "2": 1,
+        "3": 1
+      },
+      "minimum_cluster_count": 1,
+      "silhouette": 0.09170237397362772,
+      "target_id": "PPARD"
+    }
+  ],
+  "constraint_preserving_qaoa_simulation_authorized": false,
+  "data_boundary": {
+    "fresh_validation_rows_read": 0,
+    "locked_test_rows_read": 0,
+    "new_docking_jobs": 0,
+    "quantum_hardware_jobs": 0
+  },
+  "new_docking_jobs_authorized": 0,
+  "new_quantum_hardware_jobs_authorized": 0,
+  "next_action": "Do not formulate a new chemotype-balanced CQM; the structural grouping or held-out benefit gate did not pass.",
+  "schema_version": "1.0",
+  "status": "stage88_chemotype_balanced_portfolio_gate_failed",
+  "summary": {
+    "balanced_greedy_trap_fold_count": 0,
+    "evaluable_worst_group_holdout_fold_count": 0,
+    "exact_selection_difference_fold_count": 0,
+    "fold_count": 16,
+    "folds_with_distinct_group_best_receptors": 0,
+    "mean_worst_group_holdout_gain_vs_overall_top3": 0.0,
+    "median_group_utility_spearman": 1.0,
+    "minimum_global_cluster_count": 1,
+    "minimum_holdout_group_active_count": 0,
+    "minimum_train_group_active_count": 0,
+    "per_target_mean_worst_group_gain": {
+      "BACE1": null,
+      "PPARA": null,
+      "PPARD": null,
+      "PPARG": null
+    },
+    "positive_worst_group_holdout_gain_fold_count": 0,
+    "target_count": 4
+  }
+}

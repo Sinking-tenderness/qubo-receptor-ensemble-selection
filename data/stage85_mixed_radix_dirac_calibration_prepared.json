@@ -1,0 +1,118 @@
+{
+  "data_boundary": {
+    "fresh_validation_rows_read": 0,
+    "locked_test_rows_read": 0,
+    "new_docking_jobs": 0,
+    "qci_cloud_queries": 0,
+    "quantum_hardware_jobs": 0
+  },
+  "decision": {
+    "allocation_only_preflight_authorized": true,
+    "full_qci_production_authorized": false,
+    "physical_calibration_requires_separate_flag": true,
+    "qci_device_jobs_authorized": 0,
+    "quantum_advantage_claim_authorized": false
+  },
+  "experiment_id": "stage85-mixed-radix-dirac-calibration-20260811-v1",
+  "hardware_protocol": {
+    "api_url": "https://api.qci-prod.com",
+    "device": "Dirac-3",
+    "job_type": "sample-hamiltonian-integer",
+    "maximum_recorded_device_usage_seconds": 150,
+    "minimum_free_seconds_before_each_job": 30,
+    "planned_device_job_count": 3,
+    "planned_device_sample_count": 75,
+    "primary_endpoint": "Every exact-oracle instance must produce at least one feasible quantized optimum and zero samples below the independently enumerated quantized optimum.",
+    "production_rule": "Even a passing calibration does not authorize additional production jobs without a new preregistration.",
+    "provider": "Quantum Computing Inc.",
+    "qci_client_version": "5.0.0",
+    "relaxation_schedule": 1,
+    "require_unpaid_allocation": true,
+    "required_free_seconds_before_calibration": 150,
+    "samples_per_instance": 25,
+    "stop_rule": "Stop before the next job if free allocation falls below 30 seconds or cumulative recorded device usage exceeds 150 seconds."
+  },
+  "instances": [
+    {
+      "feasible_state_count": 18552,
+      "fixed_k_total_state_count": 184756,
+      "instance_id": "ppara_of0_k10_high_k_exact",
+      "integer_variable_count": 27,
+      "k": 10,
+      "mapping": {
+        "path": "results/runs/stage85_mixed_radix_dirac_calibration/instances/ppara_of0_k10_high_k_exact.qci-mapping.json",
+        "sha256": "162822411DB762C6C6A9BE7E4CF19F16CE292A3B8D1674DDD1C62369847CADC7",
+        "size_bytes": 3480
+      },
+      "outer_fold": 0,
+      "payload": {
+        "path": "results/runs/stage85_mixed_radix_dirac_calibration/instances/ppara_of0_k10_high_k_exact.qci-polynomial.json",
+        "sha256": "B24877579BDA31A17C3E4B12C200B927ADD48062630188186D3963B0590F2E34",
+        "size_bytes": 42406
+      },
+      "polynomial_term_count": 331,
+      "qci_total_levels": 127,
+      "quantized_optimum_degeneracy": 1,
+      "quantized_optimum_original_delta": 0.0,
+      "role": "high_k_exact",
+      "target_id": "PPARA"
+    },
+    {
+      "feasible_state_count": 4652,
+      "fixed_k_total_state_count": 46376,
+      "instance_id": "bace1_of0_k4_medium_pool_exact",
+      "integer_variable_count": 41,
+      "k": 4,
+      "mapping": {
+        "path": "results/runs/stage85_mixed_radix_dirac_calibration/instances/bace1_of0_k4_medium_pool_exact.qci-mapping.json",
+        "sha256": "66A9C4488996E5A2094DFC53C9E5B35721436B71AAEF590DEC3D54B7ECD8E4DD",
+        "size_bytes": 3944
+      },
+      "outer_fold": 0,
+      "payload": {
+        "path": "results/runs/stage85_mixed_radix_dirac_calibration/instances/bace1_of0_k4_medium_pool_exact.qci-polynomial.json",
+        "sha256": "9017F2610D57BAF92E8EAA59EBED584CEE7326757F81718DFBFDD948C3CCA9C4",
+        "size_bytes": 100176
+      },
+      "polynomial_term_count": 784,
+      "qci_total_levels": 171,
+      "quantized_optimum_degeneracy": 1,
+      "quantized_optimum_original_delta": 0.0,
+      "role": "medium_pool_exact",
+      "target_id": "BACE1"
+    },
+    {
+      "feasible_state_count": 14297,
+      "fixed_k_total_state_count": 142880,
+      "instance_id": "pparg_of0_k3_large_pool_exact",
+      "integer_variable_count": 103,
+      "k": 3,
+      "mapping": {
+        "path": "results/runs/stage85_mixed_radix_dirac_calibration/instances/pparg_of0_k3_large_pool_exact.qci-mapping.json",
+        "sha256": "83414446C88F607D721DFEDB3DF28486927B8A7F60B91C6E97C82EB9AC9F73BE",
+        "size_bytes": 7579
+      },
+      "outer_fold": 0,
+      "payload": {
+        "path": "results/runs/stage85_mixed_radix_dirac_calibration/instances/pparg_of0_k3_large_pool_exact.qci-polynomial.json",
+        "sha256": "1336D400AFEBB8C07176C76CF780CADE515DDA142FE0EE98D591EE5A53AE4AAA",
+        "size_bytes": 650207
+      },
+      "polynomial_term_count": 5098,
+      "qci_total_levels": 364,
+      "quantized_optimum_degeneracy": 1,
+      "quantized_optimum_original_delta": 0.0,
+      "role": "large_pool_exact",
+      "target_id": "PPARG"
+    }
+  ],
+  "outputs": {
+    "report_md": {
+      "path": "reports/stage-85/mixed_radix_dirac_calibration_preparation.md",
+      "sha256": "F5C576A4469B43F0469D185911E7A224782917C4F37274EE265EB813C00910F7",
+      "size_bytes": 628
+    }
+  },
+  "schema_version": "1.0",
+  "status": "stage85_mixed_radix_dirac_calibration_prepared"
+}

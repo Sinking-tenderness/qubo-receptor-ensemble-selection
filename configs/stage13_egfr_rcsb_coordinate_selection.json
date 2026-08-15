@@ -1,0 +1,58 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage13-egfr-rcsb-coordinate-selection-20260731-v1",
+  "purpose": "Download, audit, align, and structurally select a 16-receptor EGFR pool using only the preregistered metadata candidates and reference-derived ATP-pocket geometry.",
+  "implementation": {
+    "path": "scripts/select_stage13_egfr_coordinate_pool.py",
+    "sha256": "8386C04F5549A2FA83BEB44B788A32293C596FA9845C782AA8114FEA3D05395C",
+    "dependency_path": "scripts/select_mk14_rcsb_coordinate_pool.py",
+    "dependency_sha256": "34FEB2A69E2DD793953C1A12AB3E083B704D38DDC70B1F4E10BB38C69234D0A5"
+  },
+  "preregistration": {
+    "path": "configs/stage13_egfr_external_target_pilot_preregistration.json",
+    "sha256": "8CE02087666FC8F3A97A83889AB61E3E45EB03667DB853EC0D0B9C96FB8D00CD"
+  },
+  "preregistration_amendment": {
+    "path": "configs/stage13_egfr_external_target_pilot_preregistration_amendment01.json",
+    "sha256": "80AE8F05A5D6D8C3B8E40F65FAB4176624A8D15F5B3FA9025B0696CADA7B0533"
+  },
+  "runtime": {
+    "conda_environment": "qubo-receptor-ensemble",
+    "python_version": "3.11.15",
+    "numpy_version": "1.26.4",
+    "gemmi_version": "0.7.5"
+  },
+  "inputs": {
+    "discovery_summary": {
+      "path": "data/stage13_egfr_rcsb_candidate_discovery_summary.json",
+      "sha256": "2171B9FDC060660535863B0EA40C81C2A501EB8267D362D8EFB93D660B12C1AE"
+    },
+    "eligible_candidates_csv": {
+      "path": "data/processed/stage13_egfr_rcsb_metadata_eligible_candidates.csv",
+      "sha256": "D7F282CC39FB1C71F8459E36C406999D1B9329FE82C8C15375473910DC0AE9D8"
+    },
+    "reference_mmcif": {
+      "path": "data/raw/rcsb/egfr/2RGP.cif",
+      "sha256": "2C557B019C22C21FE1286F2EBFE8A7FA9171CF60A6B9563242AA5F2FCBF09DD9"
+    }
+  },
+  "download": {
+    "url_template": "https://files.rcsb.org/download/{pdb_id}.cif",
+    "workers": 8,
+    "timeout_seconds": 60,
+    "maximum_retries": 4,
+    "retry_backoff_seconds": 1.0
+  },
+  "outputs": {
+    "raw_mmcif_directory": "data/raw/rcsb/egfr",
+    "aligned_protein_pdb_directory": "results/runs/stage13_egfr_rcsb_coordinate_pool/aligned",
+    "coordinate_audit_csv": "data/processed/stage13_egfr_rcsb_coordinate_candidate_audit.csv",
+    "eligible_pool_manifest_csv": "data/processed/stage13_egfr_rcsb_coordinate_eligible_pool.csv",
+    "feature_matrix_csv": "data/processed/stage13_egfr_rcsb_pocket_distance_features.csv",
+    "pairwise_distances_csv": "data/processed/stage13_egfr_rcsb_structural_distances.csv",
+    "selected16_manifest_csv": "data/processed/stage13_egfr_selected16_structural_pool.csv",
+    "summary_json": "data/stage13_egfr_rcsb_coordinate_selection_summary.json",
+    "report_md": "reports/stage-13/egfr_rcsb_coordinate_selection.md"
+  },
+  "interpretation_boundary": "This label-independent gate can establish structural eligibility and diversity only. It cannot establish docking validity, virtual-screening enrichment, QUBO portability, QUBO superiority, a quantum application benefit, or quantum advantage."
+}

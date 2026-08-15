@@ -1,0 +1,103 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage84-mixed-radix-dirac-iqp-gate-20260811-v1",
+  "purpose": "Encode the exact fixed-k Stage75 conditional-quality constraint as four base-16 column equations with native Dirac integer slack and carry variables, avoiding a single high-dynamic-range global penalty.",
+  "implementation": {
+    "runner": {
+      "path": "scripts/run_stage84_mixed_radix_dirac_iqp_gate.py",
+      "sha256": "C346D28979BEC82E7479946D1A6258EF517979E2976620CB63CFC297B7D2ABB9",
+      "size_bytes": 21986
+    },
+    "independent_auditor": {
+      "path": "scripts/audit_stage84_mixed_radix_dirac_iqp_gate.py",
+      "sha256": "121DBCA602FA7651B784D282DEB886B65285254CFDD57DE25D3B437B6056E26E",
+      "size_bytes": 5645
+    }
+  },
+  "inputs": {
+    "stage77_config": {
+      "path": "configs/stage77_quantum_hardware_interface_gate.json",
+      "sha256": "FE94CC1AA3C261F2C1FB5E00628A97495D1DD24AFC53750B3F0A7D6C55181F0F",
+      "size_bytes": 12949
+    },
+    "stage72_model_record": {
+      "path": "data/stage72_constraint_native_cqm_model_record.json",
+      "sha256": "D7BD285F4CB0787C1FF63EEC190CE692F72F2E885CB610BFEA1D70AC2505D1DF",
+      "size_bytes": 737219
+    },
+    "stage74_workload_metrics": {
+      "path": "results/runs/stage74_larger_k_solver_scaling/workload_metrics.csv",
+      "sha256": "84B02EF49939B097244CF4B0543F088FF183C48DD7E9DFB900EC2EA9E5AF355E",
+      "size_bytes": 48587
+    },
+    "stage74_cell_comparison": {
+      "path": "results/runs/stage74_larger_k_solver_scaling/cell_comparison.csv",
+      "sha256": "B1CEE2803DB74AC55BE1C5DA1BA77240ED550DED68A2B47A027A12F86B9781EA",
+      "size_bytes": 89127
+    },
+    "stage74_solver_trials": {
+      "path": "results/runs/stage74_larger_k_solver_scaling/solver_trials.csv",
+      "sha256": "3E0C8DD06991378C7CFCBC00D3CD437C64516445E06389E209885B78C510532D",
+      "size_bytes": 2871104
+    },
+    "stage79_physical_audit": {
+      "path": "data/stage79_qci_dirac3_physical_poc_audit.json",
+      "sha256": "B11EA4EBBB0CF66846E50C9ABFD8B19F189C85BD03E1183B93157244FF3D287D",
+      "size_bytes": 4313
+    },
+    "stage83_result": {
+      "path": "data/stage83_quality_shell_qubo_gate_result.json",
+      "sha256": "8ABA88C5E6099D9C0FD62A2B362A8D0F874E751E26EEF981F8588C5988F809B1",
+      "size_bytes": 2942
+    },
+    "stage83_audit": {
+      "path": "data/stage83_quality_shell_qubo_gate_audit.json",
+      "sha256": "38DE1D2E82090779F021673540DE30125238D9B6434E42CACDB2A20E72EF5459",
+      "size_bytes": 499
+    }
+  },
+  "experiment": {
+    "canonical_reward_quantile": 0.5,
+    "canonical_model_count": 16,
+    "fixed_k_encoding_count": 100,
+    "qci_total_level_limit": 949,
+    "radix": 16,
+    "quality_digit_count": 4,
+    "wall_clock_used_for_decision": false
+  },
+  "validation": {
+    "random_subsets_per_cell": 64,
+    "seed_base": 202684000,
+    "constraint_weight_rule": "Use 2*choose(k,2)+1, which strictly exceeds the full scaled fixed-k pair-objective range bound.",
+    "coefficient_scaling": "Divide every nonconstant polynomial coefficient by the largest absolute nonconstant coefficient and cast each result to float32.",
+    "classification_rule": "Restore the frozen scale and constant offset, then recompute objective and all constraint residuals locally; never classify from device-reported energy alone."
+  },
+  "decision_gate": {
+    "minimum_coefficient_retention_fraction": 1.0,
+    "maximum_float64_energy_identity_error": 1e-7,
+    "maximum_float32_restored_energy_error": 1.0,
+    "minimum_constraint_penalty_to_error_ratio": 100.0,
+    "success_action": "Prepare exactly three frozen external Dirac-3 calibration jobs; do not authorize any device submission until the package and a no-job allocation preflight are reviewed.",
+    "failure_action": "Do not submit the mixed-radix model to hardware; retain it as an encoding study and preserve the remaining QCI allocation."
+  },
+  "data_boundary": {
+    "historical_development_targets_permitted": [
+      "BACE1",
+      "PPARG",
+      "PPARA",
+      "PPARD"
+    ],
+    "fresh_validation_rows_permitted": 0,
+    "locked_test_rows_permitted": 0,
+    "new_docking_jobs_permitted": 0,
+    "qci_cloud_queries_permitted": 0,
+    "quantum_hardware_jobs_permitted": 0
+  },
+  "outputs": {
+    "metrics_csv": "results/runs/stage84_mixed_radix_dirac_iqp_gate/encoding_metrics.csv",
+    "result_json": "data/stage84_mixed_radix_dirac_iqp_gate_result.json",
+    "audit_json": "data/stage84_mixed_radix_dirac_iqp_gate_audit.json",
+    "report_md": "reports/stage-84/mixed_radix_dirac_iqp_gate.md"
+  },
+  "interpretation_boundary": "Stage84 evaluates exact algebraic encoding, Dirac level capacity, and float32 translation only. It contains no device sampling and cannot establish solver fidelity, biological efficacy, scaling, speedup, or quantum advantage."
+}

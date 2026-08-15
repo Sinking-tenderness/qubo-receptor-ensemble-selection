@@ -1,0 +1,88 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage21a-bace1-source-and-active-allocation-20260801-v1",
+  "purpose": "Audit the BACE1 DUD-E source, 3L5D reference identity, and deterministic scaffold-disjoint active allocation before receptor discovery or docking.",
+  "implementation": {
+    "path": "scripts/audit_stage21a_bace1_source.py",
+    "sha256": "2B3D6A29E46681D9109CFB984F3001349A0C9DD634C363C8564892D82314A3B8"
+  },
+  "dependencies": [
+    {
+      "path": "scripts/audit_stage20a_esr1_source.py",
+      "sha256": "662A7D66C7EF9BD6FC0660AD98008708BA7D0EF39C28804F419D3506ACFF89C2"
+    }
+  ],
+  "preregistration": {
+    "path": "configs/stage21_bace1_independent_exploratory_preregistration.json",
+    "sha256": "A55EF27EB34023F77A24FBA1F61E17E9895B3D9468A5A6AFEEB320947622B4CA"
+  },
+  "target": {
+    "target_id": "BACE1_HUMAN",
+    "gene_name": "BACE1",
+    "protein_name": "Beta-secretase 1",
+    "organism": "Homo sapiens",
+    "uniprot_accession": "P56817",
+    "dude_target_id": "BACE1",
+    "dude_reference_structure": "3L5D",
+    "reference_auth_asym_id": "A",
+    "reference_ligand": "BDV",
+    "reference_ligand_auth_seq_id": 1
+  },
+  "dude_source": {
+    "target_url": "https://dude.docking.org/targets/bace1",
+    "archive": {
+      "path": "data/raw/external_targets/bace1_dude/bace1.tar.gz",
+      "source_url": "https://dude.docking.org/targets/bace1/bace1.tar.gz",
+      "sha256": "CCC41BE617B2E362CE707CEC3056F3737A428F4EEB3BB78F46E5D0C4793DA0DC"
+    },
+    "actives": {
+      "path": "data/raw/external_targets/bace1_dude/bace1/actives_final.ism",
+      "sha256": "1EFB332F2249757330C3094CF163541D290A0FF77D1A09FFC64571E08ED055A0"
+    },
+    "decoys": {
+      "path": "data/raw/external_targets/bace1_dude/bace1/decoys_final.ism",
+      "sha256": "81D62CEFCC6944BCB77C7FE848BF90790CAB9980AA5BEC858F5014738E012F41"
+    }
+  },
+  "active_allocation": {
+    "hash_seed": "stage21-bace1-active-allocation-v1-20260801",
+    "source_active_count": 283,
+    "selected_active_count": 283,
+    "unallocated_source_surplus_count": 0,
+    "train_active_count": 133,
+    "fresh_validation_active_count": 75,
+    "locked_test_active_count": 75,
+    "maximum_scaffold_group_size": 1,
+    "ranking_rule": "ascending SHA-256 of hash_seed, source line number, and source molecule ID; first 133 selected rows train, next 75 fresh validation, and final 75 locked test"
+  },
+  "reference_structure": {
+    "dude_receptor_pdb": {
+      "path": "data/raw/external_targets/bace1_dude/bace1/receptor.pdb",
+      "sha256": "0B71A2D1FFE04B24D1675FCDAD971CFDCB4CF4DADA3332E513F4E15736CAFD19"
+    },
+    "dude_crystal_ligand_mol2": {
+      "path": "data/raw/external_targets/bace1_dude/bace1/crystal_ligand.mol2",
+      "sha256": "A5985C5AC3B6157E77C1DA5B20E8372DA02AC0D33BD4D164F5E762E35F16B852"
+    },
+    "official_pdb": {
+      "path": "data/raw/rcsb/bace1/3L5D.pdb",
+      "source_url": "https://files.rcsb.org/download/3L5D.pdb",
+      "sha256": "FE7E3072EE03B93AD19B494F6F6DCC49B40CA52348E84BDB92854A33CC8E80E5"
+    },
+    "official_mmcif": {
+      "path": "data/raw/rcsb/bace1/3L5D.cif",
+      "source_url": "https://files.rcsb.org/download/3L5D.cif",
+      "sha256": "0B7669B1718F1AB3F7CC30F617FC27BD75BFD72D49A2B1A507B0990ED38A8DE3"
+    },
+    "official_ligand_sdf": {
+      "path": "data/raw/rcsb/bace1/3L5D_BDV_A1.sdf",
+      "source_url": "https://models.rcsb.org/v1/3L5D/ligand?auth_asym_id=A&auth_seq_id=1&encoding=sdf",
+      "sha256": "6BEA3D8EE3C9A5842C3BACE02CB14BF9175FF71693CB97D60EBC2D6B26BF9DFE"
+    }
+  },
+  "outputs": {
+    "active_allocation_csv": "data/processed/stage21a_bace1_active_panel_allocation.csv",
+    "summary_json": "data/stage21a_bace1_source_and_active_allocation_summary.json"
+  },
+  "interpretation_boundary": "Passing this audit establishes only BACE1 input identity, reference-ligand identity, and exact ligand-panel feasibility. It does not establish receptor-pool adequacy, redocking success, screening enrichment, QUBO portability, QUBO superiority, quantum execution, or quantum advantage."
+}

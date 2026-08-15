@@ -1,0 +1,50 @@
+{
+  "audit_id": "stage42b-bace1-train266-independent-input-audit-v1",
+  "data_boundary": {
+    "docking_scores_read": 0,
+    "fresh_validation_structures_prepared": 0,
+    "locked_test_structures_prepared": 0
+  },
+  "decision_boundary": "This audit establishes input integrity only; it does not establish enrichment, QUBO superiority, quantum execution, or quantum advantage.",
+  "experiment_class": "outcome-informed_posthoc_development",
+  "failed_ligand_count": 0,
+  "inputs": {
+    "allocation_summary": {
+      "path": "data/stage42a_bace1_ligand_panel_allocation_summary.json",
+      "sha256": "B0E6D21A9DF12ADDD6D8B268F171095C2A690A97F216942780CD6752BE07188E"
+    },
+    "preparation_summary": {
+      "path": "data/stage42b_bace1_train266_unidock_input_summary.json",
+      "sha256": "354ECD02C9855C73680DBCDB8C47FAA7A60BA19E45F5788A7438585B535386CB"
+    },
+    "prepared_manifest": {
+      "path": "data/processed/stage42b_bace1_train266_unidock_pdbqt_manifest.csv",
+      "sha256": "957F75B362A2A123080A5CE6F8003BC96F2A55548EE04747235166D42BBE5DCC"
+    }
+  },
+  "label_counts": {
+    "active": 133,
+    "decoy": 133
+  },
+  "ligand_count": 266,
+  "macrocycle_closure_pseudoatom_ligand_count": 0,
+  "next_gate": "run the complete 34-receptor by 266-ligand by three-seed Uni-Dock development matrix",
+  "preparation_variant_counts": {
+    "meeko_flexible": 242,
+    "meeko_rigid_macrocycles": 24
+  },
+  "protected_role_disjointness": {
+    "canonical_smiles": true,
+    "ligand_id": true,
+    "scaffold_smiles": true,
+    "split_group_id": true
+  },
+  "receptor_count_frozen_for_next_stage": 34,
+  "schema_version": "1.0",
+  "sdf_warning_counts": {
+    "MMFF94_not_converged_code_1": 22
+  },
+  "selected_panel_count": 3418,
+  "status": "independent_stage42b_bace1_train266_input_audit_ok",
+  "verified_prepared_file_count": 532
+}

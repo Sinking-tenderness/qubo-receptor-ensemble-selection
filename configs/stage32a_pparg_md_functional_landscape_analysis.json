@@ -1,0 +1,89 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage32a-pparg-md-functional-landscape-analysis-20260803-v1",
+  "purpose": "Determine whether the prospectively selected Stage32 PPARG MD receptor panel produces reproducible functional subset landscapes in which a strong greedy baseline misses the exact optimum.",
+  "evidence_timing": {
+    "experiment_class": "preregistered_analysis_of_prospective_train_only_pilot",
+    "stage32_matrix_completion_known_before_analysis_freeze": true,
+    "stage32_enrichment_and_subset_outcomes_known_before_analysis_freeze": false,
+    "fold_assignments_known_before_analysis_freeze": false,
+    "fresh_validation_rows_permitted": false,
+    "test_rows_permitted": false,
+    "new_docking_jobs": false,
+    "quantum_hardware_execution": false
+  },
+  "source_package": {
+    "filename": "stage32_pparg_md_functional_complementarity_pilot_core_v1.tar.gz",
+    "sha256": "6830A50A1FFAD11E171B9E4971AE0E11BA0562E21C4187EFACC9E228D90984FC",
+    "manifest_entry_count": 159,
+    "manifest_verification_failures": 0
+  },
+  "inputs": {
+    "executed_config": "configs/stage32_pparg_md_functional_complementarity_pilot_executed_v2.json",
+    "input_preparation_result": "data/stage32_pparg_md_functional_pilot_input_preparation_result.json",
+    "prepared_receptor_manifest": "data/processed/stage32_pparg_md_selected16_prepared_receptor_manifest.csv",
+    "ligand_manifest": "data/processed/stage32_pparg_train160_ligand_manifest.csv",
+    "scores_csv": "results/runs/stage32_pparg_md_functional_complementarity_pilot/scores.csv",
+    "batch_runs_csv": "results/runs/stage32_pparg_md_functional_complementarity_pilot/batch_runs.csv",
+    "median_matrix_csv": "results/runs/stage32_pparg_md_functional_complementarity_pilot/primary_median_score_matrix.csv",
+    "minimum_matrix_csv": "results/runs/stage32_pparg_md_functional_complementarity_pilot/sensitivity_minimum_score_matrix.csv",
+    "progress_json": "results/runs/stage32_pparg_md_functional_complementarity_pilot/progress.json",
+    "summary_json": "results/runs/stage32_pparg_md_functional_complementarity_pilot/summary.json"
+  },
+  "technical_gate": {
+    "required_receptor_count": 16,
+    "required_ligand_count": 160,
+    "required_active_count": 80,
+    "required_decoy_count": 80,
+    "required_seed_count": 3,
+    "required_batch_count": 48,
+    "required_pair_count": 7680,
+    "maximum_unresolved_warning_count": 0,
+    "maximum_pose_integrity_failure_count": 0,
+    "maximum_matrix_recomputation_abs_difference": 1e-12
+  },
+  "folds": {
+    "fold_count": 4,
+    "assignment_seed": "stage32a-pparg-md-functional-fold-v1",
+    "algorithm": "Within each label, sort unique split_group_id values by SHA-256 of assignment_seed|label|split_group_id and assign cyclically to folds 0,1,2,3.",
+    "required_active_count_per_fold": 20,
+    "required_decoy_count_per_fold": 20,
+    "group_leakage_permitted": false
+  },
+  "normalization": {
+    "algorithm": "For every outer fold, scenario, and receptor, fit an empirical midrank CDF on outer-train docking scores only; transform both train and holdout scores with that frozen CDF; lower fractions are more favorable.",
+    "holdout_tie_rule": "(count of train scores strictly lower + 0.5*count equal + 0.5)/(train_count+1)",
+    "set_aggregation": "minimum normalized rank fraction across selected receptors"
+  },
+  "scenarios": {
+    "primary": "median score across seed0, seed1, and seed2",
+    "seed_ids": ["seed0", "seed1", "seed2"],
+    "sensitivity": "minimum score across seed0, seed1, and seed2",
+    "robust_utility": "(primary BEDROC20 + mean seed BEDROC20 + worst seed BEDROC20)/3"
+  },
+  "landscape": {
+    "bedroc_alpha": 20.0,
+    "subset_sizes": [1, 2, 3, 4, 5, 6],
+    "exact_oracle": "Enumerate every receptor subset independently at each size and break objective ties by lexicographically sorted receptor IDs.",
+    "strong_greedy": "For each target size, grow a path from every possible singleton by best robust-utility addition, apply deterministic best-improvement one-swap local search until convergence, and retain the best final solution; break all ties lexicographically.",
+    "objective_tolerance": 1e-12
+  },
+  "stage33_gate": {
+    "minimum_mean_outer_train_greedy_gap": 0.002,
+    "minimum_positive_gap_folds": 2,
+    "positive_gap_tolerance": 1e-12,
+    "minimum_mean_outer_holdout_gain": 0.0,
+    "minimum_qualifying_subset_sizes": 2,
+    "decision": "Stage33 QUBO model construction is authorized only when at least two subset sizes satisfy every frozen train-gap, fold-replication, and holdout-transfer criterion."
+  },
+  "outputs": {
+    "matrix_audit_json": "data/stage32_pparg_md_functional_pilot_matrix_audit.json",
+    "fold_assignments_csv": "results/runs/stage32a_pparg_md_functional_landscape/fold_assignments.csv",
+    "fold_comparisons_csv": "results/runs/stage32a_pparg_md_functional_landscape/fold_comparisons.csv",
+    "size_aggregate_csv": "results/runs/stage32a_pparg_md_functional_landscape/size_aggregate.csv",
+    "result_json": "data/stage32a_pparg_md_functional_landscape_result.json",
+    "audit_json": "data/stage32a_pparg_md_functional_landscape_audit.json",
+    "report_md": "reports/stage-32a/pparg_md_functional_landscape.md"
+  },
+  "interpretation_boundary": "Stage32a evaluates a small balanced PPARG development-training pilot and can only authorize or reject a subsequent train-only QUBO modeling stage. It cannot establish prospective efficacy, cross-target transfer, clinical relevance, quantum speedup, or quantum advantage."
+}

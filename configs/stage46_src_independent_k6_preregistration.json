@@ -1,0 +1,160 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage46-src-independent-k6-preregistration-20260804-v1",
+  "created_on": "2026-08-04",
+  "purpose": "Freeze SRC as a third-target test of the Stage45-authorized k=6 rank-sensitive receptor-ensemble hypothesis before structural discovery or docking outcomes are read.",
+  "evidence_timing": {
+    "src_used_in_current_objective_development": false,
+    "src_structural_candidate_outcomes_known": false,
+    "src_redocking_outcomes_known": false,
+    "src_benchmark_docking_scores_known": false,
+    "src_fresh_validation_metrics_known": false,
+    "selection_basis": "existing local DUD-E source availability, human noncovalent kinase compatibility, and expected public structural abundance; no SRC enrichment result"
+  },
+  "implementation": {
+    "path": "scripts/audit_stage46_src_source.py",
+    "sha256": "845883609EEDA70B94D46C2E6CABBD6764F91A7BBF7FE93FAED8D27071863643"
+  },
+  "inputs": {
+    "stage45_result": {
+      "path": "data/stage45_pparg_md96_generalization_diagnosis_result.json",
+      "sha256": "7CDDD14B37B6AB04635E85E68493A20B2DD0BFAEB0A6094A437FF996BA39DF68"
+    },
+    "stage45_audit": {
+      "path": "data/stage45_pparg_md96_generalization_diagnosis_audit.json",
+      "sha256": "4CF5179E86E793316E3A3C0537C1DE9B6E0B083CBA16E4E7CDECBBD2EF311267"
+    },
+    "archive": {
+      "path": "data/raw/external_targets/src_dude/src.tar.gz",
+      "sha256": "CB5A2DBD18F4EF554B4DECF0C3DE201D815C495BE005DEC159E88774DECCCEC6"
+    },
+    "actives": {
+      "path": "data/raw/external_targets/src_dude/src/actives_final.ism",
+      "sha256": "6408AF7028681A4130286EC695AE4D883A1C957E71BA58920B216191F3958BCD"
+    },
+    "decoys": {
+      "path": "data/raw/external_targets/src_dude/src/decoys_final.ism",
+      "sha256": "4313EB9F16AA0382705A2F0BBA874DDC45D4BC80042F19E6F40E401FBC3715E5"
+    },
+    "dude_receptor": {
+      "path": "data/raw/external_targets/src_dude/src/receptor.pdb",
+      "sha256": "01F00DDE7CAB0FA16FEC56F3F83CA89133C02D1A44DFB33F48A7731B70F16B37"
+    },
+    "dude_ligand": {
+      "path": "data/raw/external_targets/src_dude/src/crystal_ligand.mol2",
+      "sha256": "BD8670AACABB61C374CEF29B7E7A4AD72DF11AD04A4D90E2C3F9821DE192C893"
+    },
+    "official_pdb": {
+      "path": "data/raw/rcsb/src/3EL8.pdb",
+      "sha256": "6810FE858902F0194A498590EF2FF94AF573D539B8F8C4001EE6CF1FEB6D0AD9"
+    },
+    "official_mmcif": {
+      "path": "data/raw/rcsb/src/3EL8.cif",
+      "sha256": "CCA5177840C78E9A3EA0A8F36988649164610C2E83BD4E71B1CA61C370685618"
+    },
+    "official_ligand": {
+      "path": "data/raw/rcsb/src/3EL8_PD5_A601.sdf",
+      "sha256": "D5D9F40FD7AA0752AEF61D2663AACB04A93177645A69FCF065D0F899B57D404E"
+    }
+  },
+  "target": {
+    "target_id": "SRC",
+    "gene_name": "SRC",
+    "protein_name": "Proto-oncogene tyrosine-protein kinase Src",
+    "organism": "Homo sapiens",
+    "uniprot_accession": "P12931",
+    "dude_target_id": "SRC",
+    "dude_reference_structure": "3EL8",
+    "reference_chain": "A",
+    "reference_ligand": "PD5",
+    "reference_ligand_auth_seq_id": 601
+  },
+  "source_expectations": {
+    "actives": {
+      "row_count": 524,
+      "unique_source_id_count": 524,
+      "duplicate_source_id_count": 0,
+      "maximum_source_id_multiplicity": 1
+    },
+    "decoys": {
+      "row_count": 34500,
+      "unique_source_id_count": 34455,
+      "duplicate_source_id_count": 43,
+      "maximum_source_id_multiplicity": 3
+    }
+  },
+  "frozen_hypothesis": {
+    "objective_id": "bedroc20_rank_sensitive_pair_complementarity_v1",
+    "objective_source": "Stage42f BACE1; applied without SRC-specific term or weight changes",
+    "primary_subset_size": 6,
+    "selection_aggregation": "minimum rank across selected receptors after per-seed receptor empirical-CDF normalization",
+    "bedroc_alpha": 20.0,
+    "primary_claim": "A fixed k=6 QUBO-selected receptor ensemble improves robust BEDROC20 over the best single SRC receptor on scaffold-held-out development folds and on one untouched fresh-validation panel.",
+    "development_support_gate": {
+      "minimum_mean_holdout_gain_over_best_single": 0.01,
+      "minimum_positive_holdout_fold_count": 2,
+      "outer_fold_count": 4,
+      "minimum_mean_pairwise_fold_jaccard": 0.25
+    },
+    "same_target_objective_retuning_permitted": false,
+    "fallback_k_search_permitted": false
+  },
+  "future_protocol": {
+    "ligand_allocation": {
+      "grouping": "Bemis-Murcko scaffold joined with duplicate source IDs and canonical-SMILES duplicates before deterministic allocation",
+      "development_train": {
+        "active_count": 262,
+        "decoy_count": 262
+      },
+      "fresh_validation": {
+        "active_count": 131,
+        "decoy_count": 2620
+      },
+      "locked_test": {
+        "active_count": 131,
+        "decoy_count": 2620
+      },
+      "failure_action": "Stop before docking if exact molecule-, canonical-SMILES-, source-ID-, and scaffold-disjoint allocation is infeasible."
+    },
+    "structural_pool": {
+      "metadata": "wild-type human SRC kinase-domain X-ray structures, resolution at or below 3.0 A, ordinary noncovalent ATP-site ligand",
+      "coordinate_hard_gates": "reference-alignable chain, complete anchor and pocket templates, no explicit covalent target-ligand bond, no required metal-mediated scoring chemistry",
+      "minimum_preparation_ready_count": 32,
+      "maximum_frozen_redocking_count": 64,
+      "failure_action": "Stop SRC before production docking if fewer than 32 structures pass label-independent coordinate hard gates."
+    },
+    "cognate_redocking": {
+      "engine": "Uni-Dock 1.1.3",
+      "profile": "enhanced",
+      "exhaustiveness": 1024,
+      "max_step": 80,
+      "refine_step": 5,
+      "num_modes": 1,
+      "seed_count": 3,
+      "maximum_rmsd_angstrom": 2.0,
+      "minimum_successful_seed_count": 2,
+      "minimum_passing_receptor_count": 24,
+      "failure_action": "Stop before benchmark docking if fewer than 24 frozen receptors pass; do not add replacements after outcomes are known."
+    },
+    "production": {
+      "engine": "Uni-Dock 1.1.3",
+      "profile": "enhanced",
+      "seed_count": 3,
+      "score_aggregation": "median across seeds per receptor-ligand pair",
+      "development_first": true,
+      "fresh_validation_release_condition": "all development support gates pass without SRC-specific retuning",
+      "locked_test_release_condition": "fresh validation passes the same direction-of-effect gate"
+    },
+    "required_classical_comparators": [
+      "best single receptor",
+      "additive singleton top-6",
+      "direct greedy k=6",
+      "beam-64 plus fixed-k swap local search",
+      "exact enumeration when state count is feasible",
+      "random matched-budget subsets"
+    ],
+    "quantum_hardware_before_fresh_validation_permitted": false
+  },
+  "output_json": "data/stage46_src_source_audit.json",
+  "interpretation_boundary": "Stage46 source intake and preregistration can establish SRC identity, source integrity, and a prospective third-target protocol. It cannot establish structural-pool adequacy, redocking success, enrichment improvement, QUBO superiority, quantum execution, quantum speedup, or quantum advantage."
+}

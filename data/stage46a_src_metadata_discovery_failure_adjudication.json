@@ -1,0 +1,27 @@
+{
+  "schema_version": "1.0",
+  "adjudication_id": "stage46a-src-reference-ortholog-identity-adjudication-20260804-v1",
+  "status": "stage46a_src_reference_ortholog_identity_failure_resolved",
+  "failed_config": {
+    "path": "configs/stage46a_src_rcsb_candidate_discovery.json",
+    "sha256": "4211CFBE3B7824E1E1C8F4BA579158361E6A4EB7895C5BD0E002D03FF78015F3"
+  },
+  "observed_failure": "The frozen discovery required the DUD-E reference 3EL8 to be eligible in a human P12931 query, but RCSB maps the 3EL8 polymer to Gallus gallus c-Src UniProt P00523.",
+  "reference_evidence": {
+    "path": "data/raw/rcsb/src/3EL8.cif",
+    "sha256": "CCA5177840C78E9A3EA0A8F36988649164610C2E83BD4E71B1CA61C370685618",
+    "scientific_name": "Gallus gallus",
+    "uniprot_accession": "P00523",
+    "mutation_count_from_rcsb_metadata": 0
+  },
+  "completed_outputs": 0,
+  "data_boundary": {
+    "ligand_labels_read": 0,
+    "docking_scores_read": 0,
+    "fresh_validation_rows_read": 0,
+    "locked_test_rows_read": 0,
+    "new_docking_jobs": 0
+  },
+  "correction": "Retain human SRC P12931 as the prospective target. Treat 3EL8 only as the DUD-E ortholog coordinate and pocket template, exclude it from the human candidate pool, and deterministically choose a human scientific reference from metadata-eligible P12931 structures before coordinates or docking outcomes are read.",
+  "interpretation_boundary": "This is a source-identity correction, not a relaxation of mutation, resolution, ligand, coordinate, redocking, enrichment, or QUBO gates."
+}

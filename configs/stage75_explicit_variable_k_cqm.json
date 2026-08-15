@@ -1,0 +1,128 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage75-explicit-variable-k-constraint-native-cqm-20260807-v1",
+  "purpose": "Construct and independently audit an explicit variable-cardinality constraint-native CQM on the frozen Stage72 receptor-selection objective, then compare matched-budget joint classical and hardware-shaped local samplers without cloud or quantum-hardware execution.",
+  "implementation": {
+    "runner": {
+      "path": "scripts/run_stage75_explicit_variable_k_cqm.py",
+      "sha256": "B5CB67D851570D014867770C1078D39F5F2D0C924BBEE97ED0690281C9A6AC47",
+      "size_bytes": 46256
+    },
+    "independent_auditor": {
+      "path": "scripts/audit_stage75_explicit_variable_k_cqm.py",
+      "sha256": "6D7A13736720CB8B0E54BAA8341FB92E2A510612453675B0B93D773EE82B3A39",
+      "size_bytes": 41542
+    }
+  },
+  "inputs": {
+    "stage74_config": {
+      "path": "configs/stage74_larger_k_solver_scaling.json",
+      "sha256": "91FE3B8EFA080BEE0F161F3894AEE8B66E9E66E8E24E9031F0E6E808E73DE6EE",
+      "size_bytes": 6835
+    },
+    "stage74_result": {
+      "path": "data/stage74_larger_k_solver_scaling_result.json",
+      "sha256": "1F73ACC8D2FE3E65EE3DF317FFF661AA432717D649E3708521DA297B26F87077",
+      "size_bytes": 6040
+    },
+    "stage74_audit": {
+      "path": "data/stage74_larger_k_solver_scaling_audit.json",
+      "sha256": "FB55C81621BF5541054323E4327BC6B6B80EF4357BBFE70F3863CE7F2BAC8AEB",
+      "size_bytes": 1233
+    },
+    "stage72_model_record": {
+      "path": "data/stage72_constraint_native_cqm_model_record.json",
+      "sha256": "D7BD285F4CB0787C1FF63EEC190CE692F72F2E885CB610BFEA1D70AC2505D1DF",
+      "size_bytes": 737219
+    },
+    "stage74_workload_metrics": {
+      "path": "results/runs/stage74_larger_k_solver_scaling/workload_metrics.csv",
+      "sha256": "84B02EF49939B097244CF4B0543F088FF183C48DD7E9DFB900EC2EA9E5AF355E",
+      "size_bytes": 48587
+    },
+    "stage74_cell_comparison": {
+      "path": "results/runs/stage74_larger_k_solver_scaling/cell_comparison.csv",
+      "sha256": "B1CEE2803DB74AC55BE1C5DA1BA77240ED550DED68A2B47A027A12F86B9781EA",
+      "size_bytes": 89127
+    },
+    "stage74_solver_trials": {
+      "path": "results/runs/stage74_larger_k_solver_scaling/solver_trials.csv",
+      "sha256": "3E0C8DD06991378C7CFCBC00D3CD437C64516445E06389E209885B78C510532D",
+      "size_bytes": 2871104
+    }
+  },
+  "experiment": {
+    "target_order": ["BACE1", "PPARG", "PPARA", "PPARD"],
+    "outer_fold_count": 4,
+    "required_source_model_count": 16,
+    "historical_development_only": true,
+    "wall_clock_used_for_decision": false,
+    "cloud_cqm_execution": false,
+    "quantum_hardware_execution": false
+  },
+  "variable_k_cqm": {
+    "algorithm_id": "stage75-explicit-onehot-variable-k-pair-reward-conditional-quality-cqm-v1",
+    "quality_regime": "balanced_10pct_quality",
+    "reward_quantiles": [0.1, 0.25, 0.5, 0.75, 0.9],
+    "candidate_objective": "For reward rho, minimize sum_(i<j) (r_ij-rho) x_i x_j.",
+    "one_hot_constraint": "sum_k y_k = 1 over the frozen Stage74 candidate k values.",
+    "cardinality_link_constraint": "sum_i x_i = sum_k k*y_k.",
+    "conditional_quality_constraint": "sum_i deficit_i*x_i <= sum_k D_k*y_k, where D_k is the Stage74 balanced-10pct integer quality threshold.",
+    "reward_rule": "Use deterministic order statistics of the frozen raw pair coefficients at the listed quantiles.",
+    "runtime_versions": {
+      "python": "3.11.15",
+      "numpy": "1.26.4",
+      "dimod": "0.12.22"
+    }
+  },
+  "solver_protocol": {
+    "method_order": [
+      "fixed_k_frontier_reference",
+      "decomposed_deterministic_baseline",
+      "budgeted_variable_tabu",
+      "constraint_native_variable_annealing"
+    ],
+    "stochastic_repeats": 8,
+    "proposal_budget": 8192,
+    "maximum_initialization_attempts": 100000,
+    "swap_move_probability": 0.7,
+    "tabu_candidate_batch_size": 128,
+    "tabu_tenure": 7,
+    "annealing_beta_range": [0.1, 100.0],
+    "seed_base": 202675000,
+    "initialization_rule": "Draw a candidate k uniformly and then a uniform fixed-k subset until the selected conditional quality threshold is met; use the deterministic minimum-deficit fallback only after the frozen maximum attempts.",
+    "variable_k_neighborhood": "With probability 0.7 use a one-out one-in swap; otherwise draw a different allowed k and a random subset at that cardinality. Reject conditional-quality violations before objective evaluation.",
+    "decision_metric": "Use normalized objective gaps and matched proposal budgets; exclude wall-clock runtime from route decisions."
+  },
+  "benchmark_gate": {
+    "required_cqm_model_count": 80,
+    "normalized_energy_tolerance": 1e-6,
+    "maximum_energy_encoding_residual": 1e-9,
+    "required_monotonic_reward_path_count": 16,
+    "minimum_distinct_selected_k": 5,
+    "minimum_joint_classical_exact_match_rate": 0.9,
+    "minimum_sampler_exact_match_rate": 0.8,
+    "minimum_sampler_joint_competitive_fraction": 0.75,
+    "minimum_sampler_frontier_competitive_fraction": 0.5,
+    "interpretation": "Encoding, exact-small-cell fidelity, and sampler competitiveness authorize only a frozen explicit variable-k CQM and local hardware-shaped emulation. They do not authorize paid cloud execution, QPU execution, quantum scaling, or quantum advantage claims."
+  },
+  "data_boundary": {
+    "historical_development_targets_permitted": ["BACE1", "PPARG", "PPARA", "PPARD"],
+    "fresh_validation_rows_permitted": 0,
+    "locked_test_rows_permitted": 0,
+    "new_docking_jobs_permitted": 0,
+    "cloud_cqm_jobs_permitted": 0,
+    "quantum_hardware_jobs_permitted": 0
+  },
+  "outputs": {
+    "cqm_metrics_csv": "results/runs/stage75_explicit_variable_k_cqm/cqm_metrics.csv",
+    "solver_trials_csv": "results/runs/stage75_explicit_variable_k_cqm/solver_trials.csv",
+    "cell_comparison_csv": "results/runs/stage75_explicit_variable_k_cqm/cell_comparison.csv",
+    "solver_summary_csv": "results/runs/stage75_explicit_variable_k_cqm/solver_summary.csv",
+    "model_record_json": "data/stage75_explicit_variable_k_cqm_model_record.json",
+    "result_json": "data/stage75_explicit_variable_k_cqm_result.json",
+    "audit_json": "data/stage75_explicit_variable_k_cqm_audit.json",
+    "report_md": "reports/stage-75/explicit_variable_k_cqm.md"
+  },
+  "interpretation_boundary": "Stage75 is a post-hoc optimization and encoding study on four consumed historical development targets. It does not estimate a biologically optimal receptor count, test screening efficacy, validate a new target, certify global optima for Stage74 cells above the exact-enumeration limit, measure physical embedding, execute a paid hybrid or QPU solver, establish quantum scaling, or demonstrate quantum advantage."
+}

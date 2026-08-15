@@ -1,0 +1,169 @@
+{
+  "config": {
+    "path": "configs/stage53_ppara_large_pool_qubo_transfer.json",
+    "sha256": "B83F7F8F6F2D3DBAFCF6D27A72F0D16478DE9CE70AA8F78386A7377EA7133E67",
+    "size_bytes": 6278
+  },
+  "data_boundary": {
+    "fresh_validation_rows_read": 0,
+    "locked_test_rows_read": 0,
+    "new_docking_jobs": 0,
+    "quantum_hardware_jobs": 0,
+    "train_rows_read": 374
+  },
+  "decision": {
+    "checks": {
+      "minimum_mean_holdout_over_single": false,
+      "minimum_positive_holdout_over_single_folds": false,
+      "nonnegative_mean_holdout_over_linear": false,
+      "nonnegative_mean_holdout_over_nested_greedy": false
+    },
+    "fresh_validation_authorized": false,
+    "frozen_qubo_application_transfer_supported": false,
+    "full_data_rank_pair_over_single_bedroc_gain": -0.08197816377787348,
+    "mean_holdout_coverage_minus_strong_classical": 0.0,
+    "mean_holdout_rank_pair_minus_linear": -0.1618838838982918,
+    "mean_holdout_rank_pair_minus_nested_greedy": -0.1571709402797821,
+    "mean_holdout_rank_pair_minus_single": -0.26947691974596094,
+    "mean_holdout_rank_pair_minus_strong_classical": 0.0,
+    "mean_holdout_rank_pair_qubo": 0.6051049449106192,
+    "new_independent_preregistration_justified": false,
+    "positive_holdout_over_single_fold_count": 0,
+    "positive_rank_pair_objective_gap_cells_over_direct_greedy": 2,
+    "positive_rank_pair_objective_gap_cells_over_strong_classical": 0,
+    "quantum_hardware_authorized": false,
+    "same_data_weight_retuning_authorized": false,
+    "solver_novelty_detected": false
+  },
+  "full_data_methods": {
+    "all_receptors": {
+      "robust_bedroc": 0.6936062706227496,
+      "selected_subset": "PPARA_2P54_reference+PPARA_5HYK_aligned+PPARA_6KXX_aligned+PPARA_3G8I_aligned+PPARA_3ET1_aligned+PPARA_8RCE_aligned+PPARA_8YU8_aligned+PPARA_6KXY_aligned+PPARA_7E5H_aligned+PPARA_8YTL_aligned+PPARA_8YWU_aligned+PPARA_8YT6_aligned+PPARA_6KAZ_aligned+PPARA_3VI8_aligned+PPARA_8YT9_aligned+PPARA_2ZNN_aligned+PPARA_8YWV_aligned+PPARA_6KB5_aligned+PPARA_7BQ2_aligned+PPARA_7E5I_aligned",
+      "subset_size": 20
+    },
+    "bedroc_linear_topk": {
+      "robust_bedroc": 0.8451656657946757,
+      "selected_subset": "PPARA_5HYK_aligned",
+      "subset_size": 1
+    },
+    "bedroc_nested_greedy": {
+      "robust_bedroc": 0.8451656657946757,
+      "selected_subset": "PPARA_5HYK_aligned",
+      "subset_size": 1
+    },
+    "bedroc_random_search": {
+      "robust_bedroc": 0.8451656657946757,
+      "selected_subset": "PPARA_5HYK_aligned",
+      "subset_size": 1
+    },
+    "best_single_receptor": {
+      "robust_bedroc": 0.8451656657946757,
+      "selected_subset": "PPARA_5HYK_aligned",
+      "subset_size": 1
+    },
+    "coverage_direct_greedy": {
+      "robust_bedroc": 0.6781447257984466,
+      "selected_subset": "PPARA_5HYK_aligned+PPARA_6KXX_aligned+PPARA_8RCE_aligned+PPARA_7E5H_aligned+PPARA_2ZNN_aligned+PPARA_6KB5_aligned",
+      "subset_size": 6
+    },
+    "coverage_linear_additive": {
+      "robust_bedroc": 0.7146904321200674,
+      "selected_subset": "PPARA_5HYK_aligned+PPARA_8RCE_aligned+PPARA_7E5H_aligned+PPARA_8YT6_aligned+PPARA_3VI8_aligned+PPARA_2ZNN_aligned",
+      "subset_size": 6
+    },
+    "coverage_qubo_exact": {
+      "robust_bedroc": 0.6781447257984466,
+      "selected_subset": "PPARA_5HYK_aligned+PPARA_6KXX_aligned+PPARA_8RCE_aligned+PPARA_7E5H_aligned+PPARA_2ZNN_aligned+PPARA_6KB5_aligned",
+      "subset_size": 6
+    },
+    "coverage_strong_classical": {
+      "robust_bedroc": 0.6781447257984466,
+      "selected_subset": "PPARA_5HYK_aligned+PPARA_6KXX_aligned+PPARA_8RCE_aligned+PPARA_7E5H_aligned+PPARA_2ZNN_aligned+PPARA_6KB5_aligned",
+      "subset_size": 6
+    },
+    "rank_pair_direct_greedy": {
+      "robust_bedroc": 0.7946555467340822,
+      "selected_subset": "PPARA_5HYK_aligned+PPARA_6KXX_aligned",
+      "subset_size": 2
+    },
+    "rank_pair_qubo_exact": {
+      "robust_bedroc": 0.7631875020168022,
+      "selected_subset": "PPARA_6KXX_aligned+PPARA_8RCE_aligned",
+      "subset_size": 2
+    },
+    "rank_pair_strong_classical": {
+      "robust_bedroc": 0.7631875020168022,
+      "selected_subset": "PPARA_6KXX_aligned+PPARA_8RCE_aligned",
+      "subset_size": 2
+    }
+  },
+  "implementation": {
+    "path": "scripts/run_stage53_ppara_large_pool_qubo_transfer.py",
+    "sha256": "C870668F955FED967B1C7406A9715AF873DA0092E5BEADA42356E4D9E08D2614",
+    "size_bytes": 27190
+  },
+  "input_statistics": {
+    "active_count": 187,
+    "decoy_count": 187,
+    "ligand_count": 374,
+    "receptor_count": 20,
+    "seed_count": 3,
+    "state_count_k1_to_k6": 60459
+  },
+  "interpretation_boundary": "Stage53 is train-only and post-hoc because the PPARA receptor pool was filtered using Stage51 outcomes. Scaffold holdouts test internal transfer only. A positive result can justify a new preregistered independent experiment, but cannot repair Stage51, establish QUBO superiority on independent data, authorize same-data tuning, or establish quantum execution, speedup, or advantage.",
+  "objectives": {
+    "coverage_qubo": {
+      "favorable_rank_fraction": 0.1,
+      "formula": "F(S)=0.35*A_majority(S)+0.25*A_all3(S)+0.20*A_double_majority(S)-0.15*D_any(S)-0.05*|S|/6",
+      "lower_docking_score_is_better": true,
+      "maximum_subset_size": 6,
+      "minimum_subset_size": 1,
+      "normalization": "per-seed per-receptor empirical CDF fitted on the outer-train rows only",
+      "objective_id": "seed_robust_functional_complementarity_v1",
+      "weights": {
+        "active_all_seed_coverage": 0.25,
+        "active_double_receptor_majority_seed_support": 0.2,
+        "active_majority_seed_coverage": 0.35,
+        "decoy_any_seed_exposure": 0.15,
+        "receptor_cost": 0.05
+      }
+    },
+    "rank_pair_qubo": {
+      "bedroc_alpha": 20.0,
+      "fixed_k_qubo": "Q_k(S)=mean_{i in S}(q_i)+mean_{i<j in S}(delta_ij); for k=1 the pair term is zero",
+      "maximum_subset_size": 6,
+      "minimum_subset_size": 1,
+      "normalization_reason": "separate normalization at each fixed k removes the Stage42d cardinality pressure and implements the previously proposed k=1..6 ladder",
+      "objective_id": "bedroc20_rank_sensitive_pair_complementarity_v1",
+      "pair_complementarity": "delta_ij=q_{ij}-max(q_i,q_j), where q_{ij} uses the better rank from receptor i or j",
+      "qubo_form": "For each frozen k, maximize sum_i(q_i/k)x_i + sum_{i<j}(delta_ij/C(k,2))x_i x_j subject to sum_i x_i=k.",
+      "rank_normalization": "per-seed per-receptor empirical CDF fitted on outer-train rows only",
+      "singleton_utility": "q_i=(mean_seed(E_active[exp(-20r_i)]-E_decoy[exp(-20r_i)]) + worst_seed(...))/2"
+    }
+  },
+  "outputs": {
+    "fixed_k_landscape_csv": {
+      "path": "results/runs/stage53_ppara_large_pool_qubo_transfer/fixed_k_landscape.csv",
+      "sha256": "AF88AD0489A82402ADB7160F833B62FF087775768B0222B0816E24761F89C00F",
+      "size_bytes": 42873
+    },
+    "fold_assignments_csv": {
+      "path": "results/runs/stage53_ppara_large_pool_qubo_transfer/fold_assignments.csv",
+      "sha256": "C729EEB5A93DB931A42DB821BD5A1343B6D8531890AF29A99957AC13EF7DF1FC",
+      "size_bytes": 23791
+    },
+    "report_md": {
+      "path": "reports/stage-53/ppara_large_pool_qubo_transfer.md",
+      "sha256": "1B35B082EF9749338E29D561D23413C2F3B185BDD9CFC8F5681F41D1994DE04F",
+      "size_bytes": 1111
+    },
+    "selection_metrics_csv": {
+      "path": "results/runs/stage53_ppara_large_pool_qubo_transfer/selection_metrics.csv",
+      "sha256": "7282BEBBBF081D605A45D1AD348EECF6936BC0919CC9D829E5C69CCC4ECB9F6A",
+      "size_bytes": 14225
+    }
+  },
+  "runtime_seconds": 57.498007400000006,
+  "schema_version": "1.0",
+  "status": "stage53_ppara_large_pool_qubo_transfer_complete"
+}

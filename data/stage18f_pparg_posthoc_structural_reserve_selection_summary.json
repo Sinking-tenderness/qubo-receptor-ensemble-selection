@@ -1,0 +1,44 @@
+{
+  "config": {
+    "path": "configs/stage18f_pparg_posthoc_structural_reserves.json",
+    "sha256": "EDEA57EDC999CA953A955EA6BAC1DA8DBDE81B6E0A2A3AA0653A072313728AD5"
+  },
+  "counts": {
+    "frozen_primary_count": 24,
+    "pairwise_distance_count": 4753,
+    "preparation_ready_count": 98,
+    "reserve_count": 8
+  },
+  "data_use_audit": {
+    "activity_labels_read": 0,
+    "benchmark_docking_scores_read": 0,
+    "fresh_validation_rows_read": 0,
+    "redocking_outcome_used_only_to_trigger_extension": true,
+    "redocking_scores_used_to_rank_reserves": false,
+    "structural_coordinates_used": true,
+    "test_rows_read": 0
+  },
+  "experiment_id": "stage18f-pparg-posthoc-structural-reserves-20260801-v1",
+  "interpretation_boundary": "This recovery cannot retroactively pass Stage 18e or provide confirmatory evidence. If at least two reserves pass, the resulting 16-receptor pool is exploratory and must remain labeled post hoc in all reports.",
+  "next_gate": "prepare and three-seed redock all eight reserves; at least two must pass to form an exploratory final-16 PPARG pool",
+  "outputs": {
+    "reserve_manifest_csv": {
+      "path": "data/processed/stage18f_pparg_posthoc_structural_reserves.csv",
+      "sha256": "64CD83AE6D58F7A851C18DAD5EE6F38D3B39D8769C77E5C9665A3E383D0F3133"
+    }
+  },
+  "reserve_receptor_ids": [
+    "PPARG_3FUR_aligned",
+    "PPARG_6T9C_aligned",
+    "PPARG_3VN2_aligned",
+    "PPARG_5GTN_aligned",
+    "PPARG_6IZM_aligned",
+    "PPARG_3WJ4_aligned",
+    "PPARG_2P4Y_aligned",
+    "PPARG_3G9E_aligned"
+  ],
+  "schema_version": "1.0",
+  "selection_rule": "Continue deterministic max-min standardized PPARG pocket distance from the full frozen 24-receptor seed set over the same 98 preparation-ready structures; ties resolved by lexical conformer ID. No Stage 18e pass/fail value or RMSD enters ranking.",
+  "selection_timing": "Post hoc with respect to the failed Stage 18e gate. Frozen after observing only that Stage 18e passed 14 rather than the required 16 receptors, and before preparing, docking, or reading any result for a reserve receptor.",
+  "status": "stage18f_pparg_structural_reserves_selected"
+}

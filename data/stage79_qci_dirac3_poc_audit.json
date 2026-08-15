@@ -1,0 +1,18 @@
+{
+  "all_exact_certificates_independently_matched": true,
+  "all_warm_states_independently_verified_as_zero": true,
+  "cloud_queries_observed": 0,
+  "instances_audited": 6,
+  "maximum_coefficient_error": 0.0,
+  "polynomial_terms_audited": 4831,
+  "qci_device_execution_authorized": false,
+  "qci_device_jobs_observed": 0,
+  "quantum_advantage_claim_authorized": false,
+  "schema_version": "1.0",
+  "source_result": {
+    "path": "data/stage79_qci_dirac3_poc_result.json",
+    "sha256": "066F02BC42C3059163DC90FC3A8DC5B350B6A4A64AF9D411733DB8105288382C",
+    "size_bytes": 26174
+  },
+  "status": "stage79_qci_dirac3_local_move_qubo_poc_independent_audit_ok"
+}

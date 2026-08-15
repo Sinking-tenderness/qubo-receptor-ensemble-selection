@@ -1,0 +1,83 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage46a-src-rcsb-candidate-discovery-20260804-v1",
+  "purpose": "Snapshot and audit all RCSB P12931 X-ray entries using frozen SRC metadata rules without reading docking or held-out outcomes.",
+  "retrieved_on": "2026-08-04",
+  "implementation": {
+    "path": "scripts/discover_stage46a_src_rcsb_candidates.py",
+    "sha256": "34E6B38904E0020AF312427032C0282CBBF6A02EAFAF5B14AB5F8EE820F98BDA"
+  },
+  "source_audit": {
+    "path": "data/stage46_src_source_audit.json",
+    "sha256": "05493CF8858A92FBE5552685D278F7DA61AB1A5D50E9CC3770AD7AA88AB9D07D"
+  },
+  "discovery_rules": {
+    "experimental_method": "X-RAY DIFFRACTION",
+    "minimum_metadata_eligible_count": 32,
+    "metadata_eligibility": {
+      "required_mutation_count": 0,
+      "maximum_resolution_angstrom": 3.0,
+      "minimum_reference_sequence_coverage": 0.45,
+      "minimum_sample_sequence_length": 230,
+      "maximum_sample_sequence_length": 550,
+      "require_same_chain_drug_like_nonpolymer": true,
+      "minimum_nonpolymer_formula_weight_kda": 0.15,
+      "maximum_nonpolymer_formula_weight_kda": 0.9,
+      "excluded_nonpolymer_ids": [
+        "ACT",
+        "ADP",
+        "AMP",
+        "ATP",
+        "BME",
+        "CA",
+        "CD",
+        "CIT",
+        "CL",
+        "CO",
+        "DMS",
+        "EDO",
+        "FLC",
+        "GOL",
+        "K",
+        "MES",
+        "MG",
+        "MN",
+        "MPD",
+        "NA",
+        "NI",
+        "PEG",
+        "PG4",
+        "PGE",
+        "PO4",
+        "SO4",
+        "TRS",
+        "ZN"
+      ],
+      "excluded_title_patterns": [
+        "\\bapo\\b",
+        "unliganded",
+        "covalent",
+        "irreversible",
+        "mutant",
+        "mutation"
+      ]
+    }
+  },
+  "rcsb": {
+    "search_endpoint": "https://search.rcsb.org/rcsbsearch/v2/query",
+    "graphql_endpoint": "https://data.rcsb.org/graphql",
+    "metadata_chunk_size": 40,
+    "request_timeout_seconds": 60,
+    "maximum_retries": 4,
+    "retry_backoff_seconds": 1.0
+  },
+  "outputs": {
+    "search_snapshot_json": "data/raw/rcsb/src/p12931_xray_search_snapshot_20260804.json",
+    "metadata_snapshot_json": "data/raw/rcsb/src/p12931_xray_metadata_snapshot_20260804.json",
+    "candidate_metadata_csv": "data/processed/stage46a_src_rcsb_candidate_metadata.csv",
+    "eligible_candidates_csv": "data/processed/stage46a_src_rcsb_metadata_eligible_candidates.csv",
+    "summary_json": "data/stage46a_src_rcsb_candidate_discovery_summary.json",
+    "report_md": "reports/stage-46a/src_rcsb_candidate_discovery.md"
+  },
+  "interpretation_boundary": "Metadata eligibility is label-independent and only authorizes coordinate download and structural auditing. It does not establish active-site suitability, preparation quality, redocking success, enrichment, QUBO portability, QUBO superiority, quantum execution, or quantum advantage."
+}

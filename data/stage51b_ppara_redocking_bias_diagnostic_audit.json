@@ -1,0 +1,34 @@
+{
+  "activity_labels_read": 0,
+  "complete_chemotype_assignment": true,
+  "config": {
+    "path": "configs/stage51b_ppara_redocking_bias_diagnostic.json",
+    "sha256": "2CB35AC2E127DD8F9F3B79C93D70C112957AB0AD6ABA1EAB2ED215F8E086156A"
+  },
+  "confirmatory_status_changed": false,
+  "fresh_validation_rows_read": 0,
+  "input_hashes_verified": true,
+  "locked_test_rows_read": 0,
+  "new_docking_jobs": 0,
+  "outputs": {
+    "chemotype_cluster_csv": {
+      "path": "data/processed/stage51b_ppara_chemotype_clusters.csv",
+      "sha256": "341AC70DF930F9B417A57EBA2EEE5FF46D141143F9DE425B0029FE2E9EC63E3B"
+    },
+    "diagnostic_table_csv": {
+      "path": "data/processed/stage51b_ppara_redocking_bias_diagnostic.csv",
+      "sha256": "E66739DD0C17529B94C0C437004C76FA6BEE98345F0758F012B47006EFFB1B3B"
+    },
+    "result_json": {
+      "path": "data/stage51b_ppara_redocking_bias_diagnostic_result.json",
+      "sha256": "92FA6DBE47D3104E1411707D35DD7DE06820B15DF91CDD6C35FB0AFC740C70BE"
+    }
+  },
+  "prepared_receptor_count": 60,
+  "redocking_result_count": 180,
+  "reference_sdf_count": 60,
+  "schema_version": "1.0",
+  "stage51_confirmatory_gate_remains_failed": true,
+  "status": "stage51b_ppara_redocking_bias_diagnostic_audit_ok",
+  "structural_pair_count": 1770
+}

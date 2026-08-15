@@ -1,0 +1,171 @@
+{
+  "config": {
+    "path": "configs/stage14a_fa10_rcsb_candidate_discovery.json",
+    "sha256": "050EBE7338087D335455EA44B79B4334913D1E854BF63E4F1DB7CE592DF4B213"
+  },
+  "counts": {
+    "metadata_eligible_count": 98,
+    "metadata_entry_count": 176,
+    "metadata_excluded_count": 78,
+    "new_metadata_eligible_count": 97,
+    "reference_eligible": true
+  },
+  "data_boundary": {
+    "docking_scores_read": 0,
+    "fresh_validation_rows_read": 0,
+    "ligand_labels_read": 0,
+    "test_rows_read": 0
+  },
+  "eligible_pdb_ids": [
+    "1EZQ",
+    "1F0R",
+    "1F0S",
+    "1FJS",
+    "1FXY",
+    "1G2L",
+    "1KSN",
+    "1LPG",
+    "1LPK",
+    "1LPZ",
+    "1MQ5",
+    "1MQ6",
+    "1NFU",
+    "1NFW",
+    "1NFX",
+    "1NFY",
+    "1V3X",
+    "1WU1",
+    "1XKA",
+    "1XKB",
+    "1Z6E",
+    "2BOH",
+    "2CJI",
+    "2D1J",
+    "2EI6",
+    "2EI7",
+    "2EI8",
+    "2FZZ",
+    "2G00",
+    "2J2U",
+    "2J34",
+    "2J38",
+    "2J4I",
+    "2J94",
+    "2J95",
+    "2P16",
+    "2P3T",
+    "2P3U",
+    "2P93",
+    "2P94",
+    "2P95",
+    "2PHB",
+    "2PR3",
+    "2Q1J",
+    "2RA0",
+    "2UWL",
+    "2UWO",
+    "2UWP",
+    "2VH0",
+    "2VH6",
+    "2W26",
+    "2W3I",
+    "2W3K",
+    "2WYG",
+    "2WYJ",
+    "2XBW",
+    "2XBX",
+    "2XBY",
+    "2XC0",
+    "2XC4",
+    "2XC5",
+    "2Y7X",
+    "2Y7Z",
+    "2Y80",
+    "2Y81",
+    "2Y82",
+    "3CEN",
+    "3CS7",
+    "3ENS",
+    "3FFG",
+    "3HPT",
+    "3IIT",
+    "3K9X",
+    "3KL6",
+    "3KQB",
+    "3KQC",
+    "3KQE",
+    "3LIW",
+    "3M36",
+    "3M37",
+    "3Q3K",
+    "3SW2",
+    "3TK5",
+    "3TK6",
+    "4A7I",
+    "4BTI",
+    "4BTU",
+    "4Y6D",
+    "4Y71",
+    "4Y76",
+    "4Y79",
+    "4Y7A",
+    "4Y7B",
+    "4ZH8",
+    "4ZHA",
+    "5K0H",
+    "9I24",
+    "9R8R"
+  ],
+  "eligible_resolution_angstrom": {
+    "maximum": 2.42,
+    "median": 2.05,
+    "minimum": 1.2
+  },
+  "exclusion_reason_counts": {
+    "missing_same_chain_drug_like_nonpolymer": 44,
+    "mutation_count_differs": 45,
+    "reference_sequence_coverage_below_limit": 36,
+    "resolution_above_limit": 23,
+    "sample_sequence_length_outside_limits": 36
+  },
+  "experiment_id": "stage14a-fa10-rcsb-candidate-discovery-20260731-v1",
+  "interpretation_boundary": "Metadata eligibility is label-independent and only authorizes coordinate download and structural auditing. It does not establish active-site suitability, noncovalency, preparation quality, redocking success, enrichment, QUBO portability, QUBO superiority, or quantum advantage.",
+  "next_gate": "download and structurally audit FA10 coordinates in the 3KL6 chain-A active-site frame",
+  "outputs": {
+    "candidate_metadata_csv": {
+      "path": "data/processed/stage14a_fa10_rcsb_candidate_metadata.csv",
+      "sha256": "24EF09E8D19F44EDC72350361B8E51BB35B6CFE0B8DFFD9BC31C26B51DC2D8A7"
+    },
+    "eligible_candidates_csv": {
+      "path": "data/processed/stage14a_fa10_rcsb_metadata_eligible_candidates.csv",
+      "sha256": "8719DF7F3B0AD8A5F76218C58467BDE0AFE9B41EAC6A7800427A9AF6416BCC87"
+    },
+    "metadata_snapshot_json": {
+      "path": "data/raw/rcsb/fa10/p00742_xray_metadata_snapshot_20260731.json",
+      "sha256": "ECB12968BA57030C06D9CFB27438442097E4D24776787F29D1848C14AE3E890D"
+    },
+    "search_snapshot_json": {
+      "path": "data/raw/rcsb/fa10/p00742_xray_search_snapshot_20260731.json",
+      "sha256": "47308266D16B84363D9C06C59FE1C3948FCF21A54EDF165213C74D2BB1C244E8"
+    }
+  },
+  "preregistration": {
+    "path": "configs/stage14_fa10_external_target_preregistration.json",
+    "sha256": "E7341ED050C6176A1AD42435CBC220FE5186E32CC70A7ADD26FA278003B320A3"
+  },
+  "query": {
+    "experimental_method": "X-RAY DIFFRACTION",
+    "search_result_count": 176,
+    "uniprot_accession": "P00742"
+  },
+  "runtime": {
+    "conda_environment": "qubo-receptor-ensemble",
+    "python_version": "3.11.15"
+  },
+  "schema_version": "1.0",
+  "source_audit": {
+    "path": "data/stage14_fa10_source_audit.json",
+    "sha256": "3C82879F7C72CD9153FD891B19A60E798194B9A6DF7060D8317997A3E9EF88C3"
+  },
+  "status": "stage14a_fa10_metadata_discovery_ok"
+}

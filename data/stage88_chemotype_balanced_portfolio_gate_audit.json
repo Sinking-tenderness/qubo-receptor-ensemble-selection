@@ -1,0 +1,17 @@
+{
+  "checks": {
+    "assignment_counts_match": true,
+    "fold_count": true,
+    "four_clusters_per_target": true,
+    "four_targets": true,
+    "gain_count_matches": true,
+    "no_docking": true,
+    "no_hardware": true,
+    "no_qaoa": true
+  },
+  "gate_passed": false,
+  "qaoa_authorized": false,
+  "quantum_hardware_jobs_authorized": 0,
+  "schema_version": "1.0",
+  "status": "stage88_chemotype_balanced_portfolio_gate_independent_audit_ok"
+}

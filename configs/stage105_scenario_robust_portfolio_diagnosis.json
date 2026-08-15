@@ -1,0 +1,84 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage105-scenario-robust-portfolio-diagnosis-20260813-v1",
+  "purpose": "Test whether Stage104 quality losses arose because the Stage68 mean utility floor masked adverse scaffold-jackknife scenarios. Replace that mean floor with a fixed all-scenario quality constraint and minimize the same three-seed stable redundancy. This is a posthoc mechanism diagnosis, not a replacement-objective confirmation.",
+  "parent": {
+    "stage64_config": "configs/stage64_cross_target_uncertainty_shrunk_qubo.json",
+    "stage64_config_sha256": "F302FEA7CB2B22D39824A3433DC165FAE2E8E7D0A0A79C07AA73768F69AFB458",
+    "stage68_config": "configs/stage68_quality_plateau_portfolio_qubo.json",
+    "stage68_config_sha256": "D3B7E784DEFA67D32D21E8E99EDDF4210C0E2E9DA6E96929D0A4CBA152AF5C6D",
+    "stage68_result": "data/stage68_quality_plateau_portfolio_qubo_result.json",
+    "stage68_result_sha256": "FB5F87EB54CF616718B8BE1264A775E79AE3258AA69A121365C5F8D460A18408",
+    "stage104_config": "configs/stage104_quality_plateau_egfr_fa10_replay.json",
+    "stage104_config_sha256": "AB361FB7DA9201BDCED16E88CE2F59CF96E1E13EEA0E9A149DD5E28D6B6F1D23",
+    "stage104_result": "data/stage104_quality_plateau_egfr_fa10_replay_result.json",
+    "stage104_result_sha256": "0EBA7D4E5A7C40AFEAA718C87B9AC5E8D66785810CFE21FF17DAEBFB1D84829A"
+  },
+  "inputs": {
+    "EGFR": {
+      "scores": "analysis/stage102a_received_20260813/core/results/runs/stage102a_egfr_phase_a_production/scores.csv",
+      "scores_sha256": "45D23193B069B7B086DB55FF402D8CF640665739714934148047067531951016",
+      "manifest": "analysis/stage102a_received_20260813/core/data/processed/stage102a_egfr_phase_a_pdbqt_manifest.csv",
+      "manifest_sha256": "4B08CBAA56D53FE571235652A99746A59AA8F115C1C14FB454F45874DCF2CA7A",
+      "expected_receptor_count": 12,
+      "expected_ligand_count": 600
+    },
+    "FA10": {
+      "scores": "analysis/stage102a_received_20260813/core/results/runs/stage102a_fa10_phase_a_production/scores.csv",
+      "scores_sha256": "5D2392E97B2E58954585726EF1A4E1B3CA760ADA56CEAC9C3AB55F4B65B81AAA",
+      "manifest": "analysis/stage102a_received_20260813/core/data/processed/stage102a_fa10_phase_a_pdbqt_manifest.csv",
+      "manifest_sha256": "56D125336A0A4BEC937847C6008B3FB70A9C6F5147014AD8A2F19E8A710DF026",
+      "expected_receptor_count": 13,
+      "expected_ligand_count": 600
+    }
+  },
+  "cohort": {
+    "historical_targets": ["BACE1", "PPARG", "PPARA", "PPARD"],
+    "phase_a_targets": ["EGFR", "FA10"],
+    "excluded_targets": {
+      "MK14": "The Stage68 stable-redundancy rule requires a complete three-seed score cube and frozen outer assignments in the Stage64 data interface. MK14 is not in that interface, so it is not silently approximated or added posthoc."
+    }
+  },
+  "frozen_rule": {
+    "subset_sizes": [2, 3],
+    "bedroc_alpha": 20.0,
+    "jackknife_block_count": 4,
+    "jackknife_seed_base": 20260806,
+    "stable_redundancy": "R_ij=max(0,min_seed PearsonCorr(train-fitted receptor rank profiles)); only positive redundancy present in every docking seed is penalized.",
+    "baseline": "x0 is the full-outer-training pair-off top-k singleton-utility subset.",
+    "scenario_quality_constraint": "For every one of the four frozen scaffold jackknife blocks b, mean_i(u_i^(b) x_i) >= mean_i(u_i^(b) x0_i). The baseline x0 is feasible by construction.",
+    "optimization": "minimize stable redundancy subject to fixed cardinality and all four scenario quality constraints, using a SciPy HiGHS MILP certificate with exact pair-product linearization and zero requested MIP gap.",
+    "future_encoding": "This is a constrained binary model. Any future QUBO expansion must retain one slack equality per quality scenario and be audited separately; no penalty encoding is selected here."
+  },
+  "evaluation": {
+    "historical_outer_folds": "reuse the four frozen Stage64 outer assignments",
+    "phase_a_outer_folds": "reuse the five frozen Stage102A manifest outer_fold assignments",
+    "outer_labels_visible_to_selector": false,
+    "baseline": "same-fold pair-off top-k singleton utility subset",
+    "primary_metric": "median-seed BEDROC alpha=20 using minimum rank across selected receptors",
+    "robust_metric": "(primary median-seed BEDROC + mean seed BEDROC + worst seed BEDROC) / 3",
+    "diagnostic_gate": {
+      "minimum_mean_target_gain_over_pair_off": -0.0025,
+      "minimum_worst_target_gain_over_pair_off": -0.01,
+      "minimum_target_count_within_0p01": 6,
+      "minimum_mean_stable_redundancy_reduction": 0.01,
+      "minimum_target_count_with_nonnegative_redundancy_reduction": 6,
+      "all_required": true,
+      "interpretation": "A pass would only motivate an independently reviewed, untouched-target protocol. It would not establish QUBO superiority, quantum execution, speedup, or quantum advantage."
+    }
+  },
+  "data_boundary": {
+    "new_docking_jobs": 0,
+    "parp1_benchmark_docking_scores_read": 0,
+    "parp1_fresh_validation_rows_read": 0,
+    "parp1_locked_test_rows_read": 0,
+    "quantum_hardware_jobs": 0
+  },
+  "outputs": {
+    "fold_csv": "results/runs/stage105_scenario_robust_portfolio_diagnosis/fold_metrics.csv",
+    "target_csv": "results/runs/stage105_scenario_robust_portfolio_diagnosis/target_summary.csv",
+    "result_json": "data/stage105_scenario_robust_portfolio_diagnosis_result.json",
+    "audit_json": "data/stage105_scenario_robust_portfolio_diagnosis_audit.json",
+    "report_md": "reports/stage-105/scenario_robust_portfolio_diagnosis.md"
+  }
+}

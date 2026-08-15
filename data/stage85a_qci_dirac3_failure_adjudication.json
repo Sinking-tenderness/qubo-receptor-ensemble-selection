@@ -1,0 +1,88 @@
+{
+  "additional_stage85_device_jobs_authorized": 0,
+  "checks": {
+    "completed_job_count_matches": true,
+    "free_tier_rejection_recorded": true,
+    "no_below_certificate_sample": true,
+    "no_exact_optimum_sample": true,
+    "no_feasible_sample": true,
+    "recorded_usage_matches": true,
+    "sample_count_matches": true
+  },
+  "completed_device_jobs": 2,
+  "completed_device_samples": 50,
+  "interpretation": "The two physical jobs completed normally, but every returned sample violated the full unconstrained encoding. This is an encoding-fidelity failure, not evidence about biological efficacy or quantum advantage.",
+  "next_action": "Stop Stage85. Do not submit a replacement third job. Repair and globally certify the unconstrained penalty encoding before any additional device use.",
+  "primary_endpoint_passed": false,
+  "recorded_device_usage_seconds": 71.0,
+  "rejected_job": {
+    "device_job_executed": false,
+    "free_tier_variable_limit": 100,
+    "instance_id": "pparg_of0_k3_large_pool_exact",
+    "variable_count": 103
+  },
+  "schema_version": "1.0",
+  "status": "stage85_physical_calibration_failed_stop_hardware",
+  "summaries": [
+    {
+      "below_certified_optimum_count": 0,
+      "best_encoded_normalized_energy": -0.6340063665993512,
+      "column_residuals_zero_count": 4,
+      "device_usage_seconds": 24.0,
+      "distinct_solution_count": 25,
+      "exact_optimum_sample_count": 0,
+      "exact_optimum_sample_fraction": 0.0,
+      "feasible_sample_count": 0,
+      "feasible_sample_fraction": 0.0,
+      "instance_id": "ppara_of0_k10_high_k_exact",
+      "job_id": "6a7ac52e08442f441bbb5ef6",
+      "primary_endpoint_passed": false,
+      "receptor_constraints_ok_count": 0,
+      "role": "high_k_exact",
+      "sample_count": 25,
+      "selected_count_distribution": {
+        "10": 7,
+        "3": 1,
+        "5": 1,
+        "6": 2,
+        "7": 2,
+        "8": 5,
+        "9": 7
+      },
+      "target_k": 10
+    },
+    {
+      "below_certified_optimum_count": 0,
+      "best_encoded_normalized_energy": -0.18995157210156322,
+      "column_residuals_zero_count": 0,
+      "device_usage_seconds": 47.0,
+      "distinct_solution_count": 25,
+      "exact_optimum_sample_count": 0,
+      "exact_optimum_sample_fraction": 0.0,
+      "feasible_sample_count": 0,
+      "feasible_sample_fraction": 0.0,
+      "instance_id": "bace1_of0_k4_medium_pool_exact",
+      "job_id": "6a7ac55608442f441bbb5ef7",
+      "primary_endpoint_passed": false,
+      "receptor_constraints_ok_count": 0,
+      "role": "medium_pool_exact",
+      "sample_count": 25,
+      "selected_count_distribution": {
+        "10": 4,
+        "11": 3,
+        "13": 2,
+        "14": 3,
+        "15": 1,
+        "16": 3,
+        "17": 1,
+        "22": 1,
+        "5": 1,
+        "6": 1,
+        "7": 2,
+        "8": 1,
+        "9": 2
+      },
+      "target_k": 4
+    }
+  ]
+}

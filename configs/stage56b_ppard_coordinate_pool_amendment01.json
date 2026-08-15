@@ -1,0 +1,99 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage56b-ppard-coordinate-pool-amendment01-20260805-v1",
+  "purpose": "Repeat the PPARD coordinate hard-gate on sequence-remapped working copies under Stage56a while preserving every frozen biological and geometric threshold.",
+  "implementation": {
+    "path": "scripts/audit_stage56_ppard_coordinate_pool.py",
+    "sha256": "3081AFE7639463B8EB483882CB6A669C5931EBCCFCB328314C418665C7887162"
+  },
+  "inputs": {
+    "stage55_result": {
+      "path": "data/stage55_ppard_small_pilot_preregistration_result.json",
+      "sha256": "3642EFDA1323817DFA5FC758597E4637E04B80B2D00228ECF280DFA77CE06788"
+    },
+    "stage55_audit": {
+      "path": "data/stage55_ppard_small_pilot_preregistration_audit.json",
+      "sha256": "416655F554FAC64C55F393F5D8DE9915EF6DD56AA0D4215796BF2817AC82CFF1"
+    },
+    "ligand_allocation_summary": {
+      "path": "data/stage56_ppard_ligand_panel_allocation_summary.json",
+      "sha256": "1F4DE024E62F1420433092259E2352B9E66A7F14AB50D7ED0EBF8290B2B522B1"
+    },
+    "candidate_metadata_csv": {
+      "path": "data/processed/stage47b_expanded_new_target_candidate_metadata.csv",
+      "sha256": "2E4F65A40CC311E575B58991123557264CA9CC3DA7DD878A140626702797029E"
+    },
+    "reference_mmcif": {
+      "path": "data/raw/rcsb/ppard/2ZNP.cif",
+      "sha256": "C76F05A2721DA4C7D18420B038BB26A1AE06ACEC1003DB9B9BB13C564E287E0E"
+    },
+    "failed_original_config": {
+      "path": "configs/stage56_ppard_coordinate_pool_hard_gate.json",
+      "sha256": "2566182F9209B810D5862814A91F5B3207B3E384842870A53936B8575918DC0D"
+    },
+    "numbering_adjudication": {
+      "path": "data/stage56a_ppard_numbering_failure_adjudication_result.json",
+      "sha256": "FEBCE8889462CD91B2B75BF401F00B2494A1F7E6BC438E7D606F8077DECFCD1F"
+    },
+    "remapped_coordinate_result": {
+      "path": "data/stage56b_ppard_sequence_remapped_coordinates_result.json",
+      "sha256": "7A2A7106F65C32B09AB5662E6DCEAF055A5684275FBB8A42231FE8EEC77F0C62"
+    }
+  },
+  "reference": {
+    "pdb_id": "2ZNP",
+    "auth_chain": "A",
+    "ligand_comp_id": "K55",
+    "visible_protein_ca_count": 259,
+    "pocket_derivation": "wild-type chain-A standard amino-acid residues with a heavy atom within 6.0 A of any K55 heavy atom",
+    "anchor_derivation": "the reference-pocket subset with a heavy atom within 4.0 A of any K55 heavy atom",
+    "pocket_residue_numbers": [249, 255, 259, 280, 281, 282, 284, 285, 286, 288, 289, 323, 326, 327, 330, 331, 333, 334, 339, 340, 341, 348, 352, 353, 363, 364, 367, 368, 371, 449, 453, 469, 473],
+    "anchor_residue_numbers": [255, 281, 282, 284, 285, 288, 289, 323, 330, 334, 339, 341, 348, 363, 367, 368, 449, 453, 469, 473]
+  },
+  "coordinate_gate": {
+    "coordinate_format": "RCSB mmCIF-derived sequence-remapped working copy",
+    "chain_identifier": "author chain from the frozen Stage47b candidate metadata",
+    "alternate_location_rule": "highest occupancy, then blank, A, and lexical tie-break",
+    "alignment": "proper-rotation Kabsch alignment using global-sequence-corresponding, same-residue-name protein C-alpha atoms",
+    "minimum_matched_ca_count": 230,
+    "maximum_aligned_global_ca_rmsd_angstrom": 3.5,
+    "minimum_pocket_residue_fraction": 0.9,
+    "require_all_anchor_residues": true,
+    "require_reference_residue_name_match": true,
+    "minimum_pocket_heavy_atom_completeness_fraction": 0.85,
+    "require_complete_reference_heavy_atom_template_for_each_anchor": true,
+    "require_qualifying_ligand_within_reference_ligand_angstrom": 6.0,
+    "hidden_covalency": {
+      "exclude_explicit_mmcif_covalent_connection_between_target_chain_and_qualifying_ligand": true,
+      "exclude_if_minimum_protein_ligand_heavy_atom_distance_at_or_below_angstrom": 2.0
+    },
+    "missing_nonanchor_feature_imputation": "aligned 2ZNP reference coordinate",
+    "record_global_incomplete_standard_amino_acid_residues": true,
+    "global_incomplete_residue_policy": "record only during structural selection; apply one frozen deterministic completion protocol before receptor preparation and redocking"
+  },
+  "structural_pool": {
+    "metadata_eligible_count_at_freeze": 51,
+    "minimum_coordinate_eligible_count": 24,
+    "selection_rule": "retain every structure passing the unchanged hard coordinate gate; reference first and all other IDs lexical",
+    "max_min_or_outcome_informed_compression_permitted": false,
+    "failure_action": "stop PPARD before receptor preparation, redocking, pilot docking, full training, protected validation, or hardware if fewer than 24 structures pass",
+    "threshold_lowering_permitted": false
+  },
+  "download": {
+    "url_template": "https://files.rcsb.org/download/{pdb_id}.cif",
+    "workers": 12,
+    "timeout_seconds": 60,
+    "maximum_retries": 4,
+    "retry_backoff_seconds": 1.0
+  },
+  "outputs": {
+    "raw_mmcif_directory": "results/runs/stage56b_ppard_sequence_remapped_coordinates/mmcif",
+    "aligned_protein_pdb_directory": "results/runs/stage56b_ppard_coordinate_pool_amendment01/aligned",
+    "coordinate_audit_csv": "data/processed/stage56b_ppard_coordinate_candidate_audit_amendment01.csv",
+    "eligible_pool_manifest_csv": "data/processed/stage56b_ppard_coordinate_eligible_pool_amendment01.csv",
+    "redocking_pool_manifest_csv": "data/processed/stage56b_ppard_hard_gate_redocking_pool_amendment01.csv",
+    "summary_json": "data/stage56b_ppard_coordinate_pool_amendment01_summary.json",
+    "report_md": "reports/stage-56b/ppard_coordinate_pool_amendment01.md"
+  },
+  "interpretation_boundary": "Stage56b Amendment01 corrects only a pre-docking author-numbering mismatch under the Stage56a contract. Passing establishes a sequence-correspondence and coordinate-qualified PPARD receptor pool; receptor preparation and cognate redocking remain mandatory, and no enrichment, QUBO superiority, validation, or quantum claim follows."
+}

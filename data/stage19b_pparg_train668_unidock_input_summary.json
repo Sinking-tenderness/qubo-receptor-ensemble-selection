@@ -1,0 +1,53 @@
+{
+  "closure_pseudoatom_ligand_count": 0,
+  "config": {
+    "path": "configs/stage19b_pparg_train668_unidock_input_preparation.json",
+    "sha256": "453138514D991A3DD55122D9D9D70D4B644C51B7AAF6268890C5DF30DFDCA0A2"
+  },
+  "data_boundary": {
+    "docking_scores_read": 0,
+    "fresh_validation_rows_read": 0,
+    "test_rows_read": 0,
+    "train_rows_read": 668
+  },
+  "experiment_id": "stage19b-pparg-train668-unidock-input-preparation-20260801-v1",
+  "failed_ligand_count": 0,
+  "interpretation_boundary": "This stage prepares train-only structures and reads no docking score, fresh-validation row, or test row. Preparation success does not establish enrichment, QUBO portability, QUBO superiority, or quantum advantage.",
+  "label_counts": {
+    "active": 334,
+    "decoy": 334
+  },
+  "ligand_count": 668,
+  "next_gate": "generate and independently audit the 16-receptor by Train-668 by three-seed Uni-Dock matrix",
+  "order_preserved": true,
+  "output": {
+    "path": "data/processed/stage19b_pparg_train668_unidock_pdbqt_manifest.csv",
+    "sha256": "36EBA0B5A9597EE80F71576E3C50BE88D8DE1406CF4177B708141BA4A99D11B7"
+  },
+  "preparation": {
+    "deterministic_retry_seed_offsets": [
+      0,
+      1000003,
+      2000003
+    ],
+    "macrocycle_policy": "Run Meeko flexible first. If preparation fails or closure pseudoatoms are detected, rerun once with --rigid_macrocycles; require zero closure pseudoatoms in the final PDBQT.",
+    "meeko_version": "0.7.1",
+    "rdkit_embed_base_seed": 20260801,
+    "rdkit_method": "ETKDGv3 with explicit hydrogens, useRandomCoords=true, then MMFF94 or UFF with 500 iterations",
+    "rdkit_version": "2026.3.1"
+  },
+  "preparation_variant_counts": {
+    "meeko_flexible": 664,
+    "meeko_rigid_macrocycles": 4
+  },
+  "schema_version": "1.0",
+  "sdf_status_counts": {
+    "ok": 635,
+    "warning": 33
+  },
+  "source_manifest": {
+    "path": "data/processed/stage19a_pparg_train668_ligand_manifest.csv",
+    "sha256": "98F893D5BE9AA43A3FED48DBD6B6A87682E2464136A725E5623058DE132A2F21"
+  },
+  "status": "stage19b_pparg_train668_unidock_inputs_ok"
+}

@@ -1,0 +1,121 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage79-qci-dirac3-local-move-qubo-poc-freeze-20260807-v1",
+  "purpose": "Translate the six audited Stage78 local move-BQMs into binary Dirac-3 polynomial jobs, validate the translation locally, and freeze a free-allocation hardware protocol without contacting QCI during preparation.",
+  "implementation": {
+    "runner": {
+      "path": "scripts/prepare_stage79_qci_dirac3_poc.py",
+      "sha256": "0AAB42DA4384316058D99DC657078E91755CE26A884355826969277C60D19ACF",
+      "size_bytes": 20323
+    },
+    "independent_auditor": {
+      "path": "scripts/audit_stage79_qci_dirac3_poc.py",
+      "sha256": "9B2E56AA4CDDBD71E2C1C742048B6C57558AC823270C880AA06D8CA9FF6B261A",
+      "size_bytes": 8059
+    },
+    "hardware_executor": {
+      "path": "scripts/experimental/quantum/run_stage79_qci_dirac3_poc.py",
+      "sha256": "D0A97AA4CCBE3F971433D271697BD2F4E974EFC4A65E5743802ADE7C92679F64",
+      "size_bytes": 23313
+    }
+  },
+  "inputs": {
+    "stage78_result": {
+      "path": "data/stage78_advantage2_reverse_annealing_poc_result.json",
+      "sha256": "117F9019E65F3111EE240E224C9BD9969FBA9F1F56E3FA457C49E9F6ABA8EC7C",
+      "size_bytes": 27998
+    },
+    "stage78_audit": {
+      "path": "data/stage78_advantage2_reverse_annealing_poc_audit.json",
+      "sha256": "0DF98EF929822DB67BBBBD7235592C3622B6EEB6E8AA94F3758DFB0F892E7E34",
+      "size_bytes": 825
+    }
+  },
+  "translation": {
+    "logical_variables": "Stage78 swap-move indicators m000...; the all-zero vector is already the frozen classical warm solution, so the proposed XOR warm-start transformation is the identity.",
+    "qci_job_type": "sample-hamiltonian-integer",
+    "qci_device_type": "dirac-3",
+    "qci_variable_levels": 2,
+    "polynomial_min_degree": 1,
+    "polynomial_max_degree": 2,
+    "index_base": 1,
+    "linear_index_encoding": "[0, i]",
+    "quadratic_index_encoding": "[i, j] with i < j",
+    "constant_term_policy": "Omit the BQM offset because Dirac-3 does not accept constant polynomial terms; restore it during local double-precision energy recomputation.",
+    "coefficient_scaling": "Divide every nonconstant coefficient by the maximum absolute nonconstant coefficient for that instance.",
+    "submission_precision": "float32",
+    "classification_energy": "Always recompute with the frozen Stage78 float64 BQM; never classify from device-reported energy."
+  },
+  "hardware_protocol": {
+    "provider": "Quantum Computing Inc.",
+    "device": "Dirac-3",
+    "api_url": "https://api.qci-prod.com",
+    "qci_client_version": "5.0.0",
+    "required_initial_free_allocation_seconds": 300,
+    "minimum_remaining_seconds_before_job": 60,
+    "maximum_recorded_device_usage_seconds": 480,
+    "require_unpaid_allocation": true,
+    "preflight": {
+      "operation": "Authenticate and call get_allocations only; do not upload a polynomial and do not submit a device job.",
+      "device_jobs": 0,
+      "device_samples": 0
+    },
+    "calibration": {
+      "instance_role": "calibration_diagnostic",
+      "relaxation_schedules": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "samples_per_schedule": 25,
+      "planned_job_count": 4,
+      "planned_sample_count": 100,
+      "selection_order": "Highest recomputed strict-improvement fraction, highest exact-optimum fraction, lowest best guarded float64 energy, highest feasible fraction, lowest recorded device usage, then lowest schedule number.",
+      "confirmation_outcomes_unread": true
+    },
+    "confirmation": {
+      "instance_roles": [
+        "confirmation_positive",
+        "confirmation_negative"
+      ],
+      "samples_per_instance": 100,
+      "planned_instance_count": 5,
+      "planned_job_count": 5,
+      "planned_sample_count": 500,
+      "primary_endpoint": "Both positive instances must return at least one feasible strict improvement and no sample below the certified optimum; every negative must return zero recomputed strict improvements and no sample below the certified optimum.",
+      "secondary_endpoints": [
+        "exact-optimum sample fraction",
+        "strict-improvement sample fraction",
+        "feasible sample fraction",
+        "best guarded float64 energy",
+        "device-reported usage"
+      ]
+    },
+    "planned_total_job_count": 9,
+    "planned_total_sample_count": 600,
+    "device_safety_interlock": "Calibration and confirmation each require both --authorize-qci-device and STAGE79_QCI_ACK=I_ACCEPT_STAGE79_QCI_DEVICE_USAGE.",
+    "claim_boundary": "This is a cross-hardware physical optimization PoC. It is not a quantum-advantage, scaling, biological-generalization, drug-discovery, or end-to-end speedup experiment."
+  },
+  "data_boundary": {
+    "historical_development_targets_permitted": [
+      "BACE1",
+      "PPARG",
+      "PPARA",
+      "PPARD"
+    ],
+    "fresh_validation_rows_permitted": 0,
+    "locked_test_rows_permitted": 0,
+    "new_docking_jobs_permitted": 0,
+    "cloud_queries_permitted_during_freeze": 0,
+    "quantum_hardware_jobs_permitted_during_freeze": 0
+  },
+  "outputs": {
+    "instance_directory": "results/runs/stage79_qci_dirac3_poc/instances",
+    "instance_manifest_csv": "results/runs/stage79_qci_dirac3_poc/instance_manifest.csv",
+    "result_json": "data/stage79_qci_dirac3_poc_result.json",
+    "audit_json": "data/stage79_qci_dirac3_poc_audit.json",
+    "report_md": "reports/stage-79/qci_dirac3_poc_freeze.md"
+  },
+  "interpretation_boundary": "Stage79 preserves the Stage78 local move search and exact references, changes only the physical backend representation, and stops before all external QCI access."
+}

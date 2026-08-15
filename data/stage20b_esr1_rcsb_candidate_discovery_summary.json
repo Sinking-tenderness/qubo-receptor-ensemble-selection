@@ -1,0 +1,101 @@
+{
+  "config": {
+    "path": "configs/stage20b_esr1_rcsb_candidate_discovery.json",
+    "sha256": "8EB29E766F957D89651DF594E1DC4D1E6E232BED7B5B19008AD0E8DD2B2C5D92"
+  },
+  "counts": {
+    "metadata_eligible_count": 30,
+    "metadata_entry_count": 476,
+    "metadata_excluded_count": 446,
+    "new_metadata_eligible_count": 29,
+    "reference_eligible": true
+  },
+  "data_boundary": {
+    "docking_scores_read": 0,
+    "fresh_validation_rows_read": 0,
+    "ligand_labels_read": 0,
+    "pparg_stage19c_enrichment_rows_read": 0,
+    "test_rows_read": 0
+  },
+  "eligible_pdb_ids": [
+    "1GWQ",
+    "1GWR",
+    "1SJ0",
+    "1X7R",
+    "1XP1",
+    "1XP6",
+    "1XP9",
+    "1XPC",
+    "1YIM",
+    "1YIN",
+    "2BJ4",
+    "2IOG",
+    "2IOK",
+    "2JF9",
+    "2OUZ",
+    "2YJA",
+    "3DT3",
+    "3ERD",
+    "3ERT",
+    "3UUC",
+    "5GS4",
+    "5T92",
+    "6DF6",
+    "6DFN",
+    "6IAR",
+    "6VPF",
+    "7R62",
+    "7UJF",
+    "7UJO",
+    "9EBG"
+  ],
+  "eligible_resolution_angstrom": {
+    "maximum": 2.5,
+    "median": 2.0,
+    "minimum": 1.449
+  },
+  "exclusion_reason_counts": {
+    "excluded_title_pattern": 43,
+    "missing_same_chain_drug_like_nonpolymer": 128,
+    "mutation_count_differs": 311,
+    "reference_sequence_coverage_below_limit": 126,
+    "resolution_above_limit": 38,
+    "sample_sequence_length_outside_limits": 126
+  },
+  "experiment_id": "stage20b-esr1-rcsb-candidate-discovery-20260801-v1",
+  "interpretation_boundary": "Metadata eligibility is label-independent and only authorizes coordinate download and structural auditing. It does not establish active-site suitability, preparation quality, redocking success, enrichment, QUBO portability, QUBO superiority, or quantum advantage.",
+  "next_gate": "coordinate download, chain audit, proper-rotation alignment, pocket completeness, pocket-proximal ligand check, and deterministic structural max-min selection",
+  "outputs": {
+    "candidate_metadata_csv": {
+      "path": "data/processed/stage20b_esr1_rcsb_candidate_metadata.csv",
+      "sha256": "E75ADC8E6968A491FDFB884C527F7E73B787AA8951A3C81D7B403A053788D7EE"
+    },
+    "eligible_candidates_csv": {
+      "path": "data/processed/stage20b_esr1_rcsb_metadata_eligible_candidates.csv",
+      "sha256": "3FF0A05E6DCB114F9E8D1AA1199E2310CA97A78AEF4491BCC5735D8C65FC6500"
+    },
+    "metadata_snapshot_json": {
+      "path": "data/raw/rcsb/esr1/p03372_xray_metadata_snapshot_20260801.json",
+      "sha256": "CAD0D0DF6D29D73D670D4BC5DFEFEF12B4D1EDC5278BAF3CDFC2A3B9B9B28B5C"
+    },
+    "search_snapshot_json": {
+      "path": "data/raw/rcsb/esr1/p03372_xray_search_snapshot_20260801.json",
+      "sha256": "340E6861C9077AD98A3737F4231D16A72EC61CA7A6C0D25799F4392B752351EB"
+    }
+  },
+  "preregistration": {
+    "path": "configs/stage20_esr1_independent_exploratory_preregistration.json",
+    "sha256": "70B52FD45EDE636411D13E2ABFAC781EDD6B172F9A20A67C9A204CB5ED4D807D"
+  },
+  "query": {
+    "experimental_method": "X-RAY DIFFRACTION",
+    "search_result_count": 476,
+    "uniprot_accession": "P03372"
+  },
+  "schema_version": "1.0",
+  "source_audit": {
+    "path": "data/stage20a_esr1_source_and_active_allocation_summary.json",
+    "sha256": "5D1E69B99368AD4B70E524B9CC7106DC54BA1E5069C59ACB51390893BF8143A2"
+  },
+  "status": "stage20b_esr1_metadata_discovery_ok"
+}

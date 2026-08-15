@@ -1,0 +1,96 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage38-cross-target-stable-triplet-hubo-20260803-v1",
+  "purpose": "Test whether scaffold-stable third-order residuals provide a transferable receptor-selection objective that is more faithful than additive selection and difficult for a strong classical local search.",
+  "implementation": {
+    "path": "scripts/run_stage38_cross_target_stable_triplet_hubo.py",
+    "sha256": "30BFCA8C24E53BBE723FC17AB3407F6F688523CDF62B43DC9272A7D498B0FC15"
+  },
+  "inputs": {
+    "stage19e_config": {
+      "path": "configs/stage19e_cross_target_qubo_v2_nested_diagnostic.json",
+      "sha256": "E7CB41AC6909DD42A7964FC3842E15612D982CD67AFD57AE999A461871EC3B7D"
+    },
+    "stage19g_result": {
+      "path": "data/stage19g_cross_target_set_function_landscape_result.json",
+      "sha256": "161B4BF1F263ABD325878A07B92FE262425E17E0C4BEEFF0335FAA75EF2A1471"
+    },
+    "stage19g_audit": {
+      "path": "data/stage19g_cross_target_set_function_landscape_audit.json",
+      "sha256": "098007FCC12E38C86CBD459061E68C08DADCB9986E03F90E0ECD5CBBCCCFD600"
+    },
+    "stage37_audit": {
+      "path": "data/stage37_cross_target_robust_functional_qubo_audit.json",
+      "sha256": "C25208D4AE785C10D1992E5BA409EFA6144B99B47FC5AB723D49B0CDC090E88B"
+    }
+  },
+  "evidence_timing": {
+    "experiment_class": "posthoc cross-target train-only objective development",
+    "stage19g_higher_order_residual_evidence_known": true,
+    "stage37_threshold_coverage_failure_known": true,
+    "weights_and_gates_frozen_before_stage38_outcomes": true,
+    "fresh_validation_or_locked_test_rows_permitted": false,
+    "new_docking_permitted": false,
+    "quantum_hardware_permitted": false
+  },
+  "objective": {
+    "objective_id": "scaffold_stable_triplet_residual_v1",
+    "linear_term": "min-max normalized mean singleton robust BEDROC20 across the three outer-train scaffold blocks",
+    "pair_residual": "U({i,j})-max(U({i}),U({j})) within each scaffold block",
+    "triplet_residual": "U({i,j,k})-max(U({i,j}),U({i,k}),U({j,k})) within each scaffold block",
+    "stable_term": "retain max(mean residual-risk_kappa*population_std,0) only if the positive-block fraction and minimum LCB gates pass, then min-max normalize retained terms",
+    "minimum_positive_block_fraction": 0.6666666666666666,
+    "risk_kappa": 0.5,
+    "minimum_pair_lcb": 0.002,
+    "minimum_triplet_lcb": 0.002,
+    "weights": {
+      "linear": 1.0,
+      "pair": 0.25,
+      "triplet": 0.75
+    },
+    "formula": "H(x)=sum_i h_i*x_i+0.25*sum_ij J_ij*x_i*x_j+0.75*sum_ijk K_ijk*x_i*x_j*x_k, evaluated under fixed cardinality k"
+  },
+  "quadratization": {
+    "method": "Rosenberg substitution",
+    "mapping": "For each retained triplet choose an auxiliary y_ij=x_i*x_j; replace K_ijk*x_i*x_j*x_k by K_ijk*y_ij*x_k and add a sufficiently large quadratic consistency penalty.",
+    "hardware_status": "not constructed in Stage38; construction requires the support gate to pass"
+  },
+  "screen": {
+    "outer_fold_count": 4,
+    "fold_seed": 20261119,
+    "bedroc_alpha": 20.0,
+    "maximum_subset_size": 6,
+    "evaluated_subset_sizes": [
+      3,
+      4,
+      5,
+      6
+    ],
+    "classical_beam_width": 64
+  },
+  "classical_comparators": {
+    "triplet_objective_search": "beam-64 forward construction followed by deterministic best-improvement one-swap local search from every retained target-size state",
+    "direct_true_utility_search": "the same strong search applied directly to outer-train robust BEDROC20",
+    "additive_exact": "exact fixed-cardinality optimization of the frozen singleton terms",
+    "true_oracle": "exact fixed-cardinality outer-train robust BEDROC20 optimum; reported as an upper diagnostic, not a deployable method"
+  },
+  "support_gate": {
+    "minimum_models_with_retained_triplet": 24,
+    "minimum_positive_solver_gap_cells": 5,
+    "minimum_target_mean_train_spearman": 0.6,
+    "minimum_target_mean_holdout_delta_vs_direct_classical": 0.0,
+    "minimum_target_mean_holdout_delta_vs_linear": 0.0,
+    "all_checks_required": true,
+    "decision": "Authorize Stage39 exact quadratization only if retained triplets occur in at least 24 of 32 target-fold-size cells, exact triplet optimization beats the strong search in at least five cells, mean objective/utility Spearman is at least 0.6 on each target, and mean scaffold-holdout robust BEDROC20 is noninferior to both direct strong classical search and additive exact selection on each target."
+  },
+  "outputs": {
+    "fold_assignments_csv": "results/runs/stage38_cross_target_stable_triplet_hubo/fold_assignments.csv",
+    "model_summary_csv": "results/runs/stage38_cross_target_stable_triplet_hubo/model_summary.csv",
+    "cell_metrics_csv": "results/runs/stage38_cross_target_stable_triplet_hubo/cell_metrics.csv",
+    "model_record_json": "data/stage38_cross_target_stable_triplet_hubo_model_record.json",
+    "result_json": "data/stage38_cross_target_stable_triplet_hubo_result.json",
+    "audit_json": "data/stage38_cross_target_stable_triplet_hubo_audit.json",
+    "report_md": "reports/stage-38/cross_target_stable_triplet_hubo.md"
+  },
+  "interpretation_boundary": "Stage38 is a post-hoc objective-development study using only frozen MK14 and PPARG training rows. Its scaffold holdouts are internal development evidence, not independent protein validation. A pass would authorize exact HUBO-to-QUBO quadratization and coefficient-range auditing only. It cannot authorize quantum hardware, claim quantum advantage, start new docking, change prior confirmation failures, or justify further tuning of these frozen weights after outcome inspection."
+}

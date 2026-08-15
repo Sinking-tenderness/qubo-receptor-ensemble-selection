@@ -1,0 +1,38 @@
+{
+  "dynamics": {
+    "barostat_frequency_steps": 25,
+    "checkpoint_interval_ps": 100.0,
+    "frame_interval_ps": 20.0,
+    "friction_per_ps": 1.0,
+    "metrics_interval_ps": 10.0,
+    "pressure_bar": 1.0,
+    "production_duration_ns": 3.0,
+    "seed": 20260949,
+    "temperature_kelvin": 300.0,
+    "timestep_fs": 2.0
+  },
+  "experiment_id": "stage28-pparg-pparg_8b8x_aligned-production-v1",
+  "inputs": {
+    "equilibrated_state_xml": "results/runs/stage28_pparg_multistart_md/pparg_8b8x_aligned/equilibrated_state.xml",
+    "system_xml": "results/runs/stage28_pparg_multistart_md/pparg_8b8x_aligned/system.xml",
+    "topology_pdb": "results/runs/stage28_pparg_multistart_md/pparg_8b8x_aligned/equilibrated_state.pdb"
+  },
+  "interpretation_boundary": "Stage28 constructs and audits a structure-only MD frame pool. It cannot establish MD convergence, docking enrichment, biological benefit, QUBO superiority, quantum speedup, or quantum advantage. A passing gate authorizes only a separately frozen Stage29 solver-scaling benchmark on the resulting structural features.",
+  "outputs": {
+    "checkpoint": "results/runs/stage28_pparg_multistart_md/pparg_8b8x_aligned/production/production.chk",
+    "final_pdb": "results/runs/stage28_pparg_multistart_md/pparg_8b8x_aligned/production/final_state.pdb",
+    "final_state_xml": "results/runs/stage28_pparg_multistart_md/pparg_8b8x_aligned/production/final_state.xml",
+    "manifest": "results/runs/stage28_pparg_multistart_md/pparg_8b8x_aligned/production/manifest.json",
+    "metrics_csv": "results/runs/stage28_pparg_multistart_md/pparg_8b8x_aligned/production/metrics.csv",
+    "progress_json": "results/runs/stage28_pparg_multistart_md/pparg_8b8x_aligned/production/progress.json",
+    "run_directory": "results/runs/stage28_pparg_multistart_md/pparg_8b8x_aligned/production",
+    "trajectory_prefix": "pparg_8b8x_aligned_production"
+  },
+  "parent_protocol": "configs/stage28_pparg_multistart_md/pparg_8b8x_aligned_protocol.json",
+  "platform": {
+    "name": "CUDA",
+    "precision": "mixed"
+  },
+  "purpose": "Resumable short NPT production for a structure-only PPARG solver-scaling pool.",
+  "schema_version": "1.0"
+}

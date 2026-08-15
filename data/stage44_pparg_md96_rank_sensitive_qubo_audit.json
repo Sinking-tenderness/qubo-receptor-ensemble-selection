@@ -1,0 +1,46 @@
+{
+  "counts": {
+    "exact_cells": 15,
+    "selection_metric_rows": 189,
+    "solver_cells": 30
+  },
+  "data_boundary": {
+    "fresh_validation_rows_read": 0,
+    "new_docking_jobs": 0,
+    "quantum_hardware_jobs": 0,
+    "test_rows_read": 0,
+    "train_rows_read": 160
+  },
+  "decision": {
+    "application_replication_supported": false,
+    "fresh_validation_authorized": false,
+    "quantum_hardware_authorized": false,
+    "same_data_retuning_authorized": false,
+    "solver_novelty_supported": false
+  },
+  "inputs": {
+    "result_sha256": "C85A50CAB8AD8E4B0B5C8DD1ECD68325DFC3C3343CEEFF5811360D2CB9ED1DC3",
+    "selection_metrics_sha256": "F490BF5BC5128406C94A6064CB905D01D91C45DDDE5E5E76FBA58B2052CC376A",
+    "solver_comparison_sha256": "140DEF8D8F7B2769296E8BE8A839D4E41B8542BBEE58C490833B96DD7F0E71A2"
+  },
+  "interpretation_boundary": "Stage44 can test whether the BACE1-frozen QUBO transfers to a larger PPARG MD receptor pool and whether fixed-parameter annealing improves the same QUBO objective over strong classical search. It remains a post-hoc Train-160 application and cannot establish fresh-target efficacy, quantum speedup, or quantum advantage.",
+  "primary_recalculation": {
+    "full_k1_robust_bedroc": 0.9569898741376202,
+    "full_k3_over_single_gain": 0.026958423511553864,
+    "full_k3_robust_bedroc": 0.983948297649174,
+    "mean_outer_holdout_gain": -0.12724989902387743,
+    "outer_holdout_k3_over_single_gains": [
+      -0.03963836367472662,
+      -0.0770237630120596,
+      -0.2298951149075149,
+      -0.16244235450120859
+    ]
+  },
+  "schema_version": "1.0",
+  "solver_recalculation": {
+    "annealing_over_classical_cell_count": 0,
+    "exact_k1_to_k3_cell_count": 15,
+    "exact_mismatch_count": 0
+  },
+  "status": "stage44_pparg_md96_rank_sensitive_qubo_independent_audit_ok"
+}

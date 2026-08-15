@@ -1,0 +1,265 @@
+{
+  "config": {
+    "path": "configs/stage55_ppard_small_pilot_preregistration.json",
+    "sha256": "01AE005C03E2F3B3CFD2EA5F21400B91EE5EA7328FAF3C5FA229FB946FA7648A",
+    "size_bytes": 7946
+  },
+  "data_boundary": {
+    "docking_scores_read": 0,
+    "fresh_validation_rows_read": 0,
+    "locked_test_rows_read": 0,
+    "new_docking_jobs": 0,
+    "quantum_hardware_jobs": 0,
+    "source_label_rows_read": 12490
+  },
+  "decision": {
+    "cognate_redocking_authorized": true,
+    "coordinate_audit_authorized": true,
+    "fresh_validation_authorized": false,
+    "full_training_matrix_authorized": false,
+    "ligand_panel_allocation_authorized": true,
+    "outcome_blind_target_selection_confirmed": true,
+    "pilot_production_docking_authorized": false,
+    "quantum_hardware_authorized": false,
+    "source_gate_passed": true
+  },
+  "dude_source": {
+    "actives": {
+      "charged_molecule_count": 0,
+      "duplicate_canonical_row_count": 0,
+      "duplicate_source_molecule_id_count": 0,
+      "duplicate_source_molecule_ids": [],
+      "duplicate_source_molecule_row_count": 0,
+      "heavy_atom_count_max": 43,
+      "heavy_atom_count_min": 23,
+      "maximum_source_id_multiplicity": 1,
+      "molecular_weight_max": 599.6270000000001,
+      "molecular_weight_min": 348.42400000000004,
+      "multi_fragment_molecule_count": 0,
+      "path": "data/raw/external_targets/ppard_dude/ppard/actives_final.ism",
+      "rdkit_failure_count": 0,
+      "rdkit_parsed_count": 240,
+      "recommended_internal_id_rule": "target_label_plus_source_line_number; preserve source molecule ID as metadata",
+      "row_count": 240,
+      "sha256": "9C583152538E0DC02882A1DCF319FD9088E44D3A823565CDED007AD94D19491B",
+      "unique_canonical_smiles_count": 240,
+      "unique_source_molecule_id_count": 240
+    },
+    "archive": {
+      "path": "data/raw/external_targets/ppard_dude/ppard.tar.gz",
+      "sha256": "B137CA49B63B7334E35FAFEF6B5A8283FB6E842980F19FFE3F3EEAAC90C2EC75",
+      "size_bytes": 27652646
+    },
+    "decoys": {
+      "charged_molecule_count": 11102,
+      "duplicate_canonical_row_count": 3,
+      "duplicate_source_molecule_id_count": 25,
+      "duplicate_source_molecule_ids": [
+        "C05601494",
+        "C08733678",
+        "C08739492",
+        "C08741493",
+        "C08741494",
+        "C08766765",
+        "C08766769",
+        "C08837033",
+        "C08914409",
+        "C08934467",
+        "C08984807",
+        "C09015686",
+        "C09240257",
+        "C12342847",
+        "C12354876",
+        "C13685934",
+        "C13940699",
+        "C16934461",
+        "C18194047",
+        "C21047267",
+        "C26836868",
+        "C27712892",
+        "C27721615",
+        "C27724541",
+        "C40475508"
+      ],
+      "duplicate_source_molecule_row_count": 51,
+      "heavy_atom_count_max": 47,
+      "heavy_atom_count_min": 17,
+      "maximum_source_id_multiplicity": 3,
+      "molecular_weight_max": 644.7610000000003,
+      "molecular_weight_min": 313.15599999999995,
+      "multi_fragment_molecule_count": 0,
+      "path": "data/raw/external_targets/ppard_dude/ppard/decoys_final.ism",
+      "rdkit_failure_count": 0,
+      "rdkit_parsed_count": 12250,
+      "recommended_internal_id_rule": "target_label_plus_source_line_number; preserve source molecule ID as metadata",
+      "row_count": 12250,
+      "sha256": "0AEC3330EB3E9EBBD9589F32D87E831A4B09B527B109D0D0D2F67BEA5B89F996",
+      "unique_canonical_smiles_count": 12247,
+      "unique_source_molecule_id_count": 12224
+    }
+  },
+  "experiment_id": "stage55-ppard-small-pilot-preregistration-20260805-v1",
+  "frozen_protocol": {
+    "docking": {
+      "common_box": "align every receptor to 2ZNP chain A; center on the K55 heavy-atom centroid; each axis is ligand span plus 12 angstrom, clamped to 22-30 angstrom",
+      "energy_range": 3,
+      "engine": "Uni-Dock 1.1.3",
+      "exhaustiveness": 1024,
+      "max_step": 80,
+      "maximum_seeded_docking_jobs": 14688,
+      "num_modes": 1,
+      "profile": "enhanced",
+      "refine_step": 5,
+      "scoring": "vina",
+      "seed_count": 3,
+      "seeds": [
+        20260801,
+        20260802,
+        20260803
+      ]
+    },
+    "evidence_timing": "Frozen after Stage54 criteria and outcome-blind PPARD source identity inspection; before molecule allocation, coordinate auditing, receptor preparation, redocking, pilot docking, enrichment evaluation, or objective fitting.",
+    "functional_diagnosis": {
+      "active_rescue_definition": "active not favorable in a majority of seeds for the baseline receptor but favorable for the pair",
+      "bedroc_alpha": 20.0,
+      "decoy_promotion_definition": "decoy not favorable in a majority of seeds for the baseline receptor but favorable for the pair",
+      "favorable_rank_fraction": 0.1,
+      "objective_or_weight_fitting_on_pilot_permitted": false,
+      "outer_fold_count": 4,
+      "seed_aggregation": "primary seed-median score ranking with mean-seed and worst-seed robustness recorded",
+      "single_receptors_exhaustive": true,
+      "two_receptor_subsets_exhaustive": true
+    },
+    "functional_gate": {
+      "all_checks_required": true,
+      "application_scope": "prospective small-pilot gate for a new independently preregistered target only",
+      "maximum_median_pair_rank_redundancy": 0.8,
+      "minimum_full_best_pair_gain": 0.01,
+      "minimum_mean_holdout_pair_gain": 0.01,
+      "minimum_positive_holdout_pair_gain_folds": 2,
+      "minimum_positive_rescue_balance_additions": 2
+    },
+    "gate_actions": {
+      "fail": "stop PPARD before the full development matrix and proceed to the next outcome-unseen eligible target",
+      "fresh_validation_before_full_development_pass_permitted": false,
+      "pass": "freeze the transferred QUBO objective and stopping rule, then authorize docking the remaining development-train ligands",
+      "quantum_hardware_before_independent_validation_permitted": false,
+      "same_target_threshold_or_objective_retuning_permitted": false
+    },
+    "ligand_allocation": {
+      "development_train": {
+        "active_count": 120,
+        "decoy_count": 120
+      },
+      "failure_action": "Stop before docking if exact source-ID-, canonical-SMILES-, and scaffold-disjoint allocation is infeasible.",
+      "fresh_validation": {
+        "active_count": 60,
+        "decoy_count": 1200
+      },
+      "grouping": "Bemis-Murcko scaffold joined with source-ID and canonical-SMILES duplicate components",
+      "locked_test": {
+        "active_count": 60,
+        "decoy_count": 1200
+      },
+      "unused_decoys_remain_protected": true
+    },
+    "pilot_panel": {
+      "active_count": 48,
+      "decoy_count": 48,
+      "outer_fold_count": 4,
+      "remaining_development_train_docking_before_gate_permitted": false,
+      "selection_from": "development_train only",
+      "selection_role": "development_train_pilot",
+      "selection_rule": "deterministic scaffold-group allocation independent of docking outcomes",
+      "target_active_count_per_fold": 12,
+      "target_decoy_count_per_fold": 12
+    },
+    "structural_pool": {
+      "coordinate_or_redocking_thresholds_may_not_be_lowered": true,
+      "max_min_or_outcome_informed_compression_permitted": false,
+      "maximum_cognate_rmsd_angstrom": 2.0,
+      "metadata_eligible_count_at_freeze": 51,
+      "minimum_cognate_redocking_pass_count": 24,
+      "minimum_coordinate_eligible_count": 24,
+      "retain_all_hard_gate_passing_structures": true
+    }
+  },
+  "implementation": {
+    "path": "scripts/audit_stage55_ppard_small_pilot_source.py",
+    "sha256": "91E6A82ED0D3A88EDCCCD47A74C2BDF7406CB7BB3C86B442517CD40196D0B97A",
+    "size_bytes": 11453
+  },
+  "interpretation_boundary": "Stage55 can establish outcome-blind PPARD selection, source identity, and a prospective small-pilot protocol. It cannot establish coordinate-pool adequacy, redocking success, enrichment, functional complementarity, QUBO superiority, independent validation, quantum execution, speedup, or quantum advantage.",
+  "next_gate": "allocate scaffold-disjoint PPARD panels, audit all 51 frozen metadata-eligible coordinates, and retain every structure passing the hard preparation and cognate-redocking gates",
+  "pilot_budget": {
+    "full_training_matrix_before_gate_permitted": false,
+    "maximum_receptor_ligand_pairs": 4896,
+    "maximum_seeded_docking_jobs": 14688
+  },
+  "reference_structure": {
+    "ligand_identity": {
+      "dude_formula": "C24H26F4NO4-",
+      "dude_mol2": {
+        "path": "data/raw/external_targets/ppard_dude/ppard/crystal_ligand.mol2",
+        "sha256": "6E0516518768DDBC3CD2F2F61265C7C9E52B7D9CD90EF1307E9FCC752E67A8BD",
+        "size_bytes": 5864
+      },
+      "fixed_frame_symmetry_corrected_rmsd_angstrom": 0.0,
+      "heavy_atom_coordinate_identity": true,
+      "heavy_atom_count": 33,
+      "official_formula": "C24H27F4NO4",
+      "official_sdf": {
+        "path": "data/raw/rcsb/ppard/2ZNP_K55_A922.sdf",
+        "sha256": "C87BDCAE13681DF9ED9373354EB0D4DCCF2875EA5DB13436D97BB9120F8C0E05",
+        "size_bytes": 3775
+      },
+      "protonation_state_difference": true
+    },
+    "official_mmcif": {
+      "path": "data/raw/rcsb/ppard/2ZNP.cif",
+      "sha256": "C76F05A2721DA4C7D18420B038BB26A1AE06ACEC1003DB9B9BB13C564E287E0E",
+      "size_bytes": 477761
+    },
+    "official_pdb": {
+      "auth_asym_id": "A",
+      "cognate_ligand_atom_count": 33,
+      "cognate_ligand_auth_seq_id": 922,
+      "cognate_ligand_comp_id": "K55",
+      "cognate_ligand_heavy_atom_count": 33,
+      "path": "data/raw/rcsb/ppard/2ZNP.pdb",
+      "protein_atom_count": 2083,
+      "protein_residue_count": 259,
+      "resolution_angstrom": 3.0,
+      "sha256": "0880108F60AA64ECFCFA5FE978D598C85BCFA24B0C29337A7B655C2E547141B8",
+      "size_bytes": 399654
+    },
+    "pdb_id": "2ZNP"
+  },
+  "schema_version": "1.0",
+  "selection": {
+    "completed_targets_before_selection": [
+      "PPARA"
+    ],
+    "dude_clustered_active_count": 240,
+    "eligible_target_order": [
+      "PPARA",
+      "PPARD",
+      "ESR2"
+    ],
+    "metadata_eligible_structure_count": 51,
+    "selected_target": "PPARD",
+    "selection_was_outcome_blind": true
+  },
+  "status": "stage55_ppard_small_pilot_source_and_preregistration_ok",
+  "target": {
+    "dude_reference_structure": "2ZNP",
+    "gene_name": "PPARD",
+    "organism": "Homo sapiens",
+    "protein_name": "Peroxisome proliferator-activated receptor delta",
+    "reference_chain": "A",
+    "reference_ligand": "K55",
+    "reference_ligand_auth_seq_id": 922,
+    "target_id": "PPARD",
+    "uniprot_accession": "Q03181"
+  }
+}

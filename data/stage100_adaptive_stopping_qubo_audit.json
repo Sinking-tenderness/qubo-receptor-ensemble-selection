@@ -1,0 +1,15 @@
+{
+  "schema_version": "1.0",
+  "status": "stage100_independent_audit_ok",
+  "fold_rows": 125,
+  "inner_profile_rows": 225,
+  "target_rows": 25,
+  "primary_nontrivial_fold_count": 7,
+  "mean_gain_recomputed": -0.006676488230048461,
+  "worst_target_gain_recomputed": -0.020635226309545396,
+  "outer_test_label_leakage_detected": false,
+  "protected_fresh_validation_rows_read": 0,
+  "new_docking_jobs": 0,
+  "quantum_hardware_jobs": 0,
+  "gate_passes": false
+}

@@ -1,0 +1,128 @@
+{
+  "schema_version": "1.0",
+  "preregistration_id": "stage20-esr1-independent-exploratory-20260801-v1",
+  "created_on": "2026-08-01",
+  "purpose": "Run an independently frozen human ESR1 receptor-ensemble replication while PPARG Stage 19c is still unresolved, without using any PPARG enrichment result to select ESR1 or tune the protocol.",
+  "evidence_timing": "Frozen after public DUD-E target counts, ESR1 source-identity inspection, and a label-independent RCSB metadata feasibility screen. No ESR1 coordinate-pool selection, receptor preparation, redocking, production docking, QUBO fit, validation metric, or test metric has been read or run. No PPARG Stage 19c enrichment result was read before this freeze.",
+  "target_selection": {
+    "selection_criteria": [
+      "human, non-pathogen protein target",
+      "ordinary noncovalent small-molecule complexes without a required catalytic metal or covalent scoring mechanism",
+      "at least 300 clustered DUD-E actives supporting 75-active fresh-validation and locked-test panels plus a nonempty scaffold-disjoint training panel",
+      "at least 24 public wild-type X-ray ligand-binding-domain structures satisfying label-independent metadata criteria"
+    ],
+    "public_feasibility_evidence": {
+      "dude_target_page": "https://dude.docking.org/targets/esr1",
+      "dude_clustered_active_count": 383,
+      "dude_decoy_count": 20685,
+      "dude_reference_structure": "1SJ0",
+      "rcsb_xray_entry_count": 476,
+      "rcsb_metadata_eligible_count_under_frozen_lbd_rules": 30,
+      "uniprot_accession": "P03372"
+    },
+    "result_driven_target_selection": false,
+    "pparg_stage19c_enrichment_results_read_before_selection": 0
+  },
+  "target": {
+    "target_id": "ESR1",
+    "protein_name": "Estrogen receptor alpha",
+    "target_class": "Nuclear receptor",
+    "organism": "Homo sapiens",
+    "uniprot_accession": "P03372",
+    "dude_target_url": "https://dude.docking.org/targets/esr1",
+    "dude_reference_structure": "1SJ0",
+    "reference_domain": "ligand-binding domain"
+  },
+  "ligand_panel": {
+    "source": "ESR1 DUD-E actives_final.ism and decoys_final.ism",
+    "split_group": "Bemis-Murcko scaffold joined with duplicate source IDs before allocation",
+    "development_train": {
+      "active_count": 233,
+      "decoy_count": 233
+    },
+    "fresh_validation": {
+      "active_count": 75,
+      "decoy_count": 1501
+    },
+    "locked_test": {
+      "active_count": 75,
+      "decoy_count": 1501
+    },
+    "exact_active_count_required": 383,
+    "rationale_for_train_count": "ESR1 has 383 clustered DUD-E actives. Fresh-validation and locked-test retain 75 actives each; all remaining 233 actives form the development-training panel. The smaller training panel is frozen before docking and must be reported when comparing targets.",
+    "failure_action": "Stop ESR1 before receptor production docking if all 383 source active molecules cannot be assigned to molecule-, source-, canonical-SMILES-, and scaffold-disjoint panels."
+  },
+  "receptor_protocol": {
+    "coordinate_selection_data": "coordinates and metadata only; activity labels and benchmark docking scores prohibited",
+    "metadata_rules": {
+      "experimental_method": "X-RAY DIFFRACTION",
+      "required_mutation_count": 0,
+      "maximum_resolution_angstrom": 2.5,
+      "minimum_full_length_reference_coverage": 0.35,
+      "minimum_ligand_binding_domain_sample_length": 220,
+      "maximum_ligand_binding_domain_sample_length": 310,
+      "require_same_chain_drug_like_nonpolymer": true,
+      "rationale": "ESR1 structures resolve the approximately 250-residue ligand-binding domain rather than the full 595-residue protein; a 0.50 full-length coverage rule would incorrectly exclude the 1SJ0 DUD-E reference itself."
+    },
+    "pre_redocking_candidate_count": 24,
+    "pre_redocking_selection": "deterministic max-min active-site geometry from the coordinate-eligible pool with the DUD-E reference included",
+    "cognate_redocking": {
+      "engine": "Uni-Dock 1.1.3",
+      "profile": "enhanced",
+      "exhaustiveness": 1024,
+      "max_step": 80,
+      "refine_step": 5,
+      "num_modes": 1,
+      "seed_ids": ["seed0", "seed1", "seed2"],
+      "base_seeds": [20260801, 20260802, 20260803],
+      "maximum_rmsd_angstrom": 2.0,
+      "minimum_successful_seeds_per_receptor": 2,
+      "maximum_median_rmsd_angstrom": 2.0
+    },
+    "post_redocking_final_selection": "from passing candidates, deterministically select 16 by max-min active-site geometry; no activity labels or benchmark scores",
+    "required_final_receptor_count": 16,
+    "failure_action": "If fewer than 24 coordinate-eligible candidates exist, or fewer than 16 of the frozen 24 candidates pass the fixed redocking gate, report an ESR1 technical failure without adding structures after reading enrichment results."
+  },
+  "production_protocol": {
+    "engine": "Uni-Dock 1.1.3",
+    "profile": "enhanced",
+    "exhaustiveness": 1024,
+    "max_step": 80,
+    "refine_step": 5,
+    "num_modes": 1,
+    "seed_count": 3,
+    "score_aggregation": "median across seeds per receptor-ligand pair; selected receptor subsets use min_score",
+    "primary_metric": "BEDROC alpha=20"
+  },
+  "qubo": {
+    "family": "pair_synergy_qubo v1",
+    "target_size": 3,
+    "aggregation": "min_score",
+    "weights": {
+      "active_coverage": 0.0,
+      "decoy_exposure": 0.0,
+      "active_overlap": 0.0,
+      "redundancy": 0.0,
+      "ensemble_pair_utility": 0.0,
+      "ensemble_pair_synergy": 2.0,
+      "stability": 0.5
+    },
+    "size_penalty": 20.0,
+    "coverage_fraction": 0.1,
+    "bedroc_alpha": 20.0,
+    "retuning_permitted": false
+  },
+  "analysis_sequence": [
+    "training panel may be used to fit receptor selectors and baselines",
+    "fresh validation is opened once for the frozen trained methods and confirmation gate",
+    "locked test remains unopened until the validation decision and all method definitions are frozen"
+  ],
+  "data_boundary": {
+    "ESR1_coordinate_pool_selected_at_freeze": false,
+    "ESR1_benchmark_docking_scores_read": 0,
+    "ESR1_fresh_validation_rows_read": 0,
+    "ESR1_test_rows_read": 0,
+    "PPARG_stage19c_enrichment_rows_read": 0
+  },
+  "interpretation_boundary": "ESR1 can provide prospective exploratory evidence for portability of receptor-ensemble selection and the frozen QUBO formulation. It cannot erase earlier target records, establish QUBO superiority by itself, establish experimental binding, or establish quantum advantage."
+}

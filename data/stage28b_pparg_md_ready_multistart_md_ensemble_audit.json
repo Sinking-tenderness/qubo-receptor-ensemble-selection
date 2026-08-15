@@ -1,0 +1,81 @@
+{
+  "checks": {
+    "all_frame_counts_verified": true,
+    "all_run_manifests_status_ok": true,
+    "data_boundary_zero": true,
+    "feature_and_distance_archives_verified": true,
+    "new_docking_jobs": 0,
+    "quantum_hardware_jobs": 0
+  },
+  "config": {
+    "path": "configs/stage28b_pparg_md_ready_multistart_md_ensemble.json",
+    "sha256": "8AFA2C0461846DC19472FD18A02831B45DBA05B4B56727CC8E5FB9B63605D259",
+    "size_bytes": 5237
+  },
+  "coverage": {
+    "frame_count": 1200,
+    "pairwise_distance_count": 719400,
+    "raw_feature_count": 870,
+    "sampled_pairwise_distances_recomputed": 4,
+    "start_count": 8,
+    "variable_feature_count": 870
+  },
+  "decision": {
+    "new_docking_jobs_authorized": false,
+    "quantum_hardware_authorized": false,
+    "stage28_md_pool_gate_passed": true,
+    "stage29_solver_scaling_authorized": true
+  },
+  "ensemble_summary": {
+    "path": "results/runs/stage28b_pparg_md_ready_multistart_md/ensemble/summary.json",
+    "sha256": "2CB70DEDB5F0CBB31D4DC5091EB3B974066EB3A9CCE979498A74681BA8957D87",
+    "size_bytes": 9278
+  },
+  "inputs_verified": {
+    "trajectory_qc_summaries": [
+      {
+        "path": "results/runs/stage28b_pparg_md_ready_multistart_md/pparg_2hfp_aligned/trajectory_qc/summary.json",
+        "sha256": "8FC756E4E11508308204D7C5E487284B54F432F79A94EAB49F6D1E1A947E6CDE",
+        "size_bytes": 15175
+      },
+      {
+        "path": "results/runs/stage28b_pparg_md_ready_multistart_md/pparg_8cpi_aligned/trajectory_qc/summary.json",
+        "sha256": "4D0F3CA21D8F9379AABD8833AE49C2B921E2A7D2F8F9F14E02525D15C6C19067",
+        "size_bytes": 15180
+      },
+      {
+        "path": "results/runs/stage28b_pparg_md_ready_multistart_md/pparg_3ty0_aligned/trajectory_qc/summary.json",
+        "sha256": "26F81072F9C74E8C35C096569B5699A6C527A265CFADB6157FBE5A94321AE966",
+        "size_bytes": 15181
+      },
+      {
+        "path": "results/runs/stage28b_pparg_md_ready_multistart_md/pparg_2ath_aligned/trajectory_qc/summary.json",
+        "sha256": "13DCCE01EFF74E0313DF43A4D05AF2ABB551C3143D5B8FD61A357FC1787C56BF",
+        "size_bytes": 15179
+      },
+      {
+        "path": "results/runs/stage28b_pparg_md_ready_multistart_md/pparg_3d6d_aligned/trajectory_qc/summary.json",
+        "sha256": "485931D7AB8317F04F5CDD0BA86F2296B1BA5375F567BC4E3F354823CCCC8509",
+        "size_bytes": 15172
+      },
+      {
+        "path": "results/runs/stage28b_pparg_md_ready_multistart_md/pparg_2prg_aligned/trajectory_qc/summary.json",
+        "sha256": "802AC4F5D3E95F4AA2DE92709B2D7ADBD0126660382B6A744FAD4EFC64981D18",
+        "size_bytes": 15177
+      },
+      {
+        "path": "results/runs/stage28b_pparg_md_ready_multistart_md/pparg_3gbk_aligned/trajectory_qc/summary.json",
+        "sha256": "25ACB2DE02E0DE70393020444BEE31AEC9EBE3464461912D90B9339E6239BB7A",
+        "size_bytes": 15168
+      },
+      {
+        "path": "results/runs/stage28b_pparg_md_ready_multistart_md/pparg_2i4j_aligned/trajectory_qc/summary.json",
+        "sha256": "C4A88E501E49F4A535ECC0B78CCA5B83F0406542D226596421EE000992C97AE3",
+        "size_bytes": 15182
+      }
+    ]
+  },
+  "interpretation_boundary": "Stage28b constructs and audits a structure-only MD frame pool after an explicit topology-feasibility correction. It cannot establish MD convergence, docking enrichment, QUBO superiority, quantum speedup, or quantum advantage. A passing gate authorizes only a separately frozen Stage29 solver-scaling benchmark.",
+  "schema_version": "1.0",
+  "status": "stage28_pparg_multistart_md_ensemble_audit_ok"
+}

@@ -1,0 +1,59 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage56b-ppard-allocation-and-coordinates-independent-audit-20260805-v1",
+  "implementation": {
+    "path": "scripts/audit_stage56b_ppard_allocation_and_coordinates.py",
+    "sha256": "761BFD56B2D3BDC1F4D830716C80985EB4EB0A317C4A7690D8689B53E0E48B17"
+  },
+  "inputs": {
+    "allocation_summary": {
+      "path": "data/stage56_ppard_ligand_panel_allocation_summary.json",
+      "sha256": "1F4DE024E62F1420433092259E2352B9E66A7F14AB50D7ED0EBF8290B2B522B1"
+    },
+    "selected_panel_manifest": {
+      "path": "data/processed/stage56_ppard_selected_ligand_panel_manifest.csv",
+      "sha256": "40943872B4154D36361784B480D8751EB2B2E68148EB62D982992B3A56C8A95C"
+    },
+    "pilot_manifest": {
+      "path": "data/processed/stage56_ppard_pilot96_ligand_manifest.csv",
+      "sha256": "22C51AD9722894135DCDAFF4B4EADB6458D058217A48F695E00905B7A727FF69"
+    },
+    "original_coordinate_config": {
+      "path": "configs/stage56_ppard_coordinate_pool_hard_gate.json",
+      "sha256": "2566182F9209B810D5862814A91F5B3207B3E384842870A53936B8575918DC0D"
+    },
+    "original_coordinate_summary": {
+      "path": "data/stage56_ppard_coordinate_pool_summary.json",
+      "sha256": "4EAA7CB7B008123E1D7815004596A2CAA74DCDB930B1E1B07C6EF98A4473425B"
+    },
+    "numbering_adjudication": {
+      "path": "data/stage56a_ppard_numbering_failure_adjudication_result.json",
+      "sha256": "FEBCE8889462CD91B2B75BF401F00B2494A1F7E6BC438E7D606F8077DECFCD1F"
+    },
+    "remapping_result": {
+      "path": "data/stage56b_ppard_sequence_remapped_coordinates_result.json",
+      "sha256": "7A2A7106F65C32B09AB5662E6DCEAF055A5684275FBB8A42231FE8EEC77F0C62"
+    },
+    "remapped_coordinate_manifest": {
+      "path": "data/processed/stage56b_ppard_sequence_remapped_coordinate_manifest.csv",
+      "sha256": "8B024ED636A42B2D7937CAE240F04429DD64AF0726F56DA30D3054435915B223"
+    },
+    "amended_coordinate_config": {
+      "path": "configs/stage56b_ppard_coordinate_pool_amendment01.json",
+      "sha256": "085F9E659856B540938DB1AB2960ED934EBB1B692BF21BD2CBC7128737A82AAF"
+    },
+    "amended_coordinate_summary": {
+      "path": "data/stage56b_ppard_coordinate_pool_amendment01_summary.json",
+      "sha256": "83FFAF6DEB6363E5F87520CB0B2561E4C261789704A99828B68E4758A34D5DB5"
+    },
+    "amended_coordinate_audit": {
+      "path": "data/processed/stage56b_ppard_coordinate_candidate_audit_amendment01.csv",
+      "sha256": "33B6EAD3A868223472DDFC45C22A8A12BFBE51ABDD531A45344AEED31E30D82B"
+    },
+    "amended_redocking_pool": {
+      "path": "data/processed/stage56b_ppard_hard_gate_redocking_pool_amendment01.csv",
+      "sha256": "55AADE4F24D8C1DA3A16D095BDC88D8EE20D909A4705908924F8C0817FB3AE83"
+    }
+  },
+  "interpretation_boundary": "This audit verifies disjoint PPARD allocation, the original frozen coordinate failure, sequence-numbering adjudication, raw-coordinate preservation, exact threshold preservation, and the amended 51-structure hard-gate result. It cannot authorize pilot docking before receptor preparation and cognate redocking."
+}

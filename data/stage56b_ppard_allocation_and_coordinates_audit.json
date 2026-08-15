@@ -1,0 +1,46 @@
+{
+  "config": {
+    "path": "configs/stage56b_ppard_allocation_and_coordinates_audit.json",
+    "sha256": "5AEE1E4853ABC341896F9A9329BB853B65B02D8D196A8E7D14C66FD4E74C6E6B",
+    "size_bytes": 3078
+  },
+  "coordinate_adjudication": {
+    "all_hard_gate_passing_structures_retained": true,
+    "amended_eligible_count": 51,
+    "coordinate_thresholds_exact": true,
+    "original_eligible_count": 17,
+    "raw_coordinates_modified": false,
+    "sequence_mapping_pass_count": 51,
+    "systematic_numbering_failure_confirmed": true
+  },
+  "data_boundary": {
+    "docking_scores_read": 0,
+    "fresh_validation_rows_read": 0,
+    "locked_test_rows_read": 0,
+    "new_docking_jobs": 0
+  },
+  "decision": {
+    "cognate_redocking_input_preparation_authorized": true,
+    "coordinate_gate_passed": true,
+    "fresh_validation_release_authorized": false,
+    "full_training_matrix_authorized": false,
+    "ligand_allocation_gate_passed": true,
+    "pilot_production_docking_authorized": false,
+    "quantum_hardware_authorized": false
+  },
+  "implementation": {
+    "path": "scripts/audit_stage56b_ppard_allocation_and_coordinates.py",
+    "sha256": "761BFD56B2D3BDC1F4D830716C80985EB4EB0A317C4A7690D8689B53E0E48B17",
+    "size_bytes": 10291
+  },
+  "interpretation_boundary": "This audit verifies disjoint PPARD allocation, the original frozen coordinate failure, sequence-numbering adjudication, raw-coordinate preservation, exact threshold preservation, and the amended 51-structure hard-gate result. It cannot authorize pilot docking before receptor preparation and cognate redocking.",
+  "ligand_panels": {
+    "outer_fold_count": 4,
+    "panel_disjointness_exact": true,
+    "pilot_fold_balance_exact": true,
+    "pilot_row_count": 96,
+    "selected_row_count": 2760
+  },
+  "schema_version": "1.0",
+  "status": "stage56b_ppard_allocation_and_coordinates_independent_audit_ok"
+}

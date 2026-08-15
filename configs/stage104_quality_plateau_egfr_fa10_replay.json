@@ -1,0 +1,63 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage104-quality-plateau-egfr-fa10-frozen-replay-20260813-v1",
+  "purpose": "Replay the Stage68 frozen quality-plateau stable-redundancy portfolio rule once on the already collected EGFR and FA10 Phase-A matrices. This is a posthoc transfer replay, not an independent confirmation and not a new target protocol.",
+  "parent": {
+    "stage68_config": "configs/stage68_quality_plateau_portfolio_qubo.json",
+    "stage68_config_sha256": "D3B7E784DEFA67D32D21E8E99EDDF4210C0E2E9DA6E96929D0A4CBA152AF5C6D",
+    "stage68_runner": "scripts/run_stage68_quality_plateau_portfolio_qubo.py",
+    "stage68_runner_sha256": "8E9073EF72E95E3B7E9F3049C879718442821584DEE380D35BAD09E6AAAC2182",
+    "stage68_result": "data/stage68_quality_plateau_portfolio_qubo_result.json",
+    "stage68_result_sha256": "FB5F87EB54CF616718B8BE1264A775E79AE3258AA69A121365C5F8D460A18408"
+  },
+  "inputs": {
+    "EGFR": {
+      "scores": "analysis/stage102a_received_20260813/core/results/runs/stage102a_egfr_phase_a_production/scores.csv",
+      "scores_sha256": "45D23193B069B7B086DB55FF402D8CF640665739714934148047067531951016",
+      "manifest": "analysis/stage102a_received_20260813/core/data/processed/stage102a_egfr_phase_a_pdbqt_manifest.csv",
+      "manifest_sha256": "4B08CBAA56D53FE571235652A99746A59AA8F115C1C14FB454F45874DCF2CA7A",
+      "expected_receptor_count": 12,
+      "expected_ligand_count": 600
+    },
+    "FA10": {
+      "scores": "analysis/stage102a_received_20260813/core/results/runs/stage102a_fa10_phase_a_production/scores.csv",
+      "scores_sha256": "5D2392E97B2E58954585726EF1A4E1B3CA760ADA56CEAC9C3AB55F4B65B81AAA",
+      "manifest": "analysis/stage102a_received_20260813/core/data/processed/stage102a_fa10_phase_a_pdbqt_manifest.csv",
+      "manifest_sha256": "56D125336A0A4BEC937847C6008B3FB70A9C6F5147014AD8A2F19E8A710DF026",
+      "expected_receptor_count": 13,
+      "expected_ligand_count": 600
+    }
+  },
+  "frozen_stage68_rule": {
+    "subset_sizes": [2, 3],
+    "uncertainty_multiplier": 0.5,
+    "bedroc_alpha": 20.0,
+    "jackknife_block_count": 4,
+    "jackknife_seed_base": 20260806,
+    "stable_redundancy": "R_ij=max(0,min_seed PearsonCorr(train-fitted receptor rank profiles)); only positive redundancy observed in every seed is penalized.",
+    "quality_floor": "For fixed k, mean singleton utility must be at least pair-off top-k mean singleton utility minus 0.5 times the root-sum-square jackknife singleton spread divided by k.",
+    "solver": "SciPy HiGHS MILP, exact pair-product linearization, zero requested MIP gap, 60 second time limit.",
+    "rule_frozen_from": "Stage68 selected_candidate uncertainty_0p5x; no coefficient, aggregation, threshold, fold, or subset-size tuning is permitted here."
+  },
+  "evaluation": {
+    "outer_folds": "use frozen manifest outer_fold values 1 through 5; outer-fold labels remain unavailable to selection",
+    "primary_metric": "median-seed BEDROC alpha=20 using the Stage68 primary minimum-rank aggregation",
+    "robust_metric": "(primary median-seed BEDROC + mean seed BEDROC + worst seed BEDROC) / 3",
+    "baseline": "pair-off top-k singleton utility under the same outer-training data and same k",
+    "transfer_success_definition": "For both targets and both k values, mean robust BEDROC gain over pair-off is at least -0.01 and mean stable-redundancy reduction is nonnegative. This supports transfer of the constrained-selection application only; it does not establish efficacy, QUBO superiority, solver advantage, or quantum advantage."
+  },
+  "data_boundary": {
+    "new_docking_jobs": 0,
+    "parp1_benchmark_docking_scores_read": 0,
+    "parp1_fresh_validation_rows_read": 0,
+    "parp1_locked_test_rows_read": 0,
+    "quantum_hardware_jobs": 0
+  },
+  "outputs": {
+    "fold_csv": "results/runs/stage104_quality_plateau_egfr_fa10_replay/fold_metrics.csv",
+    "target_csv": "results/runs/stage104_quality_plateau_egfr_fa10_replay/target_summary.csv",
+    "result_json": "data/stage104_quality_plateau_egfr_fa10_replay_result.json",
+    "audit_json": "data/stage104_quality_plateau_egfr_fa10_replay_audit.json",
+    "report_md": "reports/stage-104/quality_plateau_egfr_fa10_replay.md"
+  }
+}

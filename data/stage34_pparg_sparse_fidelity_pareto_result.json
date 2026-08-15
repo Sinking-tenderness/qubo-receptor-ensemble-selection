@@ -1,0 +1,193 @@
+{
+  "config": {
+    "path": "configs/stage34_pparg_sparse_fidelity_pareto.json",
+    "sha256": "42B4401E8261C534621B44581A950A4D6037B9996A956F40CA7783AA36DEF98E"
+  },
+  "data_boundary": {
+    "docking_scores_read": 0,
+    "fresh_validation_rows_read": 0,
+    "ligand_labels_read": 0,
+    "new_docking_jobs": 0,
+    "quantum_hardware_jobs": 0,
+    "test_rows_read": 0
+  },
+  "decision": {
+    "new_docking_jobs_authorized_by_this_stage": false,
+    "pareto_eligible_encoding_count": 0,
+    "quantum_advantage_claim_authorized": false,
+    "selected_encoding_id": null,
+    "small_quantum_annealing_application_pilot_authorized": false,
+    "sparse_fidelity_gate_passed": false
+  },
+  "encoding_records": {
+    "centered_residual_q01": {
+      "direct_qpu_reference_gate_passed": true,
+      "encoding_id": "centered_residual_q01",
+      "equivalence_gate_passed": true,
+      "family": "centered_residual",
+      "full_pool_coupler_count": 30909,
+      "full_pool_coupler_reduction_fraction": 0.9570350291909925,
+      "maximum_dense_quality_loss": 0.0017299559679315735,
+      "neighbors_per_direction": 1,
+      "pareto_eligible": false,
+      "quality_gate_passed": true,
+      "reference_cell_coupler_count": 2403,
+      "reference_cell_variable_count": 120,
+      "small_exactness_gate_passed": true,
+      "sparsity_gate_passed": true,
+      "stability_gate_passed": false
+    },
+    "centered_residual_q02": {
+      "direct_qpu_reference_gate_passed": true,
+      "encoding_id": "centered_residual_q02",
+      "equivalence_gate_passed": true,
+      "family": "centered_residual",
+      "full_pool_coupler_count": 56178,
+      "full_pool_coupler_reduction_fraction": 0.9219099249374478,
+      "maximum_dense_quality_loss": 0.002498305685385116,
+      "neighbors_per_direction": 2,
+      "pareto_eligible": false,
+      "quality_gate_passed": true,
+      "reference_cell_coupler_count": 3575,
+      "reference_cell_variable_count": 120,
+      "small_exactness_gate_passed": true,
+      "sparsity_gate_passed": true,
+      "stability_gate_passed": false
+    },
+    "centered_residual_q04": {
+      "direct_qpu_reference_gate_passed": true,
+      "encoding_id": "centered_residual_q04",
+      "equivalence_gate_passed": true,
+      "family": "centered_residual",
+      "full_pool_coupler_count": 99859,
+      "full_pool_coupler_reduction_fraction": 0.8611912705031971,
+      "maximum_dense_quality_loss": 0.002498305685385116,
+      "neighbors_per_direction": 4,
+      "pareto_eligible": false,
+      "quality_gate_passed": true,
+      "reference_cell_coupler_count": 4868,
+      "reference_cell_variable_count": 120,
+      "small_exactness_gate_passed": true,
+      "sparsity_gate_passed": false,
+      "stability_gate_passed": false
+    },
+    "centered_residual_q08": {
+      "direct_qpu_reference_gate_passed": true,
+      "encoding_id": "centered_residual_q08",
+      "equivalence_gate_passed": true,
+      "family": "centered_residual",
+      "full_pool_coupler_count": 169632,
+      "full_pool_coupler_reduction_fraction": 0.7642035029190992,
+      "maximum_dense_quality_loss": 0.0,
+      "neighbors_per_direction": 8,
+      "pareto_eligible": false,
+      "quality_gate_passed": true,
+      "reference_cell_coupler_count": 5371,
+      "reference_cell_variable_count": 120,
+      "small_exactness_gate_passed": true,
+      "sparsity_gate_passed": false,
+      "stability_gate_passed": false
+    },
+    "local_redundancy_q02": {
+      "direct_qpu_reference_gate_passed": true,
+      "encoding_id": "local_redundancy_q02",
+      "equivalence_gate_passed": true,
+      "family": "local_redundancy",
+      "full_pool_coupler_count": 50688,
+      "full_pool_coupler_reduction_fraction": 0.9295412844036697,
+      "maximum_dense_quality_loss": 0.07928809840948325,
+      "neighbors_per_direction": 2,
+      "pareto_eligible": false,
+      "quality_gate_passed": false,
+      "reference_cell_coupler_count": 3488,
+      "reference_cell_variable_count": 120,
+      "small_exactness_gate_passed": true,
+      "sparsity_gate_passed": true,
+      "stability_gate_passed": false
+    },
+    "local_redundancy_q04": {
+      "direct_qpu_reference_gate_passed": true,
+      "encoding_id": "local_redundancy_q04",
+      "equivalence_gate_passed": true,
+      "family": "local_redundancy",
+      "full_pool_coupler_count": 89958,
+      "full_pool_coupler_reduction_fraction": 0.874954128440367,
+      "maximum_dense_quality_loss": 0.07030168479883137,
+      "neighbors_per_direction": 4,
+      "pareto_eligible": false,
+      "quality_gate_passed": false,
+      "reference_cell_coupler_count": 4782,
+      "reference_cell_variable_count": 120,
+      "small_exactness_gate_passed": true,
+      "sparsity_gate_passed": false,
+      "stability_gate_passed": false
+    },
+    "local_redundancy_q08": {
+      "direct_qpu_reference_gate_passed": true,
+      "encoding_id": "local_redundancy_q08",
+      "equivalence_gate_passed": true,
+      "family": "local_redundancy",
+      "full_pool_coupler_count": 153991,
+      "full_pool_coupler_reduction_fraction": 0.7859452321378927,
+      "maximum_dense_quality_loss": 0.06571383271759235,
+      "neighbors_per_direction": 8,
+      "pareto_eligible": false,
+      "quality_gate_passed": false,
+      "reference_cell_coupler_count": 5697,
+      "reference_cell_variable_count": 120,
+      "small_exactness_gate_passed": true,
+      "sparsity_gate_passed": false,
+      "stability_gate_passed": false
+    }
+  },
+  "inputs": {
+    "distance_archive": {
+      "path": "results/runs/stage28b_pparg_md_ready_multistart_md/ensemble/pairwise_distances_condensed.npz",
+      "sha256": "0899BA9F6178ED533931A87FAAA3A07AF07CA3C160CD338B7ADBFE57448E16EB"
+    },
+    "feature_archive": {
+      "path": "results/runs/stage28b_pparg_md_ready_multistart_md/ensemble/pocket_features.npz",
+      "sha256": "8D68CE5EDCC2C32CBF64B5E63AD09F9CC11428D19506D0223CE932DB36B87A0E"
+    },
+    "frame_manifest": {
+      "path": "results/runs/stage28b_pparg_md_ready_multistart_md/ensemble/frame_manifest.csv",
+      "sha256": "2CE02AEEDFE82ADBEB519424B30A4692C7CF068CDB44CD9AFDCBBF18CF983732"
+    },
+    "stage28b_audit": {
+      "path": "data/stage28b_pparg_md_ready_multistart_md_ensemble_audit.json",
+      "sha256": "A9651BA0F43AA26E42C1E343DB898724976FEAB3463D3FFF04800F2C14D12BF1"
+    },
+    "stage29_audit": {
+      "path": "data/stage29_pparg_md_qubo_solver_scaling_audit.json",
+      "sha256": "A806B5081E3EDFB5FE510199B3F6609553057D4F7889F6E2BAD3CC2EC0ED8DF2"
+    },
+    "stage30_audit": {
+      "path": "data/stage30_pparg_group_balanced_state_qubo_audit.json",
+      "sha256": "F348FCB3C3F4C7BDC0E5A74224BF0EC45C973964F48282DF878936EAAADE970A"
+    },
+    "stage30_solver_results": {
+      "path": "results/runs/stage30_pparg_group_balanced_state_qubo/solver_results.csv",
+      "sha256": "AD6F1C3DD2D4DD5434A73839B4F80BC37895BE90EC6EDBB2A05F878A097905BD"
+    },
+    "stage33_audit": {
+      "path": "data/stage33_pparg_sparse_hardware_qubo_audit.json",
+      "sha256": "BBD18B1043F6BB24293827D8AF62CC24488CEFCE6B19324E40533D6538FC277D"
+    }
+  },
+  "interpretation_boundary": "Stage34 can select a frozen sparse encoding for a separately controlled quantum-annealing application pilot based on structural-objective fidelity, exact small-cell behavior, sampling stability, and logical hardware thresholds. It cannot establish docking enrichment, biological superiority, quantum speedup, quantum advantage, or physical-hardware performance.",
+  "outputs": {
+    "batch_results_csv": "results/runs/stage34_pparg_sparse_fidelity_pareto/batch_results.csv",
+    "cell_metrics_csv": "results/runs/stage34_pparg_sparse_fidelity_pareto/cell_metrics.csv",
+    "encoding_summary_csv": "results/runs/stage34_pparg_sparse_fidelity_pareto/encoding_summary.csv",
+    "report_md": "reports/stage-34/pparg_sparse_fidelity_pareto.md",
+    "solver_results_csv": "results/runs/stage34_pparg_sparse_fidelity_pareto/solver_results.csv"
+  },
+  "schema_version": "1.0",
+  "screen_statistics": {
+    "cell_count": 21,
+    "encoding_count": 7,
+    "maximum_equivalence_residual": 7.194078666117321e-12,
+    "scale_count": 3
+  },
+  "status": "stage34_pparg_sparse_fidelity_pareto_complete"
+}

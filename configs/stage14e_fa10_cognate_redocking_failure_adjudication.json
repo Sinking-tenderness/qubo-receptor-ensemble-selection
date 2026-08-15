@@ -1,0 +1,51 @@
+{
+  "schema_version": "1.0",
+  "adjudication_id": "stage14e-fa10-cognate-redocking-failure-adjudication-20260731-v1",
+  "purpose": "Adjudicate the completed Stage 14d FA10 technical gate without rerunning docking or reading benchmark activity labels or scores.",
+  "master_preregistration": {
+    "path": "configs/stage13_multitarget_external_validation_master_preregistration.json",
+    "sha256": "568D445852230E8F904342494EC25B070C9A994B19DAEB2DF76A55C6E95CD68D"
+  },
+  "source_config": {
+    "path": "configs/stage14d_fa10_cognate_redocking.json",
+    "sha256": "022CF6C63735ABFA26FC060BA7D78A8DEDA0A77306A1DFB501371D2F3E16D0DD"
+  },
+  "source_input_archive": {
+    "basename": "stage14d_fa10_cognate_redocking_input_v1.tar.gz",
+    "sha256": "99478C372868EC2FD0DE13D3AB118DB5C1E3BE23FDA35A58D9A399B4A31B98BC"
+  },
+  "source_result_archives": {
+    "core": {
+      "basename": "stage14d_fa10_cognate_redocking_core_v1.tar.gz",
+      "sha256": "20BBC0C63F42B1AB08586A8676215D98099C3C9B543F58322B3E1C926976E95B"
+    },
+    "diagnostics": {
+      "basename": "stage14d_fa10_cognate_redocking_diagnostics_v1.tar.gz",
+      "sha256": "F98FA3656F4A1C94BE27B6049792AE0BADAA0EAC0C824A7E00DBF8246D972A87"
+    }
+  },
+  "expected": {
+    "receptor_count": 16,
+    "seed_count": 3,
+    "pair_count": 48,
+    "required_passing_receptor_count": 16,
+    "available_reserve_receptor_count": 1,
+    "expected_passing_receptor_count": 13,
+    "expected_failed_receptor_ids": [
+      "FA10_1F0S_aligned",
+      "FA10_1LPG_aligned",
+      "FA10_2J2U_aligned"
+    ],
+    "maximum_rmsd_angstrom": 2.0,
+    "minimum_successful_seeds_per_receptor": 2,
+    "diagnostic_batch_summary_count": 48,
+    "diagnostic_rmsd_summary_count": 48,
+    "diagnostic_log_count": 48,
+    "diagnostic_pose_count": 48
+  },
+  "outputs": {
+    "result_json": "data/stage14e_fa10_cognate_redocking_failure_adjudication.json",
+    "report_md": "reports/stage-14e/fa10_cognate_redocking_failure_adjudication.md"
+  },
+  "decision_boundary": "The Stage 14d run is technically complete and scientifically failed its all-16 receptor gate. The single frozen reserve cannot recover three failures. Do not run FA10 Train-696, do not lower the RMSD threshold, do not enlarge the confirmatory FA10 pool after seeing this result, and continue to the next frozen target HIVPR. Any later 13-receptor FA10 analysis is post-hoc exploratory evidence only."
+}

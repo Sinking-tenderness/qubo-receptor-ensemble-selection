@@ -1,0 +1,37 @@
+{
+  "auditor": {
+    "path": "scripts/audit_stage19f_stable_pair_qubo.py",
+    "sha256": "B6CE8878E0A09F5AFF80D779E136E376365B802CB97B513E8FDC60CA18458810"
+  },
+  "checks": {
+    "all_input_and_output_hashes_verified": true,
+    "all_nested_candidates_reselected": true,
+    "all_outer_candidate_subsets_and_metrics_recomputed": true,
+    "all_paired_deltas_recomputed": true,
+    "bace1_amendment_authorized": false,
+    "bace1_docking_rows_read": 0,
+    "failed_gate_reproduced": true,
+    "fresh_validation_rows_read": 0,
+    "full_train_coefficients_recomputed": true,
+    "inner_scaffolds_fold_disjoint": true,
+    "outer_scaffolds_fold_disjoint": true,
+    "test_rows_read": 0
+  },
+  "config": {
+    "path": "configs/stage19f_cross_target_stable_pair_qubo.json",
+    "sha256": "D80AFC0CBCE634F953DA0A55168C546AB3AC73865C44610349715CDB42D9E06F"
+  },
+  "coverage": {
+    "full_train_qubo_optima_reenumerated": 2,
+    "inner_candidate_rows_reselected": 480,
+    "outer_candidate_rows_raw_recomputed": 160,
+    "selected_method_train_or_holdout_metric_sets_recomputed": 32,
+    "target_count": 2
+  },
+  "result": {
+    "path": "data/stage19f_cross_target_stable_pair_qubo_result.json",
+    "sha256": "CC638A8D1C6CE10BBF5A60E03774119C8A634D6C931289903F56136ECC86C31D"
+  },
+  "schema_version": "1.0",
+  "status": "stage19f_cross_target_stable_pair_qubo_audit_ok"
+}

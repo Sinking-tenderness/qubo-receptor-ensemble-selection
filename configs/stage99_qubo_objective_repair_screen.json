@@ -1,0 +1,101 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage99-qubo-objective-repair-screen-20260812-v1",
+  "purpose": "Screen one frozen QUBO repair derived from the observed failure mechanisms, using existing Uni-Dock matrices only.",
+  "objective": {
+    "objective_id": "robust_two_support_bedroc20_pair_qubo_v1",
+    "bedroc_alpha": 20.0,
+    "decoy_penalty_lambda": 1.5,
+    "ensemble_sizes": [1, 2, 3],
+    "rank_normalization": "per-receptor empirical percentile fitted on outer-train labeled rows only; lower docking score is better",
+    "single_receptor_utility": "u_i = mean_active(exp(-alpha*r_i)) - lambda*mean_decoy(exp(-alpha*r_i))",
+    "pair_utility": "u_ij = mean_active(exp(-alpha*mean(r_i,r_j))) - lambda*mean_decoy(exp(-alpha*mean(r_i,r_j)))",
+    "pair_coefficient": "delta_ij = u_ij - (u_i + u_j)/2",
+    "fixed_k_qubo": "Q_k(S) = mean_i(u_i) + mean_{i<j}(delta_ij), subject to sum_i x_i = k",
+    "constraint": "fixed Hamming weight; no large penalty is used in the exact screening",
+    "primary_evaluation_aggregation": "minimum normalized receptor rank across the selected ensemble",
+    "secondary_evaluation_aggregation": "mean of the two best normalized receptor ranks"
+  },
+  "targets": {
+    "MK14": {
+      "matrix": "results/runs/stage05_mk14_fresh_validation_e32_aggregated/primary_median_score_matrix.csv",
+      "manifest": "data/processed/stage05_mk14_fresh_validation_pdbqt_manifest.csv",
+      "matrix_sha256": "059304514B531DA92E20D376733146DC357CDC791227819BD04BC7CAE7E61179",
+      "manifest_sha256": "2DAE54F57C302881DA91FA53B74EDA1B1EC6267EC5385180E28B0EDEB58A777A",
+      "group_field": "split_group_id",
+      "data_role": "fresh_validation_posthoc_diagnostic_only"
+    },
+    "PPARG": {
+      "matrix": "results/runs/stage43_pparg_md96_unidock113_production/primary_median_score_matrix.csv",
+      "manifest": "data/processed/stage32_pparg_train160_ligand_manifest.csv",
+      "matrix_sha256": "49E02CCACA8BFA7D0045EAC137C2443963C95D6FE7969637D9305048E38A5008",
+      "manifest_sha256": "4FCA64D6B2AAEB11CA83A2A205996AAFF28ADF1AC1D35F3FB81DFC600882E3BC",
+      "group_field": "split_group_id",
+      "data_role": "development_posthoc"
+    },
+    "BACE1": {
+      "matrix": "analysis/stage91c_bace1_result_20260812/results/runs/stage91c_bace1_chembl365_unidock113_production/primary_median_score_matrix.csv",
+      "manifest": "analysis/stage91c_bace1_result_20260812/data/processed/stage91b_bace1_chembl365_unidock_pdbqt_manifest.csv",
+      "matrix_sha256": "9E4E7AADB570C3FFC4290A948984A007DE316C3165E2DC4C722B0FE692E136FD",
+      "manifest_sha256": "00A996ED7C66112D7F7BB1CE8DA5D7CE8785883E665B35E563AD60885DC9E5FC",
+      "group_field": "scaffold_group_id",
+      "data_role": "development_posthoc"
+    },
+    "PPARA": {
+      "matrix": "results/runs/stage52b_ppara_train374_unidock113_production/primary_median_score_matrix.csv",
+      "manifest": "data/processed/stage52a_ppara_train374_unidock_pdbqt_manifest.csv",
+      "matrix_sha256": "31DB17AEFE997F5F09F0EDB7CEDDA0DEEE7F13762B06338875DBAE249FC3F45E",
+      "manifest_sha256": "5B6CA85C2AA9A97A17BDD0D07BDFA9A896E1F9DC30582F49F5B9F4E7AE995D85",
+      "group_field": "split_group_id",
+      "data_role": "development_posthoc"
+    },
+    "PPARD": {
+      "matrix_parts": [
+        "results/runs/stage58b_ppard_pilot96_unidock113_production/primary_median_score_matrix.csv",
+        "results/runs/stage61b_ppard_remaining144_unidock113_production/primary_median_score_matrix.csv"
+      ],
+      "manifest_parts": [
+        "data/processed/stage58a_ppard_pilot96_unidock_pdbqt_manifest.csv",
+        "data/processed/stage61a_ppard_remaining144_unidock_pdbqt_manifest.csv"
+      ],
+      "matrix_sha256": [
+        "892134662CFF06A8ADDC53D4E94629F5247808415BC36EC31A4692FAD32DD062",
+        "823C27D3C291D05DCE14BC24837EBBB6A410A12A88DDB84D2DD65AE8BFDC0A3E"
+      ],
+      "manifest_sha256": [
+        "874B1CE40E52503FDF07F92BEBE557B5656F1A07BC7842C863110B2AB00ADA5F",
+        "0EF01BDCEC2C4C209DCA35385F9FA2B30A4F9BC3D57D34BFE55CD2B3AB68BE2A"
+      ],
+      "group_field": "split_group_id",
+      "data_role": "development_posthoc_combined"
+    }
+  },
+  "evaluation": {
+    "outer_folds": 5,
+    "inner_folds_for_adaptive_k": 3,
+    "fold_seed": 20260812,
+    "tie_tolerance": 1e-12,
+    "methods": ["single_best", "mean_topk", "old_pair_qubo", "repair_pair_qubo_exact", "repair_pair_qubo_one_swap"],
+    "labels_visible_to_selector": true,
+    "labels_visible_to_test_metric": true,
+    "test_labels_visible_to_selector": false,
+    "new_docking_jobs": 0,
+    "quantum_hardware_jobs": 0
+  },
+  "gate": {
+    "minimum_positive_target_count": 3,
+    "minimum_mean_primary_gain_over_single": 0.02,
+    "minimum_worst_target_primary_gain": -0.02,
+    "minimum_positive_fold_count": 10,
+    "interpretation": "A pass would justify one independently preregistered prospective validation, not hardware or quantum-advantage claims. A failure freezes this repair and forbids same-matrix coefficient tuning."
+  },
+  "outputs": {
+    "fold_csv": "results/runs/stage99_qubo_objective_repair_screen/fold_metrics.csv",
+    "target_csv": "results/runs/stage99_qubo_objective_repair_screen/target_summary.csv",
+    "solver_csv": "results/runs/stage99_qubo_objective_repair_screen/solver_diagnostics.csv",
+    "adaptive_k_csv": "results/runs/stage99_qubo_objective_repair_screen/adaptive_k_metrics.csv",
+    "result_json": "data/stage99_qubo_objective_repair_screen_result.json",
+    "audit_json": "data/stage99_qubo_objective_repair_screen_audit.json",
+    "report_md": "reports/stage-99/qubo_objective_repair_screen.md"
+  }
+}

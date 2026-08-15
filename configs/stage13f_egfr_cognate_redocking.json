@@ -1,0 +1,141 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage13f-egfr-16-receptor-cognate-redocking-20260731-v1",
+  "purpose": "Run the frozen three-seed Uni-Dock cognate-pose gate for all 16 preparation-ready EGFR receptors before benchmark ligand preparation or activity-label access.",
+  "implementation": {
+    "runner": {
+      "path": "scripts/experimental/unidock/run_stage13f_egfr_cognate_redocking.py",
+      "sha256": "7F8F98DE8FA8E196AC7985834E05C693CF136CC8FC171C2B36016DFD9DF5139F"
+    },
+    "batch_helper": {
+      "path": "scripts/experimental/unidock/run_unidock_gpu_equivalence.py",
+      "sha256": "4E927E959A08526289F7B266BA8CD76232741C878CCE255312F94A561DE433B0"
+    },
+    "pose_audit_helper": {
+      "path": "scripts/experimental/unidock/run_stage07b_unidock_enhanced_confirmation.py",
+      "sha256": "192E6BF7700442EA508082F47D96494125B41ADAD04C81B141FE3F4889312EE4"
+    },
+    "warning_helper": {
+      "path": "scripts/experimental/unidock/run_stage07c_unidock_warning_adjudication.py",
+      "sha256": "9729941976A15D6A91C45493807218CF3E24141063439AFBA948E0A2F2635153"
+    },
+    "rmsd_helper": {
+      "path": "scripts/evaluate_redocking_rmsd.py",
+      "sha256": "F761FE14374198DD314B78976349C413DC2FA0C90EDDDBE6595AA001EB3D86F5"
+    }
+  },
+  "runtime": {
+    "conda_environment": "qubo-unidock-stage13",
+    "python_version": "3.11.15",
+    "numpy_version": "1.26.4",
+    "scipy_version": "1.17.1",
+    "rdkit_version": "2026.3.1",
+    "meeko_version": "0.7.1"
+  },
+  "data_boundary": {
+    "ligand_labels_read": 0,
+    "benchmark_docking_scores_read": 0,
+    "fresh_validation_rows_read": 0,
+    "test_rows_read": 0,
+    "MAPK14_stage11_rows_read": 0
+  },
+  "inputs": {
+    "preparation_summary": {
+      "path": "data/stage13e_egfr_redocking_input_preparation_summary.json",
+      "sha256": "B058A76E63C35D5948D852B65EC53DB45BAC216F21B4073288209990C0F69BFE"
+    },
+    "receptor_manifest": {
+      "path": "data/processed/stage13e_egfr_prepared_receptor_manifest.csv",
+      "sha256": "1EA351230200926F1BED42300D9B80F4B048608484F4B2E5ED5E5F33A901800B"
+    },
+    "case_manifest": {
+      "path": "data/processed/stage13e_egfr_cognate_redocking_case_manifest.csv",
+      "sha256": "AFABCE3FD1D918C7EF7D7E5129B3B4691A456EC3A6B4196FDAE005E9A88333C9"
+    },
+    "common_box": {
+      "path": "data/stage13e_egfr_common_box.json",
+      "sha256": "539E3DA61364A8E963C6B8763823CC6A236A83E283E74A0FE4B98F942234753E"
+    },
+    "evaluate_rmsd_script": {
+      "path": "scripts/evaluate_redocking_rmsd.py",
+      "sha256": "F761FE14374198DD314B78976349C413DC2FA0C90EDDDBE6595AA001EB3D86F5"
+    },
+    "seeds": [
+      {
+        "seed_id": "seed0",
+        "base_seed": 20260801
+      },
+      {
+        "seed_id": "seed1",
+        "base_seed": 20260802
+      },
+      {
+        "seed_id": "seed2",
+        "base_seed": 20260803
+      }
+    ]
+  },
+  "expected": {
+    "receptor_count": 16,
+    "case_count": 16,
+    "seed_count": 3,
+    "redocking_pair_count": 48,
+    "receptor_ids": [
+      "EGFR_9KL4_aligned",
+      "EGFR_7KXZ_aligned",
+      "EGFR_9H47_aligned",
+      "EGFR_9FRD_aligned",
+      "EGFR_4I23_aligned",
+      "EGFR_3W2S_aligned",
+      "EGFR_8SC7_aligned",
+      "EGFR_5CAV_aligned",
+      "EGFR_3W32_aligned",
+      "EGFR_5EM8_aligned",
+      "EGFR_5UGB_aligned",
+      "EGFR_8F1Z_aligned",
+      "EGFR_3POZ_aligned",
+      "EGFR_7U9A_aligned",
+      "EGFR_3W33_aligned",
+      "EGFR_9QXN_aligned"
+    ]
+  },
+  "unidock": {
+    "executable": "unidock",
+    "required_package_version": "1.1.3",
+    "profile_id": "enhanced",
+    "scoring": "vina",
+    "exhaustiveness": 1024,
+    "max_step": 80,
+    "refine_step": 5,
+    "num_modes": 1,
+    "energy_range": 3,
+    "verbosity": 1,
+    "cuda_visible_devices": "0",
+    "maximum_absolute_score_kcal_per_mol": 100.0,
+    "box": {
+      "center_x": 18.56,
+      "center_y": 33.55,
+      "center_z": 88.93,
+      "size_x": 22.0,
+      "size_y": 22.0,
+      "size_z": 30.0
+    }
+  },
+  "redocking_gate": {
+    "rmsd_definition": "symmetry-corrected heavy-atom RMSD in the fixed receptor frame without post-docking pose alignment",
+    "maximum_rmsd_angstrom": 2.0,
+    "minimum_successful_seeds_per_receptor": 2,
+    "maximum_median_rmsd_angstrom": 2.0,
+    "require_zero_unresolved_warning_events": true,
+    "require_zero_pose_integrity_failures": true,
+    "all_16_selected_receptors_required": true,
+    "failure_action": "stop before EGFR benchmark ligand preparation and adjudicate failed receptors without activity labels"
+  },
+  "outputs": {
+    "run_directory": "results/runs/stage13f_egfr_cognate_redocking",
+    "redocking_results_csv": "data/processed/stage13f_egfr_cognate_redocking_results.csv",
+    "receptor_gate_results_csv": "data/processed/stage13f_egfr_receptor_gate_results.csv",
+    "summary_json": "data/stage13f_egfr_cognate_redocking_summary.json"
+  },
+  "decision_boundary": "This technical gate uses no EGFR activity labels or benchmark docking scores. A pass authorizes preparation and docking of the frozen EGFR Train-696 panel only. A fail must be reported and adjudicated structurally without consulting enrichment outcomes. Redocking success does not establish screening enrichment, QUBO portability, QUBO superiority, statistical significance, quantum execution, or quantum advantage."
+}

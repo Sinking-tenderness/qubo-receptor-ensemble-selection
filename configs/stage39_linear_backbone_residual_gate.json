@@ -1,0 +1,80 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage39-linear-backbone-residual-gate-20260803-v1",
+  "purpose": "Determine whether scaffold-stable triplet interactions can safely improve a strong additive receptor-selection backbone when used only as a conservative, pre-specified correction.",
+  "implementation": {
+    "path": "scripts/run_stage39_linear_backbone_residual_gate.py",
+    "sha256": "539D4D864ADD9233932FBC5F2A31AD1F3CE2AF1608BB77FF5DBC2C063A816622"
+  },
+  "inputs": {
+    "stage19e_config": {
+      "path": "configs/stage19e_cross_target_qubo_v2_nested_diagnostic.json",
+      "sha256": "E7CB41AC6909DD42A7964FC3842E15612D982CD67AFD57AE999A461871EC3B7D"
+    },
+    "stage38_config": {
+      "path": "configs/stage38_cross_target_stable_triplet_hubo.json",
+      "sha256": "052FB04FB037F0CD6DABAF5FC74C6C31D036002F90880F0279F5CA7728990611"
+    },
+    "stage38_result": {
+      "path": "data/stage38_cross_target_stable_triplet_hubo_result.json",
+      "sha256": "103CB505A7B46E0C64DA5E277FC37EFA03B4FB4EA28022E2246DE6AAEEEC9927"
+    },
+    "stage38_audit": {
+      "path": "data/stage38_cross_target_stable_triplet_hubo_audit.json",
+      "sha256": "C5A4F43BEB64B6BF8EB96CD482D5A460B047FF587F538AE9FBA7F0ADE3AFB5C8"
+    }
+  },
+  "evidence_timing": {
+    "experiment_class": "posthoc cross-target train-only conservative correction development",
+    "stage38_outcome_known": true,
+    "correction_gate_frozen_before_stage39_outcomes": true,
+    "fresh_validation_or_locked_test_rows_permitted": false,
+    "new_docking_permitted": false,
+    "quantum_hardware_permitted": false
+  },
+  "method": {
+    "default": "Stage38 exact additive singleton subset",
+    "candidate_correction": "Stage38 exact stable-triplet subset",
+    "selection_data": "three scaffold-disjoint blocks within the current outer-training split",
+    "holdout_role": "evaluation and ligand-subgroup explanation only; never used to choose a correction",
+    "future_qubo_form": "fixed-cardinality linear backbone plus retained pair/triplet terms under a Hamming trust-region constraint around the additive subset"
+  },
+  "correction_gate": {
+    "minimum_positive_block_fraction": 0.6666666666666666,
+    "risk_kappa": 0.5,
+    "minimum_block_delta_lcb": 0.002,
+    "maximum_normalized_linear_backbone_loss": 0.05,
+    "all_checks_required": true,
+    "decision": "Use the triplet candidate only if it differs from the linear subset, improves robust BEDROC20 in at least two of three training scaffold blocks, has mean block delta minus 0.5 population standard deviations at least 0.002, and loses no more than five percent of the fixed-k linear-objective range."
+  },
+  "screen": {
+    "outer_fold_count": 4,
+    "fold_seed": 20261119,
+    "bedroc_alpha": 20.0,
+    "favorable_rank_fraction": 0.1,
+    "maximum_subset_size": 6,
+    "evaluated_subset_sizes": [
+      3,
+      4,
+      5,
+      6
+    ]
+  },
+  "support_gate": {
+    "minimum_correction_cells": 4,
+    "minimum_positive_corrected_holdout_cells": 3,
+    "minimum_target_mean_holdout_delta_vs_linear": 0.0,
+    "minimum_target_mean_holdout_delta_vs_direct_classical": 0.0,
+    "maximum_target_negative_corrected_cells": 1,
+    "all_checks_required": true,
+    "decision": "Authorize a trust-region QUBO construction only if at least four corrections are selected without holdout access, at least three improve their holdouts, each target has nonnegative mean hybrid deltas against linear and direct-classical selection, and neither target has more than one harmful corrected cell."
+  },
+  "outputs": {
+    "cell_metrics_csv": "results/runs/stage39_linear_backbone_residual_gate/cell_metrics.csv",
+    "subgroup_diagnostics_csv": "results/runs/stage39_linear_backbone_residual_gate/subgroup_diagnostics.csv",
+    "result_json": "data/stage39_linear_backbone_residual_gate_result.json",
+    "audit_json": "data/stage39_linear_backbone_residual_gate_audit.json",
+    "report_md": "reports/stage-39/linear_backbone_residual_gate.md"
+  },
+  "interpretation_boundary": "Stage39 is a post-hoc, train-only correction study on MK14 and PPARG. Outer scaffold holdouts estimate internal transfer but are not independent proteins. A pass would authorize mathematical construction and coefficient auditing of a trust-region QUBO only. It cannot authorize quantum hardware, claim quantum advantage, start new docking, alter prior failed confirmations, or justify post-outcome relaxation of this frozen correction gate."
+}

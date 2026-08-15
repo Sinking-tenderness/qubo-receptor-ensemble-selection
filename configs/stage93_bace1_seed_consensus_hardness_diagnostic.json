@@ -1,0 +1,64 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage93-bace1-seed-consensus-hardness-diagnostic-20260812-v1",
+  "purpose": "Test a deployment-motivated seed-and-series consensus coverage objective that requires receptor cooperation, before any new target or quantum execution.",
+  "experiment_class": "posthoc_development_mechanism_diagnostic",
+  "inputs": {
+    "metadata_adjudication": {
+      "path": "data/stage92a_bace1_target_id_metadata_adjudication_result.json",
+      "sha256": "8D732A04145E64E1CE3A9E1BB4CF44A593510297EF485F775724DF914A150913"
+    },
+    "amended_seed_scores": {
+      "path": "results/runs/stage92a_bace1_target_id_metadata_adjudication/scores_target_id_amended.csv",
+      "sha256": "5EE4CE31CA1DB0C7236CA3BBB37531E24CECAB89221142EB28442F6D2849E3A9"
+    },
+    "development_manifest": {
+      "path": "analysis/stage91c_bace1_result_20260812/data/processed/stage91b_bace1_chembl365_unidock_pdbqt_manifest.csv",
+      "sha256": "00A996ED7C66112D7F7BB1CE8DA5D7CE8785883E665B35E563AD60885DC9E5FC"
+    }
+  },
+  "objective": {
+    "cardinality_k": 6,
+    "primary_population": "high and low potency molecules in the six development core series",
+    "receptor_hit_fraction_per_seed": 0.10,
+    "hit_count_rounding": "ceil",
+    "hit_tie_break": "ligand_id lexicographic",
+    "consensus_multiplicity": 2,
+    "scenario_definition": "six core chemical series crossed with three Uni-Dock seeds, for 18 high-potency coverage scenarios",
+    "minimum_scenario_coverage_weight": 0.40,
+    "mean_scenario_coverage_weight": 0.30,
+    "global_low_consensus_exposure_weight": -0.20,
+    "mean_pair_hit_jaccard_weight": -0.10,
+    "pair_overlap_scope": "mean Jaccard over the selected receptor pairs, averaged over the three seed-specific hit sets",
+    "scientific_rationale": "A high-potency ligand counts as reliably covered only when at least two selected receptor conformations independently rank it in the top decile under the same docking seed. This suppresses one-receptor and one-search false positives and makes receptor cooperation explicit."
+  },
+  "classical_baselines": {
+    "direct_greedy": true,
+    "greedy_plus_all_one_swaps": true,
+    "all_singleton_greedy_plus_swaps": 34,
+    "random_multistart_one_swap": {"restart_count": 256, "seed": 20260815},
+    "multistart_tabu": {"restart_count": 32, "iteration_count": 100, "tabu_tenure": 5, "seed": 20260816},
+    "simulated_annealing": {"restart_count": 32, "steps_per_restart": 5000, "seed": 20260817},
+    "exact_enumeration": 1344904
+  },
+  "go_gate": {
+    "exact_differs_from_direct_greedy": true,
+    "exact_strictly_improves_greedy_plus_one_swap": true,
+    "exact_strictly_improves_best_256_random_restart_one_swap": true,
+    "multi_move_replacement_distance_from_best_one_swap": 2,
+    "same_unique_exact_solution_under_independent_recomputation": true,
+    "all_criteria_required": true
+  },
+  "stop_rule": "If the gate fails, do not tune weights, consensus multiplicity, hit fraction, or k on this BACE1 matrix. Close same-data objective engineering and define the next problem before docking a new target.",
+  "data_boundary": {
+    "confirmation_scores_permitted": 0,
+    "locked_test_scores_permitted": 0,
+    "new_docking_jobs_permitted": 0,
+    "quantum_jobs_permitted": 0
+  },
+  "outputs": {
+    "result_json": "data/stage93_bace1_seed_consensus_hardness_diagnostic_result.json",
+    "baseline_csv": "results/runs/stage93_bace1_seed_consensus_hardness_diagnostic/classical_baselines.csv",
+    "report_md": "reports/stage-93/bace1_seed_consensus_hardness_diagnostic.md"
+  }
+}

@@ -1,0 +1,14 @@
+name: qubo-ppara-stage50
+channels:
+  - conda-forge
+dependencies:
+  - python=3.11
+  - numpy=1.26.4
+  - scipy
+  - rdkit
+  - gemmi
+  - prody
+  - meeko=0.7.1
+  - pdbfixer
+  - openmm
+  - setuptools<81

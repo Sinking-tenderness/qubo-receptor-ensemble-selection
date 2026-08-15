@@ -1,0 +1,19 @@
+{
+  "schema_version": "1.0",
+  "status": "stage105_independent_audit_ok",
+  "target_count": 6,
+  "fold_metric_count": 104,
+  "certificate_count": 52,
+  "changed_subset_certificate_count": 0,
+  "all_scenario_constraints_satisfied": true,
+  "outer_labels_used_by_selector": false,
+  "parp1_released": false,
+  "quantum_hardware_authorized": false,
+  "data_boundary": {
+    "new_docking_jobs": 0,
+    "parp1_benchmark_docking_scores_read": 0,
+    "parp1_fresh_validation_rows_read": 0,
+    "parp1_locked_test_rows_read": 0,
+    "quantum_hardware_jobs": 0
+  }
+}

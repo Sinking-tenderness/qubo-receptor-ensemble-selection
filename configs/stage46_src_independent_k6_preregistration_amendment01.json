@@ -1,0 +1,39 @@
+{
+  "schema_version": "1.0",
+  "amendment_id": "stage46-src-human-ortholog-reference-amendment01-20260804-v1",
+  "parent_preregistration": {
+    "path": "configs/stage46_src_independent_k6_preregistration.json",
+    "sha256": "7BEBFFA6053CF2B9A84075DD5233092B3C2AEDC5A48B77B9F11CC5479D0E45D0"
+  },
+  "failure_adjudication": {
+    "path": "data/stage46a_src_metadata_discovery_failure_adjudication.json",
+    "sha256": "6BEF74D74C2B0D50323B46AD5BF3D9347A8F65B4EC72D032881AF279DA9AA481"
+  },
+  "identity_correction": {
+    "prospective_target_organism": "Homo sapiens",
+    "prospective_target_uniprot_accession": "P12931",
+    "dude_reference_organism": "Gallus gallus",
+    "dude_reference_uniprot_accession": "P00523",
+    "dude_reference_pdb_id": "3EL8",
+    "dude_reference_role": "ortholog coordinate, cognate-ligand, and pocket-alignment template only; never a human candidate receptor"
+  },
+  "human_reference_selection_rule": "Among metadata-eligible P12931 structures, sort by resolution ascending, initial release date ascending, and PDB ID ascending; select the first entry as the scientific human reference before coordinate or docking outcomes are read.",
+  "unchanged_rules": [
+    "wild-type P12931 only",
+    "X-ray resolution at or below 3.0 A",
+    "same-chain ordinary noncovalent drug-like ligand",
+    "at least 32 metadata-eligible structures",
+    "all coordinate hard gates",
+    "all redocking gates",
+    "fixed Stage42f objective and primary k=6",
+    "all development, fresh-validation, locked-test, and hardware boundaries"
+  ],
+  "data_boundary": {
+    "docking_scores_read": 0,
+    "fresh_validation_rows_read": 0,
+    "locked_test_rows_read": 0,
+    "new_docking_jobs": 0,
+    "quantum_hardware_jobs": 0
+  },
+  "interpretation_boundary": "Amendment01 corrects an ortholog-reference identity mismatch before any structural candidate output or docking result exists. It cannot improve or relax an efficacy result."
+}

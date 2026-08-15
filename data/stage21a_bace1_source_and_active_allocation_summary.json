@@ -1,0 +1,183 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage21a-bace1-source-and-active-allocation-20260801-v1",
+  "status": "stage21a_bace1_source_and_active_allocation_ok",
+  "config": {
+    "path": "configs/stage21a_bace1_source_audit.json",
+    "sha256": "75EF369FBDA023B094F537A69B5826BB65B273C48342FF259DFAE490B511B948"
+  },
+  "target": {
+    "target_id": "BACE1_HUMAN",
+    "gene_name": "BACE1",
+    "protein_name": "Beta-secretase 1",
+    "organism": "Homo sapiens",
+    "uniprot_accession": "P56817",
+    "dude_target_id": "BACE1",
+    "dude_reference_structure": "3L5D",
+    "reference_auth_asym_id": "A",
+    "reference_ligand": "BDV",
+    "reference_ligand_auth_seq_id": 1
+  },
+  "dude_source": {
+    "archive": {
+      "path": "data/raw/external_targets/bace1_dude/bace1.tar.gz",
+      "sha256": "CCC41BE617B2E362CE707CEC3056F3737A428F4EEB3BB78F46E5D0C4793DA0DC"
+    },
+    "actives": {
+      "path": "data/raw/external_targets/bace1_dude/bace1/actives_final.ism",
+      "sha256": "1EFB332F2249757330C3094CF163541D290A0FF77D1A09FFC64571E08ED055A0",
+      "row_count": 283,
+      "unique_source_molecule_id_count": 283,
+      "duplicate_source_molecule_id_count": 0,
+      "duplicate_source_molecule_row_count": 0,
+      "maximum_source_id_multiplicity": 1,
+      "duplicate_source_molecule_ids": [],
+      "recommended_internal_id_rule": "target_label_plus_source_line_number; preserve source molecule ID as metadata",
+      "rdkit_parsed_count": 283,
+      "rdkit_failure_count": 0,
+      "unique_canonical_smiles_count": 283,
+      "duplicate_canonical_row_count": 0,
+      "charged_molecule_count": 0,
+      "multi_fragment_molecule_count": 0,
+      "heavy_atom_count_min": 21,
+      "heavy_atom_count_max": 44,
+      "molecular_weight_min": 319.49300000000005,
+      "molecular_weight_max": 599.8160000000003
+    },
+    "decoys": {
+      "path": "data/raw/external_targets/bace1_dude/bace1/decoys_final.ism",
+      "sha256": "81D62CEFCC6944BCB77C7FE848BF90790CAB9980AA5BEC858F5014738E012F41",
+      "row_count": 18100,
+      "unique_source_molecule_id_count": 18080,
+      "duplicate_source_molecule_id_count": 20,
+      "duplicate_source_molecule_row_count": 40,
+      "maximum_source_id_multiplicity": 2,
+      "duplicate_source_molecule_ids": [
+        "C02311250",
+        "C08589504",
+        "C08836444",
+        "C08845413",
+        "C13456508",
+        "C13570619",
+        "C13570713",
+        "C13657884",
+        "C22874288",
+        "C24985706",
+        "C24986830",
+        "C27715525",
+        "C38932699",
+        "C38932703",
+        "C38984210",
+        "C38989467",
+        "C40895611",
+        "C63098801",
+        "C63110578",
+        "C63472956"
+      ],
+      "recommended_internal_id_rule": "target_label_plus_source_line_number; preserve source molecule ID as metadata",
+      "rdkit_parsed_count": 18100,
+      "rdkit_failure_count": 0,
+      "unique_canonical_smiles_count": 18097,
+      "duplicate_canonical_row_count": 3,
+      "charged_molecule_count": 11899,
+      "multi_fragment_molecule_count": 0,
+      "heavy_atom_count_min": 15,
+      "heavy_atom_count_max": 46,
+      "molecular_weight_min": 286.42400000000004,
+      "molecular_weight_max": 635.7340000000003
+    }
+  },
+  "active_allocation": {
+    "source_active_count": 283,
+    "selected_active_count": 283,
+    "unallocated_source_surplus_count": 0,
+    "unique_canonical_smiles_count": 283,
+    "scaffold_group_count": 283,
+    "maximum_scaffold_group_size": 1,
+    "panel_counts": {
+      "development_train": 133,
+      "fresh_validation": 75,
+      "locked_test": 75
+    },
+    "scaffold_disjoint": true,
+    "path": "data/processed/stage21a_bace1_active_panel_allocation.csv",
+    "sha256": "2611A0462AC189AD323E4685514614D18981344DFDA9F0E4F40419F71CB1D92F"
+  },
+  "reference_structure": {
+    "pdb_id": "3L5D",
+    "dude_receptor": {
+      "path": "data/raw/external_targets/bace1_dude/bace1/receptor.pdb",
+      "sha256": "0B71A2D1FFE04B24D1675FCDAD971CFDCB4CF4DADA3332E513F4E15736CAFD19",
+      "atom_record_count": 3488,
+      "protein_atom_record_count": 3488,
+      "protein_residue_count": 364,
+      "protein_chain_ids": [
+        ""
+      ],
+      "hydrogen_atom_count": 611
+    },
+    "official_pdb": {
+      "path": "data/raw/rcsb/bace1/3L5D.pdb",
+      "sha256": "FE7E3072EE03B93AD19B494F6F6DCC49B40CA52348E84BDB92854A33CC8E80E5",
+      "reference_auth_asym_id": "A",
+      "reference_chain_a_ca_count": 386,
+      "cognate_ligand_comp_id": "BDV",
+      "cognate_ligand_auth_asym_id": "A",
+      "cognate_ligand_auth_seq_id": 1,
+      "cognate_ligand_heavy_atom_count": 28,
+      "resolution_angstrom": 1.75
+    },
+    "official_mmcif": {
+      "path": "data/raw/rcsb/bace1/3L5D.cif",
+      "sha256": "0B7669B1718F1AB3F7CC30F617FC27BD75BFD72D49A2B1A507B0990ED38A8DE3"
+    },
+    "protein_frame_provenance": {
+      "dude_ca_count": 364,
+      "official_chain_a_ca_count": 386,
+      "official_chain_b_ca_count": 389,
+      "exact_chain_a_coordinate_count": 352,
+      "exact_chain_b_only_coordinate_count": 12,
+      "unmatched_ca_count": 0,
+      "interpretation": "DUD-E supplies a prepared 3L5D receptor assembled entirely from exact chain-A coordinates plus 12 exact chain-B donor coordinates."
+    },
+    "ligand_identity": {
+      "dude_mol2_path": "data/raw/external_targets/bace1_dude/bace1/crystal_ligand.mol2",
+      "dude_mol2_sha256": "A5985C5AC3B6157E77C1DA5B20E8372DA02AC0D33BD4D164F5E762E35F16B852",
+      "official_sdf_path": "data/raw/rcsb/bace1/3L5D_BDV_A1.sdf",
+      "official_sdf_sha256": "6BEA3D8EE3C9A5842C3BACE02CB14BF9175FF71693CB97D60EBC2D6B26BF9DFE",
+      "heavy_atom_count": 28,
+      "heavy_atom_elements": {
+        "C": 21,
+        "N": 5,
+        "O": 2
+      },
+      "dude_heavy_atom_bond_types": {
+        "AROMATIC": 6,
+        "DOUBLE": 2,
+        "SINGLE": 21
+      },
+      "official_heavy_atom_bond_types": {
+        "AROMATIC": 6,
+        "DOUBLE": 3,
+        "SINGLE": 20
+      },
+      "dude_formula": "C21H37N5O2+2",
+      "official_formula": "C21H33N5O2",
+      "dude_formal_charge": 2,
+      "official_formal_charge": 0,
+      "protonation_or_tautomerization_difference_only": true,
+      "heavy_atom_coordinate_identity": true,
+      "maximum_nearest_heavy_atom_coordinate_distance_angstrom": 0.0
+    }
+  },
+  "data_boundary": {
+    "ligand_identity_and_source_labels_read": true,
+    "coordinate_pool_selected": false,
+    "docking_scores_read": 0,
+    "fresh_validation_rows_read": 0,
+    "test_rows_read": 0,
+    "pparg_stage19c_enrichment_rows_read": 0
+  },
+  "next_gate": "run frozen BACE1 RCSB metadata discovery, coordinate audit, and deterministic structural max-min selection",
+  "interpretation_boundary": "Passing this audit establishes only BACE1 input identity, reference-ligand identity, and exact ligand-panel feasibility. It does not establish receptor-pool adequacy, redocking success, screening enrichment, QUBO portability, QUBO superiority, quantum execution, or quantum advantage."
+}

@@ -1,0 +1,198 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage16a-dpp4-source-audit-20260731-v1",
+  "status": "stage16a_dpp4_source_audit_ok",
+  "config": {
+    "path": "configs/stage16a_dpp4_source_audit.json",
+    "sha256": "487EEBFFF225D90D6CEFCE12CCC2B35E893EF985EF0458FAB97A62A402468DF1"
+  },
+  "target": {
+    "target_id": "DPP4_HUMAN",
+    "gene_name": "DPP4",
+    "protein_name": "Dipeptidyl peptidase 4",
+    "organism": "Homo sapiens",
+    "uniprot_accession": "P27487",
+    "dude_target_id": "DPP4",
+    "dude_reference_structure": "2I78",
+    "reference_auth_asym_id": "B",
+    "reference_ligand": "KIQ",
+    "reference_ligand_auth_seq_id": 901
+  },
+  "dude_source": {
+    "archive": {
+      "path": "data/raw/external_targets/dpp4_dude/dpp4.tar.gz",
+      "sha256": "B1A81CE26E1D15A9CB9F37307B813E168028B1F855B019DC06F0BDD8D2F8DEB6"
+    },
+    "actives": {
+      "path": "data/raw/external_targets/dpp4_dude/dpp4/actives_final.ism",
+      "sha256": "817D9E4394303525428F8DB82193EEC1B174785C541DC202452A3A13C75332E3",
+      "row_count": 533,
+      "unique_source_molecule_id_count": 533,
+      "duplicate_source_molecule_id_count": 0,
+      "duplicate_source_molecule_row_count": 0,
+      "maximum_source_id_multiplicity": 1,
+      "duplicate_source_molecule_ids": [],
+      "recommended_internal_id_rule": "target_label_plus_source_line_number; preserve source molecule ID as metadata",
+      "rdkit_parsed_count": 533,
+      "rdkit_failure_count": 0,
+      "unique_canonical_smiles_count": 533,
+      "duplicate_canonical_row_count": 0,
+      "charged_molecule_count": 4,
+      "multi_fragment_molecule_count": 0,
+      "heavy_atom_count_min": 15,
+      "heavy_atom_count_max": 39,
+      "molecular_weight_min": 207.277,
+      "molecular_weight_max": 570.1080000000003
+    },
+    "decoys": {
+      "path": "data/raw/external_targets/dpp4_dude/dpp4/decoys_final.ism",
+      "sha256": "D2F1FFC84D96BEA4565EEA0C726910BA9F36F00E85A3F23327F1A892DA6B6652",
+      "raw_row_count": 40950,
+      "valid_row_count": 40949,
+      "excluded_invalid_row_count": 1,
+      "excluded_invalid_rows": [
+        {
+          "line_number": 37602,
+          "source_id": "C06001798",
+          "smiles": "c1cc(ccc1C=N(=Cc2ccc(cc2)Cl)N(CCO)C3=[NH+]CCN3)Cl",
+          "reason": "RDKit explicit-valence failure in the immutable DUD-E source"
+        }
+      ],
+      "unique_source_molecule_id_count": 40915,
+      "duplicate_source_molecule_id_count": 34,
+      "duplicate_source_molecule_row_count": 68,
+      "maximum_source_id_multiplicity": 2,
+      "duplicate_source_molecule_ids": [
+        "C02246610",
+        "C02955023",
+        "C02955452",
+        "C04317008",
+        "C05031182",
+        "C05327225",
+        "C05977504",
+        "C08687913",
+        "C08719170",
+        "C09045947",
+        "C09190012",
+        "C12955689",
+        "C13124039",
+        "C13154580",
+        "C14016178",
+        "C15906638",
+        "C16676503",
+        "C18127283",
+        "C18286682",
+        "C20145097",
+        "C20323969",
+        "C20588883",
+        "C38931035",
+        "C38931037",
+        "C39037500",
+        "C39354240",
+        "C39552570",
+        "C63110565",
+        "C65248267",
+        "C65248321",
+        "C65248648",
+        "C65248651",
+        "C65381351",
+        "C66887772"
+      ],
+      "recommended_internal_id_rule": "target_label_plus_source_line_number; preserve source molecule ID as metadata",
+      "rdkit_parsed_count": 40949,
+      "rdkit_failure_count_after_frozen_exclusion": 0,
+      "unique_canonical_smiles_count": 40944,
+      "duplicate_canonical_row_count": 5,
+      "charged_molecule_count": 27621,
+      "multi_fragment_molecule_count": 0,
+      "heavy_atom_count_min": 9,
+      "heavy_atom_count_max": 42,
+      "molecular_weight_min": 175.215,
+      "molecular_weight_max": 594.5220000000006
+    }
+  },
+  "reference_structure": {
+    "pdb_id": "2I78",
+    "dude_receptor": {
+      "path": "data/raw/external_targets/dpp4_dude/dpp4/receptor.pdb",
+      "sha256": "AEB706F0A831503884860AE71A647B6C1628FE0C9B7B024C7E6998B19B2A7A2C",
+      "atom_record_count": 5748,
+      "protein_atom_record_count": 5748,
+      "protein_residue_count": 573,
+      "protein_chain_ids": [
+        ""
+      ],
+      "hydrogen_atom_count": 1009
+    },
+    "official_pdb": {
+      "path": "data/raw/rcsb/dpp4/2I78.pdb",
+      "sha256": "606C21F4E1ADC67BA1B8B5ED6319094F0DAB1893D05FB255AED9A19AE9B89931",
+      "protein_auth_asym_ids": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "protein_ca_counts": {
+        "A": 726,
+        "B": 726,
+        "C": 726,
+        "D": 726
+      },
+      "reference_auth_asym_id": "B",
+      "reference_sequence_range": [
+        39,
+        764
+      ],
+      "cognate_ligand_comp_id": "KIQ",
+      "cognate_ligand_auth_asym_id": "B",
+      "cognate_ligand_auth_seq_id": 901,
+      "cognate_ligand_heavy_atom_count": 31,
+      "resolution_angstrom": 2.5
+    },
+    "official_mmcif": {
+      "path": "data/raw/rcsb/dpp4/2I78.cif",
+      "sha256": "4C01C0B72F18B43D9525C31356EC0E3A6DA8F6431DE717144C23D87FEF80CD2F"
+    },
+    "dude_receptor_coordinate_provenance": {
+      "dude_ca_count": 573,
+      "exact_2i78_chain_b_ca_count": 530,
+      "exact_2i78_chain_a_donor_ca_count": 43,
+      "unmatched_ca_count": 0,
+      "interpretation": "DUD-E supplies a label-free catalytic-region hybrid assembled entirely from exact 2I78 chain-B and chain-A coordinates"
+    },
+    "ligand_identity": {
+      "dude_mol2_path": "data/raw/external_targets/dpp4_dude/dpp4/crystal_ligand.mol2",
+      "dude_mol2_sha256": "45C953BC320E5E9B7CABABEBDDDA14DE1865EF21231531830A04405171BC2B3C",
+      "official_sdf_path": "data/raw/rcsb/dpp4/2I78_KIQ_B901.sdf",
+      "official_sdf_sha256": "06496A12DADE3890726EB574FA3E12055636CCB15459F4F34848A6894B6F7FF2",
+      "heavy_atom_count": 31,
+      "heavy_atom_elements": {
+        "C": 19,
+        "F": 6,
+        "N": 5,
+        "O": 1
+      },
+      "heavy_atom_bond_types": {
+        "AROMATIC": 11,
+        "DOUBLE": 2,
+        "SINGLE": 21
+      },
+      "dude_formula": "C19H18F6N5O+",
+      "official_formula": "C19H17F6N5O",
+      "dude_formal_charge": 1,
+      "official_formal_charge": 0,
+      "protonation_difference_only": true,
+      "charge_neutralized_fixed_frame_rmsd_angstrom": 0.0,
+      "heavy_atom_coordinate_identity": true
+    }
+  },
+  "data_boundary": {
+    "ligand_identity_and_source_labels_read": true,
+    "docking_scores_read": 0,
+    "fresh_validation_rows_read": 0,
+    "test_rows_read": 0
+  },
+  "next_gate": "run the frozen P27487 X-ray metadata discovery and coordinate-only DPP4 receptor audit",
+  "interpretation_boundary": "Passing source intake establishes only DPP4 identity, ligand counts, and 2I78 coordinate provenance. It does not establish receptor-pool adequacy, redocking success, screening enrichment, QUBO portability, QUBO superiority, quantum execution, or quantum advantage."
+}

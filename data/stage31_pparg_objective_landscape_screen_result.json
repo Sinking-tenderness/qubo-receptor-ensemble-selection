@@ -1,0 +1,481 @@
+{
+  "config": {
+    "path": "configs/stage31_pparg_objective_landscape_screen.json",
+    "sha256": "4DB37E42740A3D6578ECC8ADDE7A6350D45C34F8ECE563999AF65E4EB25E7A60"
+  },
+  "data_boundary": {
+    "docking_scores_read": 0,
+    "fresh_validation_rows_read": 0,
+    "ligand_labels_read": 0,
+    "new_docking_jobs": 0,
+    "quantum_hardware_jobs": 0,
+    "test_rows_read": 0
+  },
+  "decision": {
+    "candidate_objective_found": false,
+    "exact_landscape_screen_complete": true,
+    "new_docking_jobs_authorized_by_this_stage": false,
+    "quantum_hardware_authorized": false,
+    "selected_objective_id": null,
+    "stage32_qubo_encoding_authorized": false
+  },
+  "implementation": {
+    "path": "scripts/run_stage31_pparg_objective_landscape_screen.py",
+    "sha256": "DA92651356257086A547EC4328B6BC877B1C449483D479B18AEB319E661D1C5A",
+    "size_bytes": 24417
+  },
+  "input_statistics": {
+    "distance_maximum_before_normalization": 2.5408220291137695,
+    "frame_count": 1200,
+    "normalized_distance_quantiles": {
+      "0.05": 0.3443937611781199,
+      "0.1": 0.4003600316412342,
+      "0.2": 0.4685089490643691
+    }
+  },
+  "inputs": {
+    "distance_archive": {
+      "path": "results/runs/stage28b_pparg_md_ready_multistart_md/ensemble/pairwise_distances_condensed.npz",
+      "sha256": "0899BA9F6178ED533931A87FAAA3A07AF07CA3C160CD338B7ADBFE57448E16EB",
+      "size_bytes": 2430831
+    },
+    "feature_archive": {
+      "path": "results/runs/stage28b_pparg_md_ready_multistart_md/ensemble/pocket_features.npz",
+      "sha256": "8D68CE5EDCC2C32CBF64B5E63AD09F9CC11428D19506D0223CE932DB36B87A0E",
+      "size_bytes": 7416862
+    },
+    "frame_manifest": {
+      "path": "results/runs/stage28b_pparg_md_ready_multistart_md/ensemble/frame_manifest.csv",
+      "sha256": "2CE02AEEDFE82ADBEB519424B30A4692C7CF068CDB44CD9AFDCBBF18CF983732",
+      "size_bytes": 321706
+    },
+    "stage30_audit": {
+      "path": "data/stage30_pparg_group_balanced_state_qubo_audit.json",
+      "sha256": "F348FCB3C3F4C7BDC0E5A74224BF0EC45C973964F48282DF878936EAAADE970A",
+      "size_bytes": 2499
+    }
+  },
+  "interpretation_boundary": "Stage31 can establish exact feasible-landscape statistics and pre-registered difficulty-gate outcomes for six structure-only objective families on three independent 32-candidate PPARG MD cohorts. It cannot establish large-scale solver superiority, docking enrichment, biological superiority, quantum speedup, quantum advantage, or hardware readiness. Passing only authorizes a separately frozen Stage32 QUBO encoding and scaling experiment.",
+  "objective_records": {
+    "global_single_double": {
+      "cohorts": {
+        "temporal_rank_00_03": {
+          "absolute_greedy_gap": 0.0,
+          "cohort_id": "temporal_rank_00_03",
+          "difficulty_gate_passed": false,
+          "exact_best_state_index": 13107,
+          "exact_optimum": 0.35791666666666666,
+          "exact_optimum_state_count": 1,
+          "global_optimum_basin_fraction": 1.0,
+          "normalized_greedy_gap": 0.0,
+          "objective_id": "global_single_double",
+          "objective_minimum": 0.13145833333333334,
+          "objective_range": 0.22645833333333332,
+          "runtime_seconds": 0.5837351999998646,
+          "state_count": 65536,
+          "strict_local_optimum_count": 1,
+          "strong_greedy_objective": 0.35791666666666666,
+          "strong_greedy_state_index": 13107,
+          "tie_broken_sink_count": 1,
+          "weak_local_optimum_count": 1
+        },
+        "temporal_rank_04_07": {
+          "absolute_greedy_gap": 0.0,
+          "cohort_id": "temporal_rank_04_07",
+          "difficulty_gate_passed": false,
+          "exact_best_state_index": 4610,
+          "exact_optimum": 0.3364583333333333,
+          "exact_optimum_state_count": 1,
+          "global_optimum_basin_fraction": 1.0,
+          "normalized_greedy_gap": 0.0,
+          "objective_id": "global_single_double",
+          "objective_minimum": 0.14979166666666666,
+          "objective_range": 0.18666666666666665,
+          "runtime_seconds": 0.47487169999976686,
+          "state_count": 65536,
+          "strict_local_optimum_count": 1,
+          "strong_greedy_objective": 0.3364583333333333,
+          "strong_greedy_state_index": 4610,
+          "tie_broken_sink_count": 1,
+          "weak_local_optimum_count": 1
+        },
+        "temporal_rank_08_11": {
+          "absolute_greedy_gap": 0.0,
+          "cohort_id": "temporal_rank_08_11",
+          "difficulty_gate_passed": false,
+          "exact_best_state_index": 1986,
+          "exact_optimum": 0.3208333333333333,
+          "exact_optimum_state_count": 1,
+          "global_optimum_basin_fraction": 1.0,
+          "normalized_greedy_gap": 0.0,
+          "objective_id": "global_single_double",
+          "objective_minimum": 0.13208333333333333,
+          "objective_range": 0.18874999999999997,
+          "runtime_seconds": 0.5411212999997588,
+          "state_count": 65536,
+          "strict_local_optimum_count": 1,
+          "strong_greedy_objective": 0.3208333333333333,
+          "strong_greedy_state_index": 1986,
+          "tie_broken_sink_count": 1,
+          "weak_local_optimum_count": 1
+        }
+      },
+      "objective_difficulty_gate_passed": false,
+      "passing_cohort_count": 0
+    },
+    "multiscale_robust_coverage": {
+      "cohorts": {
+        "temporal_rank_00_03": {
+          "absolute_greedy_gap": 0.0,
+          "cohort_id": "temporal_rank_00_03",
+          "difficulty_gate_passed": false,
+          "exact_best_state_index": 13104,
+          "exact_optimum": 0.6603333333333334,
+          "exact_optimum_state_count": 1,
+          "global_optimum_basin_fraction": 1.0,
+          "normalized_greedy_gap": 0.0,
+          "objective_id": "multiscale_robust_coverage",
+          "objective_minimum": 0.33866666666666667,
+          "objective_range": 0.32166666666666677,
+          "runtime_seconds": 0.6272034000003259,
+          "state_count": 65536,
+          "strict_local_optimum_count": 1,
+          "strong_greedy_objective": 0.6603333333333334,
+          "strong_greedy_state_index": 13104,
+          "tie_broken_sink_count": 1,
+          "weak_local_optimum_count": 1
+        },
+        "temporal_rank_04_07": {
+          "absolute_greedy_gap": 0.0,
+          "cohort_id": "temporal_rank_04_07",
+          "difficulty_gate_passed": false,
+          "exact_best_state_index": 4609,
+          "exact_optimum": 0.6661666666666666,
+          "exact_optimum_state_count": 1,
+          "global_optimum_basin_fraction": 1.0,
+          "normalized_greedy_gap": 0.0,
+          "objective_id": "multiscale_robust_coverage",
+          "objective_minimum": 0.37133333333333335,
+          "objective_range": 0.2948333333333332,
+          "runtime_seconds": 0.5592194999999265,
+          "state_count": 65536,
+          "strict_local_optimum_count": 1,
+          "strong_greedy_objective": 0.6661666666666666,
+          "strong_greedy_state_index": 4609,
+          "tie_broken_sink_count": 1,
+          "weak_local_optimum_count": 1
+        },
+        "temporal_rank_08_11": {
+          "absolute_greedy_gap": 0.0,
+          "cohort_id": "temporal_rank_08_11",
+          "difficulty_gate_passed": false,
+          "exact_best_state_index": 2018,
+          "exact_optimum": 0.6668333333333334,
+          "exact_optimum_state_count": 1,
+          "global_optimum_basin_fraction": 1.0,
+          "normalized_greedy_gap": 0.0,
+          "objective_id": "multiscale_robust_coverage",
+          "objective_minimum": 0.3348333333333333,
+          "objective_range": 0.3320000000000001,
+          "runtime_seconds": 0.6244886999998016,
+          "state_count": 65536,
+          "strict_local_optimum_count": 1,
+          "strong_greedy_objective": 0.6668333333333334,
+          "strong_greedy_state_index": 2018,
+          "tie_broken_sink_count": 1,
+          "weak_local_optimum_count": 1
+        }
+      },
+      "objective_difficulty_gate_passed": false,
+      "passing_cohort_count": 0
+    },
+    "robust_coverage_pair": {
+      "cohorts": {
+        "temporal_rank_00_03": {
+          "absolute_greedy_gap": 0.0,
+          "cohort_id": "temporal_rank_00_03",
+          "difficulty_gate_passed": false,
+          "exact_best_state_index": 13104,
+          "exact_optimum": 0.5659773502403388,
+          "exact_optimum_state_count": 1,
+          "global_optimum_basin_fraction": 1.0,
+          "normalized_greedy_gap": 0.0,
+          "objective_id": "robust_coverage_pair",
+          "objective_minimum": 0.25811942030123963,
+          "objective_range": 0.30785792993909916,
+          "runtime_seconds": 0.5058541000003061,
+          "state_count": 65536,
+          "strict_local_optimum_count": 1,
+          "strong_greedy_objective": 0.5659773502403388,
+          "strong_greedy_state_index": 13104,
+          "tie_broken_sink_count": 1,
+          "weak_local_optimum_count": 1
+        },
+        "temporal_rank_04_07": {
+          "absolute_greedy_gap": 0.0,
+          "cohort_id": "temporal_rank_04_07",
+          "difficulty_gate_passed": false,
+          "exact_best_state_index": 4609,
+          "exact_optimum": 0.5626501931184561,
+          "exact_optimum_state_count": 1,
+          "global_optimum_basin_fraction": 1.0,
+          "normalized_greedy_gap": 0.0,
+          "objective_id": "robust_coverage_pair",
+          "objective_minimum": 0.28940293585473914,
+          "objective_range": 0.27324725726371696,
+          "runtime_seconds": 0.6106782000001658,
+          "state_count": 65536,
+          "strict_local_optimum_count": 1,
+          "strong_greedy_objective": 0.5626501931184561,
+          "strong_greedy_state_index": 4609,
+          "tie_broken_sink_count": 1,
+          "weak_local_optimum_count": 1
+        },
+        "temporal_rank_08_11": {
+          "absolute_greedy_gap": 0.0,
+          "cohort_id": "temporal_rank_08_11",
+          "difficulty_gate_passed": false,
+          "exact_best_state_index": 2018,
+          "exact_optimum": 0.5739794836342004,
+          "exact_optimum_state_count": 1,
+          "global_optimum_basin_fraction": 1.0,
+          "normalized_greedy_gap": 0.0,
+          "objective_id": "robust_coverage_pair",
+          "objective_minimum": 0.23660505793363779,
+          "objective_range": 0.3373744257005626,
+          "runtime_seconds": 0.6293834000002789,
+          "state_count": 65536,
+          "strict_local_optimum_count": 1,
+          "strong_greedy_objective": 0.5739794836342004,
+          "strong_greedy_state_index": 2018,
+          "tie_broken_sink_count": 1,
+          "weak_local_optimum_count": 1
+        }
+      },
+      "objective_difficulty_gate_passed": false,
+      "passing_cohort_count": 0
+    },
+    "smooth_pair_control": {
+      "cohorts": {
+        "temporal_rank_00_03": {
+          "absolute_greedy_gap": 0.0,
+          "cohort_id": "temporal_rank_00_03",
+          "difficulty_gate_passed": false,
+          "exact_best_state_index": 34113,
+          "exact_optimum": 0.710549012652967,
+          "exact_optimum_state_count": 1,
+          "global_optimum_basin_fraction": 1.0,
+          "normalized_greedy_gap": 0.0,
+          "objective_id": "smooth_pair_control",
+          "objective_minimum": 0.6441456154478686,
+          "objective_range": 0.06640339720509836,
+          "runtime_seconds": 0.7533386000000064,
+          "state_count": 65536,
+          "strict_local_optimum_count": 1,
+          "strong_greedy_objective": 0.710549012652967,
+          "strong_greedy_state_index": 34113,
+          "tie_broken_sink_count": 1,
+          "weak_local_optimum_count": 1
+        },
+        "temporal_rank_04_07": {
+          "absolute_greedy_gap": 0.0,
+          "cohort_id": "temporal_rank_04_07",
+          "difficulty_gate_passed": false,
+          "exact_best_state_index": 34607,
+          "exact_optimum": 0.7009719347433254,
+          "exact_optimum_state_count": 1,
+          "global_optimum_basin_fraction": 1.0,
+          "normalized_greedy_gap": 0.0,
+          "objective_id": "smooth_pair_control",
+          "objective_minimum": 0.6409417858449645,
+          "objective_range": 0.06003014889836089,
+          "runtime_seconds": 0.5806112999998732,
+          "state_count": 65536,
+          "strict_local_optimum_count": 1,
+          "strong_greedy_objective": 0.7009719347433254,
+          "strong_greedy_state_index": 34607,
+          "tie_broken_sink_count": 1,
+          "weak_local_optimum_count": 1
+        },
+        "temporal_rank_08_11": {
+          "absolute_greedy_gap": 0.0,
+          "cohort_id": "temporal_rank_08_11",
+          "difficulty_gate_passed": false,
+          "exact_best_state_index": 41004,
+          "exact_optimum": 0.6957651159399432,
+          "exact_optimum_state_count": 1,
+          "global_optimum_basin_fraction": 1.0,
+          "normalized_greedy_gap": 0.0,
+          "objective_id": "smooth_pair_control",
+          "objective_minimum": 0.6328623086504306,
+          "objective_range": 0.06290280728951259,
+          "runtime_seconds": 0.6354832000001807,
+          "state_count": 65536,
+          "strict_local_optimum_count": 1,
+          "strong_greedy_objective": 0.6957651159399432,
+          "strong_greedy_state_index": 41004,
+          "tie_broken_sink_count": 1,
+          "weak_local_optimum_count": 1
+        }
+      },
+      "objective_difficulty_gate_passed": false,
+      "passing_cohort_count": 0
+    },
+    "worst_start_single": {
+      "cohorts": {
+        "temporal_rank_00_03": {
+          "absolute_greedy_gap": 0.0,
+          "cohort_id": "temporal_rank_00_03",
+          "difficulty_gate_passed": false,
+          "exact_best_state_index": 0,
+          "exact_optimum": 0.6933333333333334,
+          "exact_optimum_state_count": 396,
+          "global_optimum_basin_fraction": 1.0,
+          "normalized_greedy_gap": 0.0,
+          "objective_id": "worst_start_single",
+          "objective_minimum": 0.18,
+          "objective_range": 0.5133333333333334,
+          "runtime_seconds": 0.5984185000002071,
+          "state_count": 65536,
+          "strict_local_optimum_count": 0,
+          "strong_greedy_objective": 0.6933333333333334,
+          "strong_greedy_state_index": 0,
+          "tie_broken_sink_count": 1,
+          "weak_local_optimum_count": 972
+        },
+        "temporal_rank_04_07": {
+          "absolute_greedy_gap": 0.0,
+          "cohort_id": "temporal_rank_04_07",
+          "difficulty_gate_passed": false,
+          "exact_best_state_index": 4096,
+          "exact_optimum": 0.7466666666666667,
+          "exact_optimum_state_count": 666,
+          "global_optimum_basin_fraction": 1.0,
+          "normalized_greedy_gap": 0.0,
+          "objective_id": "worst_start_single",
+          "objective_minimum": 0.18,
+          "objective_range": 0.5666666666666667,
+          "runtime_seconds": 0.5643113999999514,
+          "state_count": 65536,
+          "strict_local_optimum_count": 0,
+          "strong_greedy_objective": 0.7466666666666667,
+          "strong_greedy_state_index": 4096,
+          "tie_broken_sink_count": 1,
+          "weak_local_optimum_count": 996
+        },
+        "temporal_rank_08_11": {
+          "absolute_greedy_gap": 0.0,
+          "cohort_id": "temporal_rank_08_11",
+          "difficulty_gate_passed": false,
+          "exact_best_state_index": 1730,
+          "exact_optimum": 0.78,
+          "exact_optimum_state_count": 192,
+          "global_optimum_basin_fraction": 1.0,
+          "normalized_greedy_gap": 0.0,
+          "objective_id": "worst_start_single",
+          "objective_minimum": 0.12666666666666668,
+          "objective_range": 0.6533333333333333,
+          "runtime_seconds": 0.577085999999781,
+          "state_count": 65536,
+          "strict_local_optimum_count": 0,
+          "strong_greedy_objective": 0.78,
+          "strong_greedy_state_index": 1730,
+          "tie_broken_sink_count": 1,
+          "weak_local_optimum_count": 1746
+        }
+      },
+      "objective_difficulty_gate_passed": false,
+      "passing_cohort_count": 0
+    },
+    "worst_two_single_double": {
+      "cohorts": {
+        "temporal_rank_00_03": {
+          "absolute_greedy_gap": 0.0,
+          "cohort_id": "temporal_rank_00_03",
+          "difficulty_gate_passed": false,
+          "exact_best_state_index": 13104,
+          "exact_optimum": 0.60775,
+          "exact_optimum_state_count": 1,
+          "global_optimum_basin_fraction": 1.0,
+          "normalized_greedy_gap": 0.0,
+          "objective_id": "worst_two_single_double",
+          "objective_minimum": 0.23425,
+          "objective_range": 0.3735,
+          "runtime_seconds": 0.66879629999994,
+          "state_count": 65536,
+          "strict_local_optimum_count": 1,
+          "strong_greedy_objective": 0.60775,
+          "strong_greedy_state_index": 13104,
+          "tie_broken_sink_count": 1,
+          "weak_local_optimum_count": 1
+        },
+        "temporal_rank_04_07": {
+          "absolute_greedy_gap": 0.0,
+          "cohort_id": "temporal_rank_04_07",
+          "difficulty_gate_passed": false,
+          "exact_best_state_index": 4610,
+          "exact_optimum": 0.6119166666666667,
+          "exact_optimum_state_count": 1,
+          "global_optimum_basin_fraction": 1.0,
+          "normalized_greedy_gap": 0.0,
+          "objective_id": "worst_two_single_double",
+          "objective_minimum": 0.27425,
+          "objective_range": 0.33766666666666667,
+          "runtime_seconds": 0.6782311000001755,
+          "state_count": 65536,
+          "strict_local_optimum_count": 1,
+          "strong_greedy_objective": 0.6119166666666667,
+          "strong_greedy_state_index": 4610,
+          "tie_broken_sink_count": 1,
+          "weak_local_optimum_count": 1
+        },
+        "temporal_rank_08_11": {
+          "absolute_greedy_gap": 0.0,
+          "cohort_id": "temporal_rank_08_11",
+          "difficulty_gate_passed": false,
+          "exact_best_state_index": 1986,
+          "exact_optimum": 0.6298333333333334,
+          "exact_optimum_state_count": 1,
+          "global_optimum_basin_fraction": 1.0,
+          "normalized_greedy_gap": 0.0,
+          "objective_id": "worst_two_single_double",
+          "objective_minimum": 0.20283333333333334,
+          "objective_range": 0.42700000000000005,
+          "runtime_seconds": 0.529277699999966,
+          "state_count": 65536,
+          "strict_local_optimum_count": 1,
+          "strong_greedy_objective": 0.6298333333333334,
+          "strong_greedy_state_index": 1986,
+          "tie_broken_sink_count": 1,
+          "weak_local_optimum_count": 1
+        }
+      },
+      "objective_difficulty_gate_passed": false,
+      "passing_cohort_count": 0
+    }
+  },
+  "outputs": {
+    "candidate_manifest_csv": {
+      "path": "results/runs/stage31_pparg_objective_landscape_screen/candidate_manifest.csv",
+      "sha256": "8873BD6A4A75C903BAACDF0B9B5166D94516ED489109345CC140B09E1EE94234",
+      "size_bytes": 7584
+    },
+    "landscape_metrics_csv": {
+      "path": "results/runs/stage31_pparg_objective_landscape_screen/landscape_metrics.csv",
+      "sha256": "44EB40E9CF9D670281E197FA43760AC00A9152A052134399BA606C0CE9A72936",
+      "size_bytes": 3535
+    },
+    "local_optima_csv": {
+      "path": "results/runs/stage31_pparg_objective_landscape_screen/local_optima.csv",
+      "sha256": "F05C953BEFCE098C36DF700FFE8E372150D358C502C2E72487BE54AF4338475B",
+      "size_bytes": 1831
+    },
+    "report_md": {
+      "path": "reports/stage-31/pparg_objective_landscape_screen.md",
+      "sha256": "857D3BDD2DD22D2801662053F8F0742C64A96F161B1B3D926614B1B3EEEE5C9C",
+      "size_bytes": 845
+    }
+  },
+  "schema_version": "1.0",
+  "status": "stage31_pparg_objective_landscape_screen_complete"
+}

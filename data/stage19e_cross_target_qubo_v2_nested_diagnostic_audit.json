@@ -1,0 +1,39 @@
+{
+  "auditor": {
+    "path": "scripts/audit_stage19e_cross_target_qubo_v2.py",
+    "sha256": "247F3A64A54223DAF63D4BE4283842191A9A016EB2090DCEB81044ACD03D3C1D"
+  },
+  "checks": {
+    "all_input_and_output_hashes_verified": true,
+    "all_nested_alphas_reselected": true,
+    "all_outer_method_metrics_scalar_recomputed": true,
+    "all_paired_deltas_recomputed": true,
+    "bace1_amendment_authorized": false,
+    "bace1_docking_rows_read": 0,
+    "failed_gate_reproduced": true,
+    "fresh_validation_rows_read": 0,
+    "inner_scaffolds_fold_disjoint": true,
+    "outer_scaffolds_fold_disjoint": true,
+    "test_rows_read": 0
+  },
+  "config": {
+    "path": "configs/stage19e_cross_target_qubo_v2_nested_diagnostic.json",
+    "sha256": "E7CB41AC6909DD42A7964FC3842E15612D982CD67AFD57AE999A461871EC3B7D"
+  },
+  "coverage": {
+    "explicit_qubo_optima_reenumerated": 2,
+    "inner_assignment_count": 4092,
+    "inner_trial_count": 336,
+    "outer_alpha_trial_count": 112,
+    "outer_assignment_count": 1364,
+    "outer_method_count": 56,
+    "scalar_train_or_holdout_metric_sets_recomputed": 112,
+    "target_count": 2
+  },
+  "result": {
+    "path": "data/stage19e_cross_target_qubo_v2_nested_diagnostic_result.json",
+    "sha256": "68EC0BAE8B84E45907B78E4E309197823EFBAA7810552E49C39B1B23B67763BB"
+  },
+  "schema_version": "1.0",
+  "status": "stage19e_cross_target_qubo_v2_nested_diagnostic_audit_ok"
+}

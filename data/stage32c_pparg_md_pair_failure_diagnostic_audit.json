@@ -1,0 +1,50 @@
+{
+  "checks": {
+    "all_10_split_scenario_rows_verified": true,
+    "all_1576_ligand_diagnostics_verified": true,
+    "all_three_seed_direction_checks_recomputed": true,
+    "config_and_output_descriptors_verified": true,
+    "locked_test_docking_and_hardware_boundary_verified": true,
+    "nonselective_decoy_promotion_recomputed": true,
+    "primary_win_rates_and_improvements_recomputed": true,
+    "stage32b_audit_gate_verified": true,
+    "top1_and_top5_entry_exit_counts_recomputed": true
+  },
+  "config": {
+    "path": "configs/stage32c_pparg_md_pair_failure_diagnostic.json",
+    "sha256": "EF332F6BA3578F5C0025AB58BB82A50540275107E86612A1D65B27FB9BF3C161",
+    "size_bytes": 3892
+  },
+  "coverage": {
+    "ligand_count": 1576,
+    "maximum_recomputed_abs_difference": 1.3877787807814457e-17,
+    "scenario_row_count": 10
+  },
+  "data_boundary": {
+    "fresh_validation_rows_read": 1576,
+    "locked_test_rows_read": 0,
+    "new_docking_jobs": 0,
+    "quantum_hardware_jobs": 0,
+    "train_rows_read": 160
+  },
+  "decision": {
+    "locked_test_authorized": false,
+    "new_docking_authorized": false,
+    "quantum_hardware_authorized": false,
+    "replacement_tuning_on_validation_authorized": false,
+    "stop_frozen_min_aggregation_md_pair_efficacy_route": true
+  },
+  "interpretation_boundary": "Stage32c is a post-hoc explanation of a failed prospective validation. It may identify failure mechanisms and stop an unproductive route, but it cannot rescue Stage32b, select a new PPARG method, access locked-test rows, establish cross-target transfer, quantum execution, speedup, or quantum advantage.",
+  "mechanism": {
+    "mean_improvement_not_active_selective": true,
+    "nonselective_decoy_promotion": true,
+    "win_rate_not_active_selective": true
+  },
+  "result": {
+    "path": "data/stage32c_pparg_md_pair_failure_diagnostic_result.json",
+    "sha256": "22C6C6BE89704159C53582C903FC2EE9C93CDB2CEE2F5B6A7FD03DB1C797E3B6",
+    "size_bytes": 5008
+  },
+  "schema_version": "1.0",
+  "status": "stage32c_pparg_md_pair_failure_diagnostic_audit_ok"
+}

@@ -1,0 +1,111 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage70-stage68-constraint-aware-exact-penalty-qubo-encoding-20260806-v1",
+  "purpose": "Reduce the Stage69 scale-511 coefficient range without changing its frozen feasible portfolio problem by tightening slack support, using a transferable feasible upper bound for exact penalties, and applying fixed-k coefficient centering.",
+  "implementation": {
+    "runner": {
+      "path": "scripts/run_stage70_constraint_aware_qubo_encoding.py",
+      "sha256": "DBFE307C8502F2C28D07FD21C3093B6706FAA3A9712AEBA2260ABA9EDD172B8C"
+    },
+    "independent_auditor": {
+      "path": "scripts/audit_stage70_constraint_aware_qubo_encoding.py",
+      "sha256": "E4C07E223950B9BD49882B7D2AAF3BE6FC8344AD5FC7279D63CA478A0946DEF6"
+    }
+  },
+  "inputs": {
+    "stage64_config": {
+      "path": "configs/stage64_cross_target_uncertainty_shrunk_qubo.json",
+      "sha256": "F302FEA7CB2B22D39824A3433DC165FAE2E8E7D0A0A79C07AA73768F69AFB458"
+    },
+    "stage68_config": {
+      "path": "configs/stage68_quality_plateau_portfolio_qubo.json",
+      "sha256": "D3B7E784DEFA67D32D21E8E99EDDF4210C0E2E9DA6E96929D0A4CBA152AF5C6D"
+    },
+    "stage68_result": {
+      "path": "data/stage68_quality_plateau_portfolio_qubo_result.json",
+      "sha256": "FB5F87EB54CF616718B8BE1264A775E79AE3258AA69A121365C5F8D460A18408"
+    },
+    "stage68_audit": {
+      "path": "data/stage68_quality_plateau_portfolio_qubo_audit.json",
+      "sha256": "CB071C7FE1A5FD7E0F12D73693F95EA53BD0F411AC9247058A010442F4C12ABC"
+    },
+    "stage69_config": {
+      "path": "configs/stage69_qubo_precision_compression.json",
+      "sha256": "8E4905BF85859BC59106D5CDCDD985CD59D78BFC2AFADF0EC6663A46F15AE594"
+    },
+    "stage69_result": {
+      "path": "data/stage69_qubo_precision_compression_result.json",
+      "sha256": "4026C565134C20AB835CC7B38323DE33053DB24D4BCC0504741947265E87451F"
+    },
+    "stage69_audit": {
+      "path": "data/stage69_qubo_precision_compression_audit.json",
+      "sha256": "934B95731B4DB2FE997F636BC03ABC1E81EFE42BB173604D1BAD8CC42E020FDF"
+    },
+    "stage69_cell_metrics": {
+      "path": "results/runs/stage69_qubo_precision_compression/cell_metrics.csv",
+      "sha256": "A106669F5C424E4224737B2DA15273FA7B84A47DDE522E66BF229F8503BAC54D"
+    },
+    "stage69_scale_summary": {
+      "path": "results/runs/stage69_qubo_precision_compression/scale_summary.csv",
+      "sha256": "B126EDE0EDAA754F9CBAFAD52A2096451F2B1A60CA371D5A29EBC6A22C12A876"
+    }
+  },
+  "development": {
+    "target_order": ["BACE1", "PPARG", "PPARA", "PPARD"],
+    "outer_fold_count": 4,
+    "candidate_k_values": [2, 3, 4, 5, 6],
+    "bedroc_alpha": 20.0,
+    "jackknife_block_count": 4,
+    "jackknife_seed_base": 20260806,
+    "uncertainty_multiplier": 0.5
+  },
+  "encoding_screen": {
+    "algorithm_id": "stage68-quality-floor-tight-slack-centered-exact-penalty-qubo-v1",
+    "quality_integer_scale": 511,
+    "slack_weight_caps": [4, 8, 16, 32, 64],
+    "reference_model_k": 3,
+    "tight_slack_rule": "For fixed k, encode only 0 through D minus the sum of the k smallest integer deficits.",
+    "bounded_weight_rule": "Use complete binary-prefix weights followed by repeated cap weights and one remainder; every integer in the tight slack interval must remain representable.",
+    "penalty_rule": "Set both cardinality and quality penalties to the redundancy of the known feasible pair-off subset plus the frozen margin.",
+    "penalty_margin": 1.0,
+    "center_rule": "Search integer c from 0 through max_i d_i and minimize expanded coefficient dynamic range, then maximum absolute coefficient, then c. For cardinality-k states, replace d_i by d_i-c and D by D-kc exactly.",
+    "candidate_selection_rule": "Among candidates passing every gate, minimize worst-cell coefficient dynamic range, then logical variables, quadratic coefficients, and slack cap.",
+    "hardware_execution": false
+  },
+  "encoding_gate": {
+    "required_cell_count": 80,
+    "required_exact_penalty_certificate_count": 80,
+    "minimum_exact_subset_match_count_vs_continuous": 72,
+    "minimum_mean_subset_jaccard": 0.95,
+    "minimum_subset_jaccard": 0.5,
+    "maximum_mean_absolute_holdout_bedroc_gap": 0.002,
+    "maximum_absolute_holdout_bedroc_gap": 0.05,
+    "maximum_quality_floor_violation": 1e-12,
+    "minimum_analytic_invalid_state_gap": 0.999999999,
+    "maximum_factorized_energy_residual": 1e-8,
+    "maximum_logical_variable_count": 128,
+    "maximum_quadratic_coefficient_count": 6000,
+    "maximum_coefficient_dynamic_range": 500000.0,
+    "minimum_dynamic_range_improvement_factor": 2.0
+  },
+  "direct_qpu_gate": {
+    "maximum_coefficient_dynamic_range": 1000.0,
+    "interpretation": "This inherited conservative project gate is separate from logical encoding fidelity and is not a universal hardware specification."
+  },
+  "data_boundary": {
+    "historical_development_targets_permitted": ["BACE1", "PPARG", "PPARA", "PPARD"],
+    "fresh_validation_rows_permitted": 0,
+    "locked_test_rows_permitted": 0,
+    "new_docking_jobs_permitted": 0,
+    "quantum_hardware_jobs_permitted": 0
+  },
+  "outputs": {
+    "cell_metrics_csv": "results/runs/stage70_constraint_aware_qubo_encoding/cell_metrics.csv",
+    "candidate_summary_csv": "results/runs/stage70_constraint_aware_qubo_encoding/candidate_summary.csv",
+    "model_record_json": "data/stage70_constraint_aware_qubo_encoding_model_record.json",
+    "result_json": "data/stage70_constraint_aware_qubo_encoding_result.json",
+    "audit_json": "data/stage70_constraint_aware_qubo_encoding_audit.json",
+    "report_md": "reports/stage-70/constraint_aware_qubo_encoding.md"
+  },
+  "interpretation_boundary": "Stage70 is post-hoc encoding development on four consumed historical targets. A pass freezes only a logically equivalent scale-511 QUBO for coefficient-noise simulation. It cannot establish independent target efficacy, physical embedding feasibility, hardware sampling quality, solver speedup, or quantum advantage."
+}

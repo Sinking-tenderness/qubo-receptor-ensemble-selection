@@ -1,0 +1,79 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage107-parp1-contact-state-metadata-intake-20260813-v1",
+  "purpose": "Posthoc mechanism-guided but outcome-unseen PARP1 feasibility intake. Snapshot current public RCSB metadata to determine whether PARP1 has enough wild-type, noncovalent X-ray structures for one independently reviewed contact-state coverage protocol. This stage reads no PARP1 benchmark docking, validation, or test result.",
+  "rationale": {
+    "stage106_contact_state_audit": "data/stage106_cocrystal_contact_state_audit_result.json",
+    "interpretation": "Stage106 does not supply a fitted threshold. It only motivates checking whether an untouched target can support a predeclared co-crystal contact-state coverage rule. PARP1 was source-frozen before any PARP1 screening result was read."
+  },
+  "reused_discovery_logic": {
+    "path": "scripts/discover_stage17b_parp1_rcsb_candidates.py",
+    "sha256": "C6F44BE7642C8EB63AAB77C792B9D94AF29A5D2774BD3F70B246D38D66D806DE",
+    "dependencies": [
+      {
+        "path": "scripts/discover_stage13_external_target_rcsb_candidates.py",
+        "sha256": "4AC112D3AD34BD0E53B97AE0F716BC2C58DCF5EE575E68593FAD41132CECC248"
+      },
+      {
+        "path": "scripts/discover_mk14_rcsb_receptor_candidates.py",
+        "sha256": "970F964E3217D58D21B1E3B88FA6BDADE7EC42F24DC74B62B5D56502837808E6"
+      }
+    ]
+  },
+  "preregistration": {
+    "path": "configs/stage17_parp1_replacement_exploratory_preregistration.json",
+    "sha256": "B14056749CCE611B27CC265D13AA8AA8EB0A88FAED96954FDB0F990E97134DAE"
+  },
+  "source_audit": {
+    "path": "data/stage17a_parp1_source_and_active_allocation_summary.json",
+    "sha256": "06B1D768D05B9BA4B59572E35FBDF77B05A715BBF6C792CF4F4F9F3BCD2B9859"
+  },
+  "retrieved_on": "2026-08-13",
+  "runtime": {
+    "conda_environment": "qubo-receptor-ensemble",
+    "python_version": "3.11.15"
+  },
+  "discovery_rules": {
+    "experimental_method": "X-RAY DIFFRACTION",
+    "minimum_metadata_eligible_count": 25,
+    "metadata_eligibility": {
+      "required_mutation_count": 0,
+      "maximum_resolution_angstrom": 2.5,
+      "minimum_reference_sequence_coverage": 0.65,
+      "minimum_sample_sequence_length": 300,
+      "maximum_sample_sequence_length": 400,
+      "require_same_chain_drug_like_nonpolymer": true,
+      "minimum_nonpolymer_formula_weight_kda": 0.15,
+      "maximum_nonpolymer_formula_weight_kda": 0.9,
+      "excluded_nonpolymer_ids": ["ACT", "ADP", "AMP", "ATP", "BME", "CA", "CD", "CIT", "CL", "CO", "DMS", "EDO", "FLC", "GOL", "K", "MES", "MG", "MN", "MPD", "NA", "NI", "PEG", "PG4", "PGE", "PO4", "SO4", "TRS", "ZN"],
+      "excluded_title_patterns": ["\\bapo\\b", "unliganded", "covalent", "irreversible", "mutant", "mutation"]
+    }
+  },
+  "rcsb": {
+    "search_endpoint": "https://search.rcsb.org/rcsbsearch/v2/query",
+    "graphql_endpoint": "https://data.rcsb.org/graphql",
+    "metadata_chunk_size": 40,
+    "request_timeout_seconds": 60,
+    "maximum_retries": 4,
+    "retry_backoff_seconds": 1.0
+  },
+  "data_boundary": {
+    "parp1_coordinate_downloads": 0,
+    "parp1_individual_ligand_rows_read": 0,
+    "parp1_benchmark_docking_scores_read": 0,
+    "parp1_fresh_validation_rows_read": 0,
+    "parp1_locked_test_rows_read": 0,
+    "new_docking_jobs": 0,
+    "quantum_hardware_jobs": 0
+  },
+  "outputs": {
+    "search_snapshot_json": "data/raw/rcsb/parp1/stage107_p09874_xray_search_snapshot_20260813.json",
+    "metadata_snapshot_json": "data/raw/rcsb/parp1/stage107_p09874_xray_metadata_snapshot_20260813.json",
+    "candidate_metadata_csv": "data/processed/stage107_parp1_rcsb_candidate_metadata.csv",
+    "eligible_candidates_csv": "data/processed/stage107_parp1_rcsb_metadata_eligible_candidates.csv",
+    "summary_json": "data/stage107_parp1_contact_state_metadata_intake_result.json",
+    "report_md": "reports/stage-107/parp1_contact_state_metadata_intake.md",
+    "audit_json": "data/stage107_parp1_contact_state_metadata_intake_audit.json"
+  },
+  "decision_rule": "The legacy PARP1 reference 3L3M must itself pass the frozen wild-type and coverage metadata rules. If it fails, record No-Go before coordinate download; do not relax the rule within this stage. A separate public-metadata survey may later assess whether a new reference frame could support a wholly new protocol."
+}

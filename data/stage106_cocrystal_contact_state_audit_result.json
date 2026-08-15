@@ -1,0 +1,178 @@
+{
+  "schema_version": "1.0",
+  "status": "stage106_cocrystal_contact_state_audit_complete",
+  "evidence_status": "posthoc two-target feasibility audit; no independent confirmation and no trained selection rule.",
+  "target_records": {
+    "EGFR": {
+      "receptors": [
+        "EGFR_9KL4_aligned",
+        "EGFR_7KXZ_aligned",
+        "EGFR_9FRD_aligned",
+        "EGFR_4I23_aligned",
+        "EGFR_3W2S_aligned",
+        "EGFR_5CAV_aligned",
+        "EGFR_3W32_aligned",
+        "EGFR_8F1Z_aligned",
+        "EGFR_3POZ_aligned",
+        "EGFR_7U9A_aligned",
+        "EGFR_3W33_aligned",
+        "EGFR_9QXN_aligned"
+      ],
+      "protein_hashes": {
+        "EGFR_9KL4_aligned": "3B6EB13EEC13C00C41CE40F7A8778A0198EBC52827D3C7D0FD3BBEA9DB123FBC",
+        "EGFR_7KXZ_aligned": "965754C4B7A46B33D1615D3E096375E521985A898E939DE9476546DD970BA054",
+        "EGFR_9FRD_aligned": "5CBCA801A4211BD68717EC733850CA47780745053380E68409776F5E1266CFFE",
+        "EGFR_4I23_aligned": "77472ED999330B3FB085380294C100D40388608D8889D5CBED3E7101CA524DA5",
+        "EGFR_3W2S_aligned": "54E18AA3D95A08A86AF037014D9BB50ECF9B068B34C35842878B35EE873BC106",
+        "EGFR_5CAV_aligned": "D49B1AB938E7470769FFB4504AD1287F9754944B7EB47B3E8CBDB82FA6306801",
+        "EGFR_3W32_aligned": "DDCAC2FF4DFC2A52F2869F34AC9F4D6C3DB67AB6833670F74B3DA98E2DB5013E",
+        "EGFR_8F1Z_aligned": "E975156E5413BFF6EB751CAC7401B682F12BCE0EECFA5B8DF65CB65879EE26A4",
+        "EGFR_3POZ_aligned": "B1C4116B8DE5B6FD1B2F9D2311012AC622BA9F15064CF989238DEC2D537E9181",
+        "EGFR_7U9A_aligned": "61E1E2A201FB920A467B374371E009186D6AC60EC547A781DFD2A9AA8FE67358",
+        "EGFR_3W33_aligned": "02DE2D02E65D5F6FB28ADEBF9FE6AF787C70CC18203A4623BBD73E226895CB48",
+        "EGFR_9QXN_aligned": "BB8921AA689DEC6F1153A908868AA304F968705360175A65295AF812C5A36E04"
+      },
+      "ligand_hashes": {
+        "EGFR_9KL4_aligned": "D71559BC3B15B13E51EA84D3B1928CE581F61DC927A80A9C63ECE072CF86525A",
+        "EGFR_7KXZ_aligned": "B228C262D5CC664218300BF99E09F94B367193BFCE1080191CD45F5F9EA61D0A",
+        "EGFR_9FRD_aligned": "17D65A715FB6E4FF16D6E91BCBEC922F81D25BE9EE56BE5307D5331FE518E252",
+        "EGFR_4I23_aligned": "1642FDBA7BA78D0A5563FD895278394D646D2366DF66DDC1A376AA0737EA37C8",
+        "EGFR_3W2S_aligned": "4C9D54716177BA41B810FC0BE5C59D32CBF892CB1330C9A2E8F8750606150734",
+        "EGFR_5CAV_aligned": "56F32FE1A2E29A4DBB4937A0B53D663D68DA079E48578BF0BF4DC280D65B9AA5",
+        "EGFR_3W32_aligned": "A475B9104BB960AC3777A5BD0413BA11988C35C002A7BFFF07D4144870E82993",
+        "EGFR_8F1Z_aligned": "7472D694D5FB57F94E192FBB604C409C3F6E9F0C805935B9BF860932E8AB0B73",
+        "EGFR_3POZ_aligned": "710DAD90B96EA672D1ED5A2A119D8CBA19F5F6CC9C3C81E83139E75BACB1A7D2",
+        "EGFR_7U9A_aligned": "88293E2756D1B4993E82361D19BED236FE900FD6F05A377FDAB0C3E4525D4E20",
+        "EGFR_3W33_aligned": "9895C48F4D18997BD9C56CAFCFB251CB1090DAA9BE0F193F1C8F513B9B6E895B",
+        "EGFR_9QXN_aligned": "FCB99BE6800C452ECB819289264AC273DD019E32DDD95C8D51364FB4B823F0A3"
+      },
+      "pair_count": 66
+    },
+    "FA10": {
+      "receptors": [
+        "FA10_3KL6_reference",
+        "FA10_1LPK_aligned",
+        "FA10_1KSN_aligned",
+        "FA10_2WYJ_aligned",
+        "FA10_2PHB_aligned",
+        "FA10_1EZQ_aligned",
+        "FA10_5K0H_aligned",
+        "FA10_4A7I_aligned",
+        "FA10_2W3K_aligned",
+        "FA10_1NFU_aligned",
+        "FA10_1F0R_aligned",
+        "FA10_2Y81_aligned",
+        "FA10_1LPZ_aligned"
+      ],
+      "protein_hashes": {
+        "FA10_3KL6_reference": "E258D95EDD8E2C47EBDE8694ACD59A12202F2A379461BA3CD82B3463B9B7CB70",
+        "FA10_1LPK_aligned": "276661DEA68FE5376E9FE6EBBBF1E737936395FD09EB8AEAE0C24D8D747B1F5E",
+        "FA10_1KSN_aligned": "839A64E1CB9D6B626AFDF88CF343C687C43B479ABA28BECB639ABBD5CB74E4EC",
+        "FA10_2WYJ_aligned": "29B05617D7E42C4B2CDA19376213A4ACF969A4BA2028ECAE9D10F19037550600",
+        "FA10_2PHB_aligned": "03D4039F04F77F8EBA106ED4BDB07D014EDB5943021533989A85A2C8B930B001",
+        "FA10_1EZQ_aligned": "388385B72D989A2090AB38D811A14F1306CA76517246F99ACB93A2CA26980D6C",
+        "FA10_5K0H_aligned": "3CEAC6480ED9D5E9FA3D50BC91FADA42A0B44E0C363DC35509D08932971B990B",
+        "FA10_4A7I_aligned": "0D7B4480FA4E70D04B02050EBAEB23E083CB76986BB3E12C856DE9E64041180D",
+        "FA10_2W3K_aligned": "8CE0A9B1F95E6087694E0A279A17697622F06974F7767576F3D648736D7098CC",
+        "FA10_1NFU_aligned": "AAE1F5EBD0B1E7DE4032621D7B27B16410F4437CD63720A6929E75BC772E700B",
+        "FA10_1F0R_aligned": "B2C3A3E3C633103D4DB1F08EB7C7500B5BBBC9D5874D75CE87937513B662FAE2",
+        "FA10_2Y81_aligned": "891D199C6901D3F2883D662A78A8622B23AD0ED9CB752EC846565E0589CB7B8C",
+        "FA10_1LPZ_aligned": "8724F972B4221117168838CB4FF44FEE3254559C5CDBE3D15C0D87829ADC25F4"
+      },
+      "ligand_hashes": {
+        "FA10_3KL6_reference": "2CAAB6C23E164887D4CEE0C727B694943D7046B48B42ADDBF01DB7DEE9778923",
+        "FA10_1LPK_aligned": "4CD18B35DFC80EED0A09760D169F5A42250D5C10ED8CB476700EB0DC706DD0CA",
+        "FA10_1KSN_aligned": "C73CD88D72FB41C7C2F916157C9BACE46E3C9276A5F17431A6B5C8C81DD73752",
+        "FA10_2WYJ_aligned": "54117FD967C6BB08CC3DD7F428A8907EB3098DCDC57D0020A18FEC25D692F31C",
+        "FA10_2PHB_aligned": "3DF30552BAA73F69051A383559AFC18DD2A41DD9375602BD96AD89F44348A056",
+        "FA10_1EZQ_aligned": "CA0F4CFDCD1D477E135F9A6B9818CC5E0635F0EC16CBCA918C0E753AA031D9C0",
+        "FA10_5K0H_aligned": "0A692C9060E320670C02BAC9556F77B7DA0F7BD53C8EC3B312487525C4A83655",
+        "FA10_4A7I_aligned": "A04FBD7685C6C152EB9250822262DF1E692B8B953CB18D2C48DD961994D582DA",
+        "FA10_2W3K_aligned": "5285B229D57171CB0FEFA0287358666BD9C3C0E5A27E72369C4C3D969BD0C87A",
+        "FA10_1NFU_aligned": "88006D67F10AF56601194CED2A870FC6588BC7CBD5291430F8F0F691650C3DDA",
+        "FA10_1F0R_aligned": "7F1642D6931218F9AB7A6971F5627087482A2AFA775B424E989011656167D4BC",
+        "FA10_2Y81_aligned": "78E278356667505D49D526FCBF3BB19749C3CB8B7D0942E2C282F58BBB8EED08",
+        "FA10_1LPZ_aligned": "BDDC7452430C5EAC284B944F81E097D39AF261B3A9F693AE5772BE96522473A9"
+      },
+      "pair_count": 78
+    }
+  },
+  "focal_pairs": {
+    "FA10_positive": {
+      "target_id": "FA10",
+      "receptor_i": "FA10_2PHB_aligned",
+      "receptor_j": "FA10_5K0H_aligned",
+      "structural_distance": 1.4118361675677116,
+      "structural_distance_percentile_all_pool": 0.3684210526315789,
+      "contact_jaccard_distance": 0.375,
+      "contact_intersection_count": 15,
+      "contact_union_count": 24,
+      "cocrystal_ligand_heavy_atom_count_difference": 4,
+      "stage102a_fixed_k2_selection_count": 5,
+      "stage102a_fixed_k2_mean_outer_gain": 0.032420914471150655,
+      "stage102a_fixed_k2_min_outer_gain": 0.003012291658871402,
+      "stage102a_fixed_k2_all_gains": "0.0421246272968|0.00301229165887|0.0229630993233|0.0611726563765|0.0328318977003"
+    },
+    "EGFR_recurrent_negative": {
+      "target_id": "EGFR",
+      "receptor_i": "EGFR_3W32_aligned",
+      "receptor_j": "EGFR_3POZ_aligned",
+      "structural_distance": 1.0909591938710894,
+      "structural_distance_percentile_all_pool": 0.1753846153846154,
+      "contact_jaccard_distance": 0.25,
+      "contact_intersection_count": 18,
+      "contact_union_count": 24,
+      "cocrystal_ligand_heavy_atom_count_difference": 1,
+      "stage102a_fixed_k2_selection_count": 3,
+      "stage102a_fixed_k2_mean_outer_gain": -0.05224020749979646,
+      "stage102a_fixed_k2_min_outer_gain": -0.08295944426294402,
+      "stage102a_fixed_k2_all_gains": "-0.0829594442629|0.00730201627521|-0.0810631945117"
+    }
+  },
+  "target_summary": [
+    {
+      "target_id": "EGFR",
+      "receptor_count": 12,
+      "all_pair_count": 66,
+      "fixed_k2_observed_pair_count": 2,
+      "positive_observed_pair_count": 1,
+      "maximum_observed_pair_gain": 0.008035299408290786,
+      "maximum_observed_pair_contact_jaccard_distance": 0.25,
+      "mean_observed_pair_contact_jaccard_distance": 0.23369565217391303,
+      "spearman_observed_pair_gain_vs_contact_distance": null,
+      "spearman_observed_pair_gain_vs_structural_distance": null
+    },
+    {
+      "target_id": "FA10",
+      "receptor_count": 13,
+      "all_pair_count": 78,
+      "fixed_k2_observed_pair_count": 1,
+      "positive_observed_pair_count": 1,
+      "maximum_observed_pair_gain": 0.032420914471150655,
+      "maximum_observed_pair_contact_jaccard_distance": 0.375,
+      "mean_observed_pair_contact_jaccard_distance": 0.375,
+      "spearman_observed_pair_gain_vs_contact_distance": null,
+      "spearman_observed_pair_gain_vs_structural_distance": null
+    }
+  ],
+  "feasibility": {
+    "fa10_positive_pair_has_all_positive_observed_gains": true,
+    "fa10_positive_pair_is_not_selected_for_extreme_structural_distance": true,
+    "contact_state_signal_is_not_authorized_as_predictor": true,
+    "reason": "Only two targets and a small number of observed fixed-k2 pair identities are available. This stage can identify a plausible external feature family, not estimate a deployable threshold or QUBO coefficient."
+  },
+  "data_boundary": {
+    "new_docking_jobs": 0,
+    "new_structure_downloads": 0,
+    "parp1_benchmark_docking_scores_read": 0,
+    "parp1_fresh_validation_rows_read": 0,
+    "parp1_locked_test_rows_read": 0,
+    "quantum_hardware_jobs": 0
+  },
+  "decision": {
+    "new_target_protocol_authorized": false,
+    "parp1_released": false,
+    "quantum_hardware_authorized": false,
+    "next_action": "Do not fit a contact-diversity threshold or retune a QUBO on EGFR/FA10. Use the contact-state record only to specify an independently reviewed untouched-target protocol, including a predeclared structural-state rule and a classical baseline."
+  }
+}

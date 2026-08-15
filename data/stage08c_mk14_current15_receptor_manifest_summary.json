@@ -1,0 +1,45 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage08c-mk14-current15-admitted-receptor-manifest-v1",
+  "status": "stage08c_current15_manifest_ok",
+  "config": {
+    "path": "configs/stage08c_mk14_current15_manifest_build.json",
+    "sha256": "ACA554B18087E4B8652D41CC5BE883417D59AB0EDB83E4466061E127F1C64144"
+  },
+  "current_receptor_count": 15,
+  "current_receptor_ids": [
+    "MK14_2QD9_reference",
+    "MK14_1A9U_aligned",
+    "MK14_3K3J_aligned",
+    "MK14_3KQ7_aligned",
+    "MK14_2BAJ_aligned",
+    "MK14_4F9W_aligned",
+    "MK14_3OCG_aligned",
+    "MK14_3MPT_aligned",
+    "MK14_3ZSI_aligned",
+    "MK14_5N65_aligned",
+    "MK14_3ZSG_aligned",
+    "MK14_3BV2_aligned",
+    "MK14_4FA2_aligned",
+    "MK14_4AAC_aligned",
+    "MK14_3ITZ_aligned"
+  ],
+  "excluded_receptor_ids": [
+    "MK14_3ZSH_aligned",
+    "MK14_2GFS_aligned",
+    "MK14_2BAK_aligned"
+  ],
+  "data_boundary": {
+    "benchmark_ligand_labels_read": 0,
+    "benchmark_docking_scores_read": 0,
+    "previous_validation_rows_read": 0,
+    "test_rows_read": 0
+  },
+  "outputs": {
+    "current_receptor_manifest_csv": {
+      "path": "data/processed/stage08c_mk14_current15_receptor_manifest.csv",
+      "sha256": "E783D9FC79585934F546495D8721EBA2A4E4FB20C74920B2CEDEF42553ED0457"
+    }
+  },
+  "next_gate": "select one nonredundant structural replacement and run the unchanged three-seed cognate-redocking gate"
+}

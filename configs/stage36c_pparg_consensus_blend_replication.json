@@ -1,0 +1,57 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage36c-pparg-consensus-blend-replication-20260803-v1",
+  "purpose": "Prospectively test one frozen blend of triple coarse-state support and hierarchical double-state support on temporal-rank cohorts not used by Stage31, Stage36, or Stage36b.",
+  "trigger": "Stage36b produced a greedy gap for coarse-triple support in one development cohort and for hierarchical-double support in a different cohort, motivating one equal-weight blend rather than post-hoc weight search.",
+  "evidence_timing": {
+    "experiment_class": "prospective_heldout_structure_only_objective_replication",
+    "stage36c_outcomes_known_before_freeze": false,
+    "development_ranks_seen": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
+    "replication_ranks_seen_before_freeze": false,
+    "docking_scores_permitted": false,
+    "ligand_labels_permitted": false,
+    "fresh_validation_rows_permitted": false,
+    "test_rows_permitted": false,
+    "new_docking_jobs": false,
+    "quantum_hardware_execution": false
+  },
+  "inputs": {
+    "stage36b_config": "configs/stage36b_pparg_start_centered_consensus_landscape.json",
+    "stage36b_result": "data/stage36b_pparg_start_centered_consensus_landscape_result.json",
+    "feature_archive": "results/runs/stage28b_pparg_md_ready_multistart_md/ensemble/pocket_features.npz"
+  },
+  "replication_cohorts": [
+    {"cohort_id": "heldout_temporal_rank_12_15", "within_start_temporal_maximin_ranks": [12, 13, 14, 15]},
+    {"cohort_id": "heldout_temporal_rank_16_19", "within_start_temporal_maximin_ranks": [16, 17, 18, 19]},
+    {"cohort_id": "heldout_temporal_rank_20_23", "within_start_temporal_maximin_ranks": [20, 21, 22, 23]}
+  ],
+  "primary_objective": {
+    "objective_id": "consensus_support_blend_v1",
+    "derivation": "equal-weight average of the Stage36b coarse_triple_supported_portfolio and hierarchical_double_consensus objectives",
+    "formula": "0.175*triple_supported_state8 + 0.125*double_supported_state8 + 0.275*double_supported_state16 + 0.10*single_state32 + 0.10*supported_frame_fraction32 + 0.125*mean_pair_distance + 0.10*mean_within_start_centrality"
+  },
+  "diagnostic_controls": ["coarse_triple_supported_portfolio", "hierarchical_double_consensus"],
+  "landscape": {
+    "state_count_per_cohort": 65536,
+    "feasible_state_rule": "choose exactly one of four candidates from each of eight MD starts",
+    "strong_greedy": "best of sixteen cyclic start orders followed by exact deterministic best-improvement"
+  },
+  "difficulty_gate": {
+    "minimum_absolute_greedy_gap": 0.0001,
+    "minimum_normalized_greedy_gap": 0.001,
+    "minimum_strict_local_optimum_count": 4,
+    "maximum_global_optimum_basin_fraction": 0.50,
+    "minimum_passing_replication_cohorts": 2,
+    "required_replication_cohort_count": 3,
+    "objective_tie_tolerance": 1e-12
+  },
+  "outputs": {
+    "candidate_manifest_csv": "results/runs/stage36c_pparg_consensus_blend_replication/candidate_manifest.csv",
+    "landscape_metrics_csv": "results/runs/stage36c_pparg_consensus_blend_replication/landscape_metrics.csv",
+    "local_optima_csv": "results/runs/stage36c_pparg_consensus_blend_replication/local_optima.csv",
+    "result_json": "data/stage36c_pparg_consensus_blend_replication_result.json",
+    "audit_json": "data/stage36c_pparg_consensus_blend_replication_audit.json",
+    "report_md": "reports/stage-36c/pparg_consensus_blend_replication.md"
+  },
+  "interpretation_boundary": "Stage36c can establish whether one frozen consensus-support objective reproduces a strong-greedy gap and nontrivial exact landscape on three untouched PPARG temporal cohorts. Passing authorizes sparse-QUBO encoding and scaling, not docking efficacy, cross-protein generalization, hardware readiness, speedup, or quantum advantage."
+}

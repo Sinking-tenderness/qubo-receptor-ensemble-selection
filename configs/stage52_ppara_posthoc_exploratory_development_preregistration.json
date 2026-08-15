@@ -1,0 +1,124 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage52-ppara-posthoc-exploratory-development-20260804-v1",
+  "analysis_class": "post-hoc exploratory development-only",
+  "purpose": "Generate a complete three-seed Uni-Dock development matrix for the frozen 20 Stage51-passing PPARA receptors and the frozen Train-374 panel, then test large-pool receptor-selection methods without accessing validation or test data.",
+  "authorization": {
+    "source": "Stage51b frozen exploratory branch gate",
+    "stage51_confirmatory_gate_pass": false,
+    "stage51_confirmatory_status_can_be_changed": false,
+    "exploratory_branch_candidate": true,
+    "confirmatory_development_route_authorized": false
+  },
+  "inputs": {
+    "stage51_gate_results": {
+      "path": "data/processed/stage51_ppara_large_pool_receptor_gate_results.csv",
+      "sha256": "17EDDBB2757BDAE6C25DEB2FB283DE541D2F8B7214D7551E1C3AF3D88816E429"
+    },
+    "stage51b_result": {
+      "path": "data/stage51b_ppara_redocking_bias_diagnostic_result.json",
+      "sha256": "92FA6DBE47D3104E1411707D35DD7DE06820B15DF91CDD6C35FB0AFC740C70BE"
+    },
+    "stage51b_audit": {
+      "path": "data/stage51b_ppara_redocking_bias_diagnostic_audit.json",
+      "sha256": "03BB66E17C76E08A21F18BAFB7E51F978E02A12C5EBD6CE03CC9AAF618203D18"
+    },
+    "panel_allocation_summary": {
+      "path": "data/stage49_ppara_ligand_panel_allocation_summary.json",
+      "sha256": "3026A577248597468A64773C7F05E666D43509E9CE6874860F891848EC4A24F7"
+    },
+    "train_manifest": {
+      "path": "data/processed/stage49_ppara_train374_ligand_manifest.csv",
+      "sha256": "6C3648B107E4907ACDD13E5CD00DB4FE6CE13566E4E0861CB336521B70F658A6"
+    }
+  },
+  "frozen_receptors": {
+    "selection_rule": "all and only Stage51 receptor_gate_results rows with gate_pass=True, preserving Stage51 order; no structural max-min compression",
+    "receptor_count": 20,
+    "stable_three_of_three_count": 18,
+    "two_of_three_count": 2,
+    "receptor_ids": [
+      "PPARA_2P54_reference",
+      "PPARA_5HYK_aligned",
+      "PPARA_6KXX_aligned",
+      "PPARA_3G8I_aligned",
+      "PPARA_3ET1_aligned",
+      "PPARA_8RCE_aligned",
+      "PPARA_8YU8_aligned",
+      "PPARA_6KXY_aligned",
+      "PPARA_7E5H_aligned",
+      "PPARA_8YTL_aligned",
+      "PPARA_8YWU_aligned",
+      "PPARA_8YT6_aligned",
+      "PPARA_6KAZ_aligned",
+      "PPARA_3VI8_aligned",
+      "PPARA_8YT9_aligned",
+      "PPARA_2ZNN_aligned",
+      "PPARA_8YWV_aligned",
+      "PPARA_6KB5_aligned",
+      "PPARA_7BQ2_aligned",
+      "PPARA_7E5I_aligned"
+    ],
+    "two_of_three_receptor_ids": [
+      "PPARA_3G8I_aligned",
+      "PPARA_6KB5_aligned"
+    ]
+  },
+  "development_panel": {
+    "split": "train",
+    "selection_role": "development_train",
+    "active_count": 187,
+    "decoy_count": 187,
+    "ligand_count": 374,
+    "fresh_validation_ligand_count": 0,
+    "locked_test_ligand_count": 0
+  },
+  "production": {
+    "seed_aggregation": "median affinity for each receptor-ligand pair across the three frozen seeds",
+    "seeds": [
+      {"seed_id": "seed0", "base_seed": 20260801},
+      {"seed_id": "seed1", "base_seed": 20260802},
+      {"seed_id": "seed2", "base_seed": 20260803}
+    ],
+    "receptor_count": 20,
+    "ligand_count": 374,
+    "seed_count": 3,
+    "expected_receptor_ligand_seed_count": 22440,
+    "unidock_profile": {
+      "required_package_version": "1.1.3",
+      "profile_id": "enhanced",
+      "scoring": "vina",
+      "exhaustiveness": 1024,
+      "max_step": 80,
+      "refine_step": 5,
+      "num_modes": 1,
+      "energy_range": 3,
+      "cuda_visible_devices": "0"
+    }
+  },
+  "future_method_comparison": {
+    "primary_metric": "BEDROC",
+    "bedroc_alpha": 20.0,
+    "secondary_metrics": ["ROC-AUC", "PR-AUC", "EF1%", "EF5%"],
+    "required_baselines": [
+      "single receptor",
+      "all receptors",
+      "linear Top-k",
+      "direct greedy",
+      "nested greedy",
+      "exact classical optimization where tractable",
+      "random subset",
+      "frozen QUBO objectives"
+    ],
+    "primary_claim_scope": "exploratory development performance only"
+  },
+  "data_boundary": {
+    "allowed_split": "train",
+    "fresh_validation_rows_read": 0,
+    "locked_test_rows_read": 0,
+    "fresh_validation_docking_jobs": 0,
+    "locked_test_docking_jobs": 0,
+    "quantum_hardware_jobs": 0
+  },
+  "decision_boundary": "Stage52 cannot repair the failed Stage51 PPARA confirmation. A favorable development result may justify a new independently preregistered target or a separately released validation experiment, but cannot establish QUBO superiority, quantum speedup, or quantum advantage by itself."
+}

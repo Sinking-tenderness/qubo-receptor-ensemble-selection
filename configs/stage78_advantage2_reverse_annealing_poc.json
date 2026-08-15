@@ -1,0 +1,206 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage78-advantage2-reverse-annealing-poc-freeze-20260807-v1",
+  "purpose": "Freeze, solve, audit, and package a minimal Advantage2 reverse-annealing proof of concept from the passing Stage77 local swap-BQM gate, stopping before any external Leap query or paid QPU sampling.",
+  "implementation": {
+    "runner": {
+      "path": "scripts/prepare_stage78_advantage2_reverse_annealing_poc.py",
+      "sha256": "E049D46856ABCAADA4386883B04691786B35403844E1F7462797874C93E254A0",
+      "size_bytes": 28281
+    },
+    "independent_auditor": {
+      "path": "scripts/audit_stage78_advantage2_reverse_annealing_poc.py",
+      "sha256": "256FFD6E87097A9D7A947B106D1A35D291033FC57439CA6C2E7D6B95E0923E84",
+      "size_bytes": 12710
+    },
+    "hardware_executor": {
+      "path": "scripts/experimental/quantum/run_stage78_advantage2_reverse_annealing_poc.py",
+      "sha256": "13F60B97FF1B15EE8FE639F47846AED34F5B22404C44190F23669EE3ADD9E295",
+      "size_bytes": 45545
+    }
+  },
+  "inputs": {
+    "stage77_config": {
+      "path": "configs/stage77_quantum_hardware_interface_gate.json",
+      "sha256": "FE94CC1AA3C261F2C1FB5E00628A97495D1DD24AFC53750B3F0A7D6C55181F0F",
+      "size_bytes": 12949
+    },
+    "stage77_result": {
+      "path": "data/stage77_quantum_hardware_interface_gate_result.json",
+      "sha256": "402F16018342AF49287671DE2175988D6351D963A9E5D645FC0FBD5972033D8A",
+      "size_bytes": 13886
+    },
+    "stage77_audit": {
+      "path": "data/stage77_quantum_hardware_interface_gate_audit.json",
+      "sha256": "0238655D0C6F53E56B6E92F8AA6207E5914B3E5A29D407FBD033C731B4DD61C8",
+      "size_bytes": 771
+    },
+    "stage77_local_metrics": {
+      "path": "results/runs/stage77_quantum_hardware_interface_gate/local_swap_bqm_metrics.csv",
+      "sha256": "6CA8B1A3F4CBD00A5B695FE78526D2494392845AEC3363D4D7A05C1DAE6157D0",
+      "size_bytes": 186700
+    }
+  },
+  "instance_freeze": {
+    "canonical_reward_quantile": 0.5,
+    "reward_quantile_independence_rule": "Use q=0.5 only. Fixed-k reward quantiles are repeated encodings, not independent physical instances.",
+    "positive_rule": "Freeze every unique canonical fixed-k Stage77 instance whose best strict single-move improvement remains resolvable at four Q10 LSBs.",
+    "calibration_assignment": "Use only the sub-resolution PPARG diagnostic for hardware parameter calibration; keep both hardware-resolvable PPARG positives untouched until confirmation.",
+    "negative_control_targets": [
+      "BACE1",
+      "PPARA",
+      "PPARD"
+    ],
+    "negative_rule": "For each target choose a canonical nonimproving instance by maximum logical-variable count, then largest k, then lowest outer-fold and source index. These are difficult size-matched controls, not easy empty models.",
+    "subresolution_rule": "Freeze the one canonical strict-improvement instance that failed the Stage77 Q10 resolution gate as the hardware-only calibration panel; it is excluded from confirmation endpoints.",
+    "required_positive_instance_count": 2,
+    "required_negative_control_count": 3,
+    "required_subresolution_diagnostic_count": 1,
+    "required_paid_run_instance_count": 6
+  },
+  "exact_reference": {
+    "solver": "scipy.optimize.milp with HiGHS",
+    "formulation": "Linearize every nonzero BQM product with binary McCormick constraints and enforce all remove/add conflicts explicitly.",
+    "time_limit_seconds": 120.0,
+    "mip_relative_gap": 0.0,
+    "wall_clock_used_for_decision": false
+  },
+  "classical_controls": {
+    "methods": [
+      "cold_simulated_annealing",
+      "warm_simulated_annealing",
+      "warm_tabu",
+      "warm_steepest_descent"
+    ],
+    "repeats": 4,
+    "sa_reads_per_repeat": 128,
+    "sa_sweeps_per_read": 1000,
+    "tabu_reads_per_repeat": 16,
+    "tabu_timeout_milliseconds": 50,
+    "seed_base": 202678000,
+    "purpose": "Establish local solution-quality controls and exact targets before hardware. Runtime is not used for a speedup claim."
+  },
+  "hardware_protocol": {
+    "provider": "D-Wave Leap",
+    "preferred_solver_family": "Advantage2",
+    "solver_selector": {
+      "topology__type": "zephyr"
+    },
+    "minimum_solver_qubit_count": 4000,
+    "required_qpu_parameters": [
+      "initial_state",
+      "anneal_schedule",
+      "reinitialize_state",
+      "num_reads",
+      "answer_mode"
+    ],
+    "required_solver_properties": [
+      "topology",
+      "num_qubits",
+      "graph_id",
+      "annealing_time_range",
+      "max_anneal_schedule_points",
+      "h_range",
+      "extended_j_range",
+      "per_group_coupling_range"
+    ],
+    "actual_embedding_gate": {
+      "maximum_chain_length": 6,
+      "maximum_physical_qubit_count": 300,
+      "failure_action": "Stop before QPU sampling and return the working-graph diagnostics."
+    },
+    "preflight": {
+      "operation": "Query the live solver properties and working graph, verify reverse-anneal parameters, and freeze K38/K40 clique embeddings.",
+      "embedding_count": 2,
+      "embedding_random_seeds": [
+        20267801,
+        20267802,
+        20267803,
+        20267804,
+        20267805,
+        20267806
+      ],
+      "embedding_timeout_seconds": 60,
+      "embedding_tries": 20,
+      "qpu_sampling": false,
+      "paid_execution_acknowledgement_required": false
+    },
+    "calibration": {
+      "instance_role": "calibration_diagnostic",
+      "chain_strength_prefactors": [
+        0.75,
+        1.25,
+        1.75
+      ],
+      "reverse_s_minimum_values": [
+        0.35,
+        0.45,
+        0.55
+      ],
+      "pause_microseconds": [
+        20.0,
+        100.0
+      ],
+      "ramp_microseconds": 5.0,
+      "gauge_count": 4,
+      "reads_per_gauge": 100,
+      "gauge_seed_base": 202678100,
+      "candidate_condition_count": 18,
+      "planned_qpu_job_count": 72,
+      "planned_qpu_read_count": 7200,
+      "selection_order": "Highest intact-chain fraction, lowest guarded logical energy, greatest cross-gauge stability, lowest chain prefactor, shallowest reverse depth, shortest pause. Confirmation-positive outcomes remain unread."
+    },
+    "confirmation": {
+      "default_instance_roles": [
+        "confirmation_positive",
+        "confirmation_negative"
+      ],
+      "modes": [
+        "reverse",
+        "forward"
+      ],
+      "embedding_count": 2,
+      "gauge_count": 8,
+      "reads_per_gauge": 100,
+      "gauge_seed_base": 202678500,
+      "planned_default_instance_count": 5,
+      "planned_qpu_job_count": 160,
+      "planned_qpu_read_count": 16000,
+      "primary_confirmation_set": "Both independent PPARG confirmation-positive instances plus one hard negative from each of BACE1, PPARA, and PPARD.",
+      "primary_endpoint": "Each positive must recover a certified improvement in at least 13 of 16 embedding-by-gauge blocks and exceed forward annealing by at least five percentage points; negative controls must produce zero guarded strict improvements.",
+      "secondary_endpoints": [
+        "reverse-versus-forward exact-optimum read fraction",
+        "strict-improvement read fraction",
+        "feasible read fraction",
+        "mean chain-break fraction"
+      ]
+    },
+    "planned_default_total_qpu_jobs": 232,
+    "planned_default_total_qpu_reads": 23200,
+    "maximum_planned_qpu_access_time_seconds": 20.0,
+    "paid_safety_interlock": "Calibration and confirmation each require both --authorize-paid-qpu and STAGE78_QPU_ACK=I_ACCEPT_STAGE78_QPU_CHARGES.",
+    "claim_boundary": "This is a physical-hardware feasibility PoC with forward-QPU and classical controls. It is not a quantum advantage, scaling, biological-generalization, or end-to-end speedup experiment."
+  },
+  "data_boundary": {
+    "historical_development_targets_permitted": [
+      "BACE1",
+      "PPARG",
+      "PPARA",
+      "PPARD"
+    ],
+    "fresh_validation_rows_permitted": 0,
+    "locked_test_rows_permitted": 0,
+    "new_docking_jobs_permitted": 0,
+    "cloud_solver_queries_permitted_during_freeze": 0,
+    "quantum_hardware_jobs_permitted_during_freeze": 0
+  },
+  "outputs": {
+    "instance_directory": "results/runs/stage78_advantage2_reverse_annealing_poc/instances",
+    "instance_manifest_csv": "results/runs/stage78_advantage2_reverse_annealing_poc/instance_manifest.csv",
+    "classical_controls_csv": "results/runs/stage78_advantage2_reverse_annealing_poc/classical_controls.csv",
+    "result_json": "data/stage78_advantage2_reverse_annealing_poc_result.json",
+    "audit_json": "data/stage78_advantage2_reverse_annealing_poc_audit.json",
+    "report_md": "reports/stage-78/advantage2_reverse_annealing_poc_freeze.md"
+  },
+  "interpretation_boundary": "Stage78 freezes historical-development BQMs, exact MILP references, classical solution-quality controls, and an external execution protocol. It performs no live solver query, no QPU sampling, no docking, and no fresh-validation or locked-test read. Passing Stage78 authorizes only an external Leap preflight; paid sampling remains explicitly user-authorized."
+}

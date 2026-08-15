@@ -1,0 +1,136 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage07-mk14-unidock113-train160-four-receptor-search-sensitivity-v1",
+  "purpose": "Select the least expensive stable Uni-Dock 1.1.3 search profile on consumed Train-160 rows before any larger Uni-Dock receptor-ensemble matrix is generated.",
+  "implementation": {
+    "runner": {
+      "path": "scripts/experimental/unidock/run_stage07_unidock_sensitivity.py",
+      "sha256": "E29E17F844BD0B8DE7147916F895875380C7E9971874CC6228A1EF8B47D964A9"
+    },
+    "evaluator": {
+      "path": "scripts/experimental/unidock/evaluate_stage07_unidock_sensitivity.py",
+      "sha256": "BBCABABFA2029067A3DDBA0FA80CAAE6FA8353A8F684F41AF2BE0D51F710E5AF"
+    }
+  },
+  "data_boundary": {
+    "allowed_split": "train",
+    "allowed_selection_role": "development_train",
+    "ligand_count": 160,
+    "label_counts": {
+      "active": 80,
+      "decoy": 80
+    },
+    "fresh_validation_rows_permitted": 0,
+    "test_rows_permitted": 0,
+    "train_enrichment_metrics_permitted": true,
+    "evidence_class": "development hyperparameter sensitivity"
+  },
+  "inputs": {
+    "receptor_manifest": {
+      "path": "data/processed/stage05_mk14_unidock_train160_receptor_manifest.csv",
+      "sha256": "EFAA41D3C685F30F3BEF3D16F408107F82E3930CF94D481939D046ECEBFBEFCC"
+    },
+    "ligand_manifest": {
+      "path": "data/processed/stage05_mk14_unidock_rigid_train160_pdbqt_manifest.csv",
+      "sha256": "5501B259C897B596E10A2E124F4863ACD7368CFEB02BA9C78BD677CF78A9903E"
+    },
+    "seeds": [
+      {
+        "seed_id": "seed0",
+        "base_seed": 20260801
+      },
+      {
+        "seed_id": "seed1",
+        "base_seed": 20260802
+      },
+      {
+        "seed_id": "seed2",
+        "base_seed": 20260803
+      }
+    ]
+  },
+  "expected": {
+    "receptor_ids": [
+      "MK14_2BAJ_aligned",
+      "MK14_2QD9_reference",
+      "MK14_3KQ7_aligned",
+      "MK14_3MPT_aligned"
+    ],
+    "receptor_count": 4,
+    "ligand_count": 160,
+    "label_counts": {
+      "active": 80,
+      "decoy": 80
+    },
+    "seed_count": 3,
+    "profile_count": 3,
+    "batch_count_per_profile": 12,
+    "pair_count_per_profile": 1920,
+    "total_batch_count": 36,
+    "total_pair_count": 5760,
+    "validation_rows": 0,
+    "test_rows": 0
+  },
+  "unidock_common": {
+    "executable": "unidock",
+    "required_package_version": "1.1.3",
+    "scoring": "vina",
+    "refine_step": 5,
+    "num_modes": 1,
+    "energy_range": 3,
+    "verbosity": 1,
+    "cuda_visible_devices": "0",
+    "maximum_absolute_score_kcal_per_mol": 100.0,
+    "box": {
+      "center_x": -0.49,
+      "center_y": 3.26,
+      "center_z": 21.83,
+      "size_x": 22,
+      "size_y": 24,
+      "size_z": 32
+    }
+  },
+  "profiles": {
+    "fast": {
+      "exhaustiveness": 128,
+      "max_step": 20
+    },
+    "balance": {
+      "exhaustiveness": 384,
+      "max_step": 40
+    },
+    "detail": {
+      "exhaustiveness": 512,
+      "max_step": 40
+    }
+  },
+  "profile_gate": {
+    "reference_profile_id": "detail",
+    "selection_order": [
+      "fast",
+      "balance",
+      "detail"
+    ],
+    "require_complete_batches": true,
+    "require_zero_engine_warnings": true,
+    "minimum_group_spearman_vs_detail": 0.95,
+    "minimum_median_group_top5pct_overlap_vs_detail": 0.875,
+    "maximum_absolute_group_bedroc_delta_vs_detail": 0.03,
+    "minimum_seed_pair_spearman": 0.9,
+    "maximum_seed_pair_bedroc_delta": 0.05,
+    "selection_rule": "Select the first profile in fast, balance, detail order that passes every check."
+  },
+  "outputs": {
+    "run_directory": "results/runs/stage07_mk14_unidock113_train160_search_sensitivity",
+    "scores_csv": "results/runs/stage07_mk14_unidock113_train160_search_sensitivity/scores.csv",
+    "batch_runs_csv": "results/runs/stage07_mk14_unidock113_train160_search_sensitivity/batch_runs.csv",
+    "run_summary_json": "results/runs/stage07_mk14_unidock113_train160_search_sensitivity/run_summary.json",
+    "group_metrics_csv": "results/runs/stage07_mk14_unidock113_train160_search_sensitivity/group_metrics.csv",
+    "profile_comparisons_csv": "results/runs/stage07_mk14_unidock113_train160_search_sensitivity/profile_comparisons.csv",
+    "seed_stability_csv": "results/runs/stage07_mk14_unidock113_train160_search_sensitivity/seed_stability.csv",
+    "profile_summary_csv": "results/runs/stage07_mk14_unidock113_train160_search_sensitivity/profile_summary.csv",
+    "evaluation_result_json": "data/stage07_mk14_unidock113_train160_search_sensitivity_result.json",
+    "evaluation_report_md": "reports/stage-07/mk14_unidock113_train160_search_sensitivity.md"
+  },
+  "decision_boundary": "This consumed-train sensitivity study may freeze one Uni-Dock profile for a separately preregistered larger training matrix. It cannot modify historical CPU Vina evidence, mix Vina and Uni-Dock scores, authorize fresh validation or locked-test access, select a QUBO objective, or establish biological or quantum advantage."
+}

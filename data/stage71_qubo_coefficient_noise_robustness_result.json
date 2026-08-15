@@ -1,0 +1,147 @@
+{
+  "analysis_payload_sha256": "69A78016195A46B96207D396FCEEEE78164DFA6264A61E9A59C317E63CF57674",
+  "config": {
+    "path": "configs/stage71_qubo_coefficient_noise_robustness.json",
+    "sha256": "C5567BBBB12662D3CE7721FA3BD4BF07C9C268A1921D54D7E12B762D46D97950",
+    "size_bytes": 5858
+  },
+  "data_boundary": {
+    "fresh_validation_rows_read": 0,
+    "historical_development_targets_read": 4,
+    "locked_test_rows_read": 0,
+    "new_docking_jobs": 0,
+    "quantum_hardware_jobs": 0
+  },
+  "decision": {
+    "constraint_native_reformulation_authorized": true,
+    "direct_qpu_execution_authorized": false,
+    "new_target_preregistration_remains_authorized": true,
+    "next_action": "evaluate a constraint-native CQM or feasible-subspace formulation before any hardware job",
+    "quantum_advantage_claim_authorized": false
+  },
+  "exact_landscape": {
+    "finite_second_energy_count": 14,
+    "maximum_feasible_receptor_subset_count": 17,
+    "maximum_normalized_feasible_energy_gap": 2.1406160766179738e-07,
+    "minimum_normalized_feasible_energy_gap": 1.097160305749828e-08,
+    "minimum_raw_feasible_energy_gap": 0.010205030012214324,
+    "model_count": 16,
+    "unique_source_optimum_count": 16
+  },
+  "experiment_class": "post-hoc coefficient-noise and finite-budget software-sampler diagnosis on frozen historical logical BQMs",
+  "implementation": {
+    "independent_auditor": {
+      "path": "scripts/audit_stage71_qubo_coefficient_noise_robustness.py",
+      "sha256": "D9A8517936C256723C978ACF82C062D7A70035D91481B9DDED9BE07C0B21E2B3",
+      "size_bytes": 32169
+    },
+    "runner": {
+      "path": "scripts/run_stage71_qubo_coefficient_noise_robustness.py",
+      "sha256": "0F74605881DF2472A53D8C3E659E66AF74418100409973BE58AB2F8DB77A09B1",
+      "size_bytes": 46205
+    }
+  },
+  "inputs": {
+    "stage70_audit": {
+      "path": "data/stage70_constraint_aware_qubo_encoding_audit.json",
+      "sha256": "424922F565DD00DF9FE4E03016C849C790564C9028706E764F91D07290FC51BA",
+      "size_bytes": 1015
+    },
+    "stage70_config": {
+      "path": "configs/stage70_constraint_aware_qubo_encoding.json",
+      "sha256": "0478377168EF16C0E4DB1C97C79A8C23C99059765775E72F13C3E20F7890407F",
+      "size_bytes": 5978
+    },
+    "stage70_model_record": {
+      "path": "data/stage70_constraint_aware_qubo_encoding_model_record.json",
+      "sha256": "42A81A8D5119EB4AAEA04AEFA4F84B9740924294CEB29C2F7024E12F5D3C0618",
+      "size_bytes": 712429
+    },
+    "stage70_result": {
+      "path": "data/stage70_constraint_aware_qubo_encoding_result.json",
+      "sha256": "66FE808E1671FAD2968424B7E932B6A397A6AF61DE5F42984B55A9C0E2C98337",
+      "size_bytes": 6166
+    }
+  },
+  "interpretation_boundary": "Stage71 is a post-hoc software sensitivity analysis on four consumed historical targets. Exact feasible enumeration isolates coefficient-induced optimum changes, while simulated annealing measures only one fixed classical sampling budget. Neither layer establishes physical embedding feasibility, hardware behavior, solver speedup, independent target efficacy, or quantum advantage.",
+  "noise_summary_count": 95,
+  "noise_trial_count": 1312,
+  "outputs": {
+    "exact_landscape_csv": {
+      "path": "results/runs/stage71_qubo_coefficient_noise_robustness/exact_feasible_landscape.csv",
+      "sha256": "21298AEBAC48B669FDC769281412A6546E5A102E45D1621DAACBBFE08AF7D946",
+      "size_bytes": 5490
+    },
+    "noise_summary_csv": {
+      "path": "results/runs/stage71_qubo_coefficient_noise_robustness/noise_summary.csv",
+      "sha256": "9CC58D4B0D8C4112CC7E7CF3F24AEAFD9512EB396E567A5435824BED5500FCE8",
+      "size_bytes": 15969
+    },
+    "noise_trials_csv": {
+      "path": "results/runs/stage71_qubo_coefficient_noise_robustness/noise_trials.csv",
+      "sha256": "85FCF2572DF49441D0D74CD7272F2B0228624B3134B193C75713778A5C26E104",
+      "size_bytes": 865977
+    },
+    "report_md": {
+      "path": "reports/stage-71/qubo_coefficient_noise_robustness.md",
+      "sha256": "DDA093836C0D15776443DB568F2F534913C6FD96AB48CAFDC930A62A7A373FBD",
+      "size_bytes": 1879
+    },
+    "sampler_calibration_csv": {
+      "path": "results/runs/stage71_qubo_coefficient_noise_robustness/zero_noise_sampler_calibration.csv",
+      "sha256": "DEA6D0EB8388D7346074E7FEDED96D05287ABC64A8A5D24ADD920EAA2926AAFD",
+      "size_bytes": 3453
+    }
+  },
+  "robustness_envelopes": {
+    "iid_gaussian_full_scale": {
+      "largest_tested_level_passing_project_gate": 1e-09,
+      "noise_model": "iid_gaussian_full_scale",
+      "passing_level_count": 1,
+      "tested_level_count": 9
+    },
+    "round_to_nearest_full_scale": {
+      "largest_tested_level_passing_project_gate": 3e-09,
+      "noise_model": "round_to_nearest_full_scale",
+      "passing_level_count": 2,
+      "tested_level_count": 9
+    }
+  },
+  "robustness_gate": {
+    "coefficient_robust_logical_bqm_gate_passed": false,
+    "reference_gaussian": {
+      "gate_passed": false,
+      "noise_level": 1e-06,
+      "noise_model": "iid_gaussian_full_scale",
+      "overall_exact_unique_rate": 0.421875,
+      "overall_local_feasible_rate": 0.9296875,
+      "worst_target_exact_unique_rate": 0.21875
+    },
+    "reference_gaussian_gate_passed": false,
+    "reference_quantization": {
+      "gate_passed": false,
+      "noise_level": 1e-06,
+      "noise_model": "round_to_nearest_full_scale",
+      "overall_exact_unique_rate": 0.25,
+      "overall_local_feasible_rate": 1.0,
+      "worst_target_exact_unique_rate": 0.25
+    },
+    "reference_quantization_gate_passed": false
+  },
+  "runtime_versions": {
+    "dimod": "0.12.22",
+    "dwave_samplers": "1.7.0",
+    "numpy": "1.26.4",
+    "python": "3.11.15"
+  },
+  "sampler_calibration": {
+    "best_exact_selected_count": 11,
+    "best_exact_selected_rate": 0.6875,
+    "best_feasible_count": 13,
+    "best_feasible_rate": 0.8125,
+    "calibration_gate_passed": true,
+    "model_count": 16
+  },
+  "schema_version": "1.0",
+  "status": "stage71_qubo_coefficient_noise_robustness_complete"
+}

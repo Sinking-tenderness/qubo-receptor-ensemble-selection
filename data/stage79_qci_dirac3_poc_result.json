@@ -1,0 +1,529 @@
+{
+  "config": {
+    "path": "configs/stage79_qci_dirac3_local_move_qubo_poc.json",
+    "sha256": "FDDBCF5C8DAA352F88CD5963DB9F81B875BC1786614E1AF647CFD57EB0A8332C",
+    "size_bytes": 5608
+  },
+  "data_boundary": {
+    "cloud_queries": 0,
+    "fresh_validation_rows_read": 0,
+    "historical_development_targets_read": 4,
+    "locked_test_rows_read": 0,
+    "new_docking_jobs": 0,
+    "quantum_hardware_jobs": 0
+  },
+  "decision": {
+    "qci_device_execution_authorized": false,
+    "quantum_advantage_claim_authorized": false,
+    "ready_for_external_qci_allocation_preflight": true
+  },
+  "experiment_id": "stage79-qci-dirac3-local-move-qubo-poc-freeze-20260807-v1",
+  "hardware_protocol": {
+    "api_url": "https://api.qci-prod.com",
+    "calibration": {
+      "confirmation_outcomes_unread": true,
+      "instance_role": "calibration_diagnostic",
+      "planned_job_count": 4,
+      "planned_sample_count": 100,
+      "relaxation_schedules": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "samples_per_schedule": 25,
+      "selection_order": "Highest recomputed strict-improvement fraction, highest exact-optimum fraction, lowest best guarded float64 energy, highest feasible fraction, lowest recorded device usage, then lowest schedule number."
+    },
+    "claim_boundary": "This is a cross-hardware physical optimization PoC. It is not a quantum-advantage, scaling, biological-generalization, drug-discovery, or end-to-end speedup experiment.",
+    "confirmation": {
+      "instance_roles": [
+        "confirmation_positive",
+        "confirmation_negative"
+      ],
+      "planned_instance_count": 5,
+      "planned_job_count": 5,
+      "planned_sample_count": 500,
+      "primary_endpoint": "Both positive instances must return at least one feasible strict improvement and no sample below the certified optimum; every negative must return zero recomputed strict improvements and no sample below the certified optimum.",
+      "samples_per_instance": 100,
+      "secondary_endpoints": [
+        "exact-optimum sample fraction",
+        "strict-improvement sample fraction",
+        "feasible sample fraction",
+        "best guarded float64 energy",
+        "device-reported usage"
+      ]
+    },
+    "device": "Dirac-3",
+    "device_safety_interlock": "Calibration and confirmation each require both --authorize-qci-device and STAGE79_QCI_ACK=I_ACCEPT_STAGE79_QCI_DEVICE_USAGE.",
+    "maximum_recorded_device_usage_seconds": 480,
+    "minimum_remaining_seconds_before_job": 60,
+    "planned_total_job_count": 9,
+    "planned_total_sample_count": 600,
+    "preflight": {
+      "device_jobs": 0,
+      "device_samples": 0,
+      "operation": "Authenticate and call get_allocations only; do not upload a polynomial and do not submit a device job."
+    },
+    "provider": "Quantum Computing Inc.",
+    "qci_client_version": "5.0.0",
+    "require_unpaid_allocation": true,
+    "required_initial_free_allocation_seconds": 300
+  },
+  "instance_summary": {
+    "all_float32_role_checks_passed": true,
+    "all_warm_states_are_zero": true,
+    "calibration_diagnostic_count": 1,
+    "confirmation_negative_count": 3,
+    "confirmation_positive_count": 2,
+    "instance_count": 6,
+    "maximum_interaction_count": 780,
+    "maximum_variable_count": 40
+  },
+  "instances": [
+    {
+      "coefficient_scale": 1.0688403632669905,
+      "instance_id": "pparg_of3_k16_confirmation_positive",
+      "interaction_count": 780,
+      "logical_variable_count": 40,
+      "polynomial_term_count": 820,
+      "qci_mapping": {
+        "path": "results/runs/stage79_qci_dirac3_poc/instances/pparg_of3_k16_confirmation_positive.qci-mapping.json",
+        "sha256": "D4618CA8A46A508BCC119468D2BD3F6BD20A9FD33C30C9CB41F6A8E49EA85D7D",
+        "size_bytes": 2834
+      },
+      "qci_polynomial": {
+        "path": "results/runs/stage79_qci_dirac3_poc/instances/pparg_of3_k16_confirmation_positive.qci-polynomial.json",
+        "sha256": "DA13E52C67F78329FB0A4C9A0F46602C4AB5C7470F0276DD36A0EC6F8EAB52C8",
+        "size_bytes": 104642
+      },
+      "quantized_exact_improvement": -0.24295357596253098,
+      "quantized_exact_original_energy": -18.381636525524026,
+      "role": "confirmation_positive",
+      "source_bqm": {
+        "path": "results/runs/stage78_advantage2_reverse_annealing_poc/instances/pparg_of3_k16_confirmation_positive.bqm.json",
+        "sha256": "BD773111CC84B1DE3B143860AD0DC9C549D98C3F228040C30E3D56A40CD2C332",
+        "size_bytes": 35788
+      },
+      "source_exact_energy": -18.381636525524026,
+      "source_exact_improvement": -0.24295357596253098,
+      "source_metadata": {
+        "path": "results/runs/stage78_advantage2_reverse_annealing_poc/instances/pparg_of3_k16_confirmation_positive.metadata.json",
+        "sha256": "FE47A3E20C8FDF8CD13BB0B14E94DEC25970B77E45704E97D63168062D728A28",
+        "size_bytes": 2349
+      },
+      "source_moves": {
+        "path": "results/runs/stage78_advantage2_reverse_annealing_poc/instances/pparg_of3_k16_confirmation_positive.moves.csv",
+        "sha256": "D829D4C80F872C338679E14F30089F7B5545F5E9044B33E2E96CEEDE48765387",
+        "size_bytes": 3070
+      },
+      "target_id": "PPARG",
+      "warm_energy": -18.138682949561495
+    },
+    {
+      "coefficient_scale": 1.0487754751230192,
+      "instance_id": "pparg_of1_k16_confirmation_positive",
+      "interaction_count": 779,
+      "logical_variable_count": 40,
+      "polynomial_term_count": 819,
+      "qci_mapping": {
+        "path": "results/runs/stage79_qci_dirac3_poc/instances/pparg_of1_k16_confirmation_positive.qci-mapping.json",
+        "sha256": "A6DDA136306A08F0E35A9EE9C8D09E820B660525945983CABB06766C978444FE",
+        "size_bytes": 2852
+      },
+      "qci_polynomial": {
+        "path": "results/runs/stage79_qci_dirac3_poc/instances/pparg_of1_k16_confirmation_positive.qci-polynomial.json",
+        "sha256": "641865FF035135B4D970221D6DA73676B91EE070A75E4794DA5585EDD04BD292",
+        "size_bytes": 104564
+      },
+      "quantized_exact_improvement": -0.05491217423792705,
+      "quantized_exact_original_energy": -16.602613191278405,
+      "role": "confirmation_positive",
+      "source_bqm": {
+        "path": "results/runs/stage78_advantage2_reverse_annealing_poc/instances/pparg_of1_k16_confirmation_positive.bqm.json",
+        "sha256": "FFD247B8F6E9FDE835959DDE2E87A4D1CD59F079695D0F13EE1E69ECAE40EC2C",
+        "size_bytes": 35999
+      },
+      "source_exact_energy": -16.602613191278405,
+      "source_exact_improvement": -0.05491217423792705,
+      "source_metadata": {
+        "path": "results/runs/stage78_advantage2_reverse_annealing_poc/instances/pparg_of1_k16_confirmation_positive.metadata.json",
+        "sha256": "DC34B7B13CC932DD910C8334F4F9A95679E4DF8D55F7A8958C7C36FF539C2422",
+        "size_bytes": 2350
+      },
+      "source_moves": {
+        "path": "results/runs/stage78_advantage2_reverse_annealing_poc/instances/pparg_of1_k16_confirmation_positive.moves.csv",
+        "sha256": "51C27205E846B141A40A920B56AF2CFA2691A9807581FE7DA79D7C719F25474D",
+        "size_bytes": 3067
+      },
+      "target_id": "PPARG",
+      "warm_energy": -16.547701017040477
+    },
+    {
+      "coefficient_scale": 0.9253788276795909,
+      "instance_id": "bace1_of0_k16_confirmation_negative",
+      "interaction_count": 780,
+      "logical_variable_count": 40,
+      "polynomial_term_count": 820,
+      "qci_mapping": {
+        "path": "results/runs/stage79_qci_dirac3_poc/instances/bace1_of0_k16_confirmation_negative.qci-mapping.json",
+        "sha256": "3922C9EBA3C324CE365BD9B75E9828E64819DDE3C8A66B0BA6B2D9D8F7174068",
+        "size_bytes": 2797
+      },
+      "qci_polynomial": {
+        "path": "results/runs/stage79_qci_dirac3_poc/instances/bace1_of0_k16_confirmation_negative.qci-polynomial.json",
+        "sha256": "FDAAC4A3714379D7E283C5BA7F337024004580781C7063B5A87BC26F37A7815C",
+        "size_bytes": 101662
+      },
+      "quantized_exact_improvement": 0.0,
+      "quantized_exact_original_energy": -10.471618012586717,
+      "role": "confirmation_negative",
+      "source_bqm": {
+        "path": "results/runs/stage78_advantage2_reverse_annealing_poc/instances/bace1_of0_k16_confirmation_negative.bqm.json",
+        "sha256": "380D988925E4CA5DEC847F7B54B799B065C508A263AB7C3D31F78AA6D3303548",
+        "size_bytes": 36065
+      },
+      "source_exact_energy": -10.471618012586717,
+      "source_exact_improvement": 0.0,
+      "source_metadata": {
+        "path": "results/runs/stage78_advantage2_reverse_annealing_poc/instances/bace1_of0_k16_confirmation_negative.metadata.json",
+        "sha256": "3ACDA9579D768007CE7FF82668C24E581AAFF003A0682224E46659B1E2851210",
+        "size_bytes": 2264
+      },
+      "source_moves": {
+        "path": "results/runs/stage78_advantage2_reverse_annealing_poc/instances/bace1_of0_k16_confirmation_negative.moves.csv",
+        "sha256": "1364FB18C65519F5B892D20E601E7957676E1D9FEFD3422F37E3BDBD16900386",
+        "size_bytes": 3021
+      },
+      "target_id": "BACE1",
+      "warm_energy": -10.471618012586717
+    },
+    {
+      "coefficient_scale": 0.9365913470677953,
+      "instance_id": "ppara_of2_k8_confirmation_negative",
+      "interaction_count": 703,
+      "logical_variable_count": 38,
+      "polynomial_term_count": 741,
+      "qci_mapping": {
+        "path": "results/runs/stage79_qci_dirac3_poc/instances/ppara_of2_k8_confirmation_negative.qci-mapping.json",
+        "sha256": "DCF0450040B9D03C1DC732C8BEB79A8B52AFAA25620D780488B3880B4F757C23",
+        "size_bytes": 2735
+      },
+      "qci_polynomial": {
+        "path": "results/runs/stage79_qci_dirac3_poc/instances/ppara_of2_k8_confirmation_negative.qci-polynomial.json",
+        "sha256": "D08E499610A3445CD72F4499700B7F78C1DE0338829915919C4400F732617117",
+        "size_bytes": 91545
+      },
+      "quantized_exact_improvement": 0.0,
+      "quantized_exact_original_energy": -2.0598640791805884,
+      "role": "confirmation_negative",
+      "source_bqm": {
+        "path": "results/runs/stage78_advantage2_reverse_annealing_poc/instances/ppara_of2_k8_confirmation_negative.bqm.json",
+        "sha256": "6F5F8D75064DD521C3D249AC81E70D8867E400F5291D340FB0380A728C9020DA",
+        "size_bytes": 32673
+      },
+      "source_exact_energy": -2.0598640791805884,
+      "source_exact_improvement": 0.0,
+      "source_metadata": {
+        "path": "results/runs/stage78_advantage2_reverse_annealing_poc/instances/ppara_of2_k8_confirmation_negative.metadata.json",
+        "sha256": "838CCF00A9D6CBAFBD79279C3398E780A9E386D544770EC755B3A4D1CC064CC7",
+        "size_bytes": 1957
+      },
+      "source_moves": {
+        "path": "results/runs/stage78_advantage2_reverse_annealing_poc/instances/ppara_of2_k8_confirmation_negative.moves.csv",
+        "sha256": "89E03FC6086219BB40FC30BA6018B322C95A13FC451ADDBA9CD91AC044A10AE6",
+        "size_bytes": 2858
+      },
+      "target_id": "PPARA",
+      "warm_energy": -2.0598640791805884
+    },
+    {
+      "coefficient_scale": 0.9496935582958959,
+      "instance_id": "ppard_of0_k12_confirmation_negative",
+      "interaction_count": 780,
+      "logical_variable_count": 40,
+      "polynomial_term_count": 820,
+      "qci_mapping": {
+        "path": "results/runs/stage79_qci_dirac3_poc/instances/ppard_of0_k12_confirmation_negative.qci-mapping.json",
+        "sha256": "A4354C4850EA73FC70E6C16EFACA9533D02ACA74E217893E3AA344AB47DA1B78",
+        "size_bytes": 2791
+      },
+      "qci_polynomial": {
+        "path": "results/runs/stage79_qci_dirac3_poc/instances/ppard_of0_k12_confirmation_negative.qci-polynomial.json",
+        "sha256": "DDFE227376893B57D554E421C5CD21B77F7BC37C72240F90BDB42863D8B3DF92",
+        "size_bytes": 102535
+      },
+      "quantized_exact_improvement": 0.0,
+      "quantized_exact_original_energy": -3.78499775987256,
+      "role": "confirmation_negative",
+      "source_bqm": {
+        "path": "results/runs/stage78_advantage2_reverse_annealing_poc/instances/ppard_of0_k12_confirmation_negative.bqm.json",
+        "sha256": "D91CE2BD4E9D13057A21474FC40BCF659D8C96880526B7F442679D51957D409A",
+        "size_bytes": 36445
+      },
+      "source_exact_energy": -3.78499775987256,
+      "source_exact_improvement": 0.0,
+      "source_metadata": {
+        "path": "results/runs/stage78_advantage2_reverse_annealing_poc/instances/ppard_of0_k12_confirmation_negative.metadata.json",
+        "sha256": "B9A88E8183309B565526E44A637C0B99A916B0F7E0EC2D90D59838B4902DA7F6",
+        "size_bytes": 2113
+      },
+      "source_moves": {
+        "path": "results/runs/stage78_advantage2_reverse_annealing_poc/instances/ppard_of0_k12_confirmation_negative.moves.csv",
+        "sha256": "F49C827C4B2EC49398F96ADCCBFC00441092897ADBC4BF87C5A083EA6099C531",
+        "size_bytes": 2994
+      },
+      "target_id": "PPARD",
+      "warm_energy": -3.78499775987256
+    },
+    {
+      "coefficient_scale": 1.2175867949922896,
+      "instance_id": "pparg_of1_k12_calibration_diagnostic",
+      "interaction_count": 771,
+      "logical_variable_count": 40,
+      "polynomial_term_count": 811,
+      "qci_mapping": {
+        "path": "results/runs/stage79_qci_dirac3_poc/instances/pparg_of1_k12_calibration_diagnostic.qci-mapping.json",
+        "sha256": "FC6E17FA93AD084342C9D8C054442B5E57234C76E39240D4661F5A01D713807E",
+        "size_bytes": 2854
+      },
+      "qci_polynomial": {
+        "path": "results/runs/stage79_qci_dirac3_poc/instances/pparg_of1_k12_calibration_diagnostic.qci-polynomial.json",
+        "sha256": "008480981E6836DFB2453BA4FE50445394B13B05EBB9CB075B0920F14EF62F22",
+        "size_bytes": 103543
+      },
+      "quantized_exact_improvement": -0.0004082417152631024,
+      "quantized_exact_original_energy": -9.90178278888056,
+      "role": "calibration_diagnostic",
+      "source_bqm": {
+        "path": "results/runs/stage78_advantage2_reverse_annealing_poc/instances/pparg_of1_k12_calibration_diagnostic.bqm.json",
+        "sha256": "3D3761436C63BB4EA083FF1A2E3C5AAC116355332CB77AE69F5C733D8F081FF3",
+        "size_bytes": 35386
+      },
+      "source_exact_energy": -9.90178278888056,
+      "source_exact_improvement": -0.0004082417152631024,
+      "source_metadata": {
+        "path": "results/runs/stage78_advantage2_reverse_annealing_poc/instances/pparg_of1_k12_calibration_diagnostic.metadata.json",
+        "sha256": "8BFCD334C683929A34B7DC2867197721995F0927090F5F20743ACA3AC9C5D1DB",
+        "size_bytes": 2196
+      },
+      "source_moves": {
+        "path": "results/runs/stage78_advantage2_reverse_annealing_poc/instances/pparg_of1_k12_calibration_diagnostic.moves.csv",
+        "sha256": "3CF56B1AF57DFA8A1CD9FEEA21A55E851C0FFD5F5A159454AB1B74C99C755B49",
+        "size_bytes": 3074
+      },
+      "target_id": "PPARG",
+      "warm_energy": -9.901374547165297
+    }
+  ],
+  "outputs": {
+    "instance_files": [
+      {
+        "instance_id": "pparg_of3_k16_confirmation_positive",
+        "qci_mapping": {
+          "path": "results/runs/stage79_qci_dirac3_poc/instances/pparg_of3_k16_confirmation_positive.qci-mapping.json",
+          "sha256": "D4618CA8A46A508BCC119468D2BD3F6BD20A9FD33C30C9CB41F6A8E49EA85D7D",
+          "size_bytes": 2834
+        },
+        "qci_polynomial": {
+          "path": "results/runs/stage79_qci_dirac3_poc/instances/pparg_of3_k16_confirmation_positive.qci-polynomial.json",
+          "sha256": "DA13E52C67F78329FB0A4C9A0F46602C4AB5C7470F0276DD36A0EC6F8EAB52C8",
+          "size_bytes": 104642
+        },
+        "source_bqm": {
+          "path": "results/runs/stage78_advantage2_reverse_annealing_poc/instances/pparg_of3_k16_confirmation_positive.bqm.json",
+          "sha256": "BD773111CC84B1DE3B143860AD0DC9C549D98C3F228040C30E3D56A40CD2C332",
+          "size_bytes": 35788
+        },
+        "source_metadata": {
+          "path": "results/runs/stage78_advantage2_reverse_annealing_poc/instances/pparg_of3_k16_confirmation_positive.metadata.json",
+          "sha256": "FE47A3E20C8FDF8CD13BB0B14E94DEC25970B77E45704E97D63168062D728A28",
+          "size_bytes": 2349
+        },
+        "source_moves": {
+          "path": "results/runs/stage78_advantage2_reverse_annealing_poc/instances/pparg_of3_k16_confirmation_positive.moves.csv",
+          "sha256": "D829D4C80F872C338679E14F30089F7B5545F5E9044B33E2E96CEEDE48765387",
+          "size_bytes": 3070
+        }
+      },
+      {
+        "instance_id": "pparg_of1_k16_confirmation_positive",
+        "qci_mapping": {
+          "path": "results/runs/stage79_qci_dirac3_poc/instances/pparg_of1_k16_confirmation_positive.qci-mapping.json",
+          "sha256": "A6DDA136306A08F0E35A9EE9C8D09E820B660525945983CABB06766C978444FE",
+          "size_bytes": 2852
+        },
+        "qci_polynomial": {
+          "path": "results/runs/stage79_qci_dirac3_poc/instances/pparg_of1_k16_confirmation_positive.qci-polynomial.json",
+          "sha256": "641865FF035135B4D970221D6DA73676B91EE070A75E4794DA5585EDD04BD292",
+          "size_bytes": 104564
+        },
+        "source_bqm": {
+          "path": "results/runs/stage78_advantage2_reverse_annealing_poc/instances/pparg_of1_k16_confirmation_positive.bqm.json",
+          "sha256": "FFD247B8F6E9FDE835959DDE2E87A4D1CD59F079695D0F13EE1E69ECAE40EC2C",
+          "size_bytes": 35999
+        },
+        "source_metadata": {
+          "path": "results/runs/stage78_advantage2_reverse_annealing_poc/instances/pparg_of1_k16_confirmation_positive.metadata.json",
+          "sha256": "DC34B7B13CC932DD910C8334F4F9A95679E4DF8D55F7A8958C7C36FF539C2422",
+          "size_bytes": 2350
+        },
+        "source_moves": {
+          "path": "results/runs/stage78_advantage2_reverse_annealing_poc/instances/pparg_of1_k16_confirmation_positive.moves.csv",
+          "sha256": "51C27205E846B141A40A920B56AF2CFA2691A9807581FE7DA79D7C719F25474D",
+          "size_bytes": 3067
+        }
+      },
+      {
+        "instance_id": "bace1_of0_k16_confirmation_negative",
+        "qci_mapping": {
+          "path": "results/runs/stage79_qci_dirac3_poc/instances/bace1_of0_k16_confirmation_negative.qci-mapping.json",
+          "sha256": "3922C9EBA3C324CE365BD9B75E9828E64819DDE3C8A66B0BA6B2D9D8F7174068",
+          "size_bytes": 2797
+        },
+        "qci_polynomial": {
+          "path": "results/runs/stage79_qci_dirac3_poc/instances/bace1_of0_k16_confirmation_negative.qci-polynomial.json",
+          "sha256": "FDAAC4A3714379D7E283C5BA7F337024004580781C7063B5A87BC26F37A7815C",
+          "size_bytes": 101662
+        },
+        "source_bqm": {
+          "path": "results/runs/stage78_advantage2_reverse_annealing_poc/instances/bace1_of0_k16_confirmation_negative.bqm.json",
+          "sha256": "380D988925E4CA5DEC847F7B54B799B065C508A263AB7C3D31F78AA6D3303548",
+          "size_bytes": 36065
+        },
+        "source_metadata": {
+          "path": "results/runs/stage78_advantage2_reverse_annealing_poc/instances/bace1_of0_k16_confirmation_negative.metadata.json",
+          "sha256": "3ACDA9579D768007CE7FF82668C24E581AAFF003A0682224E46659B1E2851210",
+          "size_bytes": 2264
+        },
+        "source_moves": {
+          "path": "results/runs/stage78_advantage2_reverse_annealing_poc/instances/bace1_of0_k16_confirmation_negative.moves.csv",
+          "sha256": "1364FB18C65519F5B892D20E601E7957676E1D9FEFD3422F37E3BDBD16900386",
+          "size_bytes": 3021
+        }
+      },
+      {
+        "instance_id": "ppara_of2_k8_confirmation_negative",
+        "qci_mapping": {
+          "path": "results/runs/stage79_qci_dirac3_poc/instances/ppara_of2_k8_confirmation_negative.qci-mapping.json",
+          "sha256": "DCF0450040B9D03C1DC732C8BEB79A8B52AFAA25620D780488B3880B4F757C23",
+          "size_bytes": 2735
+        },
+        "qci_polynomial": {
+          "path": "results/runs/stage79_qci_dirac3_poc/instances/ppara_of2_k8_confirmation_negative.qci-polynomial.json",
+          "sha256": "D08E499610A3445CD72F4499700B7F78C1DE0338829915919C4400F732617117",
+          "size_bytes": 91545
+        },
+        "source_bqm": {
+          "path": "results/runs/stage78_advantage2_reverse_annealing_poc/instances/ppara_of2_k8_confirmation_negative.bqm.json",
+          "sha256": "6F5F8D75064DD521C3D249AC81E70D8867E400F5291D340FB0380A728C9020DA",
+          "size_bytes": 32673
+        },
+        "source_metadata": {
+          "path": "results/runs/stage78_advantage2_reverse_annealing_poc/instances/ppara_of2_k8_confirmation_negative.metadata.json",
+          "sha256": "838CCF00A9D6CBAFBD79279C3398E780A9E386D544770EC755B3A4D1CC064CC7",
+          "size_bytes": 1957
+        },
+        "source_moves": {
+          "path": "results/runs/stage78_advantage2_reverse_annealing_poc/instances/ppara_of2_k8_confirmation_negative.moves.csv",
+          "sha256": "89E03FC6086219BB40FC30BA6018B322C95A13FC451ADDBA9CD91AC044A10AE6",
+          "size_bytes": 2858
+        }
+      },
+      {
+        "instance_id": "ppard_of0_k12_confirmation_negative",
+        "qci_mapping": {
+          "path": "results/runs/stage79_qci_dirac3_poc/instances/ppard_of0_k12_confirmation_negative.qci-mapping.json",
+          "sha256": "A4354C4850EA73FC70E6C16EFACA9533D02ACA74E217893E3AA344AB47DA1B78",
+          "size_bytes": 2791
+        },
+        "qci_polynomial": {
+          "path": "results/runs/stage79_qci_dirac3_poc/instances/ppard_of0_k12_confirmation_negative.qci-polynomial.json",
+          "sha256": "DDFE227376893B57D554E421C5CD21B77F7BC37C72240F90BDB42863D8B3DF92",
+          "size_bytes": 102535
+        },
+        "source_bqm": {
+          "path": "results/runs/stage78_advantage2_reverse_annealing_poc/instances/ppard_of0_k12_confirmation_negative.bqm.json",
+          "sha256": "D91CE2BD4E9D13057A21474FC40BCF659D8C96880526B7F442679D51957D409A",
+          "size_bytes": 36445
+        },
+        "source_metadata": {
+          "path": "results/runs/stage78_advantage2_reverse_annealing_poc/instances/ppard_of0_k12_confirmation_negative.metadata.json",
+          "sha256": "B9A88E8183309B565526E44A637C0B99A916B0F7E0EC2D90D59838B4902DA7F6",
+          "size_bytes": 2113
+        },
+        "source_moves": {
+          "path": "results/runs/stage78_advantage2_reverse_annealing_poc/instances/ppard_of0_k12_confirmation_negative.moves.csv",
+          "sha256": "F49C827C4B2EC49398F96ADCCBFC00441092897ADBC4BF87C5A083EA6099C531",
+          "size_bytes": 2994
+        }
+      },
+      {
+        "instance_id": "pparg_of1_k12_calibration_diagnostic",
+        "qci_mapping": {
+          "path": "results/runs/stage79_qci_dirac3_poc/instances/pparg_of1_k12_calibration_diagnostic.qci-mapping.json",
+          "sha256": "FC6E17FA93AD084342C9D8C054442B5E57234C76E39240D4661F5A01D713807E",
+          "size_bytes": 2854
+        },
+        "qci_polynomial": {
+          "path": "results/runs/stage79_qci_dirac3_poc/instances/pparg_of1_k12_calibration_diagnostic.qci-polynomial.json",
+          "sha256": "008480981E6836DFB2453BA4FE50445394B13B05EBB9CB075B0920F14EF62F22",
+          "size_bytes": 103543
+        },
+        "source_bqm": {
+          "path": "results/runs/stage78_advantage2_reverse_annealing_poc/instances/pparg_of1_k12_calibration_diagnostic.bqm.json",
+          "sha256": "3D3761436C63BB4EA083FF1A2E3C5AAC116355332CB77AE69F5C733D8F081FF3",
+          "size_bytes": 35386
+        },
+        "source_metadata": {
+          "path": "results/runs/stage78_advantage2_reverse_annealing_poc/instances/pparg_of1_k12_calibration_diagnostic.metadata.json",
+          "sha256": "8BFCD334C683929A34B7DC2867197721995F0927090F5F20743ACA3AC9C5D1DB",
+          "size_bytes": 2196
+        },
+        "source_moves": {
+          "path": "results/runs/stage78_advantage2_reverse_annealing_poc/instances/pparg_of1_k12_calibration_diagnostic.moves.csv",
+          "sha256": "3CF56B1AF57DFA8A1CD9FEEA21A55E851C0FFD5F5A159454AB1B74C99C755B49",
+          "size_bytes": 3074
+        }
+      }
+    ],
+    "instance_manifest_csv": {
+      "path": "results/runs/stage79_qci_dirac3_poc/instance_manifest.csv",
+      "sha256": "27AD2F007288CDC5949AFCB2200ECA9BF2B4E0DA6EBDB7342408DEC3968E0CBA",
+      "size_bytes": 7941
+    },
+    "report_md": {
+      "path": "reports/stage-79/qci_dirac3_poc_freeze.md",
+      "sha256": "9F53758B076471A6E474F418277B660A9F65AB8F98008763727F24F943B135D4",
+      "size_bytes": 1686
+    }
+  },
+  "schema_version": "1.0",
+  "source_stage78": {
+    "audit": {
+      "path": "data/stage78_advantage2_reverse_annealing_poc_audit.json",
+      "sha256": "0DF98EF929822DB67BBBBD7235592C3622B6EEB6E8AA94F3758DFB0F892E7E34",
+      "size_bytes": 825
+    },
+    "result": {
+      "path": "data/stage78_advantage2_reverse_annealing_poc_result.json",
+      "sha256": "117F9019E65F3111EE240E224C9BD9969FBA9F1F56E3FA457C49E9F6ABA8EC7C",
+      "size_bytes": 27998
+    }
+  },
+  "status": "stage79_qci_dirac3_local_move_qubo_poc_frozen",
+  "translation": {
+    "classification_energy": "Always recompute with the frozen Stage78 float64 BQM; never classify from device-reported energy.",
+    "coefficient_scaling": "Divide every nonconstant coefficient by the maximum absolute nonconstant coefficient for that instance.",
+    "constant_term_policy": "Omit the BQM offset because Dirac-3 does not accept constant polynomial terms; restore it during local double-precision energy recomputation.",
+    "index_base": 1,
+    "linear_index_encoding": "[0, i]",
+    "logical_variables": "Stage78 swap-move indicators m000...; the all-zero vector is already the frozen classical warm solution, so the proposed XOR warm-start transformation is the identity.",
+    "polynomial_max_degree": 2,
+    "polynomial_min_degree": 1,
+    "qci_device_type": "dirac-3",
+    "qci_job_type": "sample-hamiltonian-integer",
+    "qci_variable_levels": 2,
+    "quadratic_index_encoding": "[i, j] with i < j",
+    "submission_precision": "float32"
+  }
+}

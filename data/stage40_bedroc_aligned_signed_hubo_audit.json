@@ -1,0 +1,60 @@
+{
+  "cell_checks": {
+    "MK14::fold0::k3": true,
+    "MK14::fold0::k4": true,
+    "MK14::fold0::k5": true,
+    "MK14::fold0::k6": true,
+    "MK14::fold1::k3": true,
+    "MK14::fold1::k4": true,
+    "MK14::fold1::k5": true,
+    "MK14::fold1::k6": true,
+    "MK14::fold2::k3": true,
+    "MK14::fold2::k4": true,
+    "MK14::fold2::k5": true,
+    "MK14::fold2::k6": true,
+    "MK14::fold3::k3": true,
+    "MK14::fold3::k4": true,
+    "MK14::fold3::k5": true,
+    "MK14::fold3::k6": true,
+    "PPARG::fold0::k3": true,
+    "PPARG::fold0::k4": true,
+    "PPARG::fold0::k5": true,
+    "PPARG::fold0::k6": true,
+    "PPARG::fold1::k3": true,
+    "PPARG::fold1::k4": true,
+    "PPARG::fold1::k5": true,
+    "PPARG::fold1::k6": true,
+    "PPARG::fold2::k3": true,
+    "PPARG::fold2::k4": true,
+    "PPARG::fold2::k5": true,
+    "PPARG::fold2::k6": true,
+    "PPARG::fold3::k3": true,
+    "PPARG::fold3::k4": true,
+    "PPARG::fold3::k5": true,
+    "PPARG::fold3::k6": true
+  },
+  "checks": {
+    "all_cell_recalculations": true,
+    "config_identity": true,
+    "decision_recalculation": true,
+    "failed_gates_are_binding": true,
+    "implementation_identity": true,
+    "input_identities": true,
+    "no_execution_boundary": true,
+    "output_hashes": true,
+    "result_status": true,
+    "summary_recalculation": true,
+    "train_only_boundary": true
+  },
+  "config": {
+    "path": "configs/stage40_bedroc_aligned_signed_hubo.json",
+    "sha256": "C0AE462FC8E87CD3AEE05B111E7BCD1E9A900148C06C43D0479FE8D64F5A628F"
+  },
+  "maximum_absolute_recalculation_difference": 0.0,
+  "result": {
+    "path": "data/stage40_bedroc_aligned_signed_hubo_result.json",
+    "sha256": "BAD5A67CC8655BB6AFA9986F9DCF7EB66B28D386C4C3C9C597B1C883CEAB555A"
+  },
+  "schema_version": "1.0",
+  "status": "stage40_bedroc_aligned_signed_hubo_audit_ok"
+}

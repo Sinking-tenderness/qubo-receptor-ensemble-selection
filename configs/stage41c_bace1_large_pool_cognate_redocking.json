@@ -1,0 +1,95 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage41c-bace1-large-pool-cognate-redocking-20260803-v1",
+  "purpose": "Run the frozen three-seed Uni-Dock cognate-pose gate for all 48 successfully prepared receptors from the 49-receptor BACE1 large pool before any benchmark ligand docking or activity-label access.",
+  "implementation": {
+    "runner": {"path": "scripts/experimental/unidock/run_stage41c_bace1_large_pool_cognate_redocking.py", "sha256": "CC583F17F6F14D5EE9C7E59A4FDACA5671AB5B9EFEC1E7476BD889D603D33AFC"},
+    "batch_helper": {"path": "scripts/experimental/unidock/run_unidock_gpu_equivalence.py", "sha256": "4E927E959A08526289F7B266BA8CD76232741C878CCE255312F94A561DE433B0"},
+    "pose_audit_helper": {"path": "scripts/experimental/unidock/run_stage07b_unidock_enhanced_confirmation.py", "sha256": "192E6BF7700442EA508082F47D96494125B41ADAD04C81B141FE3F4889312EE4"},
+    "warning_helper": {"path": "scripts/experimental/unidock/run_stage07c_unidock_warning_adjudication.py", "sha256": "9729941976A15D6A91C45493807218CF3E24141063439AFBA948E0A2F2635153"},
+    "rmsd_helper": {"path": "scripts/evaluate_redocking_rmsd.py", "sha256": "F761FE14374198DD314B78976349C413DC2FA0C90EDDDBE6595AA001EB3D86F5"}
+  },
+  "runtime": {
+    "conda_environment": "qubo-unidock-stage08",
+    "python_version": "3.11.15",
+    "numpy_version": "1.26.4",
+    "scipy_version": "1.17.1",
+    "rdkit_version": "2026.3.1",
+    "meeko_version": "0.7.1"
+  },
+  "data_boundary": {
+    "ligand_labels_read": 0,
+    "benchmark_docking_scores_read": 0,
+    "fresh_validation_rows_read": 0,
+    "test_rows_read": 0,
+    "quantum_hardware_jobs": 0
+  },
+  "inputs": {
+    "preparation_summary": {"path": "data/stage41b_bace1_large_pool_redocking_input_preparation_summary.json", "sha256": "B73E0FEAFA384E6B05ED811B025D09D412F6290647D583909B4D0905A9917462"},
+    "receptor_manifest": {"path": "data/processed/stage41b_bace1_large_pool_prepared_receptor_manifest.csv", "sha256": "B3B596A64857487529D8C72AE61C21F36BAFD6E6886683FAC73A40ED7CC1D8E5"},
+    "case_manifest": {"path": "data/processed/stage41b_bace1_large_pool_cognate_redocking_case_manifest.csv", "sha256": "BD43F0BE9AFB46DC4860F0917D35496C93E803BDC65A7CE820CF5FCEA20530F4"},
+    "common_box": {"path": "data/stage41b_bace1_large_pool_common_box.json", "sha256": "CDDA4942CEC12DEDBB5B7E34C676EEBC890AFAFE116C4D8EB22EB5A7A1EFEDFB"},
+    "evaluate_rmsd_script": {"path": "scripts/evaluate_redocking_rmsd.py", "sha256": "F761FE14374198DD314B78976349C413DC2FA0C90EDDDBE6595AA001EB3D86F5"},
+    "seeds": [
+      {"seed_id": "seed0", "base_seed": 20260801},
+      {"seed_id": "seed1", "base_seed": 20260802},
+      {"seed_id": "seed2", "base_seed": 20260803}
+    ]
+  },
+  "expected": {
+    "frozen_receptor_count": 49,
+    "receptor_count": 48,
+    "case_count": 48,
+    "seed_count": 3,
+    "redocking_pair_count": 144,
+    "preparation_failures": [
+      {"conformer_id": "BACE1_6DMI_aligned", "case_id": "6DMI_5T5", "error": "ValueError: BACE1 ModelServer ligand coordinates differ: 6DMI_5T5"}
+    ],
+    "receptor_ids": [
+      "BACE1_3L5D_reference", "BACE1_2QK5_aligned", "BACE1_2QMD_aligned", "BACE1_2QMF_aligned",
+      "BACE1_2QMG_aligned", "BACE1_2QP8_aligned", "BACE1_3CIB_aligned", "BACE1_3CIC_aligned",
+      "BACE1_3CID_aligned", "BACE1_3IVH_aligned", "BACE1_3IVI_aligned", "BACE1_3KN0_aligned",
+      "BACE1_3L59_aligned", "BACE1_3L5C_aligned", "BACE1_3L5E_aligned", "BACE1_3L5F_aligned",
+      "BACE1_4DJU_aligned", "BACE1_4DJV_aligned", "BACE1_4DJW_aligned", "BACE1_4DJX_aligned",
+      "BACE1_4DJY_aligned", "BACE1_4FS4_aligned", "BACE1_4H3F_aligned", "BACE1_4H3G_aligned",
+      "BACE1_4H3I_aligned", "BACE1_4H3J_aligned", "BACE1_4HA5_aligned", "BACE1_4HZT_aligned",
+      "BACE1_4I0D_aligned", "BACE1_4I0E_aligned", "BACE1_4I0F_aligned", "BACE1_4I0G_aligned",
+      "BACE1_4I0J_aligned", "BACE1_4I0Z_aligned", "BACE1_4I10_aligned", "BACE1_4I11_aligned",
+      "BACE1_4I12_aligned", "BACE1_4I1C_aligned", "BACE1_4LC7_aligned", "BACE1_4N00_aligned",
+      "BACE1_4PZW_aligned", "BACE1_4PZX_aligned", "BACE1_4R5N_aligned", "BACE1_4RRN_aligned",
+      "BACE1_4RRO_aligned", "BACE1_4RRS_aligned", "BACE1_5F00_aligned", "BACE1_6PZ4_aligned"
+    ]
+  },
+  "unidock": {
+    "executable": "unidock",
+    "required_package_version": "1.1.3",
+    "profile_id": "enhanced",
+    "scoring": "vina",
+    "exhaustiveness": 1024,
+    "max_step": 80,
+    "refine_step": 5,
+    "num_modes": 1,
+    "energy_range": 3,
+    "verbosity": 1,
+    "cuda_visible_devices": "0",
+    "maximum_absolute_score_kcal_per_mol": 100.0,
+    "box": {"center_x": 24.35, "center_y": 13.96, "center_z": 23.58, "size_x": 30.0, "size_y": 22.0, "size_z": 22.0}
+  },
+  "redocking_gate": {
+    "rmsd_definition": "symmetry-corrected heavy-atom RMSD in the fixed receptor frame without post-docking pose alignment",
+    "maximum_rmsd_angstrom": 2.0,
+    "minimum_successful_seeds_per_receptor": 2,
+    "maximum_median_rmsd_angstrom": 2.0,
+    "minimum_passing_receptor_count": 40,
+    "require_zero_unresolved_warning_events": true,
+    "require_zero_pose_integrity_failures": true,
+    "failure_action": "Stop the large-pool route if fewer than 40 of the frozen 49 receptors pass. Do not add replacements after outcomes are known."
+  },
+  "outputs": {
+    "run_directory": "results/runs/stage41c_bace1_large_pool_cognate_redocking",
+    "redocking_results_csv": "data/processed/stage41c_bace1_large_pool_cognate_redocking_results.csv",
+    "receptor_gate_results_csv": "data/processed/stage41c_bace1_large_pool_receptor_gate_results.csv",
+    "summary_json": "data/stage41c_bace1_large_pool_cognate_redocking_summary.json"
+  },
+  "decision_boundary": "This is a development-only technical pose gate. Passing authorizes docking the frozen 266-ligand BACE1 development panel against every passing receptor without max-min compression. It does not establish screening enrichment, QUBO superiority, quantum execution, or quantum advantage. The known 6DMI preparation failure remains one of the frozen 49 failures and cannot be replaced."
+}

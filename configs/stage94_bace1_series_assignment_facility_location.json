@@ -1,0 +1,60 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage94-bace1-series-assignment-facility-location-20260812-v1",
+  "purpose": "Jointly open six receptor conformations and assign each of six chemical series to one receptor pair under the same docking budget, testing a deployment-relevant facility-location problem rather than another fixed-subset score.",
+  "experiment_class": "posthoc_development_problem_family_feasibility",
+  "inputs": {
+    "metadata_adjudication": "data/stage92a_bace1_target_id_metadata_adjudication_result.json",
+    "amended_seed_scores": "results/runs/stage92a_bace1_target_id_metadata_adjudication/scores_target_id_amended.csv",
+    "development_manifest": "analysis/stage91c_bace1_result_20260812/data/processed/stage91b_bace1_chembl365_unidock_pdbqt_manifest.csv"
+  },
+  "frozen_problem": {
+    "open_receptor_count": 6,
+    "chemical_series_count": 6,
+    "receptors_per_series": 2,
+    "receptor_hit_fraction_per_seed": 0.10,
+    "hit_count_rounding": "ceil",
+    "hit_tie_break": "ligand_id lexicographic",
+    "series_pair_minimum_coverage": "minimum high-potency joint-hit coverage over three seeds",
+    "series_pair_mean_coverage": "mean high-potency joint-hit coverage over three seeds",
+    "series_pair_low_exposure": "mean global low-potency joint-hit exposure over three seeds",
+    "series_pair_overlap": "mean pair hit-set Jaccard over three seeds",
+    "objective": "0.40*minimum_assigned_series_seed_coverage + 0.30*mean_assigned_series_seed_coverage - 0.20*mean_assigned_pair_low_exposure - 0.10*mean_assigned_pair_overlap",
+    "budget_interpretation": "Each ligand series is docked to two receptors; this uses 12 series-receptor routes while permitting six distinct conformations. The all-series fixed-six baseline uses 36 routes, so the assignment policy targets a threefold routing reduction after receptor-opening costs are ignored."
+  },
+  "exact_solver": {
+    "formulation": "mixed-integer linear program with receptor-open x_i, series-pair assignment a_gij, and worst-series variable t",
+    "solver": "scipy.optimize.milp using bundled HiGHS",
+    "required_mip_gap": 0.0,
+    "required_success": true
+  },
+  "classical_baselines": {
+    "direct_greedy_open_set": "start from the best receptor pair, add the receptor with the best exact conditional assignment value until six are open",
+    "greedy_plus_one_swap": true,
+    "all_pair_starts_plus_one_swap": 561,
+    "random_restart_one_swap": {"restart_count": 256, "seed": 20260818},
+    "tabu": {"restart_count": 32, "iteration_count": 100, "tabu_tenure": 5, "seed": 20260819},
+    "simulated_annealing": {"restart_count": 32, "steps_per_restart": 5000, "seed": 20260820}
+  },
+  "go_gate": {
+    "milp_optimum_strictly_improves_greedy_plus_one_swap": true,
+    "milp_optimum_strictly_improves_best_256_random_restart_one_swap": true,
+    "open_set_replacement_distance_from_best_one_swap_at_least": 2,
+    "milp_optimality_certificate_required": true,
+    "routing_policy_has_nonzero_worst_series_coverage": true,
+    "all_criteria_required": true
+  },
+  "stop_rule": "If the gate fails, close BACE1 same-data objective engineering. If it passes, freeze this exact formulation before any new-target docking and test both hardness and screening quality prospectively.",
+  "data_boundary": {
+    "confirmation_scores_permitted": 0,
+    "locked_test_scores_permitted": 0,
+    "new_docking_jobs_permitted": 0,
+    "quantum_jobs_permitted": 0
+  },
+  "outputs": {
+    "result_json": "data/stage94_bace1_series_assignment_facility_location_result.json",
+    "baseline_csv": "results/runs/stage94_bace1_series_assignment_facility_location/classical_baselines.csv",
+    "assignment_csv": "results/runs/stage94_bace1_series_assignment_facility_location/exact_assignments.csv",
+    "report_md": "reports/stage-94/bace1_series_assignment_facility_location.md"
+  }
+}

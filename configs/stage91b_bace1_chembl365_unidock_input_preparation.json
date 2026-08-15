@@ -1,0 +1,42 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage91b-bace1-chembl365-unidock-input-preparation-20260811-v1",
+  "purpose": "Prepare only the frozen BACE1 ChEMBL development assay ligands for Uni-Dock; confirmation and locked-test molecules remain inaccessible.",
+  "inputs": {
+    "stage91_result": "data/stage91_bace1_group_robust_rescue_preregistration_result.json",
+    "development_manifest_freeze": "data/stage91b_bace1_development_manifest_freeze.json",
+    "development_ligand_manifest": "data/processed/stage91b_bace1_chembl365_development_ligand_manifest.csv"
+  },
+  "expected": {
+    "ligand_count": 365,
+    "potency_label_counts": {
+      "high": 248,
+      "low": 52,
+      "gray": 65
+    },
+    "core_series_count": 6,
+    "confirmation_rows": 0,
+    "locked_test_rows": 0
+  },
+  "preparation": {
+    "rdkit_version": "2026.3.1",
+    "meeko_version": "0.7.1",
+    "rdkit_embed_base_seed": 20260811,
+    "deterministic_retry_seed_offsets": [0, 1000003, 2000003],
+    "macrocycle_policy": "Run Meeko flexible first; rerun with rigid macrocycles after failure or closure-pseudoatom detection; require no closure pseudoatom in final PDBQT.",
+    "local_worker_count": 8
+  },
+  "outputs": {
+    "run_directory": "results/runs/stage91b_bace1_chembl365_unidock_inputs",
+    "manifest_csv": "data/processed/stage91b_bace1_chembl365_unidock_pdbqt_manifest.csv",
+    "summary_json": "data/stage91b_bace1_chembl365_unidock_input_summary.json",
+    "audit_json": "data/stage91b_bace1_chembl365_unidock_input_audit.json"
+  },
+  "data_boundary": {
+    "development_role_only": true,
+    "docking_scores_read": 0,
+    "confirmation_rows_permitted": 0,
+    "locked_test_rows_permitted": 0,
+    "quantum_hardware_jobs_permitted": 0
+  }
+}

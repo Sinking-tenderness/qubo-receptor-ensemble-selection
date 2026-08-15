@@ -1,0 +1,170 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage65-cross-target-pair-sign-mechanism-20260806-v1",
+  "purpose": "Determine whether positive complementarity or negative redundancy residuals transfer from outer training folds to held-out folds, before permitting any further pair-residual QUBO development.",
+  "implementation": {
+    "runner": {
+      "path": "scripts/run_stage65_cross_target_pair_sign_mechanism.py",
+      "sha256": "071384BE1BF8F4D21E101871B8C5364C6803AC92C5F83D73D590974B65C22A8A"
+    },
+    "independent_auditor": {
+      "path": "scripts/audit_stage65_cross_target_pair_sign_mechanism.py",
+      "sha256": "BB73F32CC7EC06C19F05D64663FD55D3590FC39584920F09D9A9A7CD045DEC36"
+    },
+    "stage64_runner_dependency": {
+      "path": "scripts/run_stage64_cross_target_uncertainty_shrunk_qubo.py",
+      "sha256": "D19F5F43FE660808CF957395689547CA502642EE6296356C5DF969116AE5B310"
+    }
+  },
+  "inputs": {
+    "stage64_config": {
+      "path": "configs/stage64_cross_target_uncertainty_shrunk_qubo.json",
+      "sha256": "F302FEA7CB2B22D39824A3433DC165FAE2E8E7D0A0A79C07AA73768F69AFB458"
+    },
+    "stage64_result": {
+      "path": "data/stage64_cross_target_uncertainty_shrunk_qubo_result.json",
+      "sha256": "254C444BC462EABA3B0797CC05975F427FC9735F7D52281FF357FF02904DAD2D"
+    },
+    "stage64_audit": {
+      "path": "data/stage64_cross_target_uncertainty_shrunk_qubo_audit.json",
+      "sha256": "9FEB1957164022DAB7391D7387EA0BFD9776130207029C162A21BE7809A74B01"
+    }
+  },
+  "diagnosis": {
+    "target_order": [
+      "BACE1",
+      "PPARG",
+      "PPARA",
+      "PPARD"
+    ],
+    "outer_fold_count": 4,
+    "candidate_k_values": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "bedroc_alpha": 20.0,
+    "classical_beam_width": 64,
+    "jackknife_block_count": 4,
+    "jackknife_seed_base": 20260865,
+    "stable_sign_support_threshold": 0.75,
+    "lcb_lambda_mad": 1.0,
+    "primary_question": "Does a positive pair residual that survives delete-block uncertainty predict positive residual and improved fixed-k BEDROC on held-out ligands?",
+    "negative_control": "The pair-off additive singleton model is reproduced exactly from Stage64 in all 96 target-fold-k cells."
+  },
+  "candidate_grid": [
+    {
+      "candidate_id": "pair_off",
+      "mode": "pair_off",
+      "pair_scale": 0.0,
+      "sign_support_threshold": 0.0,
+      "lambda_mad": 0.0
+    },
+    {
+      "candidate_id": "signed_0p25",
+      "mode": "signed",
+      "pair_scale": 0.25,
+      "sign_support_threshold": 0.0,
+      "lambda_mad": 0.0
+    },
+    {
+      "candidate_id": "positive_0p25",
+      "mode": "positive",
+      "pair_scale": 0.25,
+      "sign_support_threshold": 0.0,
+      "lambda_mad": 0.0
+    },
+    {
+      "candidate_id": "negative_0p25",
+      "mode": "negative",
+      "pair_scale": 0.25,
+      "sign_support_threshold": 0.0,
+      "lambda_mad": 0.0
+    },
+    {
+      "candidate_id": "signed_1p0",
+      "mode": "signed",
+      "pair_scale": 1.0,
+      "sign_support_threshold": 0.0,
+      "lambda_mad": 0.0
+    },
+    {
+      "candidate_id": "positive_1p0",
+      "mode": "positive",
+      "pair_scale": 1.0,
+      "sign_support_threshold": 0.0,
+      "lambda_mad": 0.0
+    },
+    {
+      "candidate_id": "negative_1p0",
+      "mode": "negative",
+      "pair_scale": 1.0,
+      "sign_support_threshold": 0.0,
+      "lambda_mad": 0.0
+    },
+    {
+      "candidate_id": "stable_positive_0p25",
+      "mode": "stable_positive",
+      "pair_scale": 0.25,
+      "sign_support_threshold": 0.75,
+      "lambda_mad": 0.0
+    },
+    {
+      "candidate_id": "stable_negative_0p25",
+      "mode": "stable_negative",
+      "pair_scale": 0.25,
+      "sign_support_threshold": 0.75,
+      "lambda_mad": 0.0
+    },
+    {
+      "candidate_id": "lcb_positive_0p25",
+      "mode": "lcb_positive",
+      "pair_scale": 0.25,
+      "sign_support_threshold": 0.0,
+      "lambda_mad": 1.0
+    },
+    {
+      "candidate_id": "lcb_negative_0p25",
+      "mode": "lcb_negative",
+      "pair_scale": 0.25,
+      "sign_support_threshold": 0.0,
+      "lambda_mad": 1.0
+    }
+  ],
+  "decision_gate": {
+    "primary_candidate_id": "lcb_positive_0p25",
+    "minimum_mean_target_gain_over_pair_off": 0.002,
+    "minimum_worst_target_gain_over_pair_off": -0.01,
+    "minimum_nonnegative_target_count_over_pair_off": 3,
+    "minimum_mean_fold_pair_residual_spearman": 0.05,
+    "minimum_lcb_positive_edge_count": 100,
+    "minimum_lcb_positive_precision_advantage": 0.05
+  },
+  "data_boundary": {
+    "historical_development_targets_permitted": [
+      "BACE1",
+      "PPARG",
+      "PPARA",
+      "PPARD"
+    ],
+    "fresh_validation_rows_permitted": 0,
+    "locked_test_rows_permitted": 0,
+    "new_docking_jobs_permitted": 0,
+    "quantum_hardware_jobs_permitted": 0
+  },
+  "outputs": {
+    "edge_transfer_csv": "results/runs/stage65_cross_target_pair_sign_mechanism/edge_transfer.csv",
+    "edge_fold_summary_csv": "results/runs/stage65_cross_target_pair_sign_mechanism/edge_fold_summary.csv",
+    "edge_target_summary_csv": "results/runs/stage65_cross_target_pair_sign_mechanism/edge_target_summary.csv",
+    "fixed_k_metrics_csv": "results/runs/stage65_cross_target_pair_sign_mechanism/fixed_k_metrics.csv",
+    "target_summary_csv": "results/runs/stage65_cross_target_pair_sign_mechanism/target_summary.csv",
+    "global_summary_csv": "results/runs/stage65_cross_target_pair_sign_mechanism/global_summary.csv",
+    "result_json": "data/stage65_cross_target_pair_sign_mechanism_result.json",
+    "audit_json": "data/stage65_cross_target_pair_sign_mechanism_audit.json",
+    "report_md": "reports/stage-65/cross_target_pair_sign_mechanism.md"
+  },
+  "interpretation_boundary": "Stage65 is post-hoc mechanism adjudication on four consumed historical targets. A pass may freeze one positive-LCB pair rule for future preregistration; a failure redirects development to auxiliary-variable coverage. It cannot establish independent efficacy, solver advantage, quantum execution, speedup, or quantum advantage."
+}

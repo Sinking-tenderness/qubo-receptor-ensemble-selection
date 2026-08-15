@@ -1,0 +1,36 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage89-project-convergence-20260811-v1",
+  "purpose": "Freeze the defensible scientific thesis, claim boundaries, and near-term delivery plan after the biological, classical-hardness, and physical-hardware evidence gates.",
+  "inputs": {
+    "mk14_fresh_validation": "data/stage05_mk14_fresh_validation_result.json",
+    "larger_k_classical_scaling": "data/stage74_larger_k_solver_scaling_result.json",
+    "variable_k_cqm": "data/stage75_explicit_variable_k_cqm_result.json",
+    "qci_physical_poc_report": "reports/stage-79/qci_dirac3_physical_poc_result.md",
+    "local_move_hardness": "data/stage80_local_move_hardness_screen_result.json",
+    "qci_global_penalty_adjudication": "data/stage86a_qci_dirac3_rescue_failure_adjudication.json",
+    "quantum_value_instance_gate": "data/stage87_quantum_value_instance_gate_result.json",
+    "chemotype_portfolio_gate": "data/stage88_chemotype_balanced_portfolio_gate_result.json"
+  },
+  "freeze_policy": {
+    "new_objective_search_authorized": false,
+    "new_target_docking_authorized": false,
+    "new_quantum_hardware_jobs_authorized": false,
+    "manuscript_preparation_authorized": true,
+    "reproducibility_packaging_authorized": true,
+    "future_experiments_require_new_preregistration": true
+  },
+  "data_boundary": {
+    "read_existing_adjudicated_results_only": true,
+    "fresh_validation_rows_permitted": 0,
+    "locked_test_rows_permitted": 0,
+    "new_docking_jobs_permitted": 0,
+    "quantum_hardware_jobs_permitted": 0
+  },
+  "outputs": {
+    "claim_evidence_csv": "results/runs/stage89_project_convergence/claim_evidence_matrix.csv",
+    "result_json": "data/stage89_project_convergence_result.json",
+    "audit_json": "data/stage89_project_convergence_audit.json",
+    "report_md": "reports/stage-89/project_convergence.md"
+  }
+}

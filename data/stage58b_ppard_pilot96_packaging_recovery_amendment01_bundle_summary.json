@@ -1,0 +1,19 @@
+{
+  "archive": "deliverables/stage58b_ppard_pilot96_packaging_recovery_amendment01_v1.tar.gz",
+  "archive_entry_count": 5,
+  "archive_sha256": "1F7CEC5EBF7059F48617354E78008DE773B3F5034E5CA0F807F015BB1912557E",
+  "archive_size_bytes": 3776,
+  "deterministic_metadata": true,
+  "docking_batches_rerun": 0,
+  "docking_scores_changed": 0,
+  "expected_completed_batch_count": 87,
+  "expected_completed_pair_count": 8352,
+  "frozen_config_sha256": "8A30F6762577C0AA25D325B418AD29855F4881DD6D9C5C854D76A9A9F10C7D76",
+  "gpu_required": false,
+  "manifest_line_ending": "LF",
+  "operation": "Stage58b packaging-only metadata recovery amendment",
+  "pose_files_changed": 0,
+  "schema_version": "1.0",
+  "source_file_count": 4,
+  "status": "ok"
+}

@@ -1,0 +1,136 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage74-larger-k-constraint-native-solver-scaling-20260807-v1",
+  "purpose": "Test whether the frozen Stage72 constraint-native receptor-selection objective becomes classically nontrivial when k grows beyond three, before constructing an explicit variable-k CQM or using cloud or quantum hardware.",
+  "implementation": {
+    "runner": {
+      "path": "scripts/run_stage74_larger_k_solver_scaling.py",
+      "sha256": "1033E1B30049532D8CA047C16EBD3ADDAA5B68257B3848ACFDAA5A7B6C066B75"
+    },
+    "independent_auditor": {
+      "path": "scripts/audit_stage74_larger_k_solver_scaling.py",
+      "sha256": "F1D559AD43C92FCDC261AF380E2585C607A1084BBF062F3E157CCC839EFB2091"
+    }
+  },
+  "inputs": {
+    "stage73_config": {
+      "path": "configs/stage73_constraint_native_solver_scaling.json",
+      "sha256": "D49CA4ADFB27B285F24C11012B99900166AF9793ED85CD1E6B5DDBB55C3F7AD8",
+      "size_bytes": 5917
+    },
+    "stage73_result": {
+      "path": "data/stage73_constraint_native_solver_scaling_result.json",
+      "sha256": "145B1FBA9EF7F2A0DDB17452F2AC66481CAB3CD4FF35411A3DD2765AB38B3132",
+      "size_bytes": 6197
+    },
+    "stage73_audit": {
+      "path": "data/stage73_constraint_native_solver_scaling_audit.json",
+      "sha256": "7D299D984280E2133F59230BE694B3C24D3C122CF51692D83A26EC9B273916A8",
+      "size_bytes": 1041
+    },
+    "stage72_model_record": {
+      "path": "data/stage72_constraint_native_cqm_model_record.json",
+      "sha256": "D7BD285F4CB0787C1FF63EEC190CE692F72F2E885CB610BFEA1D70AC2505D1DF",
+      "size_bytes": 737219
+    },
+    "stage73_workload_metrics": {
+      "path": "results/runs/stage73_constraint_native_solver_scaling/workload_metrics.csv",
+      "sha256": "FABBD6D91EC023FD9346A3A9FDC7D81B2AC43F2ABE8A073081F27AAF7038C92D",
+      "size_bytes": 62867
+    },
+    "stage73_solver_trials": {
+      "path": "results/runs/stage73_constraint_native_solver_scaling/solver_trials.csv",
+      "sha256": "5DF34C5CC471E5634A236B8D57EED7F6759D62F76C67EF497B2C645C9CCE62F4",
+      "size_bytes": 1544109
+    }
+  },
+  "experiment": {
+    "target_order": ["BACE1", "PPARG", "PPARA", "PPARD"],
+    "outer_fold_count": 4,
+    "required_model_count": 16,
+    "historical_development_only": true,
+    "variable_k_optimization_executed": false,
+    "wall_clock_used_for_decision": false,
+    "cloud_cqm_execution": false,
+    "quantum_hardware_execution": false
+  },
+  "larger_k_workloads": {
+    "candidate_k_values": [3, 4, 6, 8, 10, 12, 16],
+    "maximum_k": 16,
+    "maximum_pool_fraction": 0.5,
+    "quality_regimes": [
+      {
+        "name": "strict_1pct_quality",
+        "minimum_feasible_density": 0.01
+      },
+      {
+        "name": "balanced_10pct_quality",
+        "minimum_feasible_density": 0.1
+      },
+      {
+        "name": "unconstrained",
+        "minimum_feasible_density": 1.0
+      }
+    ],
+    "quality_threshold_rule": "For each model and k, use exact integer subset-sum dynamic programming to choose the smallest deficit threshold containing at least ceil(density*choose(n,k)) subsets. Equal-deficit boundary states are all retained, so realized density may be slightly larger.",
+    "exact_enumeration_state_limit": 200000,
+    "nonexact_reference_rule": "For cells above the exact limit, use the best objective found by all frozen methods and repeats, label it pooled_best_known, and never call it a global optimum."
+  },
+  "solver_protocol": {
+    "method_order": [
+      "exact_enumeration",
+      "deterministic_best_improvement",
+      "budgeted_multistart_greedy",
+      "budgeted_tabu_search",
+      "constraint_preserving_annealing"
+    ],
+    "stochastic_methods": [
+      "budgeted_multistart_greedy",
+      "budgeted_tabu_search",
+      "constraint_preserving_annealing"
+    ],
+    "strong_classical_methods": [
+      "deterministic_best_improvement",
+      "budgeted_multistart_greedy",
+      "budgeted_tabu_search"
+    ],
+    "qubo_sampler_analog_method": "constraint_preserving_annealing",
+    "stochastic_repeats": 8,
+    "swap_proposal_budget": 4096,
+    "maximum_initialization_attempts": 100000,
+    "tabu_candidate_batch_size": 128,
+    "tabu_tenure": 7,
+    "annealing_beta_range": [0.1, 100.0],
+    "seed_base": 202674000,
+    "initialization_rule": "Random fixed-k subsets are drawn uniformly until the exact quality threshold is met; attempts are reported separately from the matched swap-proposal budget. A deterministic lowest-deficit fallback is permitted only after the frozen maximum attempts.",
+    "neighborhood": "one selected receptor out and one unselected receptor in, preserving cardinality exactly; quality feasibility is checked before objective evaluation",
+    "decision_metric": "matched swap-proposal counts and mean pair-redundancy objective; wall-clock runtime is excluded from route decisions"
+  },
+  "benchmark_gate": {
+    "required_workload_cell_count": 300,
+    "minimum_large_scale_state_count": 1000000000000,
+    "mean_pair_objective_tolerance": 1e-6,
+    "minimum_strong_classical_exact_cell_success_rate": 0.9,
+    "minimum_nonexact_solver_disagreement_fraction": 0.1,
+    "minimum_sampler_nonexact_competitive_fraction": 0.75,
+    "interpretation": "Scale, exact-small-instance validity, and nonexact solver disagreement authorize only an explicit variable-k CQM design. Annealing competitiveness additionally authorizes a local hardware-shaped sampler PoC, but neither gate authorizes direct QPU execution or quantum claims."
+  },
+  "data_boundary": {
+    "historical_development_targets_permitted": ["BACE1", "PPARG", "PPARA", "PPARD"],
+    "fresh_validation_rows_permitted": 0,
+    "locked_test_rows_permitted": 0,
+    "new_docking_jobs_permitted": 0,
+    "cloud_cqm_jobs_permitted": 0,
+    "quantum_hardware_jobs_permitted": 0
+  },
+  "outputs": {
+    "workload_metrics_csv": "results/runs/stage74_larger_k_solver_scaling/workload_metrics.csv",
+    "solver_trials_csv": "results/runs/stage74_larger_k_solver_scaling/solver_trials.csv",
+    "cell_comparison_csv": "results/runs/stage74_larger_k_solver_scaling/cell_comparison.csv",
+    "solver_summary_csv": "results/runs/stage74_larger_k_solver_scaling/solver_summary.csv",
+    "result_json": "data/stage74_larger_k_solver_scaling_result.json",
+    "audit_json": "data/stage74_larger_k_solver_scaling_audit.json",
+    "report_md": "reports/stage-74/larger_k_solver_scaling.md"
+  },
+  "interpretation_boundary": "Stage74 is a post-hoc optimization-scaling diagnostic on four consumed historical development targets. It reuses frozen pair and quality coefficients, does not select a biologically optimal k, and does not measure screening efficacy, independent-target generalization, certified global optima above the enumeration limit, physical embedding, cloud-hybrid speed, QPU performance, quantum scaling, or quantum advantage."
+}

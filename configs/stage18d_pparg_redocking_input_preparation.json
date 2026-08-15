@@ -1,0 +1,63 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage18d-pparg-redocking-input-preparation-20260801-v1",
+  "purpose": "Prepare all 24 frozen PPARG receptors and cognate ligands in the 2GTK frame and derive one audited common redocking box.",
+  "implementation": {
+    "path": "scripts/prepare_stage18d_pparg_redocking_inputs.py",
+    "sha256": "9D2CF3AE5C75840C9431F7178A0107D8CFB34613D9D1A3037546B6167C63AF73"
+  },
+  "inputs": {
+    "selection_summary": {
+      "path": "data/stage18c_pparg_preparation_ready_selection_summary.json",
+      "sha256": "685673CD8336F68A291C3F42BD01888E69ABB05710A9E4D75121A37CDFE8A7C1"
+    },
+    "selected_receptor_manifest": {
+      "path": "data/processed/stage18c_pparg_preparation_ready_selected24.csv",
+      "sha256": "90BE10D16C858CF30C43987FD47D5D923BF7B26C72ED4473E7A1824D187FEC5F"
+    },
+    "reference_mmcif": {
+      "path": "data/raw/rcsb/pparg/2GTK.cif",
+      "sha256": "A4405F1D3C991C934B9DCDD91AE23648DA826B3F44F4CF29660F49A8F6352AA5"
+    },
+    "prepare_receptor_script": {
+      "path": "scripts/prepare_receptor.py",
+      "sha256": "FFC7D1986B501AE90818024ED2441CB9AE0F37B27BF6F46C622B0C723711C580"
+    }
+  },
+  "reference": {
+    "pdb_id": "2GTK",
+    "auth_chain": "A",
+    "anchor_residue_numbers": [281, 282, 284, 285, 286, 288, 289, 323, 326, 327, 330, 341, 348, 353, 364, 449, 453, 469, 473]
+  },
+  "expected": {
+    "receptor_count": 24,
+    "cognate_ligand_count": 24
+  },
+  "preparation_protocol": {
+    "maximum_element_matched_coordinate_error_angstrom": 0.05,
+    "allow_bad_residue_deletion": false,
+    "allow_missing_heavy_atom_repair": false
+  },
+  "ligand_download": {
+    "url_template": "https://models.rcsb.org/v1/{pdb_id}/ligand",
+    "timeout_seconds": 60,
+    "maximum_retries": 8,
+    "retry_backoff_seconds": 2.0
+  },
+  "common_box_rule": {
+    "coordinate_population": "all 24 audited cognate crystal ligands in the common 2GTK PPARG ligand-binding-domain frame",
+    "minimum_crystal_pose_margin_angstrom": 3.5,
+    "size_increment_angstrom": 2.0,
+    "minimum_axis_size_angstrom": 22.0,
+    "maximum_axis_size_angstrom": 50.0,
+    "center_decimal_places": 2
+  },
+  "outputs": {
+    "run_directory": "results/runs/stage18d_pparg_cognate_redocking_input_preparation",
+    "receptor_manifest_csv": "data/processed/stage18d_pparg_prepared_receptor_manifest.csv",
+    "redocking_case_manifest_csv": "data/processed/stage18d_pparg_cognate_redocking_case_manifest.csv",
+    "common_box_json": "data/stage18d_pparg_common_box.json",
+    "summary_json": "data/stage18d_pparg_redocking_input_preparation_summary.json"
+  },
+  "interpretation_boundary": "Passing input preparation establishes only receptor and cognate-ligand technical readiness in one common frame. It does not establish pose recovery, screening enrichment, QUBO portability, QUBO superiority, quantum execution, or quantum advantage."
+}

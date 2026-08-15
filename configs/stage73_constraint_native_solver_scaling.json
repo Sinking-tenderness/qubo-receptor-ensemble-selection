@@ -1,0 +1,113 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage73-constraint-native-k3-classical-solver-scaling-20260807-v1",
+  "purpose": "Measure the actual combinatorial scale and classical solver hardness of the frozen Stage72 k=3 constraint-native receptor-selection objectives before authorizing any larger-k, cloud, or quantum-hardware study.",
+  "implementation": {
+    "runner": {
+      "path": "scripts/run_stage73_constraint_native_solver_scaling.py",
+      "sha256": "5C8AF5742EA4E19ED44CA837D974EFFD20D4036BA46465EB409CE1837373BC37"
+    },
+    "independent_auditor": {
+      "path": "scripts/audit_stage73_constraint_native_solver_scaling.py",
+      "sha256": "6C2397734DE2A66DAF151C7533DEE726A8505C4B1CAA29F4B7764F866E5F5FE0"
+    }
+  },
+  "inputs": {
+    "stage72_config": {
+      "path": "configs/stage72_constraint_native_cqm.json",
+      "sha256": "CFD0B09304082573959356D98D7C75F41CE9B3337774B532EAF02A68B015F749",
+      "size_bytes": 5955
+    },
+    "stage72_result": {
+      "path": "data/stage72_constraint_native_cqm_result.json",
+      "sha256": "3CA56CDFB20C4F17F15F53AC5D126127D77110AE6D8955CA51CEF70C549DC5BA",
+      "size_bytes": 6904
+    },
+    "stage72_audit": {
+      "path": "data/stage72_constraint_native_cqm_audit.json",
+      "sha256": "E4FBB1D563DF6BB8F1574669057C2D9E2994CB50A7EB415499F16570CCBA47B7",
+      "size_bytes": 967
+    },
+    "stage72_model_record": {
+      "path": "data/stage72_constraint_native_cqm_model_record.json",
+      "sha256": "D7BD285F4CB0787C1FF63EEC190CE692F72F2E885CB610BFEA1D70AC2505D1DF",
+      "size_bytes": 737219
+    },
+    "stage72_model_metrics": {
+      "path": "results/runs/stage72_constraint_native_cqm/model_metrics.csv",
+      "sha256": "23FA835F7900595068A90DC1E15D2D2F1231A1042D4884E3796F1384A238583B",
+      "size_bytes": 8519
+    }
+  },
+  "experiment": {
+    "target_order": ["BACE1", "PPARG", "PPARA", "PPARD"],
+    "outer_fold_count": 4,
+    "reference_k": 3,
+    "required_model_count": 16,
+    "historical_development_only": true,
+    "wall_clock_used_for_decision": false,
+    "cloud_cqm_execution": false,
+    "quantum_hardware_execution": false
+  },
+  "scaling_workloads": {
+    "candidate_pool_sizes": [8, 12, 16, 24, 32, 48, 64, 96],
+    "always_include_full_pool": true,
+    "quality_regimes": [
+      "frozen_quality_floor",
+      "relaxed_10pct_quality_floor",
+      "no_quality_floor"
+    ],
+    "relaxed_feasible_quantile": 0.1,
+    "nested_pool_order_rule": "Sort receptors by ascending frozen Stage72 integer quality deficit, then SHA-256 of receptor_id, then receptor_id. Do not use objective value, selected subset, validation performance, or test data to define a pool.",
+    "frozen_quality_floor_rule": "Use the exact Stage72 maximum integer deficit D.",
+    "relaxed_quality_floor_rule": "Use max(D, the smallest deterministic integer threshold containing at least ceil(0.10*choose(n,k)) fixed-k states).",
+    "no_quality_floor_rule": "Use the maximum deficit sum among all fixed-k states in the nested pool."
+  },
+  "solver_protocol": {
+    "method_order": [
+      "exact_enumeration",
+      "single_start_best_improvement",
+      "budgeted_random_feasible",
+      "budgeted_multistart_greedy",
+      "constraint_preserving_annealing"
+    ],
+    "stochastic_methods": [
+      "budgeted_random_feasible",
+      "budgeted_multistart_greedy",
+      "constraint_preserving_annealing"
+    ],
+    "stochastic_repeats": 8,
+    "proposal_budget": 2048,
+    "annealing_beta_range": [0.1, 100.0],
+    "seed_base": 202673000,
+    "fixed_cardinality_neighborhood": "one selected receptor out and one unselected receptor in",
+    "oracle_feasible_initialization": true,
+    "oracle_feasible_initialization_interpretation": "Budgeted stochastic methods sample initial states from the independently enumerated feasible set. Results therefore measure optimization conditional on feasibility, not end-to-end CQM feasibility discovery.",
+    "decision_metric": "deterministic proposal and objective-evaluation counts; wall-clock runtime is descriptive only and is excluded from route decisions"
+  },
+  "benchmark_gate": {
+    "required_workload_cell_count": 276,
+    "maximum_current_exact_enumeration_state_count": 200000,
+    "maximum_full_pool_frozen_feasible_subset_count": 32,
+    "minimum_full_frozen_multistart_success_rate": 0.9,
+    "minimum_full_frozen_annealing_success_rate": 0.9,
+    "interpretation": "Passing this gate establishes that the current k=3 workload is classically tractable and that the local constraint-native protocol is ready to be scaled. It authorizes only a preregistered larger-k or variable-k benchmark, never a quantum advantage claim or direct hardware execution."
+  },
+  "data_boundary": {
+    "historical_development_targets_permitted": ["BACE1", "PPARG", "PPARA", "PPARD"],
+    "fresh_validation_rows_permitted": 0,
+    "locked_test_rows_permitted": 0,
+    "new_docking_jobs_permitted": 0,
+    "cloud_cqm_jobs_permitted": 0,
+    "quantum_hardware_jobs_permitted": 0
+  },
+  "outputs": {
+    "workload_metrics_csv": "results/runs/stage73_constraint_native_solver_scaling/workload_metrics.csv",
+    "solver_trials_csv": "results/runs/stage73_constraint_native_solver_scaling/solver_trials.csv",
+    "solver_summary_csv": "results/runs/stage73_constraint_native_solver_scaling/solver_summary.csv",
+    "result_json": "data/stage73_constraint_native_solver_scaling_result.json",
+    "audit_json": "data/stage73_constraint_native_solver_scaling_audit.json",
+    "report_md": "reports/stage-73/constraint_native_solver_scaling.md"
+  },
+  "interpretation_boundary": "Stage73 is a post-hoc classical solver-scaling diagnostic on four consumed historical development targets and the frozen Stage72 k=3 objective. It does not measure screening efficacy, independent-target generalization, physical embedding, QPU sampling, cloud-hybrid performance, wall-clock speedup, quantum scaling, or quantum advantage."
+}

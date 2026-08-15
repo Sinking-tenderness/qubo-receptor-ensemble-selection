@@ -1,0 +1,51 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage18b-pparg-rcsb-candidate-discovery-20260801-v1",
+  "purpose": "Snapshot and audit all RCSB P37231 X-ray entries using frozen PPARG metadata rules without reading benchmark docking scores or held-out rows.",
+  "retrieved_on": "2026-08-01",
+  "implementation": {
+    "path": "scripts/discover_stage18b_pparg_rcsb_candidates.py",
+    "sha256": "0063EB3FF695326D3A1A216313BF2680C990D43A6E014B6C75A39966A13223CD"
+  },
+  "preregistration": {
+    "path": "configs/stage18_pparg_replacement_exploratory_preregistration.json",
+    "sha256": "AE6361F7DDCB643643EF7A99BC4A77165F6E6D883672046F54D83CA4DD3CCD15"
+  },
+  "source_audit": {
+    "path": "data/stage18a_pparg_source_and_active_allocation_summary.json",
+    "sha256": "064EA7A4719B16C91C247377D8AEECF1946AC31BF2405CEA4E9AAD0902675C8E"
+  },
+  "discovery_rules": {
+    "experimental_method": "X-RAY DIFFRACTION",
+    "minimum_metadata_eligible_count": 24,
+    "metadata_eligibility": {
+      "required_mutation_count": 0,
+      "maximum_resolution_angstrom": 2.5,
+      "minimum_reference_sequence_coverage": 0.5,
+      "minimum_sample_sequence_length": 240,
+      "maximum_sample_sequence_length": 310,
+      "require_same_chain_drug_like_nonpolymer": true,
+      "minimum_nonpolymer_formula_weight_kda": 0.15,
+      "maximum_nonpolymer_formula_weight_kda": 0.9,
+      "excluded_nonpolymer_ids": ["ACT", "ADP", "AMP", "ATP", "BME", "CA", "CD", "CIT", "CL", "CO", "DMS", "EDO", "FLC", "GOL", "K", "MES", "MG", "MN", "MPD", "NA", "NI", "PEG", "PG4", "PGE", "PO4", "SO4", "TRS", "ZN"],
+      "excluded_title_patterns": ["\\bapo\\b", "unliganded", "covalent", "irreversible", "mutant", "mutation"]
+    }
+  },
+  "rcsb": {
+    "search_endpoint": "https://search.rcsb.org/rcsbsearch/v2/query",
+    "graphql_endpoint": "https://data.rcsb.org/graphql",
+    "metadata_chunk_size": 40,
+    "request_timeout_seconds": 60,
+    "maximum_retries": 4,
+    "retry_backoff_seconds": 1.0
+  },
+  "outputs": {
+    "search_snapshot_json": "data/raw/rcsb/pparg/p37231_xray_search_snapshot_20260801.json",
+    "metadata_snapshot_json": "data/raw/rcsb/pparg/p37231_xray_metadata_snapshot_20260801.json",
+    "candidate_metadata_csv": "data/processed/stage18b_pparg_rcsb_candidate_metadata.csv",
+    "eligible_candidates_csv": "data/processed/stage18b_pparg_rcsb_metadata_eligible_candidates.csv",
+    "summary_json": "data/stage18b_pparg_rcsb_candidate_discovery_summary.json",
+    "report_md": "reports/stage-18b/pparg_rcsb_candidate_discovery.md"
+  },
+  "interpretation_boundary": "Metadata eligibility is label-independent and only authorizes coordinate download and structural auditing. It does not establish active-site suitability, preparation quality, redocking success, enrichment, QUBO portability, QUBO superiority, or quantum advantage."
+}

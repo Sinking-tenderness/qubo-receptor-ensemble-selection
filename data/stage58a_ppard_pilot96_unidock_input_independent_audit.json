@@ -1,0 +1,53 @@
+{
+  "audit_id": "stage58a-ppard-pilot96-independent-input-audit-v1",
+  "data_boundary": {
+    "docking_scores_read": 0,
+    "fresh_validation_structures_prepared": 0,
+    "locked_test_structures_prepared": 0
+  },
+  "decision_boundary": "This audit establishes input integrity only; it does not establish enrichment, functional complementarity, QUBO superiority, quantum execution, or quantum advantage.",
+  "experiment_class": "prospective_outcome_blind_development_pilot",
+  "failed_ligand_count": 0,
+  "fold_label_counts": {
+    "fold0_active": 12,
+    "fold0_decoy": 12,
+    "fold1_active": 12,
+    "fold1_decoy": 12,
+    "fold2_active": 12,
+    "fold2_decoy": 12,
+    "fold3_active": 12,
+    "fold3_decoy": 12
+  },
+  "inputs": {
+    "allocation_summary": {
+      "path": "data/stage56_ppard_ligand_panel_allocation_summary.json",
+      "sha256": "1F4DE024E62F1420433092259E2352B9E66A7F14AB50D7ED0EBF8290B2B522B1"
+    },
+    "prepared_manifest": {
+      "path": "data/processed/stage58a_ppard_pilot96_unidock_pdbqt_manifest.csv",
+      "sha256": "874B1CE40E52503FDF07F92BEBE557B5656F1A07BC7842C863110B2AB00ADA5F"
+    },
+    "stage57_summary": {
+      "path": "data/stage57_ppard_cognate_redocking_summary.json",
+      "sha256": "BA6CF2195EA2144C3E7BFFEEA681A5B26EA3683A71F29A4F57A7BA4EE3ED7A90"
+    }
+  },
+  "label_counts": {
+    "active": 48,
+    "decoy": 48
+  },
+  "ligand_count": 96,
+  "macrocycle_closure_pseudoatom_ligand_count": 0,
+  "next_gate": "dock Pilot-96 against all 29 Stage57-passing receptors with three frozen seeds",
+  "preparation_variant_counts": {
+    "meeko_flexible": 92,
+    "meeko_rigid_macrocycles": 4
+  },
+  "receptor_count_frozen_for_next_stage": 29,
+  "schema_version": "1.0",
+  "sdf_warning_counts": {
+    "MMFF94_not_converged_code_1": 5
+  },
+  "status": "independent_stage58a_ppard_pilot96_input_audit_ok",
+  "verified_prepared_file_count": 192
+}

@@ -1,0 +1,87 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage28-pparg-multistart-md-ensemble-20260802-v1",
+  "purpose": "Construct a 1200-frame real MD-derived PPARG pocket-state pool for a later frozen QUBO scaling benchmark without using docking scores or ligand labels.",
+  "evidence_timing": {
+    "experiment_class": "prospective_structure_only_md_pool_construction",
+    "stage28_md_outcomes_known_before_freeze": false,
+    "starting_structures_selected_without_stage27_qubo_outcomes": true,
+    "docking_scores_permitted": false,
+    "ligand_labels_permitted": false,
+    "quantum_hardware_execution": false
+  },
+  "target": {
+    "target_id": "PPARG",
+    "protein_chain_id": "A",
+    "source_selection_manifest": "data/processed/stage18c_pparg_selected24_structural_pool.csv",
+    "aligned_structure_directory": "results/runs/stage18c_pparg_structural_pool/aligned",
+    "starting_structure_count": 8,
+    "starting_structure_rule": "first eight current hard-gate-passing entries in the pre-existing deterministic reference-seeded max-min structural order",
+    "pocket_residue_numbers": [255, 280, 281, 282, 283, 284, 285, 286, 288, 289, 290, 292, 323, 326, 327, 330, 339, 340, 341, 342, 348, 353, 363, 364, 367, 449, 453, 465, 469, 473]
+  },
+  "system": {
+    "target_ph": 7.4,
+    "protein_and_water_xml": ["amber14-all.xml", "amber14/tip3pfb.xml"],
+    "water_geometry_model": "tip3p",
+    "nonbonded_cutoff_nm": 1.0,
+    "padding_nm": 1.0,
+    "ionic_strength_molar": 0.15,
+    "positive_ion": "Na+",
+    "negative_ion": "Cl-",
+    "neutralize": true,
+    "ligands_retained": false,
+    "crystal_waters_retained": false
+  },
+  "dynamics": {
+    "platform": "CUDA",
+    "precision": "mixed",
+    "temperature_kelvin": 300.0,
+    "pressure_bar": 1.0,
+    "timestep_fs": 2.0,
+    "friction_per_ps": 1.0,
+    "minimization_tolerance_kj_per_mol_nm": 10.0,
+    "minimization_max_iterations": 500,
+    "nvt_duration_ps": 100.0,
+    "npt_duration_ps": 500.0,
+    "equilibration_checkpoint_interval_ps": 10.0,
+    "production_duration_ns_per_start": 3.0,
+    "production_metrics_interval_ps": 10.0,
+    "production_frame_interval_ps": 20.0,
+    "production_checkpoint_interval_ps": 100.0,
+    "barostat_frequency_steps": 25,
+    "base_seed": 20260828
+  },
+  "sampling": {
+    "expected_frames_per_start": 150,
+    "expected_total_frames": 1200,
+    "feature_blocks": ["pocket_ca_pairwise_distances", "pocket_sidechain_heavy_centroid_pairwise_distances"],
+    "minimum_feature_sd_angstrom": 0.01,
+    "pairwise_distance_storage": "compressed_condensed_float32_npz",
+    "interpretation": "Eight short trajectories expand local pocket-state sampling from experimentally distinct starts. Frames are time-correlated and do not establish equilibrium or convergence."
+  },
+  "runtime": {
+    "conda_environment_file": "environment/stage03_openmm.yml",
+    "recommended_gpu": "one NVIDIA RTX 4090 or equivalent CUDA GPU",
+    "run_root": "results/runs/stage28_pparg_multistart_md",
+    "generated_config_directory": "configs/stage28_pparg_multistart_md",
+    "start_manifest": "data/processed/stage28_pparg_multistart_md_start_manifest.csv"
+  },
+  "outputs": {
+    "preparation_result_json": "data/stage28_pparg_multistart_md_input_preparation_result.json",
+    "frame_manifest_csv": "results/runs/stage28_pparg_multistart_md/ensemble/frame_manifest.csv",
+    "feature_archive_npz": "results/runs/stage28_pparg_multistart_md/ensemble/pocket_features.npz",
+    "distance_archive_npz": "results/runs/stage28_pparg_multistart_md/ensemble/pairwise_distances_condensed.npz",
+    "ensemble_summary_json": "results/runs/stage28_pparg_multistart_md/ensemble/summary.json",
+    "audit_json": "data/stage28_pparg_multistart_md_ensemble_audit.json"
+  },
+  "gate": {
+    "require_all_start_runs": true,
+    "required_total_frames": 1200,
+    "require_finite_features": true,
+    "require_nonzero_variable_features": true,
+    "minimum_distinct_start_count": 8,
+    "new_docking_jobs_authorized_by_this_stage": false,
+    "quantum_hardware_authorized": false
+  },
+  "interpretation_boundary": "Stage28 constructs and audits a structure-only MD frame pool. It cannot establish MD convergence, docking enrichment, biological benefit, QUBO superiority, quantum speedup, or quantum advantage. A passing gate authorizes only a separately frozen Stage29 solver-scaling benchmark on the resulting structural features."
+}

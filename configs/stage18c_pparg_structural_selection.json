@@ -1,0 +1,85 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage18c-pparg-label-independent-structural-selection-20260801-v1",
+  "purpose": "Download, align, audit, and deterministically select 24 PPARG receptor candidates for cognate redocking without reading activity labels beyond frozen source allocation or any docking outcome.",
+  "implementation": {
+    "path": "scripts/select_stage18c_pparg_structural_pool.py",
+    "sha256": "8F3F0B980ABDBE926860C17FBE587BB3CCDDCA08D120A58BFDD7989663CC944A"
+  },
+  "preregistration": {
+    "path": "configs/stage18_pparg_replacement_exploratory_preregistration.json",
+    "sha256": "AE6361F7DDCB643643EF7A99BC4A77165F6E6D883672046F54D83CA4DD3CCD15"
+  },
+  "discovery_summary": {
+    "path": "data/stage18b_pparg_rcsb_candidate_discovery_summary.json",
+    "sha256": "EF0E7062C0935BB6E5D4AFD57AE46FED6A55036599D4FE2A61142C39BD9147EC"
+  },
+  "inputs": {
+    "eligible_metadata_csv": {
+      "path": "data/processed/stage18b_pparg_rcsb_metadata_eligible_candidates.csv",
+      "sha256": "13DEE9902C4870E5F09B810B11876E2606C2C9ECF771BD9FBBF231972897C9A7"
+    },
+    "reference_mmcif": {
+      "path": "data/raw/rcsb/pparg/2GTK.cif",
+      "sha256": "A4405F1D3C991C934B9DCDD91AE23648DA826B3F44F4CF29660F49A8F6352AA5"
+    }
+  },
+  "reference": {
+    "pdb_id": "2GTK",
+    "auth_chain": "A",
+    "ligand_comp_id": "208",
+    "visible_protein_ca_count": 258,
+    "pocket_derivation": "wild-type chain-A standard amino-acid residues with a heavy atom within 6.0 A of any 208 heavy atom",
+    "anchor_derivation": "the reference-pocket subset with a heavy atom within 4.0 A of any 208 heavy atom",
+    "pocket_residue_numbers": [255, 280, 281, 282, 283, 284, 285, 286, 288, 289, 290, 292, 323, 326, 327, 330, 339, 340, 341, 342, 348, 353, 363, 364, 367, 449, 453, 465, 469, 473],
+    "anchor_residue_numbers": [281, 282, 284, 285, 286, 288, 289, 323, 326, 327, 330, 341, 348, 353, 364, 449, 453, 469, 473]
+  },
+  "coordinate_gate": {
+    "coordinate_format": "RCSB mmCIF",
+    "chain_identifier": "author chain from the frozen metadata candidate CSV",
+    "alternate_location_rule": "highest occupancy, then blank, A, and lexical tie-break",
+    "alignment": "proper-rotation Kabsch alignment using same-number, same-residue-name protein C-alpha atoms",
+    "minimum_matched_ca_count": 230,
+    "maximum_aligned_global_ca_rmsd_angstrom": 3.5,
+    "minimum_pocket_residue_fraction": 0.9,
+    "require_all_anchor_residues": true,
+    "require_reference_residue_name_match": true,
+    "minimum_pocket_heavy_atom_completeness_fraction": 0.85,
+    "require_complete_reference_heavy_atom_template_for_each_anchor": true,
+    "require_qualifying_ligand_within_reference_ligand_angstrom": 6.0,
+    "hidden_covalency": {
+      "exclude_explicit_mmcif_covalent_connection_between_target_chain_and_qualifying_ligand": true,
+      "exclude_if_minimum_protein_ligand_heavy_atom_distance_at_or_below_angstrom": 2.0
+    },
+    "missing_nonanchor_feature_imputation": "aligned 2GTK reference coordinate",
+    "record_global_incomplete_standard_amino_acid_residues": true,
+    "global_incomplete_residue_policy": "record only during structural selection; apply one frozen deterministic completion protocol before receptor preparation and redocking"
+  },
+  "structural_selection": {
+    "features": ["pairwise ligand-pocket C-alpha distances", "pairwise ligand-pocket side-chain heavy-atom centroid distances"],
+    "minimum_variable_feature_sd_angstrom": 0.01,
+    "standardization": "feature-wise z score over all coordinate-eligible structures, then division by the square root of retained feature count",
+    "selection_rule": "deterministic max-min structural distance seeded by PPARG_2GTK_reference; ties resolved by lexical conformer ID",
+    "target_receptor_count": 24,
+    "failure_action": "stop before receptor preparation, redocking, production docking, QUBO fitting, validation sampling, or validation access if fewer than 24 structures pass"
+  },
+  "download": {
+    "url_template": "https://files.rcsb.org/download/{pdb_id}.cif",
+    "workers": 12,
+    "timeout_seconds": 60,
+    "maximum_retries": 4,
+    "retry_backoff_seconds": 1.0
+  },
+  "outputs": {
+    "raw_mmcif_directory": "data/raw/rcsb/pparg",
+    "aligned_protein_pdb_directory": "results/runs/stage18c_pparg_structural_pool/aligned",
+    "coordinate_audit_csv": "data/processed/stage18c_pparg_coordinate_candidate_audit.csv",
+    "eligible_pool_manifest_csv": "data/processed/stage18c_pparg_coordinate_eligible_pool.csv",
+    "feature_matrix_csv": "data/processed/stage18c_pparg_structural_features.csv",
+    "pairwise_distances_csv": "data/processed/stage18c_pparg_structural_distances.csv",
+    "selected24_manifest_csv": "data/processed/stage18c_pparg_selected24_structural_pool.csv",
+    "summary_json": "data/stage18c_pparg_structural_selection_summary.json",
+    "report_md": "reports/stage-18c/pparg_structural_selection.md"
+  },
+  "interpretation_boundary": "Passing this gate establishes only a structurally diverse, label-independent PPARG receptor candidate pool. Receptor preparation and three-seed cognate redocking remain mandatory before any PPARG benchmark docking; no enrichment, QUBO, quantum-application, or quantum-advantage conclusion follows."
+}

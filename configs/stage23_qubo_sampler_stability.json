@@ -1,0 +1,70 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage23-qubo-sampler-stability-20260802-v1",
+  "purpose": "Stabilize optimization of the frozen Stage22 structural-state coverage objective before authorizing any new docking.",
+  "evidence_timing": {
+    "experiment_class": "posthoc_structure_only_solver_stability_diagnostic",
+    "docking_outcomes_known": true,
+    "schedule_frozen_before_run": true,
+    "new_docking_jobs": false,
+    "fresh_validation_or_test_rows_permitted": false,
+    "quantum_hardware_execution": false
+  },
+  "targets": {
+    "MK14": {
+      "reference_id": "MK14_2QD9_reference",
+      "inputs": {
+        "eligible_pool": "data/processed/stage05_mk14_rcsb_coordinate_eligible_pool_v3.csv",
+        "coordinate_audit": "data/processed/stage05_mk14_rcsb_coordinate_candidate_audit_v3.csv",
+        "feature_matrix": "data/processed/stage05_mk14_rcsb_pocket_distance_features_v3.csv",
+        "pairwise_distances": "data/processed/stage05_mk14_rcsb_structural_distances_v3.csv"
+      }
+    },
+    "PPARG": {
+      "reference_id": "PPARG_2GTK_reference",
+      "inputs": {
+        "eligible_pool": "data/processed/stage18c_pparg_coordinate_eligible_pool.csv",
+        "coordinate_audit": "data/processed/stage18c_pparg_coordinate_candidate_audit.csv",
+        "feature_matrix": "data/processed/stage18c_pparg_structural_features.csv",
+        "pairwise_distances": "data/processed/stage18c_pparg_structural_distances.csv"
+      }
+    }
+  },
+  "objective": {
+    "k": 8,
+    "neighborhood_fractions": [
+      0.05,
+      0.10,
+      0.20
+    ],
+    "primary_neighborhood_fraction": 0.10,
+    "diversity_weight": 0.15
+  },
+  "sampler": {
+    "batch_count": 4,
+    "reads_per_batch": 64,
+    "sweeps_per_read": 3000,
+    "temperature_start": 0.04,
+    "temperature_end": 0.0002,
+    "base_seed": 20260802,
+    "initialization": "uniform_random_fixed_cardinality_subset",
+    "move": "one_selected_conformer_swapped_with_one_unselected_conformer"
+  },
+  "gate": {
+    "objective_tolerance": 0.0001,
+    "minimum_batch_fraction_within_tolerance": 0.75,
+    "minimum_batch_fraction_above_strong_classical": 0.75,
+    "minimum_gain_vs_strong_classical": 1e-9,
+    "minimum_positive_sensitivity_fractions": 2
+  },
+  "baselines": {
+    "strong_classical_diagnostic": "data/stage22_beam_baseline_diagnostic.json"
+  },
+  "outputs": {
+    "read_csv": "results/runs/stage23_qubo_sampler_stability/read_results.csv",
+    "batch_csv": "results/runs/stage23_qubo_sampler_stability/batch_results.csv",
+    "result_json": "data/stage23_qubo_sampler_stability_result.json",
+    "report_md": "reports/stage-23/qubo_sampler_stability.md"
+  },
+  "interpretation_boundary": "This stage can establish only objective-level stability of a classical simulated-annealing sampler for the frozen structural QUBO and relative performance against the recorded classical baselines. It cannot establish quantum speedup, quantum advantage, docking enrichment, prospective generalization, or biological benefit. A passing gate authorizes only a separately preregistered small matched Uni-Dock experiment."
+}

@@ -1,0 +1,1739 @@
+{
+  "data_boundary": {
+    "test_rows_read": 0,
+    "validation_rows_read": 0
+  },
+  "hantz_auc_top3_subset": [
+    "PPARG_2Q6S_aligned",
+    "PPARG_3FUR_aligned",
+    "PPARG_5DWL_aligned"
+  ],
+  "models": {
+    "edock_rf_all16": {
+      "model": {
+        "path": "results/runs/stage19d_pparg_train668_frozen_comparators/models/edock_rf_all16.joblib",
+        "sha256": "156DC4F7A55F6E49310E03E031D79562ABFA881328815A153FEED2E77C2FF5B1",
+        "size_bytes": 1823083
+      },
+      "normalization_bounds": {
+        "primary": {
+          "PPARG_2FVJ_aligned": {
+            "maximum": -6.027,
+            "minimum": -13.107
+          },
+          "PPARG_2G0H_aligned": {
+            "maximum": -5.788,
+            "minimum": -12.035
+          },
+          "PPARG_2GTK_reference": {
+            "maximum": -6.039,
+            "minimum": -11.146
+          },
+          "PPARG_2HFP_aligned": {
+            "maximum": -5.804,
+            "minimum": -11.675
+          },
+          "PPARG_2HWR_aligned": {
+            "maximum": -5.845,
+            "minimum": -11.924
+          },
+          "PPARG_2P4Y_aligned": {
+            "maximum": -5.931,
+            "minimum": -12.015
+          },
+          "PPARG_2Q6S_aligned": {
+            "maximum": -5.037,
+            "minimum": -12.323
+          },
+          "PPARG_3FUR_aligned": {
+            "maximum": -5.675,
+            "minimum": -11.44
+          },
+          "PPARG_3TY0_aligned": {
+            "maximum": -6.014,
+            "minimum": -11.864
+          },
+          "PPARG_3V9V_aligned": {
+            "maximum": -5.903,
+            "minimum": -11.827
+          },
+          "PPARG_4HEE_aligned": {
+            "maximum": -5.769,
+            "minimum": -11.359
+          },
+          "PPARG_5DWL_aligned": {
+            "maximum": -6.128,
+            "minimum": -12.597
+          },
+          "PPARG_5Y2T_aligned": {
+            "maximum": -5.795,
+            "minimum": -10.675
+          },
+          "PPARG_6AD9_aligned": {
+            "maximum": -5.814,
+            "minimum": -12.783
+          },
+          "PPARG_6MS7_aligned": {
+            "maximum": -5.635,
+            "minimum": -12.085
+          },
+          "PPARG_8B8X_aligned": {
+            "maximum": -6.025,
+            "minimum": -12.002
+          }
+        },
+        "seed0": {
+          "PPARG_2FVJ_aligned": {
+            "maximum": -5.939,
+            "minimum": -13.146
+          },
+          "PPARG_2G0H_aligned": {
+            "maximum": -5.514,
+            "minimum": -12.002
+          },
+          "PPARG_2GTK_reference": {
+            "maximum": -6.063,
+            "minimum": -11.149
+          },
+          "PPARG_2HFP_aligned": {
+            "maximum": -5.963,
+            "minimum": -11.624
+          },
+          "PPARG_2HWR_aligned": {
+            "maximum": -5.929,
+            "minimum": -12.29
+          },
+          "PPARG_2P4Y_aligned": {
+            "maximum": -5.918,
+            "minimum": -12.015
+          },
+          "PPARG_2Q6S_aligned": {
+            "maximum": 111.136,
+            "minimum": -12.407
+          },
+          "PPARG_3FUR_aligned": {
+            "maximum": -5.68,
+            "minimum": -11.4
+          },
+          "PPARG_3TY0_aligned": {
+            "maximum": -5.771,
+            "minimum": -11.913
+          },
+          "PPARG_3V9V_aligned": {
+            "maximum": -6.054,
+            "minimum": -11.756
+          },
+          "PPARG_4HEE_aligned": {
+            "maximum": -5.902,
+            "minimum": -11.471
+          },
+          "PPARG_5DWL_aligned": {
+            "maximum": -5.804,
+            "minimum": -12.613
+          },
+          "PPARG_5Y2T_aligned": {
+            "maximum": -5.875,
+            "minimum": -10.674
+          },
+          "PPARG_6AD9_aligned": {
+            "maximum": -5.814,
+            "minimum": -12.8
+          },
+          "PPARG_6MS7_aligned": {
+            "maximum": -5.635,
+            "minimum": -12.309
+          },
+          "PPARG_8B8X_aligned": {
+            "maximum": -5.995,
+            "minimum": -11.996
+          }
+        },
+        "seed1": {
+          "PPARG_2FVJ_aligned": {
+            "maximum": -5.889,
+            "minimum": -13.107
+          },
+          "PPARG_2G0H_aligned": {
+            "maximum": 32.455,
+            "minimum": -12.035
+          },
+          "PPARG_2GTK_reference": {
+            "maximum": -5.886,
+            "minimum": -10.674
+          },
+          "PPARG_2HFP_aligned": {
+            "maximum": -5.804,
+            "minimum": -11.675
+          },
+          "PPARG_2HWR_aligned": {
+            "maximum": -5.845,
+            "minimum": -11.968
+          },
+          "PPARG_2P4Y_aligned": {
+            "maximum": -5.669,
+            "minimum": -12.036
+          },
+          "PPARG_2Q6S_aligned": {
+            "maximum": -5.037,
+            "minimum": -12.323
+          },
+          "PPARG_3FUR_aligned": {
+            "maximum": -5.647,
+            "minimum": -11.447
+          },
+          "PPARG_3TY0_aligned": {
+            "maximum": -5.438,
+            "minimum": -11.873
+          },
+          "PPARG_3V9V_aligned": {
+            "maximum": -5.829,
+            "minimum": -11.863
+          },
+          "PPARG_4HEE_aligned": {
+            "maximum": -5.656,
+            "minimum": -11.472
+          },
+          "PPARG_5DWL_aligned": {
+            "maximum": -5.923,
+            "minimum": -12.597
+          },
+          "PPARG_5Y2T_aligned": {
+            "maximum": -5.795,
+            "minimum": -10.675
+          },
+          "PPARG_6AD9_aligned": {
+            "maximum": -5.763,
+            "minimum": -12.783
+          },
+          "PPARG_6MS7_aligned": {
+            "maximum": -5.701,
+            "minimum": -12.085
+          },
+          "PPARG_8B8X_aligned": {
+            "maximum": -6.026,
+            "minimum": -12.021
+          }
+        },
+        "seed2": {
+          "PPARG_2FVJ_aligned": {
+            "maximum": -5.72,
+            "minimum": -13.065
+          },
+          "PPARG_2G0H_aligned": {
+            "maximum": -5.753,
+            "minimum": -12.042
+          },
+          "PPARG_2GTK_reference": {
+            "maximum": -5.78,
+            "minimum": -11.146
+          },
+          "PPARG_2HFP_aligned": {
+            "maximum": -5.699,
+            "minimum": -11.711
+          },
+          "PPARG_2HWR_aligned": {
+            "maximum": -5.626,
+            "minimum": -11.857
+          },
+          "PPARG_2P4Y_aligned": {
+            "maximum": -6.049,
+            "minimum": -11.927
+          },
+          "PPARG_2Q6S_aligned": {
+            "maximum": -5.157,
+            "minimum": -12.373
+          },
+          "PPARG_3FUR_aligned": {
+            "maximum": -5.647,
+            "minimum": -11.44
+          },
+          "PPARG_3TY0_aligned": {
+            "maximum": -5.98,
+            "minimum": -11.864
+          },
+          "PPARG_3V9V_aligned": {
+            "maximum": -5.889,
+            "minimum": -11.827
+          },
+          "PPARG_4HEE_aligned": {
+            "maximum": -5.769,
+            "minimum": -11.573
+          },
+          "PPARG_5DWL_aligned": {
+            "maximum": -5.751,
+            "minimum": -12.532
+          },
+          "PPARG_5Y2T_aligned": {
+            "maximum": -5.518,
+            "minimum": -10.705
+          },
+          "PPARG_6AD9_aligned": {
+            "maximum": -5.955,
+            "minimum": -12.647
+          },
+          "PPARG_6MS7_aligned": {
+            "maximum": -5.519,
+            "minimum": -12.133
+          },
+          "PPARG_8B8X_aligned": {
+            "maximum": -5.956,
+            "minimum": -12.002
+          }
+        },
+        "sensitivity": {
+          "PPARG_2FVJ_aligned": {
+            "maximum": -6.202,
+            "minimum": -13.146
+          },
+          "PPARG_2G0H_aligned": {
+            "maximum": -6.098,
+            "minimum": -12.042
+          },
+          "PPARG_2GTK_reference": {
+            "maximum": -6.063,
+            "minimum": -11.149
+          },
+          "PPARG_2HFP_aligned": {
+            "maximum": -5.963,
+            "minimum": -11.711
+          },
+          "PPARG_2HWR_aligned": {
+            "maximum": -5.929,
+            "minimum": -12.29
+          },
+          "PPARG_2P4Y_aligned": {
+            "maximum": -6.049,
+            "minimum": -12.036
+          },
+          "PPARG_2Q6S_aligned": {
+            "maximum": -5.399,
+            "minimum": -12.407
+          },
+          "PPARG_3FUR_aligned": {
+            "maximum": -5.732,
+            "minimum": -11.447
+          },
+          "PPARG_3TY0_aligned": {
+            "maximum": -6.065,
+            "minimum": -11.913
+          },
+          "PPARG_3V9V_aligned": {
+            "maximum": -6.251,
+            "minimum": -11.863
+          },
+          "PPARG_4HEE_aligned": {
+            "maximum": -5.918,
+            "minimum": -11.573
+          },
+          "PPARG_5DWL_aligned": {
+            "maximum": -6.305,
+            "minimum": -12.613
+          },
+          "PPARG_5Y2T_aligned": {
+            "maximum": -5.875,
+            "minimum": -10.705
+          },
+          "PPARG_6AD9_aligned": {
+            "maximum": -6.068,
+            "minimum": -12.8
+          },
+          "PPARG_6MS7_aligned": {
+            "maximum": -5.701,
+            "minimum": -12.309
+          },
+          "PPARG_8B8X_aligned": {
+            "maximum": -6.05,
+            "minimum": -12.021
+          }
+        }
+      },
+      "parameters": {
+        "bootstrap": true,
+        "class_weight": "balanced",
+        "criterion": "gini",
+        "max_depth": null,
+        "max_features": "sqrt",
+        "max_samples": null,
+        "min_samples_leaf": 1,
+        "min_samples_split": 2,
+        "n_estimators": 750,
+        "oob_score": false
+      },
+      "subset": [
+        "PPARG_2GTK_reference",
+        "PPARG_8B8X_aligned",
+        "PPARG_2HFP_aligned",
+        "PPARG_6AD9_aligned",
+        "PPARG_2Q6S_aligned",
+        "PPARG_3V9V_aligned",
+        "PPARG_3TY0_aligned",
+        "PPARG_2G0H_aligned",
+        "PPARG_4HEE_aligned",
+        "PPARG_5DWL_aligned",
+        "PPARG_6MS7_aligned",
+        "PPARG_2HWR_aligned",
+        "PPARG_2FVJ_aligned",
+        "PPARG_5Y2T_aligned",
+        "PPARG_2P4Y_aligned",
+        "PPARG_3FUR_aligned"
+      ]
+    },
+    "edock_rf_rfe3": {
+      "model": {
+        "path": "results/runs/stage19d_pparg_train668_frozen_comparators/models/edock_rf_rfe3.joblib",
+        "sha256": "A3C92CEEA5A6C95BFD268EB7F618BE1115A001656A20D1376AB8B420EE87A5AF",
+        "size_bytes": 2541841
+      },
+      "normalization_bounds": {
+        "primary": {
+          "PPARG_2Q6S_aligned": {
+            "maximum": -5.037,
+            "minimum": -12.323
+          },
+          "PPARG_3FUR_aligned": {
+            "maximum": -5.675,
+            "minimum": -11.44
+          },
+          "PPARG_5DWL_aligned": {
+            "maximum": -6.128,
+            "minimum": -12.597
+          }
+        },
+        "seed0": {
+          "PPARG_2Q6S_aligned": {
+            "maximum": 111.136,
+            "minimum": -12.407
+          },
+          "PPARG_3FUR_aligned": {
+            "maximum": -5.68,
+            "minimum": -11.4
+          },
+          "PPARG_5DWL_aligned": {
+            "maximum": -5.804,
+            "minimum": -12.613
+          }
+        },
+        "seed1": {
+          "PPARG_2Q6S_aligned": {
+            "maximum": -5.037,
+            "minimum": -12.323
+          },
+          "PPARG_3FUR_aligned": {
+            "maximum": -5.647,
+            "minimum": -11.447
+          },
+          "PPARG_5DWL_aligned": {
+            "maximum": -5.923,
+            "minimum": -12.597
+          }
+        },
+        "seed2": {
+          "PPARG_2Q6S_aligned": {
+            "maximum": -5.157,
+            "minimum": -12.373
+          },
+          "PPARG_3FUR_aligned": {
+            "maximum": -5.647,
+            "minimum": -11.44
+          },
+          "PPARG_5DWL_aligned": {
+            "maximum": -5.751,
+            "minimum": -12.532
+          }
+        },
+        "sensitivity": {
+          "PPARG_2Q6S_aligned": {
+            "maximum": -5.399,
+            "minimum": -12.407
+          },
+          "PPARG_3FUR_aligned": {
+            "maximum": -5.732,
+            "minimum": -11.447
+          },
+          "PPARG_5DWL_aligned": {
+            "maximum": -6.305,
+            "minimum": -12.613
+          }
+        }
+      },
+      "parameters": {
+        "bootstrap": true,
+        "class_weight": "balanced",
+        "criterion": "gini",
+        "max_depth": null,
+        "max_features": "sqrt",
+        "max_samples": null,
+        "min_samples_leaf": 1,
+        "min_samples_split": 2,
+        "n_estimators": 750,
+        "oob_score": false
+      },
+      "subset": [
+        "PPARG_2Q6S_aligned",
+        "PPARG_5DWL_aligned",
+        "PPARG_3FUR_aligned"
+      ]
+    },
+    "enopt_xgboost_all16": {
+      "model": {
+        "path": "results/runs/stage19d_pparg_train668_frozen_comparators/models/enopt_xgboost_all16.json",
+        "sha256": "561FFD688A7FD98F4C5D4B6CF902A489A42FAA2C3FE866D5E81D333AB0861DB3",
+        "size_bytes": 117109
+      },
+      "normalization_bounds": {
+        "primary": {
+          "PPARG_2FVJ_aligned": {
+            "maximum": -6.027,
+            "minimum": -13.107
+          },
+          "PPARG_2G0H_aligned": {
+            "maximum": -5.788,
+            "minimum": -12.035
+          },
+          "PPARG_2GTK_reference": {
+            "maximum": -6.039,
+            "minimum": -11.146
+          },
+          "PPARG_2HFP_aligned": {
+            "maximum": -5.804,
+            "minimum": -11.675
+          },
+          "PPARG_2HWR_aligned": {
+            "maximum": -5.845,
+            "minimum": -11.924
+          },
+          "PPARG_2P4Y_aligned": {
+            "maximum": -5.931,
+            "minimum": -12.015
+          },
+          "PPARG_2Q6S_aligned": {
+            "maximum": -5.037,
+            "minimum": -12.323
+          },
+          "PPARG_3FUR_aligned": {
+            "maximum": -5.675,
+            "minimum": -11.44
+          },
+          "PPARG_3TY0_aligned": {
+            "maximum": -6.014,
+            "minimum": -11.864
+          },
+          "PPARG_3V9V_aligned": {
+            "maximum": -5.903,
+            "minimum": -11.827
+          },
+          "PPARG_4HEE_aligned": {
+            "maximum": -5.769,
+            "minimum": -11.359
+          },
+          "PPARG_5DWL_aligned": {
+            "maximum": -6.128,
+            "minimum": -12.597
+          },
+          "PPARG_5Y2T_aligned": {
+            "maximum": -5.795,
+            "minimum": -10.675
+          },
+          "PPARG_6AD9_aligned": {
+            "maximum": -5.814,
+            "minimum": -12.783
+          },
+          "PPARG_6MS7_aligned": {
+            "maximum": -5.635,
+            "minimum": -12.085
+          },
+          "PPARG_8B8X_aligned": {
+            "maximum": -6.025,
+            "minimum": -12.002
+          }
+        },
+        "seed0": {
+          "PPARG_2FVJ_aligned": {
+            "maximum": -5.939,
+            "minimum": -13.146
+          },
+          "PPARG_2G0H_aligned": {
+            "maximum": -5.514,
+            "minimum": -12.002
+          },
+          "PPARG_2GTK_reference": {
+            "maximum": -6.063,
+            "minimum": -11.149
+          },
+          "PPARG_2HFP_aligned": {
+            "maximum": -5.963,
+            "minimum": -11.624
+          },
+          "PPARG_2HWR_aligned": {
+            "maximum": -5.929,
+            "minimum": -12.29
+          },
+          "PPARG_2P4Y_aligned": {
+            "maximum": -5.918,
+            "minimum": -12.015
+          },
+          "PPARG_2Q6S_aligned": {
+            "maximum": 111.136,
+            "minimum": -12.407
+          },
+          "PPARG_3FUR_aligned": {
+            "maximum": -5.68,
+            "minimum": -11.4
+          },
+          "PPARG_3TY0_aligned": {
+            "maximum": -5.771,
+            "minimum": -11.913
+          },
+          "PPARG_3V9V_aligned": {
+            "maximum": -6.054,
+            "minimum": -11.756
+          },
+          "PPARG_4HEE_aligned": {
+            "maximum": -5.902,
+            "minimum": -11.471
+          },
+          "PPARG_5DWL_aligned": {
+            "maximum": -5.804,
+            "minimum": -12.613
+          },
+          "PPARG_5Y2T_aligned": {
+            "maximum": -5.875,
+            "minimum": -10.674
+          },
+          "PPARG_6AD9_aligned": {
+            "maximum": -5.814,
+            "minimum": -12.8
+          },
+          "PPARG_6MS7_aligned": {
+            "maximum": -5.635,
+            "minimum": -12.309
+          },
+          "PPARG_8B8X_aligned": {
+            "maximum": -5.995,
+            "minimum": -11.996
+          }
+        },
+        "seed1": {
+          "PPARG_2FVJ_aligned": {
+            "maximum": -5.889,
+            "minimum": -13.107
+          },
+          "PPARG_2G0H_aligned": {
+            "maximum": 32.455,
+            "minimum": -12.035
+          },
+          "PPARG_2GTK_reference": {
+            "maximum": -5.886,
+            "minimum": -10.674
+          },
+          "PPARG_2HFP_aligned": {
+            "maximum": -5.804,
+            "minimum": -11.675
+          },
+          "PPARG_2HWR_aligned": {
+            "maximum": -5.845,
+            "minimum": -11.968
+          },
+          "PPARG_2P4Y_aligned": {
+            "maximum": -5.669,
+            "minimum": -12.036
+          },
+          "PPARG_2Q6S_aligned": {
+            "maximum": -5.037,
+            "minimum": -12.323
+          },
+          "PPARG_3FUR_aligned": {
+            "maximum": -5.647,
+            "minimum": -11.447
+          },
+          "PPARG_3TY0_aligned": {
+            "maximum": -5.438,
+            "minimum": -11.873
+          },
+          "PPARG_3V9V_aligned": {
+            "maximum": -5.829,
+            "minimum": -11.863
+          },
+          "PPARG_4HEE_aligned": {
+            "maximum": -5.656,
+            "minimum": -11.472
+          },
+          "PPARG_5DWL_aligned": {
+            "maximum": -5.923,
+            "minimum": -12.597
+          },
+          "PPARG_5Y2T_aligned": {
+            "maximum": -5.795,
+            "minimum": -10.675
+          },
+          "PPARG_6AD9_aligned": {
+            "maximum": -5.763,
+            "minimum": -12.783
+          },
+          "PPARG_6MS7_aligned": {
+            "maximum": -5.701,
+            "minimum": -12.085
+          },
+          "PPARG_8B8X_aligned": {
+            "maximum": -6.026,
+            "minimum": -12.021
+          }
+        },
+        "seed2": {
+          "PPARG_2FVJ_aligned": {
+            "maximum": -5.72,
+            "minimum": -13.065
+          },
+          "PPARG_2G0H_aligned": {
+            "maximum": -5.753,
+            "minimum": -12.042
+          },
+          "PPARG_2GTK_reference": {
+            "maximum": -5.78,
+            "minimum": -11.146
+          },
+          "PPARG_2HFP_aligned": {
+            "maximum": -5.699,
+            "minimum": -11.711
+          },
+          "PPARG_2HWR_aligned": {
+            "maximum": -5.626,
+            "minimum": -11.857
+          },
+          "PPARG_2P4Y_aligned": {
+            "maximum": -6.049,
+            "minimum": -11.927
+          },
+          "PPARG_2Q6S_aligned": {
+            "maximum": -5.157,
+            "minimum": -12.373
+          },
+          "PPARG_3FUR_aligned": {
+            "maximum": -5.647,
+            "minimum": -11.44
+          },
+          "PPARG_3TY0_aligned": {
+            "maximum": -5.98,
+            "minimum": -11.864
+          },
+          "PPARG_3V9V_aligned": {
+            "maximum": -5.889,
+            "minimum": -11.827
+          },
+          "PPARG_4HEE_aligned": {
+            "maximum": -5.769,
+            "minimum": -11.573
+          },
+          "PPARG_5DWL_aligned": {
+            "maximum": -5.751,
+            "minimum": -12.532
+          },
+          "PPARG_5Y2T_aligned": {
+            "maximum": -5.518,
+            "minimum": -10.705
+          },
+          "PPARG_6AD9_aligned": {
+            "maximum": -5.955,
+            "minimum": -12.647
+          },
+          "PPARG_6MS7_aligned": {
+            "maximum": -5.519,
+            "minimum": -12.133
+          },
+          "PPARG_8B8X_aligned": {
+            "maximum": -5.956,
+            "minimum": -12.002
+          }
+        },
+        "sensitivity": {
+          "PPARG_2FVJ_aligned": {
+            "maximum": -6.202,
+            "minimum": -13.146
+          },
+          "PPARG_2G0H_aligned": {
+            "maximum": -6.098,
+            "minimum": -12.042
+          },
+          "PPARG_2GTK_reference": {
+            "maximum": -6.063,
+            "minimum": -11.149
+          },
+          "PPARG_2HFP_aligned": {
+            "maximum": -5.963,
+            "minimum": -11.711
+          },
+          "PPARG_2HWR_aligned": {
+            "maximum": -5.929,
+            "minimum": -12.29
+          },
+          "PPARG_2P4Y_aligned": {
+            "maximum": -6.049,
+            "minimum": -12.036
+          },
+          "PPARG_2Q6S_aligned": {
+            "maximum": -5.399,
+            "minimum": -12.407
+          },
+          "PPARG_3FUR_aligned": {
+            "maximum": -5.732,
+            "minimum": -11.447
+          },
+          "PPARG_3TY0_aligned": {
+            "maximum": -6.065,
+            "minimum": -11.913
+          },
+          "PPARG_3V9V_aligned": {
+            "maximum": -6.251,
+            "minimum": -11.863
+          },
+          "PPARG_4HEE_aligned": {
+            "maximum": -5.918,
+            "minimum": -11.573
+          },
+          "PPARG_5DWL_aligned": {
+            "maximum": -6.305,
+            "minimum": -12.613
+          },
+          "PPARG_5Y2T_aligned": {
+            "maximum": -5.875,
+            "minimum": -10.705
+          },
+          "PPARG_6AD9_aligned": {
+            "maximum": -6.068,
+            "minimum": -12.8
+          },
+          "PPARG_6MS7_aligned": {
+            "maximum": -5.701,
+            "minimum": -12.309
+          },
+          "PPARG_8B8X_aligned": {
+            "maximum": -6.05,
+            "minimum": -12.021
+          }
+        }
+      },
+      "parameters": {
+        "booster": "gbtree",
+        "colsample_bytree": 1.0,
+        "gamma": 0.0,
+        "learning_rate": 0.03,
+        "max_depth": 2,
+        "min_child_weight": 1.0,
+        "n_estimators": 150,
+        "reg_alpha": 0.0,
+        "reg_lambda": 1.0,
+        "subsample": 1.0
+      },
+      "subset": [
+        "PPARG_2GTK_reference",
+        "PPARG_8B8X_aligned",
+        "PPARG_2HFP_aligned",
+        "PPARG_6AD9_aligned",
+        "PPARG_2Q6S_aligned",
+        "PPARG_3V9V_aligned",
+        "PPARG_3TY0_aligned",
+        "PPARG_2G0H_aligned",
+        "PPARG_4HEE_aligned",
+        "PPARG_5DWL_aligned",
+        "PPARG_6MS7_aligned",
+        "PPARG_2HWR_aligned",
+        "PPARG_2FVJ_aligned",
+        "PPARG_5Y2T_aligned",
+        "PPARG_2P4Y_aligned",
+        "PPARG_3FUR_aligned"
+      ]
+    },
+    "ricci_gbt_all16": {
+      "model": {
+        "path": "results/runs/stage19d_pparg_train668_frozen_comparators/models/ricci_gbt_all16.joblib",
+        "sha256": "AE8ABC09EC04858FA9C313A2AA41C7CFBFCDF9E4D8A996FB7A52507A95E41D0E",
+        "size_bytes": 60828
+      },
+      "normalization_bounds": {
+        "primary": {
+          "PPARG_2FVJ_aligned": {
+            "maximum": -6.027,
+            "minimum": -13.107
+          },
+          "PPARG_2G0H_aligned": {
+            "maximum": -5.788,
+            "minimum": -12.035
+          },
+          "PPARG_2GTK_reference": {
+            "maximum": -6.039,
+            "minimum": -11.146
+          },
+          "PPARG_2HFP_aligned": {
+            "maximum": -5.804,
+            "minimum": -11.675
+          },
+          "PPARG_2HWR_aligned": {
+            "maximum": -5.845,
+            "minimum": -11.924
+          },
+          "PPARG_2P4Y_aligned": {
+            "maximum": -5.931,
+            "minimum": -12.015
+          },
+          "PPARG_2Q6S_aligned": {
+            "maximum": -5.037,
+            "minimum": -12.323
+          },
+          "PPARG_3FUR_aligned": {
+            "maximum": -5.675,
+            "minimum": -11.44
+          },
+          "PPARG_3TY0_aligned": {
+            "maximum": -6.014,
+            "minimum": -11.864
+          },
+          "PPARG_3V9V_aligned": {
+            "maximum": -5.903,
+            "minimum": -11.827
+          },
+          "PPARG_4HEE_aligned": {
+            "maximum": -5.769,
+            "minimum": -11.359
+          },
+          "PPARG_5DWL_aligned": {
+            "maximum": -6.128,
+            "minimum": -12.597
+          },
+          "PPARG_5Y2T_aligned": {
+            "maximum": -5.795,
+            "minimum": -10.675
+          },
+          "PPARG_6AD9_aligned": {
+            "maximum": -5.814,
+            "minimum": -12.783
+          },
+          "PPARG_6MS7_aligned": {
+            "maximum": -5.635,
+            "minimum": -12.085
+          },
+          "PPARG_8B8X_aligned": {
+            "maximum": -6.025,
+            "minimum": -12.002
+          }
+        },
+        "seed0": {
+          "PPARG_2FVJ_aligned": {
+            "maximum": -5.939,
+            "minimum": -13.146
+          },
+          "PPARG_2G0H_aligned": {
+            "maximum": -5.514,
+            "minimum": -12.002
+          },
+          "PPARG_2GTK_reference": {
+            "maximum": -6.063,
+            "minimum": -11.149
+          },
+          "PPARG_2HFP_aligned": {
+            "maximum": -5.963,
+            "minimum": -11.624
+          },
+          "PPARG_2HWR_aligned": {
+            "maximum": -5.929,
+            "minimum": -12.29
+          },
+          "PPARG_2P4Y_aligned": {
+            "maximum": -5.918,
+            "minimum": -12.015
+          },
+          "PPARG_2Q6S_aligned": {
+            "maximum": 111.136,
+            "minimum": -12.407
+          },
+          "PPARG_3FUR_aligned": {
+            "maximum": -5.68,
+            "minimum": -11.4
+          },
+          "PPARG_3TY0_aligned": {
+            "maximum": -5.771,
+            "minimum": -11.913
+          },
+          "PPARG_3V9V_aligned": {
+            "maximum": -6.054,
+            "minimum": -11.756
+          },
+          "PPARG_4HEE_aligned": {
+            "maximum": -5.902,
+            "minimum": -11.471
+          },
+          "PPARG_5DWL_aligned": {
+            "maximum": -5.804,
+            "minimum": -12.613
+          },
+          "PPARG_5Y2T_aligned": {
+            "maximum": -5.875,
+            "minimum": -10.674
+          },
+          "PPARG_6AD9_aligned": {
+            "maximum": -5.814,
+            "minimum": -12.8
+          },
+          "PPARG_6MS7_aligned": {
+            "maximum": -5.635,
+            "minimum": -12.309
+          },
+          "PPARG_8B8X_aligned": {
+            "maximum": -5.995,
+            "minimum": -11.996
+          }
+        },
+        "seed1": {
+          "PPARG_2FVJ_aligned": {
+            "maximum": -5.889,
+            "minimum": -13.107
+          },
+          "PPARG_2G0H_aligned": {
+            "maximum": 32.455,
+            "minimum": -12.035
+          },
+          "PPARG_2GTK_reference": {
+            "maximum": -5.886,
+            "minimum": -10.674
+          },
+          "PPARG_2HFP_aligned": {
+            "maximum": -5.804,
+            "minimum": -11.675
+          },
+          "PPARG_2HWR_aligned": {
+            "maximum": -5.845,
+            "minimum": -11.968
+          },
+          "PPARG_2P4Y_aligned": {
+            "maximum": -5.669,
+            "minimum": -12.036
+          },
+          "PPARG_2Q6S_aligned": {
+            "maximum": -5.037,
+            "minimum": -12.323
+          },
+          "PPARG_3FUR_aligned": {
+            "maximum": -5.647,
+            "minimum": -11.447
+          },
+          "PPARG_3TY0_aligned": {
+            "maximum": -5.438,
+            "minimum": -11.873
+          },
+          "PPARG_3V9V_aligned": {
+            "maximum": -5.829,
+            "minimum": -11.863
+          },
+          "PPARG_4HEE_aligned": {
+            "maximum": -5.656,
+            "minimum": -11.472
+          },
+          "PPARG_5DWL_aligned": {
+            "maximum": -5.923,
+            "minimum": -12.597
+          },
+          "PPARG_5Y2T_aligned": {
+            "maximum": -5.795,
+            "minimum": -10.675
+          },
+          "PPARG_6AD9_aligned": {
+            "maximum": -5.763,
+            "minimum": -12.783
+          },
+          "PPARG_6MS7_aligned": {
+            "maximum": -5.701,
+            "minimum": -12.085
+          },
+          "PPARG_8B8X_aligned": {
+            "maximum": -6.026,
+            "minimum": -12.021
+          }
+        },
+        "seed2": {
+          "PPARG_2FVJ_aligned": {
+            "maximum": -5.72,
+            "minimum": -13.065
+          },
+          "PPARG_2G0H_aligned": {
+            "maximum": -5.753,
+            "minimum": -12.042
+          },
+          "PPARG_2GTK_reference": {
+            "maximum": -5.78,
+            "minimum": -11.146
+          },
+          "PPARG_2HFP_aligned": {
+            "maximum": -5.699,
+            "minimum": -11.711
+          },
+          "PPARG_2HWR_aligned": {
+            "maximum": -5.626,
+            "minimum": -11.857
+          },
+          "PPARG_2P4Y_aligned": {
+            "maximum": -6.049,
+            "minimum": -11.927
+          },
+          "PPARG_2Q6S_aligned": {
+            "maximum": -5.157,
+            "minimum": -12.373
+          },
+          "PPARG_3FUR_aligned": {
+            "maximum": -5.647,
+            "minimum": -11.44
+          },
+          "PPARG_3TY0_aligned": {
+            "maximum": -5.98,
+            "minimum": -11.864
+          },
+          "PPARG_3V9V_aligned": {
+            "maximum": -5.889,
+            "minimum": -11.827
+          },
+          "PPARG_4HEE_aligned": {
+            "maximum": -5.769,
+            "minimum": -11.573
+          },
+          "PPARG_5DWL_aligned": {
+            "maximum": -5.751,
+            "minimum": -12.532
+          },
+          "PPARG_5Y2T_aligned": {
+            "maximum": -5.518,
+            "minimum": -10.705
+          },
+          "PPARG_6AD9_aligned": {
+            "maximum": -5.955,
+            "minimum": -12.647
+          },
+          "PPARG_6MS7_aligned": {
+            "maximum": -5.519,
+            "minimum": -12.133
+          },
+          "PPARG_8B8X_aligned": {
+            "maximum": -5.956,
+            "minimum": -12.002
+          }
+        },
+        "sensitivity": {
+          "PPARG_2FVJ_aligned": {
+            "maximum": -6.202,
+            "minimum": -13.146
+          },
+          "PPARG_2G0H_aligned": {
+            "maximum": -6.098,
+            "minimum": -12.042
+          },
+          "PPARG_2GTK_reference": {
+            "maximum": -6.063,
+            "minimum": -11.149
+          },
+          "PPARG_2HFP_aligned": {
+            "maximum": -5.963,
+            "minimum": -11.711
+          },
+          "PPARG_2HWR_aligned": {
+            "maximum": -5.929,
+            "minimum": -12.29
+          },
+          "PPARG_2P4Y_aligned": {
+            "maximum": -6.049,
+            "minimum": -12.036
+          },
+          "PPARG_2Q6S_aligned": {
+            "maximum": -5.399,
+            "minimum": -12.407
+          },
+          "PPARG_3FUR_aligned": {
+            "maximum": -5.732,
+            "minimum": -11.447
+          },
+          "PPARG_3TY0_aligned": {
+            "maximum": -6.065,
+            "minimum": -11.913
+          },
+          "PPARG_3V9V_aligned": {
+            "maximum": -6.251,
+            "minimum": -11.863
+          },
+          "PPARG_4HEE_aligned": {
+            "maximum": -5.918,
+            "minimum": -11.573
+          },
+          "PPARG_5DWL_aligned": {
+            "maximum": -6.305,
+            "minimum": -12.613
+          },
+          "PPARG_5Y2T_aligned": {
+            "maximum": -5.875,
+            "minimum": -10.705
+          },
+          "PPARG_6AD9_aligned": {
+            "maximum": -6.068,
+            "minimum": -12.8
+          },
+          "PPARG_6MS7_aligned": {
+            "maximum": -5.701,
+            "minimum": -12.309
+          },
+          "PPARG_8B8X_aligned": {
+            "maximum": -6.05,
+            "minimum": -12.021
+          }
+        }
+      },
+      "parameters": {
+        "criterion": "friedman_mse",
+        "learning_rate": 0.1,
+        "loss": "log_loss",
+        "max_depth": 3,
+        "max_features": null,
+        "max_leaf_nodes": null,
+        "min_impurity_decrease": 0.0,
+        "min_samples_leaf": 1,
+        "min_samples_split": 2,
+        "n_estimators": 100,
+        "n_iter_no_change": null,
+        "subsample": 1.0,
+        "tol": 0.0001
+      },
+      "subset": [
+        "PPARG_2GTK_reference",
+        "PPARG_8B8X_aligned",
+        "PPARG_2HFP_aligned",
+        "PPARG_6AD9_aligned",
+        "PPARG_2Q6S_aligned",
+        "PPARG_3V9V_aligned",
+        "PPARG_3TY0_aligned",
+        "PPARG_2G0H_aligned",
+        "PPARG_4HEE_aligned",
+        "PPARG_5DWL_aligned",
+        "PPARG_6MS7_aligned",
+        "PPARG_2HWR_aligned",
+        "PPARG_2FVJ_aligned",
+        "PPARG_5Y2T_aligned",
+        "PPARG_2P4Y_aligned",
+        "PPARG_3FUR_aligned"
+      ]
+    },
+    "ricci_gbt_rfe3": {
+      "model": {
+        "path": "results/runs/stage19d_pparg_train668_frozen_comparators/models/ricci_gbt_rfe3.joblib",
+        "sha256": "16EB93F30FD1B2D61922C4912FE854B136B265251DF03B87E5496499531A61DB",
+        "size_bytes": 59050
+      },
+      "normalization_bounds": {
+        "primary": {
+          "PPARG_2Q6S_aligned": {
+            "maximum": -5.037,
+            "minimum": -12.323
+          },
+          "PPARG_3FUR_aligned": {
+            "maximum": -5.675,
+            "minimum": -11.44
+          },
+          "PPARG_5DWL_aligned": {
+            "maximum": -6.128,
+            "minimum": -12.597
+          }
+        },
+        "seed0": {
+          "PPARG_2Q6S_aligned": {
+            "maximum": 111.136,
+            "minimum": -12.407
+          },
+          "PPARG_3FUR_aligned": {
+            "maximum": -5.68,
+            "minimum": -11.4
+          },
+          "PPARG_5DWL_aligned": {
+            "maximum": -5.804,
+            "minimum": -12.613
+          }
+        },
+        "seed1": {
+          "PPARG_2Q6S_aligned": {
+            "maximum": -5.037,
+            "minimum": -12.323
+          },
+          "PPARG_3FUR_aligned": {
+            "maximum": -5.647,
+            "minimum": -11.447
+          },
+          "PPARG_5DWL_aligned": {
+            "maximum": -5.923,
+            "minimum": -12.597
+          }
+        },
+        "seed2": {
+          "PPARG_2Q6S_aligned": {
+            "maximum": -5.157,
+            "minimum": -12.373
+          },
+          "PPARG_3FUR_aligned": {
+            "maximum": -5.647,
+            "minimum": -11.44
+          },
+          "PPARG_5DWL_aligned": {
+            "maximum": -5.751,
+            "minimum": -12.532
+          }
+        },
+        "sensitivity": {
+          "PPARG_2Q6S_aligned": {
+            "maximum": -5.399,
+            "minimum": -12.407
+          },
+          "PPARG_3FUR_aligned": {
+            "maximum": -5.732,
+            "minimum": -11.447
+          },
+          "PPARG_5DWL_aligned": {
+            "maximum": -6.305,
+            "minimum": -12.613
+          }
+        }
+      },
+      "parameters": {
+        "criterion": "friedman_mse",
+        "learning_rate": 0.1,
+        "loss": "log_loss",
+        "max_depth": 3,
+        "max_features": null,
+        "max_leaf_nodes": null,
+        "min_impurity_decrease": 0.0,
+        "min_samples_leaf": 1,
+        "min_samples_split": 2,
+        "n_estimators": 100,
+        "n_iter_no_change": null,
+        "subsample": 1.0,
+        "tol": 0.0001
+      },
+      "subset": [
+        "PPARG_2Q6S_aligned",
+        "PPARG_5DWL_aligned",
+        "PPARG_3FUR_aligned"
+      ]
+    },
+    "ricci_lr_all16": {
+      "model": {
+        "path": "results/runs/stage19d_pparg_train668_frozen_comparators/models/ricci_lr_all16.joblib",
+        "sha256": "8C1285B43C7AD071033C2C384ACEA7E091CBF8D798D0EF30F286F1573349306E",
+        "size_bytes": 704
+      },
+      "normalization_bounds": {
+        "primary": {
+          "PPARG_2FVJ_aligned": {
+            "maximum": -6.027,
+            "minimum": -13.107
+          },
+          "PPARG_2G0H_aligned": {
+            "maximum": -5.788,
+            "minimum": -12.035
+          },
+          "PPARG_2GTK_reference": {
+            "maximum": -6.039,
+            "minimum": -11.146
+          },
+          "PPARG_2HFP_aligned": {
+            "maximum": -5.804,
+            "minimum": -11.675
+          },
+          "PPARG_2HWR_aligned": {
+            "maximum": -5.845,
+            "minimum": -11.924
+          },
+          "PPARG_2P4Y_aligned": {
+            "maximum": -5.931,
+            "minimum": -12.015
+          },
+          "PPARG_2Q6S_aligned": {
+            "maximum": -5.037,
+            "minimum": -12.323
+          },
+          "PPARG_3FUR_aligned": {
+            "maximum": -5.675,
+            "minimum": -11.44
+          },
+          "PPARG_3TY0_aligned": {
+            "maximum": -6.014,
+            "minimum": -11.864
+          },
+          "PPARG_3V9V_aligned": {
+            "maximum": -5.903,
+            "minimum": -11.827
+          },
+          "PPARG_4HEE_aligned": {
+            "maximum": -5.769,
+            "minimum": -11.359
+          },
+          "PPARG_5DWL_aligned": {
+            "maximum": -6.128,
+            "minimum": -12.597
+          },
+          "PPARG_5Y2T_aligned": {
+            "maximum": -5.795,
+            "minimum": -10.675
+          },
+          "PPARG_6AD9_aligned": {
+            "maximum": -5.814,
+            "minimum": -12.783
+          },
+          "PPARG_6MS7_aligned": {
+            "maximum": -5.635,
+            "minimum": -12.085
+          },
+          "PPARG_8B8X_aligned": {
+            "maximum": -6.025,
+            "minimum": -12.002
+          }
+        },
+        "seed0": {
+          "PPARG_2FVJ_aligned": {
+            "maximum": -5.939,
+            "minimum": -13.146
+          },
+          "PPARG_2G0H_aligned": {
+            "maximum": -5.514,
+            "minimum": -12.002
+          },
+          "PPARG_2GTK_reference": {
+            "maximum": -6.063,
+            "minimum": -11.149
+          },
+          "PPARG_2HFP_aligned": {
+            "maximum": -5.963,
+            "minimum": -11.624
+          },
+          "PPARG_2HWR_aligned": {
+            "maximum": -5.929,
+            "minimum": -12.29
+          },
+          "PPARG_2P4Y_aligned": {
+            "maximum": -5.918,
+            "minimum": -12.015
+          },
+          "PPARG_2Q6S_aligned": {
+            "maximum": 111.136,
+            "minimum": -12.407
+          },
+          "PPARG_3FUR_aligned": {
+            "maximum": -5.68,
+            "minimum": -11.4
+          },
+          "PPARG_3TY0_aligned": {
+            "maximum": -5.771,
+            "minimum": -11.913
+          },
+          "PPARG_3V9V_aligned": {
+            "maximum": -6.054,
+            "minimum": -11.756
+          },
+          "PPARG_4HEE_aligned": {
+            "maximum": -5.902,
+            "minimum": -11.471
+          },
+          "PPARG_5DWL_aligned": {
+            "maximum": -5.804,
+            "minimum": -12.613
+          },
+          "PPARG_5Y2T_aligned": {
+            "maximum": -5.875,
+            "minimum": -10.674
+          },
+          "PPARG_6AD9_aligned": {
+            "maximum": -5.814,
+            "minimum": -12.8
+          },
+          "PPARG_6MS7_aligned": {
+            "maximum": -5.635,
+            "minimum": -12.309
+          },
+          "PPARG_8B8X_aligned": {
+            "maximum": -5.995,
+            "minimum": -11.996
+          }
+        },
+        "seed1": {
+          "PPARG_2FVJ_aligned": {
+            "maximum": -5.889,
+            "minimum": -13.107
+          },
+          "PPARG_2G0H_aligned": {
+            "maximum": 32.455,
+            "minimum": -12.035
+          },
+          "PPARG_2GTK_reference": {
+            "maximum": -5.886,
+            "minimum": -10.674
+          },
+          "PPARG_2HFP_aligned": {
+            "maximum": -5.804,
+            "minimum": -11.675
+          },
+          "PPARG_2HWR_aligned": {
+            "maximum": -5.845,
+            "minimum": -11.968
+          },
+          "PPARG_2P4Y_aligned": {
+            "maximum": -5.669,
+            "minimum": -12.036
+          },
+          "PPARG_2Q6S_aligned": {
+            "maximum": -5.037,
+            "minimum": -12.323
+          },
+          "PPARG_3FUR_aligned": {
+            "maximum": -5.647,
+            "minimum": -11.447
+          },
+          "PPARG_3TY0_aligned": {
+            "maximum": -5.438,
+            "minimum": -11.873
+          },
+          "PPARG_3V9V_aligned": {
+            "maximum": -5.829,
+            "minimum": -11.863
+          },
+          "PPARG_4HEE_aligned": {
+            "maximum": -5.656,
+            "minimum": -11.472
+          },
+          "PPARG_5DWL_aligned": {
+            "maximum": -5.923,
+            "minimum": -12.597
+          },
+          "PPARG_5Y2T_aligned": {
+            "maximum": -5.795,
+            "minimum": -10.675
+          },
+          "PPARG_6AD9_aligned": {
+            "maximum": -5.763,
+            "minimum": -12.783
+          },
+          "PPARG_6MS7_aligned": {
+            "maximum": -5.701,
+            "minimum": -12.085
+          },
+          "PPARG_8B8X_aligned": {
+            "maximum": -6.026,
+            "minimum": -12.021
+          }
+        },
+        "seed2": {
+          "PPARG_2FVJ_aligned": {
+            "maximum": -5.72,
+            "minimum": -13.065
+          },
+          "PPARG_2G0H_aligned": {
+            "maximum": -5.753,
+            "minimum": -12.042
+          },
+          "PPARG_2GTK_reference": {
+            "maximum": -5.78,
+            "minimum": -11.146
+          },
+          "PPARG_2HFP_aligned": {
+            "maximum": -5.699,
+            "minimum": -11.711
+          },
+          "PPARG_2HWR_aligned": {
+            "maximum": -5.626,
+            "minimum": -11.857
+          },
+          "PPARG_2P4Y_aligned": {
+            "maximum": -6.049,
+            "minimum": -11.927
+          },
+          "PPARG_2Q6S_aligned": {
+            "maximum": -5.157,
+            "minimum": -12.373
+          },
+          "PPARG_3FUR_aligned": {
+            "maximum": -5.647,
+            "minimum": -11.44
+          },
+          "PPARG_3TY0_aligned": {
+            "maximum": -5.98,
+            "minimum": -11.864
+          },
+          "PPARG_3V9V_aligned": {
+            "maximum": -5.889,
+            "minimum": -11.827
+          },
+          "PPARG_4HEE_aligned": {
+            "maximum": -5.769,
+            "minimum": -11.573
+          },
+          "PPARG_5DWL_aligned": {
+            "maximum": -5.751,
+            "minimum": -12.532
+          },
+          "PPARG_5Y2T_aligned": {
+            "maximum": -5.518,
+            "minimum": -10.705
+          },
+          "PPARG_6AD9_aligned": {
+            "maximum": -5.955,
+            "minimum": -12.647
+          },
+          "PPARG_6MS7_aligned": {
+            "maximum": -5.519,
+            "minimum": -12.133
+          },
+          "PPARG_8B8X_aligned": {
+            "maximum": -5.956,
+            "minimum": -12.002
+          }
+        },
+        "sensitivity": {
+          "PPARG_2FVJ_aligned": {
+            "maximum": -6.202,
+            "minimum": -13.146
+          },
+          "PPARG_2G0H_aligned": {
+            "maximum": -6.098,
+            "minimum": -12.042
+          },
+          "PPARG_2GTK_reference": {
+            "maximum": -6.063,
+            "minimum": -11.149
+          },
+          "PPARG_2HFP_aligned": {
+            "maximum": -5.963,
+            "minimum": -11.711
+          },
+          "PPARG_2HWR_aligned": {
+            "maximum": -5.929,
+            "minimum": -12.29
+          },
+          "PPARG_2P4Y_aligned": {
+            "maximum": -6.049,
+            "minimum": -12.036
+          },
+          "PPARG_2Q6S_aligned": {
+            "maximum": -5.399,
+            "minimum": -12.407
+          },
+          "PPARG_3FUR_aligned": {
+            "maximum": -5.732,
+            "minimum": -11.447
+          },
+          "PPARG_3TY0_aligned": {
+            "maximum": -6.065,
+            "minimum": -11.913
+          },
+          "PPARG_3V9V_aligned": {
+            "maximum": -6.251,
+            "minimum": -11.863
+          },
+          "PPARG_4HEE_aligned": {
+            "maximum": -5.918,
+            "minimum": -11.573
+          },
+          "PPARG_5DWL_aligned": {
+            "maximum": -6.305,
+            "minimum": -12.613
+          },
+          "PPARG_5Y2T_aligned": {
+            "maximum": -5.875,
+            "minimum": -10.705
+          },
+          "PPARG_6AD9_aligned": {
+            "maximum": -6.068,
+            "minimum": -12.8
+          },
+          "PPARG_6MS7_aligned": {
+            "maximum": -5.701,
+            "minimum": -12.309
+          },
+          "PPARG_8B8X_aligned": {
+            "maximum": -6.05,
+            "minimum": -12.021
+          }
+        }
+      },
+      "parameters": {
+        "C": 1.0,
+        "fit_intercept": true,
+        "max_iter": 2000,
+        "penalty": "l2",
+        "solver": "lbfgs",
+        "tol": 0.0001
+      },
+      "subset": [
+        "PPARG_2GTK_reference",
+        "PPARG_8B8X_aligned",
+        "PPARG_2HFP_aligned",
+        "PPARG_6AD9_aligned",
+        "PPARG_2Q6S_aligned",
+        "PPARG_3V9V_aligned",
+        "PPARG_3TY0_aligned",
+        "PPARG_2G0H_aligned",
+        "PPARG_4HEE_aligned",
+        "PPARG_5DWL_aligned",
+        "PPARG_6MS7_aligned",
+        "PPARG_2HWR_aligned",
+        "PPARG_2FVJ_aligned",
+        "PPARG_5Y2T_aligned",
+        "PPARG_2P4Y_aligned",
+        "PPARG_3FUR_aligned"
+      ]
+    }
+  },
+  "schema_version": "1.0",
+  "singleton_roc_auc": {
+    "PPARG_2FVJ_aligned": 0.7825934956434435,
+    "PPARG_2G0H_aligned": 0.8055819498727097,
+    "PPARG_2GTK_reference": 0.8097412958514107,
+    "PPARG_2HFP_aligned": 0.6108322277600488,
+    "PPARG_2HWR_aligned": 0.7465443364767471,
+    "PPARG_2P4Y_aligned": 0.6972507081645094,
+    "PPARG_2Q6S_aligned": 0.8522894331098283,
+    "PPARG_3FUR_aligned": 0.82253307755746,
+    "PPARG_3TY0_aligned": 0.7537245867546345,
+    "PPARG_3V9V_aligned": 0.7884470579798487,
+    "PPARG_4HEE_aligned": 0.7890297249811753,
+    "PPARG_5DWL_aligned": 0.8685189501237047,
+    "PPARG_5Y2T_aligned": 0.7696538061601349,
+    "PPARG_6AD9_aligned": 0.7826921008282836,
+    "PPARG_6MS7_aligned": 0.7099573308472875,
+    "PPARG_8B8X_aligned": 0.7551005772885366
+  },
+  "status": "stage19d_pparg_train_only_methods_frozen",
+  "subsets": {
+    "direct_exact_top3": [
+      "PPARG_2Q6S_aligned",
+      "PPARG_5DWL_aligned",
+      "PPARG_2FVJ_aligned"
+    ],
+    "direct_greedy_top3": [
+      "PPARG_2FVJ_aligned",
+      "PPARG_2Q6S_aligned",
+      "PPARG_5DWL_aligned"
+    ],
+    "matched_linear_top3": [
+      "PPARG_2G0H_aligned",
+      "PPARG_2Q6S_aligned",
+      "PPARG_5DWL_aligned"
+    ],
+    "qubo_exact_top3": [
+      "PPARG_2G0H_aligned",
+      "PPARG_2Q6S_aligned",
+      "PPARG_5DWL_aligned"
+    ],
+    "qubo_greedy_top3": [
+      "PPARG_2G0H_aligned",
+      "PPARG_2Q6S_aligned",
+      "PPARG_5DWL_aligned"
+    ],
+    "single_best": [
+      "PPARG_2Q6S_aligned"
+    ]
+  },
+  "versions": {
+    "joblib": "1.4.2",
+    "numpy": "1.26.4",
+    "scikit_learn": "1.5.2",
+    "xgboost": "3.1.1"
+  }
+}

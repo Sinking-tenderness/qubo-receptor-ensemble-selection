@@ -1,0 +1,49 @@
+{
+  "config": {
+    "path": "configs/stage59_ppard_functional_complementarity_gate.json",
+    "sha256": "4804A41BF31F1F32BBB07255080AF92473684A328D7C60E44543DC61A5CF1438",
+    "size_bytes": 4542
+  },
+  "data_boundary": {
+    "fresh_validation_rows_read": 0,
+    "locked_test_rows_read": 0,
+    "new_docking_jobs": 0,
+    "pilot_train_rows_read": 96,
+    "quantum_hardware_jobs": 0,
+    "remaining_development_train_rows_read": 0
+  },
+  "decision": {
+    "fresh_validation_authorized": false,
+    "quantum_hardware_authorized": false,
+    "remaining_development_train_docking_authorized": true,
+    "transferred_qubo_objective_freeze_authorized": true
+  },
+  "diagnosis_metrics_exact": true,
+  "functional_complementarity_gate_passed": true,
+  "gate_checks": {
+    "maximum_median_pair_rank_redundancy": true,
+    "minimum_full_best_pair_gain": true,
+    "minimum_mean_holdout_pair_gain": true,
+    "minimum_positive_holdout_pair_gain_folds": true,
+    "minimum_positive_rescue_balance_additions": true
+  },
+  "interpretation_boundary": "Stage59 is the prospective Stage55 small-pilot gate. It may authorize freezing the already transferred QUBO objective and docking the remaining PPARD development-train ligands only if every frozen check passes. It cannot tune an objective on Pilot-96, alter thresholds, access fresh validation or locked test data, establish independent efficacy, run quantum hardware, or claim quantum speedup or advantage.",
+  "ledger_counts": {
+    "fold_rows": 4,
+    "pair_rows": 406,
+    "receptor_rows": 29
+  },
+  "preregistered_gate_checks_exact": true,
+  "runner": {
+    "path": "scripts/run_stage59_ppard_functional_complementarity_gate.py",
+    "sha256": "A9E23B7761C763762384B868A8BF2A2B002F26BDCA6C4E0563A6A56F8CD2BF32",
+    "size_bytes": 21623
+  },
+  "schema_version": "1.0",
+  "source_result": {
+    "path": "data/stage59_ppard_functional_complementarity_gate_result.json",
+    "sha256": "FE89E4F4536EB42B098630AABB1B6383AA39A73500A7DA5AB28566CCFCC95822",
+    "size_bytes": 4629
+  },
+  "status": "stage59_ppard_functional_complementarity_independent_audit_ok"
+}

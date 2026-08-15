@@ -1,0 +1,301 @@
+{
+  "authorization_id": "stage05-mk14-literature-baselines-posthoc-20260724-v1",
+  "data_boundary": {
+    "evidence_class": "posthoc_supplementary",
+    "historical_fresh_validation_already_available": true,
+    "test_rows_read": 0,
+    "train_ligand_count": 696,
+    "validation_rows_used_for_fit_or_selection": 0
+  },
+  "implementation": {
+    "path": "D:/\u91cf\u5b50\u00d7\u86cb\u767d\u8d28/qubo-receptor-ensemble-selection/scripts/evaluate_stage05_mk14_literature_baselines.py",
+    "sha256": "935EC31F0F1DE0E6F0B82E27D2E328282720F04E27D591E81665DA14903FD35E"
+  },
+  "methods": {
+    "consensus_geometric_all5": {
+      "family": "ricci_consensus",
+      "receptor_count": 5,
+      "strategy": "geometric",
+      "subset": [
+        "MK14_2BAJ_aligned",
+        "MK14_2QD9_reference",
+        "MK14_3K3J_aligned",
+        "MK14_3KQ7_aligned",
+        "MK14_3MPT_aligned"
+      ]
+    },
+    "consensus_mean_all5": {
+      "family": "ricci_consensus",
+      "receptor_count": 5,
+      "strategy": "mean",
+      "subset": [
+        "MK14_2BAJ_aligned",
+        "MK14_2QD9_reference",
+        "MK14_3K3J_aligned",
+        "MK14_3KQ7_aligned",
+        "MK14_3MPT_aligned"
+      ]
+    },
+    "consensus_min_all5": {
+      "family": "ricci_consensus",
+      "receptor_count": 5,
+      "strategy": "min",
+      "subset": [
+        "MK14_2BAJ_aligned",
+        "MK14_2QD9_reference",
+        "MK14_3K3J_aligned",
+        "MK14_3KQ7_aligned",
+        "MK14_3MPT_aligned"
+      ]
+    },
+    "edock_rf_all5": {
+      "family": "random_forest",
+      "model_path": "results/runs/stage05_mk14_literature_baselines_posthoc/models/edock_rf_all5.joblib",
+      "model_sha256": "A87F1DB5DED034E4F9AC1FF3641287AB79483216E3F21EAB65D3FCDD3FE4775D",
+      "parameters": {
+        "bootstrap": true,
+        "class_weight": "balanced",
+        "criterion": "gini",
+        "max_depth": null,
+        "max_features": "sqrt",
+        "max_samples": null,
+        "min_samples_leaf": 1,
+        "min_samples_split": 2,
+        "n_estimators": 750,
+        "oob_score": false
+      },
+      "receptor_count": 5,
+      "subset": [
+        "MK14_2BAJ_aligned",
+        "MK14_2QD9_reference",
+        "MK14_3K3J_aligned",
+        "MK14_3KQ7_aligned",
+        "MK14_3MPT_aligned"
+      ]
+    },
+    "edock_rf_rfe3": {
+      "family": "random_forest",
+      "model_path": "results/runs/stage05_mk14_literature_baselines_posthoc/models/edock_rf_rfe3.joblib",
+      "model_sha256": "649407CB8EF06B4C04BC120B874964939656B3CB8D443051C272A4E7ADB55715",
+      "parameters": {
+        "bootstrap": true,
+        "class_weight": "balanced",
+        "criterion": "gini",
+        "max_depth": null,
+        "max_features": "sqrt",
+        "max_samples": null,
+        "min_samples_leaf": 1,
+        "min_samples_split": 2,
+        "n_estimators": 750,
+        "oob_score": false
+      },
+      "receptor_count": 3,
+      "subset": [
+        "MK14_2QD9_reference",
+        "MK14_3K3J_aligned",
+        "MK14_3MPT_aligned"
+      ]
+    },
+    "hantz_auc_top3_geometric": {
+      "family": "hantz_auc_top3",
+      "receptor_count": 3,
+      "strategy": "geometric",
+      "subset": [
+        "MK14_2QD9_reference",
+        "MK14_3K3J_aligned",
+        "MK14_3MPT_aligned"
+      ],
+      "train_singleton_roc_auc": {
+        "MK14_2BAJ_aligned": 0.6757827982560445,
+        "MK14_2QD9_reference": 0.7437615603117981,
+        "MK14_3K3J_aligned": 0.7311401770379178,
+        "MK14_3KQ7_aligned": 0.6888954947813448,
+        "MK14_3MPT_aligned": 0.7515771568238868
+      }
+    },
+    "hantz_auc_top3_mean": {
+      "family": "hantz_auc_top3",
+      "receptor_count": 3,
+      "strategy": "mean",
+      "subset": [
+        "MK14_2QD9_reference",
+        "MK14_3K3J_aligned",
+        "MK14_3MPT_aligned"
+      ],
+      "train_singleton_roc_auc": {
+        "MK14_2BAJ_aligned": 0.6757827982560445,
+        "MK14_2QD9_reference": 0.7437615603117981,
+        "MK14_3K3J_aligned": 0.7311401770379178,
+        "MK14_3KQ7_aligned": 0.6888954947813448,
+        "MK14_3MPT_aligned": 0.7515771568238868
+      }
+    },
+    "hantz_auc_top3_min": {
+      "family": "hantz_auc_top3",
+      "receptor_count": 3,
+      "strategy": "min",
+      "subset": [
+        "MK14_2QD9_reference",
+        "MK14_3K3J_aligned",
+        "MK14_3MPT_aligned"
+      ],
+      "train_singleton_roc_auc": {
+        "MK14_2BAJ_aligned": 0.6757827982560445,
+        "MK14_2QD9_reference": 0.7437615603117981,
+        "MK14_3K3J_aligned": 0.7311401770379178,
+        "MK14_3KQ7_aligned": 0.6888954947813448,
+        "MK14_3MPT_aligned": 0.7515771568238868
+      }
+    },
+    "ricci_gbt_all5": {
+      "family": "gradient_boosting",
+      "model_path": "results/runs/stage05_mk14_literature_baselines_posthoc/models/ricci_gbt_all5.joblib",
+      "model_sha256": "AAC190096D941D7B5052F49FCCBC819C14294F00F5B12F1891A934C3038B8FD8",
+      "parameters": {
+        "criterion": "friedman_mse",
+        "learning_rate": 0.1,
+        "loss": "log_loss",
+        "max_depth": 3,
+        "max_features": null,
+        "max_leaf_nodes": null,
+        "min_impurity_decrease": 0.0,
+        "min_samples_leaf": 1,
+        "min_samples_split": 2,
+        "n_estimators": 100,
+        "n_iter_no_change": null,
+        "subsample": 1.0,
+        "tol": 0.0001
+      },
+      "receptor_count": 5,
+      "subset": [
+        "MK14_2BAJ_aligned",
+        "MK14_2QD9_reference",
+        "MK14_3K3J_aligned",
+        "MK14_3KQ7_aligned",
+        "MK14_3MPT_aligned"
+      ]
+    },
+    "ricci_gbt_rfe3": {
+      "family": "gradient_boosting",
+      "model_path": "results/runs/stage05_mk14_literature_baselines_posthoc/models/ricci_gbt_rfe3.joblib",
+      "model_sha256": "B3FFD88BDE76B661166484A770F142C4E1AFA369C00C9EF91FB5022EF88E0C0C",
+      "parameters": {
+        "criterion": "friedman_mse",
+        "learning_rate": 0.1,
+        "loss": "log_loss",
+        "max_depth": 3,
+        "max_features": null,
+        "max_leaf_nodes": null,
+        "min_impurity_decrease": 0.0,
+        "min_samples_leaf": 1,
+        "min_samples_split": 2,
+        "n_estimators": 100,
+        "n_iter_no_change": null,
+        "subsample": 1.0,
+        "tol": 0.0001
+      },
+      "receptor_count": 3,
+      "subset": [
+        "MK14_2QD9_reference",
+        "MK14_3K3J_aligned",
+        "MK14_3MPT_aligned"
+      ]
+    },
+    "ricci_lr_all5": {
+      "family": "logistic_regression",
+      "model_path": "results/runs/stage05_mk14_literature_baselines_posthoc/models/ricci_lr_all5.joblib",
+      "model_sha256": "4FA29AD7EAD25D2B7A34A54E230DF968B0F0FA8192DBFB989514CE346E19B1DB",
+      "parameters": {
+        "C": 1.0,
+        "fit_intercept": true,
+        "max_iter": 2000,
+        "penalty": "l2",
+        "solver": "lbfgs",
+        "tol": 0.0001
+      },
+      "receptor_count": 5,
+      "subset": [
+        "MK14_2BAJ_aligned",
+        "MK14_2QD9_reference",
+        "MK14_3K3J_aligned",
+        "MK14_3KQ7_aligned",
+        "MK14_3MPT_aligned"
+      ]
+    }
+  },
+  "schema_version": "1.0",
+  "status": "posthoc_train_only_fit_complete_before_validation_load",
+  "train_oof_robust_bedroc": {
+    "consensus_geometric_all5": {
+      "mean_seed": 0.9144443989351562,
+      "primary": 0.9149333303210022,
+      "sensitivity": 0.9182823258725297,
+      "worst_seed": 0.9128456267696865
+    },
+    "consensus_mean_all5": {
+      "mean_seed": 0.9177851978264124,
+      "primary": 0.9171033835368928,
+      "sensitivity": 0.9205740818414085,
+      "worst_seed": 0.9165745490169853
+    },
+    "consensus_min_all5": {
+      "mean_seed": 0.9217799980365479,
+      "primary": 0.919505630095394,
+      "sensitivity": 0.9219702341354589,
+      "worst_seed": 0.919796599250743
+    },
+    "edock_rf_all5": {
+      "mean_seed": 0.90446151143203,
+      "primary": 0.9048814934900289,
+      "sensitivity": 0.9066958235468359,
+      "worst_seed": 0.9004148585796591
+    },
+    "edock_rf_rfe3": {
+      "mean_seed": 0.8801769956603044,
+      "primary": 0.878349889617557,
+      "sensitivity": 0.8821443900290739,
+      "worst_seed": 0.8744496226599976
+    },
+    "hantz_auc_top3_geometric": {
+      "mean_seed": 0.9116779224669029,
+      "primary": 0.9149232254235283,
+      "sensitivity": 0.9143990342912286,
+      "worst_seed": 0.911255632460386
+    },
+    "hantz_auc_top3_mean": {
+      "mean_seed": 0.9149219526530503,
+      "primary": 0.9175031667949607,
+      "sensitivity": 0.9175184455206998,
+      "worst_seed": 0.9148609563648176
+    },
+    "hantz_auc_top3_min": {
+      "mean_seed": 0.9209563280676205,
+      "primary": 0.9232843881807851,
+      "sensitivity": 0.9225504229584957,
+      "worst_seed": 0.917888745049451
+    },
+    "ricci_gbt_all5": {
+      "mean_seed": 0.910832078653581,
+      "primary": 0.9127041707670114,
+      "sensitivity": 0.9249161679132135,
+      "worst_seed": 0.8765566980246168
+    },
+    "ricci_gbt_rfe3": {
+      "mean_seed": 0.8692861092525979,
+      "primary": 0.8955183205446209,
+      "sensitivity": 0.9124115209152284,
+      "worst_seed": 0.8034068151443416
+    },
+    "ricci_lr_all5": {
+      "mean_seed": 0.9107850612240819,
+      "primary": 0.9113087222048881,
+      "sensitivity": 0.9146537661976849,
+      "worst_seed": 0.9096952169957262
+    }
+  },
+  "versions": {
+    "joblib": "1.4.2",
+    "numpy": "1.26.4",
+    "scikit_learn": "1.5.2"
+  }
+}

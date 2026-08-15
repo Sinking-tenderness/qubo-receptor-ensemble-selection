@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage101-marginal-transfer-gate-20260812-v1",
+  "purpose": "Determine whether inner-fold evidence can predict the held-out benefit of adding a receptor, and test one target-held-out calibration rule without tuning on the held target.",
+  "parents": {
+    "stage100_config": "configs/stage100_adaptive_stopping_qubo.json",
+    "stage100_config_sha256": "4DB0E2D9364AC40417DA5EE23A713396FE131F53D3BEC140684AEAC5F9A4E2C0",
+    "stage100_result": "data/stage100_adaptive_stopping_qubo_result.json",
+    "stage100_result_sha256": "B9B788A214B2D2E7F6C60B402776F8EADA80DC19591DD67B04C23239D6362E38",
+    "inner_profiles": "results/runs/stage100_adaptive_stopping_qubo/inner_k_profiles.csv",
+    "inner_profiles_sha256": "E9151671A9A1B45AB9C77678D0D68D23CB119EA5867C56B66D2697A3A0EB1BC4",
+    "outer_fold_scores": "results/runs/stage99_qubo_objective_repair_screen/fold_metrics.csv",
+    "outer_fold_scores_sha256": "060029B0883D6626D5C753237A2903EDED340ABEC6DBDAD7B9720F041074EAF1"
+  },
+  "marginal_edges": [
+    {"from_k": 1, "to_k": 2},
+    {"from_k": 2, "to_k": 3}
+  ],
+  "calibration": {
+    "method": "leave_one_target_out_standardized_ridge",
+    "alpha": 1.0,
+    "features": [
+      "inner_mean_gain",
+      "inner_gain_se",
+      "inner_worst_gain",
+      "inner_best_gain",
+      "inner_positive_fraction",
+      "previous_inner_mean",
+      "current_inner_mean",
+      "transition_is_k3"
+    ],
+    "decision_rule": "Continue from k-1 to k only when the prediction trained on the other four targets is positive.",
+    "held_target_outer_labels_visible_to_model": false,
+    "status": "posthoc diagnostic; not a confirmation result"
+  },
+  "policy_sensitivity": {
+    "lcb_z_values": [0.0, 0.5, 1.0, 1.64, 1.96],
+    "additional_rules": ["all_inner_positive", "two_of_three_positive", "always_single", "outer_oracle_k"],
+    "tie_policy": "stop at the smaller k"
+  },
+  "candidate_gate": {
+    "minimum_loto_mean_target_gain": 0.02,
+    "minimum_loto_worst_target_gain": -0.02,
+    "minimum_positive_target_count_at_0p02": 3,
+    "minimum_nontrivial_fold_count": 8,
+    "all_required": true
+  },
+  "decision_policy": {
+    "same_matrix_threshold_tuning_after_stage101": "forbidden",
+    "if_loto_candidate_passes": "Freeze the predictor and test it prospectively on a new protein with a disjoint calibration and evaluation ligand panel.",
+    "if_loto_candidate_fails": "Stop adaptive-k optimization on the five consumed matrices. Collect new independent marginal labels before revising the QUBO.",
+    "hardware_authorized": false
+  },
+  "data_boundary": {
+    "new_docking_jobs": 0,
+    "quantum_hardware_jobs": 0,
+    "protected_fresh_validation_rows": 0,
+    "locked_test_rows": 0,
+    "historical_results_are_posthoc": true
+  },
+  "outputs": {
+    "edge_csv": "results/runs/stage101_marginal_transfer_gate/marginal_edges.csv",
+    "policy_csv": "results/runs/stage101_marginal_transfer_gate/policy_target_summary.csv",
+    "fold_csv": "results/runs/stage101_marginal_transfer_gate/policy_fold_decisions.csv",
+    "result_json": "data/stage101_marginal_transfer_gate_result.json",
+    "audit_json": "data/stage101_marginal_transfer_gate_audit.json",
+    "report_md": "reports/stage-101/marginal_transfer_gate.md"
+  }
+}

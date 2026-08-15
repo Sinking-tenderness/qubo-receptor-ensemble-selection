@@ -1,0 +1,117 @@
+{
+  "archive": {
+    "path": "stage79_qci_dirac3_confirmation_results_v1.tar.gz",
+    "sha256": "64826F5346020EBA5B8B826842881EC68D1CCB1FFEAB955F702A9986C434B82A",
+    "size_bytes": 13960
+  },
+  "audit_method": "Independent reconstruction from five raw Dirac-3 response bit vectors, original float64 Stage78 BQMs, move tables, and exact certificates; no device-reported energy was trusted for classification.",
+  "calibration": {
+    "device_usage_seconds": 137.0,
+    "exact_optimum_samples": 100,
+    "planned_samples": 100,
+    "selected_relaxation_schedule": 1
+  },
+  "claim_boundary": {
+    "supported": [
+      "The frozen protein-derived local move-QUBOs were executed on Dirac-3 physical hardware.",
+      "Dirac-3 recovered the certified optimum for all five confirmation controls.",
+      "Both positive controls improved the classical warm state and all three negative controls produced zero false improvements."
+    ],
+    "unsupported": [
+      "quantum advantage",
+      "classical runtime advantage",
+      "scaling advantage",
+      "biological generalization",
+      "new drug discovery",
+      "end-to-end virtual-screening speedup"
+    ]
+  },
+  "confirmation": {
+    "allocation_after_seconds": 166,
+    "allocation_before_seconds": 463,
+    "below_certified_optimum_samples": 0,
+    "device_usage_seconds": 297.0,
+    "exact_optimum_samples": 500,
+    "feasible_samples": 500,
+    "negative_control_count": 3,
+    "positive_control_count": 2,
+    "primary_endpoint_passed": true,
+    "sample_count": 500
+  },
+  "confirmation_json_sha256": "E4FA9E2086ACAD120F827CDE4884D8A2A0E02C9EC8AC514DC6792F51BDE46030",
+  "credential_markers_observed": 0,
+  "endpoints": [
+    {
+      "added_receptor_id": "PPARG_MD_00261_8CPI",
+      "device_exact_optimum_samples": 100,
+      "device_strict_improvement_samples": 100,
+      "energy_delta_from_warm": -0.24295357596253098,
+      "exact_energy": -18.381636525524026,
+      "instance_id": "pparg_of3_k16_confirmation_positive",
+      "primary_endpoint_passed": true,
+      "removed_receptor_id": "PPARG_MD_00411_3TY0",
+      "role": "confirmation_positive",
+      "selected_move_count": 1,
+      "warm_energy": -18.138682949561495
+    },
+    {
+      "added_receptor_id": "PPARG_MD_00909_3GBK",
+      "device_exact_optimum_samples": 100,
+      "device_strict_improvement_samples": 100,
+      "energy_delta_from_warm": -0.05491217423792705,
+      "exact_energy": -16.602613191278405,
+      "instance_id": "pparg_of1_k16_confirmation_positive",
+      "primary_endpoint_passed": true,
+      "removed_receptor_id": "PPARG_MD_00918_3GBK",
+      "role": "confirmation_positive",
+      "selected_move_count": 1,
+      "warm_energy": -16.547701017040477
+    },
+    {
+      "device_exact_optimum_samples": 100,
+      "device_strict_improvement_samples": 0,
+      "energy_delta_from_warm": 0.0,
+      "exact_energy": -10.471618012586717,
+      "instance_id": "bace1_of0_k16_confirmation_negative",
+      "primary_endpoint_passed": true,
+      "role": "confirmation_negative",
+      "selected_move_count": 0,
+      "warm_energy": -10.471618012586717
+    },
+    {
+      "device_exact_optimum_samples": 100,
+      "device_strict_improvement_samples": 0,
+      "energy_delta_from_warm": 0.0,
+      "exact_energy": -2.0598640791805884,
+      "instance_id": "ppara_of2_k8_confirmation_negative",
+      "primary_endpoint_passed": true,
+      "role": "confirmation_negative",
+      "selected_move_count": 0,
+      "warm_energy": -2.0598640791805884
+    },
+    {
+      "device_exact_optimum_samples": 100,
+      "device_strict_improvement_samples": 0,
+      "energy_delta_from_warm": 0.0,
+      "exact_energy": -3.78499775987256,
+      "instance_id": "ppard_of0_k12_confirmation_negative",
+      "primary_endpoint_passed": true,
+      "role": "confirmation_negative",
+      "selected_move_count": 0,
+      "warm_energy": -3.78499775987256
+    }
+  ],
+  "hardware": {
+    "device_type": "dirac-3",
+    "physical_job_count": 9,
+    "recorded_cumulative_device_usage_seconds": 434.0,
+    "total_sample_count": 600
+  },
+  "log": {
+    "path": "stage79_qci_confirmation.log",
+    "sha256": "190766FCFA67921C653342103A0DE59ED74EE7A937B8DE259352C3CC8897A65A",
+    "size_bytes": 13596
+  },
+  "schema_version": "1.0",
+  "status": "stage79_qci_dirac3_physical_poc_independent_audit_ok"
+}

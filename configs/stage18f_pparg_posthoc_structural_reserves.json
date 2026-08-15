@@ -1,0 +1,45 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage18f-pparg-posthoc-structural-reserves-20260801-v1",
+  "purpose": "After the Stage 18e 14-of-24 technical failure, continue the pre-existing preparation-ready structural max-min order to freeze eight reserve receptors without using redocking scores for reserve ranking.",
+  "selection_timing": "Post hoc with respect to the failed Stage 18e gate. Frozen after observing only that Stage 18e passed 14 rather than the required 16 receptors, and before preparing, docking, or reading any result for a reserve receptor.",
+  "implementation": {
+    "path": "scripts/select_stage18f_pparg_structural_reserves.py",
+    "sha256": "F02F2901620F1BEAA08F2E0A86F20CB5E42083FF7AE3064225590CDD3920CA2A"
+  },
+  "inputs": {
+    "failure_adjudication": {
+      "path": "data/stage18e_pparg_cognate_redocking_failure_adjudication.json",
+      "sha256": "62EA942D84CE807681491A15B3AE4ABDBB043C1940878BF0761786D91C56EDA5"
+    },
+    "eligible_pool": {
+      "path": "data/processed/stage18c_pparg_coordinate_eligible_pool.csv",
+      "sha256": "DE64D1C6B89BDD9B288A71A7BB131DC0A69D2D51984230DB567EE89F5A26C38C"
+    },
+    "selected24_manifest": {
+      "path": "data/processed/stage18c_pparg_preparation_ready_selected24.csv",
+      "sha256": "90BE10D16C858CF30C43987FD47D5D923BF7B26C72ED4473E7A1824D187FEC5F"
+    },
+    "pairwise_distances": {
+      "path": "data/processed/stage18c_pparg_structural_distances.csv",
+      "sha256": "214B1E8D32009425B36D1CDAEBB020663D08490201405074D4B82451E1455517"
+    }
+  },
+  "selection": {
+    "reserve_receptor_count": 8,
+    "selection_rule": "Continue deterministic max-min standardized PPARG pocket distance from the full frozen 24-receptor seed set over the same 98 preparation-ready structures; ties resolved by lexical conformer ID. No Stage 18e pass/fail value or RMSD enters ranking."
+  },
+  "recovery_gate": {
+    "seed_count": 3,
+    "maximum_rmsd_angstrom": 2.0,
+    "minimum_successful_seeds_per_receptor": 2,
+    "minimum_new_passing_receptor_count": 2,
+    "maximum_reserve_receptors_tested": 8,
+    "failure_action": "If fewer than two reserves pass, stop PPARG benchmark docking and retain only the 14 technically validated receptors as descriptive evidence."
+  },
+  "outputs": {
+    "reserve_manifest_csv": "data/processed/stage18f_pparg_posthoc_structural_reserves.csv",
+    "summary_json": "data/stage18f_pparg_posthoc_structural_reserve_selection_summary.json"
+  },
+  "interpretation_boundary": "This recovery cannot retroactively pass Stage 18e or provide confirmatory evidence. If at least two reserves pass, the resulting 16-receptor pool is exploratory and must remain labeled post hoc in all reports."
+}

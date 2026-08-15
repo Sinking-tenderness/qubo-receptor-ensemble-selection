@@ -1,0 +1,12 @@
+name: qubo-bace1-stage41b
+channels:
+  - conda-forge
+dependencies:
+  - python=3.11
+  - numpy=1.26.4
+  - scipy
+  - rdkit
+  - gemmi
+  - prody
+  - meeko=0.7.1
+  - setuptools<81

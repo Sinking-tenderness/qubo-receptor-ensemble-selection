@@ -1,0 +1,127 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage42c-bace1-train266-qualified34-unidock113-production-20260804-v1",
+  "purpose": "Generate the complete outcome-informed BACE1 Train-266 by redocking-qualified34 receptor by three-seed Uni-Dock development matrix under the frozen enhanced profile.",
+  "implementation": {
+    "runner": {
+      "path": "scripts/experimental/unidock/run_stage42c_bace1_train266_production.py",
+      "sha256": "3D7FEB67AA661288F2F97C26AA86D1AF6C29774BA457B972B7D70C3EF01C5107"
+    },
+    "independent_auditor": {
+      "path": "scripts/experimental/unidock/audit_stage42c_bace1_train266_production.py",
+      "sha256": "FEB54DB739E676E04E44FC6D88D7AB5A7F5BBF39744DDE07ADB28453725CAFDE"
+    },
+    "unidock_batch_helper": {
+      "path": "scripts/experimental/unidock/run_unidock_gpu_equivalence.py",
+      "sha256": "4E927E959A08526289F7B266BA8CD76232741C878CCE255312F94A561DE433B0"
+    },
+    "pose_audit_helper": {
+      "path": "scripts/experimental/unidock/run_stage07b_unidock_enhanced_confirmation.py",
+      "sha256": "192E6BF7700442EA508082F47D96494125B41ADAD04C81B141FE3F4889312EE4"
+    },
+    "warning_adjudication_helper": {
+      "path": "scripts/experimental/unidock/run_stage07c_unidock_warning_adjudication.py",
+      "sha256": "9729941976A15D6A91C45493807218CF3E24141063439AFBA948E0A2F2635153"
+    }
+  },
+  "data_boundary": {
+    "allowed_split": "train",
+    "allowed_selection_role": "development_train",
+    "validation_rows_permitted": 0,
+    "test_rows_permitted": 0,
+    "train_enrichment_during_score_generation_permitted": false
+  },
+  "inputs": {
+    "receptor_manifest": {
+      "path": "data/processed/stage42c_bace1_redocking_qualified34_receptor_manifest.csv",
+      "sha256": "FFC5D239D4E880B07FBAEB04EDB87885302B893B54631F91424CDEE0B9026BC0"
+    },
+    "ligand_manifest": {
+      "path": "data/processed/stage42b_bace1_train266_unidock_pdbqt_manifest.csv",
+      "sha256": "957F75B362A2A123080A5CE6F8003BC96F2A55548EE04747235166D42BBE5DCC"
+    },
+    "preregistration": {
+      "path": "configs/stage42_bace1_redocking_qualified_development_preregistration.json",
+      "sha256": "B3F3BB624CBDB6A30391E67425617828CDF8C46BE6229F8950319F85A0D7DA58"
+    },
+    "ligand_preparation_summary": {
+      "path": "data/stage42b_bace1_train266_unidock_input_summary.json",
+      "sha256": "354ECD02C9855C73680DBCDB8C47FAA7A60BA19E45F5788A7438585B535386CB"
+    },
+    "input_preparation_audit": {
+      "path": "data/stage42b_bace1_train266_unidock_input_independent_audit.json",
+      "sha256": "35D0B1F42591DF3E342686418F6184DD57BC7B38CCCF5638E5CBA73C90F6F837"
+    },
+    "profile_freeze_result": {
+      "path": "data/stage07c_mk14_unidock113_warning_adjudication_result.json",
+      "sha256": "55C6EE2C9E32EC4A71A0EBDF02FEE761E99B15840D6DB56299F1799C8A772DDB"
+    },
+    "seeds": [
+      {"seed_id": "seed0", "base_seed": 20260801},
+      {"seed_id": "seed1", "base_seed": 20260802},
+      {"seed_id": "seed2", "base_seed": 20260803}
+    ]
+  },
+  "expected": {
+    "receptor_ids": [
+      "BACE1_2QMD_aligned", "BACE1_2QMF_aligned", "BACE1_2QMG_aligned", "BACE1_2QP8_aligned",
+      "BACE1_3CIB_aligned", "BACE1_3CIC_aligned", "BACE1_3CID_aligned", "BACE1_3IVH_aligned",
+      "BACE1_3IVI_aligned", "BACE1_3KN0_aligned", "BACE1_3L59_aligned", "BACE1_3L5E_aligned",
+      "BACE1_4DJU_aligned", "BACE1_4DJV_aligned", "BACE1_4DJW_aligned", "BACE1_4DJX_aligned",
+      "BACE1_4DJY_aligned", "BACE1_4FS4_aligned", "BACE1_4H3F_aligned", "BACE1_4H3G_aligned",
+      "BACE1_4H3I_aligned", "BACE1_4H3J_aligned", "BACE1_4HA5_aligned", "BACE1_4HZT_aligned",
+      "BACE1_4I0F_aligned", "BACE1_4I0G_aligned", "BACE1_4I0J_aligned", "BACE1_4I0Z_aligned",
+      "BACE1_4I10_aligned", "BACE1_4I11_aligned", "BACE1_4RRN_aligned", "BACE1_4RRO_aligned",
+      "BACE1_4RRS_aligned", "BACE1_6PZ4_aligned"
+    ],
+    "receptor_count": 34,
+    "ligand_count": 266,
+    "label_counts": {"active": 133, "decoy": 133},
+    "seed_count": 3,
+    "batch_count": 102,
+    "pair_count": 27132,
+    "validation_rows": 0,
+    "test_rows": 0
+  },
+  "unidock": {
+    "executable": "unidock",
+    "required_package_version": "1.1.3",
+    "profile_id": "enhanced",
+    "scoring": "vina",
+    "exhaustiveness": 1024,
+    "max_step": 80,
+    "refine_step": 5,
+    "num_modes": 1,
+    "energy_range": 3,
+    "verbosity": 1,
+    "cuda_visible_devices": "0",
+    "maximum_absolute_score_kcal_per_mol": 1000.0,
+    "box": {
+      "center_x": 24.35,
+      "center_y": 13.96,
+      "center_z": 23.58,
+      "size_x": 30.0,
+      "size_y": 22.0,
+      "size_z": 22.0
+    }
+  },
+  "execution": {
+    "batch_order": "seed-major, then frozen qualified-receptor order",
+    "batch_unit": "one receptor and one seed with all 266 training ligands",
+    "resume_contract": "reuse only a checkpoint whose protocol signature, score hash, pose hashes, pose-integrity audit, and warning adjudication all pass",
+    "partition_contract": "optional seed-id and receptor-id filters create disjoint checkpoint directories that may be merged before finalize-only",
+    "technical_gate": "zero unresolved warnings and zero pose-integrity failures",
+    "finite_score_guard_note": "The 1000 kcal/mol parser guard follows the adjudicated Uni-Dock finite high-positive-energy policy and is not a score clipping rule."
+  },
+  "outputs": {
+    "run_directory": "results/runs/stage42c_bace1_train266_unidock113_production",
+    "scores_csv": "results/runs/stage42c_bace1_train266_unidock113_production/scores.csv",
+    "batch_runs_csv": "results/runs/stage42c_bace1_train266_unidock113_production/batch_runs.csv",
+    "median_matrix_csv": "results/runs/stage42c_bace1_train266_unidock113_production/primary_median_score_matrix.csv",
+    "minimum_matrix_csv": "results/runs/stage42c_bace1_train266_unidock113_production/sensitivity_minimum_score_matrix.csv",
+    "progress_json": "results/runs/stage42c_bace1_train266_unidock113_production/progress.json",
+    "summary_json": "results/runs/stage42c_bace1_train266_unidock113_production/summary.json",
+    "audit_json": "data/stage42c_bace1_train266_unidock113_production_audit.json"
+  },
+  "decision_boundary": "Stage 42c is an outcome-informed, post-hoc BACE1 development experiment using only Train-266. Stage 41c remains failed. This matrix cannot be mixed with CPU Vina results and does not by itself establish independent validation performance, QUBO superiority, quantum execution, or quantum advantage."
+}

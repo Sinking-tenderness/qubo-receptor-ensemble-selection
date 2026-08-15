@@ -1,0 +1,91 @@
+{
+  "common_box": {
+    "center": {
+      "x": 24.35,
+      "y": 13.96,
+      "z": 23.58
+    },
+    "derivation_rule": {
+      "center_decimal_places": 2,
+      "coordinate_population": "all 49 audited cognate crystal ligands in the common 3L5D BACE1 catalytic-domain frame",
+      "maximum_axis_size_angstrom": 50.0,
+      "minimum_axis_size_angstrom": 22.0,
+      "minimum_crystal_pose_margin_angstrom": 3.5,
+      "size_increment_angstrom": 2.0
+    },
+    "ligand_maximum_angstrom": [
+      34.8913,
+      21.1911,
+      30.1527
+    ],
+    "ligand_minimum_angstrom": [
+      13.8108,
+      6.7288,
+      17.0061
+    ],
+    "minimum_observed_margin_angstrom": 3.768799999999999,
+    "receptor_count": 48,
+    "schema_version": "1.0",
+    "size": {
+      "x": 30.0,
+      "y": 22.0,
+      "z": 22.0
+    },
+    "status": "stage41b_bace1_large_pool_common_box_ok"
+  },
+  "config": {
+    "path": "configs/stage41b_bace1_large_pool_redocking_input_preparation.json",
+    "sha256": "4ED80B534035B455832D271AA9DF6137C65C121790D60711BF098C03159C1033"
+  },
+  "counts": {
+    "failed_case_count": 1,
+    "frozen_receptor_count": 49,
+    "minimum_prepared_receptor_count": 40,
+    "prepared_cognate_ligand_count": 48,
+    "prepared_receptor_count": 48,
+    "prepared_this_invocation": 11,
+    "resumed_this_invocation": 37
+  },
+  "data_boundary": {
+    "benchmark_docking_scores_read": 0,
+    "fresh_validation_rows_read": 0,
+    "ligand_labels_read": 0,
+    "locked_test_rows_read": 0,
+    "new_docking_jobs": 0,
+    "quantum_hardware_jobs": 0
+  },
+  "experiment_id": "stage41b-bace1-large-pool-redocking-input-preparation-20260803-v1",
+  "failed_cases": [
+    {
+      "case_id": "6DMI_5T5",
+      "conformer_id": "BACE1_6DMI_aligned",
+      "error": "ValueError: BACE1 ModelServer ligand coordinates differ: 6DMI_5T5",
+      "meeko_return_code": 0,
+      "meeko_stderr": "/root/miniconda3/envs/qubo-unidock-stage08/lib/python3.11/site-packages/prody/utilities/misctools.py:424: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.\n  import pkg_resources\n@> 2941 atoms and 1 coordinate set(s) were parsed in 0.04s.\n",
+      "pdb_id": "6DMI",
+      "receptor_preparation_error": "",
+      "status": "technical_preparation_failed"
+    }
+  ],
+  "interpretation_boundary": "Passing Stage41b establishes only technical readiness of the frozen 49-receptor BACE1 pool and cognate ligands in one common frame. It does not establish pose recovery, screening enrichment, QUBO portability, QUBO superiority, quantum execution, or quantum advantage. No receptor may be replaced after preparation or redocking outcomes are known.",
+  "maximum_common_ligand_coordinate_rmsd_angstrom": 5.45594555450147e-05,
+  "maximum_raw_ligand_coordinate_rmsd_angstrom": 0.0,
+  "next_gate": "run three-seed BACE1 Uni-Dock cognate redocking for every successfully prepared frozen receptor; technical preparation failures count as receptor failures and cannot be replaced",
+  "outputs": {
+    "common_box_json": {
+      "path": "data/stage41b_bace1_large_pool_common_box.json",
+      "sha256": "CDDA4942CEC12DEDBB5B7E34C676EEBC890AFAFE116C4D8EB22EB5A7A1EFEDFB"
+    },
+    "receptor_manifest_csv": {
+      "path": "data/processed/stage41b_bace1_large_pool_prepared_receptor_manifest.csv",
+      "sha256": "B3B596A64857487529D8C72AE61C21F36BAFD6E6886683FAC73A40ED7CC1D8E5"
+    },
+    "redocking_case_manifest_csv": {
+      "path": "data/processed/stage41b_bace1_large_pool_cognate_redocking_case_manifest.csv",
+      "sha256": "BD43F0BE9AFB46DC4860F0917D35496C93E803BDC65A7CE820CF5FCEA20530F4"
+    }
+  },
+  "schema_version": "1.0",
+  "status": "stage41b_bace1_large_pool_redocking_inputs_partial_gate_ready",
+  "technical_gate_ready": true
+}

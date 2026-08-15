@@ -1,0 +1,42 @@
+{
+  "schema_version": "1.0",
+  "preregistration_id": "stage91c-bace1-group-robust-development-docking-20260811-v1",
+  "status": "stage91c_development_docking_preregistered",
+  "purpose": "Authorize only the frozen BACE1 ChEMBL development assay for Uni-Dock score generation after the Stage91b input audit passed.",
+  "evidence_timing": {
+    "stage91_objective_frozen_before_docking": true,
+    "stage91b_input_audit_known": true,
+    "development_docking_scores_known": false,
+    "confirmation_or_locked_test_scores_known": false
+  },
+  "authorization": {
+    "development_docking_authorized": true,
+    "confirmation_or_test_preparation_authorized": false,
+    "confirmation_or_test_docking_authorized": false,
+    "objective_coefficient_tuning_after_docking_authorized": false,
+    "quantum_hardware_authorized": false
+  },
+  "frozen_grid": {
+    "receptor_count": 34,
+    "ligand_count": 365,
+    "seed_count": 3,
+    "batch_count": 102,
+    "pair_count": 37230,
+    "potency_label_counts": {
+      "high": 248,
+      "low": 52,
+      "gray": 65
+    }
+  },
+  "frozen_protocol": {
+    "engine": "Uni-Dock",
+    "version": "1.1.3",
+    "profile_id": "enhanced",
+    "exhaustiveness": 1024,
+    "max_step": 80,
+    "refine_step": 5,
+    "num_modes": 1,
+    "paired_seeds": [20260801, 20260802, 20260803]
+  },
+  "decision_boundary": "Passing Stage91c establishes only a complete development-only docking matrix. It does not establish QUBO superiority, independent assay transfer, drug discovery, quantum execution, or quantum advantage."
+}

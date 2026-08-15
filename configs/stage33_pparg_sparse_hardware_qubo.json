@@ -1,0 +1,105 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage33-pparg-sparse-hardware-qubo-20260803-v1",
+  "purpose": "Determine whether a domain-wall encoded, locally coupled PPARG MD receptor-selection QUBO preserves structural quality while reducing logical connectivity enough to justify a small quantum-annealing application pilot.",
+  "trigger": "Stage29 and Stage30 used dense QUBOs, Stage31 found no difficult structure-only objective, and Stage32b showed that the frozen two-receptor docking gain did not replicate. Stage33 therefore evaluates hardware-oriented sparse encoding rather than retuning docking efficacy.",
+  "evidence_timing": {
+    "experiment_class": "prospective_post_stage32c_structure_only_hardware_feasibility_screen",
+    "stage33_outcomes_known_before_freeze": false,
+    "stage32c_results_known_before_freeze": true,
+    "docking_scores_permitted": false,
+    "ligand_labels_permitted": false,
+    "fresh_validation_rows_permitted": false,
+    "test_rows_permitted": false,
+    "new_docking_jobs": false,
+    "quantum_hardware_execution": false
+  },
+  "inputs": {
+    "stage28b_audit": "data/stage28b_pparg_md_ready_multistart_md_ensemble_audit.json",
+    "stage29_audit": "data/stage29_pparg_md_qubo_solver_scaling_audit.json",
+    "stage30_audit": "data/stage30_pparg_group_balanced_state_qubo_audit.json",
+    "stage32c_audit": "data/stage32c_pparg_md_pair_failure_diagnostic_audit.json",
+    "frame_manifest": "results/runs/stage28b_pparg_md_ready_multistart_md/ensemble/frame_manifest.csv",
+    "feature_archive": "results/runs/stage28b_pparg_md_ready_multistart_md/ensemble/pocket_features.npz",
+    "distance_archive": "results/runs/stage28b_pparg_md_ready_multistart_md/ensemble/pairwise_distances_condensed.npz"
+  },
+  "candidate_scaling": {
+    "frames_per_start": [2, 4, 8, 16, 32, 64, 100, 150],
+    "total_candidate_counts": [16, 32, 64, 128, 256, 512, 800, 1200],
+    "within_start_order": "deterministic one-dimensional temporal maximin order inherited from Stage29",
+    "selection_constraint": "exactly one frame from each of eight independent MD starts"
+  },
+  "structural_states": {
+    "cluster_counts": [8, 16, 32],
+    "method": "Ward hierarchical clustering of the complete frozen 1200-frame pocket-feature matrix"
+  },
+  "sparse_objective": {
+    "selected_count": 8,
+    "group_count": 8,
+    "within_start_centrality_weight": 0.3,
+    "local_redundancy_weight": 0.7,
+    "distance_similarity_fraction": 0.7,
+    "state_similarity_fraction": 0.3,
+    "cross_start_nearest_neighbors_per_direction": 2,
+    "distance_radius_complete_pool_quantile": 0.10,
+    "minimum_retained_similarity": 0.05,
+    "pair_normalization": 28.0,
+    "fixed_feasible_objective": "0.3*mean selected within-start centrality minus 0.7/28 times the sum of retained local cross-start redundancy similarities",
+    "edge_rule": "for every pair of MD starts, retain the union of each frame's two nearest neighbors in the other start, then remove edges beyond the frozen q10 radius or below the minimum similarity",
+    "domain_wall_mapping": "within each start, x_i=z_i-z_(i+1), with fixed z_0=1 and z_m=0",
+    "domain_wall_violation_penalty": 2.0,
+    "qubo_convention": "minimize negative sparse objective plus local penalties for every zero-to-one rise in each domain-wall chain"
+  },
+  "quality_reference": {
+    "dense_objective": "Stage30: 0.3*mean within-start centrality + 0.5*mean cross-start distance + 0.2*mean multiscale state separation",
+    "maximum_allowed_dense_objective_loss": 0.03
+  },
+  "exact_oracle": {
+    "maximum_states": 1000000
+  },
+  "classical_baselines": {
+    "cyclic_group_order_count": 16,
+    "random_coordinate_restart_count": 64,
+    "methods": [
+      "cyclic_greedy_plus_coordinate_descent",
+      "random64_coordinate_descent"
+    ]
+  },
+  "annealing_sampler": {
+    "batch_count": 4,
+    "reads_per_batch": 16,
+    "minimum_sweeps_per_read": 2500,
+    "sweeps_per_candidate": 5,
+    "temperature_start": 0.03,
+    "temperature_end": 0.0001,
+    "initialization": "one uniformly random frame per MD start",
+    "move": "replace one selected frame within one randomly selected MD-start group",
+    "base_seed": 20260833
+  },
+  "gate": {
+    "maximum_qubo_equivalence_residual": 1e-8,
+    "maximum_exact_gap": 1e-8,
+    "minimum_full_pool_coupler_reduction_fraction": 0.90,
+    "minimum_batch_fraction_within_tolerance": 0.75,
+    "objective_tolerance": 0.0001,
+    "maximum_dense_quality_loss": 0.03,
+    "direct_qpu_reference_candidate_count": 128,
+    "direct_qpu_max_logical_variables": 200,
+    "direct_qpu_max_quadratic_couplers": 20000,
+    "direct_qpu_max_coefficient_dynamic_range": 10000.0,
+    "required_scaling_cell_count": 8,
+    "minimum_cells_strictly_above_strong_classical": 1,
+    "minimum_strict_gain": 1e-6
+  },
+  "outputs": {
+    "candidate_manifest_csv": "results/runs/stage33_pparg_sparse_hardware_qubo/candidate_manifest.csv",
+    "sparse_edges_csv": "results/runs/stage33_pparg_sparse_hardware_qubo/sparse_edges.csv",
+    "solver_results_csv": "results/runs/stage33_pparg_sparse_hardware_qubo/solver_results.csv",
+    "batch_results_csv": "results/runs/stage33_pparg_sparse_hardware_qubo/batch_results.csv",
+    "model_scaling_csv": "results/runs/stage33_pparg_sparse_hardware_qubo/model_scaling.csv",
+    "result_json": "data/stage33_pparg_sparse_hardware_qubo_result.json",
+    "audit_json": "data/stage33_pparg_sparse_hardware_qubo_audit.json",
+    "report_md": "reports/stage-33/pparg_sparse_hardware_qubo.md"
+  },
+  "interpretation_boundary": "Stage33 can establish deterministic sparse-QUBO construction, feasible-state energy equivalence, small-cell exactness, structural-quality retention, logical connectivity reduction, and whether a separately controlled small quantum-annealing application pilot is technically justified. It cannot establish docking enrichment, biological superiority, quantum speedup, quantum advantage, or production-scale hardware readiness."
+}

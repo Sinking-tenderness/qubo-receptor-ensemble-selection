@@ -1,0 +1,57 @@
+{
+  "archive": {
+    "duplicate_path_count": 0,
+    "member_count": 12899,
+    "non_file_member_count": 0,
+    "path": "E:\\LeStoreDownload\\stage61b_ppard_remaining144_unidock113_production_diagnostics_v1.tar.gz",
+    "sha256": "6D6357E0021BAC9444B977BFF4CEFF8ED25D424405736153808FCDAC69D3D95F",
+    "size_bytes": 11025387,
+    "unsafe_path_count": 0
+  },
+  "audit_id": "stage61b-ppard-diagnostics-archive-local-stream-audit-v1",
+  "data_boundary": {
+    "fresh_validation_rows_read": 0,
+    "locked_test_rows_read": 0
+  },
+  "dimensions": {
+    "batch_count": 87,
+    "label_counts": {
+      "active": 72,
+      "decoy": 72
+    },
+    "ligand_count": 144,
+    "pair_count": 12528,
+    "pose_count": 12528,
+    "receptor_count": 29,
+    "seed_count": 3
+  },
+  "independent_recomputations": {
+    "aggregate_and_batch_rows_exact": true,
+    "atom_count_and_type_signature_exact_count": 12528,
+    "batch_score_and_log_hashes_exact_count": 87,
+    "input_ligand_hashes_exact": true,
+    "median_matrix_exact": true,
+    "minimum_matrix_exact": true,
+    "pose_score_exact_count": 12528,
+    "pose_sha256_exact_count": 12528,
+    "single_pose_exact_count": 12528
+  },
+  "interpretation_boundary": "This local audit establishes the byte-level and pose-level integrity of the Stage61b diagnostics archive. It does not establish QUBO efficacy, independent target validation, quantum execution, speedup, or quantum advantage.",
+  "metadata_adjudication": {
+    "expected_target_id": "PPARD",
+    "raw_target_id_mismatch_count": 12528,
+    "raw_target_id_values": [
+      "MK14"
+    ],
+    "scientific_score_or_pose_effect": false,
+    "status": "known_metadata_only_issue_requiring_stage61c_amendment"
+  },
+  "schema_version": "1.0",
+  "status": "stage61b_ppard_diagnostics_archive_local_stream_audit_ok",
+  "technical_gate": {
+    "known_warning_event_count": 4,
+    "pose_integrity_failure_count": 0,
+    "status": "pass",
+    "unresolved_warning_event_count": 0
+  }
+}

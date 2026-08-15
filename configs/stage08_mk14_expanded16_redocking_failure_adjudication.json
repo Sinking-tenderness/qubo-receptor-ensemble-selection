@@ -1,0 +1,40 @@
+{
+  "schema_version": "1.0",
+  "adjudication_id": "stage08-mk14-expanded16-unidock-redocking-failure-adjudication-v1",
+  "source_archive": {
+    "basename": "stage08_mk14_expanded16_unidock_redocking_failed_diagnostics_v1.tar.gz",
+    "sha256": "C7E1BA99750EC998B1936D9E5475E8A6B51664E18666CFBD8206226455E17CD1"
+  },
+  "source_config": {
+    "path": "configs/stage08_mk14_expanded16_unidock_redocking.json",
+    "sha256": "A9B41591C923390215E75E752A5BBE9C9EE26A147FFFFFEA680E26C61C95F045"
+  },
+  "expected": {
+    "receptor_ids": [
+      "MK14_3ZSI_aligned",
+      "MK14_5N65_aligned",
+      "MK14_3ZSH_aligned",
+      "MK14_3ZSG_aligned",
+      "MK14_3BV2_aligned",
+      "MK14_2GFS_aligned",
+      "MK14_4FA2_aligned",
+      "MK14_4AAC_aligned"
+    ],
+    "seed_ids": [
+      "seed0",
+      "seed1",
+      "seed2"
+    ],
+    "pair_count": 24,
+    "minimum_successful_seeds_per_receptor": 2,
+    "maximum_median_rmsd_angstrom": 2.0,
+    "expected_failed_receptor_ids": [
+      "MK14_3ZSH_aligned",
+      "MK14_2GFS_aligned"
+    ],
+    "validation_rows": 0,
+    "test_rows": 0
+  },
+  "output_json": "data/stage08_mk14_expanded16_redocking_failure_adjudication.json",
+  "decision_boundary": "This post-failure adjudication reads only the preregistered cognate-redocking technical controls. It may identify receptor admission failures and authorize a structural replacement amendment, but it cannot alter the 2 A gate, inspect benchmark labels or scores, authorize validation/test access, or establish enrichment or QUBO benefit."
+}

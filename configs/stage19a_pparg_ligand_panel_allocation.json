@@ -1,0 +1,59 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage19a-pparg-ligand-panel-allocation-20260801-v1",
+  "purpose": "Freeze exact PPARG train, fresh-validation, and locked-test ligand identities before production docking, while joining duplicate source IDs, duplicate canonical SMILES, and Bemis-Murcko scaffolds into indivisible groups.",
+  "implementation": {
+    "path": "scripts/allocate_stage19a_pparg_ligand_panels.py",
+    "sha256": "F3F67913FA9B80513644AB35C8A9BC97EF4DB039B4651E65E8A5CC8C8F5C10D7"
+  },
+  "inputs": {
+    "preregistration": {
+      "path": "configs/stage18_pparg_replacement_exploratory_preregistration.json",
+      "sha256": "AE6361F7DDCB643643EF7A99BC4A77165F6E6D883672046F54D83CA4DD3CCD15"
+    },
+    "source_audit": {
+      "path": "data/stage18a_pparg_source_and_active_allocation_summary.json",
+      "sha256": "064EA7A4719B16C91C247377D8AEECF1946AC31BF2405CEA4E9AAD0902675C8E"
+    },
+    "active_allocation": {
+      "path": "data/processed/stage18a_pparg_active_panel_allocation.csv",
+      "sha256": "B108E5100573BFE5446B5305412D3F6249428BE8C846F2D2C03A124C12A00931"
+    },
+    "decoy_ism": {
+      "path": "data/raw/external_targets/pparg_dude/pparg/decoys_final.ism",
+      "sha256": "A23BD8975F506623ABA66230E1A6279A512C053DD97EDD66D0886D99DC6243AF"
+    }
+  },
+  "decoy_allocation": {
+    "grouping_rule": "Connected components formed by shared DUD-E source molecule ID, canonical isomeric SMILES, or achiral Bemis-Murcko scaffold. Exclude every component whose canonical SMILES or scaffold collides with any selected active.",
+    "assignment_rule": "For train, validation, then test, sort remaining groups by SHA-256 of the role-specific seed and deterministic group ID. Admit a group only when it does not overshoot the remaining exact row count.",
+    "train_decoy_count": 334,
+    "fresh_validation_decoy_count": 1501,
+    "locked_test_decoy_count": 1501,
+    "train_hash_seed": "stage19-pparg-decoy-train-v1-20260801",
+    "fresh_validation_hash_seed": "stage19-pparg-decoy-validation-v1-20260801",
+    "locked_test_hash_seed": "stage19-pparg-decoy-test-v1-20260801"
+  },
+  "expected": {
+    "source_active_count": 484,
+    "source_decoy_count": 25300,
+    "connected_decoy_group_count": 9367,
+    "maximum_decoy_group_size": 920,
+    "active_identity_collision_group_count": 15,
+    "active_identity_collision_row_count": 495,
+    "eligible_decoy_group_count": 9352,
+    "eligible_decoy_row_count": 24805,
+    "train_active_count": 334,
+    "train_decoy_count": 334,
+    "fresh_validation_active_count": 75,
+    "fresh_validation_decoy_count": 1501,
+    "locked_test_active_count": 75,
+    "locked_test_decoy_count": 1501
+  },
+  "outputs": {
+    "selected_panel_manifest_csv": "data/processed/stage19a_pparg_selected_ligand_panel_manifest.csv",
+    "train_manifest_csv": "data/processed/stage19a_pparg_train668_ligand_manifest.csv",
+    "summary_json": "data/stage19a_pparg_ligand_panel_allocation_summary.json"
+  },
+  "interpretation_boundary": "This stage freezes ligand identities and labels only. It reads no docking score, prepares no validation or test ligand, and provides no enrichment, QUBO, or quantum evidence."
+}

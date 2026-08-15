@@ -1,0 +1,49 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage32c-pparg-md-pair-failure-diagnostic-20260803-v1",
+  "purpose": "Explain why the frozen PPARG MD pair changed from a Train-160 gain to a fresh-validation loss without tuning a replacement method on validation data.",
+  "evidence_timing": {
+    "experiment_class": "posthoc_failure_mechanism_diagnostic",
+    "stage32b_outcome_known_before_freeze": true,
+    "replacement_receptor_selection_permitted": false,
+    "replacement_aggregation_tuning_permitted": false,
+    "new_docking_jobs": false,
+    "locked_test_rows_permitted": false,
+    "quantum_hardware_execution": false
+  },
+  "inputs": {
+    "stage32b_result": "data/stage32b_pparg_md_pair_fresh_validation_result.json",
+    "stage32b_audit": "data/stage32b_pparg_md_pair_fresh_validation_audit.json",
+    "train_selection": "data/stage32b_pparg_md_pair_train_selection.json",
+    "train_ligand_manifest": "data/processed/stage32_pparg_train160_ligand_manifest.csv",
+    "train_receptor_manifest": "data/processed/stage32_pparg_md_selected16_prepared_receptor_manifest.csv",
+    "train_scores_csv": "results/runs/stage32_pparg_md_functional_complementarity_pilot/scores.csv",
+    "train_median_matrix_csv": "results/runs/stage32_pparg_md_functional_complementarity_pilot/primary_median_score_matrix.csv",
+    "train_minimum_matrix_csv": "results/runs/stage32_pparg_md_functional_complementarity_pilot/sensitivity_minimum_score_matrix.csv",
+    "validation_ligand_manifest": "data/processed/stage32b_pparg_fresh_validation_pdbqt_manifest.csv",
+    "validation_scores_csv": "results/runs/stage32b_pparg_md_pair_fresh_validation/scores.csv",
+    "validation_median_matrix_csv": "results/runs/stage32b_pparg_md_pair_fresh_validation/primary_median_score_matrix.csv",
+    "validation_minimum_matrix_csv": "results/runs/stage32b_pparg_md_pair_fresh_validation/sensitivity_minimum_score_matrix.csv"
+  },
+  "diagnostic": {
+    "scenarios": ["primary", "sensitivity", "seed0", "seed1", "seed2"],
+    "bedroc_alpha": 20.0,
+    "normalization": "Use each receptor and scenario's Train-160 empirical midrank CDF for both Train-160 and fresh-validation rows.",
+    "single_score": "Frozen singleton normalized fraction.",
+    "extra_receptor_score": "The other selected receptor's normalized fraction.",
+    "pair_score": "Minimum of the singleton and extra-receptor normalized fractions.",
+    "extra_win": "Extra-receptor fraction is lower than singleton fraction by more than 1e-12.",
+    "early_cutoffs": [0.01, 0.05],
+    "rank_ties": "Stable input-manifest order, matching the frozen BEDROC implementation.",
+    "mechanism_rule": "Classify nonselective decoy promotion when validation primary pair gain is negative, all three seed gains are negative, and the extra receptor's validation primary win rate or mean fraction improvement is not greater for actives than decoys.",
+    "route_rule": "Stop this frozen min-aggregation MD-pair efficacy route when nonselective decoy promotion is present; do not tune on this validation set or unlock the test set."
+  },
+  "outputs": {
+    "ligand_diagnostic_csv": "results/runs/stage32c_pparg_md_pair_failure_diagnostic/validation_primary_ligand_diagnostics.csv",
+    "scenario_summary_csv": "results/runs/stage32c_pparg_md_pair_failure_diagnostic/scenario_summary.csv",
+    "result_json": "data/stage32c_pparg_md_pair_failure_diagnostic_result.json",
+    "audit_json": "data/stage32c_pparg_md_pair_failure_diagnostic_audit.json",
+    "report_md": "reports/stage-32c/pparg_md_pair_failure_diagnostic.md"
+  },
+  "interpretation_boundary": "Stage32c is a post-hoc explanation of a failed prospective validation. It may identify failure mechanisms and stop an unproductive route, but it cannot rescue Stage32b, select a new PPARG method, access locked-test rows, establish cross-target transfer, quantum execution, speedup, or quantum advantage."
+}

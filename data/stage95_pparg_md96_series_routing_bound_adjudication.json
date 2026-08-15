@@ -1,0 +1,17 @@
+{
+  "bounded_nonexact_scale_count": 1,
+  "data_boundary": {
+    "fresh_validation_rows_read": 0,
+    "new_docking_jobs": 0,
+    "quantum_jobs": 0,
+    "test_rows_read": 0
+  },
+  "exact_scale_count": 4,
+  "largest_certified_maximum_possible_relative_gap": 0.004757701234423338,
+  "one_percent_gap_excluded_scale_count": 5,
+  "result_json_sha256": "131E053CC1255B3164E5EBB85DB031A380DB57EACC085BFC926DD12C3977312C",
+  "scale_count": 5,
+  "scale_csv_sha256": "F86EFD1C59B2FEA262514A10784BFB081351109C2E3355E138947A01C9DC7996",
+  "schema_version": "1.0",
+  "status": "stage95_solver_bound_adjudication_ok"
+}

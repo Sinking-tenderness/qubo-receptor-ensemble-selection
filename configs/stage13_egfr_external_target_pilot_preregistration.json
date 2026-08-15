@@ -1,0 +1,188 @@
+{
+  "schema_version": "1.0",
+  "authorization_id": "stage13-egfr-external-target-pilot-preregistration-20260731-v1",
+  "created_on": "2026-07-31",
+  "target": {
+    "target_id": "EGFR_HUMAN",
+    "gene_name": "EGFR",
+    "protein_name": "Epidermal growth factor receptor",
+    "organism": "Homo sapiens",
+    "uniprot_accession": "P00533",
+    "dude_target_id": "EGFR",
+    "dude_reference_structure": "2RGP",
+    "dude_reference_chain": "A"
+  },
+  "purpose": "Run the first untouched target-level transfer pilot after CDK2 and MAPK14 using the frozen pair-synergy QUBO workflow, without retuning on MAPK14 Stage 11.",
+  "prior_target_boundary": {
+    "CDK2": "consumed historical development and released locked-test evidence; not an independent target",
+    "MAPK14": "consumed Stage 09 development and Stage 11 fresh-validation evidence; frozen application proof of concept",
+    "EGFR": "new target; no EGFR docking score, enrichment metric, receptor subset, or QUBO coefficient has been used for this pilot"
+  },
+  "data_boundary": {
+    "labels_allowed_during_ligand_split": true,
+    "labels_allowed_during_receptor_discovery_or_structural_selection": false,
+    "docking_scores_allowed_during_receptor_discovery_or_structural_selection": false,
+    "development_train": "not yet sampled or docked",
+    "fresh_validation": "not yet sampled; locked until the EGFR train-only method is frozen",
+    "test": "not yet sampled; locked and unauthorized",
+    "MAPK14_stage11_rows_permitted": 0
+  },
+  "dude_source": {
+    "target_url": "https://dude.docking.org/targets/egfr",
+    "archive": {
+      "path": "data/raw/external_targets/egfr_dude/egfr.tar.gz",
+      "source_url": "https://dude.docking.org/targets/egfr/egfr.tar.gz",
+      "sha256": "3E0B5AC208DEDAA22B3EADF414F53DF245C94D9326854EEAE57A3F3A9BB3FF91"
+    },
+    "actives": {
+      "path": "data/raw/external_targets/egfr_dude/egfr/actives_final.ism",
+      "sha256": "DEFE4893B063A9061614E91110362E47CDA751EF868F2AC7F29444A685B5EA65",
+      "row_count": 542,
+      "unique_source_id_count": 542,
+      "rdkit_parse_failure_count": 0,
+      "unique_canonical_smiles_count": 542
+    },
+    "decoys": {
+      "path": "data/raw/external_targets/egfr_dude/egfr/decoys_final.ism",
+      "sha256": "E6AFC34B8912943AFD68E46902E61DCC47ACDD2F236DBF01FA22D6079D8D9100",
+      "row_count": 35050,
+      "unique_source_id_count": 35021,
+      "duplicate_source_id_count": 28,
+      "maximum_source_id_multiplicity": 3,
+      "rdkit_parse_failure_count": 0,
+      "unique_canonical_smiles_count": 35047
+    },
+    "pdb_blessed": {
+      "path": "data/raw/external_targets/egfr_dude/egfr/pdb_blessed.txt",
+      "sha256": "C1E7EE137D6EC1971CD4CA3C93AE98BA3BFD5725AFD09FC6BFFEB60E6F3D5325"
+    },
+    "pdb_selection": {
+      "path": "data/raw/external_targets/egfr_dude/egfr/pdb_selection.txt",
+      "sha256": "6E9CC5AE8F18F45756A6F7E2E094A194546FB0413350EB9A391E240BBE781059"
+    }
+  },
+  "ligand_panel_plan": {
+    "internal_id_rule": "EGFR label plus source line number; preserve the possibly duplicated DUD-E source ID as metadata",
+    "split_group": "Bemis-Murcko scaffold computed before allocation",
+    "development_train": {
+      "active_count": 348,
+      "decoy_count": 348
+    },
+    "fresh_validation": {
+      "active_count": 75,
+      "decoy_count": 1501,
+      "status": "locked_not_sampled"
+    },
+    "test": {
+      "active_count": 75,
+      "decoy_count": 1501,
+      "status": "locked_not_sampled"
+    },
+    "allocation_rule": "deterministic scaffold-group allocation with no molecule, canonical-SMILES, source-line, or scaffold overlap among train, fresh validation, and test",
+    "failure_action": "stop before ligand preparation if exact disjoint panel sizes cannot be constructed"
+  },
+  "rcsb_discovery": {
+    "uniprot_accession": "P00533",
+    "experimental_method": "X-RAY DIFFRACTION",
+    "retrieved_on": "2026-07-31",
+    "metadata_eligibility": {
+      "required_mutation_count": 0,
+      "maximum_resolution_angstrom": 2.5,
+      "minimum_reference_sequence_coverage": 0.2,
+      "minimum_sample_sequence_length": 240,
+      "maximum_sample_sequence_length": 400,
+      "require_same_chain_drug_like_nonpolymer": true,
+      "minimum_nonpolymer_formula_weight_kda": 0.2,
+      "maximum_nonpolymer_formula_weight_kda": 0.8,
+      "excluded_nonpolymer_ids": [
+        "ACT",
+        "ADP",
+        "AMP",
+        "ANP",
+        "ATP",
+        "BME",
+        "CA",
+        "CD",
+        "CIT",
+        "CL",
+        "CO",
+        "DMS",
+        "EDO",
+        "FLC",
+        "GOL",
+        "IRE",
+        "K",
+        "MES",
+        "MG",
+        "MN",
+        "MPD",
+        "NA",
+        "NI",
+        "PEG",
+        "PG4",
+        "PGE",
+        "PO4",
+        "SO4",
+        "TRS",
+        "ZN"
+      ],
+      "excluded_title_patterns": [
+        "\\bapo\\b",
+        "allosteric",
+        "covalent",
+        "irreversible",
+        "mutant",
+        "mutation",
+        "exon[ -]?20",
+        "t790m",
+        "l858r",
+        "probe"
+      ]
+    }
+  },
+  "receptor_pool_plan": {
+    "reference": "2RGP chain A",
+    "metadata_minimum_eligible_count_including_reference": 16,
+    "coordinate_gate": "proper-rotation alignment to 2RGP chain A, complete reference ATP-pocket anchors, and a noncovalent drug-like ligand within 6 A of the reference ATP pocket",
+    "selection_rule": "label-independent deterministic max-min selection over pocket C-alpha and side-chain-centroid distance features",
+    "target_receptor_count": 16,
+    "co_crystal_redocking_required": true,
+    "redocking_rmsd_gate_angstrom": 2.0,
+    "failure_action": "exclude failed structures without relaxing the gate; stop if fewer than 16 receptors remain"
+  },
+  "method_transfer": {
+    "docking_engine": "Uni-Dock 1.1.3 as a separate engine",
+    "profile": "enhanced: exhaustiveness 1024, max_step 80, refine_step 5, num_modes 1",
+    "seed_count": 3,
+    "primary_aggregation": "median across seeds, then min_score across selected receptors",
+    "primary_metric": "BEDROC alpha 20",
+    "qubo_family": "pair_synergy_qubo v1",
+    "qubo_weights": {
+      "ensemble_pair_synergy": 2.0,
+      "stability": 0.5
+    },
+    "target_size": 3,
+    "controls": [
+      "direct BEDROC forward greedy",
+      "QUBO forward greedy",
+      "exact fixed-cardinality classical enumeration",
+      "best single receptor"
+    ],
+    "stage12a_v2_policy": "do not promote the provisional v2; Stage 12A selected the same MAPK14 subset and failed its development support rule"
+  },
+  "authorization": {
+    "authorized_now": [
+      "DUD-E ligand identity audit",
+      "RCSB metadata discovery",
+      "coordinate download and label-independent structural audit",
+      "receptor-pool preregistration"
+    ],
+    "not_authorized_yet": [
+      "EGFR ligand docking",
+      "EGFR QUBO coefficient fitting",
+      "fresh-validation access",
+      "test access"
+    ]
+  },
+  "interpretation_boundary": "EGFR is the first new target-level pilot after the MAPK14 result. Success can support portability of the frozen QUBO application workflow; one additional kinase cannot establish broad cross-class generality, QUBO superiority, or quantum advantage."
+}

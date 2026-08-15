@@ -1,0 +1,32 @@
+{
+  "checks": {
+    "all_classical_baselines_recomputed": true,
+    "all_output_hashes_verified": true,
+    "all_read_objectives_recomputed": true,
+    "data_boundary_zero": true,
+    "new_docking_jobs": 0,
+    "quantum_hardware_jobs": 0,
+    "qubo_hash_and_energy_recomputed": true
+  },
+  "config": {
+    "path": "configs/stage25_bace1_prospective_structure_replication.json",
+    "sha256": "0DD1ABE252FC0B3E5BF5420DDA9F70920E418F7D8506641D085BE81D270C505A"
+  },
+  "coverage": {
+    "batch_rows_recomputed": 4,
+    "candidate_count": 49,
+    "classical_baselines_recomputed": 4,
+    "read_rows_recomputed": 256
+  },
+  "decision_recomputed": {
+    "above_strong_classical_batch_fraction": 0.0,
+    "prospective_structure_replication_gate_passed": false,
+    "within_tolerance_batch_fraction": 1.0
+  },
+  "result": {
+    "path": "data/stage25_bace1_prospective_structure_replication_result.json",
+    "sha256": "EC94E98A1F10E02B9DC54AD4B17F0141621386C825F7CACAF84BA75BEB744722"
+  },
+  "schema_version": "1.0",
+  "status": "stage25_bace1_prospective_structure_replication_audit_ok"
+}

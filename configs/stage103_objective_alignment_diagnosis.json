@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage103-objective-alignment-diagnosis-20260813-v1",
+  "purpose": "Diagnose whether the frozen Stage99 robust pair-QUBO is aligned with its own training BEDROC20 and outer-holdout BEDROC20 across all seven already available development targets. This is a mechanism diagnosis only, not replacement-objective tuning.",
+  "parent": {
+    "stage99_config": "configs/stage99_qubo_objective_repair_screen.json",
+    "stage99_config_sha256": "5D632F109CCCD4445470BC8E525B7451EDE2E81B209101837F7021F87B816936",
+    "stage102b_config": "configs/stage102b_marginal_model_execution_amendment01.json",
+    "stage102b_config_sha256": "9766D9ABD20598A01A21FF0F155CE0F03110A71AA71A09A472F20D0FDCC9575F",
+    "stage102b_result": "data/stage102b_marginal_model_execution_result.json",
+    "stage102b_result_sha256": "CC695B6C74D97FEE8C35AC8FA9DB435054D7A46CFB9200A4B559766BD1B911D0",
+    "stage102b_audit": "data/stage102b_marginal_model_execution_audit.json",
+    "stage102b_audit_sha256": "BA06B2B227648AE4F93614A535D126D65D057EC954712ADBF054791C1D72FE21"
+  },
+  "targets": {
+    "historical_stage99_targets": ["MK14", "PPARG", "BACE1", "PPARA", "PPARD"],
+    "stage102a_targets": ["EGFR", "FA10"],
+    "stage102a_received_root": "analysis/stage102a_received_20260813/core"
+  },
+  "objective_under_diagnosis": {
+    "source": "Stage99 robust_two_support_bedroc20_pair_qubo_v1",
+    "candidate_k_values": [1, 2, 3],
+    "objective_selection_aggregation": "minimum rank for k=1; Stage99 two-support pair residual for k>=2",
+    "primary_evaluation_aggregation": "minimum empirical rank across selected receptors",
+    "secondary_evaluation_aggregation": "mean of the two best empirical ranks across selected receptors",
+    "primary_metric": "BEDROC alpha=20"
+  },
+  "splits": {
+    "historical_outer_split": "five-fold GroupKFold on the Stage99 target group field",
+    "stage102a_outer_split": "frozen outer_fold column in the received manifest",
+    "outer_labels_visible_to_selector": false,
+    "enumeration": "Every subset at k=1,2,3 is evaluated on outer-train and outer-holdout rows; outer values are never used to select a subset."
+  },
+  "diagnostics": {
+    "enumeration_batch_size": 512,
+    "alignment_correlation": "Spearman correlation between QUBO objective and BEDROC20 over all enumerated fixed-k subsets within each outer fold.",
+    "top_subset_transfer": "Difference between outer BEDROC20 of the train-QUBO-optimal subset and the outer BEDROC20 ceiling across all enumerated subsets at the same k.",
+    "selection_metric_regret": "For the train-QUBO-optimal subset, outer secondary-two-support BEDROC20 minus outer primary-minimum-rank BEDROC20. This is descriptive only and does not change the primary metric.",
+    "oracle_complementarity": "Outer k=2 BEDROC20 ceiling minus outer k=1 BEDROC20 ceiling, reported as an upper bound on available two-receptor complementarity.",
+    "correlation_interpretation_thresholds": {
+      "train_alignment_supported_if_median_spearman_at_least": 0.8,
+      "outer_alignment_supported_if_median_spearman_at_least": 0.3,
+      "outer_alignment_failure_if_median_spearman_below": 0.0
+    }
+  },
+  "data_boundary": {
+    "new_docking_jobs": 0,
+    "parp1_benchmark_docking_scores_read": 0,
+    "parp1_fresh_validation_rows_read": 0,
+    "parp1_locked_test_rows_read": 0,
+    "quantum_hardware_jobs": 0
+  },
+  "outputs": {
+    "fold_csv": "results/runs/stage103_objective_alignment_diagnosis/fold_alignment.csv",
+    "subset_csv": "results/runs/stage103_objective_alignment_diagnosis/selected_subset_alignment.csv",
+    "target_csv": "results/runs/stage103_objective_alignment_diagnosis/target_alignment_summary.csv",
+    "result_json": "data/stage103_objective_alignment_diagnosis_result.json",
+    "audit_json": "data/stage103_objective_alignment_diagnosis_audit.json",
+    "report_md": "reports/stage-103/objective_alignment_diagnosis.md"
+  }
+}

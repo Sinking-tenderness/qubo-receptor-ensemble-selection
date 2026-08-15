@@ -1,0 +1,101 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage34-pparg-sparse-fidelity-pareto-20260803-v1",
+  "purpose": "Pre-register and compare sparse PPARG MD QUBO approximations that trade logical connectivity against fidelity to the frozen Stage30 dense structural objective.",
+  "trigger": "Stage33 reduced the full-pool coupler count by 99.47% and passed domain-wall and 128-candidate hardware gates, but its q=2 local graph exceeded the frozen dense-quality loss limit.",
+  "evidence_timing": {
+    "experiment_class": "prospective_post_stage33_structure_only_sparse_fidelity_screen",
+    "stage34_outcomes_known_before_freeze": false,
+    "stage33_results_known_before_freeze": true,
+    "docking_scores_permitted": false,
+    "ligand_labels_permitted": false,
+    "fresh_validation_rows_permitted": false,
+    "test_rows_permitted": false,
+    "new_docking_jobs": false,
+    "quantum_hardware_execution": false
+  },
+  "inputs": {
+    "stage28b_audit": "data/stage28b_pparg_md_ready_multistart_md_ensemble_audit.json",
+    "stage29_audit": "data/stage29_pparg_md_qubo_solver_scaling_audit.json",
+    "stage30_audit": "data/stage30_pparg_group_balanced_state_qubo_audit.json",
+    "stage33_audit": "data/stage33_pparg_sparse_hardware_qubo_audit.json",
+    "frame_manifest": "results/runs/stage28b_pparg_md_ready_multistart_md/ensemble/frame_manifest.csv",
+    "feature_archive": "results/runs/stage28b_pparg_md_ready_multistart_md/ensemble/pocket_features.npz",
+    "distance_archive": "results/runs/stage28b_pparg_md_ready_multistart_md/ensemble/pairwise_distances_condensed.npz",
+    "stage30_solver_results": "results/runs/stage30_pparg_group_balanced_state_qubo/solver_results.csv"
+  },
+  "screening_scales": {
+    "frames_per_start": [4, 16, 150],
+    "candidate_counts": [32, 128, 1200],
+    "selection_constraint": "exactly one frame from each of eight independent MD starts",
+    "within_start_order": "Stage29 deterministic temporal maximin order"
+  },
+  "structural_states": {
+    "cluster_counts": [8, 16, 32],
+    "method": "Stage30 frozen Ward state labels"
+  },
+  "dense_reference_objective": {
+    "within_start_centrality_weight": 0.3,
+    "cross_start_pair_diversity_weight": 0.5,
+    "multiscale_state_separation_weight": 0.2,
+    "pair_count": 28,
+    "formula": "0.3*mean selected within-start centrality + 0.5*mean cross-start distance + 0.2*mean cross-start state separation"
+  },
+  "candidate_encodings": [
+    {"encoding_id": "local_redundancy_q02", "family": "local_redundancy", "neighbors_per_direction": 2},
+    {"encoding_id": "local_redundancy_q04", "family": "local_redundancy", "neighbors_per_direction": 4},
+    {"encoding_id": "local_redundancy_q08", "family": "local_redundancy", "neighbors_per_direction": 8},
+    {"encoding_id": "centered_residual_q01", "family": "centered_residual", "neighbors_per_direction": 1},
+    {"encoding_id": "centered_residual_q02", "family": "centered_residual", "neighbors_per_direction": 2},
+    {"encoding_id": "centered_residual_q04", "family": "centered_residual", "neighbors_per_direction": 4},
+    {"encoding_id": "centered_residual_q08", "family": "centered_residual", "neighbors_per_direction": 8}
+  ],
+  "sparse_encoding": {
+    "local_redundancy_formula": "0.3*mean centrality minus retained [0.5*(1-distance)+0.2*(1-state_separation)]/28",
+    "centered_residual_formula": "decompose each cross-start dense reward block into a constant, row effect, column effect, and residual; encode row/column effects as unary coefficients and only bidirectional top-absolute residuals as quadratic coefficients",
+    "edge_union_rule": "union of each endpoint's q highest-priority partners in the other MD start",
+    "minimum_absolute_pair_coefficient": 0.00025,
+    "coefficient_quantization_step": 0.00025,
+    "domain_wall_mapping": "x_i=z_i-z_(i+1), with fixed z_0=1 and z_m=0 within each start",
+    "domain_wall_violation_penalty": 2.0
+  },
+  "exact_oracle": {
+    "maximum_states": 1000000
+  },
+  "classical_baseline": {
+    "cyclic_group_order_count": 16,
+    "random_coordinate_restart_count": 32
+  },
+  "annealing_sampler": {
+    "batch_count": 3,
+    "reads_per_batch": 12,
+    "minimum_sweeps_per_read": 1500,
+    "sweeps_per_candidate": 2,
+    "temperature_start": 0.03,
+    "temperature_end": 0.0001,
+    "base_seed": 20260834
+  },
+  "pareto_gate": {
+    "maximum_dense_quality_loss_at_each_gate_scale": 0.03,
+    "minimum_full_pool_coupler_reduction_fraction": 0.90,
+    "maximum_qubo_equivalence_residual": 1e-8,
+    "maximum_small_exact_gap": 1e-8,
+    "minimum_batch_fraction_within_tolerance": 0.6666666666666666,
+    "objective_tolerance": 0.0001,
+    "direct_qpu_reference_candidate_count": 128,
+    "direct_qpu_max_logical_variables": 200,
+    "direct_qpu_max_quadratic_couplers": 20000,
+    "direct_qpu_max_coefficient_dynamic_range": 10000.0,
+    "selection_rule": "among encodings passing every frozen gate at all three scales, minimize full-pool coupler count, then maximum dense-quality loss, then encoding_id"
+  },
+  "outputs": {
+    "encoding_summary_csv": "results/runs/stage34_pparg_sparse_fidelity_pareto/encoding_summary.csv",
+    "cell_metrics_csv": "results/runs/stage34_pparg_sparse_fidelity_pareto/cell_metrics.csv",
+    "solver_results_csv": "results/runs/stage34_pparg_sparse_fidelity_pareto/solver_results.csv",
+    "batch_results_csv": "results/runs/stage34_pparg_sparse_fidelity_pareto/batch_results.csv",
+    "result_json": "data/stage34_pparg_sparse_fidelity_pareto_result.json",
+    "audit_json": "data/stage34_pparg_sparse_fidelity_pareto_audit.json",
+    "report_md": "reports/stage-34/pparg_sparse_fidelity_pareto.md"
+  },
+  "interpretation_boundary": "Stage34 can select a frozen sparse encoding for a separately controlled quantum-annealing application pilot based on structural-objective fidelity, exact small-cell behavior, sampling stability, and logical hardware thresholds. It cannot establish docking enrichment, biological superiority, quantum speedup, quantum advantage, or physical-hardware performance."
+}

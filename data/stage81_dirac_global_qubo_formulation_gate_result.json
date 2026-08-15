@@ -1,0 +1,126 @@
+{
+  "conservative_prefilter_summary": {
+    "cell_count": 100,
+    "maximum_pool_count": 42,
+    "mean_reference_retained_fraction": 0.5409583333333333,
+    "minimum_pool_count": 4,
+    "pool_can_select_k_count": 84,
+    "reference_fully_retained_count": 0
+  },
+  "data_boundary": {
+    "fixed_k_prefilter_cells_read": 100,
+    "fresh_validation_rows_read": 0,
+    "historical_development_models_read": 16,
+    "locked_test_rows_read": 0,
+    "new_docking_jobs": 0,
+    "qci_cloud_queries": 0,
+    "quantum_hardware_jobs": 0
+  },
+  "decision": {
+    "additional_qci_hardware_submission_authorized": false,
+    "conservative_prefilter_global_bqm_authorized": false,
+    "constraint_preserving_reformulation_required": true,
+    "direct_float32_global_bqm_authorized": false,
+    "remaining_qci_trial_seconds_preserved": 166
+  },
+  "direct_penalty_summary": [
+    {
+      "cell_count": 16,
+      "cold_frontier_competitive_fraction": 0.0,
+      "cold_mean_feasible_read_fraction": 0.015625,
+      "cold_raw_best_feasible_fraction": 0.0625,
+      "condition_passed": false,
+      "maximum_quantized_dynamic_range": 524287.00000190735,
+      "penalty_factor": 4.0,
+      "signed_precision_bits": 20,
+      "warm_frontier_competitive_fraction": 0.0,
+      "warm_mean_feasible_read_fraction": 0.03125,
+      "warm_raw_best_feasible_fraction": 0.0625
+    },
+    {
+      "cell_count": 16,
+      "cold_frontier_competitive_fraction": 0.0,
+      "cold_mean_feasible_read_fraction": 0.15625,
+      "cold_raw_best_feasible_fraction": 0.0625,
+      "condition_passed": false,
+      "maximum_quantized_dynamic_range": 8388607.000000119,
+      "penalty_factor": 4.0,
+      "signed_precision_bits": 24,
+      "warm_frontier_competitive_fraction": 0.3125,
+      "warm_mean_feasible_read_fraction": 0.40625,
+      "warm_raw_best_feasible_fraction": 0.375
+    },
+    {
+      "cell_count": 16,
+      "cold_frontier_competitive_fraction": 0.0,
+      "cold_mean_feasible_read_fraction": 0.015625,
+      "cold_raw_best_feasible_fraction": 0.0625,
+      "condition_passed": false,
+      "maximum_quantized_dynamic_range": 524287.00000190735,
+      "penalty_factor": 10.0,
+      "signed_precision_bits": 20,
+      "warm_frontier_competitive_fraction": 0.0,
+      "warm_mean_feasible_read_fraction": 0.03125,
+      "warm_raw_best_feasible_fraction": 0.0625
+    },
+    {
+      "cell_count": 16,
+      "cold_frontier_competitive_fraction": 0.0,
+      "cold_mean_feasible_read_fraction": 0.15625,
+      "cold_raw_best_feasible_fraction": 0.0625,
+      "condition_passed": false,
+      "maximum_quantized_dynamic_range": 8388607.000000119,
+      "penalty_factor": 10.0,
+      "signed_precision_bits": 24,
+      "warm_frontier_competitive_fraction": 0.25,
+      "warm_mean_feasible_read_fraction": 0.375,
+      "warm_raw_best_feasible_fraction": 0.375
+    },
+    {
+      "cell_count": 16,
+      "cold_frontier_competitive_fraction": 0.0,
+      "cold_mean_feasible_read_fraction": 0.015625,
+      "cold_raw_best_feasible_fraction": 0.0625,
+      "condition_passed": false,
+      "maximum_quantized_dynamic_range": 524287.00000190735,
+      "penalty_factor": 20.0,
+      "signed_precision_bits": 20,
+      "warm_frontier_competitive_fraction": 0.0,
+      "warm_mean_feasible_read_fraction": 0.03125,
+      "warm_raw_best_feasible_fraction": 0.0625
+    },
+    {
+      "cell_count": 16,
+      "cold_frontier_competitive_fraction": 0.0,
+      "cold_mean_feasible_read_fraction": 0.1875,
+      "cold_raw_best_feasible_fraction": 0.125,
+      "condition_passed": false,
+      "maximum_quantized_dynamic_range": 8388607.000000119,
+      "penalty_factor": 20.0,
+      "signed_precision_bits": 24,
+      "warm_frontier_competitive_fraction": 0.1875,
+      "warm_mean_feasible_read_fraction": 0.3125,
+      "warm_raw_best_feasible_fraction": 0.3125
+    }
+  ],
+  "experiment_id": "stage81-dirac-global-qubo-formulation-gate-20260811-v1",
+  "outputs": {
+    "direct_metrics_csv": {
+      "path": "results/runs/stage81_dirac_global_qubo_formulation_gate/direct_penalty_metrics.csv",
+      "sha256": "EA5B1906D34BDBC367D696546021825B1AC5926DE8E2AE938A28F57357F5C2F0",
+      "size_bytes": 12630
+    },
+    "prefilter_metrics_csv": {
+      "path": "results/runs/stage81_dirac_global_qubo_formulation_gate/conservative_prefilter_metrics.csv",
+      "sha256": "931D4834A381854D1D32BC15018189C62EEAD4F48A05ABDB9D2C228573E68647",
+      "size_bytes": 4330
+    },
+    "report_md": {
+      "path": "reports/stage-81/dirac_global_qubo_formulation_gate.md",
+      "sha256": "6DAEA4FA19E3240FFF02664E327A1C5DAF62E9C025A67FC8464426DA5F6F56AD",
+      "size_bytes": 1149
+    }
+  },
+  "schema_version": "1.0",
+  "status": "stage81_dirac_global_qubo_formulation_gate_complete"
+}

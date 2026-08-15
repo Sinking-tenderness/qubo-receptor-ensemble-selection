@@ -1,0 +1,110 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "stage71-stage70-logical-qubo-coefficient-noise-robustness-20260806-v1",
+  "purpose": "Separate exact feasible-optimum sensitivity from finite-budget sampler recovery for the 16 frozen Stage70 logical QUBOs before any embedding or hardware execution.",
+  "implementation": {
+    "runner": {
+      "path": "scripts/run_stage71_qubo_coefficient_noise_robustness.py",
+      "sha256": "0F74605881DF2472A53D8C3E659E66AF74418100409973BE58AB2F8DB77A09B1"
+    },
+    "independent_auditor": {
+      "path": "scripts/audit_stage71_qubo_coefficient_noise_robustness.py",
+      "sha256": "D9A8517936C256723C978ACF82C062D7A70035D91481B9DDED9BE07C0B21E2B3"
+    }
+  },
+  "inputs": {
+    "stage70_config": {
+      "path": "configs/stage70_constraint_aware_qubo_encoding.json",
+      "sha256": "0478377168EF16C0E4DB1C97C79A8C23C99059765775E72F13C3E20F7890407F",
+      "size_bytes": 5978
+    },
+    "stage70_result": {
+      "path": "data/stage70_constraint_aware_qubo_encoding_result.json",
+      "sha256": "66FE808E1671FAD2968424B7E932B6A397A6AF61DE5F42984B55A9C0E2C98337",
+      "size_bytes": 6166
+    },
+    "stage70_audit": {
+      "path": "data/stage70_constraint_aware_qubo_encoding_audit.json",
+      "sha256": "424922F565DD00DF9FE4E03016C849C790564C9028706E764F91D07290FC51BA",
+      "size_bytes": 1015
+    },
+    "stage70_model_record": {
+      "path": "data/stage70_constraint_aware_qubo_encoding_model_record.json",
+      "sha256": "42A81A8D5119EB4AAEA04AEFA4F84B9740924294CEB29C2F7024E12F5D3C0618",
+      "size_bytes": 712429
+    }
+  },
+  "experiment": {
+    "target_order": ["BACE1", "PPARG", "PPARA", "PPARD"],
+    "outer_fold_count": 4,
+    "reference_k": 3,
+    "required_model_count": 16,
+    "normalization_rule": "Divide every linear, quadratic, and constant coefficient by the maximum absolute linear or quadratic coefficient of its frozen Stage70 model.",
+    "exact_feasible_rule": "Enumerate every cardinality-three receptor subset satisfying the integer quality floor and every slack-bit representation; minimize the perturbed expanded BQM energy exactly within this feasible manifold.",
+    "hardware_execution": false
+  },
+  "software_sampler": {
+    "sampler_id": "dwave-samplers-simulated-annealing-plus-steepest-descent-v1",
+    "runtime_versions": {
+      "python": "3.11.15",
+      "numpy": "1.26.4",
+      "dimod": "0.12.22",
+      "dwave_samplers": "1.7.0"
+    },
+    "zero_noise_calibration": {
+      "num_reads": 128,
+      "num_sweeps": 5000,
+      "beta_range": [0.1, 10000000.0],
+      "beta_schedule_type": "geometric",
+      "postprocess": "steepest_descent",
+      "seed_base": 20260806
+    },
+    "noise_trials": {
+      "num_reads": 32,
+      "num_sweeps": 1000,
+      "beta_range": [0.1, 10000000.0],
+      "beta_schedule_type": "geometric",
+      "postprocess": "steepest_descent",
+      "sampler_seed_offset": 71000000
+    }
+  },
+  "noise_screen": {
+    "coefficient_noise_seed_base": 202671000,
+    "quantization_rule": "Round each normalized linear and quadratic coefficient independently to the nearest multiple of the stated full-scale step; the constant is not perturbed.",
+    "quantization_steps": [1e-9, 3e-9, 1e-8, 3e-8, 1e-7, 3e-7, 1e-6, 3e-6, 1e-5],
+    "gaussian_rule": "Add independent zero-mean Gaussian noise with the stated sigma to every normalized linear and quadratic coefficient; the constant is not perturbed.",
+    "gaussian_sigmas": [1e-9, 3e-9, 1e-8, 3e-8, 1e-7, 3e-7, 1e-6, 3e-6, 1e-5],
+    "gaussian_repeats_per_level": 8,
+    "interpretation": "All levels are dimensionless project sensitivity probes relative to normalized full scale. They are not claimed to represent a particular physical QPU specification."
+  },
+  "sampler_calibration_gate": {
+    "minimum_best_feasible_rate": 0.8,
+    "minimum_best_exact_selected_rate": 0.6,
+    "interpretation": "This modest gate only confirms that finite-budget software sampling is informative enough to report separately; it is not a hardware-readiness gate."
+  },
+  "robustness_gate": {
+    "reference_quantization_step": 1e-6,
+    "reference_gaussian_sigma": 1e-6,
+    "minimum_overall_exact_unique_rate": 0.95,
+    "minimum_worst_target_exact_unique_rate": 0.75,
+    "minimum_local_feasible_rate": 0.95,
+    "interpretation": "The reference levels and thresholds are frozen project decision rules, not universal annealer specifications. A pass would authorize only a later embedding study, never a quantum-advantage claim."
+  },
+  "data_boundary": {
+    "historical_development_targets_permitted": ["BACE1", "PPARG", "PPARA", "PPARD"],
+    "fresh_validation_rows_permitted": 0,
+    "locked_test_rows_permitted": 0,
+    "new_docking_jobs_permitted": 0,
+    "quantum_hardware_jobs_permitted": 0
+  },
+  "outputs": {
+    "exact_landscape_csv": "results/runs/stage71_qubo_coefficient_noise_robustness/exact_feasible_landscape.csv",
+    "sampler_calibration_csv": "results/runs/stage71_qubo_coefficient_noise_robustness/zero_noise_sampler_calibration.csv",
+    "noise_trials_csv": "results/runs/stage71_qubo_coefficient_noise_robustness/noise_trials.csv",
+    "noise_summary_csv": "results/runs/stage71_qubo_coefficient_noise_robustness/noise_summary.csv",
+    "result_json": "data/stage71_qubo_coefficient_noise_robustness_result.json",
+    "audit_json": "data/stage71_qubo_coefficient_noise_robustness_audit.json",
+    "report_md": "reports/stage-71/qubo_coefficient_noise_robustness.md"
+  },
+  "interpretation_boundary": "Stage71 is a post-hoc software sensitivity analysis on four consumed historical targets. Exact feasible enumeration isolates coefficient-induced optimum changes, while simulated annealing measures only one fixed classical sampling budget. Neither layer establishes physical embedding feasibility, hardware behavior, solver speedup, independent target efficacy, or quantum advantage."
+}
