@@ -2,6 +2,13 @@
 
 from __future__ import annotations
 
+# --- src bootstrap (bare-checkout import path) ---
+import sys as _sys
+from pathlib import Path as _Path
+
+_sys.path.insert(0, str(_Path(__file__).resolve().parents[1] / "src"))
+from qubo_receptor_ensemble.io import read_json, write_json  # noqa: F401 (deduped)
+from qubo_receptor_ensemble.pdb import rmsd  # noqa: F401 (deduped)
 import argparse
 import csv
 import json
@@ -93,19 +100,8 @@ class Atom:
     element: str
 
 
-def read_json(path: Path) -> dict[str, object]:
-    value = json.loads(path.read_text(encoding="ascii"))
-    if not isinstance(value, dict):
-        raise ValueError(f"JSON root must be an object: {path}")
-    return value
 
 
-def write_json(path: Path, value: dict[str, object]) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(
-        json.dumps(value, indent=2, ensure_ascii=True) + "\n",
-        encoding="ascii",
-    )
 
 
 def read_csv(path: Path) -> list[dict[str, str]]:
@@ -410,8 +406,6 @@ def transform_atoms(
     ]
 
 
-def rmsd(first: np.ndarray, second: np.ndarray) -> float:
-    return float(np.sqrt(np.mean(np.sum((first - second) ** 2, axis=1))))
 
 
 def write_aligned_pdb(path: Path, atoms: list[Atom]) -> None:

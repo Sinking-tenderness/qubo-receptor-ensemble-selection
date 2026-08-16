@@ -2,80 +2,22 @@
 
 from __future__ import annotations
 
+# --- src bootstrap (bare-checkout import path) ---
+import sys as _sys
+from pathlib import Path as _Path
+
+_sys.path.insert(0, str(_Path(__file__).resolve().parents[1] / "src"))
 import argparse
-import hashlib
 import json
 from pathlib import Path
 
-
-REQUIRED_TOP_LEVEL_KEYS = {
-    "schema_version",
-    "experiment_id",
-    "starting_structure",
-    "protonation",
-    "force_field",
-    "solvation",
-    "dynamics",
-    "planned_outputs",
-}
-
-
-def load_protocol(path: Path) -> dict[str, object]:
-    protocol = json.loads(path.read_text(encoding="ascii"))
-    if not isinstance(protocol, dict):
-        raise ValueError("protocol must be a JSON object")
-    missing = sorted(REQUIRED_TOP_LEVEL_KEYS - set(protocol))
-    if missing:
-        raise ValueError(f"protocol is missing required keys: {', '.join(missing)}")
-    validate_protocol(protocol)
-    return protocol
-
-
-def validate_protocol(protocol: dict[str, object]) -> None:
-    starting = protocol["starting_structure"]
-    protonation = protocol["protonation"]
-    force_field = protocol["force_field"]
-    solvation = protocol["solvation"]
-    dynamics = protocol["dynamics"]
-    outputs = protocol["planned_outputs"]
-    if not all(isinstance(section, dict) for section in (starting, protonation, force_field, solvation, dynamics, outputs)):
-        raise ValueError("protocol sections must be JSON objects")
-    if not str(starting.get("pdb_path", "")).endswith(".pdb"):
-        raise ValueError("starting_structure.pdb_path must name a PDB file")
-    if float(protonation.get("target_ph", 0.0)) <= 0.0:
-        raise ValueError("protonation.target_ph must be positive")
-    xml = force_field.get("protein_and_water_xml")
-    if not isinstance(xml, list) or len(xml) < 2 or not all(isinstance(item, str) for item in xml):
-        raise ValueError("force_field.protein_and_water_xml must contain protein and water XML files")
-    for key in ("padding_nm", "ionic_strength_molar"):
-        if float(solvation.get(key, -1.0)) < 0.0:
-            raise ValueError(f"solvation.{key} must be non-negative")
-    for key in ("temperature_kelvin", "pressure_bar", "timestep_fs", "friction_per_ps", "frame_stride_ps"):
-        if float(dynamics.get(key, 0.0)) <= 0.0:
-            raise ValueError(f"dynamics.{key} must be positive")
-    if int(dynamics.get("seed", 0)) <= 0:
-        raise ValueError("dynamics.seed must be a positive integer")
-
-
-def sha256(path: Path) -> str:
-    digest = hashlib.sha256()
-    with path.open("rb") as handle:
-        for block in iter(lambda: handle.read(1024 * 1024), b""):
-            digest.update(block)
-    return digest.hexdigest().upper()
-
-
-def topology_counts(topology: object) -> dict[str, int]:
-    residues = list(topology.residues())
-    atoms = list(topology.atoms())
-    return {
-        "chain_count": sum(1 for _ in topology.chains()),
-        "residue_count": len(residues),
-        "atom_count": len(atoms),
-        "water_residue_count": sum(residue.name in {"HOH", "WAT"} for residue in residues),
-        "sodium_ion_count": sum(residue.name in {"NA", "Na+"} for residue in residues),
-        "chloride_ion_count": sum(residue.name in {"CL", "Cl-"} for residue in residues),
-    }
+from qubo_receptor_ensemble.io import file_sha256 as sha256  # noqa: F401
+from qubo_receptor_ensemble.md import (  # noqa: F401
+    REQUIRED_TOP_LEVEL_KEYS,
+    load_protocol,
+    topology_counts,
+    validate_protocol,
+)
 
 
 def main() -> int:

@@ -69,14 +69,36 @@ notebooks/     Exploratory analysis only
 receptors/     Receptor preparation notes and small examples
 reports/       Stage reports and research notes
 results/       Small summary tables and publication-ready figures
-scripts/       Command-line workflow entry points
-src/           Reusable Python package code
+scripts/       Command-line workflow entry points (thin wrappers)
+src/           Reusable Python package code (qubo_receptor_ensemble)
 tests/         Automated tests
 ```
 
+The `src/qubo_receptor_ensemble/` package consolidates the reusable core:
+
+| Module | Contents |
+|---|---|
+| `io.py` | JSON/CSV I/O, file SHA-256, safe filenames |
+| `pdb.py` | PDB parsing, Kabsch alignment, receptor audits |
+| `screening.py` | Virtual-screening metrics (ROC-AUC, BEDROC, EF, bootstrap CI) |
+| `metrics.py` | Statistical helpers (Pearson correlation) |
+| `qubo.py` | QUBO receptor-subset formulation |
+| `docking.py` | Vina command building, mode parsing, redocking RMSD |
+| `matrix.py` | Score-matrix construction and seed aggregation |
+| `preparation.py` | Ligand 3D SDF and PDBQT preparation |
+| `ligand.py` | SMILES manifest auditing |
+| `md.py` | OpenMM system build, equilibration, production, trajectory QC |
+
+Scripts under `scripts/` import from the package; a small bootstrap at the top
+of each wrapper makes it runnable from a bare checkout even without
+`pip install -e .`.
+
 The repository retains experiment-specific scripts for hash-pinned
-reproducibility. New users should start from the supported catalog instead of
-guessing an execution order from filenames:
+reproducibility; those scripts that carry their own frozen SHA-256 checks are
+left untouched. Reusable core logic lives in the installed package
+``qubo_receptor_ensemble`` under ``src/``, and the supported command-line
+scripts are thin wrappers that delegate to it. New users should start from the
+supported catalog instead of guessing an execution order from filenames:
 
 ```powershell
 python .\scripts\workflow.py list

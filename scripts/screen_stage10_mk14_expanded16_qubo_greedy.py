@@ -2,6 +2,12 @@
 
 from __future__ import annotations
 
+# --- src bootstrap (bare-checkout import path) ---
+import sys as _sys
+from pathlib import Path as _Path
+
+_sys.path.insert(0, str(_Path(__file__).resolve().parents[1] / "src"))
+from qubo_receptor_ensemble.io import read_json, write_json  # noqa: F401 (deduped)
 import argparse
 import csv
 import itertools
@@ -32,11 +38,6 @@ from scripts.run_stage05_mk14_uncertainty_qubo_gate import (
 TOLERANCE = 1e-12
 
 
-def read_json(path: Path) -> dict[str, object]:
-    value = json.loads(path.read_text(encoding="ascii"))
-    if not isinstance(value, dict):
-        raise ValueError(f"JSON root must be an object: {path}")
-    return value
 
 
 def read_csv(path: Path) -> list[dict[str, str]]:
@@ -60,11 +61,6 @@ def write_csv(path: Path, rows: list[dict[str, object]]) -> None:
         writer.writerows(rows)
 
 
-def write_json(path: Path, value: dict[str, object]) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(
-        json.dumps(value, indent=2, sort_keys=True) + "\n", encoding="ascii"
-    )
 
 
 def rooted(root: Path, value: str) -> Path:

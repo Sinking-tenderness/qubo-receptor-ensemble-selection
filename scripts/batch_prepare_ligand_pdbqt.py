@@ -1,137 +1,54 @@
-"""Batch-convert 3D ligand SDF files to Meeko/Vina PDBQT files."""
+"""Batch-convert 3D ligand SDF files to Meeko/Vina PDBQT files.
+
+Thin CLI wrapper; the core logic lives in ``qubo_receptor_ensemble.preparation``.
+"""
+
+
 
 from __future__ import annotations
 
+# --- src bootstrap (bare-checkout import path) ---
+import sys as _sys
+from pathlib import Path as _Path
+
+_sys.path.insert(0, str(_Path(__file__).resolve().parents[1] / "src"))
 import argparse
-import csv
-import hashlib
-import subprocess
-import sys
 from pathlib import Path
 
+from qubo_receptor_ensemble.io import file_sha256, safe_filename
+from qubo_receptor_ensemble.preparation import (
+    PDBQT_REQUIRED_COLUMNS,
+    find_meeko_script,
+    parse_pdbqt,
+    read_rows as _read_rows,
+    run_meeko,
+    validate_columns as _validate_columns,
+    validated_existing_pdbqt,
+    write_manifest,
+)
 
-REQUIRED_COLUMNS = {"ligand_id", "label", "sdf_path", "prep_status"}
+REQUIRED_COLUMNS = PDBQT_REQUIRED_COLUMNS
 
-
-def file_sha256(path: Path) -> str:
-    digest = hashlib.sha256()
-    with path.open("rb") as handle:
-        for block in iter(lambda: handle.read(1024 * 1024), b""):
-            digest.update(block)
-    return digest.hexdigest().upper()
+__all__ = [
+    "REQUIRED_COLUMNS",
+    "file_sha256",
+    "validate_columns",
+    "safe_filename",
+    "find_meeko_script",
+    "read_rows",
+    "parse_pdbqt",
+    "validated_existing_pdbqt",
+    "run_meeko",
+    "write_manifest",
+]
 
 
 def validate_columns(fieldnames: list[str] | None) -> None:
-    if fieldnames is None:
-        raise ValueError("input CSV has no header")
-    missing = REQUIRED_COLUMNS.difference(fieldnames)
-    if missing:
-        raise ValueError(f"input manifest is missing required columns: {sorted(missing)}")
-
-
-def safe_filename(text: str) -> str:
-    keep = []
-    for char in text:
-        if char.isalnum() or char in {"-", "_"}:
-            keep.append(char)
-        else:
-            keep.append("_")
-    return "".join(keep)
-
-
-def find_meeko_script() -> Path:
-    candidates = [
-        Path(sys.prefix) / "Scripts" / "mk_prepare_ligand.py",
-        Path(sys.prefix) / "bin" / "mk_prepare_ligand.py",
-    ]
-    for candidate in candidates:
-        if candidate.exists():
-            return candidate
-    raise FileNotFoundError(
-        "Could not find mk_prepare_ligand.py under the active Python environment"
-    )
+    _validate_columns(fieldnames, PDBQT_REQUIRED_COLUMNS, "manifest")
 
 
 def read_rows(input_manifest: Path) -> list[dict[str, str]]:
-    with input_manifest.open("r", encoding="utf-8", newline="") as handle:
-        reader = csv.DictReader(handle)
-        validate_columns(reader.fieldnames)
-        return list(reader)
-
-
-def parse_pdbqt(pdbqt_path: Path) -> dict[str, object]:
-    atom_count = 0
-    charges: list[float] = []
-    atom_types: set[str] = set()
-    torsdof = ""
-    with pdbqt_path.open("r", encoding="utf-8", errors="ignore") as handle:
-        for line in handle:
-            if line.startswith(("ATOM", "HETATM")):
-                atom_count += 1
-                if len(line) >= 76:
-                    try:
-                        charges.append(float(line[70:76].strip()))
-                    except ValueError:
-                        pass
-                if len(line) >= 78:
-                    atom_types.add(line[77:].strip())
-            elif line.startswith("TORSDOF"):
-                parts = line.split()
-                torsdof = parts[1] if len(parts) > 1 else ""
-    return {
-        "pdbqt_atom_count": atom_count,
-        "pdbqt_atom_types": ";".join(sorted(atom_types)),
-        "pdbqt_charge_min": min(charges) if charges else "",
-        "pdbqt_charge_max": max(charges) if charges else "",
-        "torsdof": torsdof,
-    }
-
-
-def validated_existing_pdbqt(pdbqt_path: Path) -> dict[str, object] | None:
-    if not pdbqt_path.is_file():
-        return None
-    parsed = parse_pdbqt(pdbqt_path)
-    if int(parsed["pdbqt_atom_count"]) <= 0 or parsed["torsdof"] == "":
-        return None
-    return {
-        "pdbqt_status": "ok",
-        "pdbqt_message": "meeko_existing_validated",
-        "pdbqt_path": pdbqt_path.as_posix(),
-        "pdbqt_sha256": file_sha256(pdbqt_path),
-        **parsed,
-    }
-
-
-def run_meeko(
-    meeko_script: Path,
-    sdf_path: Path,
-    pdbqt_path: Path,
-    rigid_macrocycles: bool = False,
-) -> subprocess.CompletedProcess[str]:
-    cmd = [
-        sys.executable,
-        str(meeko_script),
-        "-i",
-        str(sdf_path),
-        "-o",
-        str(pdbqt_path),
-    ]
-    if rigid_macrocycles:
-        cmd.append("--rigid_macrocycles")
-    return subprocess.run(cmd, text=True, capture_output=True, check=False)
-
-
-def write_manifest(output_manifest: Path, rows: list[dict[str, object]]) -> None:
-    output_manifest.parent.mkdir(parents=True, exist_ok=True)
-    fieldnames: list[str] = []
-    for row in rows:
-        for key in row:
-            if key not in fieldnames:
-                fieldnames.append(key)
-    with output_manifest.open("w", encoding="utf-8", newline="") as handle:
-        writer = csv.DictWriter(handle, fieldnames=fieldnames)
-        writer.writeheader()
-        writer.writerows(rows)
+    return _read_rows(input_manifest, PDBQT_REQUIRED_COLUMNS, "manifest")
 
 
 def build_parser() -> argparse.ArgumentParser:

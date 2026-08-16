@@ -2,145 +2,30 @@
 
 from __future__ import annotations
 
+# --- src bootstrap (bare-checkout import path) ---
+import sys as _sys
+from pathlib import Path as _Path
+
+_sys.path.insert(0, str(_Path(__file__).resolve().parents[1] / "src"))
 import argparse
-import csv
-import hashlib
 import json
 from pathlib import Path
 
 import numpy as np
 
-
-REQUIRED_CONFIG_KEYS = {
-    "schema_version",
-    "experiment_id",
-    "production_experiment_id",
-    "purpose",
-    "inputs",
-    "frame_interval_ps",
-    "expected_frame_count",
-    "late_window_frame_count",
-    "alignment_selection",
-    "pocket_residue_numbers",
-    "outputs",
-    "interpretation_boundary",
-}
-
-REQUIRED_INPUT_KEYS = {"topology_pdb", "trajectory_glob"}
-REQUIRED_OUTPUT_KEYS = {
-    "frame_metrics_csv",
-    "residue_rmsf_csv",
-    "summary_json",
-    "aligned_protein_pdb",
-    "aligned_protein_dcd",
-}
-
-
-def load_config(path: Path) -> dict[str, object]:
-    config = json.loads(path.read_text(encoding="ascii"))
-    if not isinstance(config, dict):
-        raise ValueError("trajectory QC configuration must be a JSON object")
-    missing = sorted(REQUIRED_CONFIG_KEYS - set(config))
-    if missing:
-        raise ValueError(f"trajectory QC configuration is missing keys: {', '.join(missing)}")
-    if float(config["frame_interval_ps"]) <= 0.0:
-        raise ValueError("frame_interval_ps must be positive")
-    if int(config["expected_frame_count"]) <= 0:
-        raise ValueError("expected_frame_count must be positive")
-    late_window_frame_count = int(config["late_window_frame_count"])
-    if not 2 <= late_window_frame_count <= int(config["expected_frame_count"]):
-        raise ValueError("late_window_frame_count must be between 2 and expected_frame_count")
-    inputs = config["inputs"]
-    outputs = config["outputs"]
-    if not isinstance(inputs, dict) or not REQUIRED_INPUT_KEYS.issubset(inputs):
-        raise ValueError("inputs must define topology_pdb and trajectory_glob")
-    if not isinstance(outputs, dict) or not REQUIRED_OUTPUT_KEYS.issubset(outputs):
-        raise ValueError("outputs is missing one or more required trajectory QC paths")
-    if not isinstance(config["alignment_selection"], str) or not config["alignment_selection"].strip():
-        raise ValueError("alignment_selection must be a non-empty MDTraj selection")
-    pocket = config["pocket_residue_numbers"]
-    if (
-        not isinstance(pocket, list)
-        or not pocket
-        or any(not isinstance(value, int) or value <= 0 for value in pocket)
-        or len(set(pocket)) != len(pocket)
-    ):
-        raise ValueError("pocket_residue_numbers must be a non-empty unique list of positive integers")
-    return config
-
-
-def sha256(path: Path) -> str:
-    digest = hashlib.sha256()
-    with path.open("rb") as handle:
-        for block in iter(lambda: handle.read(1024 * 1024), b""):
-            digest.update(block)
-    return digest.hexdigest().upper()
-
-
-def direct_rmsd_angstrom(
-    frames_nm: np.ndarray, reference_nm: np.ndarray, atom_indices: np.ndarray
-) -> np.ndarray:
-    differences = frames_nm[:, atom_indices, :] - reference_nm[atom_indices, :]
-    return np.sqrt(np.mean(np.sum(differences * differences, axis=2), axis=1)) * 10.0
-
-
-def per_atom_rmsf_angstrom(frames_nm: np.ndarray, atom_indices: np.ndarray) -> np.ndarray:
-    selected = frames_nm[:, atom_indices, :]
-    mean_coordinates = selected.mean(axis=0)
-    differences = selected - mean_coordinates
-    return np.sqrt(np.mean(np.sum(differences * differences, axis=2), axis=0)) * 10.0
-
-
-def finite_summary(values: np.ndarray) -> dict[str, float]:
-    if values.ndim != 1 or not len(values) or not np.all(np.isfinite(values)):
-        raise ValueError("summary values must be a finite one-dimensional array")
-    return {
-        "mean": round(float(values.mean()), 6),
-        "sample_sd": round(float(values.std(ddof=1)), 6) if len(values) > 1 else 0.0,
-        "minimum": round(float(values.min()), 6),
-        "maximum": round(float(values.max()), 6),
-        "final": round(float(values[-1]), 6),
-    }
-
-
-def distribution_summary(values: np.ndarray) -> dict[str, float]:
-    if values.ndim != 1 or not len(values) or not np.all(np.isfinite(values)):
-        raise ValueError("distribution values must be a finite one-dimensional array")
-    return {
-        "mean": round(float(values.mean()), 6),
-        "sample_sd": round(float(values.std(ddof=1)), 6) if len(values) > 1 else 0.0,
-        "median": round(float(np.median(values)), 6),
-        "percentile_95": round(float(np.percentile(values, 95)), 6),
-        "minimum": round(float(values.min()), 6),
-        "maximum": round(float(values.max()), 6),
-    }
-
-
-def window_trend_summary(values: np.ndarray, frame_interval_ps: float) -> dict[str, float]:
-    if values.ndim != 1 or len(values) < 2 or not np.all(np.isfinite(values)):
-        raise ValueError("window values must contain at least two finite observations")
-    time_ns = np.arange(len(values), dtype=float) * frame_interval_ps / 1000.0
-    slope = float(np.polyfit(time_ns, values, 1)[0])
-    return {
-        "mean": round(float(values.mean()), 6),
-        "sample_sd": round(float(values.std(ddof=1)), 6),
-        "minimum": round(float(values.min()), 6),
-        "maximum": round(float(values.max()), 6),
-        "first": round(float(values[0]), 6),
-        "final": round(float(values[-1]), 6),
-        "final_minus_first": round(float(values[-1] - values[0]), 6),
-        "linear_slope_angstrom_per_ns": round(slope, 6),
-    }
-
-
-def write_csv(path: Path, rows: list[dict[str, object]]) -> None:
-    if not rows:
-        raise ValueError("cannot write an empty CSV")
-    path.parent.mkdir(parents=True, exist_ok=True)
-    with path.open("w", encoding="utf-8", newline="") as handle:
-        writer = csv.DictWriter(handle, fieldnames=list(rows[0]))
-        writer.writeheader()
-        writer.writerows(rows)
+from qubo_receptor_ensemble.io import file_sha256 as sha256  # noqa: F401
+from qubo_receptor_ensemble.md import (  # noqa: F401
+    REQUIRED_CONFIG_KEYS,
+    REQUIRED_INPUT_KEYS,
+    REQUIRED_OUTPUT_KEYS,
+    direct_rmsd_angstrom,
+    distribution_summary,
+    finite_summary,
+    load_config,
+    per_atom_rmsf_angstrom,
+    window_trend_summary,
+    write_csv,
+)
 
 
 def main() -> int:

@@ -2,7 +2,7 @@ from pathlib import Path
 
 import pytest
 
-from scripts.run_openmm_equilibration import (
+from qubo_receptor_ensemble.md import (
     add_time_fields,
     initialize_progress,
     output_paths,

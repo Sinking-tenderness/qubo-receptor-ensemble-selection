@@ -1,25 +1,38 @@
-"""Prepare ligand PDBQT files with controlled parallel Meeko workers."""
+"""Prepare ligand PDBQT files with controlled parallel Meeko workers.
+
+Thin CLI wrapper; the shared preparation helpers live in
+``qubo_receptor_ensemble.preparation`` and ``qubo_receptor_ensemble.io``.
+"""
+
+
 
 from __future__ import annotations
 
+# --- src bootstrap (bare-checkout import path) ---
+import sys as _sys
+from pathlib import Path as _Path
+
+_sys.path.insert(0, str(_Path(__file__).resolve().parents[1] / "src"))
 import argparse
 import csv
-import sys
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 
-try:
-    from .batch_prepare_ligand_pdbqt import (
-        find_meeko_script,
-        file_sha256,
-        parse_pdbqt,
-        read_rows,
-        run_meeko,
-        safe_filename,
-        write_manifest,
-    )
-except ImportError:
-    from batch_prepare_ligand_pdbqt import file_sha256, find_meeko_script, parse_pdbqt, read_rows, run_meeko, safe_filename, write_manifest
+from qubo_receptor_ensemble.io import file_sha256, safe_filename
+from qubo_receptor_ensemble.preparation import (
+    PDBQT_REQUIRED_COLUMNS,
+    find_meeko_script,
+    parse_pdbqt,
+    read_rows as _read_rows,
+    run_meeko,
+    write_manifest,
+)
+
+__all__ = ["prepare_one", "read_existing", "read_rows"]
+
+
+def read_rows(input_manifest: Path) -> list[dict[str, str]]:
+    return _read_rows(input_manifest, PDBQT_REQUIRED_COLUMNS, "manifest")
 
 
 def build_parser() -> argparse.ArgumentParser:

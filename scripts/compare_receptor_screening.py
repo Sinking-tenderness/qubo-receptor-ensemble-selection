@@ -1,7 +1,17 @@
-"""Compare screening signals from two receptor score tables."""
+"""Compare screening signals from two receptor score tables.
+
+Thin CLI wrapper; the metric core lives in ``qubo_receptor_ensemble.screening``.
+"""
+
+
 
 from __future__ import annotations
 
+# --- src bootstrap (bare-checkout import path) ---
+import sys as _sys
+from pathlib import Path as _Path
+
+_sys.path.insert(0, str(_Path(__file__).resolve().parents[1] / "src"))
 import argparse
 import csv
 import json
@@ -9,20 +19,9 @@ from pathlib import Path
 
 from scipy.stats import pearsonr, spearmanr
 
-try:
-    from .evaluate_virtual_screening import (
-        average_precision,
-        bedroc,
-        enrichment_factor,
-        roc_auc_pairwise,
-    )
-except ImportError:
-    from evaluate_virtual_screening import (
-        average_precision,
-        bedroc,
-        enrichment_factor,
-        roc_auc_pairwise,
-    )
+from qubo_receptor_ensemble.screening import ranked_metrics_with_ids
+
+__all__ = ["read_rank1", "ranked_metrics_with_ids"]
 
 
 def read_rank1(path: Path) -> dict[str, dict[str, object]]:
@@ -39,36 +38,6 @@ def read_rank1(path: Path) -> dict[str, dict[str, object]]:
     if not selected:
         raise ValueError(f"no rank-1 successful rows found in {path}")
     return selected
-
-
-def ranked_metrics_with_ids(data: dict[str, dict[str, object]], score_key: str = "score") -> dict[str, object]:
-    # Vina scores are lower-is-better, so ascending docking score is the ranking order.
-    ranked_ids = sorted(
-        data,
-        key=lambda ligand_id: (float(data[ligand_id][score_key]), ligand_id),
-    )
-    ranked = [
-        {
-            "label": data[ligand_id]["label"],
-            "binary_label": int(data[ligand_id]["label"] == "active"),
-            "ranking_score": -float(data[ligand_id][score_key]),
-        }
-        for ligand_id in ranked_ids
-    ]
-    labels = [int(row["label"] == "active") for row in ranked]
-    ranking_scores = [float(row["ranking_score"]) for row in ranked]
-    return {
-        "ligand_count": len(ranked),
-        "active_count": sum(labels),
-        "roc_auc": roc_auc_pairwise(labels, ranking_scores),
-        "pr_auc_average_precision": average_precision(ranked),
-        "bedroc_alpha_20": bedroc(ranked, 20.0),
-        "EF1%": enrichment_factor(ranked, 0.01)["ef"],
-        "EF5%": enrichment_factor(ranked, 0.05)["ef"],
-        "EF10%": enrichment_factor(ranked, 0.10)["ef"],
-        "top10_active_count": sum(row["label"] == "active" for row in ranked[:10]),
-        "top10_ligand_ids": ranked_ids[:10],
-    }
 
 
 def build_parser() -> argparse.ArgumentParser:

@@ -1,4 +1,4 @@
-from scripts.solve_qubo_receptor_subset import build_qubo, objective
+from qubo_receptor_ensemble.qubo import build_qubo, objective
 
 
 def test_size_penalty_prefers_target_size() -> None:

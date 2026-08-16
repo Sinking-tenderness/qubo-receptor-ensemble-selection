@@ -2,6 +2,12 @@
 
 from __future__ import annotations
 
+# --- src bootstrap (bare-checkout import path) ---
+import sys as _sys
+from pathlib import Path as _Path
+
+_sys.path.insert(0, str(_Path(__file__).resolve().parents[3] / "src"))
+from qubo_receptor_ensemble.io import file_sha256, write_csv, write_json  # noqa: F401 (deduped)
 import argparse
 import csv
 import hashlib
@@ -33,12 +39,6 @@ BLOCKED_LOG_PATTERNS = (
 )
 
 
-def file_sha256(path: Path) -> str:
-    digest = hashlib.sha256()
-    with path.open("rb") as handle:
-        for block in iter(lambda: handle.read(1024 * 1024), b""):
-            digest.update(block)
-    return digest.hexdigest().upper()
 
 
 def read_json(path: Path) -> dict[str, object]:
@@ -56,27 +56,8 @@ def read_csv(path: Path) -> list[dict[str, str]]:
     return rows
 
 
-def write_json(path: Path, value: dict[str, object]) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(
-        json.dumps(value, indent=2, sort_keys=True) + "\n",
-        encoding="ascii",
-    )
 
 
-def write_csv(path: Path, rows: list[dict[str, object]]) -> None:
-    if not rows:
-        raise ValueError(f"cannot write empty CSV: {path}")
-    fields: list[str] = []
-    for row in rows:
-        for key in row:
-            if key not in fields:
-                fields.append(key)
-    path.parent.mkdir(parents=True, exist_ok=True)
-    with path.open("w", encoding="utf-8", newline="") as handle:
-        writer = csv.DictWriter(handle, fieldnames=fields)
-        writer.writeheader()
-        writer.writerows(rows)
 
 
 def rooted_path(root: Path, value: str) -> Path:

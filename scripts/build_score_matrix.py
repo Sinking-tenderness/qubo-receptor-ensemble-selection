@@ -1,148 +1,40 @@
-"""Build ligand-by-receptor docking score matrices from long docking tables."""
+"""Build ligand-by-receptor docking score matrices from long docking tables.
+
+Thin CLI wrapper; the core logic lives in ``qubo_receptor_ensemble.matrix``.
+"""
 
 from __future__ import annotations
 
+# --- src bootstrap (bare-checkout import path) ---
+import sys as _sys
+from pathlib import Path as _Path
+
+_sys.path.insert(0, str(_Path(__file__).resolve().parents[1] / "src"))
 import argparse
 import csv
 import json
-import math
 from pathlib import Path
 
+from qubo_receptor_ensemble.matrix import (
+    REQUIRED_COLUMNS,
+    build_summary,
+    build_wide_matrix,
+    parse_pose_rank,
+    read_score_tables,
+    select_representative_scores,
+    validate_columns,
+)
 
-REQUIRED_COLUMNS = {
-    "target_id",
-    "receptor_id",
-    "ligand_id",
-    "label",
-    "pose_rank",
-    "docking_score",
-    "status",
-}
-
-
-def validate_columns(fieldnames: list[str] | None) -> None:
-    if fieldnames is None:
-        raise ValueError("score table has no header")
-    missing = REQUIRED_COLUMNS.difference(fieldnames)
-    if missing:
-        raise ValueError(f"score table is missing required columns: {sorted(missing)}")
-
-
-def read_score_tables(paths: list[Path]) -> list[dict[str, str]]:
-    rows: list[dict[str, str]] = []
-    for path in paths:
-        with path.open("r", encoding="utf-8", newline="") as handle:
-            reader = csv.DictReader(handle)
-            validate_columns(reader.fieldnames)
-            rows.extend(reader)
-    if not rows:
-        raise ValueError("no score rows were read")
-    return rows
-
-
-def parse_pose_rank(value: str) -> int | None:
-    if value == "":
-        return None
-    try:
-        return int(float(value))
-    except ValueError:
-        return None
-
-
-def select_representative_scores(rows: list[dict[str, str]], representative: str) -> list[dict[str, object]]:
-    grouped: dict[tuple[str, str], list[dict[str, str]]] = {}
-    labels_by_ligand: dict[str, str] = {}
-    target_by_ligand: dict[str, str] = {}
-
-    for row in rows:
-        ligand_id = row["ligand_id"]
-        receptor_id = row["receptor_id"]
-        labels_by_ligand.setdefault(ligand_id, row["label"])
-        target_by_ligand.setdefault(ligand_id, row["target_id"])
-        grouped.setdefault((ligand_id, receptor_id), []).append(row)
-
-    output: list[dict[str, object]] = []
-    for (ligand_id, receptor_id), group_rows in sorted(grouped.items()):
-        ok_rows = [row for row in group_rows if row["status"] == "ok" and row["docking_score"] != ""]
-        if not ok_rows:
-            output.append(
-                {
-                    "target_id": target_by_ligand.get(ligand_id, ""),
-                    "ligand_id": ligand_id,
-                    "label": labels_by_ligand.get(ligand_id, ""),
-                    "receptor_id": receptor_id,
-                    "representative_score": "",
-                    "representative_method": representative,
-                    "status": "failed",
-                    "pose_count": 0,
-                    "best_pose_rank": "",
-                    "best_docking_score": "",
-                    "ranking_score": "",
-                }
-            )
-            continue
-
-        scored_rows = [
-            {
-                **row,
-                "_pose_rank": parse_pose_rank(row["pose_rank"]),
-                "_score": float(row["docking_score"]),
-            }
-            for row in ok_rows
-        ]
-        best_row = min(scored_rows, key=lambda row: float(row["_score"]))
-        rank1_rows = [row for row in scored_rows if row["_pose_rank"] == 1]
-
-        if representative == "pose_rank_1":
-            selected_row = rank1_rows[0] if rank1_rows else best_row
-            representative_score = float(selected_row["_score"])
-        elif representative == "min_score":
-            selected_row = best_row
-            representative_score = float(best_row["_score"])
-        else:
-            raise ValueError(f"unsupported representative method: {representative}")
-
-        output.append(
-            {
-                "target_id": target_by_ligand.get(ligand_id, ""),
-                "ligand_id": ligand_id,
-                "label": labels_by_ligand.get(ligand_id, ""),
-                "receptor_id": receptor_id,
-                "representative_score": representative_score,
-                "representative_method": representative,
-                "status": "ok",
-                "pose_count": len(ok_rows),
-                "best_pose_rank": selected_row["_pose_rank"],
-                "best_docking_score": best_row["_score"],
-                "ranking_score": -representative_score,
-            }
-        )
-    return output
-
-
-def build_wide_matrix(long_rows: list[dict[str, object]]) -> list[dict[str, object]]:
-    ligand_meta: dict[str, dict[str, object]] = {}
-    receptor_ids = sorted({str(row["receptor_id"]) for row in long_rows})
-    for row in long_rows:
-        ligand_id = str(row["ligand_id"])
-        ligand_meta.setdefault(
-            ligand_id,
-            {
-                "target_id": row["target_id"],
-                "ligand_id": ligand_id,
-                "label": row["label"],
-            },
-        )
-        value = row["representative_score"] if row["status"] == "ok" else ""
-        ligand_meta[ligand_id][str(row["receptor_id"])] = value
-
-    matrix_rows: list[dict[str, object]] = []
-    for ligand_id in sorted(ligand_meta):
-        row = ligand_meta[ligand_id]
-        for receptor_id in receptor_ids:
-            row.setdefault(receptor_id, "")
-        matrix_rows.append(row)
-    return matrix_rows
+__all__ = [
+    "REQUIRED_COLUMNS",
+    "validate_columns",
+    "read_score_tables",
+    "parse_pose_rank",
+    "select_representative_scores",
+    "build_wide_matrix",
+    "write_csv",
+    "build_summary",
+]
 
 
 def write_csv(path: Path, rows: list[dict[str, object]]) -> None:
@@ -156,31 +48,6 @@ def write_csv(path: Path, rows: list[dict[str, object]]) -> None:
         writer = csv.DictWriter(handle, fieldnames=fieldnames)
         writer.writeheader()
         writer.writerows(rows)
-
-
-def build_summary(long_rows: list[dict[str, object]], matrix_rows: list[dict[str, object]]) -> dict[str, object]:
-    receptor_ids = sorted({str(row["receptor_id"]) for row in long_rows})
-    labels: dict[str, int] = {}
-    failure_count = 0
-    for row in long_rows:
-        labels[str(row["label"])] = labels.get(str(row["label"]), 0) + 1
-        if row["status"] != "ok":
-            failure_count += 1
-
-    missing_by_receptor: dict[str, int] = {}
-    for receptor_id in receptor_ids:
-        missing_by_receptor[receptor_id] = sum(1 for row in matrix_rows if row.get(receptor_id, "") == "")
-
-    return {
-        "ligand_count": len(matrix_rows),
-        "receptor_count": len(receptor_ids),
-        "receptor_ids": receptor_ids,
-        "long_row_count": len(long_rows),
-        "label_counts_in_long_rows": labels,
-        "failed_ligand_receptor_pairs": failure_count,
-        "missing_scores_by_receptor": missing_by_receptor,
-        "score_direction": "lower representative_score is better for Vina; ranking_score = -representative_score is higher-is-better",
-    }
 
 
 def build_parser() -> argparse.ArgumentParser:

@@ -2,6 +2,12 @@
 
 from __future__ import annotations
 
+# --- src bootstrap (bare-checkout import path) ---
+import sys as _sys
+from pathlib import Path as _Path
+
+_sys.path.insert(0, str(_Path(__file__).resolve().parents[3] / "src"))
+from qubo_receptor_ensemble.metrics import pearson  # noqa: F401 (deduped)
 import argparse
 import json
 import math
@@ -65,19 +71,6 @@ def average_ranks(values: list[float]) -> list[float]:
     return ranks
 
 
-def pearson(left: list[float], right: list[float]) -> float:
-    if len(left) != len(right) or len(left) < 2:
-        raise ValueError("correlation inputs differ or are too short")
-    left_mean = statistics.fmean(left)
-    right_mean = statistics.fmean(right)
-    numerator = sum(
-        (a - left_mean) * (b - right_mean) for a, b in zip(left, right)
-    )
-    left_scale = math.sqrt(sum((value - left_mean) ** 2 for value in left))
-    right_scale = math.sqrt(sum((value - right_mean) ** 2 for value in right))
-    if left_scale == 0.0 or right_scale == 0.0:
-        return 1.0 if left == right else 0.0
-    return numerator / (left_scale * right_scale)
 
 
 def spearman(left: list[float], right: list[float]) -> float:

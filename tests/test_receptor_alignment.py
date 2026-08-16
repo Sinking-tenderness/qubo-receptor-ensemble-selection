@@ -1,6 +1,6 @@
 import numpy as np
 
-from scripts.align_receptor_structure import (
+from qubo_receptor_ensemble.pdb import (
     calculate_kabsch_transform,
     rmsd,
     transform_coordinates,

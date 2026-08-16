@@ -1,12 +1,11 @@
 import pytest
 
-from scripts.run_openmm_production import (
-    chunk_filename,
-    initialize_progress,
-    production_steps,
-    validate_progress,
+from qubo_receptor_ensemble.md import (
+    initialize_production_progress as initialize_progress,
+    validate_production_progress as validate_progress,
     validate_schedule,
 )
+from scripts.run_openmm_production import chunk_filename, production_steps
 
 
 def test_production_steps_converts_ns_to_two_fs_steps():

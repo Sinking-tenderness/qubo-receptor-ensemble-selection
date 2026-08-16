@@ -1,23 +1,38 @@
-"""Audit and aggregate paired docking seed replicates into score matrices."""
+"""Audit and aggregate paired docking seed replicates into score matrices.
+
+Thin CLI wrapper; the core logic lives in ``qubo_receptor_ensemble.matrix``.
+"""
 
 from __future__ import annotations
 
+# --- src bootstrap (bare-checkout import path) ---
+import sys as _sys
+from pathlib import Path as _Path
+
+_sys.path.insert(0, str(_Path(__file__).resolve().parents[1] / "src"))
 import argparse
 import csv
-import hashlib
 import json
-import math
 import statistics
-from collections import Counter
 from pathlib import Path
 
+from qubo_receptor_ensemble.io import file_sha256, write_csv
+from qubo_receptor_ensemble.matrix import (
+    aggregate_seed_rows,
+    audit_ligand_manifest,
+    build_matrix,
+    load_config,
+)
 
-def file_sha256(path: Path) -> str:
-    digest = hashlib.sha256()
-    with path.open("rb") as handle:
-        for block in iter(lambda: handle.read(1024 * 1024), b""):
-            digest.update(block)
-    return digest.hexdigest().upper()
+__all__ = [
+    "file_sha256",
+    "read_csv",
+    "write_csv",
+    "audit_ligand_manifest",
+    "aggregate_seed_rows",
+    "build_matrix",
+    "load_config",
+]
 
 
 def read_csv(path: Path) -> list[dict[str, str]]:
@@ -26,180 +41,6 @@ def read_csv(path: Path) -> list[dict[str, str]]:
     if not rows:
         raise ValueError(f"CSV contains no rows: {path}")
     return rows
-
-
-def write_csv(path: Path, rows: list[dict[str, object]]) -> None:
-    if not rows:
-        raise ValueError(f"cannot write empty CSV: {path}")
-    fields: list[str] = []
-    for row in rows:
-        for key in row:
-            if key not in fields:
-                fields.append(key)
-    path.parent.mkdir(parents=True, exist_ok=True)
-    with path.open("w", encoding="utf-8", newline="") as handle:
-        writer = csv.DictWriter(handle, fieldnames=fields)
-        writer.writeheader()
-        writer.writerows(rows)
-
-
-def audit_ligand_manifest(
-    rows: list[dict[str, str]],
-    expected_count: int,
-    expected_role_label_counts: dict[str, int],
-    allowed_roles: set[str],
-) -> dict[str, dict[str, str]]:
-    if len(rows) != expected_count:
-        raise ValueError(f"expected {expected_count} ligands, got {len(rows)}")
-    by_id = {row["ligand_id"]: row for row in rows}
-    if len(by_id) != len(rows):
-        raise ValueError("ligand manifest contains duplicate ligand IDs")
-    observed = Counter(
-        f"{row.get('selection_role', '')}:{row['label']}" for row in rows
-    )
-    if dict(observed) != expected_role_label_counts:
-        raise ValueError(
-            f"role/label counts differ: expected {expected_role_label_counts}, "
-            f"got {dict(observed)}"
-        )
-    unexpected_roles = sorted(
-        {row.get("selection_role", "") for row in rows}.difference(allowed_roles)
-    )
-    if unexpected_roles:
-        raise ValueError(f"prohibited ligand roles found: {unexpected_roles}")
-    if any(row.get("split", "") == "test" for row in rows):
-        raise ValueError("locked test rows are prohibited")
-    return by_id
-
-
-def aggregate_seed_rows(
-    seed_groups: list[tuple[str, list[dict[str, str]]]],
-    ligand_by_id: dict[str, dict[str, str]],
-    expected_receptor_count: int,
-    representative_method: str,
-) -> list[dict[str, object]]:
-    if len(seed_groups) < 2:
-        raise ValueError("at least two seed replicates are required")
-    ligand_ids = set(ligand_by_id)
-    expected_pairs = len(ligand_ids) * expected_receptor_count
-    scores_by_seed: dict[str, dict[tuple[str, str], float]] = {}
-    reference_keys: set[tuple[str, str]] | None = None
-
-    for seed_id, rows in seed_groups:
-        if seed_id in scores_by_seed:
-            raise ValueError(f"duplicate seed ID: {seed_id}")
-        if len(rows) != expected_pairs:
-            raise ValueError(
-                f"seed {seed_id} expected {expected_pairs} rows, got {len(rows)}"
-            )
-        seed_scores: dict[tuple[str, str], float] = {}
-        receptors_by_ligand: dict[str, set[str]] = {
-            ligand_id: set() for ligand_id in ligand_ids
-        }
-        for row in rows:
-            ligand_id = row["ligand_id"]
-            receptor_id = row["receptor_id"]
-            key = (ligand_id, receptor_id)
-            if ligand_id not in ligand_by_id:
-                raise ValueError(f"seed {seed_id} contains unknown ligand: {ligand_id}")
-            if key in seed_scores:
-                raise ValueError(f"seed {seed_id} contains duplicate pair: {key}")
-            ligand = ligand_by_id[ligand_id]
-            if row.get("label") != ligand["label"]:
-                raise ValueError(f"seed {seed_id} label differs for {ligand_id}")
-            if row.get("status") != "ok":
-                raise ValueError(f"seed {seed_id} failed pair: {key}")
-            if row.get("representative_method") != representative_method:
-                raise ValueError(f"seed {seed_id} representative method differs")
-            try:
-                score = float(row["representative_score"])
-            except (KeyError, ValueError) as exc:
-                raise ValueError(f"seed {seed_id} has invalid score: {key}") from exc
-            if not math.isfinite(score):
-                raise ValueError(f"seed {seed_id} has non-finite score: {key}")
-            seed_scores[key] = score
-            receptors_by_ligand[ligand_id].add(receptor_id)
-        if any(len(values) != expected_receptor_count for values in receptors_by_ligand.values()):
-            raise ValueError(f"seed {seed_id} receptor coverage differs by ligand")
-        keys = set(seed_scores)
-        if reference_keys is not None and keys != reference_keys:
-            raise ValueError(f"seed {seed_id} pair identities differ")
-        reference_keys = keys
-        scores_by_seed[seed_id] = seed_scores
-
-    seed_ids = [seed_id for seed_id, _ in seed_groups]
-    assert reference_keys is not None
-    output: list[dict[str, object]] = []
-    for ligand_id, receptor_id in sorted(reference_keys):
-        values = [scores_by_seed[seed_id][(ligand_id, receptor_id)] for seed_id in seed_ids]
-        ligand = ligand_by_id[ligand_id]
-        output.append(
-            {
-                "target_id": ligand.get("target_id", ""),
-                "ligand_id": ligand_id,
-                "label": ligand["label"],
-                "selection_role": ligand["selection_role"],
-                "receptor_id": receptor_id,
-                "seed_count": len(values),
-                **{
-                    f"{seed_id}_representative_score": value
-                    for seed_id, value in zip(seed_ids, values)
-                },
-                "median_representative_score": statistics.median(values),
-                "minimum_representative_score": min(values),
-                "maximum_representative_score": max(values),
-                "seed_score_range": max(values) - min(values),
-                "primary_ranking_score": -statistics.median(values),
-                "sensitivity_ranking_score": -min(values),
-                "representative_method": representative_method,
-                "status": "ok",
-            }
-        )
-    return output
-
-
-def build_matrix(
-    rows: list[dict[str, object]], score_field: str
-) -> list[dict[str, object]]:
-    receptor_ids = sorted({str(row["receptor_id"]) for row in rows})
-    by_ligand: dict[str, dict[str, object]] = {}
-    for row in rows:
-        ligand_id = str(row["ligand_id"])
-        matrix_row = by_ligand.setdefault(
-            ligand_id,
-            {
-                "target_id": row["target_id"],
-                "ligand_id": ligand_id,
-                "label": row["label"],
-                "selection_role": row["selection_role"],
-            },
-        )
-        matrix_row[str(row["receptor_id"])] = row[score_field]
-    output = [by_ligand[ligand_id] for ligand_id in sorted(by_ligand)]
-    for row in output:
-        for receptor_id in receptor_ids:
-            if receptor_id not in row:
-                raise ValueError(f"matrix is missing receptor {receptor_id}")
-    return output
-
-
-def load_config(path: Path) -> dict[str, object]:
-    config = json.loads(path.read_text(encoding="ascii"))
-    required = {
-        "schema_version",
-        "experiment_id",
-        "purpose",
-        "ligand_manifest",
-        "seed_runs",
-        "expected",
-        "aggregation",
-        "outputs",
-        "interpretation_boundary",
-    }
-    missing = required.difference(config)
-    if missing:
-        raise ValueError(f"aggregation config is missing keys: {sorted(missing)}")
-    return config
 
 
 def main() -> int:

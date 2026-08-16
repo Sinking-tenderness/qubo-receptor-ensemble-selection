@@ -1,7 +1,18 @@
-"""Run controlled parallel AutoDock Vina jobs with resumable checkpoints."""
+"""Run controlled parallel AutoDock Vina jobs with resumable checkpoints.
+
+Thin CLI wrapper; the shared docking helpers live in
+``qubo_receptor_ensemble.docking``.
+"""
+
+
 
 from __future__ import annotations
 
+# --- src bootstrap (bare-checkout import path) ---
+import sys as _sys
+from pathlib import Path as _Path
+
+_sys.path.insert(0, str(_Path(__file__).resolve().parents[1] / "src"))
 import argparse
 import csv
 import subprocess
@@ -9,30 +20,31 @@ import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 
-try:
-    from .batch_vina_docking import (
-        build_vina_command,
-        get_vina_version,
-        parse_vina_modes,
-        read_manifest,
-        read_vina_config,
-        result_rows_for_modes,
-        safe_filename,
-        select_rows,
-        write_csv,
-    )
-except ImportError:
-    from batch_vina_docking import (
-        build_vina_command,
-        get_vina_version,
-        parse_vina_modes,
-        read_manifest,
-        read_vina_config,
-        result_rows_for_modes,
-        safe_filename,
-        select_rows,
-        write_csv,
-    )
+from qubo_receptor_ensemble.docking import (
+    build_vina_command,
+    get_vina_version,
+    ligand_seed,
+    parse_vina_modes,
+    read_manifest,
+    read_vina_config,
+    replace_ligand_rows,
+    result_rows_for_modes,
+    safe_filename,
+    select_rows,
+    write_csv,
+)
+
+__all__ = [
+    "read_checkpoint",
+    "replace_ligand_rows",
+    "ligand_seed",
+    "dock_one",
+]
+
+
+def read_checkpoint(path: Path) -> list[dict[str, str]]:
+    with path.open("r", encoding="utf-8", newline="") as handle:
+        return list(csv.DictReader(handle))
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -54,25 +66,6 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--sample-seed", type=int, default=20260709)
     parser.add_argument("--resume", action="store_true")
     return parser
-
-
-def read_checkpoint(path: Path) -> list[dict[str, str]]:
-    with path.open("r", encoding="utf-8", newline="") as handle:
-        return list(csv.DictReader(handle))
-
-
-def replace_ligand_rows(
-    rows: list[dict[str, object]], ligand_id: str, replacement: list[dict[str, object]]
-) -> list[dict[str, object]]:
-    return [row for row in rows if row.get("ligand_id") != ligand_id] + replacement
-
-
-def ligand_seed(row: dict[str, str], index: int, base_seed: int) -> int:
-    value = row.get("seed_offset", "").strip()
-    offset = int(value) if value else index
-    if offset < 0:
-        raise ValueError(f"negative seed offset for {row['ligand_id']}")
-    return base_seed + offset
 
 
 def dock_one(

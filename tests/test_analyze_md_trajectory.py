@@ -1,7 +1,7 @@
 import numpy as np
 import pytest
 
-from scripts.analyze_md_trajectory import (
+from qubo_receptor_ensemble.md import (
     direct_rmsd_angstrom,
     distribution_summary,
     finite_summary,

@@ -2,6 +2,12 @@
 
 from __future__ import annotations
 
+# --- src bootstrap (bare-checkout import path) ---
+import sys as _sys
+from pathlib import Path as _Path
+
+_sys.path.insert(0, str(_Path(__file__).resolve().parents[1] / "src"))
+from qubo_receptor_ensemble.io import write_csv  # noqa: F401 (deduped)
 import argparse
 import csv
 import json
@@ -51,19 +57,6 @@ def read_csv(path: Path) -> list[dict[str, str]]:
     return rows
 
 
-def write_csv(path: Path, rows: list[dict[str, object]]) -> None:
-    if not rows:
-        raise ValueError(f"cannot write empty CSV: {path}")
-    fields: list[str] = []
-    for row in rows:
-        for key in row:
-            if key not in fields:
-                fields.append(key)
-    path.parent.mkdir(parents=True, exist_ok=True)
-    with path.open("w", encoding="utf-8", newline="") as handle:
-        writer = csv.DictWriter(handle, fieldnames=fields)
-        writer.writeheader()
-        writer.writerows(rows)
 
 
 def load_config(path: Path) -> dict[str, object]:

@@ -1,4 +1,4 @@
-from scripts.compare_receptor_screening import ranked_metrics_with_ids
+from qubo_receptor_ensemble.screening import ranked_metrics_with_ids
 
 
 def test_vina_scores_are_ranked_from_most_negative_to_least_negative() -> None:

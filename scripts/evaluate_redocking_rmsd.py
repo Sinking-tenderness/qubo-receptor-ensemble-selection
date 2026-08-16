@@ -1,65 +1,36 @@
-"""Evaluate symmetry-corrected heavy-atom redocking RMSD without pose alignment."""
+"""Evaluate symmetry-corrected heavy-atom redocking RMSD without pose alignment.
+
+Thin CLI wrapper; the core logic lives in ``qubo_receptor_ensemble.docking``.
+"""
+
+
 
 from __future__ import annotations
 
+# --- src bootstrap (bare-checkout import path) ---
+import sys as _sys
+from pathlib import Path as _Path
+
+_sys.path.insert(0, str(_Path(__file__).resolve().parents[1] / "src"))
 import argparse
 import csv
-import hashlib
 import json
-import re
 from pathlib import Path
 
-
-VINA_RESULT_PATTERN = re.compile(
-    r"^REMARK VINA RESULT:\s+(-?\d+(?:\.\d+)?)", re.MULTILINE
+from qubo_receptor_ensemble.docking import (
+    VINA_RESULT_PATTERN,
+    calculate_pose_rmsds,
+    parse_vina_affinities,
 )
+from qubo_receptor_ensemble.io import file_sha256
 
-
-def file_sha256(path: Path) -> str:
-    digest = hashlib.sha256()
-    with path.open("rb") as handle:
-        for block in iter(lambda: handle.read(1024 * 1024), b""):
-            digest.update(block)
-    return digest.hexdigest().upper()
-
-
-def parse_vina_affinities(text: str) -> list[float]:
-    return [float(match.group(1)) for match in VINA_RESULT_PATTERN.finditer(text)]
-
-
-def calculate_pose_rmsds(reference_sdf: Path, docked_pdbqt: Path) -> list[float]:
-    from meeko import PDBQTMolecule, RDKitMolCreate
-    from rdkit import Chem
-    from rdkit.Chem import rdMolAlign
-
-    reference = Chem.SDMolSupplier(
-        str(reference_sdf), removeHs=True, sanitize=True
-    )[0]
-    if reference is None or reference.GetNumConformers() != 1:
-        raise ValueError("reference SDF must contain one parseable 3D molecule")
-    pdbqt_molecule = PDBQTMolecule.from_file(str(docked_pdbqt), skip_typing=False)
-    converted = RDKitMolCreate.from_pdbqt_mol(pdbqt_molecule)
-    if len(converted) != 1 or converted[0] is None:
-        raise ValueError("docked PDBQT did not convert to exactly one RDKit molecule")
-    predicted = Chem.RemoveHs(converted[0])
-    if predicted.GetNumAtoms() != reference.GetNumAtoms():
-        raise ValueError(
-            "reference and predicted heavy-atom counts differ: "
-            f"{reference.GetNumAtoms()} versus {predicted.GetNumAtoms()}"
-        )
-    return [
-        float(
-            rdMolAlign.CalcRMS(
-                predicted,
-                reference,
-                prbId=pose_index,
-                refId=0,
-                maxMatches=1_000_000,
-                symmetrizeConjugatedTerminalGroups=True,
-            )
-        )
-        for pose_index in range(predicted.GetNumConformers())
-    ]
+__all__ = [
+    "VINA_RESULT_PATTERN",
+    "file_sha256",
+    "parse_vina_affinities",
+    "calculate_pose_rmsds",
+    "write_csv",
+]
 
 
 def write_csv(path: Path, rows: list[dict[str, object]]) -> None:

@@ -1,6 +1,6 @@
 import pytest
 
-from scripts.batch_vina_docking_parallel import ligand_seed, replace_ligand_rows
+from qubo_receptor_ensemble.docking import ligand_seed, replace_ligand_rows
 
 
 def test_replace_ligand_rows_replaces_only_requested_ligand():

@@ -1,4 +1,4 @@
-from scripts.evaluate_virtual_screening import (
+from qubo_receptor_ensemble.screening import (
     average_precision,
     bedroc,
     enrichment_factor,

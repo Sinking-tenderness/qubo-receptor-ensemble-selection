@@ -2,6 +2,12 @@
 
 from __future__ import annotations
 
+# --- src bootstrap (bare-checkout import path) ---
+import sys as _sys
+from pathlib import Path as _Path
+
+_sys.path.insert(0, str(_Path(__file__).resolve().parents[1] / "src"))
+from qubo_receptor_ensemble.io import write_json  # noqa: F401 (deduped)
 import argparse
 import csv
 import itertools
@@ -29,9 +35,6 @@ from scripts.run_stage38_cross_target_stable_triplet_hubo import (
 )
 
 
-def write_json(path: Path, value: dict[str, Any]) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(value, indent=2, sort_keys=True) + "\n", encoding="ascii")
 
 
 def write_csv(path: Path, rows: list[dict[str, Any]]) -> None:

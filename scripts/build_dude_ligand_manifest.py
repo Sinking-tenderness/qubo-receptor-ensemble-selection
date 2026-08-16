@@ -2,6 +2,12 @@
 
 from __future__ import annotations
 
+# --- src bootstrap (bare-checkout import path) ---
+import sys as _sys
+from pathlib import Path as _Path
+
+_sys.path.insert(0, str(_Path(__file__).resolve().parents[1] / "src"))
+from qubo_receptor_ensemble.io import file_sha256  # noqa: F401 (deduped)
 import argparse
 import csv
 import hashlib
@@ -15,12 +21,6 @@ except ImportError:
     from make_dude_subset import DudeRecord, parse_ism
 
 
-def file_sha256(path: Path) -> str:
-    digest = hashlib.sha256()
-    with path.open("rb") as handle:
-        for block in iter(lambda: handle.read(1024 * 1024), b""):
-            digest.update(block)
-    return digest.hexdigest().upper()
 
 
 def manifest_row(

@@ -1,86 +1,49 @@
-"""Generate 3D SDF files from a ligand manifest using RDKit."""
+"""Generate 3D SDF files from a ligand manifest using RDKit.
+
+Thin CLI wrapper; the core logic lives in ``qubo_receptor_ensemble.preparation``.
+"""
+
+
 
 from __future__ import annotations
 
+# --- src bootstrap (bare-checkout import path) ---
+import sys as _sys
+from pathlib import Path as _Path
+
+_sys.path.insert(0, str(_Path(__file__).resolve().parents[1] / "src"))
 import argparse
-import csv
 from pathlib import Path
 
 from rdkit import Chem
-from rdkit.Chem import AllChem
 
+from qubo_receptor_ensemble.io import safe_filename
+from qubo_receptor_ensemble.preparation import (
+    PREP_3D_REQUIRED_COLUMNS,
+    build_3d_mol,
+    read_rows as _read_rows,
+    validate_columns as _validate_columns,
+    write_manifest,
+)
 
-REQUIRED_COLUMNS = {"ligand_id", "smiles", "label", "target_id"}
+REQUIRED_COLUMNS = PREP_3D_REQUIRED_COLUMNS
+
+__all__ = [
+    "REQUIRED_COLUMNS",
+    "validate_columns",
+    "safe_filename",
+    "build_3d_mol",
+    "read_rows",
+    "write_manifest",
+]
 
 
 def validate_columns(fieldnames: list[str] | None) -> None:
-    if fieldnames is None:
-        raise ValueError("input CSV has no header")
-    missing = REQUIRED_COLUMNS.difference(fieldnames)
-    if missing:
-        raise ValueError(f"input CSV is missing required columns: {sorted(missing)}")
-
-
-def safe_filename(text: str) -> str:
-    keep = []
-    for char in text:
-        if char.isalnum() or char in {"-", "_"}:
-            keep.append(char)
-        else:
-            keep.append("_")
-    return "".join(keep)
-
-
-def build_3d_mol(smiles: str, seed: int) -> tuple[Chem.Mol | None, str, str]:
-    mol = Chem.MolFromSmiles(smiles)
-    if mol is None:
-        return None, "failed", "rdkit_parse_failed"
-
-    mol = Chem.AddHs(mol)
-    params = AllChem.ETKDGv3()
-    params.randomSeed = int(seed)
-    params.useRandomCoords = True
-    embed_status = AllChem.EmbedMolecule(mol, params)
-    if embed_status != 0:
-        return None, "failed", f"embed_failed_code_{embed_status}"
-
-    if AllChem.MMFFHasAllMoleculeParams(mol):
-        optimize_status = AllChem.MMFFOptimizeMolecule(mol, maxIters=500)
-        method = "MMFF94"
-    else:
-        optimize_status = AllChem.UFFOptimizeMolecule(mol, maxIters=500)
-        method = "UFF"
-
-    if optimize_status < 0:
-        return None, "failed", f"{method}_optimize_failed_code_{optimize_status}"
-    if optimize_status > 0:
-        status = "warning"
-        message = f"{method}_not_converged_code_{optimize_status}"
-    else:
-        status = "ok"
-        message = f"{method}_converged"
-
-    return mol, status, message
+    _validate_columns(fieldnames, PREP_3D_REQUIRED_COLUMNS, "CSV")
 
 
 def read_rows(input_csv: Path) -> list[dict[str, str]]:
-    with input_csv.open("r", encoding="utf-8", newline="") as handle:
-        reader = csv.DictReader(handle)
-        validate_columns(reader.fieldnames)
-        return list(reader)
-
-
-def write_manifest(output_manifest: Path, rows: list[dict[str, object]]) -> None:
-    output_manifest.parent.mkdir(parents=True, exist_ok=True)
-    fieldnames: list[str] = []
-    for row in rows:
-        for key in row:
-            if key not in fieldnames:
-                fieldnames.append(key)
-    with output_manifest.open("w", encoding="utf-8", newline="") as handle:
-        writer = csv.DictWriter(handle, fieldnames=fieldnames)
-        writer.writeheader()
-        writer.writerows(rows)
+    return _read_rows(input_csv, PREP_3D_REQUIRED_COLUMNS, "CSV")
 
 
 def build_parser() -> argparse.ArgumentParser:

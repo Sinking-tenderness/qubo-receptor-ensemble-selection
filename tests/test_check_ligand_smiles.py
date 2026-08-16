@@ -1,4 +1,4 @@
-from scripts.check_ligand_smiles import audit_row, build_summary
+from qubo_receptor_ensemble.ligand import audit_row, build_summary
 
 
 def test_large_identifier_lists_are_counted_and_bounded() -> None:

@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from scripts.prepare_receptor import audit_pdbqt
+from qubo_receptor_ensemble.pdb import audit_pdbqt
 
 
 def test_audit_pdbqt_uses_fixed_charge_and_atom_type_columns(tmp_path: Path) -> None:

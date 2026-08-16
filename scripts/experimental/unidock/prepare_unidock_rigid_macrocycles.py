@@ -2,6 +2,12 @@
 
 from __future__ import annotations
 
+# --- src bootstrap (bare-checkout import path) ---
+import sys as _sys
+from pathlib import Path as _Path
+
+_sys.path.insert(0, str(_Path(__file__).resolve().parents[3] / "src"))
+from qubo_receptor_ensemble.io import write_json  # noqa: F401 (deduped)
 import argparse
 import csv
 import importlib.metadata
@@ -47,12 +53,6 @@ def read_csv(path: Path) -> list[dict[str, str]]:
     return rows
 
 
-def write_json(path: Path, value: dict[str, object]) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(
-        json.dumps(value, indent=2, sort_keys=True) + "\n",
-        encoding="ascii",
-    )
 
 
 def select_source_rows(

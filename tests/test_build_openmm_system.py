@@ -3,7 +3,7 @@ from pathlib import Path
 
 import pytest
 
-from scripts.build_openmm_system import load_protocol
+from qubo_receptor_ensemble.md import load_protocol
 
 
 def test_load_protocol_accepts_versioned_pilot_config():

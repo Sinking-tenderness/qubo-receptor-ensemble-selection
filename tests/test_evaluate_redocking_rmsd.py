@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from scripts.evaluate_redocking_rmsd import parse_vina_affinities
+from qubo_receptor_ensemble.docking import parse_vina_affinities
 
 
 def test_parse_vina_affinities_across_models() -> None:

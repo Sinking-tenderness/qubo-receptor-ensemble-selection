@@ -1,4 +1,4 @@
-from scripts.batch_prepare_ligand_pdbqt import validated_existing_pdbqt
+from qubo_receptor_ensemble.preparation import validated_existing_pdbqt
 
 
 def test_validated_existing_pdbqt_reconstructs_audit_fields(tmp_path) -> None:

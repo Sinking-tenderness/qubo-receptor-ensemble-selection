@@ -1,87 +1,36 @@
-"""Clean, parameterize, and audit a rigid receptor for AutoDock Vina."""
+"""Clean, parameterize, and audit a rigid receptor for AutoDock Vina.
+
+Thin CLI wrapper; the core audit logic lives in ``qubo_receptor_ensemble.pdb``.
+"""
+
+
 
 from __future__ import annotations
 
+# --- src bootstrap (bare-checkout import path) ---
+import sys as _sys
+from pathlib import Path as _Path
+
+_sys.path.insert(0, str(_Path(__file__).resolve().parents[1] / "src"))
 import argparse
-import hashlib
 import importlib.metadata
 import json
 import subprocess
 import sys
 from pathlib import Path
 
+from qubo_receptor_ensemble.io import file_sha256
+from qubo_receptor_ensemble.pdb import audit_pdb, audit_pdbqt, coordinate_lines
 
-def file_sha256(path: Path) -> str:
-    digest = hashlib.sha256()
-    with path.open("rb") as handle:
-        for block in iter(lambda: handle.read(1024 * 1024), b""):
-            digest.update(block)
-    return digest.hexdigest().upper()
-
-
-def coordinate_lines(path: Path) -> list[str]:
-    return [
-        line
-        for line in path.read_text(encoding="ascii").splitlines()
-        if line.startswith(("ATOM  ", "HETATM"))
-    ]
-
-
-def residue_count(lines: list[str]) -> int:
-    residues = {
-        (line[21:22], line[22:26], line[26:27])
-        for line in lines
-        if len(line) >= 27
-    }
-    return len(residues)
-
-
-def audit_pdb(path: Path) -> dict[str, object]:
-    lines = coordinate_lines(path)
-    hydrogen_count = 0
-    for line in lines:
-        element = line[76:78].strip() if len(line) >= 78 else ""
-        atom_name = line[12:16].strip() if len(line) >= 16 else ""
-        if element == "H" or (not element and atom_name.startswith("H")):
-            hydrogen_count += 1
-    return {
-        "coordinate_record_count": len(lines),
-        "atom_record_count": sum(line.startswith("ATOM  ") for line in lines),
-        "hetatm_record_count": sum(line.startswith("HETATM") for line in lines),
-        "residue_count": residue_count(lines),
-        "hydrogen_count": hydrogen_count,
-    }
-
-
-def audit_pdbqt(path: Path) -> dict[str, object]:
-    lines = coordinate_lines(path)
-    charges: list[float] = []
-    atom_types: set[str] = set()
-    for line_number, line in enumerate(lines, start=1):
-        if len(line) < 78:
-            raise ValueError(f"PDBQT coordinate line {line_number} is too short")
-        try:
-            charges.append(float(line[70:76].strip()))
-        except ValueError as exc:
-            raise ValueError(
-                f"invalid PDBQT charge on coordinate line {line_number}: {line[70:76]!r}"
-            ) from exc
-        atom_types.add(line[77:].strip())
-
-    if not lines:
-        raise ValueError(f"no PDBQT coordinate records found in {path}")
-    return {
-        "coordinate_record_count": len(lines),
-        "atom_record_count": sum(line.startswith("ATOM  ") for line in lines),
-        "hetatm_record_count": sum(line.startswith("HETATM") for line in lines),
-        "residue_count": residue_count(lines),
-        "hydrogen_like_atom_count": sum(
-            line[77:].strip().startswith("H") for line in lines
-        ),
-        "charge_min": min(charges),
-        "charge_max": max(charges),
-        "autodock_atom_types": sorted(atom_types),
-    }
+__all__ = [
+    "file_sha256",
+    "coordinate_lines",
+    "audit_pdb",
+    "audit_pdbqt",
+    "clean_protein_with_prody",
+    "check_output_paths",
+    "write_summary",
+]
 
 
 def clean_protein_with_prody(

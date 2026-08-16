@@ -2,6 +2,11 @@
 
 from __future__ import annotations
 
+# --- src bootstrap (bare-checkout import path) ---
+import sys as _sys
+from pathlib import Path as _Path
+
+_sys.path.insert(0, str(_Path(__file__).resolve().parents[1] / "src"))
 import argparse
 import csv
 import hashlib
@@ -10,7 +15,6 @@ import time
 from pathlib import Path
 
 try:
-    from .run_openmm_equilibration import atomic_write_json
     from .run_openmm_equilibration_smoke import (
         ca_indices,
         coordinates_nm,
@@ -20,7 +24,6 @@ try:
         steps_for_duration,
     )
 except ImportError:
-    from run_openmm_equilibration import atomic_write_json
     from run_openmm_equilibration_smoke import (
         ca_indices,
         coordinates_nm,
@@ -30,53 +33,18 @@ except ImportError:
         steps_for_duration,
     )
 
-
-def sha256(path: Path) -> str:
-    digest = hashlib.sha256()
-    with path.open("rb") as handle:
-        for block in iter(lambda: handle.read(1024 * 1024), b""):
-            digest.update(block)
-    return digest.hexdigest().upper()
+from qubo_receptor_ensemble.io import file_sha256 as sha256  # noqa: F401
+from qubo_receptor_ensemble.md import (  # noqa: F401
+    atomic_write_json,
+    chunk_filename,
+    initialize_production_progress as initialize_progress,
+    validate_production_progress as validate_progress,
+    validate_schedule,
+)
 
 
 def production_steps(duration_ns: float, timestep_fs: float) -> int:
     return steps_for_duration(duration_ns * 1000.0, timestep_fs)
-
-
-def validate_schedule(
-    total_steps: int, metrics_steps: int, frame_steps: int, checkpoint_steps: int
-) -> None:
-    if not (total_steps % checkpoint_steps == 0):
-        raise ValueError("production duration must be an exact multiple of checkpoint interval")
-    if checkpoint_steps % metrics_steps or checkpoint_steps % frame_steps:
-        raise ValueError("checkpoint interval must be a multiple of metric and frame intervals")
-    if frame_steps % metrics_steps:
-        raise ValueError("frame interval must be a multiple of metrics interval")
-
-
-def chunk_filename(prefix: str, start_ps: float, end_ps: float) -> str:
-    return f"{prefix}_{start_ps:010.3f}_{end_ps:010.3f}ps.dcd"
-
-
-def initialize_progress(experiment_id: str) -> dict[str, object]:
-    return {
-        "schema_version": "1.0",
-        "experiment_id": experiment_id,
-        "status": "running",
-        "completed_steps": 0,
-        "records": [],
-        "completed_trajectory_chunks": [],
-    }
-
-
-def validate_progress(progress: dict[str, object], total_steps: int) -> None:
-    completed = int(progress.get("completed_steps", -1))
-    if completed < 0 or completed > total_steps:
-        raise ValueError("invalid production completed_steps")
-    if not isinstance(progress.get("records"), list):
-        raise ValueError("production progress records must be a list")
-    if not isinstance(progress.get("completed_trajectory_chunks"), list):
-        raise ValueError("completed_trajectory_chunks must be a list")
 
 
 def write_metrics(path: Path, records: list[dict[str, object]]) -> None:

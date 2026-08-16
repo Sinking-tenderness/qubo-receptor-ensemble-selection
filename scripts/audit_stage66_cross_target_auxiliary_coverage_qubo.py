@@ -2,6 +2,12 @@
 
 from __future__ import annotations
 
+# --- src bootstrap (bare-checkout import path) ---
+import sys as _sys
+from pathlib import Path as _Path
+
+_sys.path.insert(0, str(_Path(__file__).resolve().parents[1] / "src"))
+from qubo_receptor_ensemble.io import read_json  # noqa: F401 (deduped)
 import argparse
 import csv
 import hashlib
@@ -31,11 +37,6 @@ def canonical_sha256(value: Any) -> str:
     return hashlib.sha256(payload).hexdigest().upper()
 
 
-def read_json(path: Path) -> dict[str, Any]:
-    value = json.loads(path.read_text(encoding="ascii"))
-    if not isinstance(value, dict):
-        raise ValueError(f"JSON root must be an object: {path}")
-    return value
 
 
 def read_csv(path: Path) -> list[dict[str, str]]:

@@ -2,6 +2,11 @@
 
 from __future__ import annotations
 
+# --- src bootstrap (bare-checkout import path) ---
+import sys as _sys
+from pathlib import Path as _Path
+
+_sys.path.insert(0, str(_Path(__file__).resolve().parents[1] / "src"))
 import argparse
 import csv
 import hashlib
@@ -30,62 +35,15 @@ except ImportError:
         steps_for_duration,
     )
 
-
-def sha256(path: Path) -> str:
-    digest = hashlib.sha256()
-    with path.open("rb") as handle:
-        for block in iter(lambda: handle.read(1024 * 1024), b""):
-            digest.update(block)
-    return digest.hexdigest().upper()
-
-
-def atomic_write_json(path: Path, value: dict[str, object]) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    temporary = path.with_suffix(path.suffix + ".tmp")
-    temporary.write_text(json.dumps(value, indent=2, ensure_ascii=True) + "\n", encoding="ascii")
-    temporary.replace(path)
-
-
-def write_metrics(path: Path, records: list[dict[str, object]]) -> None:
-    if not records:
-        raise ValueError("cannot write an empty metrics table")
-    path.parent.mkdir(parents=True, exist_ok=True)
-    with path.open("w", encoding="utf-8", newline="") as handle:
-        writer = csv.DictWriter(handle, fieldnames=list(records[0]))
-        writer.writeheader()
-        writer.writerows(records)
-
-
-def output_paths(outputs: dict[str, object]) -> dict[str, Path]:
-    return {key: Path(str(value)) for key, value in outputs.items()}
-
-
-def initialize_progress(experiment_id: str, minimized_record: dict[str, object]) -> dict[str, object]:
-    return {
-        "schema_version": "1.0",
-        "experiment_id": experiment_id,
-        "status": "running",
-        "phase": "NVT",
-        "nvt_completed_steps": 0,
-        "npt_completed_steps": 0,
-        "records": [minimized_record],
-    }
-
-
-def validate_progress(progress: dict[str, object]) -> None:
-    if progress.get("phase") not in {"NVT", "NPT", "complete"}:
-        raise ValueError("progress phase must be NVT, NPT, or complete")
-    for key in ("nvt_completed_steps", "npt_completed_steps"):
-        if int(progress.get(key, -1)) < 0:
-            raise ValueError(f"invalid progress counter: {key}")
-    if not isinstance(progress.get("records"), list):
-        raise ValueError("progress records must be a list")
-
-
-def add_time_fields(record: dict[str, object], phase_offset_ps: float) -> dict[str, object]:
-    result = dict(record)
-    result["total_elapsed_ps"] = round(phase_offset_ps + float(record["elapsed_ps"]), 4)
-    return result
+from qubo_receptor_ensemble.io import file_sha256 as sha256  # noqa: F401
+from qubo_receptor_ensemble.md import (  # noqa: F401
+    add_time_fields,
+    atomic_write_json,
+    initialize_progress,
+    output_paths,
+    validate_progress,
+    write_metrics,
+)
 
 
 def main() -> int:
