@@ -98,11 +98,11 @@ abl1/
 ligand_id,smiles,label,source,target_id
 ```
 
-清单从 `.ism` 文件构建。构建脚本在 git 历史中（`eb958ea` 删除，`eb958ea^` 可恢复）：
+清单从 `.ism` 文件构建，使用 `scripts/` 下的两个脚本：
 
 ```bash
-git show eb958ea^:scripts/build_dude_ligand_manifest.py > scripts/build_dude_ligand_manifest.py
-git show eb958ea^:scripts/make_dude_subset.py > scripts/make_dude_subset.py
+python scripts/make_dude_subset.py --help
+python scripts/build_dude_ligand_manifest.py --help
 ```
 
 - `make_dude_subset.py`：按靶点从 `.ism` 抽活性/诱饵子集（可指定数量与种子）。
@@ -214,8 +214,7 @@ python scripts/analyze_md_trajectory.py --config configs/xxx_traj_qc.json
 conda activate qubo-receptor-ensemble
 python -m pip install -e .
 
-# 数据包 → 配体清单（先恢复构建脚本）
-git show eb958ea^:scripts/build_dude_ligand_manifest.py > scripts/build_dude_ligand_manifest.py
+# 数据包 → 配体清单
 tar -xzf data/abl1.tar.gz -C data/
 python scripts/build_dude_ligand_manifest.py --help   # 按脚本参数生成 ligands.csv
 
