@@ -154,20 +154,33 @@ python scripts/workflow.py run dock-vina -- --help
 python scripts/workflow.py run dock-vina -- <参数...>
 ```
 
-### 5.1 对接
+### 5.1 对接（Uni-Dock）
+
+对接引擎为 **Uni-Dock 1.1.3**（GPU）。环境与安装：
 
 ```bash
-# CPU AutoDock Vina 1.2.7（官方打分）
-python scripts/batch_vina_docking_parallel.py \
-  --manifest pdbqt_manifest.csv --vina-exe vina --receptor receptor.pdbqt --receptor-id r1 \
-  --config box.cfg --output-dir poses/ --log-dir logs/ --score-table scores.csv \
-  --workers 8 --base-seed 20260709 --resume
-
-# GPU Uni-Dock（实验性，不混入官方矩阵）
-python scripts/experimental/unidock/run_unidock_gpu_equivalence.py --help
+conda env create -f environment/stage05_unidock_gpu.yml   # 环境 qubo-unidock，含 unidock=1.1.3
+conda activate qubo-unidock
 ```
 
-box.cfg 键：`center_x/y/z, size_x/y/z, exhaustiveness, num_modes[, cpu]`。
+生产入口在 `scripts/experimental/unidock/`，每个靶点一个生产执行器（`run_stageXX_<target>_production.py`），
+以 MK14 Train-696 为例：
+
+```bash
+python scripts/experimental/unidock/run_stage09_mk14_train696_production.py \
+  --config configs/stage09_mk14_train696_unidock113_production.json \
+  --root . --unidock <unidock可执行文件> --resume
+```
+
+参数：`--config`（预注册配置）、`--root`（仓库根）、`--unidock`（可执行路径）、`--resume`、
+`--seed-id`、`--receptor-id`、`--audit-only`、`--finalize-only`。
+
+Uni-Dock 三个搜索 profile：`fast` / `balance` / `detail`，在配置的 `search` 段指定；
+生产矩阵使用确认过的 profile（如 enhanced 1024/80），主评价指标 BEDROC20。
+
+CPU 参考：早期官方矩阵（CDK2/MK14 早期 stage）由 AutoDock Vina 1.2.7 生成，
+`scripts/batch_vina_docking_parallel.py` 仍可用作 CPU 基准；Uni-Dock 与 Vina 是不同引擎，
+分数不混用。
 
 ### 5.2 打分矩阵
 
@@ -226,8 +239,9 @@ python scripts/batch_prepare_ligand_pdbqt_parallel.py --input-manifest sdf3d.csv
 # 受体准备
 python scripts/prepare_receptor.py --input-pdb data/abl1/receptor.pdb --chain A --protein-only-output protein.pdb --prepared-pdb-output prep.pdb --pdbqt-output receptor.pdbqt --summary-output receptor.json
 
-# 对接
-python scripts/batch_vina_docking_parallel.py --manifest pdbqt.csv --vina-exe vina --receptor receptor.pdbqt --receptor-id r1 --config box.cfg --output-dir poses --log-dir logs --score-table scores.csv --workers 8
+# 对接（Uni-Dock，GPU）
+conda activate qubo-unidock
+python scripts/experimental/unidock/run_stage09_mk14_train696_production.py --config configs/stage09_mk14_train696_unidock113_production.json --root . --unidock unidock --resume
 
 # 矩阵 + 评估
 python scripts/build_score_matrix.py --score-table scores.csv --long-output long.csv --matrix-output matrix.csv --summary-output matrix.json
