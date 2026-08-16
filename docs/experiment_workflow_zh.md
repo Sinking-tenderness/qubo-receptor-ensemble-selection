@@ -178,9 +178,14 @@ python scripts/experimental/unidock/run_stage09_mk14_train696_production.py \
 Uni-Dock 三个搜索 profile：`fast` / `balance` / `detail`，在配置的 `search` 段指定；
 生产矩阵使用确认过的 profile（如 enhanced 1024/80），主评价指标 BEDROC20。
 
-CPU 参考：早期官方矩阵（CDK2/MK14 早期 stage）由 AutoDock Vina 1.2.7 生成，
-`scripts/batch_vina_docking_parallel.py` 仍可用作 CPU 基准；Uni-Dock 与 Vina 是不同引擎，
-分数不混用。
+CPU 参考：AutoDock Vina 1.2.7 的代码完整保留（与 Uni-Dock 是不同引擎，分数不混用）：
+
+| 文件 | 用途 |
+| --- | --- |
+| `scripts/batch_vina_docking_parallel.py` / `batch_vina_docking.py` | CPU Vina 批量对接（并行/单进程，可续跑） |
+| `scripts/run_vina_search_ladder.py` 等 run_vina_* | Vina 搜索参数诊断（ladder/robustness/warning） |
+| `scripts/aggregate_vina_seed_replicates.py` | 早期 CDK2 seed 聚合 schema |
+| `scripts/experimental/vinagpu/` | Vina-GPU 2.1 引擎工作区（等价性、确定性批处理、搜索深度诊断） |
 
 ### 5.2 打分矩阵
 
