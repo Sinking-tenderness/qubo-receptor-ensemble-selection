@@ -246,9 +246,6 @@ python -m compileall scripts src
 python scripts/workflow.py list
 ```
 
-- 缺 xgboost/openmm/gemmi/dimod 等依赖时，对应测试报 error，先建环境再判断。
-- 受限环境（沙箱）下 tmp_path 相关测试可能报 PermissionError，属环境限制。
-
 ## 7. 恢复历史脚本
 
 ```bash
@@ -256,10 +253,10 @@ git log --oneline -- scripts/
 git show eb958ea^:scripts/run_stage111_thrb_identity_adjudication.py > scripts/run_stage111_thrb_identity_adjudication.py
 ```
 
-## 8. 红线
+## 8. 科研纪律
 
-1. 不要用已看过的 EGFR/FA10/MK14/PPARG 外层结果继续调 QUBO 系数、k 阈值或接触状态阈值。
-2. DUD-E `THRB` 实为 thrombin/F2（P00734，参考 PDB 1YPE），不是甲状腺受体；旧结构记录不可复用。
-3. 没有新的外部价值实例前，不租量子硬件、不写"量子优势"。
+1. 不用已看过的外层结果继续调 QUBO 系数、k 阈值或接触状态阈值，避免验证集变成训练集。
+2. 各靶点的身份与参考结构以预注册配置为准，不确定时先查交接文档。
+3. 没有新的外部价值实例前，不租量子硬件、不主张量子优势。
 
 详见 `reports/handover/successor_quickstart_20260815_zh.md`。
