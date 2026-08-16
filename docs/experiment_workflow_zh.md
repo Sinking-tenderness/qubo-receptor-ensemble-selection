@@ -143,7 +143,92 @@ python scripts/evaluate_redocking_rmsd.py --case-id demo --reference-sdf ligand.
 
 对称修正重原子 RMSD ≤ 2.0 Å 视为成功。
 
-## 5. 运行流水线
+## 5. 配置驱动：一套代码，新靶点零新代码
+
+代码只有一套（src 核心 + scripts 通用入口）。实验之间的差异全部放在
+数据（data/）、配置（configs/）、记录（results/）三层，不为新靶点写新脚本。
+
+```
+configs/stageXX_<target>_*.json   每个实验一份配置：数据路径、box、参数、种子、期望哈希
+data/<target>/                   每个靶点的数据：受体、配体清单、3D 结构
+results/runs/<experiment>/       每个实验的记录：打分、矩阵、摘要
+```
+
+### 5.1 新靶点实验步骤（模板）
+
+```bash
+# 1) 数据包 → 靶点目录
+tar -xzf data/<target>.tar.gz -C data/
+
+# 2) 配体清单（从 .ism 构建）
+python scripts/build_dude_ligand_manifest.py --help   # 生成 ligands.csv（target_id=<target>）
+
+# 3) 受体准备
+python scripts/prepare_receptor.py --input-pdb data/<target>/receptor.pdb --chain A \
+  --protein-only-output protein.pdb --prepared-pdb-output prep.pdb \
+  --pdbqt-output receptor.pdbqt --summary-output receptor.json
+
+# 4) 写配置 configs/<target>_production.json（模板见 5.2），提交 git
+
+# 5) 对接（Uni-Dock，配置驱动）
+conda activate qubo-unidock
+python -m scripts.experimental.unidock.run_unidock_gpu_equivalence \
+  --config configs/<target>_production.json --root . --unidock unidock --resume
+
+# 6) 矩阵 + 评估 + 组合选择（见第 6 章）
+```
+
+对接入口 `scripts/experimental/unidock/run_unidock_gpu_equivalence.py` 是通用引擎入口，
+参数只有 `--config/--root/--unidock/--resume/--audit-only`，靶点差异全部在配置里。
+保留的 `run_stage09_mk14_train696_production.py` 是 MK14 的历史封装，可作参照。
+
+### 5.2 生产配置模板
+
+```json
+{
+  "schema_version": "1.0",
+  "experiment_id": "<target>-production-v1",
+  "purpose": "train-only <target> production docking",
+  "data_boundary": {
+    "allowed_split": "train",
+    "validation_rows_permitted": 0,
+    "test_rows_permitted": 0
+  },
+  "inputs": {
+    "receptor_manifest": {"path": "data/processed/<target>_receptor_manifest.csv", "sha256": "<输入文件哈希>"},
+    "ligand_manifest":   {"path": "data/processed/<target>_pdbqt_manifest.csv",  "sha256": "<输入文件哈希>"},
+    "seeds": [{"seed_id": "seed0", "base_seed": 20260801}]
+  },
+  "expected": {
+    "receptor_count": 1,
+    "ligand_count": 200,
+    "label_counts": {"active": 100, "decoy": 100},
+    "seed_count": 1,
+    "pair_count": 200
+  },
+  "unidock": {
+    "executable": "unidock",
+    "required_package_version": "1.1.3",
+    "profile_id": "enhanced",
+    "scoring": "vina",
+    "exhaustiveness": 1024,
+    "max_step": 80,
+    "refine_step": 5,
+    "num_modes": 1,
+    "box": {"center_x": 0.0, "center_y": 0.0, "center_z": 0.0,
+            "size_x": 22, "size_y": 24, "size_z": 32}
+  },
+  "outputs": {
+    "run_directory": "results/runs/<target>_production",
+    "scores_csv": "results/runs/<target>_production/scores.csv",
+    "summary_json": "results/runs/<target>_production/summary.json"
+  }
+}
+```
+
+配置字段以 `configs/stage09_mk14_train696_unidock113_production.json` 为完整参照。
+
+## 6. 运行流水线
 
 supported 流程统一从 `workflow.py` 出发：
 
@@ -154,7 +239,7 @@ python scripts/workflow.py run dock-vina -- --help
 python scripts/workflow.py run dock-vina -- <参数...>
 ```
 
-### 5.1 对接（Uni-Dock）
+### 6.1 对接（Uni-Dock）
 
 对接引擎为 **Uni-Dock 1.1.3**（GPU）。环境与安装：
 
@@ -187,7 +272,7 @@ CPU 参考：AutoDock Vina 1.2.7 的代码完整保留（与 Uni-Dock 是不同�
 | `scripts/aggregate_vina_seed_replicates.py` | 早期 CDK2 seed 聚合 schema |
 | `scripts/experimental/vinagpu/` | Vina-GPU 2.1 引擎工作区（等价性、确定性批处理、搜索深度诊断） |
 
-### 5.2 打分矩阵
+### 6.2 打分矩阵
 
 ```bash
 # 单 seed：代表分（pose_rank_1 或 min_score）+ 长表/宽矩阵
@@ -197,7 +282,7 @@ python scripts/build_score_matrix.py --score-table scores.csv --long-output long
 python scripts/aggregate_seed_replicates.py --config configs/xxx_aggregate.json
 ```
 
-### 5.3 筛选评估
+### 6.3 筛选评估
 
 ```bash
 python scripts/evaluate_virtual_screening.py --score-table scores.csv --ranking-output ranked.csv --metrics-output metrics.json --top-fractions 0.01 0.05 --bedroc-alpha 20
@@ -205,7 +290,7 @@ python scripts/evaluate_virtual_screening.py --score-table scores.csv --ranking-
 
 指标：ROC-AUC（pairwise）、PR-AUC、BEDROC20、EF1%/5%/10%、bootstrap 95% CI。
 
-### 5.4 受体组合选择
+### 6.4 受体组合选择
 
 ```bash
 # 原型：穷举小 QUBO 子集（train 分片内）
@@ -217,7 +302,7 @@ python scripts/run_development_scaffold_cv_gate.py --config configs/xxx_cv_gate.
 
 选择方法只在 train 分片内拟合；locked test 标签在预注册门通过前锁定。
 
-### 5.5 分子动力学
+### 6.5 分子动力学
 
 ```bash
 python scripts/build_openmm_system.py --protocol configs/xxx_md.json --manifest-output build.json --solvated-pdb-output solvated.pdb --system-xml-output system.xml
@@ -226,7 +311,7 @@ python scripts/run_openmm_production.py --config configs/xxx_prod.json --resume
 python scripts/analyze_md_trajectory.py --config configs/xxx_traj_qc.json
 ```
 
-### 5.6 完整最小示例
+### 6.6 完整最小示例
 
 ```bash
 conda activate qubo-receptor-ensemble
@@ -256,7 +341,7 @@ python scripts/evaluate_virtual_screening.py --score-table long.csv --ranking-ou
 python scripts/solve_qubo_receptor_subset.py --matrix matrix.csv --split-manifest split.csv --receptor r1 r2 r3 --output qubo.json --target-size 2
 ```
 
-## 6. 验证与回归
+## 7. 验证与回归
 
 ```bash
 python -m pytest -q
@@ -264,14 +349,14 @@ python -m compileall scripts src
 python scripts/workflow.py list
 ```
 
-## 7. 恢复历史脚本
+## 8. 恢复历史脚本
 
 ```bash
 git log --oneline -- scripts/
 git show eb958ea^:scripts/run_stage111_thrb_identity_adjudication.py > scripts/run_stage111_thrb_identity_adjudication.py
 ```
 
-## 8. 科研纪律
+## 9. 科研纪律
 
 1. 不用已看过的外层结果继续调 QUBO 系数、k 阈值或接触状态阈值，避免验证集变成训练集。
 2. 各靶点的身份与参考结构以预注册配置为准，不确定时先查交接文档。
