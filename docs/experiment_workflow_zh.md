@@ -64,9 +64,55 @@ conda env create -f environment/stage03_openmm.yml
 
 ## 4. 数据准备
 
-### 4.1 配体（SMILES → 3D SDF → PDBQT）
+### 4.1 数据包解压
 
-输入：配体清单 CSV，列 `ligand_id, smiles, label, source, target_id`。
+数据包是 tar.gz，位于本地 `data/`（不入 git）或外部完整数据包目录：
+
+```
+data/abl1.tar.gz   data/braf.tar.gz   data/cdk2.tar.gz   data/egfr.tar.gz
+```
+
+解压：
+
+```bash
+cd data
+tar -xzf abl1.tar.gz
+```
+
+解压后每个靶点目录包含：
+
+```
+abl1/
+├── receptor.pdb           # 受体结构
+├── crystal_ligand.mol2    # 共晶配体（重对接验证用）
+├── actives_final.ism      # DUD-E 活性 SMILES（一行一个）
+├── decoys_final.ism       # DUD-E 诱饵 SMILES（一行一个）
+└── actives_final.mol2.gz / decoys_final.mol2.gz / *.sdf.gz   # 3D 结构
+```
+
+### 4.2 配体清单（ligands.csv）
+
+`check_ligand_smiles.py` 的输入是配体清单 CSV，核心列：
+
+```
+ligand_id,smiles,label,source,target_id
+```
+
+清单从 `.ism` 文件构建。构建脚本在 git 历史中（`eb958ea` 删除，`eb958ea^` 可恢复）：
+
+```bash
+git show eb958ea^:scripts/build_dude_ligand_manifest.py > scripts/build_dude_ligand_manifest.py
+git show eb958ea^:scripts/make_dude_subset.py > scripts/make_dude_subset.py
+```
+
+- `make_dude_subset.py`：按靶点从 `.ism` 抽活性/诱饵子集（可指定数量与种子）。
+- `build_dude_ligand_manifest.py`：把 `actives_final.ism` / `decoys_final.ism` 合成为
+  `ligand_id,smiles,label,source,target_id` 清单 CSV。
+
+自建配体时，自行准备含 5 列的 CSV（`source` 填来源库名，`target_id` 填靶点标识）。
+格式参照仓库历史样例 `data/processed/stage05_mk14_development_120a120d.csv`。
+
+### 4.3 配体准备（SMILES → 3D SDF → PDBQT）
 
 ```bash
 # ① SMILES 审计（RDKit 解析、去重、理化性质统计）
@@ -79,7 +125,7 @@ python scripts/prepare_ligand_3d_sdf.py --input audited.csv --sdf-dir sdf/ --man
 python scripts/batch_prepare_ligand_pdbqt_parallel.py --input-manifest prep3d.csv --pdbqt-dir pdbqt/ --output-manifest pdbqt_manifest.csv --workers 4 --resume
 ```
 
-### 4.2 受体（PDB → 对齐 → PDBQT）
+### 4.4 受体（PDB → 对齐 → PDBQT）
 
 ```bash
 # ① Kabsch 刚性对齐（Cα 匹配）
@@ -89,7 +135,7 @@ python scripts/align_receptor_structure.py --reference ref.pdb --mobile mobile.p
 python scripts/prepare_receptor.py --input-pdb aligned.pdb --chain A --protein-only-output protein.pdb --prepared-pdb-output prepared.pdb --pdbqt-output receptor.pdbqt --summary-output summary.json
 ```
 
-### 4.3 共晶重对接验证
+### 4.5 共晶重对接验证
 
 ```bash
 python scripts/evaluate_redocking_rmsd.py --case-id demo --reference-sdf ligand.sdf --docked-pdbqt docked.pdbqt --pose-table-output poses.csv --summary-output rmsd.json
@@ -168,14 +214,27 @@ python scripts/analyze_md_trajectory.py --config configs/xxx_traj_qc.json
 conda activate qubo-receptor-ensemble
 python -m pip install -e .
 
+# 数据包 → 配体清单（先恢复构建脚本）
+git show eb958ea^:scripts/build_dude_ligand_manifest.py > scripts/build_dude_ligand_manifest.py
+tar -xzf data/abl1.tar.gz -C data/
+python scripts/build_dude_ligand_manifest.py --help   # 按脚本参数生成 ligands.csv
+
+# 配体准备
 python scripts/check_ligand_smiles.py --input ligands.csv --output audited.csv --summary audit.json
 python scripts/prepare_ligand_3d_sdf.py --input audited.csv --sdf-dir sdf --manifest sdf3d.csv
 python scripts/batch_prepare_ligand_pdbqt_parallel.py --input-manifest sdf3d.csv --pdbqt-dir pdbqt --output-manifest pdbqt.csv --workers 4
-python scripts/prepare_receptor.py --input-pdb aligned.pdb --chain A --protein-only-output protein.pdb --prepared-pdb-output prep.pdb --pdbqt-output receptor.pdbqt --summary-output receptor.json
 
+# 受体准备
+python scripts/prepare_receptor.py --input-pdb data/abl1/receptor.pdb --chain A --protein-only-output protein.pdb --prepared-pdb-output prep.pdb --pdbqt-output receptor.pdbqt --summary-output receptor.json
+
+# 对接
 python scripts/batch_vina_docking_parallel.py --manifest pdbqt.csv --vina-exe vina --receptor receptor.pdbqt --receptor-id r1 --config box.cfg --output-dir poses --log-dir logs --score-table scores.csv --workers 8
+
+# 矩阵 + 评估
 python scripts/build_score_matrix.py --score-table scores.csv --long-output long.csv --matrix-output matrix.csv --summary-output matrix.json
 python scripts/evaluate_virtual_screening.py --score-table long.csv --ranking-output ranked.csv --metrics-output metrics.json
+
+# 组合选择（train 分片内）
 python scripts/solve_qubo_receptor_subset.py --matrix matrix.csv --split-manifest split.csv --receptor r1 r2 r3 --output qubo.json --target-size 2
 ```
 
