@@ -1,148 +1,103 @@
 # QUBO Receptor Ensemble Selection
 
-Research code for QUBO-guided sparse receptor conformational ensemble
-selection from large AlphaFold/MD-derived conformer pools, with the goal of
-improving early enrichment in flexible virtual screening under a limited
-docking budget.
+面向受体构象子集选择的研究代码。当前主入口从配体结构和受体 manifest
+开始，在本机重新 docking，生成 score matrix 后执行 QUBO、评估和归档。
 
-## Research question
+## 运行环境和路径
 
-Can a QUBO formulation select a small, physically diverse receptor ensemble
-that matches or improves virtual-screening early enrichment compared with
-classical receptor-selection baselines?
+Uni-Dock 需要在 Linux 环境中执行。首次建立 Conda 环境、安装仓库包和检查依赖，请按[完整实验流程](docs/experiment_workflow_zh.md)第 1 节执行。仓库和数据路径通过变量提供：
 
-This project optimizes **receptor conformer subsets**. It does not claim to
-introduce ensemble docking, molecular docking, or ligand-pose QUBO methods.
+```bash
+REPO_ROOT=/path/to/qubo-receptor-ensemble-selection
+DATA_ROOT=/path/to/qubo_receptor_ensemble_experiment_data_20260815
 
-## Current status
+cd "$REPO_ROOT"
+test -d "$DATA_ROOT/data/raw"
+python --version
+command -v unidock
+```
 
-Stage 4 CDK2 development and its preregistered locked-test evaluation are
-complete. The fixed single-receptor protocol achieved ROC-AUC 0.806 on the
-independent 40-ligand CDK2 test; that test set is now permanently consumed and
-must not be reused for fitting.
+默认配置中的 `docking.executable` 为 `unidock`，从激活环境的 `PATH` 查找。
 
-Stage 5 MAPK14/p38alpha development and preregistered fresh validation are
-complete. The validation used 75 actives, 1,501 decoys, five receptor columns,
-three seeds, and 23,640 successful official AutoDock Vina 1.2.7 jobs. The
-pair-synergy QUBO passed the frozen fresh-validation checks against matched
-linear, exhaustive, and single-receptor comparators. However, QUBO and nested
-greedy selected the same three receptors and therefore made identical
-predictions. This supports the receptor subset, but it does not demonstrate a
-QUBO-over-greedy or quantum advantage. The test partition remains locked.
+## 快速运行
 
-A Train-160 Uni-Dock GPU pilot was fast but failed the frozen CPU-equivalence
-gate, so its scores are not mixed with official Vina matrices. The Stage 6
-AutoDock Vina-GPU 2.1 single-pair pilot also failed its complete frozen gate:
-aggregate scores were close, but two receptor-seed rank groups and the 5x speed
-threshold failed. Its hash-pinned deterministic-batch bridge subsequently
-reproduced all 2,400 GPU scores and pose hashes exactly and reached 7.536x
-recorded 32-vCPU throughput. Only a bounded fixed-search-depth diagnostic on
-the two failed consumed-train groups is now authorized.
+```bash
+CONFIG="$REPO_ROOT/configs/experiments/stage102a_fa10_full.json"
 
-See the [runtime and engine-migration assessment](reports/stage-05/docking_engine_runtime_and_migration_assessment.md)
-for measured CPU projections and the evidence that must be rebuilt after an
-engine change.
+python scripts/run_experiment.py validate \
+  --config "$CONFIG" \
+  --data-root "$DATA_ROOT"
+python scripts/run_experiment.py plan \
+  --config "$CONFIG" \
+  --data-root "$DATA_ROOT"
+python scripts/run_experiment.py run \
+  --config "$CONFIG" \
+  --data-root "$DATA_ROOT"
+```
 
-## Milestones
-
-- [x] Validate docking protocols by co-crystal redocking.
-- [x] Build reproducible active/decoy score matrices.
-- [x] Compare QUBO selection with linear, greedy, single-best, and exhaustive
-  development baselines.
-- [x] Freeze the MAPK14 marginal pair-synergy candidate on Train-696.
-- [x] Complete the preregistered fresh MAPK14 validation.
-- [x] Complete the isolated Vina-GPU 2.1 Train-160 equivalence pilot and
-  deterministic-batch execution bridge.
-- [ ] Complete the bounded Vina-GPU fixed-search-depth diagnostic and, only if
-  it selects a candidate, a full uniform-depth Train-160 confirmation.
-- [ ] Decide whether a separately preregistered locked-test release is
-  justified; no automatic release is allowed.
-
-## Repository layout
+默认流程为：
 
 ```text
-configs/       Versioned experiment configurations
-data/          Data manifests and documentation; large datasets stay local
-environment/   Reproducible software environments
-ligands/       Ligand preparation notes and small examples
-notebooks/     Exploratory analysis only
-receptors/     Receptor preparation notes and small examples
-reports/       Stage reports and research notes
-results/       Small summary tables and publication-ready figures
-scripts/       Command-line workflow entry points (thin wrappers)
-src/           Reusable Python package code (qubo_receptor_ensemble)
-tests/         Automated tests
+prepare -> dock -> aggregate -> build_problem -> solve -> evaluate -> persist
 ```
 
-The `src/qubo_receptor_ensemble/` package consolidates the reusable core:
+EGFR 使用 `configs/experiments/stage102a_egfr_full.json`。FA10 和 EGFR 示例
+分别使用 13 和 12 个受体、每个目标 600 个配体，以及 3 个 Uni-Dock seed。
 
-| Module | Contents |
-|---|---|
-| `io.py` | JSON/CSV I/O, file SHA-256, safe filenames |
-| `pdb.py` | PDB parsing, Kabsch alignment, receptor audits |
-| `screening.py` | Virtual-screening metrics (ROC-AUC, BEDROC, EF, bootstrap CI) |
-| `metrics.py` | Statistical helpers (Pearson correlation) |
-| `qubo.py` | QUBO receptor-subset formulation |
-| `docking.py` | Vina command building, mode parsing, redocking RMSD |
-| `matrix.py` | Score-matrix construction and seed aggregation |
-| `preparation.py` | Ligand 3D SDF and PDBQT preparation |
-| `ligand.py` | SMILES manifest auditing |
-| `md.py` | OpenMM system build, equilibration, production, trajectory QC |
+## 中间阶段继续
 
-Scripts under `scripts/` import from the package; a small bootstrap at the top
-of each wrapper makes it runnable from a bare checkout even without
-`pip install -e .`.
+跳过的阶段必须在配置 `paths` 中给出前置文件或目录，运行器不会自动搜索
+仓库中的旧矩阵：
 
-The repository retains experiment-specific scripts for hash-pinned
-reproducibility; those scripts that carry their own frozen SHA-256 checks are
-left untouched. Reusable core logic lives in the installed package
-``qubo_receptor_ensemble`` under ``src/``, and the supported command-line
-scripts are thin wrappers that delegate to it. New users should start from the
-supported catalog instead of guessing an execution order from filenames:
-
-```powershell
-python .\scripts\workflow.py list
-python .\scripts\workflow.py show dock-vina
+```bash
+python scripts/run_experiment.py run \
+  --config "$CONFIG" \
+  --data-root "$DATA_ROOT" \
+  --from aggregate \
+  --to persist
 ```
 
-See [the script guide](scripts/README.md) for the canonical pipeline and the
-boundary between supported, frozen, audit, and experimental commands.
+从 `aggregate` 开始至少需要准备好的 ligand manifest、receptor manifest 和
+score tables；从 `build_problem` 开始需要 primary matrix；从 `solve` 开始
+需要 problem；从 `evaluate` 开始需要 selection。
 
-## Environment
+默认 `docking.redock=true`、`docking.engine=unidock`。完整模式下不使用已有
+score matrix 代替 docking。只有显式使用
+`workflow_mode: "reference_replay"`，并提供已有 score tables 或 matrix，才
+属于重放流程。
 
-Create the initial Conda environment:
+## 目录
 
-```powershell
-conda env create -f environment/environment.yml
-conda activate qubo-receptor-ensemble
-python -m pip install -e .
-python -m pytest
+```text
+configs/experiments/  schema 3.0 的完整实验配置
+configs/pipelines/   schema 2.0 的旧 matrix replay 配置
+data/                 仓库内保留的小型输入和说明
+results/              仓库内已有结果，不作为默认新实验输入
+docs/                 实验流程和边界说明
+scripts/              命令行入口及兼容脚本
+src/                  可复用 Python 实现
+tests/                自动化测试
 ```
 
-Experiment configurations pin the docking engine, preparation tools, inputs,
-parameters, seeds, and expected hashes. Do not substitute an engine inside an
-existing score matrix or validation protocol.
+大规模新数据、原始 `.ism`、准备好的受体和运行结果位于 `--data-root` 指定
+的数据包。运行器自动记录配置快照、数量、引擎、seed、阶段状态和输出位置。
 
-## Data policy
+## 验证
 
-Large datasets, prepared ligand libraries, docking poses, molecular-dynamics
-trajectories, credentials, and machine-specific files are not committed.
-Every experiment should instead record source identifiers, download dates,
-software versions, parameters, random seeds, failures, and generated manifests.
+```bash
+cd "$REPO_ROOT"
+python -m pytest -q --basetemp /tmp/qubo-receptor-ensemble-selection-pytest
+python scripts/run_experiment.py --help
+git diff --check
+```
 
-## Incremental workflow
+FA10 的 `k=2` 和 EGFR 的 `k=1` 是当前 development 案例，不是跨蛋白通用
+规则。development/train 结果不能称为独立验证，也不能据此声称 QUBO 优势
+或量子优势。
 
-Each completed teaching or research module should end with a focused commit:
+详见 [实验流程](docs/experiment_workflow_zh.md)、[配置说明](configs/README.md)
+和 [脚本说明](scripts/README.md)。
 
-1. run the smallest relevant validation or test;
-2. update documentation and experiment manifests;
-3. review `git status` and the intended diff;
-4. commit only the files belonging to that module;
-5. push the commit to GitHub.
+## 许可
 
-See [the Stage 2 teaching prompt](reports/stage-02/STAGE_02_TEACHING_PROMPT.md)
-for the complete teaching plan with GitHub checkpoints at coherent milestones.
-
-## License
-
-MIT License. See [LICENSE](LICENSE).
+MIT License，见 [LICENSE](LICENSE)。

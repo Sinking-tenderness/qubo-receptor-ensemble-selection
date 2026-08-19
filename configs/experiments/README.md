@@ -1,20 +1,16 @@
 # 完整实验配置
 
-此目录包含 schema `3.0` 的完整实验配置。Uni-Dock 需要在 Linux 环境中执行，
-实验使用 `qubo-unidock` 环境；大规模输入和结果位于仓库外部的数据根目录：
-
-```text
-/mnt/e/Quant/qubo_receptor_ensemble_experiment_data_20260815
-```
+此目录包含 schema `3.0` 的完整实验配置。Uni-Dock 需要在 Linux 环境中执行。环境创建、仓库安装和检查步骤见[完整实验流程](../../docs/experiment_workflow_zh.md)第 1 节；大规模输入和结果位于 `DATA_ROOT` 指定的数据根目录。
 
 基本调用：
 
 ```bash
-conda activate qubo-unidock
-cd /mnt/e/Quant/qubo-receptor-ensemble-selection
+REPO_ROOT=/path/to/qubo-receptor-ensemble-selection
+DATA_ROOT=/path/to/qubo_receptor_ensemble_experiment_data_20260815
+cd "$REPO_ROOT"
 python scripts/run_experiment.py plan \
   --config configs/experiments/stage102a_fa10_full.json \
-  --data-root /mnt/e/Quant/qubo_receptor_ensemble_experiment_data_20260815
+  --data-root "$DATA_ROOT"
 ```
 
 配置约定：

@@ -11,18 +11,16 @@
 | `experiments/stage102a_fa10_full.json` | 13 | 600 | 120 / 480 | Uni-Dock | 2 |
 | `experiments/stage102a_egfr_full.json` | 12 | 600 | 120 / 480 | Uni-Dock | 1 |
 
-完整实验在 Linux 的 `qubo-unidock` 环境中执行。Uni-Dock 需要在 Linux 环境中执行：
+完整实验在 Linux 环境中执行。首次建立 Conda 环境、安装仓库包和检查依赖，请按[完整实验流程](../docs/experiment_workflow_zh.md)第 1 节执行。运行时使用以下路径变量：
 
 ```bash
-conda activate qubo-unidock
-cd /mnt/e/Quant/qubo-receptor-ensemble-selection
+REPO_ROOT=/path/to/qubo-receptor-ensemble-selection
+DATA_ROOT=/path/to/qubo_receptor_ensemble_experiment_data_20260815
+cd "$REPO_ROOT"
+test -d "$DATA_ROOT/data/raw"
 ```
 
-路径相对于命令行 `--data-root` 解析。当前数据根目录为：
-
-```text
-/mnt/e/Quant/qubo_receptor_ensemble_experiment_data_20260815
-```
+路径相对于命令行 `--data-root` 解析。默认配置中的 `docking.executable` 为 `unidock`，从激活环境的 `PATH` 查找。
 
 源数据、准备结果和 docking 结果可以全部位于该仓库外部的数据包，不需要
 复制进仓库。
@@ -59,9 +57,7 @@ cd /mnt/e/Quant/qubo-receptor-ensemble-selection
 `preselected_manifest` 只适用于明确冻结输入的其他实验或 replay。
 
 `redock` 默认为 `true`。完整模式下不能关闭它；关闭 redock 必须显式改为
-`workflow_mode: "reference_replay"`。支持的 engine 为 `unidock` 和
-`vina_cpu`。Uni-Dock 的 `executable` 应写为 `unidock` 或 Linux 环境中的
-绝对路径。
+`workflow_mode: "reference_replay"`。支持的 engine 为 `unidock` 和 `vina_cpu`。默认 `executable` 为 `unidock`，从激活环境的 `PATH` 查找。
 
 ## 阶段起点和前置路径
 
@@ -82,10 +78,10 @@ provenance 由程序自动记录，不要求用户手工填 SHA-256。
 ## 命令
 
 ```bash
-conda activate qubo-unidock
-cd /mnt/e/Quant/qubo-receptor-ensemble-selection
+REPO_ROOT=/path/to/qubo-receptor-ensemble-selection
+DATA_ROOT=/path/to/qubo_receptor_ensemble_experiment_data_20260815
+cd "$REPO_ROOT"
 
-DATA_ROOT=/mnt/e/Quant/qubo_receptor_ensemble_experiment_data_20260815
 CONFIG=configs/experiments/stage102a_fa10_full.json
 python scripts/run_experiment.py validate --config "$CONFIG" --data-root "$DATA_ROOT"
 python scripts/run_experiment.py plan --config "$CONFIG" --data-root "$DATA_ROOT"

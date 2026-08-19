@@ -26,18 +26,12 @@ primary median score matrix 开始，不执行配体准备或 docking：
 ## Linux 执行
 
 ```bash
-conda activate qubo-unidock
-cd /mnt/e/Quant/qubo-receptor-ensemble-selection
+REPO_ROOT=/path/to/qubo-receptor-ensemble-selection
+cd "$REPO_ROOT"
 
-python scripts/run_pipeline.py validate \
-  --config configs/pipelines/stage102a_fa10_development_selection.json \
-  --root .
-python scripts/run_pipeline.py plan \
-  --config configs/pipelines/stage102a_fa10_development_selection.json \
-  --root .
-python scripts/run_pipeline.py run \
-  --config configs/pipelines/stage102a_fa10_development_selection.json \
-  --root .
+python scripts/run_pipeline.py validate --config configs/pipelines/stage102a_fa10_development_selection.json --root .
+python scripts/run_pipeline.py plan --config configs/pipelines/stage102a_fa10_development_selection.json --root .
+python scripts/run_pipeline.py run --config configs/pipelines/stage102a_fa10_development_selection.json --root .
 ```
 
 EGFR 使用同名 EGFR 配置。`plan` 和 `run --dry-run` 只生成 planned manifest，

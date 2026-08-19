@@ -1,78 +1,65 @@
-# Script Guide
+# 脚本说明
 
-The repository preserves experiment-specific scripts because reports pin their
-paths and SHA-256 values. They are research records, not 133 alternative ways
-to run the current pipeline.
+## 当前主入口
 
-Start with the supported workflow catalog:
+完整实验使用 `run_experiment.py`。Uni-Dock 需要在 Linux 环境中执行。首次建立 Conda 环境、安装仓库包和检查依赖，请按[完整实验流程](../docs/experiment_workflow_zh.md)第 1 节执行：
 
 ```bash
-python scripts/workflow.py list
-python scripts/workflow.py show dock-vina
-python scripts/workflow.py run dock-vina -- --help
+REPO_ROOT=/path/to/qubo-receptor-ensemble-selection
+DATA_ROOT=/path/to/qubo_receptor_ensemble_experiment_data_20260815
+cd "$REPO_ROOT"
+test -d "$DATA_ROOT/data/raw"
+
+CONFIG="$REPO_ROOT/configs/experiments/stage102a_fa10_full.json"
+
+python scripts/run_experiment.py validate --config "$CONFIG" --data-root "$DATA_ROOT"
+python scripts/run_experiment.py plan --config "$CONFIG" --data-root "$DATA_ROOT"
+python scripts/run_experiment.py run --config "$CONFIG" --data-root "$DATA_ROOT"
 ```
 
-## Supported Pipeline
+`run_experiment.py` 会自动加载仓库内的 `src`，不需要手工设置
+`PYTHONPATH`。`--data-root` 应指向前面设置的 `$DATA_ROOT`。
 
-| Step | Preferred script |
-|---|---|
-| Audit SMILES | `check_ligand_smiles.py` |
-| Generate ligand 3D SDF | `prepare_ligand_3d_sdf.py` |
-| Prepare ligand PDBQT | `batch_prepare_ligand_pdbqt_parallel.py` |
-| Align receptor | `align_receptor_structure.py` |
-| Prepare receptor PDBQT | `prepare_receptor.py` |
-| Validate redocking | `evaluate_redocking_rmsd.py` |
-| Run official CPU Vina | `batch_vina_docking_parallel.py` |
-| Build one-seed score matrix | `build_score_matrix.py` |
-| Aggregate current seed schema | `aggregate_seed_replicates.py` |
-| Calculate screening metrics | `evaluate_virtual_screening.py` |
-| Fit development-only ensembles | `run_development_scaffold_cv_gate.py` |
-| Fit a new EnOpt-style tree baseline | `fit_enopt_xgboost_baseline.py` |
+可用命令：
 
-`batch_vina_docking.py` remains in place because the parallel runner imports
-its parsing and command helpers. New screening jobs should use the parallel
-entry point. `aggregate_vina_seed_replicates.py` is the older CDK2 aggregation
-schema; new Stage 5 work uses `aggregate_seed_replicates.py`.
+- `validate`：检查当前起始阶段需要的前置路径；
+- `plan`：展开阶段、engine、redock 和输出路径，不启动实验；
+- `run`：执行实际流程，支持 `--from`、`--to`、`--resume`、`--overwrite`。
 
-## Current MAPK14 Mainline
+## 阶段实现
 
-The active confirmatory path is the frozen official AutoDock Vina 1.2.7 fresh
-validation workflow:
+核心实现位于 `src/qubo_receptor_ensemble/`：
 
-1. `build_stage05_mk14_fresh_validation_remote_bundle.py`
-2. `run_stage05_mk14_fresh_validation_remote.sh`
-3. admission and hash audit
-4. `evaluate_stage05_mk14_fresh_validation.py` exactly once
+- `full_workflow.py`：schema 3.0 配置、源数据选择和阶段边界；
+- `docking_adapters.py`：Uni-Dock/VinaCPU 适配器；
+- `experiment.py`：准备、docking、聚合、QUBO、评估和归档；
+- `matrix.py`：long score table、seed 聚合和矩阵构造。
 
-The evaluation script is intentionally restricted in `workflow.py`. The
-locked test is not part of this sequence.
+旧脚本仍保留为兼容或独立工具：
 
-For the authorized three-instance layout,
-`run_stage05_mk14_fresh_validation_seed1_64vcpu_remote.sh` runs only seed1
-with 32 two-CPU Vina processes. It audits completion and creates a compact
-result archive but does not aggregate seeds or calculate validation metrics.
+- `run_pipeline.py`：schema 2.0 matrix replay，不是完整实验入口；
+- `prepare_ligand_3d_sdf.py`、`batch_prepare_ligand_pdbqt_parallel.py`：通用配体准备工具；
+- `prepare_receptor.py`：通用受体准备和审计工具；
+- `batch_vina_docking_parallel.py`：旧的 VinaCPU 单受体批量入口；
+- `build_score_matrix.py`、`aggregate_seed_replicates.py`：独立矩阵工具。
 
-The supplementary EnOpt-style XGBoost models have already been fitted and
-frozen on Train-696. Do not rerun or retune them. After the primary validation
-result is finalized, `evaluate_enopt_xgboost_fresh_validation.py` may be run
-once with its preregistered configuration. It cannot change the primary gate.
+新实验不要把旧 matrix replay 的输入、seed、box 或运行结果混入完整流程。
+不同 engine 的 score 也不能混在同一次聚合中。
 
-## Other Script Classes
+## 旧入口的 Linux 调用
 
-- `build_stage*`, `run_stage*`, and `merge_stage*` files are frozen experiment
-  orchestration. Reuse their general modules instead of copying a numbered
-  experiment wrapper for a new target.
-- `audit_*` files independently verify an existing result. They are not data
-  preparation or docking entry points.
-- `diagnose_*` files investigate a declared failure and must not overwrite the
-  source score matrix.
-- OpenMM scripts form a separate receptor-generation workflow; they are not
-  required to rerun the current MAPK14 fresh validation.
-- Unsupported GPU docking experiments live under `experimental/`.
+旧 schema 2.0 pipeline 只从已有矩阵开始：
 
-## Adding New Work
+```bash
+cd "$REPO_ROOT"
 
-Prefer a JSON configuration plus an existing general runner. Add a new Python
-script only when the operation itself is new. New supported operations must be
-added to `workflow.py`; one-off diagnostics belong under `experimental/` or in
-a stage report with an explicit stopping rule.
+python scripts/run_pipeline.py validate \
+  --config configs/pipelines/stage102a_fa10_development_selection.json \
+  --root .
+python scripts/run_pipeline.py plan \
+  --config configs/pipelines/stage102a_fa10_development_selection.json \
+  --root .
+python scripts/run_pipeline.py run \
+  --config configs/pipelines/stage102a_fa10_development_selection.json \
+  --root .
+```
