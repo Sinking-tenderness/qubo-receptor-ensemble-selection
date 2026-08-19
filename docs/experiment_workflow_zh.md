@@ -77,6 +77,16 @@ prepare -> dock -> aggregate -> build_problem -> solve -> evaluate -> persist
 6. `evaluate`：在配置指定的数据划分上计算评估指标。
 7. `persist`：保存选择结果、评估结果、配置快照和运行 manifest。
 
+默认选择目标是 `BEDROC20`，即 `utility_metric: "bedroc"` 和
+`bedroc_alpha: 20.0`。ROC-AUC 仍会作为辅助指标记录，但不参与默认的
+QUBO 选择或自适应 `k` 决策。
+
+如果需要在同一套 docking 矩阵上尝试多个历史方法，可以把 `problem` 写成
+`mode: "compare"` 并列出 `methods`。每种方法分别写入
+`methods/<method_id>/problem.json`、`selection.json` 和 `evaluation.json`，同时
+在运行根目录生成 `method_capabilities.json` 与 `comparison.json`。这种比较从
+`build_problem` 开始即可，不需要重新 prepare、dock 或 aggregate。
+
 `validate` 只检查输入，`plan` 只展开计划；二者都不会启动结构准备或
 docking。
 

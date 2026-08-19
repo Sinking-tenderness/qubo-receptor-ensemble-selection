@@ -1,8 +1,8 @@
 {
   "schema_version": "3.0",
-  "experiment_id": "stage102a-egfr-full-local",
+  "experiment_id": "stage102a-method-comparison-template",
   "target_id": "EGFR",
-  "workflow_mode": "full",
+  "workflow_mode": "reference_replay",
   "pipeline": [
     "prepare",
     "dock",
@@ -12,7 +12,7 @@
     "evaluate",
     "persist"
   ],
-  "start_stage": "prepare",
+  "start_stage": "build_problem",
   "end_stage": "persist",
   "selection": {
     "receptor_count": 12,
@@ -49,22 +49,14 @@
     "base_seed": 20260818
   },
   "docking": {
-    "redock": true,
+    "redock": false,
     "engine": "unidock",
     "executable": "unidock",
-    "seeds": [
-      20260821,
-      20260822,
-      20260823
-    ],
+    "seeds": [20260821, 20260822, 20260823],
     "box": {
       "method": "ligand_bounds",
       "padding": 5.0,
-      "minimum_size": [
-        22.0,
-        22.0,
-        30.0
-      ]
+      "minimum_size": [22.0, 22.0, 30.0]
     },
     "parameters": {
       "scoring": "vina",
@@ -78,16 +70,27 @@
   },
   "problem": {
     "type": "receptor_subset",
-    "strategy": "qubo",
-    "target_size": 1,
+    "mode": "compare",
+    "target_size": 3,
     "utility_metric": "bedroc",
     "bedroc_alpha": 20.0,
-    "utility_normalization": "none",
     "weights": {
       "redundancy": 0.25,
       "count": 0.1,
       "size": 10.0
-    }
+    },
+    "methods": [
+      {"id": "basic_utility"},
+      {"id": "pair_utility"},
+      {"id": "pair_synergy"},
+      {"id": "bedroc20_pair_synergy", "decoy_penalty_lambda": 1.5},
+      {"id": "rank_sensitive_pair"},
+      {"id": "normalized_coverage"},
+      {"id": "auxiliary_coverage"},
+      {"id": "rankbin_bedroc20", "bin_count": 32},
+      {"id": "structure_aware"},
+      {"id": "signed_hubo"}
+    ]
   },
   "solve": {
     "backend": "exact"
@@ -105,15 +108,15 @@
     ]
   },
   "paths": {
-    "run_directory": "results/runs/stage102a_egfr_full_local",
+    "run_directory": "results/runs/stage102a_method_comparison_template",
     "prepared_ligand_manifest": "results/runs/stage102a_egfr_full_local/prepared_ligands.csv",
     "selected_receptor_manifest": "results/runs/stage102a_egfr_full_local/selected_receptors.csv",
     "docking_box": "results/runs/stage102a_egfr_full_local/docking_box.json",
     "score_tables": "results/runs/stage102a_egfr_full_local/score_tables",
     "matrices": "results/runs/stage102a_egfr_full_local/matrices",
     "primary_matrix": "results/runs/stage102a_egfr_full_local/matrices/primary_median_matrix.csv",
-    "problem": "results/runs/stage102a_egfr_full_local/problem.json",
-    "selection": "results/runs/stage102a_egfr_full_local/selection.json",
-    "evaluation": "results/runs/stage102a_egfr_full_local/evaluation.json"
+    "problem": "results/runs/stage102a_method_comparison_template/problem.json",
+    "selection": "results/runs/stage102a_method_comparison_template/selection.json",
+    "evaluation": "results/runs/stage102a_method_comparison_template/evaluation.json"
   }
 }

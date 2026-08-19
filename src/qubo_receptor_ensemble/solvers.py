@@ -6,6 +6,12 @@ import itertools
 from dataclasses import dataclass
 from typing import Protocol
 
+from .method_formulations import (
+    build_auxiliary_coverage_qubo,
+    build_rank_pair_qubo,
+    build_rankbin_qubo,
+)
+from .methods import check_method_capability, get_method_spec
 from .qubo import build_qubo, objective
 
 
@@ -138,6 +144,15 @@ def build_problem(
     train_rows = _validate_rows(rows, receptor_ids)
     parameters = dict(problem_config)
 
+    method_id = str(parameters.get("method_id", ""))
+    if strategy in {"qubo", "basic_qubo"} and not method_id:
+        method_id = "basic_utility"
+    elif strategy == "normalized_qubo" and not method_id:
+        method_id = "normalized_coverage"
+    elif strategy == "method_registry" and not method_id:
+        raise ProblemError("problem.method_id is required for method_registry")
+    parameters["method_id"] = method_id
+
     if strategy in {"qubo", "basic_qubo"}:
         target_size = _required_int(parameters, "target_size")
         if not 0 <= target_size <= len(receptor_ids):
@@ -145,18 +160,19 @@ def build_problem(
         weights = parameters.get("weights", {})
         if not isinstance(weights, dict):
             raise ProblemError("problem.weights must be an object")
-        formulation = {
-            "qubo": build_qubo(
-                list(train_rows),
-                list(receptor_ids),
-                target_size,
-                _float_parameter(parameters, "redundancy_weight", weights.get("redundancy", 0.25)),
-                _float_parameter(parameters, "count_weight", weights.get("count", 0.10)),
-                _float_parameter(parameters, "size_weight", weights.get("size", 1.0)),
-                str(parameters.get("utility_metric", "roc_auc")),
-                str(parameters.get("utility_normalization", "none")),
-            )
-        }
+        qubo = build_qubo(
+            list(train_rows),
+            list(receptor_ids),
+            target_size,
+            _float_parameter(parameters, "redundancy_weight", weights.get("redundancy", 0.25)),
+            _float_parameter(parameters, "count_weight", weights.get("count", 0.10)),
+            _float_parameter(parameters, "size_weight", weights.get("size", 1.0)),
+            str(parameters.get("utility_metric", "bedroc")),
+            str(parameters.get("utility_normalization", "none")),
+            _float_parameter(parameters, "bedroc_alpha", 20.0),
+        )
+        qubo["method_id"] = method_id
+        formulation = {"qubo": qubo}
     elif strategy == "normalized_qubo":
         from scripts.normalized_receptor_qubo import build_normalized_terms
 
@@ -170,6 +186,91 @@ def build_problem(
                 utility_metric,
             )
         }
+    elif strategy == "method_registry":
+        spec = get_method_spec(method_id)
+        capability = check_method_capability(
+            method_id,
+            train_rows,
+            parameters.get("available_inputs", ()),
+        )
+        if capability.status != "ready":
+            raise ProblemError(
+                f"method {method_id} is unsupported for current inputs: "
+                f"missing {', '.join(capability.missing)}"
+            )
+        target_size = _required_int(parameters, "target_size")
+        if not 0 <= target_size <= len(receptor_ids):
+            raise ProblemError("problem.target_size must be within the receptor pool")
+        if method_id == "basic_utility":
+            weights = parameters.get("weights", {})
+            if not isinstance(weights, dict):
+                raise ProblemError("problem.weights must be an object")
+            qubo = build_qubo(
+                list(train_rows),
+                list(receptor_ids),
+                target_size,
+                _float_parameter(parameters, "redundancy_weight", weights.get("redundancy", 0.25)),
+                _float_parameter(parameters, "count_weight", weights.get("count", 0.10)),
+                _float_parameter(parameters, "size_weight", weights.get("size", 1.0)),
+                str(parameters.get("utility_metric", "bedroc")),
+                str(parameters.get("utility_normalization", "none")),
+                _float_parameter(parameters, "bedroc_alpha", 20.0),
+            )
+            qubo["method_id"] = method_id
+            formulation = {"qubo": qubo, "method": spec.as_dict()}
+        elif method_id == "normalized_coverage":
+            from scripts.normalized_receptor_qubo import build_normalized_terms
+
+            formulation = {
+                "terms": build_normalized_terms(
+                    list(train_rows),
+                    list(receptor_ids),
+                    _float_parameter(parameters, "coverage_fraction", 0.10),
+                    str(parameters.get("utility_metric", "bedroc")),
+                ),
+                "method": spec.as_dict(),
+            }
+        elif method_id in {
+            "pair_utility",
+            "pair_synergy",
+            "bedroc20_pair_synergy",
+            "rank_sensitive_pair",
+        }:
+            formulation = {
+                "qubo": build_rank_pair_qubo(
+                    list(train_rows),
+                    list(receptor_ids),
+                    target_size,
+                    parameters,
+                    method_id,
+                ),
+                "method": spec.as_dict(),
+            }
+        elif method_id == "auxiliary_coverage":
+            formulation = {
+                "qubo": build_auxiliary_coverage_qubo(
+                    list(train_rows),
+                    list(receptor_ids),
+                    target_size,
+                    parameters,
+                ),
+                "method": spec.as_dict(),
+            }
+        elif method_id == "rankbin_bedroc20":
+            formulation = {
+                "qubo": build_rankbin_qubo(
+                    list(train_rows),
+                    list(receptor_ids),
+                    target_size,
+                    parameters,
+                ),
+                "method": spec.as_dict(),
+            }
+        else:
+            raise ProblemError(
+                f"method {method_id} is registered but has no current builder"
+            )
+        strategy = "normalized_qubo" if method_id == "normalized_coverage" else "qubo"
     else:
         raise ProblemError(f"unsupported problem strategy: {strategy}")
 
@@ -192,6 +293,8 @@ def _basic_qubo_result(
         "objective": float(value),
         "states_evaluated": states,
         "selection_rule": "minimum objective, then lexicographic subset",
+        "fixed_cardinality": bool(qubo.get("fixed_cardinality", False)),
+        "method_id": qubo.get("method_id", "basic_utility"),
     }
     return SolverResult(
         backend="exact",
@@ -244,11 +347,19 @@ class ExactSolverAdapter:
         qubo = problem.formulation["qubo"]
         assert isinstance(qubo, dict)
         target_size = _required_int(problem.parameters, "target_size")
-        candidates = [
-            (subset, objective(subset, qubo))
-            for size in range(len(problem.receptor_ids) + 1)
-            for subset in itertools.combinations(problem.receptor_ids, size)
-        ]
+        if bool(qubo.get("fixed_cardinality", False)):
+            candidates = [
+                (subset, objective(subset, qubo))
+                for subset in itertools.combinations(
+                    problem.receptor_ids, target_size
+                )
+            ]
+        else:
+            candidates = [
+                (subset, objective(subset, qubo))
+                for size in range(len(problem.receptor_ids) + 1)
+                for subset in itertools.combinations(problem.receptor_ids, size)
+            ]
         subset, value = min(candidates, key=lambda item: (item[1], item[0]))
         if len(subset) != target_size:
             raise ProblemError(
@@ -292,6 +403,8 @@ class GreedySolverAdapter:
                 "objective": float(value),
                 "states_evaluated": states,
                 "selection_rule": "greedy minimum objective, then lexicographic subset",
+                "fixed_cardinality": bool(qubo.get("fixed_cardinality", False)),
+                "method_id": qubo.get("method_id", "basic_utility"),
             },
         )
 
@@ -307,4 +420,11 @@ def solve_problem(problem: Problem, backend: str) -> SolverResult:
     adapter = _ADAPTERS.get(backend)
     if adapter is None:
         raise ProblemError(f"no solver adapter is registered for backend: {backend}")
+    method_id = str(problem.parameters.get("method_id", ""))
+    if method_id:
+        spec = get_method_spec(method_id)
+        if backend not in spec.supported_backends:
+            raise ProblemError(
+                f"method {method_id} does not support solver backend: {backend}"
+            )
     return adapter.solve(problem)

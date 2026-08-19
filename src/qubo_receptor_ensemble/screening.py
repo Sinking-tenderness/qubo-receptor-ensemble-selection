@@ -259,7 +259,11 @@ def build_metrics(
     return metrics
 
 
-def ranked_metrics_with_ids(data: dict[str, dict[str, object]], score_key: str = "score") -> dict[str, object]:
+def ranked_metrics_with_ids(
+    data: dict[str, dict[str, object]],
+    score_key: str = "score",
+    bedroc_alpha: float = 20.0,
+) -> dict[str, object]:
     # Vina scores are lower-is-better, so ascending docking score is the ranking order.
     ranked_ids = sorted(
         data,
@@ -275,15 +279,21 @@ def ranked_metrics_with_ids(data: dict[str, dict[str, object]], score_key: str =
     ]
     labels = [int(row["label"] == "active") for row in ranked]
     ranking_scores = [float(row["ranking_score"]) for row in ranked]
-    return {
+    if bedroc_alpha <= 0 or not math.isfinite(bedroc_alpha):
+        raise ValueError("bedroc_alpha must be a positive finite number")
+    bedroc_key = f"bedroc_alpha_{bedroc_alpha:g}"
+    values = {
         "ligand_count": len(ranked),
         "active_count": sum(labels),
         "roc_auc": roc_auc_pairwise(labels, ranking_scores),
         "pr_auc_average_precision": average_precision(ranked),
-        "bedroc_alpha_20": bedroc(ranked, 20.0),
         "EF1%": enrichment_factor(ranked, 0.01)["ef"],
         "EF5%": enrichment_factor(ranked, 0.05)["ef"],
         "EF10%": enrichment_factor(ranked, 0.10)["ef"],
         "top10_active_count": sum(row["label"] == "active" for row in ranked[:10]),
         "top10_ligand_ids": ranked_ids[:10],
     }
+    values[bedroc_key] = bedroc(ranked, bedroc_alpha)
+    if bedroc_alpha == 20.0:
+        values["bedroc_alpha_20"] = values[bedroc_key]
+    return values

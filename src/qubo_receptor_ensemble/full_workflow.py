@@ -4,11 +4,14 @@ from __future__ import annotations
 
 import json
 import csv
+import math
 import random
 from dataclasses import dataclass
 from collections import Counter, defaultdict
 from pathlib import Path
 from typing import Mapping
+
+from .methods import MethodRegistryError, get_method_spec
 
 FULL_WORKFLOW_STAGES = (
     "prepare",
@@ -413,6 +416,47 @@ def _validate_docking(config: Mapping[str, object]) -> None:
     _mapping(docking.get("parameters", {}), "docking.parameters")
 
 
+def _validate_problem(config: Mapping[str, object]) -> None:
+    problem = _mapping(config.get("problem"), "problem")
+    _string(problem.get("type"), "problem.type")
+    mode = str(problem.get("mode", "single"))
+    if mode not in {"single", "compare"}:
+        raise ConfigError("problem.mode must be single or compare")
+    _string(
+        problem.get("strategy", "method_registry" if mode == "compare" else "qubo"),
+        "problem.strategy",
+    )
+    utility_metric = str(problem.get("utility_metric", "bedroc"))
+    if utility_metric not in {"roc_auc", "bedroc", "ef5"}:
+        raise ConfigError(
+            "problem.utility_metric must be roc_auc, bedroc, or ef5"
+        )
+    alpha = problem.get("bedroc_alpha", 20.0)
+    if isinstance(alpha, bool):
+        raise ConfigError("problem.bedroc_alpha must be a positive number")
+    try:
+        alpha_value = float(alpha)
+    except (TypeError, ValueError) as exc:
+        raise ConfigError("problem.bedroc_alpha must be a positive number") from exc
+    if alpha_value <= 0 or not math.isfinite(alpha_value):
+        raise ConfigError("problem.bedroc_alpha must be a positive finite number")
+    if mode == "compare":
+        methods = problem.get("methods")
+        if not isinstance(methods, list) or not methods:
+            raise ConfigError("problem.methods must be a non-empty list")
+        for index, item in enumerate(methods):
+            if isinstance(item, str):
+                method_id = item
+            elif isinstance(item, dict):
+                method_id = item.get("id", item.get("method_id", ""))
+            else:
+                raise ConfigError(f"problem.methods[{index}] must be an object or string")
+            try:
+                get_method_spec(str(method_id))
+            except MethodRegistryError as exc:
+                raise ConfigError(str(exc)) from exc
+
+
 def _validate_paths(
     config: Mapping[str, object], start_stage: str, data_root: Path
 ) -> dict[str, Path]:
@@ -493,9 +537,7 @@ def validate_full_experiment_config(
                 "raw full workflow requires non-negative padding and three positive "
                 "minimum_size values"
             )
-    problem = _mapping(config.get("problem"), "problem")
-    _string(problem.get("type"), "problem.type")
-    _string(problem.get("strategy"), "problem.strategy")
+    _validate_problem(config)
     solve = _mapping(config.get("solve"), "solve")
     _string(solve.get("backend"), "solve.backend")
     evaluate = _mapping(config.get("evaluate"), "evaluate")
@@ -526,6 +568,9 @@ def load_full_experiment_config(
     docking = normalized.setdefault("docking", {})
     docking.setdefault("redock", True)
     docking.setdefault("engine", "unidock")
+    problem = normalized.setdefault("problem", {})
+    problem.setdefault("utility_metric", "bedroc")
+    problem.setdefault("bedroc_alpha", 20.0)
     normalized.setdefault("start_stage", "prepare")
     normalized.setdefault("end_stage", "persist")
     return FullExperimentConfig(

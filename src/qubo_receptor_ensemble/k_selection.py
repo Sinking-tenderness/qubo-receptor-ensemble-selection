@@ -60,7 +60,15 @@ class BestMetricKPolicy:
         if not candidates:
             raise KSelectionError("cannot select k from an empty candidate list")
         selection_split = str(config.get("selection_split", "validation"))
-        selection_metric = str(config.get("selection_metric", "roc_auc"))
+        selection_metric = config.get("selection_metric")
+        if selection_metric is None:
+            utility_metric = str(config.get("utility_metric", "bedroc"))
+            if utility_metric == "bedroc":
+                alpha = float(config.get("bedroc_alpha", 20.0))
+                selection_metric = f"bedroc_alpha_{alpha:g}"
+            else:
+                selection_metric = utility_metric
+        selection_metric = str(selection_metric)
         scores: dict[str, float] = {}
         for candidate in candidates:
             split_metrics = candidate.metrics_by_split.get(selection_split)

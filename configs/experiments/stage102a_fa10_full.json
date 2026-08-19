@@ -80,7 +80,8 @@
     "type": "receptor_subset",
     "strategy": "qubo",
     "target_size": 2,
-    "utility_metric": "roc_auc",
+    "utility_metric": "bedroc",
+    "bedroc_alpha": 20.0,
     "utility_normalization": "none",
     "weights": {
       "redundancy": 0.25,
@@ -93,10 +94,11 @@
   },
   "evaluate": {
     "aggregation": "mean_score",
+    "primary_metric": "bedroc_alpha_20",
     "metrics": [
+      "bedroc_alpha_20",
       "roc_auc",
       "pr_auc_average_precision",
-      "bedroc_alpha_20",
       "EF1%",
       "EF5%",
       "EF10%"

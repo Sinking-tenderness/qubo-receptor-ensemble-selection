@@ -58,6 +58,49 @@ def test_build_qubo_exposes_metric_specific_utility_values() -> None:
     assert qubo["utilities_train"] == qubo["utilities_train_bedroc"]
 
 
+def test_build_qubo_defaults_to_bedroc20() -> None:
+    rows = [
+        {"ligand_id": "A1", "label": "active", "R1": "-10", "R2": "-9"},
+        {"ligand_id": "A2", "label": "active", "R1": "-9", "R2": "-8"},
+        {"ligand_id": "D1", "label": "decoy", "R1": "-5", "R2": "-6"},
+        {"ligand_id": "D2", "label": "decoy", "R1": "-4", "R2": "-5"},
+    ]
+
+    qubo = build_qubo(
+        rows,
+        ["R1", "R2"],
+        target_size=1,
+        redundancy_weight=0.0,
+        count_weight=0.0,
+        size_weight=1.0,
+    )
+
+    assert qubo["utility_metric"] == "bedroc"
+    assert qubo["bedroc_alpha"] == 20.0
+    assert "utilities_train_bedroc_alpha_20" in qubo
+
+
+def test_build_qubo_propagates_custom_bedroc_alpha() -> None:
+    rows = [
+        {"ligand_id": "A", "label": "active", "R1": "-10", "R2": "-9"},
+        {"ligand_id": "D", "label": "decoy", "R1": "-5", "R2": "-4"},
+    ]
+
+    qubo = build_qubo(
+        rows,
+        ["R1", "R2"],
+        target_size=1,
+        redundancy_weight=0.0,
+        count_weight=0.0,
+        size_weight=1.0,
+        utility_metric="bedroc",
+        bedroc_alpha=12.0,
+    )
+
+    assert qubo["bedroc_alpha"] == 12.0
+    assert "utilities_train_bedroc_alpha_12" in qubo
+
+
 def test_qubo_objective_accepts_new_utility_field_without_legacy_alias() -> None:
     rows = [
         {"ligand_id": "A", "label": "active", "R1": "-10", "R2": "-9"},

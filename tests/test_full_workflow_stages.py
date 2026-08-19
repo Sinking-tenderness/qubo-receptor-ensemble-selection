@@ -1,13 +1,22 @@
 import csv
+import json
 from pathlib import Path
 
 import pytest
 
 from qubo_receptor_ensemble.experiment import (
     aggregate_score_tables,
+    build_problem_stage,
+    evaluate_stage,
+    solve_stage,
     validate_front_inputs,
 )
-from qubo_receptor_ensemble.full_workflow import ConfigError, load_full_experiment_config
+from qubo_receptor_ensemble.full_workflow import (
+    FULL_WORKFLOW_STAGES,
+    ConfigError,
+    FullExperimentConfig,
+    load_full_experiment_config,
+)
 
 
 def _write_csv(path: Path, rows: list[dict[str, object]]) -> Path:
@@ -117,3 +126,86 @@ def test_aggregate_start_requires_the_configured_score_directory(tmp_path: Path)
 
     with pytest.raises(FileNotFoundError, match="missing-scores"):
         validate_front_inputs(config)
+
+
+def test_compare_problem_runs_share_matrix_and_write_method_outputs(tmp_path: Path) -> None:
+    matrix = _write_csv(
+        tmp_path / "matrices" / "primary.csv",
+        [
+            {"ligand_id": "A1", "label": "active", "R1": -10.0, "R2": -9.0},
+            {"ligand_id": "A2", "label": "active", "R1": -9.0, "R2": -8.0},
+            {"ligand_id": "D1", "label": "decoy", "R1": -5.0, "R2": -4.0},
+            {"ligand_id": "D2", "label": "decoy", "R1": -4.0, "R2": -3.0},
+        ],
+    )
+    receptor_manifest = _write_csv(
+        tmp_path / "receptors.csv",
+        [
+            {"conformer_id": "R1", "receptor_pdbqt": "R1.pdbqt"},
+            {"conformer_id": "R2", "receptor_pdbqt": "R2.pdbqt"},
+        ],
+    )
+    run_directory = tmp_path / "run"
+    paths = {
+        "run_directory": run_directory,
+        "selected_receptor_manifest": receptor_manifest,
+        "primary_matrix": matrix,
+        "problem": run_directory / "problem.json",
+        "selection": run_directory / "selection.json",
+        "evaluation": run_directory / "evaluation.json",
+    }
+    config = FullExperimentConfig(
+        path=tmp_path / "config.json",
+        data_root=tmp_path,
+        data={
+            "problem": {
+                "type": "receptor_subset",
+                "mode": "compare",
+                "target_size": 1,
+                "utility_metric": "bedroc",
+                "bedroc_alpha": 20.0,
+                "methods": [
+                    {"id": "basic_utility"},
+                    {"id": "bedroc20_pair_synergy"},
+                    {"id": "structure_aware"},
+                ],
+            },
+            "solve": {"backend": "exact"},
+            "evaluate": {
+                "primary_metric": "bedroc_alpha_20",
+                "metrics": ["bedroc_alpha_20", "roc_auc"],
+            },
+        },
+        paths=paths,
+        stages=FULL_WORKFLOW_STAGES,
+        start_stage="build_problem",
+        end_stage="persist",
+    )
+
+    built = build_problem_stage(config, matrix)
+    assert built["comparison"] is True
+    assert built["ready_count"] == 2
+
+    solved = solve_stage(config, paths["problem"])
+    assert solved["selection_path"] == paths["selection"]
+    selection = json.loads(paths["selection"].read_text(encoding="ascii"))
+    assert [record["status"] for record in selection["methods"]] == [
+        "ready",
+        "ready",
+        "unsupported_for_input",
+    ]
+
+    evaluated = evaluate_stage(config, paths["selection"])
+    assert evaluated["evaluation_path"] == paths["evaluation"]
+    assert (run_directory / "comparison.json").is_file()
+    assert (run_directory / "methods" / "basic_utility" / "evaluation.json").is_file()
+    comparison = json.loads((run_directory / "comparison.json").read_text(encoding="ascii"))
+    assert comparison["primary_metric"] == "bedroc_alpha_20"
+    ready = [record for record in comparison["methods"] if record["status"] == "ready"]
+    assert all("primary_metric_value" in record for record in ready)
+    assert all(record["primary_metric_value"] is not None for record in ready)
+    assert "roc_auc" in json.loads(
+        (run_directory / "methods" / "basic_utility" / "evaluation.json").read_text(
+            encoding="ascii"
+        )
+    )["metrics"]

@@ -7,6 +7,7 @@ identical to the original prototype used across the project.
 from __future__ import annotations
 
 import itertools
+import math
 
 from scipy.stats import spearmanr
 
@@ -27,17 +28,22 @@ def build_qubo(
     redundancy_weight: float,
     count_weight: float,
     size_weight: float,
-    utility_metric: str = "roc_auc",
+    utility_metric: str = "bedroc",
     utility_normalization: str = "none",
+    bedroc_alpha: float = 20.0,
 ) -> dict[str, object]:
+    if utility_metric not in {"roc_auc", "bedroc", "ef5"}:
+        raise ValueError(f"unsupported utility metric: {utility_metric}")
+    if bedroc_alpha <= 0 or not math.isfinite(bedroc_alpha):
+        raise ValueError("bedroc_alpha must be a positive finite number")
     utilities: dict[str, float] = {}
     train_scores: dict[str, list[float]] = {}
     for receptor_id in receptor_ids:
         data = train_data(rows, receptor_id)
-        metrics = ranked_metrics_with_ids(data)
+        metrics = ranked_metrics_with_ids(data, bedroc_alpha=bedroc_alpha)
         metric_key = {
             "roc_auc": "roc_auc",
-            "bedroc": "bedroc_alpha_20",
+            "bedroc": f"bedroc_alpha_{bedroc_alpha:g}",
             "ef5": "EF5%",
         }[utility_metric]
         utilities[receptor_id] = float(metrics[metric_key])
@@ -76,6 +82,7 @@ def build_qubo(
         "target_size": target_size,
         "utility_metric": utility_metric,
         "utility_normalization": utility_normalization,
+        "bedroc_alpha": float(bedroc_alpha),
         "weights": {
             "redundancy": redundancy_weight,
             "count": count_weight,
@@ -83,6 +90,9 @@ def build_qubo(
         },
         "utilities_train": utilities,
         f"utilities_train_{utility_metric}": utilities,
+        f"utilities_train_bedroc_alpha_{bedroc_alpha:g}": utilities
+        if utility_metric == "bedroc"
+        else {},
         # Keep the original key for frozen scripts and result readers.
         "utilities_train_roc_auc": utilities,
         "redundancy_train_spearman_clipped": redundancy,
@@ -94,6 +104,17 @@ def build_qubo(
 def objective(
     subset: tuple[str, ...], qubo: dict[str, object]
 ) -> float:
+    if qubo.get("objective_mode") == "coefficient":
+        value = float(qubo.get("constant", 0.0))
+        linear = qubo["linear_coefficients"]
+        quadratic = qubo["quadratic_coefficients"]
+        value += sum(float(linear[receptor_id]) for receptor_id in subset)
+        for first, second in itertools.combinations(subset, 2):
+            key = f"{first}__{second}"
+            if key not in quadratic:
+                key = f"{second}__{first}"
+            value += float(quadratic[key])
+        return float(value)
     utilities = qubo.get("utilities_train")
     if utilities is None:
         utilities = qubo["utilities_train_roc_auc"]

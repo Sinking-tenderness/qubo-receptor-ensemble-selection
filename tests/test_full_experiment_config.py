@@ -82,6 +82,15 @@ def test_full_config_defaults_to_source_data_redocking_and_unidock(tmp_path: Pat
     assert config.data["selection"]["label_counts"] == {"active": 2, "decoy": 2}
 
 
+def test_full_config_defaults_problem_selection_to_bedroc20(tmp_path: Path) -> None:
+    path = _write_config(tmp_path)
+
+    config = load_full_experiment_config(path, data_root=tmp_path)
+
+    assert config.data["problem"]["utility_metric"] == "bedroc"
+    assert config.data["problem"]["bedroc_alpha"] == 20.0
+
+
 def test_full_config_resolves_external_data_root_without_sha_requirements(
     tmp_path: Path,
 ) -> None:

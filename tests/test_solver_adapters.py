@@ -5,6 +5,7 @@ from qubo_receptor_ensemble.config import load_pipeline_config
 from qubo_receptor_ensemble.io import file_sha256
 from qubo_receptor_ensemble.pipeline import PipelineRunner
 from qubo_receptor_ensemble.solvers import build_problem, solve_problem
+from qubo_receptor_ensemble.k_selection import BestMetricKPolicy, KCandidate
 
 
 def _rows() -> list[dict[str, object]]:
@@ -86,6 +87,42 @@ def test_greedy_adapter_returns_the_same_contract() -> None:
     assert result.backend == "greedy"
     assert result.subset == ("R1",)
     assert result.metadata["states_evaluated"] == 2
+
+
+def test_k_selection_defaults_to_bedroc20_metric() -> None:
+    candidates = [
+        KCandidate(
+            k=1,
+            result=build_problem(
+                _rows(),
+                {
+                    "type": "receptor_subset",
+                    "strategy": "qubo",
+                    "receptor_ids": ["R1", "R2"],
+                    "target_size": 1,
+                },
+            )
+            and solve_problem(
+                build_problem(
+                    _rows(),
+                    {
+                        "type": "receptor_subset",
+                        "strategy": "qubo",
+                        "receptor_ids": ["R1", "R2"],
+                        "target_size": 1,
+                    },
+                ),
+                "exact",
+            ),
+            metrics_by_split={
+                "validation": {"all_metrics": {"bedroc_alpha_20": 0.8}}
+            },
+        ),
+    ]
+
+    decision = BestMetricKPolicy().choose(candidates, {})
+
+    assert decision.candidate_scores == {"1": 0.8}
 
 
 def test_pipeline_real_run_evaluates_allowed_splits_only(tmp_path: Path) -> None:

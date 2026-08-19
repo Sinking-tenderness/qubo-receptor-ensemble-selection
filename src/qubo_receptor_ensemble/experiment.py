@@ -27,10 +27,11 @@ from .ligand_selection import (
 )
 from .io import file_sha256, read_csv, write_csv, write_json
 from .k_selection import KCandidate, KSelectionDecision, choose_k
+from .methods import resolve_method_requests
 from .matrix import aggregate_seed_rows, build_matrix, read_score_tables, select_representative_scores
 from .raw_preparation import calculate_ligand_box, prepare_raw_receptors
 from .screening import ranked_metrics_with_ids
-from .solvers import Problem, SolverResult, build_problem, solve_problem
+from .solvers import Problem, ProblemError, SolverResult, build_problem, solve_problem
 
 
 def _as_rooted(path: Path, root: Path) -> Path:
@@ -564,11 +565,77 @@ def _load_problem_payload(config: FullExperimentConfig, matrix_path: Path) -> di
     return {"matrix_path": str(matrix_path), "rows": rows, "problem_config": problem_config}
 
 
+def resolve_problem_requests(problem_config: dict[str, object]) -> list[dict[str, object]]:
+    """Public workflow helper for expanding single or comparison method config."""
+    return resolve_method_requests(problem_config)
+
+
+def _method_directory(config: FullExperimentConfig, method_id: str) -> Path:
+    path = config.paths["run_directory"] / "methods" / method_id
+    path.mkdir(parents=True, exist_ok=True)
+    return path
+
+
 def build_problem_stage(config: FullExperimentConfig, matrix_path: Path) -> dict[str, object]:
     payload = _load_problem_payload(config, matrix_path)
     rows = payload["rows"]
     problem_config = payload["problem_config"]
     assert isinstance(rows, list) and isinstance(problem_config, dict)
+    if str(problem_config.get("mode", "single")) == "compare" or "methods" in problem_config:
+        requests = resolve_problem_requests(problem_config)
+        receptor_manifest = _read_receptor_manifest(config.paths["selected_receptor_manifest"])
+        receptor_ids = [row["conformer_id"] for row in receptor_manifest]
+        records: list[dict[str, object]] = []
+        capabilities: list[dict[str, object]] = []
+        for request in requests:
+            request = {**request, "receptor_ids": receptor_ids}
+            method_id = str(request["method_id"])
+            method_directory = _method_directory(config, method_id)
+            method_problem_path = method_directory / "problem.json"
+            try:
+                problem = build_problem(rows, request)
+            except (ProblemError, ValueError) as exc:
+                record = {
+                    "method_id": method_id,
+                    "status": "unsupported_for_input",
+                    "error": str(exc),
+                }
+                capabilities.append(record)
+                records.append(record)
+                continue
+            method_payload = {
+                "mode": "single",
+                "matrix_path": str(matrix_path),
+                "rows": rows,
+                "problem_config": request,
+                "problem": problem.as_dict(),
+            }
+            write_json(method_problem_path, method_payload)
+            record = {
+                "method_id": method_id,
+                "status": "ready",
+                "problem_path": str(method_problem_path),
+            }
+            capabilities.append({**record, "formulation_kind": problem.formulation.get("method", {}).get("formulation_kind", "qubo") if isinstance(problem.formulation.get("method", {}), dict) else "qubo"})
+            records.append(record)
+        index = {
+            "mode": "compare",
+            "matrix_path": str(matrix_path),
+            "methods": records,
+            "primary_metric": str(
+                config.data.get("evaluate", {}).get(
+                    "primary_metric", "bedroc_alpha_20"
+                )
+            ),
+        }
+        write_json(config.paths["run_directory"] / "method_capabilities.json", {"methods": capabilities})
+        write_json(config.paths["problem"], index)
+        return {
+            "problem_path": config.paths["problem"],
+            "comparison": True,
+            "method_count": len(records),
+            "ready_count": sum(record["status"] == "ready" for record in records),
+        }
     problem = build_problem(rows, problem_config)
     payload["problem"] = problem.as_dict()
     write_json(config.paths["problem"], payload)
@@ -577,6 +644,46 @@ def build_problem_stage(config: FullExperimentConfig, matrix_path: Path) -> dict
 
 def solve_stage(config: FullExperimentConfig, problem_path: Path) -> dict[str, object]:
     payload = json.loads(problem_path.read_text(encoding="ascii"))
+    if payload.get("mode") == "compare":
+        records = payload.get("methods", [])
+        if not isinstance(records, list):
+            raise ProblemError("comparison problem index requires methods")
+        solved_records: list[dict[str, object]] = []
+        for record in records:
+            if not isinstance(record, dict):
+                raise ProblemError("comparison method record must be an object")
+            if record.get("status") != "ready":
+                solved_records.append(dict(record))
+                continue
+            method_problem_path = Path(str(record["problem_path"]))
+            method_payload = json.loads(method_problem_path.read_text(encoding="ascii"))
+            problem = build_problem(
+                read_csv(Path(str(method_payload["matrix_path"]))),
+                dict(method_payload["problem_config"]),
+            )
+            backend = str(config.data["solve"]["backend"])
+            result = solve_problem(problem, backend)
+            selection_path = method_problem_path.parent / "selection.json"
+            write_json(
+                selection_path,
+                {
+                    "status": "ok",
+                    "matrix_path": method_payload["matrix_path"],
+                    "problem_path": str(method_problem_path),
+                    "problem_config": method_payload["problem_config"],
+                    "result": result.as_dict(),
+                },
+            )
+            solved_records.append(
+                {
+                    **record,
+                    "selection_path": str(selection_path),
+                    "result": result.as_dict(),
+                }
+            )
+        output = {"mode": "compare", "methods": solved_records}
+        write_json(config.paths["selection"], output)
+        return {"selection_path": config.paths["selection"], "results": solved_records}
     problem_config = payload["problem_config"]
     matrix_path = Path(str(payload["matrix_path"]))
     rows = read_csv(matrix_path)
@@ -596,28 +703,106 @@ def solve_stage(config: FullExperimentConfig, problem_path: Path) -> dict[str, o
 
 def evaluate_stage(config: FullExperimentConfig, selection_path: Path) -> dict[str, object]:
     payload = json.loads(selection_path.read_text(encoding="ascii"))
+    if payload.get("mode") == "compare":
+        records = payload.get("methods", [])
+        if not isinstance(records, list):
+            raise ProblemError("comparison selection index requires methods")
+        evaluated_records: list[dict[str, object]] = []
+        for record in records:
+            if not isinstance(record, dict):
+                raise ProblemError("comparison selection record must be an object")
+            if record.get("status") != "ready":
+                evaluated_records.append(dict(record))
+                continue
+            method_selection_path = Path(str(record["selection_path"]))
+            method_payload = json.loads(method_selection_path.read_text(encoding="ascii"))
+            method_evaluation_path = method_selection_path.parent / "evaluation.json"
+            evaluated = _evaluate_selection_payload(
+                config,
+                method_payload,
+                method_evaluation_path,
+            )
+            evaluated_records.append(
+                {
+                    **record,
+                    "evaluation_path": str(method_evaluation_path),
+                    "primary_metric_value": evaluated["primary_metric_value"],
+                }
+            )
+            write_json(
+                method_selection_path.parent / "summary.json",
+                {
+                    "method_id": record["method_id"],
+                    "evaluation": evaluated["evaluation"],
+                },
+            )
+        output = {
+            "mode": "compare",
+            "primary_metric": str(
+                config.data.get("evaluate", {}).get(
+                    "primary_metric", "bedroc_alpha_20"
+                )
+            ),
+            "methods": evaluated_records,
+        }
+        comparison_path = config.paths["run_directory"] / "comparison.json"
+        write_json(comparison_path, output)
+        write_json(config.paths["evaluation"], output)
+        return {"evaluation_path": config.paths["evaluation"], "comparison_path": comparison_path}
+    return _evaluate_selection_payload(config, payload, config.paths["evaluation"])
+
+
+def _evaluate_selection_payload(
+    config: FullExperimentConfig,
+    payload: dict[str, object],
+    evaluation_path: Path,
+) -> dict[str, object]:
     result = payload["result"]
     subset = [str(value) for value in result["subset"]]
     rows = read_csv(Path(str(payload["matrix_path"])))
     evaluate = config.data["evaluate"]
     assert isinstance(evaluate, dict)
     aggregation = str(evaluate.get("aggregation", "mean_score"))
+    problem_config = payload.get("problem_config", {})
+    if not isinstance(problem_config, dict):
+        problem_config = {}
+    bedroc_alpha = float(problem_config.get("bedroc_alpha", 20.0))
     ranking_data: dict[str, dict[str, object]] = {}
     for row in rows:
         scores = [float(row[receptor]) for receptor in subset]
         score = min(scores) if aggregation == "min_score" else sum(scores) / len(scores)
         ranking_data[row["ligand_id"]] = {"label": row["label"], aggregation: score}
-    metrics = ranked_metrics_with_ids(ranking_data, aggregation)
+    metrics = ranked_metrics_with_ids(
+        ranking_data,
+        aggregation,
+        bedroc_alpha=bedroc_alpha,
+    )
+    primary_metric = str(
+        evaluate.get("primary_metric", f"bedroc_alpha_{bedroc_alpha:g}")
+    )
+    selected_metrics = {
+        str(metric): metrics[str(metric)]
+        for metric in evaluate["metrics"]
+        if str(metric) in metrics
+    }
+    if primary_metric in metrics:
+        selected_metrics.setdefault(primary_metric, metrics[primary_metric])
     output = {
         "status": "ok",
         "subset": subset,
         "aggregation": aggregation,
-        "metrics": {str(metric): metrics[str(metric)] for metric in evaluate["metrics"] if str(metric) in metrics},
+        "primary_metric": primary_metric,
+        "primary_metric_value": metrics.get(primary_metric),
+        "metrics": selected_metrics,
         "all_metrics": metrics,
         "locked_test_rows_read": 0,
     }
-    write_json(config.paths["evaluation"], output)
-    return {"evaluation_path": config.paths["evaluation"], "evaluation": output}
+    write_json(evaluation_path, output)
+    return {
+        "evaluation_path": evaluation_path,
+        "evaluation": output,
+        "primary_metric_value": output["primary_metric_value"],
+    }
 
 
 class FullExperimentRunner:
