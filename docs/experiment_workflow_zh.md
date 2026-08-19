@@ -12,6 +12,87 @@
 运行环境：qubo-unidock
 ```
 
+### 1.1 从全新的 Linux 环境建立运行环境
+
+以下命令适用于全新的 Ubuntu/Debian x86_64 服务器。需要有 `sudo` 权限，
+并准备好项目仓库和外部实验数据包。若服务器已有 Conda，可以从
+`git clone` 后的环境创建步骤开始。
+
+先安装系统工具并安装 Miniforge：
+
+```bash
+sudo apt-get update
+sudo apt-get install -y ca-certificates curl git build-essential
+
+cd /tmp
+curl -L -o miniforge.sh \
+  https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-x86_64.sh
+bash miniforge.sh -b -p "$HOME/miniforge3"
+rm -f miniforge.sh
+source "$HOME/miniforge3/etc/profile.d/conda.sh"
+conda init bash
+```
+
+重新打开 shell，或在当前 shell 重新加载 Conda：
+
+```bash
+source "$HOME/miniforge3/etc/profile.d/conda.sh"
+```
+
+获取仓库并创建项目环境。`-n qubo-unidock` 会覆盖 environment.yml 中的
+环境名，保证后续命令使用统一的环境名称：
+
+```bash
+REPO_ROOT="$HOME/qubo-receptor-ensemble-selection"
+git clone https://github.com/Sinking-tenderness/qubo-receptor-ensemble-selection.git "$REPO_ROOT"
+cd "$REPO_ROOT"
+
+conda env create \
+  --name qubo-unidock \
+  --file environment/environment.yml
+conda activate qubo-unidock
+
+# 确保当前源码以 editable 方式安装到该环境。
+python -m pip install --editable .
+```
+
+Uni-Dock 是外部 docking 程序，不包含在本仓库和 environment.yml 中。应从
+项目批准的 Uni-Dock 发行包或服务器软件源安装，并确保可执行文件位于当前
+环境的 `PATH` 中。安装来源和具体版本属于部署环境配置，不应在项目代码中
+猜测或静默替换。安装后必须检查：
+
+```bash
+python --version
+python -c "import numpy, pandas, scipy, sklearn, xgboost, rdkit, meeko, gemmi; print('Python dependencies: OK')"
+python -c "from qubo_receptor_ensemble.preparation import find_meeko_script; print(find_meeko_script())"
+command -v unidock
+unidock --help >/dev/null
+python scripts/run_experiment.py --help
+python -m compileall -q src scripts
+```
+
+若 `command -v unidock` 失败，应先修复 Uni-Dock 安装或 PATH；不要直接把
+`docking.engine` 改成另一个未验证的 engine。若服务器是 ARM 或不能访问
+GitHub，应使用对应架构/网络环境下的 Miniforge 安装包，并保留实际安装
+来源和版本记录。
+
+### 1.2 准备外部原始数据
+
+实验数据不要求复制进仓库。将数据包解压到服务器上的独立目录，并确认
+原始数据位于 `DATA_ROOT/data/raw`：
+
+```bash
+DATA_ROOT="$HOME/qubo_receptor_ensemble_experiment_data_20260815"
+test -d "$DATA_ROOT/data/raw"
+find "$DATA_ROOT/data/raw" -maxdepth 2 -type d | sort
+```
+
+Stage102A 的完整流程需要 `data/raw/external_targets/<target>_dude/` 下的
+active/decoy ISM、参考受体 PDB 和晶体配体，以及
+`data/raw/rcsb/<target>/` 下的 RCSB 结构。`prepare` 会从这些 raw 输入生成
+配体中间数据、对齐受体 PDB/PDBQT、受体 manifest 和 docking box；不要把
+旧的 `results/` 或 `data/processed/` 当作首次运行的 raw 输入。
+
 `--data-root` 是外部实验数据的根目录。配置文件中的 `sources` 和 `paths`
 字段使用相对路径时，均相对于该目录解析；运行结果默认也写入该数据包，
 不会自动写入仓库内的第二套大规模数据目录。
