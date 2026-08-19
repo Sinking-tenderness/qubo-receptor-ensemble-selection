@@ -80,7 +80,12 @@ def _prepare_one_ligand(
     meeko_script: Path,
     seed: int,
 ) -> dict[str, object]:
-    from .preparation import build_3d_mol, parse_pdbqt, run_meeko
+    from .preparation import (
+        build_3d_mol,
+        macrocycle_closure_atom_types,
+        parse_pdbqt,
+        run_meeko,
+    )
 
     ligand_id = row["ligand_id"]
     sdf_path = sdf_directory / f"{ligand_id}.sdf"
@@ -99,12 +104,67 @@ def _prepare_one_ligand(
     writer = Chem.SDWriter(str(sdf_path))
     writer.write(molecule)
     writer.close()
-    completed = run_meeko(meeko_script, sdf_path, pdbqt_path)
-    details = "\n".join(
-        part.strip() for part in (completed.stdout, completed.stderr) if part.strip()
+    if pdbqt_path.exists():
+        pdbqt_path.unlink()
+    flexible = run_meeko(
+        meeko_script,
+        sdf_path,
+        pdbqt_path,
+        rigid_macrocycles=False,
     )
-    if completed.returncode != 0 or not pdbqt_path.is_file():
-        raise RuntimeError(f"Meeko failed for {ligand_id}: {details[-500:]}")
+    flexible_audit: dict[str, object] = {}
+    flexible_valid = flexible.returncode == 0 and pdbqt_path.is_file()
+    if flexible_valid:
+        flexible_audit = parse_pdbqt(pdbqt_path)
+        flexible_valid = (
+            int(flexible_audit["pdbqt_atom_count"]) > 0
+            and str(flexible_audit["torsdof"]) != ""
+        )
+    flexible_pseudoatoms = (
+        macrocycle_closure_atom_types(pdbqt_path)
+        if flexible_valid
+        else []
+    )
+    preparation_variant = "meeko_flexible"
+    pdbqt_message = "meeko_ok"
+    if not flexible_valid or flexible_pseudoatoms:
+        if pdbqt_path.exists():
+            pdbqt_path.unlink()
+        rigid = run_meeko(
+            meeko_script,
+            sdf_path,
+            pdbqt_path,
+            rigid_macrocycles=True,
+        )
+        if rigid.returncode != 0 or not pdbqt_path.is_file():
+            details = "\n".join(
+                part.strip()
+                for part in (
+                    flexible.stdout,
+                    flexible.stderr,
+                    rigid.stdout,
+                    rigid.stderr,
+                )
+                if part.strip()
+            )
+            raise RuntimeError(f"Meeko failed for {ligand_id}: {details[-500:]}")
+        preparation_variant = "meeko_rigid_macrocycles"
+        pdbqt_message = (
+            "meeko_rigid_after_closure_pseudoatom_detection"
+            if flexible_pseudoatoms
+            else "meeko_rigid_after_flexible_failure"
+        )
+    remaining_pseudoatoms = macrocycle_closure_atom_types(pdbqt_path)
+    if remaining_pseudoatoms:
+        raise ValueError(
+            f"closure pseudoatoms remain for {ligand_id}: {remaining_pseudoatoms}"
+        )
+    pdbqt_audit = parse_pdbqt(pdbqt_path)
+    if (
+        int(pdbqt_audit["pdbqt_atom_count"]) <= 0
+        or str(pdbqt_audit["torsdof"]) == ""
+    ):
+        raise ValueError(f"invalid PDBQT for {ligand_id}")
     return {
         **row,
         "prep_status": status,
@@ -112,8 +172,9 @@ def _prepare_one_ligand(
         "sdf_path": _relative(sdf_path, root),
         "pdbqt_path": _relative(pdbqt_path, root),
         "pdbqt_status": "ok",
-        "pdbqt_message": "meeko_ok",
-        **parse_pdbqt(pdbqt_path),
+        "pdbqt_message": pdbqt_message,
+        "preparation_variant": preparation_variant,
+        **pdbqt_audit,
     }
 
 

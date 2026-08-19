@@ -1,3 +1,4 @@
+import subprocess
 from pathlib import Path
 
 import pytest
@@ -39,6 +40,119 @@ def test_prepare_one_ligand_generates_sdf_and_pdbqt_with_installed_chemistry_sta
     assert prepared["pdbqt_status"] == "ok"
     assert (tmp_path / "sdf" / "L1.sdf").is_file()
     assert (tmp_path / "pdbqt" / "L1.pdbqt").is_file()
+
+
+def _fake_pdbqt(atom_type: str) -> str:
+    return (
+        "ROOT\n"
+        f"ATOM      1  C   UNL     1       0.000   0.000   0.000  1.00  0.00     0.000 {atom_type}\n"
+        "ENDROOT\n"
+        "TORSDOF 0\n"
+    )
+
+
+@pytest.mark.parametrize("atom_type", ["CG0", "G0", "G12"])
+def test_macrocycle_closure_atom_types_detects_meeko_pseudoatoms(
+    atom_type: str, tmp_path: Path
+) -> None:
+    pytest.importorskip("rdkit")
+    from qubo_receptor_ensemble.preparation import macrocycle_closure_atom_types
+
+    pdbqt = tmp_path / "macrocycle.pdbqt"
+    pdbqt.write_text(_fake_pdbqt(atom_type), encoding="ascii")
+
+    assert macrocycle_closure_atom_types(pdbqt) == [atom_type]
+
+
+def test_prepare_one_ligand_retries_macrocycle_with_rigid_meeko(
+    monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+) -> None:
+    pytest.importorskip("rdkit")
+    from qubo_receptor_ensemble import preparation
+    from qubo_receptor_ensemble.experiment import _prepare_one_ligand
+
+    calls: list[bool] = []
+
+    def fake_run_meeko(
+        meeko_script: Path,
+        sdf_path: Path,
+        pdbqt_path: Path,
+        rigid_macrocycles: bool = False,
+    ) -> subprocess.CompletedProcess[str]:
+        del meeko_script, sdf_path
+        calls.append(rigid_macrocycles)
+        pdbqt_path.write_text(
+            _fake_pdbqt("C" if rigid_macrocycles else "G0"), encoding="ascii"
+        )
+        return subprocess.CompletedProcess([], 0, "", "")
+
+    monkeypatch.setattr(preparation, "run_meeko", fake_run_meeko)
+    prepared = _prepare_one_ligand(
+        {
+            "target_id": "TEST",
+            "ligand_id": "L_MACRO",
+            "smiles": "CCO",
+            "label": "active",
+            "selection_role": "development",
+            "split": "train",
+        },
+        index=0,
+        root=tmp_path,
+        sdf_directory=tmp_path / "sdf",
+        pdbqt_directory=tmp_path / "pdbqt",
+        meeko_script=tmp_path / "mk_prepare_ligand.py",
+        seed=101,
+    )
+
+    assert calls == [False, True]
+    assert prepared["preparation_variant"] == "meeko_rigid_macrocycles"
+    assert prepared["pdbqt_message"] == "meeko_rigid_after_closure_pseudoatom_detection"
+    assert prepared["pdbqt_atom_types"] == "C"
+
+
+def test_prepare_one_ligand_retries_rigid_meeko_after_flexible_failure(
+    monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+) -> None:
+    pytest.importorskip("rdkit")
+    from qubo_receptor_ensemble import preparation
+    from qubo_receptor_ensemble.experiment import _prepare_one_ligand
+
+    calls: list[bool] = []
+
+    def fake_run_meeko(
+        meeko_script: Path,
+        sdf_path: Path,
+        pdbqt_path: Path,
+        rigid_macrocycles: bool = False,
+    ) -> subprocess.CompletedProcess[str]:
+        del meeko_script, sdf_path
+        calls.append(rigid_macrocycles)
+        if rigid_macrocycles:
+            pdbqt_path.write_text(_fake_pdbqt("C"), encoding="ascii")
+            return subprocess.CompletedProcess([], 0, "", "")
+        return subprocess.CompletedProcess([], 1, "", "flexible failed")
+
+    monkeypatch.setattr(preparation, "run_meeko", fake_run_meeko)
+    prepared = _prepare_one_ligand(
+        {
+            "target_id": "TEST",
+            "ligand_id": "L_RETRY",
+            "smiles": "CCO",
+            "label": "decoy",
+            "selection_role": "development",
+            "split": "train",
+        },
+        index=0,
+        root=tmp_path,
+        sdf_directory=tmp_path / "sdf",
+        pdbqt_directory=tmp_path / "pdbqt",
+        meeko_script=tmp_path / "mk_prepare_ligand.py",
+        seed=101,
+    )
+
+    assert calls == [False, True]
+    assert prepared["preparation_variant"] == "meeko_rigid_macrocycles"
+    assert prepared["pdbqt_message"] == "meeko_rigid_after_flexible_failure"
 
 
 def _write_ism(path: Path, rows: list[tuple[str, str]]) -> Path:

@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import csv
 import importlib.util
+import re
 import subprocess
 import sys
 from pathlib import Path
@@ -20,6 +21,7 @@ from qubo_receptor_ensemble.io import file_sha256, safe_filename
 
 PREP_3D_REQUIRED_COLUMNS = {"ligand_id", "smiles", "label", "target_id"}
 PDBQT_REQUIRED_COLUMNS = {"ligand_id", "label", "sdf_path", "prep_status"}
+MACROCYCLE_CLOSURE_ATOM_TYPE = re.compile(r"^(?:CG|G)\d+$")
 
 
 def validate_columns(
@@ -110,6 +112,19 @@ def parse_pdbqt(pdbqt_path: Path) -> dict[str, object]:
         "pdbqt_charge_max": max(charges) if charges else "",
         "torsdof": torsdof,
     }
+
+
+def macrocycle_closure_atom_types(pdbqt_path: Path) -> list[str]:
+    """Return Meeko CG*/G* macrocycle closure pseudoatom types."""
+    atom_types: set[str] = set()
+    with pdbqt_path.open("r", encoding="utf-8", errors="ignore") as handle:
+        for line in handle:
+            if not line.startswith(("ATOM", "HETATM")):
+                continue
+            fields = line.split()
+            if fields and MACROCYCLE_CLOSURE_ATOM_TYPE.fullmatch(fields[-1]):
+                atom_types.add(fields[-1])
+    return sorted(atom_types)
 
 
 def validated_existing_pdbqt(pdbqt_path: Path) -> dict[str, object] | None:
