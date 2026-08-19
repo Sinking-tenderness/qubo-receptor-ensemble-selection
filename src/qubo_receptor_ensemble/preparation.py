@@ -8,6 +8,7 @@ originals.
 from __future__ import annotations
 
 import csv
+import importlib.util
 import subprocess
 import sys
 from pathlib import Path
@@ -134,8 +135,13 @@ def find_meeko_script() -> Path:
     for candidate in candidates:
         if candidate.exists():
             return candidate
+    module = importlib.util.find_spec("meeko.cli.mk_prepare_ligand")
+    if module is not None and module.origin:
+        candidate = Path(module.origin)
+        if candidate.is_file():
+            return candidate
     raise FileNotFoundError(
-        "Could not find mk_prepare_ligand.py under the active Python environment"
+        "Could not find mk_prepare_ligand.py in the active Python environment"
     )
 
 

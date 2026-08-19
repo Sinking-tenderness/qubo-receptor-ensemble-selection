@@ -81,6 +81,9 @@ def build_qubo(
             "count": count_weight,
             "size": size_weight,
         },
+        "utilities_train": utilities,
+        f"utilities_train_{utility_metric}": utilities,
+        # Keep the original key for frozen scripts and result readers.
         "utilities_train_roc_auc": utilities,
         "redundancy_train_spearman_clipped": redundancy,
         "linear_coefficients": linear,
@@ -91,7 +94,9 @@ def build_qubo(
 def objective(
     subset: tuple[str, ...], qubo: dict[str, object]
 ) -> float:
-    utilities = qubo["utilities_train_roc_auc"]
+    utilities = qubo.get("utilities_train")
+    if utilities is None:
+        utilities = qubo["utilities_train_roc_auc"]
     redundancy = qubo["redundancy_train_spearman_clipped"]
     weights = qubo["weights"]
     target_size = qubo["target_size"]

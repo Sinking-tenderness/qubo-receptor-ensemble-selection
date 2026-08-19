@@ -84,26 +84,69 @@ def match_ca_coordinates(
 ) -> tuple[np.ndarray, np.ndarray, list[str]]:
     reference = collect_ca_atoms(reference_atoms, reference_chain)
     mobile = collect_ca_atoms(mobile_atoms, mobile_chain)
-    common_keys = sorted(set(reference).intersection(mobile))
+    reference_entries = sorted(reference.items(), key=lambda item: item[0])
+    mobile_entries = sorted(mobile.items(), key=lambda item: item[0])
 
-    matched_keys: list[tuple[int, str]] = []
-    residue_mismatches: list[str] = []
-    for key in common_keys:
-        reference_resname = reference[key].resname
-        mobile_resname = mobile[key].resname
-        if reference_resname != mobile_resname:
-            residue_mismatches.append(
-                f"{key[0]}{key[1]}:{reference_resname}!={mobile_resname}"
+    # Global alignment keeps coordinates paired when construct numbering has
+    # offsets or insertions. Only equal residue names become Kabsch anchors.
+    gap_penalty = -2
+    match_score = 2
+    mismatch_score = -1
+    scores = np.zeros((len(reference_entries) + 1, len(mobile_entries) + 1), dtype=int)
+    traceback = np.empty(scores.shape, dtype="U1")
+    traceback[0, 0] = ""
+    for i in range(1, len(reference_entries) + 1):
+        scores[i, 0] = scores[i - 1, 0] + gap_penalty
+        traceback[i, 0] = "U"
+    for j in range(1, len(mobile_entries) + 1):
+        scores[0, j] = scores[0, j - 1] + gap_penalty
+        traceback[0, j] = "L"
+    for i, (_, reference_atom) in enumerate(reference_entries, start=1):
+        for j, (_, mobile_atom) in enumerate(mobile_entries, start=1):
+            diagonal = scores[i - 1, j - 1] + (
+                match_score if reference_atom.resname == mobile_atom.resname else mismatch_score
             )
-            continue
-        matched_keys.append(key)
+            up = scores[i - 1, j] + gap_penalty
+            left = scores[i, j - 1] + gap_penalty
+            best = max(diagonal, up, left)
+            scores[i, j] = best
+            traceback[i, j] = "D" if diagonal == best else ("U" if up == best else "L")
 
-    if len(matched_keys) < 3:
-        raise ValueError("fewer than three sequence-matched C-alpha atoms are available")
+    matched_reference: list[np.ndarray] = []
+    matched_mobile: list[np.ndarray] = []
+    residue_mismatches: list[str] = []
+    i, j = len(reference_entries), len(mobile_entries)
+    while i or j:
+        direction = traceback[i, j]
+        if direction == "D":
+            reference_key, reference_atom = reference_entries[i - 1]
+            mobile_key, mobile_atom = mobile_entries[j - 1]
+            if reference_atom.resname == mobile_atom.resname:
+                matched_reference.append(reference_atom.coord)
+                matched_mobile.append(mobile_atom.coord)
+            else:
+                residue_mismatches.append(
+                    f"{reference_key[0]}{reference_key[1]}/{mobile_key[0]}{mobile_key[1]}:"
+                    f"{reference_atom.resname}!={mobile_atom.resname}"
+                )
+            i -= 1
+            j -= 1
+        elif direction == "U":
+            i -= 1
+        elif direction == "L":
+            j -= 1
+        else:  # pragma: no cover - defensive guard for malformed traceback state
+            raise RuntimeError("invalid residue sequence alignment traceback")
 
-    reference_coords = np.vstack([reference[key].coord for key in matched_keys])
-    mobile_coords = np.vstack([mobile[key].coord for key in matched_keys])
-    return reference_coords, mobile_coords, residue_mismatches
+    if len(matched_reference) < 3:
+        raise ValueError(
+            "fewer than three sequence-matched C-alpha atoms are available"
+        )
+
+    matched_reference.reverse()
+    matched_mobile.reverse()
+    residue_mismatches.reverse()
+    return np.vstack(matched_reference), np.vstack(matched_mobile), residue_mismatches
 
 
 def rmsd(first: np.ndarray, second: np.ndarray) -> float:

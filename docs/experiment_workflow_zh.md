@@ -1,365 +1,292 @@
-# 实验流程指南（环境构建 → 数据准备 → 运行代码）
+# Linux 完整实验流程
 
-> 适用仓库：`qubo-receptor-ensemble-selection`（dev_ylj 分支，重构后状态）。
-> 默认运行环境：**Linux**（命令均为 bash 语法）。历史 stage 脚本已从工作区移除，git 历史中完整保留。
+从实验数据准备开始执行完整的受体集合选择流程。Uni-Dock 需要在 Linux 环境中执行。
 
----
+## 1. 固定路径和运行环境
 
-## 1. 仓库结构
+本文示例使用以下路径：
 
-```
-仓库根
-├── src/qubo_receptor_ensemble/   # 可复用核心（io/pdb/screening/qubo/docking/matrix/preparation/ligand/md/metrics）
-├── scripts/                      # 41 个命令行入口（workflow.py 是目录）
-├── configs/                      # 预注册实验配置 JSON
-├── data/                         # 实验数据（本地，不入 git）
-├── results/                      # 小规模结果表（JSON/CSV）
-├── environment/                  # conda 环境定义
-├── tests/                        # 活代码测试 + 数据记录验证
-├── reports/                      # stage 报告与交接文档（历史记录）
-└── conftest.py                   # pytest 根配置（src 免安装可导入）
+```text
+仓库：/mnt/e/Quant/qubo-receptor-ensemble-selection
+数据根目录：/mnt/e/Quant/qubo_receptor_ensemble_experiment_data_20260815
+运行环境：qubo-unidock
 ```
 
-## 2. 数据与 git 边界
+`--data-root` 是外部实验数据的根目录。配置文件中的 `sources` 和 `paths`
+字段使用相对路径时，均相对于该目录解析；运行结果默认也写入该数据包，
+不会自动写入仓库内的第二套大规模数据目录。
 
-- 大数据不进入 git：`data/`（原始/处理数据、对接输出、轨迹）、`results/runs/`、`*.tar.gz`、`*.dcd` 等已在 `.gitignore` 中排除。
-- 新增数据放在本地 `data/` 或外部数据包目录，不要 `git add`。
-- git 只保存：代码、配置（configs/）、小结果表、文档、测试。
-- 实验配置在运行任何代码之前写好并提交 git；配置中记录输入文件的 SHA-256，脚本运行时校验输入一致性，输入变化会报错。
-
-## 3. 环境构建
-
-### 3.1 主环境
+开始前激活已配置好的运行环境：
 
 ```bash
-conda env create -f environment/environment.yml
-conda activate qubo-receptor-ensemble
-python -m pip install -e .
-```
-
-- 环境名 `qubo-receptor-ensemble`，Python 3.11，含 numpy/pandas/scipy/sklearn/rdkit/xgboost 3.1.1/dimod/meeko/prody（见 `environment/environment.yml`）。
-- `environment.yml` 内 `pip: -e ..` 的相对路径取决于执行目录，activate 后手动执行 `python -m pip install -e .`。
-- 验证：
-
-```bash
-python -c "import qubo_receptor_ensemble; print(qubo_receptor_ensemble.__version__)"
-python scripts/workflow.py list
-python -m pytest -q
-```
-
-- 无 conda 环境时，仓库根的 `conftest.py` 会把 `src/` 加入 sys.path，`python -m pytest` 可直接运行。
-
-### 3.2 专用环境
-
-| 环境文件 | 用途 |
-| --- | --- |
-| `stage03_openmm.yml` | OpenMM 分子动力学 |
-| `stage05_unidock_gpu.yml` 等 stage*.yml | Uni-Dock GPU 对接 |
-| `stage78_dwave_advantage2.yml` / `stage79_qci_dirac3.yml` | 量子硬件 PoC（已收敛） |
-| `qaoa-environment.yml` | QAOA 仿真 |
-
-```bash
-conda env create -f environment/stage03_openmm.yml
-```
-
-## 4. 数据准备
-
-### 4.1 数据包解压
-
-数据包是 tar.gz，位于本地 `data/`（不入 git）或外部完整数据包目录：
-
-```
-data/abl1.tar.gz   data/braf.tar.gz   data/cdk2.tar.gz   data/egfr.tar.gz
-```
-
-解压：
-
-```bash
-cd data
-tar -xzf abl1.tar.gz
-```
-
-解压后每个靶点目录包含：
-
-```
-abl1/
-├── receptor.pdb           # 受体结构
-├── crystal_ligand.mol2    # 共晶配体（重对接验证用）
-├── actives_final.ism      # DUD-E 活性 SMILES（一行一个）
-├── decoys_final.ism       # DUD-E 诱饵 SMILES（一行一个）
-└── actives_final.mol2.gz / decoys_final.mol2.gz / *.sdf.gz   # 3D 结构
-```
-
-### 4.2 配体清单（ligands.csv）
-
-`check_ligand_smiles.py` 的输入是配体清单 CSV，核心列：
-
-```
-ligand_id,smiles,label,source,target_id
-```
-
-清单从 `.ism` 文件构建，使用 `scripts/` 下的两个脚本：
-
-```bash
-python scripts/make_dude_subset.py --help
-python scripts/build_dude_ligand_manifest.py --help
-```
-
-- `make_dude_subset.py`：按靶点从 `.ism` 抽活性/诱饵子集（可指定数量与种子）。
-- `build_dude_ligand_manifest.py`：把 `actives_final.ism` / `decoys_final.ism` 合成为
-  `ligand_id,smiles,label,source,target_id` 清单 CSV。
-
-自建配体时，自行准备含 5 列的 CSV（`source` 填来源库名，`target_id` 填靶点标识）。
-格式参照仓库历史样例 `data/processed/stage05_mk14_development_120a120d.csv`。
-
-### 4.3 配体准备（SMILES → 3D SDF → PDBQT）
-
-```bash
-# ① SMILES 审计（RDKit 解析、去重、理化性质统计）
-python scripts/check_ligand_smiles.py --input ligands.csv --output audited.csv --summary summary.json
-
-# ② 显式氢 3D SDF（ETKDG 嵌入 + MMFF/UFF 优化）
-python scripts/prepare_ligand_3d_sdf.py --input audited.csv --sdf-dir sdf/ --manifest prep3d.csv --seed 20260709
-
-# ③ 并行 PDBQT 制备（Meeko，可续跑）
-python scripts/batch_prepare_ligand_pdbqt_parallel.py --input-manifest prep3d.csv --pdbqt-dir pdbqt/ --output-manifest pdbqt_manifest.csv --workers 4 --resume
-```
-
-### 4.4 受体（PDB → 对齐 → PDBQT）
-
-```bash
-# ① Kabsch 刚性对齐（Cα 匹配）
-python scripts/align_receptor_structure.py --reference ref.pdb --mobile mobile.pdb --output aligned.pdb --summary-output align.json
-
-# ② 清理并参数化（ProDy 去水/杂原子 + Meeko 受体）
-python scripts/prepare_receptor.py --input-pdb aligned.pdb --chain A --protein-only-output protein.pdb --prepared-pdb-output prepared.pdb --pdbqt-output receptor.pdbqt --summary-output summary.json
-```
-
-### 4.5 共晶重对接验证
-
-```bash
-python scripts/evaluate_redocking_rmsd.py --case-id demo --reference-sdf ligand.sdf --docked-pdbqt docked.pdbqt --pose-table-output poses.csv --summary-output rmsd.json
-```
-
-对称修正重原子 RMSD ≤ 2.0 Å 视为成功。
-
-## 5. 配置驱动：一套代码，新靶点零新代码
-
-代码只有一套（src 核心 + scripts 通用入口）。实验之间的差异全部放在
-数据（data/）、配置（configs/）、记录（results/）三层，不为新靶点写新脚本。
-
-```
-configs/stageXX_<target>_*.json   每个实验一份配置：数据路径、box、参数、种子、期望哈希
-data/<target>/                   每个靶点的数据：受体、配体清单、3D 结构
-results/runs/<experiment>/       每个实验的记录：打分、矩阵、摘要
-```
-
-### 5.1 新靶点实验步骤（模板）
-
-```bash
-# 1) 数据包 → 靶点目录
-tar -xzf data/<target>.tar.gz -C data/
-
-# 2) 配体清单（从 .ism 构建）
-python scripts/build_dude_ligand_manifest.py --help   # 生成 ligands.csv（target_id=<target>）
-
-# 3) 受体准备
-python scripts/prepare_receptor.py --input-pdb data/<target>/receptor.pdb --chain A \
-  --protein-only-output protein.pdb --prepared-pdb-output prep.pdb \
-  --pdbqt-output receptor.pdbqt --summary-output receptor.json
-
-# 4) 写配置 configs/<target>_production.json（模板见 5.2），提交 git
-
-# 5) 对接（Uni-Dock，配置驱动）
 conda activate qubo-unidock
-python -m scripts.experimental.unidock.run_unidock_gpu_equivalence \
-  --config configs/<target>_production.json --root . --unidock unidock --resume
-
-# 6) 矩阵 + 评估 + 组合选择（见第 6 章）
+cd /mnt/e/Quant/qubo-receptor-ensemble-selection
+python --version
+command -v unidock
 ```
 
-对接入口 `scripts/experimental/unidock/run_unidock_gpu_equivalence.py` 是通用引擎入口，
-参数只有 `--config/--root/--unidock/--resume/--audit-only`，靶点差异全部在配置里。
-保留的 `run_stage09_mk14_train696_production.py` 是 MK14 的历史封装，可作参照。
+## 2. 完整流程入口
 
-### 5.2 生产配置模板
+当前完整实验的唯一主入口是 `scripts/run_experiment.py`。FA10 和 EGFR
+分别使用以下配置：
+
+```text
+configs/experiments/stage102a_fa10_full.json
+configs/experiments/stage102a_egfr_full.json
+```
+
+典型的 FA10 执行流程如下：
+
+```bash
+cd /mnt/e/Quant/qubo-receptor-ensemble-selection
+
+REPO_ROOT=/mnt/e/Quant/qubo-receptor-ensemble-selection
+DATA_ROOT=/mnt/e/Quant/qubo_receptor_ensemble_experiment_data_20260815
+CONFIG="$REPO_ROOT/configs/experiments/stage102a_fa10_full.json"
+
+python scripts/run_experiment.py validate \
+  --config "$CONFIG" \
+  --data-root "$DATA_ROOT"
+
+python scripts/run_experiment.py plan \
+  --config "$CONFIG" \
+  --data-root "$DATA_ROOT"
+
+python scripts/run_experiment.py run \
+  --config "$CONFIG" \
+  --data-root "$DATA_ROOT"
+```
+
+完整流程依次执行：
+
+```text
+prepare -> dock -> aggregate -> build_problem -> solve -> evaluate -> persist
+```
+
+各阶段职责如下：
+
+1. `prepare`：只读取 `data/raw` 中的 DUD-E ISM、DUD-E 参考受体、晶体配体和
+   RCSB 结构池。它生成来源配体 manifest、配体 3D 结构/PDBQT、RCSB PDB、
+   对齐 PDB、受体 PDBQT、受体 manifest，并根据晶体配体坐标计算本次运行的
+   docking box。
+2. `dock`：调用当前 `qubo-unidock` 环境中的 Uni-Dock 重新 docking。
+3. `aggregate`：聚合多个 seed 的 score table，生成 primary 和 sensitivity
+   矩阵。
+4. `build_problem`：使用本次生成的 primary matrix 构造 QUBO。
+5. `solve`：调用配置中的 solver 求解受体子集。
+6. `evaluate`：在配置指定的数据划分上计算评估指标。
+7. `persist`：保存选择结果、评估结果、配置快照和运行 manifest。
+
+`validate` 只检查输入，`plan` 只展开计划；二者都不会启动结构准备或
+docking。
+
+### 2.1 Stage102A 配体选择
+
+两个 Stage102A 完整配置默认使用：
 
 ```json
-{
-  "schema_version": "1.0",
-  "experiment_id": "<target>-production-v1",
-  "purpose": "train-only <target> production docking",
-  "data_boundary": {
-    "allowed_split": "train",
-    "validation_rows_permitted": 0,
-    "test_rows_permitted": 0
-  },
-  "inputs": {
-    "receptor_manifest": {"path": "data/processed/<target>_receptor_manifest.csv", "sha256": "<输入文件哈希>"},
-    "ligand_manifest":   {"path": "data/processed/<target>_pdbqt_manifest.csv",  "sha256": "<输入文件哈希>"},
-    "seeds": [{"seed_id": "seed0", "base_seed": 20260801}]
-  },
-  "expected": {
-    "receptor_count": 1,
-    "ligand_count": 200,
-    "label_counts": {"active": 100, "decoy": 100},
-    "seed_count": 1,
-    "pair_count": 200
-  },
-  "unidock": {
-    "executable": "unidock",
-    "required_package_version": "1.1.3",
-    "profile_id": "enhanced",
-    "scoring": "vina",
-    "exhaustiveness": 1024,
-    "max_step": 80,
-    "refine_step": 5,
-    "num_modes": 1,
-    "box": {"center_x": 0.0, "center_y": 0.0, "center_z": 0.0,
-            "size_x": 22, "size_y": 24, "size_z": 32}
-  },
-  "outputs": {
-    "run_directory": "results/runs/<target>_production",
-    "scores_csv": "results/runs/<target>_production/scores.csv",
-    "summary_json": "results/runs/<target>_production/summary.json"
+"selection": {
+  "ordering": "scaffold_hash_allocation",
+  "allocation": {
+    "hash_namespace": "STAGE102A",
+    "outer_fold_count": 5,
+    "minimum_label_counts_per_outer_fold": {
+      "active": 20,
+      "decoy": 80
+    }
   }
 }
 ```
 
-配置字段以 `configs/stage09_mk14_train696_unidock113_production.json` 为完整参照。
+`prepare` 直接从 raw `.ism` 读取配体，并按历史 Stage102A 原则进行无分数分配：
+按 source molecule ID、canonical SMILES 和无手性 Bemis-Murcko scaffold 建连通组，
+使用确定性 hash 排序选择 exact 120 个 active 和 480 个 decoy，排除与已选
+active scaffold 重叠的 decoy，再把组分配到 5 个 outer fold。这个阶段不会读取
+docking score、旧矩阵或旧的 processed manifest。选择结果写入
+`source_ligands.csv`，审计摘要写入 `source_ligand_allocation_summary.json`。
 
-## 6. 运行流水线
+`ordering: "manifest_order"` 仍然可用。启用它时，程序按 active/decoy 的 raw
+`.ism` 行顺序截取配置的配额，不执行 scaffold hash 分配；它不会影响默认的
+Stage102A 配置。
 
-supported 流程统一从 `workflow.py` 出发：
+## 3. 示例数据
 
-```bash
-python scripts/workflow.py list
-python scripts/workflow.py show dock-vina
-python scripts/workflow.py run dock-vina -- --help
-python scripts/workflow.py run dock-vina -- <参数...>
+Stage102A 示例的数据和默认规模如下：
+
+| 目标 | 受体构象数 | 配体总数 | active | decoy | docking seed 数 |
+|---|---:|---:|---:|---:|---:|
+| FA10 | 13 | 600 | 120 | 480 | 3 |
+| EGFR | 12 | 600 | 120 | 480 | 3 |
+
+两个示例都从外部数据包的 raw 目录读取配体和受体。配置中的路径例如：
+
+```text
+data/raw/external_targets/fa10_dude/fa10/actives_final.ism
+data/raw/external_targets/fa10_dude/fa10/decoys_final.ism
+data/raw/external_targets/fa10_dude/fa10/receptor.pdb
+data/raw/external_targets/fa10_dude/fa10/crystal_ligand.mol2
+data/raw/rcsb/fa10/
 ```
 
-### 6.1 对接（Uni-Dock）
+FA10 的 RCSB CIF 候选也可以位于该目录下的 `coordinate_pool/`；程序会递归
+发现 `.cif`/`.pdb`，同一结构 ID 优先使用 CIF。EGFR 配置使用对应的
+`data/raw/external_targets/egfr_dude/egfr/` 和 `data/raw/rcsb/egfr/`。这些路径都在 `DATA_ROOT`
+下解析，而不是在仓库根目录下寻找。
 
-对接引擎为 **Uni-Dock 1.1.3**（GPU）。环境与安装：
+## 4. Docking 配置
+
+默认配置使用本机 Uni-Dock，并重新执行 docking：
+
+```json
+"docking": {
+  "redock": true,
+  "engine": "unidock",
+  "executable": "unidock",
+  "seeds": [20260821, 20260822, 20260823]
+}
+```
+
+`executable: "unidock"` 表示从当前 Linux shell 的 `PATH` 查找可执行文件。
+如果 `command -v unidock` 找不到它，应先修复 `qubo-unidock` 环境或在配置
+中填写 Linux 环境中的绝对路径。
+
+完整模式的 box 只配置计算规则，不填写固定中心坐标：
+
+```json
+"box": {
+  "method": "ligand_bounds",
+  "padding": 5.0,
+  "minimum_size": [22.0, 22.0, 28.0]
+}
+```
+
+`prepare` 会用 raw `crystal_ligand.mol2`/`.sdf` 的坐标计算中心和尺寸，写入
+`docking_box.json`，随后把该结果传给 docking adapter。`allow_bad_res` 只在
+明确配置时启用，并会在受体准备审计中记录 Meeko 删除的非模板残基。
+
+VinaCPU 仍可作为显式的替代适配器，但不是当前默认流程：
+
+```json
+"docking": {
+  "redock": true,
+  "engine": "vina_cpu",
+  "executable": "/path/to/vina"
+}
+```
+
+不同 engine 的 score table 不得在同一次聚合中混用。完整模式要求
+`docking.redock` 为 `true`；只有显式使用
+`workflow_mode: "reference_replay"` 并提供已有 score table 或 matrix 时，
+才允许关闭 redock。
+
+## 5. 从中间阶段继续
+
+可以在 JSON 中设置起止阶段，也可以用命令行覆盖：
 
 ```bash
-conda env create -f environment/stage05_unidock_gpu.yml   # 环境 qubo-unidock，含 unidock=1.1.3
+python scripts/run_experiment.py run \
+  --config "$CONFIG" \
+  --data-root "$DATA_ROOT" \
+  --from aggregate \
+  --to persist
+```
+
+从中间阶段开始时，运行器只使用配置中明确声明的前置路径，不会自动搜索
+仓库或数据包中的旧矩阵：
+
+| 起始阶段 | 必须存在的前置路径 |
+|---|---|
+| `prepare` | raw `.ism`、参考受体 PDB、晶体配体和 RCSB 结构目录 |
+| `dock` | `paths.prepared_ligand_manifest`、`paths.selected_receptor_manifest` |
+| `aggregate` | 上述两个 manifest、`paths.score_tables` |
+| `build_problem` | `paths.primary_matrix`、`paths.selected_receptor_manifest` |
+| `solve` | `paths.problem` |
+| `evaluate` | `paths.selection` |
+| `persist` | `paths.evaluation` |
+
+`--from` 和 `--to` 必须遵守配置声明的 canonical 阶段顺序。
+
+## 6. 输出、续跑和覆盖
+
+默认运行目录由配置中的 `paths.run_directory` 指定，并相对于
+`DATA_ROOT` 解析。典型结构如下：
+
+```text
+results/runs/stage102a_fa10_full_local/
+  source_ligands.csv
+  prepared_ligands.csv
+  receptors/
+    source_pdb/
+    aligned_pdb/
+    prepared/
+  receptor_preparation_audit.json
+  selected_receptors.csv
+  docking_box.json
+  score_tables/
+  matrices/
+    aggregated_long.csv
+    primary_median_matrix.csv
+    sensitivity_minimum_matrix.csv
+  problem.json
+  selection.json
+  evaluation.json
+  config.snapshot.json
+  manifest.json
+  summary.json
+```
+
+中断后可以在同一运行环境中续跑：
+
+```bash
+python scripts/run_experiment.py run \
+  --config "$CONFIG" \
+  --data-root "$DATA_ROOT" \
+  --resume
+```
+
+已有输出默认不会覆盖。只有确认需要重写当前运行目录时才使用
+`--overwrite`。文件 SHA-256 和其他 provenance 由程序自动记录，不需要手工
+计算或填写。
+
+`docking_box.json` 的中心来自 raw 晶体配体坐标包围盒中心，尺寸为
+`max(坐标范围 + 2 * padding, minimum_size)`。它记录晶体配体路径和 SHA-256；
+`docking` 阶段只使用这个本次运行生成的 box，不接受旧的 `common_box.json`
+或配置中预先填写的六个坐标值。
+
+## 7. 旧入口边界
+
+`scripts/run_pipeline.py` 和 `configs/pipelines/*.json` 是 schema `2.0` 的
+matrix replay 兼容入口。它们从已有 score matrix 开始，不负责配体准备和
+docking，也不是本文的默认完整实验入口。
+
+旧入口的 Linux 执行方式见 [配置说明](../configs/pipelines/README.md)。新实验
+统一使用：
+
+```text
+scripts/run_experiment.py
+configs/experiments/*.json
+```
+
+## 8. 开发者检查
+
+在仓库根目录执行轻量检查：
+
+```bash
+cd /mnt/e/Quant/qubo-receptor-ensemble-selection
 conda activate qubo-unidock
+
+python scripts/run_experiment.py --help
+python -m pytest -q --basetemp /tmp/qubo-receptor-ensemble-selection-pytest
+git diff --check
 ```
 
-生产入口在 `scripts/experimental/unidock/`，每个靶点一个生产执行器（`run_stageXX_<target>_production.py`），
-以 MK14 Train-696 为例：
+回归测试不会启动 600 个配体乘多受体乘多 seed 的生产 docking。完整运行前
+应先执行 `validate` 和 `plan`，确认数据根目录、配置、engine 和输出目录。
 
-```bash
-python scripts/experimental/unidock/run_stage09_mk14_train696_production.py \
-  --config configs/stage09_mk14_train696_unidock113_production.json \
-  --root . --unidock <unidock可执行文件> --resume
-```
+## 9. 科研边界
 
-参数：`--config`（预注册配置）、`--root`（仓库根）、`--unidock`（可执行路径）、`--resume`、
-`--seed-id`、`--receptor-id`、`--audit-only`、`--finalize-only`。
-
-Uni-Dock 三个搜索 profile：`fast` / `balance` / `detail`，在配置的 `search` 段指定；
-生产矩阵使用确认过的 profile（如 enhanced 1024/80），主评价指标 BEDROC20。
-
-CPU 参考：AutoDock Vina 1.2.7 的代码完整保留（与 Uni-Dock 是不同引擎，分数不混用）：
-
-| 文件 | 用途 |
-| --- | --- |
-| `scripts/batch_vina_docking_parallel.py` / `batch_vina_docking.py` | CPU Vina 批量对接（并行/单进程，可续跑） |
-| `scripts/run_vina_search_ladder.py` 等 run_vina_* | Vina 搜索参数诊断（ladder/robustness/warning） |
-| `scripts/aggregate_vina_seed_replicates.py` | 早期 CDK2 seed 聚合 schema |
-| `scripts/experimental/vinagpu/` | Vina-GPU 2.1 引擎工作区（等价性、确定性批处理、搜索深度诊断） |
-
-### 6.2 打分矩阵
-
-```bash
-# 单 seed：代表分（pose_rank_1 或 min_score）+ 长表/宽矩阵
-python scripts/build_score_matrix.py --score-table scores.csv --long-output long.csv --matrix-output matrix.csv --summary-output summary.json --representative pose_rank_1
-
-# 多 seed 聚合（中位数/最小值矩阵）
-python scripts/aggregate_seed_replicates.py --config configs/xxx_aggregate.json
-```
-
-### 6.3 筛选评估
-
-```bash
-python scripts/evaluate_virtual_screening.py --score-table scores.csv --ranking-output ranked.csv --metrics-output metrics.json --top-fractions 0.01 0.05 --bedroc-alpha 20
-```
-
-指标：ROC-AUC（pairwise）、PR-AUC、BEDROC20、EF1%/5%/10%、bootstrap 95% CI。
-
-### 6.4 受体组合选择
-
-```bash
-# 原型：穷举小 QUBO 子集（train 分片内）
-python scripts/solve_qubo_receptor_subset.py --matrix matrix.csv --split-manifest split.csv --receptor r1 r2 r3 --output result.json --target-size 2
-
-# 正式：嵌套 scaffold CV 拟合选择方法（fit-ensemble）
-python scripts/run_development_scaffold_cv_gate.py --config configs/xxx_cv_gate.json
-```
-
-选择方法只在 train 分片内拟合；locked test 标签在预注册门通过前锁定。
-
-### 6.5 分子动力学
-
-```bash
-python scripts/build_openmm_system.py --protocol configs/xxx_md.json --manifest-output build.json --solvated-pdb-output solvated.pdb --system-xml-output system.xml
-python scripts/run_openmm_equilibration.py --config configs/xxx_equil.json --overwrite
-python scripts/run_openmm_production.py --config configs/xxx_prod.json --resume
-python scripts/analyze_md_trajectory.py --config configs/xxx_traj_qc.json
-```
-
-### 6.6 完整最小示例
-
-```bash
-conda activate qubo-receptor-ensemble
-python -m pip install -e .
-
-# 数据包 → 配体清单
-tar -xzf data/abl1.tar.gz -C data/
-python scripts/build_dude_ligand_manifest.py --help   # 按脚本参数生成 ligands.csv
-
-# 配体准备
-python scripts/check_ligand_smiles.py --input ligands.csv --output audited.csv --summary audit.json
-python scripts/prepare_ligand_3d_sdf.py --input audited.csv --sdf-dir sdf --manifest sdf3d.csv
-python scripts/batch_prepare_ligand_pdbqt_parallel.py --input-manifest sdf3d.csv --pdbqt-dir pdbqt --output-manifest pdbqt.csv --workers 4
-
-# 受体准备
-python scripts/prepare_receptor.py --input-pdb data/abl1/receptor.pdb --chain A --protein-only-output protein.pdb --prepared-pdb-output prep.pdb --pdbqt-output receptor.pdbqt --summary-output receptor.json
-
-# 对接（Uni-Dock，GPU）
-conda activate qubo-unidock
-python scripts/experimental/unidock/run_stage09_mk14_train696_production.py --config configs/stage09_mk14_train696_unidock113_production.json --root . --unidock unidock --resume
-
-# 矩阵 + 评估
-python scripts/build_score_matrix.py --score-table scores.csv --long-output long.csv --matrix-output matrix.csv --summary-output matrix.json
-python scripts/evaluate_virtual_screening.py --score-table long.csv --ranking-output ranked.csv --metrics-output metrics.json
-
-# 组合选择（train 分片内）
-python scripts/solve_qubo_receptor_subset.py --matrix matrix.csv --split-manifest split.csv --receptor r1 r2 r3 --output qubo.json --target-size 2
-```
-
-## 7. 验证与回归
-
-```bash
-python -m pytest -q
-python -m compileall scripts src
-python scripts/workflow.py list
-```
-
-## 8. 恢复历史脚本
-
-```bash
-git log --oneline -- scripts/
-git show eb958ea^:scripts/run_stage111_thrb_identity_adjudication.py > scripts/run_stage111_thrb_identity_adjudication.py
-```
-
-## 9. 科研纪律
-
-1. 不用已看过的外层结果继续调 QUBO 系数、k 阈值或接触状态阈值，避免验证集变成训练集。
-2. 各靶点的身份与参考结构以预注册配置为准，不确定时先查交接文档。
-3. 没有新的外部价值实例前，不租量子硬件、不主张量子优势。
-
-详见 `reports/handover/successor_quickstart_20260815_zh.md`。
+- FA10 和 EGFR 当前是 development/train 案例，不是独立确认实验；
+- 受体数量、`k`、QUBO 权重和 solver 参数不能根据 locked test 结果回调；
+- 不把经典 exact QUBO 结果解释为量子优势；
+- 不因为 docking 失败自动替换受体、修改 box 或回调参数；
+- 不将不同 docking engine 的结果混合为同一实验矩阵。
