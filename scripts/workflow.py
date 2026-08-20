@@ -1,7 +1,7 @@
-"""Discover and launch the small supported workflow surface.
+"""Discover and launch the supported workflow surface.
 
-The repository keeps historical experiment entry points for reproducibility.
-This catalog is the supported starting point for new work.
+The Stage102A canonical pipeline is the starting point for new matrix-based
+work. Historical and restricted aliases remain visible with explicit status.
 """
 
 from __future__ import annotations
@@ -29,6 +29,12 @@ WORKFLOWS: dict[str, Workflow] = {
         "core",
         "supported",
         "Audit ligand SMILES before structure preparation.",
+    ),
+    "pipeline": Workflow(
+        "scripts/run_pipeline.py",
+        "core",
+        "supported",
+        "Plan or run the canonical prepare/build/solve/evaluate/persist pipeline.",
     ),
     "prepare-ligand-3d": Workflow(
         "scripts/prepare_ligand_3d_sdf.py",
@@ -202,7 +208,11 @@ def main(argv: Sequence[str] | None = None) -> int:
     forwarded = list(args.arguments)
     if forwarded[:1] == ["--"]:
         forwarded = forwarded[1:]
-    completed = subprocess.run([sys.executable, str(script), *forwarded], check=False)
+    completed = subprocess.run(
+        [sys.executable, str(script), *forwarded],
+        check=False,
+        cwd=repository_root(),
+    )
     return completed.returncode
 
 
