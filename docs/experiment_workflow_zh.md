@@ -101,6 +101,40 @@ prepare -> dock -> aggregate -> build_problem -> solve -> evaluate -> persist
 
 默认选择目标是 BEDROC20，即 `utility_metric: "bedroc"` 和 `bedroc_alpha: 20.0`。ROC-AUC 作为辅助指标记录，但不参与默认的 QUBO 选择或自适应 `k` 决策。
 
+### 2.1.7 自适应构象数（可选）
+
+如需让流程先判断目标蛋白是否需要多构象，可在 `problem` 中显式启用
+`k_policy`。该策略从 `k=1` 开始逐个尝试候选值；每个增加构象的转换都必须同时满足：
+scaffold 分组 bootstrap 后 BEDROC20 边际收益的 95% 下置信界大于 0，且 active
+与 decoy 的 top-1%/top-5% rescue 平均差值大于 0。第一次失败后停止，最终选中的
+`k` 再用于完整开发数据上的正式 QUBO。
+
+```json
+"problem": {
+  "type": "receptor_subset",
+  "strategy": "qubo",
+  "target_size": 1,
+  "weights": {"redundancy": 0.25, "count": 0.10, "size": 1.0},
+  "k_policy": {
+    "mode": "adaptive",
+    "selector": "mechanistic_bootstrap_lcb",
+    "candidates": [1, 2, 3],
+    "scaffold_field": "scaffold_smiles",
+    "inner_fold_count": 3,
+    "bootstrap_iterations": 1000,
+    "lower_quantile": 0.025,
+    "rescue_fractions": [0.01, 0.05],
+    "random_seed": 0
+  }
+}
+```
+
+自适应选择只使用开发数据的内层 scaffold fold，不读取 outer/test 标签；当前版本只支持
+单问题 QUBO，不支持 `problem.mode: "compare"`。运行目录会保存
+`adaptive_cardinality.json`，并在 `problem.json`、`selection.json`、`evaluation.json`、
+`summary.json` 和 `manifest.json` 中保留相同的决定审计信息。固定
+`problem.target_size` 且不配置 `k_policy` 时，旧流程不变。
+
 如果需要在同一套 docking 矩阵上比较多个历史 QUBO 方法，可以将 `problem.mode` 设为 `compare` 并列出 `methods`。比较从 `build_problem` 开始即可，不需要重新执行 `prepare`、`dock` 或 `aggregate`。
 
 `validate` 只检查当前起始阶段需要的输入，`plan` 只展开阶段和输出路径；这两个命令都不会启动结构准备或 docking。
@@ -233,7 +267,7 @@ python scripts/run_experiment.py run --config "$CONFIG" --data-root "$DATA_ROOT"
 | `prepare` | raw `.ism`、参考受体 PDB、晶体配体和 RCSB 结构目录 |
 | `dock` | `paths.prepared_ligand_manifest`、`paths.selected_receptor_manifest`、`paths.docking_box` |
 | `aggregate` | 上述两个 manifest、`paths.score_tables` |
-| `build_problem` | `paths.primary_matrix`、`paths.selected_receptor_manifest` |
+| `build_problem` | `paths.primary_matrix`、`paths.selected_receptor_manifest`；启用自适应 `k` 时还需要 `paths.prepared_ligand_manifest` |
 | `solve` | `paths.problem` |
 | `evaluate` | `paths.selection` |
 | `persist` | `paths.evaluation` |
@@ -261,6 +295,7 @@ results/runs/stage102a_fa10_full_local/
     primary_median_matrix.csv
     sensitivity_minimum_matrix.csv
   problem.json
+  adaptive_cardinality.json  # 仅在启用自适应 k 时生成
   selection.json
   evaluation.json
   config.snapshot.json

@@ -91,6 +91,43 @@ def test_full_config_defaults_problem_selection_to_bedroc20(tmp_path: Path) -> N
     assert config.data["problem"]["bedroc_alpha"] == 20.0
 
 
+def test_full_config_accepts_mechanistic_adaptive_k_policy(tmp_path: Path) -> None:
+    path = _write_config(tmp_path)
+    payload = json.loads(path.read_text(encoding="utf-8"))
+    payload["selection"]["receptor_count"] = 3
+    payload["problem"]["k_policy"] = {
+        "mode": "adaptive",
+        "selector": "mechanistic_bootstrap_lcb",
+        "candidates": [1, 2, 3],
+        "scaffold_field": "scaffold_smiles",
+        "inner_fold_count": 3,
+        "bootstrap_iterations": 100,
+        "lower_quantile": 0.025,
+        "rescue_fractions": [0.01, 0.05],
+    }
+    path.write_text(json.dumps(payload), encoding="utf-8")
+
+    config = load_full_experiment_config(path, data_root=tmp_path)
+
+    assert config.data["problem"]["k_policy"]["selector"] == (
+        "mechanistic_bootstrap_lcb"
+    )
+
+
+def test_full_config_rejects_unknown_adaptive_k_policy(tmp_path: Path) -> None:
+    path = _write_config(tmp_path)
+    payload = json.loads(path.read_text(encoding="utf-8"))
+    payload["problem"]["k_policy"] = {
+        "mode": "adaptive",
+        "selector": "unknown",
+        "candidates": [1, 2],
+    }
+    path.write_text(json.dumps(payload), encoding="utf-8")
+
+    with pytest.raises(ConfigError, match="selector"):
+        load_full_experiment_config(path, data_root=tmp_path)
+
+
 def test_full_config_resolves_external_data_root_without_sha_requirements(
     tmp_path: Path,
 ) -> None:

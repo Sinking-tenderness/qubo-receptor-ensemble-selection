@@ -28,6 +28,10 @@ python scripts/run_experiment.py plan \
   按历史 Stage102A 规则确定性分配，`preselected_manifest` 要求
   `sources.ligand_manifest`，其余两者也从 raw ISM 选择；
 - `paths` 控制每个阶段输出和从中间阶段继续时的前置文件位置；
+- `problem.k_policy` 默认不配置。显式设置为 `mode: "adaptive"` 和
+  `selector: "mechanistic_bootstrap_lcb"` 后，流程会在 `build_problem` 阶段从
+  `k=1` 逐个尝试候选构象数，并把审计结果写入运行目录；该模式要求额外存在
+  `paths.prepared_ligand_manifest`，且当前不支持 `problem.mode: "compare"`；
 - `start_stage`/`end_stage` 可以在配置中设置，也可以由 CLI 的 `--from`/`--to`
   覆盖；
 - `sources` 和 `paths` 中的相对路径相对于 `--data-root`，不是相对于仓库根目录。

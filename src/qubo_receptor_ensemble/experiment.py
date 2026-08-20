@@ -12,6 +12,7 @@ from pathlib import Path
 from typing import Any
 
 from .docking_adapters import get_docking_adapter
+from .adaptive_cardinality import estimate_adaptive_cardinality
 from .full_workflow import (
     FULL_WORKFLOW_STAGES,
     ConfigError,
@@ -562,6 +563,29 @@ def _load_problem_payload(config: FullExperimentConfig, matrix_path: Path) -> di
     receptor_manifest = _read_receptor_manifest(config.paths["selected_receptor_manifest"])
     problem_config = dict(config.data["problem"])
     problem_config["receptor_ids"] = [row["conformer_id"] for row in receptor_manifest]
+    k_policy = problem_config.get("k_policy")
+    if isinstance(k_policy, dict) and k_policy.get("mode") == "adaptive":
+        ligand_manifest = _read_ligand_manifest(config.paths["prepared_ligand_manifest"])
+        metadata_by_ligand = {row["ligand_id"]: row for row in ligand_manifest}
+        matrix_ids = {str(row.get("ligand_id", "")) for row in rows}
+        manifest_ids = set(metadata_by_ligand)
+        if matrix_ids != manifest_ids:
+            missing = sorted(manifest_ids - matrix_ids)
+            extra = sorted(matrix_ids - manifest_ids)
+            raise ConfigError(
+                "adaptive cardinality requires matrix and ligand manifest IDs to match; "
+                f"missing_in_matrix={missing}, extra_in_matrix={extra}"
+            )
+        enriched_rows: list[dict[str, object]] = []
+        for row in rows:
+            ligand_id = str(row.get("ligand_id", ""))
+            manifest_row = metadata_by_ligand[ligand_id]
+            if str(row.get("label", "")) != str(manifest_row.get("label", "")):
+                raise ConfigError(
+                    f"adaptive cardinality label mismatch for ligand_id={ligand_id}"
+                )
+            enriched_rows.append({**row, **manifest_row})
+        rows = enriched_rows
     return {"matrix_path": str(matrix_path), "rows": rows, "problem_config": problem_config}
 
 
@@ -581,6 +605,39 @@ def build_problem_stage(config: FullExperimentConfig, matrix_path: Path) -> dict
     rows = payload["rows"]
     problem_config = payload["problem_config"]
     assert isinstance(rows, list) and isinstance(problem_config, dict)
+    k_policy = problem_config.get("k_policy")
+    adaptive_decision: dict[str, object] | None = None
+    if isinstance(k_policy, dict) and k_policy.get("mode") == "adaptive":
+        if str(problem_config.get("mode", "single")) == "compare" or "methods" in problem_config:
+            raise ConfigError(
+                "adaptive cardinality is not supported with comparison problems"
+            )
+        try:
+            decision = estimate_adaptive_cardinality(
+                rows,
+                [str(value) for value in problem_config["receptor_ids"]],
+                problem_config=problem_config,
+                solver_backend=str(config.data["solve"]["backend"]),
+                candidate_ks=[int(value) for value in k_policy.get("candidates", [1, 2, 3])],
+                scaffold_field=str(k_policy.get("scaffold_field", "scaffold_smiles")),
+                inner_fold_count=int(k_policy.get("inner_fold_count", 3)),
+                bootstrap_iterations=int(k_policy.get("bootstrap_iterations", 1000)),
+                lower_quantile=float(k_policy.get("lower_quantile", 0.025)),
+                rescue_fractions=[
+                    float(value)
+                    for value in k_policy.get("rescue_fractions", [0.01, 0.05])
+                ],
+                bedroc_alpha=float(problem_config.get("bedroc_alpha", 20.0)),
+                random_seed=int(k_policy.get("random_seed", 0)),
+            )
+        except (KeyError, TypeError, ValueError) as exc:
+            raise ConfigError(f"adaptive cardinality selection failed: {exc}") from exc
+        problem_config["target_size"] = decision.selected_k
+        adaptive_decision = decision.as_dict()
+        write_json(
+            config.paths["run_directory"] / "adaptive_cardinality.json",
+            adaptive_decision,
+        )
     if str(problem_config.get("mode", "single")) == "compare" or "methods" in problem_config:
         requests = resolve_problem_requests(problem_config)
         receptor_manifest = _read_receptor_manifest(config.paths["selected_receptor_manifest"])
@@ -638,8 +695,16 @@ def build_problem_stage(config: FullExperimentConfig, matrix_path: Path) -> dict
         }
     problem = build_problem(rows, problem_config)
     payload["problem"] = problem.as_dict()
+    if adaptive_decision is not None:
+        payload["adaptive_cardinality"] = adaptive_decision
     write_json(config.paths["problem"], payload)
-    return {"problem_path": config.paths["problem"], "problem": problem}
+    result: dict[str, object] = {
+        "problem_path": config.paths["problem"],
+        "problem": problem,
+    }
+    if adaptive_decision is not None:
+        result["adaptive_cardinality"] = adaptive_decision
+    return result
 
 
 def solve_stage(config: FullExperimentConfig, problem_path: Path) -> dict[str, object]:
@@ -697,6 +762,8 @@ def solve_stage(config: FullExperimentConfig, problem_path: Path) -> dict[str, o
         "problem_config": problem_config,
         "result": result.as_dict(),
     }
+    if isinstance(payload.get("adaptive_cardinality"), dict):
+        output["adaptive_cardinality"] = payload["adaptive_cardinality"]
     write_json(config.paths["selection"], output)
     return {"selection_path": config.paths["selection"], "result": result}
 
@@ -797,6 +864,8 @@ def _evaluate_selection_payload(
         "all_metrics": metrics,
         "locked_test_rows_read": 0,
     }
+    if isinstance(payload.get("adaptive_cardinality"), dict):
+        output["adaptive_cardinality"] = payload["adaptive_cardinality"]
     write_json(evaluation_path, output)
     return {
         "evaluation_path": evaluation_path,
@@ -893,7 +962,15 @@ class FullExperimentRunner:
                 assert isinstance(matrix_path, Path)
                 built = build_problem_stage(self.config, matrix_path)
                 context["problem_path"] = built["problem_path"]
-                stage_records[stage] = {"status": "completed", "problem": str(built["problem_path"])}
+                stage_records[stage] = {
+                    "status": "completed",
+                    "problem": str(built["problem_path"]),
+                    **(
+                        {"adaptive_cardinality": built["adaptive_cardinality"]}
+                        if isinstance(built.get("adaptive_cardinality"), dict)
+                        else {}
+                    ),
+                }
             elif stage == "solve":
                 problem_path = context.get("problem_path", self.config.paths["problem"])
                 assert isinstance(problem_path, Path)
@@ -923,6 +1000,11 @@ class FullExperimentRunner:
                     "evaluation": evaluation,
                     "stages": stage_records,
                 }
+                adaptive_path = self.config.paths["run_directory"] / "adaptive_cardinality.json"
+                if adaptive_path.is_file():
+                    summary["adaptive_cardinality"] = json.loads(
+                        adaptive_path.read_text(encoding="ascii")
+                    )
                 summary_path = self.config.paths["run_directory"] / "summary.json"
                 write_json(summary_path, summary)
                 stage_records[stage] = {"status": "completed", "summary": str(summary_path)}
@@ -934,6 +1016,11 @@ class FullExperimentRunner:
             "end_stage": end,
             "stages": stage_records,
         }
+        adaptive_path = self.config.paths["run_directory"] / "adaptive_cardinality.json"
+        if adaptive_path.is_file():
+            summary["adaptive_cardinality"] = json.loads(
+                adaptive_path.read_text(encoding="ascii")
+            )
         write_json(self.config.paths["run_directory"] / "manifest.json", summary)
         return summary
 

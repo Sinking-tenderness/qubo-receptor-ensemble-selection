@@ -255,6 +255,16 @@ def front_input_keys(config: Mapping[str, object], stage: str) -> tuple[str, ...
     }
     if stage not in requirements:
         raise ConfigError(f"unknown workflow stage: {stage}")
+    if stage == "build_problem":
+        problem = _mapping(config.get("problem"), "problem")
+        k_policy = problem.get("k_policy")
+        adaptive = isinstance(k_policy, dict) and k_policy.get("mode") == "adaptive"
+        if adaptive:
+            requirements[stage] = (
+                "primary_matrix",
+                "selected_receptor_manifest",
+                "prepared_ligand_manifest",
+            )
     if stage == "prepare":
         raw_receptor_sources = (
             "reference_receptor_pdb",
@@ -440,6 +450,107 @@ def _validate_problem(config: Mapping[str, object]) -> None:
         raise ConfigError("problem.bedroc_alpha must be a positive number") from exc
     if alpha_value <= 0 or not math.isfinite(alpha_value):
         raise ConfigError("problem.bedroc_alpha must be a positive finite number")
+    k_policy = problem.get("k_policy")
+    if k_policy is not None:
+        policy = _mapping(k_policy, "problem.k_policy")
+        policy_mode = str(policy.get("mode", ""))
+        if policy_mode != "adaptive":
+            raise ConfigError("problem.k_policy.mode must be adaptive")
+        if mode == "compare":
+            raise ConfigError(
+                "problem.k_policy adaptive mode is not supported with problem.mode=compare"
+            )
+        if str(problem.get("strategy", "qubo")) not in {"qubo", "basic_qubo"}:
+            raise ConfigError(
+                "problem.k_policy adaptive mode requires problem.strategy=qubo or basic_qubo"
+            )
+        selector = str(policy.get("selector", ""))
+        if selector != "mechanistic_bootstrap_lcb":
+            raise ConfigError(
+                "problem.k_policy.selector must be mechanistic_bootstrap_lcb"
+            )
+        candidates = policy.get("candidates", [1, 2, 3])
+        if not isinstance(candidates, list) or not candidates:
+            raise ConfigError("problem.k_policy.candidates must be a non-empty list")
+        if any(
+            isinstance(value, bool) or not isinstance(value, int) or value <= 0
+            for value in candidates
+        ):
+            raise ConfigError(
+                "problem.k_policy.candidates must contain positive integers"
+            )
+        if (
+            candidates[0] != 1
+            or candidates != sorted(set(candidates))
+            or candidates != list(range(1, candidates[-1] + 1))
+        ):
+            raise ConfigError(
+                "problem.k_policy.candidates must be consecutive, unique, ascending, "
+                "and start at 1"
+            )
+        selection = _mapping(config.get("selection"), "selection")
+        receptor_count = _positive_int(
+            selection.get("receptor_count"), "selection.receptor_count"
+        )
+        if any(value > receptor_count for value in candidates):
+            raise ConfigError(
+                "problem.k_policy.candidates cannot exceed selection.receptor_count"
+            )
+        _string(policy.get("scaffold_field", "scaffold_smiles"), "problem.k_policy.scaffold_field")
+        inner_fold_count = policy.get("inner_fold_count", 3)
+        if (
+            isinstance(inner_fold_count, bool)
+            or not isinstance(inner_fold_count, int)
+            or inner_fold_count < 2
+        ):
+            raise ConfigError(
+                "problem.k_policy.inner_fold_count must be an integer >= 2"
+            )
+        bootstrap_iterations = policy.get("bootstrap_iterations", 1000)
+        if (
+            isinstance(bootstrap_iterations, bool)
+            or not isinstance(bootstrap_iterations, int)
+            or bootstrap_iterations <= 0
+        ):
+            raise ConfigError(
+                "problem.k_policy.bootstrap_iterations must be a positive integer"
+            )
+        lower_quantile = policy.get("lower_quantile", 0.025)
+        if isinstance(lower_quantile, bool):
+            raise ConfigError("problem.k_policy.lower_quantile must be between 0 and 1")
+        try:
+            lower_quantile_value = float(lower_quantile)
+        except (TypeError, ValueError) as exc:
+            raise ConfigError(
+                "problem.k_policy.lower_quantile must be between 0 and 1"
+            ) from exc
+        if not 0.0 <= lower_quantile_value <= 1.0 or not math.isfinite(
+            lower_quantile_value
+        ):
+            raise ConfigError("problem.k_policy.lower_quantile must be between 0 and 1")
+        rescue_fractions = policy.get("rescue_fractions", [0.01, 0.05])
+        if not isinstance(rescue_fractions, list) or not rescue_fractions:
+            raise ConfigError(
+                "problem.k_policy.rescue_fractions must be a non-empty list"
+            )
+        for fraction in rescue_fractions:
+            if isinstance(fraction, bool):
+                raise ConfigError(
+                    "problem.k_policy.rescue_fractions must be in (0, 1]"
+                )
+            try:
+                fraction_value = float(fraction)
+            except (TypeError, ValueError) as exc:
+                raise ConfigError(
+                    "problem.k_policy.rescue_fractions must be in (0, 1]"
+                ) from exc
+            if not 0.0 < fraction_value <= 1.0 or not math.isfinite(fraction_value):
+                raise ConfigError(
+                    "problem.k_policy.rescue_fractions must be in (0, 1]"
+                )
+        random_seed = policy.get("random_seed", 0)
+        if isinstance(random_seed, bool) or not isinstance(random_seed, int):
+            raise ConfigError("problem.k_policy.random_seed must be an integer")
     if mode == "compare":
         methods = problem.get("methods")
         if not isinstance(methods, list) or not methods:
