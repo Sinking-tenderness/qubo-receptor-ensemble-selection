@@ -12,7 +12,7 @@
     "evaluate",
     "persist"
   ],
-  "start_stage": "prepare",
+  "start_stage": "build_problem",
   "end_stage": "persist",
   "selection": {
     "receptor_count": 13,
@@ -117,12 +117,12 @@
   },
   "paths": {
     "run_directory": "results/runs/stage102a_fa10_adaptive",
-    "prepared_ligand_manifest": "results/runs/stage102a_fa10_adaptive/prepared_ligands.csv",
-    "selected_receptor_manifest": "results/runs/stage102a_fa10_adaptive/selected_receptors.csv",
-    "docking_box": "results/runs/stage102a_fa10_adaptive/docking_box.json",
-    "score_tables": "results/runs/stage102a_fa10_adaptive/score_tables",
-    "matrices": "results/runs/stage102a_fa10_adaptive/matrices",
-    "primary_matrix": "results/runs/stage102a_fa10_adaptive/matrices/primary_median_matrix.csv",
+    "prepared_ligand_manifest": "results/runs/stage102a_fa10_full_local/prepared_ligands.csv",
+    "selected_receptor_manifest": "results/runs/stage102a_fa10_full_local/selected_receptors.csv",
+    "docking_box": "results/runs/stage102a_fa10_full_local/docking_box.json",
+    "score_tables": "results/runs/stage102a_fa10_full_local/score_tables",
+    "matrices": "results/runs/stage102a_fa10_full_local/matrices",
+    "primary_matrix": "results/runs/stage102a_fa10_full_local/matrices/primary_median_matrix.csv",
     "problem": "results/runs/stage102a_fa10_adaptive/problem.json",
     "selection": "results/runs/stage102a_fa10_adaptive/selection.json",
     "evaluation": "results/runs/stage102a_fa10_adaptive/evaluation.json"
