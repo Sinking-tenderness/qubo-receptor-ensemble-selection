@@ -1,0 +1,97 @@
+{
+  "aggregation": "mean_score",
+  "candidates": {
+    "1": {
+      "aggregation": "mean_score",
+      "excluded_splits": [
+        "test"
+      ],
+      "splits": {
+        "train": {
+          "all_metrics": {
+            "EF1%": 0.8333333333333333,
+            "EF10%": 1.0,
+            "EF5%": 0.8333333333333333,
+            "active_count": 120,
+            "bedroc_alpha_20": 0.227784887077451,
+            "ligand_count": 600,
+            "pr_auc_average_precision": 0.27193732643448043,
+            "roc_auc": 0.6523871527777778,
+            "top10_active_count": 3,
+            "top10_ligand_ids": [
+              "EGFR_active_L000073",
+              "EGFR_decoy_L018001",
+              "EGFR_decoy_L021053",
+              "EGFR_decoy_L003675",
+              "EGFR_decoy_L017068",
+              "EGFR_decoy_L020888",
+              "EGFR_decoy_L007524",
+              "EGFR_active_L000409",
+              "EGFR_decoy_L029233",
+              "EGFR_active_L000490"
+            ]
+          },
+          "requested_metrics": {
+            "EF1%": 0.8333333333333333,
+            "EF10%": 1.0,
+            "EF5%": 0.8333333333333333,
+            "bedroc_alpha_20": 0.227784887077451,
+            "pr_auc_average_precision": 0.27193732643448043,
+            "roc_auc": 0.6523871527777778
+          }
+        }
+      },
+      "subset": [
+        "EGFR_9FRD_aligned"
+      ]
+    }
+  },
+  "excluded_splits": [
+    "test"
+  ],
+  "k_selection": {
+    "candidate_scores": {},
+    "policy": "fixed",
+    "rationale": "used the configured fixed target_size",
+    "selected_k": 1
+  },
+  "splits": {
+    "train": {
+      "all_metrics": {
+        "EF1%": 0.8333333333333333,
+        "EF10%": 1.0,
+        "EF5%": 0.8333333333333333,
+        "active_count": 120,
+        "bedroc_alpha_20": 0.227784887077451,
+        "ligand_count": 600,
+        "pr_auc_average_precision": 0.27193732643448043,
+        "roc_auc": 0.6523871527777778,
+        "top10_active_count": 3,
+        "top10_ligand_ids": [
+          "EGFR_active_L000073",
+          "EGFR_decoy_L018001",
+          "EGFR_decoy_L021053",
+          "EGFR_decoy_L003675",
+          "EGFR_decoy_L017068",
+          "EGFR_decoy_L020888",
+          "EGFR_decoy_L007524",
+          "EGFR_active_L000409",
+          "EGFR_decoy_L029233",
+          "EGFR_active_L000490"
+        ]
+      },
+      "requested_metrics": {
+        "EF1%": 0.8333333333333333,
+        "EF10%": 1.0,
+        "EF5%": 0.8333333333333333,
+        "bedroc_alpha_20": 0.227784887077451,
+        "pr_auc_average_precision": 0.27193732643448043,
+        "roc_auc": 0.6523871527777778
+      }
+    }
+  },
+  "status": "completed",
+  "subset": [
+    "EGFR_9FRD_aligned"
+  ]
+}

@@ -1,0 +1,87 @@
+{
+  "end_stage": "persist",
+  "engine": "unidock",
+  "evaluation": {
+    "aggregation": "mean_score",
+    "all_metrics": {
+      "EF1%": 0.8333333333333333,
+      "EF10%": 1.5833333333333333,
+      "EF5%": 2.333333333333333,
+      "active_count": 120,
+      "bedroc_alpha_20": 0.34947330888926237,
+      "ligand_count": 600,
+      "pr_auc_average_precision": 0.2929161020240928,
+      "roc_auc": 0.6460329861111112,
+      "top10_active_count": 1,
+      "top10_ligand_ids": [
+        "EGFR_decoy_L021053",
+        "EGFR_decoy_L020887",
+        "EGFR_active_L000073",
+        "EGFR_decoy_L012169",
+        "EGFR_decoy_L007524",
+        "EGFR_decoy_L015747",
+        "EGFR_decoy_L012923",
+        "EGFR_decoy_L003674",
+        "EGFR_decoy_L014939",
+        "EGFR_decoy_L018037"
+      ]
+    },
+    "locked_test_rows_read": 0,
+    "metrics": {
+      "EF1%": 0.8333333333333333,
+      "EF10%": 1.5833333333333333,
+      "EF5%": 2.333333333333333,
+      "bedroc_alpha_20": 0.34947330888926237,
+      "pr_auc_average_precision": 0.2929161020240928,
+      "roc_auc": 0.6460329861111112
+    },
+    "status": "ok",
+    "subset": [
+      "4I23"
+    ]
+  },
+  "experiment_id": "stage102a-egfr-full-local",
+  "redock": true,
+  "selection": {
+    "allocation": {
+      "hash_namespace": "STAGE102A",
+      "minimum_label_counts_per_outer_fold": {
+        "active": 20,
+        "decoy": 80
+      },
+      "outer_fold_count": 5
+    },
+    "label_counts": {
+      "active": 120,
+      "decoy": 480
+    },
+    "ligand_count": 600,
+    "ordering": "scaffold_hash_allocation",
+    "receptor_count": 12
+  },
+  "stages": {
+    "aggregate": {
+      "aggregated_long": "/root/autodl-tmp/qubo_data_root/results/runs/stage102a_egfr_full_local/matrices/aggregated_long.csv",
+      "primary_matrix": "/root/autodl-tmp/qubo_data_root/results/runs/stage102a_egfr_full_local/matrices/primary_median_matrix.csv",
+      "sensitivity_matrix": "/root/autodl-tmp/qubo_data_root/results/runs/stage102a_egfr_full_local/matrices/sensitivity_minimum_matrix.csv",
+      "status": "completed",
+      "summary_path": "/root/autodl-tmp/qubo_data_root/results/runs/stage102a_egfr_full_local/matrices/summary.json"
+    },
+    "build_problem": {
+      "problem": "/root/autodl-tmp/qubo_data_root/results/runs/stage102a_egfr_full_local/problem.json",
+      "status": "completed"
+    },
+    "evaluate": {
+      "evaluation": "/root/autodl-tmp/qubo_data_root/results/runs/stage102a_egfr_full_local/evaluation.json",
+      "status": "completed"
+    },
+    "solve": {
+      "selection": "/root/autodl-tmp/qubo_data_root/results/runs/stage102a_egfr_full_local/selection.json",
+      "status": "completed"
+    }
+  },
+  "start_stage": "aggregate",
+  "status": "completed",
+  "target_id": "EGFR",
+  "workflow_mode": "full"
+}

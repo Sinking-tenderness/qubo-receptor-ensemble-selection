@@ -1,0 +1,99 @@
+{
+  "aggregation": "mean_score",
+  "candidates": {
+    "2": {
+      "aggregation": "mean_score",
+      "excluded_splits": [
+        "test"
+      ],
+      "splits": {
+        "train": {
+          "all_metrics": {
+            "EF1%": 5.0,
+            "EF10%": 2.6666666666666665,
+            "EF5%": 3.4999999999999996,
+            "active_count": 120,
+            "bedroc_alpha_20": 0.6353337276720991,
+            "ligand_count": 600,
+            "pr_auc_average_precision": 0.5236228076562082,
+            "roc_auc": 0.7906163194444444,
+            "top10_active_count": 9,
+            "top10_ligand_ids": [
+              "FA10_active_L000211",
+              "FA10_active_L000010",
+              "FA10_active_L000175",
+              "FA10_active_L000463",
+              "FA10_active_L000437",
+              "FA10_active_L000028",
+              "FA10_active_L000034",
+              "FA10_active_L000172",
+              "FA10_decoy_L023447",
+              "FA10_active_L000004"
+            ]
+          },
+          "requested_metrics": {
+            "EF1%": 5.0,
+            "EF10%": 2.6666666666666665,
+            "EF5%": 3.4999999999999996,
+            "bedroc_alpha_20": 0.6353337276720991,
+            "pr_auc_average_precision": 0.5236228076562082,
+            "roc_auc": 0.7906163194444444
+          }
+        }
+      },
+      "subset": [
+        "FA10_2Y81_aligned",
+        "FA10_1LPZ_aligned"
+      ]
+    }
+  },
+  "excluded_splits": [
+    "test"
+  ],
+  "k_selection": {
+    "candidate_scores": {},
+    "policy": "fixed",
+    "rationale": "used the configured fixed target_size",
+    "selected_k": 2
+  },
+  "splits": {
+    "train": {
+      "all_metrics": {
+        "EF1%": 5.0,
+        "EF10%": 2.6666666666666665,
+        "EF5%": 3.4999999999999996,
+        "active_count": 120,
+        "bedroc_alpha_20": 0.6353337276720991,
+        "ligand_count": 600,
+        "pr_auc_average_precision": 0.5236228076562082,
+        "roc_auc": 0.7906163194444444,
+        "top10_active_count": 9,
+        "top10_ligand_ids": [
+          "FA10_active_L000211",
+          "FA10_active_L000010",
+          "FA10_active_L000175",
+          "FA10_active_L000463",
+          "FA10_active_L000437",
+          "FA10_active_L000028",
+          "FA10_active_L000034",
+          "FA10_active_L000172",
+          "FA10_decoy_L023447",
+          "FA10_active_L000004"
+        ]
+      },
+      "requested_metrics": {
+        "EF1%": 5.0,
+        "EF10%": 2.6666666666666665,
+        "EF5%": 3.4999999999999996,
+        "bedroc_alpha_20": 0.6353337276720991,
+        "pr_auc_average_precision": 0.5236228076562082,
+        "roc_auc": 0.7906163194444444
+      }
+    }
+  },
+  "status": "completed",
+  "subset": [
+    "FA10_2Y81_aligned",
+    "FA10_1LPZ_aligned"
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "adapter": "existing_matrix",
+  "allowed_splits": [
+    "train"
+  ],
+  "locked_splits": [
+    "test"
+  ],
+  "row_count": 600,
+  "selection_split": "train",
+  "source_input": "score_source",
+  "split_counts": {
+    "train": 600
+  },
+  "status": "completed"
+}

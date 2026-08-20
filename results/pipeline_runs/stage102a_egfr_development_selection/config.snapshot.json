@@ -1,0 +1,82 @@
+{
+  "data_policy": {
+    "allowed_splits": [
+      "train"
+    ],
+    "evaluate_locked_test": false,
+    "locked_splits": [
+      "test"
+    ]
+  },
+  "evaluate": {
+    "aggregation": "mean_score",
+    "metrics": [
+      "roc_auc",
+      "pr_auc_average_precision",
+      "bedroc_alpha_20",
+      "EF1%",
+      "EF5%",
+      "EF10%"
+    ]
+  },
+  "experiment_id": "stage102a-egfr-development-selection",
+  "inputs": {
+    "score_source": {
+      "path": "data/processed/stage102a_egfr_phase_a_primary_median_score_matrix.csv",
+      "sha256": "943E51DFD580A2A3076682657E4574148D6298A5A78D4583A46ED261E2B1BB74"
+    },
+    "split_manifest": {
+      "path": "data/processed/stage102a_egfr_phase_a_ligand_manifest.csv",
+      "sha256": "CEDC12B24BB9F5E64D74CF0C38C8D6DE2DDC1989454ADA10F2D9986F02165E21"
+    }
+  },
+  "interpretation_boundary": "Development-only matrix replay. This run does not perform docking, does not evaluate a locked test split, and does not support a quantum-advantage claim.",
+  "outputs": {
+    "run_directory": "results/pipeline_runs/stage102a_egfr_development_selection"
+  },
+  "pipeline": [
+    "prepare",
+    "build_problem",
+    "solve",
+    "evaluate",
+    "persist"
+  ],
+  "prepare": {
+    "adapter": "existing_matrix",
+    "selection_split": "train",
+    "source_input": "score_source",
+    "split_input": "split_manifest"
+  },
+  "problem": {
+    "receptor_ids": [
+      "EGFR_9KL4_aligned",
+      "EGFR_7KXZ_aligned",
+      "EGFR_9FRD_aligned",
+      "EGFR_4I23_aligned",
+      "EGFR_3W2S_aligned",
+      "EGFR_5CAV_aligned",
+      "EGFR_3W32_aligned",
+      "EGFR_8F1Z_aligned",
+      "EGFR_3POZ_aligned",
+      "EGFR_7U9A_aligned",
+      "EGFR_3W33_aligned",
+      "EGFR_9QXN_aligned"
+    ],
+    "strategy": "qubo",
+    "target_size": 1,
+    "type": "receptor_subset",
+    "utility_metric": "roc_auc",
+    "utility_normalization": "none",
+    "weights": {
+      "count": 0.1,
+      "redundancy": 0.25,
+      "size": 10.0
+    }
+  },
+  "purpose": "Development-only receptor subset selection from the admitted Stage102A primary median score matrix.",
+  "schema_version": "2.0",
+  "solve": {
+    "backend": "exact"
+  },
+  "target_id": "EGFR"
+}

@@ -1,0 +1,24 @@
+{
+  "inputs": {
+    "score_source": {
+      "path": "E:/Quant/qubo-receptor-ensemble-selection/data/processed/stage102a_egfr_phase_a_primary_median_score_matrix.csv",
+      "sha256": "943E51DFD580A2A3076682657E4574148D6298A5A78D4583A46ED261E2B1BB74",
+      "size_bytes": 77359
+    },
+    "split_manifest": {
+      "path": "E:/Quant/qubo-receptor-ensemble-selection/data/processed/stage102a_egfr_phase_a_ligand_manifest.csv",
+      "sha256": "CEDC12B24BB9F5E64D74CF0C38C8D6DE2DDC1989454ADA10F2D9986F02165E21",
+      "size_bytes": 234751
+    }
+  },
+  "outputs": {
+    "build_problem": {
+      "path": "E:/Quant/qubo-receptor-ensemble-selection/results/pipeline_runs/stage102a_egfr_development_selection/stages/02_build_problem/build_problem.json",
+      "sha256": "0DEB81EC3EE72AD54C7A9A238A47D0B58845507D719D114B7C61A524562F4AB7",
+      "size_bytes": 26218
+    }
+  },
+  "schema_version": "1.0",
+  "stage": "build_problem",
+  "status": "completed"
+}

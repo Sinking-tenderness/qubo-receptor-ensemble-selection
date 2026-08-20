@@ -1,0 +1,15 @@
+{
+  "engine": [
+    "unidock"
+  ],
+  "ligand_count": 600,
+  "outputs": {
+    "aggregated_long": "/root/autodl-tmp/qubo_data_root/results/runs/stage102a_egfr_full_local/matrices/aggregated_long.csv",
+    "primary_matrix": "/root/autodl-tmp/qubo_data_root/results/runs/stage102a_egfr_full_local/matrices/primary_median_matrix.csv",
+    "sensitivity_matrix": "/root/autodl-tmp/qubo_data_root/results/runs/stage102a_egfr_full_local/matrices/sensitivity_minimum_matrix.csv"
+  },
+  "pair_count": 7200,
+  "receptor_count": 12,
+  "seed_count": 3,
+  "status": "ok"
+}
