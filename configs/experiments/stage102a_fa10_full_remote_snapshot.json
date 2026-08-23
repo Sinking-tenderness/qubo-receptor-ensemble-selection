@@ -1,0 +1,168 @@
+{
+  "schema_version": "3.0",
+  "experiment_id": "stage102a-fa10-full-remote-snapshot",
+  "target_id": "FA10",
+  "workflow_mode": "full",
+  "pipeline": [
+    "prepare",
+    "dock",
+    "aggregate",
+    "build_problem",
+    "solve",
+    "evaluate",
+    "persist"
+  ],
+  "start_stage": "prepare",
+  "end_stage": "persist",
+  "selection": {
+    "receptor_count": 13,
+    "ligand_count": 600,
+    "label_counts": {
+      "active": 120,
+      "decoy": 480
+    },
+    "ordering": "preselected_manifest",
+    "receptor_selection": {
+      "mode": "manual",
+      "receptors": [
+        {
+          "conformer_id": "FA10_3KL6_reference",
+          "receptor_pdbqt": "results/runs/stage14c_fa10_cognate_redocking_input_preparation/preparation/3KL6_443/receptor/FA10_3KL6_reference_receptor.pdbqt",
+          "receptor_pdbqt_sha256": "17418EB2C3D769E33B50ED18BC3BD7D35DE21F192467626FF9B6578A2B3D51A0"
+        },
+        {
+          "conformer_id": "FA10_1LPK_aligned",
+          "receptor_pdbqt": "results/runs/stage14c_fa10_cognate_redocking_input_preparation/preparation/1LPK_CBB/receptor/FA10_1LPK_aligned_receptor.pdbqt",
+          "receptor_pdbqt_sha256": "9AFEE3BF9165E9AC47C750E6448E3C2830AAA22C2669698EF8BCF5C8CF6DF971"
+        },
+        {
+          "conformer_id": "FA10_1KSN_aligned",
+          "receptor_pdbqt": "results/runs/stage14c_fa10_cognate_redocking_input_preparation/preparation/1KSN_FXV/receptor/FA10_1KSN_aligned_receptor.pdbqt",
+          "receptor_pdbqt_sha256": "CEE136FE6DC3E8D4E37AD823574F46927CB120D9C846E8E2BC66C83E06AEFCDF"
+        },
+        {
+          "conformer_id": "FA10_2WYJ_aligned",
+          "receptor_pdbqt": "results/runs/stage14c_fa10_cognate_redocking_input_preparation/preparation/2WYJ_898/receptor/FA10_2WYJ_aligned_receptor.pdbqt",
+          "receptor_pdbqt_sha256": "C8736DA1DD3DCC9F13BEE7F958733E835D00A5E33D456B13A8E10BE5133B5C6D"
+        },
+        {
+          "conformer_id": "FA10_2PHB_aligned",
+          "receptor_pdbqt": "results/runs/stage14c_fa10_cognate_redocking_input_preparation/preparation/2PHB_230/receptor/FA10_2PHB_aligned_receptor.pdbqt",
+          "receptor_pdbqt_sha256": "A456D9CAF2ABCD4623972AFC40B59937A3D47CCF31F2990E48972EE8A720A268"
+        },
+        {
+          "conformer_id": "FA10_1EZQ_aligned",
+          "receptor_pdbqt": "results/runs/stage14c_fa10_cognate_redocking_input_preparation/preparation/1EZQ_RPR/receptor/FA10_1EZQ_aligned_receptor.pdbqt",
+          "receptor_pdbqt_sha256": "1F0BB58B632EB39BA636979EAB7C6610FC33E266D3C4855129E2C7C420083010"
+        },
+        {
+          "conformer_id": "FA10_5K0H_aligned",
+          "receptor_pdbqt": "results/runs/stage14c_fa10_cognate_redocking_input_preparation/preparation/5K0H_6PK/receptor/FA10_5K0H_aligned_receptor.pdbqt",
+          "receptor_pdbqt_sha256": "31647057548C3958467DEAFD9D7E34B5A0A15F6B0544A294D4B4F05E2E54C9E0"
+        },
+        {
+          "conformer_id": "FA10_4A7I_aligned",
+          "receptor_pdbqt": "results/runs/stage14c_fa10_cognate_redocking_input_preparation/preparation/4A7I_A7I/receptor/FA10_4A7I_aligned_receptor.pdbqt",
+          "receptor_pdbqt_sha256": "4FDAAA46C6A54CB98857580B3A313AFB1DC3899A9262510B7BBE4DD84825C865"
+        },
+        {
+          "conformer_id": "FA10_2W3K_aligned",
+          "receptor_pdbqt": "results/runs/stage14c_fa10_cognate_redocking_input_preparation/preparation/2W3K_L1D/receptor/FA10_2W3K_aligned_receptor.pdbqt",
+          "receptor_pdbqt_sha256": "4C572B92F270ED61D1CA946C566366F7492685F9043F893F0F077DBBFA8E5F8E"
+        },
+        {
+          "conformer_id": "FA10_1NFU_aligned",
+          "receptor_pdbqt": "results/runs/stage14c_fa10_cognate_redocking_input_preparation/preparation/1NFU_RRP/receptor/FA10_1NFU_aligned_receptor.pdbqt",
+          "receptor_pdbqt_sha256": "01D53885E5F1E6F21D116F7AA0F0B506789C4F856E6C01EC7FDF525FA2C90255"
+        },
+        {
+          "conformer_id": "FA10_1F0R_aligned",
+          "receptor_pdbqt": "results/runs/stage14c_fa10_cognate_redocking_input_preparation/preparation/1F0R_815/receptor/FA10_1F0R_aligned_receptor.pdbqt",
+          "receptor_pdbqt_sha256": "3160A50178675741BF451FCF9699889FE85E8302C6F77ABCC451A3B291DA1C63"
+        },
+        {
+          "conformer_id": "FA10_2Y81_aligned",
+          "receptor_pdbqt": "results/runs/stage14c_fa10_cognate_redocking_input_preparation/preparation/2Y81_931/receptor/FA10_2Y81_aligned_receptor.pdbqt",
+          "receptor_pdbqt_sha256": "1F66F0E428CBC6E314921468665A938531F8FD6009FADEE39CB5A9BF7CEF3F95"
+        },
+        {
+          "conformer_id": "FA10_1LPZ_aligned",
+          "receptor_pdbqt": "results/runs/stage14c_fa10_cognate_redocking_input_preparation/preparation/1LPZ_CMB/receptor/FA10_1LPZ_aligned_receptor.pdbqt",
+          "receptor_pdbqt_sha256": "4EBF7F18CD06C22BC33EB1CB4F421E9BAEC42250CB99BA87742BB084B8767AB2"
+        }
+      ]
+    }
+  },
+  "sources": {
+    "ligand_manifest": "analysis/stage102a_received_20260813/diagnostics/data/processed/stage102a_fa10_phase_a_ligand_manifest.csv"
+  },
+  "preparation": {
+    "workers": 4,
+    "base_seed": 20260818
+  },
+  "docking": {
+    "redock": true,
+    "engine": "unidock",
+    "executable": "unidock",
+    "seeds": [
+      20260821,
+      20260822,
+      20260823
+    ],
+    "box": {
+      "method": "fixed_snapshot",
+      "center_x": 1.34,
+      "center_y": -8.5,
+      "center_z": -15.76,
+      "size_x": 22.0,
+      "size_y": 22.0,
+      "size_z": 28.0
+    },
+    "parameters": {
+      "scoring": "vina",
+      "exhaustiveness": 1024,
+      "max_step": 80,
+      "refine_step": 5,
+      "num_modes": 1,
+      "energy_range": 3,
+      "verbosity": 1
+    }
+  },
+  "problem": {
+    "type": "receptor_subset",
+    "strategy": "qubo",
+    "target_size": 2,
+    "utility_metric": "roc_auc",
+    "utility_normalization": "none",
+    "weights": {
+      "redundancy": 0.25,
+      "count": 0.1,
+      "size": 10.0
+    }
+  },
+  "solve": {
+    "backend": "exact"
+  },
+  "evaluate": {
+    "aggregation": "mean_score",
+    "metrics": [
+      "roc_auc",
+      "pr_auc_average_precision",
+      "bedroc_alpha_20",
+      "EF1%",
+      "EF5%",
+      "EF10%"
+    ]
+  },
+  "paths": {
+    "run_directory": "results/runs/stage102a_fa10_full_remote_snapshot",
+    "prepared_ligand_manifest": "results/runs/stage102a_fa10_full_remote_snapshot/prepared_ligands.csv",
+    "selected_receptor_manifest": "results/runs/stage102a_fa10_full_remote_snapshot/selected_receptors.csv",
+    "score_tables": "results/runs/stage102a_fa10_full_remote_snapshot/score_tables",
+    "matrices": "results/runs/stage102a_fa10_full_remote_snapshot/matrices",
+    "primary_matrix": "results/runs/stage102a_fa10_full_remote_snapshot/matrices/primary_median_matrix.csv",
+    "problem": "results/runs/stage102a_fa10_full_remote_snapshot/problem.json",
+    "selection": "results/runs/stage102a_fa10_full_remote_snapshot/selection.json",
+    "evaluation": "results/runs/stage102a_fa10_full_remote_snapshot/evaluation.json"
+  }
+}

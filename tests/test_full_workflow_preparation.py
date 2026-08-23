@@ -7,6 +7,7 @@ from qubo_receptor_ensemble.full_workflow import (
     ConfigError,
     select_ism_ligands,
     select_preselected_ligands,
+    select_manual_receptors,
     select_receptor_manifest,
 )
 
@@ -315,3 +316,27 @@ def test_select_receptor_manifest_is_deterministic_and_checks_status(tmp_path: P
 
     with pytest.raises(ConfigError, match="receptor_count"):
         select_receptor_manifest(manifest, receptor_count=3)
+
+
+def test_select_manual_receptors_preserves_configured_order() -> None:
+    rows = select_manual_receptors(
+        [
+            {"conformer_id": "R2", "receptor_pdbqt": "r2.pdbqt"},
+            {"conformer_id": "R1", "receptor_pdbqt": "r1.pdbqt"},
+        ],
+        receptor_count=2,
+    )
+
+    assert [row["conformer_id"] for row in rows] == ["R2", "R1"]
+    assert rows[0]["receptor_pdbqt"] == "r2.pdbqt"
+
+
+def test_select_manual_receptors_rejects_duplicate_ids() -> None:
+    with pytest.raises(ConfigError, match="duplicate"):
+        select_manual_receptors(
+            [
+                {"conformer_id": "R1", "receptor_pdbqt": "r1.pdbqt"},
+                {"conformer_id": "R1", "receptor_pdbqt": "r1-copy.pdbqt"},
+            ],
+            receptor_count=2,
+        )

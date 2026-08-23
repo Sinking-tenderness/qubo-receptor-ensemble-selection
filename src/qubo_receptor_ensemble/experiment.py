@@ -19,6 +19,7 @@ from .full_workflow import (
     FullExperimentConfig,
     front_input_keys,
     select_ism_ligands,
+    select_manual_receptors,
     select_preselected_ligands,
     select_receptor_manifest,
 )
@@ -70,6 +71,34 @@ def _read_receptor_manifest(path: Path) -> list[dict[str, str]]:
     if len({row["conformer_id"] for row in rows}) != len(rows):
         raise ConfigError("selected receptor manifest contains duplicate receptor IDs")
     return rows
+
+
+def _resolve_manual_receptor_rows(config: FullExperimentConfig) -> list[dict[str, str]]:
+    selection = config.data["selection"]
+    assert isinstance(selection, dict)
+    policy = selection.get("receptor_selection")
+    if not isinstance(policy, dict) or policy.get("mode") != "manual":
+        raise ConfigError("manual receptor selection is not configured")
+    rows = select_manual_receptors(
+        policy.get("receptors"),
+        receptor_count=int(selection["receptor_count"]),
+    )
+    resolved: list[dict[str, str]] = []
+    for row in rows:
+        path = _as_rooted(Path(row["receptor_pdbqt"]), config.data_root)
+        if not path.is_file():
+            raise FileNotFoundError(path)
+        expected_sha256 = row.get("receptor_pdbqt_sha256", "").strip()
+        if expected_sha256:
+            actual_sha256 = file_sha256(path)
+            if actual_sha256.upper() != expected_sha256.upper():
+                raise ConfigError(
+                    f"manual receptor PDBQT SHA-256 mismatch for {row['conformer_id']}"
+                )
+        normalized = dict(row)
+        normalized["receptor_pdbqt"] = _relative(path, config.data_root)
+        resolved.append(normalized)
+    return resolved
 
 
 def _prepare_one_ligand(
@@ -377,7 +406,14 @@ def prepare_experiment_inputs(
             ),
         )
     receptor_audit: dict[str, object] = {}
-    if _raw_receptor_sources(paths):
+    receptor_selection = selection.get("receptor_selection")
+    manual_receptors = (
+        isinstance(receptor_selection, dict)
+        and receptor_selection.get("mode") == "manual"
+    )
+    if manual_receptors:
+        receptor_rows = _resolve_manual_receptor_rows(config)
+    elif _raw_receptor_sources(paths):
         receptor_rows, receptor_audit = _prepare_raw_receptor_manifest(config)
     else:
         receptor_rows = select_receptor_manifest(
@@ -472,6 +508,13 @@ def validate_front_inputs(
                 ligand_count=int(selection["ligand_count"]),
             )
             path_records["selected_ligand_count"] = len(rows)
+        receptor_selection = selection.get("receptor_selection")
+        if (
+            isinstance(receptor_selection, dict)
+            and receptor_selection.get("mode") == "manual"
+        ):
+            rows = _resolve_manual_receptor_rows(config)
+            path_records["selected_receptor_count"] = len(rows)
     return records
 
 

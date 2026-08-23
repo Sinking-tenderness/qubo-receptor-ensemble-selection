@@ -235,10 +235,55 @@ def select_preselected_ligands(
     return selected
 
 
+def select_manual_receptors(
+    receptors: object, *, receptor_count: int
+) -> list[dict[str, str]]:
+    """Use an explicit ordered receptor list without requiring a manifest file."""
+    if receptor_count <= 0:
+        raise ConfigError("selection.receptor_count must be positive")
+    if not isinstance(receptors, list):
+        raise ConfigError("selection.receptor_selection.receptors must be a list")
+    if len(receptors) != receptor_count:
+        raise ConfigError(
+            "selection.receptor_selection.receptors length must equal "
+            "selection.receptor_count"
+        )
+
+    selected: list[dict[str, str]] = []
+    for index, value in enumerate(receptors):
+        if not isinstance(value, dict):
+            raise ConfigError(
+                f"selection.receptor_selection.receptors[{index}] must be an object"
+            )
+        missing = [
+            key
+            for key in ("conformer_id", "receptor_pdbqt")
+            if not isinstance(value.get(key), str) or not value[key].strip()
+        ]
+        if missing:
+            raise ConfigError(
+                f"manual receptor entry {index} requires non-empty: {missing}"
+            )
+        row = {str(key): str(item) for key, item in value.items()}
+        row["conformer_id"] = row["conformer_id"].strip()
+        row["receptor_pdbqt"] = row["receptor_pdbqt"].strip()
+        selected.append(row)
+
+    ids = [row["conformer_id"] for row in selected]
+    if len(set(ids)) != len(ids):
+        raise ConfigError("manual receptor selection contains duplicate conformer_id values")
+    return selected
+
+
 def front_input_keys(config: Mapping[str, object], stage: str) -> tuple[str, ...]:
     """Return the configured front-input path keys required by a stage."""
     selection = _mapping(config.get("selection"), "selection")
     ordering = str(selection.get("ordering", "manifest_order"))
+    receptor_selection = selection.get("receptor_selection")
+    manual_receptors = (
+        isinstance(receptor_selection, dict)
+        and str(receptor_selection.get("mode", "")) == "manual"
+    )
     sources = _mapping(config.get("sources", {}), "sources")
     requirements: dict[str, tuple[str, ...]] = {
         "prepare": ("receptor_manifest",),
@@ -283,6 +328,8 @@ def front_input_keys(config: Mapping[str, object], stage: str) -> tuple[str, ...
             if ordering == "preselected_manifest"
             else ("active_ism", "decoy_ism")
         )
+        if manual_receptors:
+            return ligand_sources
         return (*ligand_sources, "receptor_manifest")
     if stage == "dock" and all(
         key in sources for key in ("reference_receptor_pdb", "crystal_ligand", "rcsb_directory")
@@ -403,6 +450,16 @@ def _validate_selection(config: Mapping[str, object]) -> None:
                 )
     if receptor_count < 1 or ligand_count < 1:
         raise ConfigError("selection counts must be positive")
+    receptor_selection = selection.get("receptor_selection")
+    if receptor_selection is not None:
+        policy = _mapping(receptor_selection, "selection.receptor_selection")
+        mode = str(policy.get("mode", ""))
+        if mode != "manual":
+            raise ConfigError("selection.receptor_selection.mode must be manual")
+        select_manual_receptors(
+            policy.get("receptors"),
+            receptor_count=receptor_count,
+        )
 
 
 def _validate_docking(config: Mapping[str, object]) -> None:
@@ -648,6 +705,16 @@ def validate_full_experiment_config(
                 "raw full workflow requires non-negative padding and three positive "
                 "minimum_size values"
             )
+    selection = _mapping(config.get("selection"), "selection")
+    receptor_selection = selection.get("receptor_selection")
+    if (
+        isinstance(receptor_selection, dict)
+        and str(receptor_selection.get("mode", "")) == "manual"
+        and raw_receptor_sources.intersection(sources)
+    ):
+        raise ConfigError(
+            "manual receptor selection cannot be combined with raw receptor sources"
+        )
     _validate_problem(config)
     solve = _mapping(config.get("solve"), "solve")
     _string(solve.get("backend"), "solve.backend")

@@ -190,6 +190,49 @@ def test_preselected_manifest_is_required_for_preselected_ordering(tmp_path: Pat
         load_full_experiment_config(path, data_root=tmp_path)
 
 
+def test_full_config_accepts_manual_receptor_selection_without_manifest(
+    tmp_path: Path,
+) -> None:
+    payload = json.loads(_write_config(tmp_path).read_text(encoding="utf-8"))
+    payload["selection"]["receptor_selection"] = {
+        "mode": "manual",
+        "receptors": [
+            {
+                "conformer_id": "R1",
+                "receptor_pdbqt": "prepared/R1.pdbqt",
+            },
+            {
+                "conformer_id": "R2",
+                "receptor_pdbqt": "prepared/R2.pdbqt",
+            },
+        ],
+    }
+    payload["sources"].pop("receptor_manifest")
+    path = tmp_path / "manual-receptors.json"
+    path.write_text(json.dumps(payload), encoding="utf-8")
+
+    config = load_full_experiment_config(path, data_root=tmp_path)
+
+    assert config.data["selection"]["receptor_selection"]["mode"] == "manual"
+    assert "receptor_manifest" not in config.paths
+
+
+def test_manual_receptor_selection_requires_exact_receptor_count(tmp_path: Path) -> None:
+    payload = json.loads(_write_config(tmp_path).read_text(encoding="utf-8"))
+    payload["selection"]["receptor_selection"] = {
+        "mode": "manual",
+        "receptors": [
+            {"conformer_id": "R1", "receptor_pdbqt": "prepared/R1.pdbqt"}
+        ],
+    }
+    payload["sources"].pop("receptor_manifest")
+    path = tmp_path / "manual-receptors-invalid.json"
+    path.write_text(json.dumps(payload), encoding="utf-8")
+
+    with pytest.raises(ConfigError, match="receptor_count"):
+        load_full_experiment_config(path, data_root=tmp_path)
+
+
 def test_full_config_accepts_raw_sources_and_computed_box_policy(tmp_path: Path) -> None:
     path = _write_config(
         tmp_path,
