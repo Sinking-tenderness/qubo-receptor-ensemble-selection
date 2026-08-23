@@ -719,6 +719,15 @@ def _load_problem_payload(config: FullExperimentConfig, matrix_path: Path) -> di
                 "adaptive cardinality requires matrix and ligand manifest IDs to match; "
                 f"missing_in_matrix={missing}, extra_in_matrix={extra}"
             )
+        scaffold_field = str(k_policy.get("scaffold_field", "scaffold_smiles"))
+        source_metadata_by_ligand: dict[str, dict[str, str]] = {}
+        source_manifest_path = config.paths.get("source_ligand_manifest")
+        if source_manifest_path is not None and source_manifest_path.is_file():
+            source_metadata_by_ligand = {
+                row["ligand_id"]: row
+                for row in _read_ligand_manifest(source_manifest_path)
+                if row.get("ligand_id")
+            }
         enriched_rows: list[dict[str, object]] = []
         for row in rows:
             ligand_id = str(row.get("ligand_id", ""))
@@ -727,7 +736,13 @@ def _load_problem_payload(config: FullExperimentConfig, matrix_path: Path) -> di
                 raise ConfigError(
                     f"adaptive cardinality label mismatch for ligand_id={ligand_id}"
                 )
-            enriched_rows.append({**row, **manifest_row})
+            enriched = {**row, **manifest_row}
+            if not str(enriched.get(scaffold_field, "")).strip():
+                source_row = source_metadata_by_ligand.get(ligand_id, {})
+                source_scaffold = str(source_row.get(scaffold_field, "")).strip()
+                if source_scaffold:
+                    enriched[scaffold_field] = source_scaffold
+            enriched_rows.append(enriched)
         rows = enriched_rows
     return {"matrix_path": str(matrix_path), "rows": rows, "problem_config": problem_config}
 

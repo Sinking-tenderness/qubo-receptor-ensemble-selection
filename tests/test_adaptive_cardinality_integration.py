@@ -48,7 +48,11 @@ def test_full_workflow_persists_adaptive_k_before_building_problem(tmp_path: Pat
             )
 
     matrix_path = _write_csv(tmp_path / "matrix.csv", matrix_rows)
-    ligand_manifest = _write_csv(tmp_path / "ligands.csv", manifest_rows)
+    ligand_manifest = _write_csv(
+        tmp_path / "ligands.csv",
+        [{**row, "scaffold_smiles": ""} for row in manifest_rows],
+    )
+    source_ligand_manifest = _write_csv(tmp_path / "source_ligands.csv", manifest_rows)
     receptor_manifest = _write_csv(
         tmp_path / "receptors.csv",
         [
@@ -60,6 +64,7 @@ def test_full_workflow_persists_adaptive_k_before_building_problem(tmp_path: Pat
     paths = {
         "run_directory": run_directory,
         "prepared_ligand_manifest": ligand_manifest,
+        "source_ligand_manifest": source_ligand_manifest,
         "selected_receptor_manifest": receptor_manifest,
         "primary_matrix": matrix_path,
         "problem": run_directory / "problem.json",
