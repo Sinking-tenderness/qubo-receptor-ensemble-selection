@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import os
 import re
 import shutil
 import subprocess
@@ -62,6 +63,20 @@ def _relative_or_absolute(path: object, root: Path | None) -> Path:
     if value.is_absolute() or root is None:
         return value
     return (root / value).resolve()
+
+
+def _subprocess_environment() -> dict[str, str]:
+    """Avoid invalid OpenMP settings inherited from remote shells."""
+    environment = os.environ.copy()
+    raw_threads = environment.get("OMP_NUM_THREADS")
+    if raw_threads is not None:
+        try:
+            valid_threads = int(raw_threads) > 0
+        except ValueError:
+            valid_threads = False
+        if not valid_threads:
+            environment["OMP_NUM_THREADS"] = "1"
+    return environment
 
 
 def _score_row(
@@ -200,7 +215,7 @@ class UniDockAdapter:
         ligand_index = output_dir / "ligands.index"
         pose_directory = output_dir / "poses"
         log_path = output_dir / "unidock.log"
-        pose_directory.mkdir(parents=True, exist_ok=True)
+        _reset_pose_directory(pose_directory)
         ligand_paths = [
             _relative_or_absolute(row["pdbqt_path"], root) for row in ligands
         ]
@@ -220,23 +235,30 @@ class UniDockAdapter:
             seed=seed,
             config=config,
         )
-        with log_path.open("w", encoding="utf-8") as log_handle:
-            completed = subprocess.run(
-                command,
-                cwd=root,
-                stdout=log_handle,
-                stderr=subprocess.STDOUT,
-                text=True,
-                check=False,
-            )
+        completed = _run_unidock_command(command, log_path=log_path, root=root)
         if completed.returncode != 0:
             raise RuntimeError(
                 f"Uni-Dock failed for {seed}/{receptor_id}; see {log_path}"
             )
         rows: list[dict[str, object]] = []
         for ligand in ligands:
-            pose_path = _find_pose(pose_directory, ligand)
-            score = parse_vina_score(pose_path.read_text(encoding="utf-8", errors="replace"))
+            try:
+                pose_path = _find_pose(pose_directory, ligand)
+                score = parse_vina_score(
+                    pose_path.read_text(encoding="utf-8", errors="replace")
+                )
+                ligand_log_path = log_path
+            except (FileNotFoundError, ValueError) as exc:
+                pose_path, score, ligand_log_path = _retry_unidock_ligand(
+                    executable=executable,
+                    receptor=receptor_path,
+                    ligand=ligand,
+                    seed=seed,
+                    output_dir=output_dir,
+                    config=config,
+                    root=root,
+                    original_error=exc,
+                )
             rows.append(
                 _score_row(
                     target_id=target_id,
@@ -246,7 +268,7 @@ class UniDockAdapter:
                     seed=seed,
                     engine=self.name,
                     pose_path=pose_path,
-                    log_path=log_path,
+                    log_path=ligand_log_path,
                 )
             )
         write_csv(score_table, rows)
@@ -382,6 +404,75 @@ def _find_pose(directory: Path, ligand: dict[str, str]) -> Path:
     if len(matches) == 1:
         return matches[0]
     raise FileNotFoundError(f"missing Uni-Dock pose for {ligand['ligand_id']}")
+
+
+def _run_unidock_command(
+    command: list[str], *, log_path: Path, root: Path | None
+) -> subprocess.CompletedProcess[str]:
+    log_path.parent.mkdir(parents=True, exist_ok=True)
+    with log_path.open("w", encoding="utf-8") as log_handle:
+        return subprocess.run(
+            command,
+            cwd=root,
+            stdout=log_handle,
+            stderr=subprocess.STDOUT,
+            text=True,
+            check=False,
+            env=_subprocess_environment(),
+        )
+
+
+def _retry_unidock_ligand(
+    *,
+    executable: str,
+    receptor: Path,
+    ligand: dict[str, str],
+    seed: int,
+    output_dir: Path,
+    config: dict[str, object],
+    root: Path | None,
+    original_error: Exception,
+) -> tuple[Path, float, Path]:
+    """Retry one missing/invalid batch pose without dropping the ligand."""
+    retry_directory = output_dir / "retries" / safe_filename(ligand["ligand_id"])
+    retry_directory.mkdir(parents=True, exist_ok=True)
+    retry_index = retry_directory / "ligands.index"
+    ligand_path = _relative_or_absolute(ligand["pdbqt_path"], root)
+    retry_index.write_text(f"{ligand_path}\n", encoding="utf-8")
+    pose_directory = retry_directory / "poses"
+    _reset_pose_directory(pose_directory)
+    log_path = retry_directory / "unidock.log"
+    command = UniDockAdapter().build_batch_command(
+        executable=executable,
+        receptor=receptor,
+        ligand_index=retry_index,
+        pose_directory=pose_directory,
+        seed=seed,
+        config=config,
+    )
+    completed = _run_unidock_command(command, log_path=log_path, root=root)
+    if completed.returncode != 0:
+        raise RuntimeError(
+            f"Uni-Dock retry failed for ligand {ligand['ligand_id']}; "
+            f"original_error={original_error}; see {log_path}"
+        )
+    try:
+        pose_path = _find_pose(pose_directory, ligand)
+        score = parse_vina_score(
+            pose_path.read_text(encoding="utf-8", errors="replace")
+        )
+    except (FileNotFoundError, ValueError) as exc:
+        raise RuntimeError(
+            f"Uni-Dock retry produced no valid pose for ligand {ligand['ligand_id']}; "
+            f"original_error={original_error}; retry_error={exc}; see {log_path}"
+        ) from exc
+    return pose_path, score, log_path
+
+
+def _reset_pose_directory(directory: Path) -> None:
+    if directory.exists():
+        shutil.rmtree(directory)
+    directory.mkdir(parents=True, exist_ok=True)
 
 
 def _read_score_table(path: Path) -> list[dict[str, object]]:
