@@ -16,6 +16,7 @@ def _write_csv(path: Path, rows: list[dict[str, object]]) -> None:
 
 def test_partial_run_from_aggregate_reaches_persist_without_reference_matrix(
     tmp_path: Path,
+    capsys,
 ) -> None:
     run = tmp_path / "run"
     ligands = [
@@ -122,3 +123,7 @@ def test_partial_run_from_aggregate_reaches_persist_without_reference_matrix(
     assert (run / "selection.json").is_file()
     assert (run / "evaluation.json").is_file()
     assert (run / "manifest.json").is_file()
+    output = capsys.readouterr().out
+    assert "[stage 3/7] aggregate started" in output
+    assert "[stage 3/7] aggregate completed" in output
+    assert "[stage 7/7] persist completed" in output

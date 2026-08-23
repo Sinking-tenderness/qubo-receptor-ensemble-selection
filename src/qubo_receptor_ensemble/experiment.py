@@ -9,7 +9,7 @@ import subprocess
 from collections import defaultdict
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
-from typing import Any
+from typing import Any, Callable, Mapping
 
 from .docking_adapters import get_docking_adapter
 from .adaptive_cardinality import estimate_adaptive_cardinality
@@ -788,7 +788,12 @@ def _method_directory(config: FullExperimentConfig, method_id: str) -> Path:
     return path
 
 
-def build_problem_stage(config: FullExperimentConfig, matrix_path: Path) -> dict[str, object]:
+def build_problem_stage(
+    config: FullExperimentConfig,
+    matrix_path: Path,
+    *,
+    progress: Callable[[str, Mapping[str, object]], None] | None = None,
+) -> dict[str, object]:
     payload = _load_problem_payload(config, matrix_path)
     rows = payload["rows"]
     problem_config = payload["problem_config"]
@@ -817,6 +822,7 @@ def build_problem_stage(config: FullExperimentConfig, matrix_path: Path) -> dict
                 ],
                 bedroc_alpha=float(problem_config.get("bedroc_alpha", 20.0)),
                 random_seed=int(k_policy.get("random_seed", 0)),
+                progress=progress,
             )
         except (KeyError, TypeError, ValueError) as exc:
             raise ConfigError(f"adaptive cardinality selection failed: {exc}") from exc
@@ -1066,6 +1072,38 @@ class FullExperimentRunner:
     def __init__(self, config: FullExperimentConfig) -> None:
         self.config = config
 
+    @staticmethod
+    def _print_adaptive_progress(event: str, payload: Mapping[str, object]) -> None:
+        if event == "adaptive_started":
+            print(
+                f"[adaptive] metric={payload['metric']} "
+                f"candidates={payload['candidates']}",
+                flush=True,
+            )
+        elif event == "inner_fold_started":
+            print(
+                f"[adaptive] inner_fold={payload['fold']}/{payload['fold_count']}",
+                flush=True,
+            )
+        elif event == "candidate_completed":
+            print(
+                f"[adaptive] inner_fold={payload['fold']}/{payload['fold_count']} "
+                f"candidate_k={payload['candidate_k']} completed",
+                flush=True,
+            )
+        elif event == "transition_evaluated":
+            print(
+                f"[adaptive] transition={payload['from_k']}->{payload['to_k']} "
+                f"metric={payload['metric']} passed={str(payload['passed']).lower()}",
+                flush=True,
+            )
+        elif event == "adaptive_completed":
+            print(
+                f"[adaptive] metric={payload['metric']} "
+                f"selected_k={payload['selected_k']}",
+                flush=True,
+            )
+
     def run(
         self,
         *,
@@ -1103,7 +1141,13 @@ class FullExperimentRunner:
         write_json(self.config.paths["run_directory"] / "config.snapshot.json", self.config.data)
         stage_records: dict[str, object] = {}
         context: dict[str, object] = {}
-        for stage in selected:
+        for stage_index, stage in enumerate(
+            selected, start=FULL_WORKFLOW_STAGES.index(start) + 1
+        ):
+            print(
+                f"[stage {stage_index}/{len(FULL_WORKFLOW_STAGES)}] {stage} started",
+                flush=True,
+            )
             if stage == "prepare":
                 context["prepared"] = prepare_experiment_inputs(
                     self.config, resume=resume, overwrite=overwrite
@@ -1157,7 +1201,11 @@ class FullExperimentRunner:
             elif stage == "build_problem":
                 matrix_path = context.get("primary_matrix", self.config.paths["primary_matrix"])
                 assert isinstance(matrix_path, Path)
-                built = build_problem_stage(self.config, matrix_path)
+                built = build_problem_stage(
+                    self.config,
+                    matrix_path,
+                    progress=self._print_adaptive_progress,
+                )
                 context["problem_path"] = built["problem_path"]
                 stage_records[stage] = {
                     "status": "completed",
@@ -1205,6 +1253,10 @@ class FullExperimentRunner:
                 summary_path = self.config.paths["run_directory"] / "summary.json"
                 write_json(summary_path, summary)
                 stage_records[stage] = {"status": "completed", "summary": str(summary_path)}
+            print(
+                f"[stage {stage_index}/{len(FULL_WORKFLOW_STAGES)}] {stage} completed",
+                flush=True,
+            )
         summary = {
             "status": "completed",
             "experiment_id": self.config.data["experiment_id"],

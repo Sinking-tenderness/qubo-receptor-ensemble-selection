@@ -173,3 +173,75 @@ def test_estimator_solves_sequential_candidates_from_inner_folds() -> None:
     assert decision.need_multi_conformation is True
     assert calls.count(1) == calls.count(2)
     assert calls.count(1) > 0
+
+
+@pytest.mark.parametrize(
+    ("metric", "gain_key"),
+    (
+        ("roc_auc", "mean_paired_roc_auc_gain"),
+        ("bedroc", "mean_paired_bedroc_gain"),
+        ("ef5", "mean_paired_ef5_gain"),
+    ),
+)
+def test_estimator_uses_configured_utility_metric_and_reports_progress(
+    metric: str, gain_key: str
+) -> None:
+    rows = []
+    for number in range(1, 5):
+        rows.extend(
+            (
+                {
+                    "ligand_id": f"A{number}",
+                    "label": "active",
+                    "scaffold_smiles": f"A{number}",
+                    "R1": -float(7 - number),
+                    "R2": -10.0 - number,
+                },
+                {
+                    "ligand_id": f"D{number}",
+                    "label": "decoy",
+                    "scaffold_smiles": f"D{number}",
+                    "R1": -10.0 + number,
+                    "R2": -1.0,
+                },
+            )
+        )
+
+    events: list[tuple[str, dict[str, object]]] = []
+
+    def solve_subset(train_rows: list[dict[str, object]], k: int) -> tuple[str, ...]:
+        del train_rows
+        return ("R1",) if k == 1 else ("R1", "R2")
+
+    decision = estimate_adaptive_cardinality(
+        rows,
+        ["R1", "R2"],
+        problem_config={"utility_metric": metric, "bedroc_alpha": 20.0},
+        solve_subset=solve_subset,
+        candidate_ks=(1, 2),
+        inner_fold_count=2,
+        bootstrap_iterations=100,
+        random_seed=13,
+        progress=lambda event, payload: events.append((event, dict(payload))),
+    )
+
+    transition = decision.transitions[0]
+    expected_mean_gain = {
+        "roc_auc": 0.9619196428571426,
+        "bedroc": 0.9765887859760091,
+        "ef5": 2.1369523809523794,
+    }[metric]
+    assert decision.metric == metric
+    assert transition["metric"] == metric
+    assert gain_key in transition
+    assert transition[gain_key] == pytest.approx(expected_mean_gain)
+    assert not (
+        metric != "bedroc" and "mean_paired_bedroc_gain" in transition
+    )
+    assert events[0] == (
+        "adaptive_started",
+        {"metric": metric, "candidates": [1, 2]},
+    )
+    assert any(event == "inner_fold_started" for event, _ in events)
+    assert any(event == "candidate_completed" for event, _ in events)
+    assert events[-1][0] == "adaptive_completed"

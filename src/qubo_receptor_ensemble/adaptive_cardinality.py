@@ -7,7 +7,11 @@ import random
 from dataclasses import dataclass
 from typing import Callable, Iterable, Mapping, Sequence
 
-from .screening import bedroc
+from .screening import bedroc, enrichment_factor, roc_auc_pairwise
+
+
+SUPPORTED_ADAPTIVE_METRICS = {"roc_auc", "bedroc", "ef5"}
+ProgressCallback = Callable[[str, Mapping[str, object]], None]
 
 
 class AdaptiveCardinalityError(ValueError):
@@ -35,6 +39,7 @@ class TransitionEvidence:
     observations: tuple[MarginalObservation, ...]
     bootstrap_samples: tuple[float, ...] | None = None
     mean_rescue_contrast_override: float | None = None
+    utility_metric: str = "bedroc"
 
 
 @dataclass(frozen=True)
@@ -46,10 +51,12 @@ class AdaptiveCardinalityDecision:
     need_multi_conformation: bool
     transitions: tuple[dict[str, object], ...]
     uses_outer_labels: bool = False
+    metric: str = "bedroc"
 
     def as_dict(self) -> dict[str, object]:
         return {
             "policy": self.policy,
+            "metric": self.metric,
             "selected_k": self.selected_k,
             "need_multi_conformation": self.need_multi_conformation,
             "transitions": [dict(item) for item in self.transitions],
@@ -65,6 +72,19 @@ def _finite(value: float, name: str) -> float:
     if not math.isfinite(normalized):
         raise AdaptiveCardinalityError(f"{name} must be finite")
     return normalized
+
+
+def _validate_utility_metric(value: object) -> str:
+    metric = str(value or "bedroc").strip().lower()
+    if metric not in SUPPORTED_ADAPTIVE_METRICS:
+        raise AdaptiveCardinalityError(
+            "utility_metric must be roc_auc, bedroc, or ef5"
+        )
+    return metric
+
+
+def _metric_gain_key(utility_metric: str) -> str:
+    return f"mean_paired_{utility_metric}_gain"
 
 
 def _validate_observation(observation: MarginalObservation) -> None:
@@ -101,7 +121,9 @@ def _bootstrap_transition(
     random_seed: int,
     bootstrap_samples: Iterable[float] | None = None,
     mean_rescue_contrast_override: float | None = None,
+    utility_metric: str = "bedroc",
 ) -> dict[str, float | int]:
+    utility_metric = _validate_utility_metric(utility_metric)
     rows = tuple(observations)
     if not rows:
         raise AdaptiveCardinalityError("transition requires at least one observation")
@@ -130,7 +152,7 @@ def _bootstrap_transition(
         return {
             "observation_count": len(rows),
             "scaffold_count": len({str(row.scaffold_id) for row in rows}),
-            "mean_paired_bedroc_gain": mean_gain,
+            _metric_gain_key(utility_metric): mean_gain,
             "bootstrap_lcb": _quantile(samples, lower_quantile),
             "bootstrap_positive_probability": sum(value > 0 for value in samples)
             / len(samples),
@@ -175,7 +197,7 @@ def _bootstrap_transition(
     return {
         "observation_count": len(rows),
         "scaffold_count": len(scaffold_ids),
-        "mean_paired_bedroc_gain": mean_gain,
+        _metric_gain_key(utility_metric): mean_gain,
         "bootstrap_lcb": _quantile(bootstrap_gains, lower_quantile),
         "bootstrap_positive_probability": sum(value > 0 for value in bootstrap_gains)
         / len(bootstrap_gains),
@@ -241,10 +263,12 @@ def _score_records(
     return records
 
 
-def _sampled_bedroc(
+def _sampled_metric(
     records: Mapping[str, Mapping[str, object]],
     grouped_ids: Mapping[str, Sequence[str]],
     sampled_groups: Sequence[str],
+    *,
+    utility_metric: str,
     alpha: float,
 ) -> float:
     ranked_values: list[tuple[float, int, str, int]] = []
@@ -260,12 +284,15 @@ def _sampled_bedroc(
                 )
             )
     ranked_values.sort(key=lambda value: (value[0], value[1], value[2]))
-    return float(
-        bedroc(
-            [{"binary_label": binary_label} for _, _, _, binary_label in ranked_values],
-            alpha,
+    labels = [binary_label for _, _, _, binary_label in ranked_values]
+    if utility_metric == "roc_auc":
+        return float(
+            roc_auc_pairwise(labels, [-score for score, _, _, _ in ranked_values])
         )
-    )
+    ranked = [{"binary_label": binary_label} for binary_label in labels]
+    if utility_metric == "bedroc":
+        return float(bedroc(ranked, alpha))
+    return float(enrichment_factor(ranked, 0.05)["ef"])
 
 
 def _paired_group_bootstrap(
@@ -274,8 +301,10 @@ def _paired_group_bootstrap(
     *,
     replicates: int,
     seed: int,
+    utility_metric: str = "bedroc",
     alpha: float,
 ) -> tuple[float, ...]:
+    utility_metric = _validate_utility_metric(utility_metric)
     if replicates <= 0:
         raise AdaptiveCardinalityError("bootstrap_iterations must be positive")
     method_ids = list(records_by_method)
@@ -303,7 +332,13 @@ def _paired_group_bootstrap(
             )
         sampled_groups = rng.choices(group_ids, k=len(group_ids))
         values = [
-            _sampled_bedroc(records_by_method[method_id], grouped_ids, sampled_groups, alpha)
+            _sampled_metric(
+                records_by_method[method_id],
+                grouped_ids,
+                sampled_groups,
+                utility_metric=utility_metric,
+                alpha=alpha,
+            )
             for method_id in method_ids
         ]
         if not all(math.isfinite(value) for value in values):
@@ -364,6 +399,7 @@ def estimate_adaptive_cardinality(
     rescue_fractions: Sequence[float] = (0.01, 0.05),
     bedroc_alpha: float = 20.0,
     random_seed: int = 0,
+    progress: ProgressCallback | None = None,
 ) -> AdaptiveCardinalityDecision:
     """Estimate cardinality from inner-fold predictions without outer labels."""
 
@@ -393,7 +429,15 @@ def estimate_adaptive_cardinality(
             "bedroc_alpha": bedroc_alpha,
         }
     base_problem_config = dict(problem_config)
+    utility_metric = _validate_utility_metric(
+        base_problem_config.get("utility_metric", "bedroc")
+    )
     receptor_names = tuple(str(value) for value in receptor_ids)
+    if progress is not None:
+        progress(
+            "adaptive_started",
+            {"metric": utility_metric, "candidates": list(candidates)},
+        )
 
     if solve_subset is None:
         def solve_subset(train_rows: list[dict[str, object]], k: int) -> Sequence[str]:
@@ -411,6 +455,11 @@ def estimate_adaptive_cardinality(
         str(k): {} for k in candidates
     }
     for inner_fold in range(inner_fold_count):
+        if progress is not None:
+            progress(
+                "inner_fold_started",
+                {"fold": inner_fold + 1, "fold_count": inner_fold_count},
+            )
         train_rows = [
             row
             for row in normalized
@@ -428,6 +477,15 @@ def estimate_adaptive_cardinality(
             records_by_method[str(k)].update(
                 _score_records(validation_rows, subset)
             )
+            if progress is not None:
+                progress(
+                    "candidate_completed",
+                    {
+                        "fold": inner_fold + 1,
+                        "fold_count": inner_fold_count,
+                        "candidate_k": k,
+                    },
+                )
 
     group_by_ligand = {
         str(row["ligand_id"]): str(row[scaffold_field]) for row in normalized
@@ -443,6 +501,7 @@ def estimate_adaptive_cardinality(
             group_by_ligand,
             replicates=bootstrap_iterations,
             seed=random_seed + previous_k,
+            utility_metric=utility_metric,
             alpha=bedroc_alpha,
         )
         rescue = _rank_rescue_contrast(
@@ -465,14 +524,23 @@ def estimate_adaptive_cardinality(
                 observations=observations,
                 bootstrap_samples=samples,
                 mean_rescue_contrast_override=rescue,
+                utility_metric=utility_metric,
             )
         )
-    return select_adaptive_k(
+    decision = select_adaptive_k(
         transitions,
         bootstrap_iterations=bootstrap_iterations,
         lower_quantile=lower_quantile,
         random_seed=random_seed,
+        utility_metric=utility_metric,
+        progress=progress,
     )
+    if progress is not None:
+        progress(
+            "adaptive_completed",
+            {"metric": utility_metric, "selected_k": decision.selected_k},
+        )
+    return decision
 
 
 def _observation_from_group(
@@ -499,6 +567,8 @@ def select_adaptive_k(
     bootstrap_iterations: int = 1000,
     lower_quantile: float = 0.025,
     random_seed: int = 0,
+    utility_metric: str | None = None,
+    progress: ProgressCallback | None = None,
 ) -> AdaptiveCardinalityDecision:
     """Select the smallest cardinality passing sequential functional gates.
 
@@ -514,6 +584,16 @@ def select_adaptive_k(
         raise AdaptiveCardinalityError("lower_quantile must be between 0 and 1")
 
     ordered = list(transitions)
+    transition_metrics = {
+        _validate_utility_metric(transition.utility_metric) for transition in ordered
+    }
+    if utility_metric is None:
+        utility_metric = next(iter(transition_metrics), "bedroc")
+    utility_metric = _validate_utility_metric(utility_metric)
+    if transition_metrics and transition_metrics != {utility_metric}:
+        raise AdaptiveCardinalityError(
+            "all transitions must use the configured utility_metric"
+        )
     selected_k = 1
     expected_from = 1
     diagnostics: list[dict[str, object]] = []
@@ -529,6 +609,7 @@ def select_adaptive_k(
             random_seed=random_seed + transition.from_k,
             bootstrap_samples=transition.bootstrap_samples,
             mean_rescue_contrast_override=transition.mean_rescue_contrast_override,
+            utility_metric=utility_metric,
         )
         passed = bool(
             float(stats["bootstrap_lcb"]) > 0.0
@@ -539,12 +620,23 @@ def select_adaptive_k(
                 "transition": f"{transition.from_k}->{transition.to_k}",
                 "from_k": transition.from_k,
                 "to_k": transition.to_k,
+                "metric": utility_metric,
                 **stats,
                 "bootstrap_iterations": bootstrap_iterations,
                 "lower_quantile": lower_quantile,
                 "passed": passed,
             }
         )
+        if progress is not None:
+            progress(
+                "transition_evaluated",
+                {
+                    "from_k": transition.from_k,
+                    "to_k": transition.to_k,
+                    "metric": utility_metric,
+                    "passed": passed,
+                },
+            )
         if not passed:
             break
         selected_k = transition.to_k
@@ -552,6 +644,7 @@ def select_adaptive_k(
 
     return AdaptiveCardinalityDecision(
         policy="mechanistic_bootstrap_lcb",
+        metric=utility_metric,
         selected_k=selected_k,
         need_multi_conformation=selected_k > 1,
         transitions=tuple(diagnostics),

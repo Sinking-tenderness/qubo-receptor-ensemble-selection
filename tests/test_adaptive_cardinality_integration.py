@@ -125,9 +125,18 @@ def test_full_workflow_persists_adaptive_k_before_building_problem(tmp_path: Pat
         end_stage="persist",
     )
 
-    built = build_problem_stage(config, matrix_path)
+    progress_events: list[tuple[str, dict[str, object]]] = []
+    built = build_problem_stage(
+        config,
+        matrix_path,
+        progress=lambda event, payload: progress_events.append(
+            (event, dict(payload))
+        ),
+    )
 
     assert built["adaptive_cardinality"]["selected_k"] in {1, 2}
+    assert progress_events[0][0] == "adaptive_started"
+    assert progress_events[-1][0] == "adaptive_completed"
     decision_path = run_directory / "adaptive_cardinality.json"
     assert decision_path.is_file()
     payload = json.loads(paths["problem"].read_text(encoding="ascii"))
