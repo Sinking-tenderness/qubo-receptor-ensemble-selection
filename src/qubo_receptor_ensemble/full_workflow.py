@@ -11,6 +11,7 @@ from collections import Counter, defaultdict
 from pathlib import Path
 from typing import Mapping
 
+from .ligand_selection import scaffold_smiles
 from .methods import MethodRegistryError, get_method_spec
 
 FULL_WORKFLOW_STAGES = (
@@ -91,6 +92,12 @@ def _read_ism(path: Path, label: str) -> list[dict[str, str]]:
                 continue
             if len(parts) < 2:
                 raise ConfigError(f"{label} ISM line {line_number} has no ligand ID")
+            try:
+                scaffold = scaffold_smiles(parts[0])
+            except ValueError as exc:
+                raise ConfigError(
+                    f"{label} ISM line {line_number} has invalid SMILES"
+                ) from exc
             rows.append(
                 {
                     "smiles": parts[0],
@@ -98,6 +105,7 @@ def _read_ism(path: Path, label: str) -> list[dict[str, str]]:
                     "source_molecule_id": parts[-1],
                     "source_line_number": str(line_number),
                     "label": label,
+                    "scaffold_smiles": scaffold,
                 }
             )
     if not rows:

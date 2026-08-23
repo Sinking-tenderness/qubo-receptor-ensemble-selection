@@ -243,6 +243,7 @@ def test_select_manual_ligands_resolves_configured_ids_to_raw_ism_rows(tmp_path:
         "TEST_decoy_L000001",
     ]
     assert [row["smiles"] for row in rows] == ["CCC", "CO"]
+    assert all(row["scaffold_smiles"] for row in rows)
     assert all(row["selection_role"] == "development_train" for row in rows)
     assert all(row["split"] == "train" for row in rows)
 

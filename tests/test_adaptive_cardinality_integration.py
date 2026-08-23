@@ -27,7 +27,7 @@ def test_full_workflow_persists_adaptive_k_before_building_problem(tmp_path: Pat
             ("active", "A", -float(7 - number), -10.0 - number),
             ("decoy", "D", -10.0 + number, -1.0),
         ):
-            ligand_id = prefix + str(number)
+            ligand_id = f"TEST_{label}_L{number:06d}"
             matrix_rows.append(
                 {
                     "ligand_id": ligand_id,
@@ -55,9 +55,17 @@ def test_full_workflow_persists_adaptive_k_before_building_problem(tmp_path: Pat
     source_ligand_manifest = _write_csv(
         tmp_path / "source_ligands.csv",
         [
-            {"ligand_id": row["ligand_id"], "scaffold_smiles": row["scaffold_smiles"]}
+            {"ligand_id": row["ligand_id"], "scaffold_smiles": ""}
             for row in manifest_rows
         ],
+    )
+    (tmp_path / "active.ism").write_text(
+        "CC active-1\nCCC active-2\nCCCC active-3\nCCCCC active-4\n",
+        encoding="ascii",
+    )
+    (tmp_path / "decoy.ism").write_text(
+        "CO decoy-1\nCOC decoy-2\nCOCC decoy-3\nCOCCC decoy-4\n",
+        encoding="ascii",
     )
     receptor_manifest = _write_csv(
         tmp_path / "receptors.csv",
@@ -71,6 +79,8 @@ def test_full_workflow_persists_adaptive_k_before_building_problem(tmp_path: Pat
         "run_directory": run_directory,
         "prepared_ligand_manifest": ligand_manifest,
         "source_ligand_manifest": source_ligand_manifest,
+        "active_ism": tmp_path / "active.ism",
+        "decoy_ism": tmp_path / "decoy.ism",
         "selected_receptor_manifest": receptor_manifest,
         "primary_matrix": matrix_path,
         "problem": run_directory / "problem.json",
@@ -83,6 +93,12 @@ def test_full_workflow_persists_adaptive_k_before_building_problem(tmp_path: Pat
         data={
             "experiment_id": "adaptive-test",
             "target_id": "TEST",
+            "selection": {
+                "ordering": "manual_ids",
+                "ligand_ids": [row["ligand_id"] for row in manifest_rows],
+                "ligand_count": len(manifest_rows),
+                "label_counts": {"active": 4, "decoy": 4},
+            },
             "problem": {
                 "type": "receptor_subset",
                 "strategy": "qubo",

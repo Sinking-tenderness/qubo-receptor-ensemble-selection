@@ -457,6 +457,8 @@ def test_raw_manual_receptors_preserve_configured_names_and_order(
     path.write_text(json.dumps(payload), encoding="utf-8")
     config = load_full_experiment_config(path, data_root=tmp_path)
     observed: dict[str, object] = {}
+    audit_path = config.paths["run_directory"] / "receptor_preparation_audit.json"
+    assert not audit_path.exists()
 
     def fake_prepare_raw_receptors(**kwargs: object) -> dict[str, object]:
         observed.update(kwargs)
@@ -488,3 +490,4 @@ def test_raw_manual_receptors_preserve_configured_names_and_order(
     assert observed["candidate_ids"] == ["R1", "R2"]
     assert [row["conformer_id"] for row in rows] == ["FA10_R1", "FA10_R2"]
     assert [row["rcsb_id"] for row in rows] == ["R1", "R2"]
+    assert audit_path.is_file()

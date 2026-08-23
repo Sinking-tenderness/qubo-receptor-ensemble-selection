@@ -25,6 +25,14 @@ def _scaffold_for(molecule: Chem.Mol) -> str:
     return Chem.MolToSmiles(scaffold, canonical=True, isomericSmiles=False)
 
 
+def scaffold_smiles(smiles: str) -> str:
+    """Return the canonical, stereo-insensitive Murcko scaffold for SMILES."""
+    molecule = Chem.MolFromSmiles(smiles)
+    if molecule is None:
+        raise ValueError(f"invalid SMILES: {smiles}")
+    return _scaffold_for(molecule)
+
+
 def _read_ism(path: Path, label: str) -> list[dict[str, object]]:
     rows: list[dict[str, object]] = []
     with path.open("r", encoding="utf-8-sig") as handle:

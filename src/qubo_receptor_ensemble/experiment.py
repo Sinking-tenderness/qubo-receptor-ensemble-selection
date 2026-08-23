@@ -728,6 +728,36 @@ def _load_problem_payload(config: FullExperimentConfig, matrix_path: Path) -> di
                 for row in read_csv(source_manifest_path)
                 if str(row.get("ligand_id", "")).strip()
             }
+        needs_scaffold = any(
+            not str(source_metadata_by_ligand.get(ligand_id, {}).get(scaffold_field, "")).strip()
+            for ligand_id in manifest_ids
+        )
+        selection = config.data.get("selection")
+        active_ism = config.paths.get("active_ism")
+        decoy_ism = config.paths.get("decoy_ism")
+        if (
+            needs_scaffold
+            and isinstance(selection, dict)
+            and str(selection.get("ordering", "")) == "manual_ids"
+            and active_ism is not None
+            and decoy_ism is not None
+            and active_ism.is_file()
+            and decoy_ism.is_file()
+        ):
+            label_counts = selection.get("label_counts", {})
+            if not isinstance(label_counts, dict):
+                raise ConfigError("selection.label_counts must be an object")
+            raw_rows = select_manual_ligands(
+                active_ism,
+                decoy_ism,
+                selection.get("ligand_ids"),
+                target_id=str(config.data["target_id"]),
+                label_counts={str(key): int(value) for key, value in label_counts.items()},
+                ligand_count=int(selection["ligand_count"]),
+            )
+            source_metadata_by_ligand.update(
+                {row["ligand_id"]: row for row in raw_rows if row.get("ligand_id")}
+            )
         enriched_rows: list[dict[str, object]] = []
         for row in rows:
             ligand_id = str(row.get("ligand_id", ""))
