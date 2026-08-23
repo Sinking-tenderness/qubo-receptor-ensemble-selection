@@ -285,15 +285,16 @@ def front_input_keys(config: Mapping[str, object], stage: str) -> tuple[str, ...
         and str(receptor_selection.get("mode", "")) == "manual"
     )
     sources = _mapping(config.get("sources", {}), "sources")
+    receptor_outputs = () if manual_receptors else ("selected_receptor_manifest",)
     requirements: dict[str, tuple[str, ...]] = {
         "prepare": ("receptor_manifest",),
-        "dock": ("prepared_ligand_manifest", "selected_receptor_manifest"),
+        "dock": ("prepared_ligand_manifest", *receptor_outputs),
         "aggregate": (
             "prepared_ligand_manifest",
-            "selected_receptor_manifest",
+            *receptor_outputs,
             "score_tables",
         ),
-        "build_problem": ("primary_matrix", "selected_receptor_manifest"),
+        "build_problem": ("primary_matrix", *receptor_outputs),
         "solve": ("problem",),
         "evaluate": ("selection",),
         "persist": ("evaluation",),
@@ -307,7 +308,7 @@ def front_input_keys(config: Mapping[str, object], stage: str) -> tuple[str, ...
         if adaptive:
             requirements[stage] = (
                 "primary_matrix",
-                "selected_receptor_manifest",
+                *receptor_outputs,
                 "prepared_ligand_manifest",
             )
     if stage == "prepare":
@@ -633,13 +634,20 @@ def _validate_paths(
     required_outputs = {
         "run_directory",
         "prepared_ligand_manifest",
-        "selected_receptor_manifest",
         "score_tables",
         "matrices",
         "problem",
         "selection",
         "evaluation",
     }
+    selection = _mapping(config.get("selection"), "selection")
+    receptor_selection = selection.get("receptor_selection")
+    manual_receptors = (
+        isinstance(receptor_selection, dict)
+        and str(receptor_selection.get("mode", "")) == "manual"
+    )
+    if not manual_receptors:
+        required_outputs.add("selected_receptor_manifest")
     missing_outputs = sorted(required_outputs.difference(paths_config))
     if missing_outputs:
         raise ConfigError(f"paths is missing: {missing_outputs}")

@@ -3,9 +3,11 @@ from pathlib import Path
 
 import pytest
 
+from qubo_receptor_ensemble.experiment import _load_problem_payload
 from qubo_receptor_ensemble.full_workflow import (
     FULL_WORKFLOW_STAGES,
     ConfigError,
+    front_input_keys,
     load_full_experiment_config,
 )
 
@@ -208,6 +210,7 @@ def test_full_config_accepts_manual_receptor_selection_without_manifest(
         ],
     }
     payload["sources"].pop("receptor_manifest")
+    payload["paths"].pop("selected_receptor_manifest")
     path = tmp_path / "manual-receptors.json"
     path.write_text(json.dumps(payload), encoding="utf-8")
 
@@ -215,6 +218,40 @@ def test_full_config_accepts_manual_receptor_selection_without_manifest(
 
     assert config.data["selection"]["receptor_selection"]["mode"] == "manual"
     assert "receptor_manifest" not in config.paths
+    assert "selected_receptor_manifest" not in config.paths
+    assert front_input_keys(config.data, "dock") == ("prepared_ligand_manifest",)
+    assert front_input_keys(config.data, "aggregate") == (
+        "prepared_ligand_manifest",
+        "score_tables",
+    )
+    assert front_input_keys(config.data, "build_problem") == ("primary_matrix",)
+
+
+def test_manual_receptors_are_loaded_from_config_when_building_problem(
+    tmp_path: Path,
+) -> None:
+    payload = json.loads(_write_config(tmp_path).read_text(encoding="utf-8"))
+    payload["selection"]["receptor_selection"] = {
+        "mode": "manual",
+        "receptors": [
+            {"conformer_id": "R1", "receptor_pdbqt": "prepared/R1.pdbqt"},
+            {"conformer_id": "R2", "receptor_pdbqt": "prepared/R2.pdbqt"},
+        ],
+    }
+    payload["sources"].pop("receptor_manifest")
+    payload["paths"].pop("selected_receptor_manifest")
+    path = tmp_path / "manual-receptors-problem.json"
+    path.write_text(json.dumps(payload), encoding="utf-8")
+    (tmp_path / "prepared").mkdir()
+    (tmp_path / "prepared" / "R1.pdbqt").write_text("R1", encoding="ascii")
+    (tmp_path / "prepared" / "R2.pdbqt").write_text("R2", encoding="ascii")
+    matrix = tmp_path / "matrix.csv"
+    matrix.write_text("ligand_id,label\nL1,active\n", encoding="utf-8")
+
+    config = load_full_experiment_config(path, data_root=tmp_path)
+    result = _load_problem_payload(config, matrix)
+
+    assert result["problem_config"]["receptor_ids"] == ["R1", "R2"]
 
 
 def test_manual_receptor_selection_requires_exact_receptor_count(tmp_path: Path) -> None:

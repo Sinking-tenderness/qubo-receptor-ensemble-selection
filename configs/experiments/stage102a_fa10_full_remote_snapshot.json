@@ -157,7 +157,6 @@
   "paths": {
     "run_directory": "results/runs/stage102a_fa10_full_remote_snapshot",
     "prepared_ligand_manifest": "results/runs/stage102a_fa10_full_remote_snapshot/prepared_ligands.csv",
-    "selected_receptor_manifest": "results/runs/stage102a_fa10_full_remote_snapshot/selected_receptors.csv",
     "score_tables": "results/runs/stage102a_fa10_full_remote_snapshot/score_tables",
     "matrices": "results/runs/stage102a_fa10_full_remote_snapshot/matrices",
     "primary_matrix": "results/runs/stage102a_fa10_full_remote_snapshot/matrices/primary_median_matrix.csv",

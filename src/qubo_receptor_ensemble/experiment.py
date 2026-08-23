@@ -101,6 +101,20 @@ def _resolve_manual_receptor_rows(config: FullExperimentConfig) -> list[dict[str
     return resolved
 
 
+def _manual_receptor_selection_enabled(config: FullExperimentConfig) -> bool:
+    selection = config.data.get("selection")
+    if not isinstance(selection, dict):
+        return False
+    policy = selection.get("receptor_selection")
+    return isinstance(policy, dict) and policy.get("mode") == "manual"
+
+
+def _configured_receptor_rows(config: FullExperimentConfig) -> list[dict[str, str]]:
+    if _manual_receptor_selection_enabled(config):
+        return _resolve_manual_receptor_rows(config)
+    return _read_receptor_manifest(config.paths["selected_receptor_manifest"])
+
+
 def _prepare_one_ligand(
     row: dict[str, str],
     *,
@@ -316,11 +330,17 @@ def prepare_experiment_inputs(
     """Prepare all inputs from raw sources for the exact current experiment run."""
     paths = config.paths
     ligand_manifest_path = paths["prepared_ligand_manifest"]
-    receptor_manifest_path = paths["selected_receptor_manifest"]
+    manual_receptors = _manual_receptor_selection_enabled(config)
+    receptor_manifest_path = (
+        None if manual_receptors else paths.get("selected_receptor_manifest")
+    )
     box_path = paths.get("docking_box", paths["run_directory"] / "docking_box.json")
-    if resume and ligand_manifest_path.is_file() and receptor_manifest_path.is_file() and box_path.is_file():
+    resume_paths = [ligand_manifest_path, box_path]
+    if receptor_manifest_path is not None:
+        resume_paths.insert(1, receptor_manifest_path)
+    if resume and all(path.is_file() for path in resume_paths):
         ligands = _read_ligand_manifest(ligand_manifest_path)
-        receptors = _read_receptor_manifest(receptor_manifest_path)
+        receptors = _configured_receptor_rows(config)
         if (
             all(_as_rooted(Path(row["pdbqt_path"]), config.data_root).is_file() for row in ligands)
             and all(
@@ -346,11 +366,7 @@ def prepare_experiment_inputs(
                 "resumed": True,
             }
     if not overwrite:
-        existing = [
-            path
-            for path in (ligand_manifest_path, receptor_manifest_path, box_path)
-            if path.exists()
-        ]
+        existing = [path for path in resume_paths if path.exists()]
         if existing:
             raise FileExistsError(f"prepare outputs exist; use --resume: {existing[0]}")
 
@@ -406,11 +422,6 @@ def prepare_experiment_inputs(
             ),
         )
     receptor_audit: dict[str, object] = {}
-    receptor_selection = selection.get("receptor_selection")
-    manual_receptors = (
-        isinstance(receptor_selection, dict)
-        and receptor_selection.get("mode") == "manual"
-    )
     if manual_receptors:
         receptor_rows = _resolve_manual_receptor_rows(config)
     elif _raw_receptor_sources(paths):
@@ -454,7 +465,8 @@ def prepare_experiment_inputs(
             prepared_by_id[futures[future]] = future.result()
     prepared_ligands = [prepared_by_id[row["ligand_id"]] for row in selected_ligands]
     _write_rows(ligand_manifest_path, prepared_ligands)
-    _write_rows(receptor_manifest_path, receptor_rows)
+    if receptor_manifest_path is not None:
+        _write_rows(receptor_manifest_path, receptor_rows)
     generated_box_path: Path | None = None
     if _raw_receptor_sources(paths):
         generated_box_path, _ = _configure_generated_box(config)
@@ -603,9 +615,9 @@ def aggregate_score_tables(
 
 def _load_problem_payload(config: FullExperimentConfig, matrix_path: Path) -> dict[str, object]:
     rows = read_csv(matrix_path)
-    receptor_manifest = _read_receptor_manifest(config.paths["selected_receptor_manifest"])
+    receptor_rows = _configured_receptor_rows(config)
     problem_config = dict(config.data["problem"])
-    problem_config["receptor_ids"] = [row["conformer_id"] for row in receptor_manifest]
+    problem_config["receptor_ids"] = [row["conformer_id"] for row in receptor_rows]
     k_policy = problem_config.get("k_policy")
     if isinstance(k_policy, dict) and k_policy.get("mode") == "adaptive":
         ligand_manifest = _read_ligand_manifest(config.paths["prepared_ligand_manifest"])
@@ -683,8 +695,8 @@ def build_problem_stage(config: FullExperimentConfig, matrix_path: Path) -> dict
         )
     if str(problem_config.get("mode", "single")) == "compare" or "methods" in problem_config:
         requests = resolve_problem_requests(problem_config)
-        receptor_manifest = _read_receptor_manifest(config.paths["selected_receptor_manifest"])
-        receptor_ids = [row["conformer_id"] for row in receptor_manifest]
+        receptor_rows = _configured_receptor_rows(config)
+        receptor_ids = [row["conformer_id"] for row in receptor_rows]
         records: list[dict[str, object]] = []
         capabilities: list[dict[str, object]] = []
         for request in requests:
@@ -966,10 +978,9 @@ class FullExperimentRunner:
                 write_json(self.config.paths["run_directory"] / "config.snapshot.json", self.config.data)
                 prepared_context = context["prepared"]
                 assert isinstance(prepared_context, dict)
-                stage_records[stage] = {
+                prepare_record: dict[str, object] = {
                     "status": "completed",
                     "prepared_ligand_manifest": str(self.config.paths["prepared_ligand_manifest"]),
-                    "selected_receptor_manifest": str(self.config.paths["selected_receptor_manifest"]),
                     "source_ligand_manifest": str(prepared_context["source_ligand_manifest"])
                     if isinstance(prepared_context.get("source_ligand_manifest"), Path)
                     else "",
@@ -982,12 +993,22 @@ class FullExperimentRunner:
                     if isinstance(prepared_context.get("docking_box"), Path)
                     else str(self.config.paths.get("docking_box", "")),
                 }
+                if (
+                    not _manual_receptor_selection_enabled(self.config)
+                    and "selected_receptor_manifest" in self.config.paths
+                ):
+                    prepare_record["selected_receptor_manifest"] = str(
+                        self.config.paths["selected_receptor_manifest"]
+                    )
+                stage_records[stage] = prepare_record
             elif stage == "dock":
                 prepared = context.get("prepared")
                 if not isinstance(prepared, dict):
                     prepared = {
-                        "ligands": _read_ligand_manifest(self.config.paths["prepared_ligand_manifest"]),
-                        "receptors": _read_receptor_manifest(self.config.paths["selected_receptor_manifest"]),
+                        "ligands": _read_ligand_manifest(
+                            self.config.paths["prepared_ligand_manifest"]
+                        ),
+                        "receptors": _configured_receptor_rows(self.config),
                     }
                 stage_records[stage] = self._dock(prepared, resume=resume)
             elif stage == "aggregate":
