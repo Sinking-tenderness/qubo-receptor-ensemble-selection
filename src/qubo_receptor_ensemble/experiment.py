@@ -724,9 +724,9 @@ def _load_problem_payload(config: FullExperimentConfig, matrix_path: Path) -> di
         source_manifest_path = config.paths.get("source_ligand_manifest")
         if source_manifest_path is not None and source_manifest_path.is_file():
             source_metadata_by_ligand = {
-                row["ligand_id"]: row
-                for row in _read_ligand_manifest(source_manifest_path)
-                if row.get("ligand_id")
+                str(row.get("ligand_id", "")): row
+                for row in read_csv(source_manifest_path)
+                if str(row.get("ligand_id", "")).strip()
             }
         enriched_rows: list[dict[str, object]] = []
         for row in rows:

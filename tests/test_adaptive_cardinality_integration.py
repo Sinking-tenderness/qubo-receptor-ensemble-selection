@@ -52,7 +52,13 @@ def test_full_workflow_persists_adaptive_k_before_building_problem(tmp_path: Pat
         tmp_path / "ligands.csv",
         [{**row, "scaffold_smiles": ""} for row in manifest_rows],
     )
-    source_ligand_manifest = _write_csv(tmp_path / "source_ligands.csv", manifest_rows)
+    source_ligand_manifest = _write_csv(
+        tmp_path / "source_ligands.csv",
+        [
+            {"ligand_id": row["ligand_id"], "scaffold_smiles": row["scaffold_smiles"]}
+            for row in manifest_rows
+        ],
+    )
     receptor_manifest = _write_csv(
         tmp_path / "receptors.csv",
         [
