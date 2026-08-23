@@ -86,7 +86,9 @@ def _resolve_manual_receptor_rows(config: FullExperimentConfig) -> list[dict[str
     )
     prepared_by_rcsb: dict[str, dict[str, object]] = {}
     if rows and all("rcsb_id" in row and "receptor_pdbqt" not in row for row in rows):
-        audit_path = config.paths["run_directory"] / "receptor_preparation_audit.json"
+        audit_path = config.paths.get("receptor_preparation_audit")
+        if audit_path is None:
+            audit_path = config.paths["run_directory"] / "receptor_preparation_audit.json"
         if not audit_path.is_file():
             raise FileNotFoundError(audit_path)
         audit = json.loads(audit_path.read_text(encoding="ascii"))

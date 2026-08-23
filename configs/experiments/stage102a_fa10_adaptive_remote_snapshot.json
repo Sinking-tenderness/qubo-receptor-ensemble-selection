@@ -782,6 +782,7 @@
                   "primary_matrix":  "results/runs/stage102a_fa10_full_remote_snapshot/matrices/primary_median_matrix.csv",
                   "problem":  "results/runs/stage102a_fa10_adaptive_remote_snapshot/problem.json",
                   "selection":  "results/runs/stage102a_fa10_adaptive_remote_snapshot/selection.json",
-                  "evaluation":  "results/runs/stage102a_fa10_adaptive_remote_snapshot/evaluation.json"
+                  "evaluation":  "results/runs/stage102a_fa10_adaptive_remote_snapshot/evaluation.json",
+                  "receptor_preparation_audit":  "results/runs/stage102a_fa10_full_remote_snapshot/receptor_preparation_audit.json"
               }
 }

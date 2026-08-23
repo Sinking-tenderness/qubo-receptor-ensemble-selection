@@ -271,6 +271,48 @@ def test_manual_receptor_selection_requires_exact_receptor_count(tmp_path: Path)
         load_full_experiment_config(path, data_root=tmp_path)
 
 
+def test_manual_receptors_can_reuse_audit_from_another_run_directory(
+    tmp_path: Path,
+) -> None:
+    payload = json.loads(_write_config(tmp_path).read_text(encoding="utf-8"))
+    payload["selection"]["receptor_selection"] = {
+        "mode": "manual",
+        "receptors": [{"conformer_id": "R1", "rcsb_id": "R1"}],
+    }
+    payload["selection"]["receptor_count"] = 1
+    payload["paths"]["receptor_preparation_audit"] = (
+        "results/source-run/receptor_preparation_audit.json"
+    )
+    path = _write_config(tmp_path, selection=payload["selection"], paths=payload["paths"])
+    config = load_full_experiment_config(path, data_root=tmp_path)
+
+    source_run = tmp_path / "results" / "source-run"
+    source_run.mkdir(parents=True)
+    (source_run / "receptor_preparation_audit.json").write_text(
+        json.dumps(
+            {
+                "selected": [
+                    {"rcsb_id": "R1", "receptor_pdbqt": "prepared/R1.pdbqt"}
+                ]
+            }
+        ),
+        encoding="ascii",
+    )
+    receptor_path = tmp_path / "prepared" / "R1.pdbqt"
+    receptor_path.parent.mkdir(parents=True)
+    receptor_path.write_text("receptor", encoding="ascii")
+
+    rows = experiment_module._resolve_manual_receptor_rows(config)
+
+    assert rows == [
+        {
+            "conformer_id": "R1",
+            "rcsb_id": "R1",
+            "receptor_pdbqt": "prepared/R1.pdbqt",
+        }
+    ]
+
+
 def test_full_config_accepts_raw_sources_and_computed_box_policy(tmp_path: Path) -> None:
     path = _write_config(
         tmp_path,
