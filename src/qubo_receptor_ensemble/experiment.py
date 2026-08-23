@@ -19,6 +19,7 @@ from .full_workflow import (
     FullExperimentConfig,
     front_input_keys,
     select_ism_ligands,
+    select_manual_ligands,
     select_manual_receptors,
     select_preselected_ligands,
     select_receptor_manifest,
@@ -83,19 +84,41 @@ def _resolve_manual_receptor_rows(config: FullExperimentConfig) -> list[dict[str
         policy.get("receptors"),
         receptor_count=int(selection["receptor_count"]),
     )
+    prepared_by_rcsb: dict[str, dict[str, object]] = {}
+    if rows and all("rcsb_id" in row and "receptor_pdbqt" not in row for row in rows):
+        audit_path = config.paths["run_directory"] / "receptor_preparation_audit.json"
+        if not audit_path.is_file():
+            raise FileNotFoundError(audit_path)
+        audit = json.loads(audit_path.read_text(encoding="ascii"))
+        selected = audit.get("selected", [])
+        if not isinstance(selected, list):
+            raise ConfigError("receptor preparation audit selected must be a list")
+        prepared_by_rcsb = {
+            str(record["rcsb_id"]).upper(): record
+            for record in selected
+            if isinstance(record, dict) and record.get("rcsb_id")
+        }
     resolved: list[dict[str, str]] = []
     for row in rows:
-        path = _as_rooted(Path(row["receptor_pdbqt"]), config.data_root)
+        normalized = dict(row)
+        if "receptor_pdbqt" not in normalized:
+            rcsb_id = normalized.get("rcsb_id", "").upper()
+            record = prepared_by_rcsb.get(rcsb_id)
+            if record is None or not record.get("receptor_pdbqt"):
+                raise ConfigError(
+                    f"receptor preparation audit is missing configured RCSB ID: {rcsb_id}"
+                )
+            normalized["receptor_pdbqt"] = str(record["receptor_pdbqt"])
+        path = _as_rooted(Path(normalized["receptor_pdbqt"]), config.data_root)
         if not path.is_file():
             raise FileNotFoundError(path)
-        expected_sha256 = row.get("receptor_pdbqt_sha256", "").strip()
+        expected_sha256 = normalized.get("receptor_pdbqt_sha256", "").strip()
         if expected_sha256:
             actual_sha256 = file_sha256(path)
             if actual_sha256.upper() != expected_sha256.upper():
                 raise ConfigError(
-                    f"manual receptor PDBQT SHA-256 mismatch for {row['conformer_id']}"
+                    f"manual receptor PDBQT SHA-256 mismatch for {normalized['conformer_id']}"
                 )
-        normalized = dict(row)
         normalized["receptor_pdbqt"] = _relative(path, config.data_root)
         resolved.append(normalized)
     return resolved
@@ -281,6 +304,16 @@ def _prepare_raw_receptor_manifest(
         not isinstance(candidate_ids, list) or any(not isinstance(value, str) for value in candidate_ids)
     ):
         raise ConfigError("receptor_preparation.candidate_ids must be a list of strings")
+    selection = config.data["selection"]
+    assert isinstance(selection, dict)
+    manual_policy = selection.get("receptor_selection")
+    configured_receptors: list[dict[str, str]] | None = None
+    if isinstance(manual_policy, dict) and manual_policy.get("mode") == "manual":
+        configured_receptors = select_manual_receptors(
+            manual_policy.get("receptors"),
+            receptor_count=int(selection["receptor_count"]),
+        )
+        candidate_ids = [row["rcsb_id"] for row in configured_receptors]
     prepared = prepare_raw_receptors(
         reference_pdb=config.paths["reference_receptor_pdb"],
         rcsb_directory=config.paths["rcsb_directory"],
@@ -294,15 +327,29 @@ def _prepare_raw_receptor_manifest(
         allow_bad_res=bool(receptor_config.get("allow_bad_res", False)),
         candidate_ids=candidate_ids,
     )
+    selected_records = prepared["selected"]
+    assert isinstance(selected_records, list)
+    records_by_rcsb = {
+        str(record["rcsb_id"]).upper(): record
+        for record in selected_records
+        if isinstance(record, dict)
+    }
+    ordered_records = selected_records
+    if configured_receptors is not None:
+        try:
+            ordered_records = [records_by_rcsb[row["rcsb_id"]] for row in configured_receptors]
+        except KeyError as exc:
+            raise ConfigError(f"raw receptor preparation did not return configured RCSB ID: {exc}") from exc
     rows: list[dict[str, object]] = []
-    for index, record in enumerate(prepared["selected"]):
+    for index, record in enumerate(ordered_records):
         assert isinstance(record, dict)
         alignment = record.get("alignment", {})
         if not isinstance(alignment, dict):
             alignment = {}
+        configured = configured_receptors[index] if configured_receptors is not None else {}
         rows.append(
             {
-                "conformer_id": str(record["conformer_id"]),
+                "conformer_id": str(configured.get("conformer_id", record["conformer_id"])),
                 "target_id": str(config.data["target_id"]),
                 "selected_index": index,
                 "status": "ok",
@@ -320,6 +367,8 @@ def _prepare_raw_receptor_manifest(
             }
         )
     audit_path = config.paths["run_directory"] / "receptor_preparation_audit.json"
+    if configured_receptors is not None:
+        prepared["configured_receptors"] = configured_receptors
     write_json(audit_path, prepared)
     return rows, {"audit_path": audit_path, "candidate_count": prepared["candidate_count"]}
 
@@ -334,8 +383,15 @@ def prepare_experiment_inputs(
     receptor_manifest_path = (
         None if manual_receptors else paths.get("selected_receptor_manifest")
     )
+    docking = config.data["docking"]
+    assert isinstance(docking, dict)
+    box_policy = docking.get("box", {})
+    assert isinstance(box_policy, dict)
+    generates_box = _raw_receptor_sources(paths) and box_policy.get("method") == "ligand_bounds"
     box_path = paths.get("docking_box", paths["run_directory"] / "docking_box.json")
-    resume_paths = [ligand_manifest_path, box_path]
+    resume_paths = [ligand_manifest_path]
+    if generates_box:
+        resume_paths.append(box_path)
     if receptor_manifest_path is not None:
         resume_paths.insert(1, receptor_manifest_path)
     if resume and all(path.is_file() for path in resume_paths):
@@ -348,13 +404,12 @@ def prepare_experiment_inputs(
                 for row in receptors
             )
         ):
-            box_artifact = json.loads(box_path.read_text(encoding="ascii"))
-            generated_box = box_artifact.get("box")
-            if not isinstance(generated_box, dict):
-                raise ConfigError(f"generated docking box is invalid: {box_path}")
-            docking = config.data["docking"]
-            assert isinstance(docking, dict)
-            docking["box"] = {**docking.get("box", {}), **generated_box}
+            if generates_box:
+                box_artifact = json.loads(box_path.read_text(encoding="ascii"))
+                generated_box = box_artifact.get("box")
+                if not isinstance(generated_box, dict):
+                    raise ConfigError(f"generated docking box is invalid: {box_path}")
+                docking["box"] = {**docking.get("box", {}), **generated_box}
             return {
                 "ligands": ligands,
                 "receptors": receptors,
@@ -379,6 +434,15 @@ def prepare_experiment_inputs(
     if ordering == "preselected_manifest":
         selected_ligands = select_preselected_ligands(
             paths["ligand_manifest"],
+            target_id=str(config.data["target_id"]),
+            label_counts=label_counts,
+            ligand_count=int(selection["ligand_count"]),
+        )
+    elif ordering == "manual_ids":
+        selected_ligands = select_manual_ligands(
+            paths["active_ism"],
+            paths["decoy_ism"],
+            selection.get("ligand_ids"),
             target_id=str(config.data["target_id"]),
             label_counts=label_counts,
             ligand_count=int(selection["ligand_count"]),
@@ -422,7 +486,9 @@ def prepare_experiment_inputs(
             ),
         )
     receptor_audit: dict[str, object] = {}
-    if manual_receptors:
+    if manual_receptors and _raw_receptor_sources(paths):
+        receptor_rows, receptor_audit = _prepare_raw_receptor_manifest(config)
+    elif manual_receptors:
         receptor_rows = _resolve_manual_receptor_rows(config)
     elif _raw_receptor_sources(paths):
         receptor_rows, receptor_audit = _prepare_raw_receptor_manifest(config)
@@ -468,7 +534,7 @@ def prepare_experiment_inputs(
     if receptor_manifest_path is not None:
         _write_rows(receptor_manifest_path, receptor_rows)
     generated_box_path: Path | None = None
-    if _raw_receptor_sources(paths):
+    if _raw_receptor_sources(paths) and generates_box:
         generated_box_path, _ = _configure_generated_box(config)
     return {
         "ligands": prepared_ligands,
@@ -509,9 +575,23 @@ def validate_front_inputs(
     if stage == "prepare":
         selection = config.data["selection"]
         assert isinstance(selection, dict)
-        if str(selection.get("ordering", "manifest_order")) == "preselected_manifest":
+        ordering = str(selection.get("ordering", "manifest_order"))
+        if ordering == "preselected_manifest":
             rows = select_preselected_ligands(
                 config.paths["ligand_manifest"],
+                target_id=str(config.data["target_id"]),
+                label_counts={
+                    str(key): int(value)
+                    for key, value in selection["label_counts"].items()
+                },
+                ligand_count=int(selection["ligand_count"]),
+            )
+            path_records["selected_ligand_count"] = len(rows)
+        elif ordering == "manual_ids":
+            rows = select_manual_ligands(
+                config.paths["active_ism"],
+                config.paths["decoy_ism"],
+                selection.get("ligand_ids"),
                 target_id=str(config.data["target_id"]),
                 label_counts={
                     str(key): int(value)
@@ -525,7 +605,13 @@ def validate_front_inputs(
             isinstance(receptor_selection, dict)
             and receptor_selection.get("mode") == "manual"
         ):
-            rows = _resolve_manual_receptor_rows(config)
+            if _raw_receptor_sources(config.paths):
+                rows = select_manual_receptors(
+                    receptor_selection.get("receptors"),
+                    receptor_count=int(selection["receptor_count"]),
+                )
+            else:
+                rows = _resolve_manual_receptor_rows(config)
             path_records["selected_receptor_count"] = len(rows)
     return records
 

@@ -6,6 +6,7 @@ import pytest
 from qubo_receptor_ensemble.full_workflow import (
     ConfigError,
     select_ism_ligands,
+    select_manual_ligands,
     select_preselected_ligands,
     select_manual_receptors,
     select_receptor_manifest,
@@ -222,6 +223,52 @@ def test_select_ism_ligands_keeps_duplicate_raw_ids_line_addressable(tmp_path: P
 
     assert len({row["ligand_id"] for row in rows}) == 3
     assert all("source_line_number" in row for row in rows)
+
+
+def test_select_manual_ligands_resolves_configured_ids_to_raw_ism_rows(tmp_path: Path) -> None:
+    active = _write_ism(tmp_path / "active.ism", [("CC", "A1"), ("CCC", "A2")])
+    decoy = _write_ism(tmp_path / "decoy.ism", [("CO", "D1"), ("COC", "D2")])
+
+    rows = select_manual_ligands(
+        active,
+        decoy,
+        ["TEST_active_L000002", "TEST_decoy_L000001"],
+        target_id="TEST",
+        label_counts={"active": 1, "decoy": 1},
+        ligand_count=2,
+    )
+
+    assert [row["ligand_id"] for row in rows] == [
+        "TEST_active_L000002",
+        "TEST_decoy_L000001",
+    ]
+    assert [row["smiles"] for row in rows] == ["CCC", "CO"]
+    assert all(row["selection_role"] == "development_train" for row in rows)
+    assert all(row["split"] == "train" for row in rows)
+
+
+@pytest.mark.parametrize(
+    "ligand_ids,error",
+    [
+        (["TEST_active_L000003", "TEST_decoy_L000001"], "missing"),
+        (["TEST_active_L000001", "TEST_active_L000001"], "duplicate"),
+    ],
+)
+def test_select_manual_ligands_rejects_invalid_configured_ids(
+    tmp_path: Path, ligand_ids: list[str], error: str
+) -> None:
+    active = _write_ism(tmp_path / "active.ism", [("CC", "A1")])
+    decoy = _write_ism(tmp_path / "decoy.ism", [("CO", "D1")])
+
+    with pytest.raises(ConfigError, match=error):
+        select_manual_ligands(
+            active,
+            decoy,
+            ligand_ids,
+            target_id="TEST",
+            label_counts={"active": 1, "decoy": 1},
+            ligand_count=2,
+        )
 
 
 def test_select_preselected_ligands_preserves_frozen_manifest_rows(tmp_path: Path) -> None:

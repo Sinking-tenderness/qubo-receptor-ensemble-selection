@@ -3,6 +3,7 @@ from pathlib import Path
 
 import pytest
 
+from qubo_receptor_ensemble import experiment as experiment_module
 from qubo_receptor_ensemble.experiment import _load_problem_payload
 from qubo_receptor_ensemble.full_workflow import (
     FULL_WORKFLOW_STAGES,
@@ -326,7 +327,7 @@ def test_full_config_accepts_scaffold_hash_allocation_and_preserves_manifest_opt
     assert config.data["selection"]["allocation"]["outer_fold_count"] == 2
 
 
-def test_raw_full_config_rejects_fixed_box_policy(tmp_path: Path) -> None:
+def test_raw_full_config_accepts_fixed_box_policy(tmp_path: Path) -> None:
     path = _write_config(
         tmp_path,
         sources={
@@ -352,5 +353,96 @@ def test_raw_full_config_rejects_fixed_box_policy(tmp_path: Path) -> None:
         },
     )
 
-    with pytest.raises(ConfigError, match="ligand_bounds"):
-        load_full_experiment_config(path, data_root=tmp_path)
+    config = load_full_experiment_config(path, data_root=tmp_path)
+
+    assert config.data["docking"]["box"]["center_x"] == 1.0
+
+
+def test_full_config_accepts_manual_rcsb_receptors_with_fixed_snapshot_box(
+    tmp_path: Path,
+) -> None:
+    payload = json.loads(_write_config(tmp_path).read_text(encoding="utf-8"))
+    payload["selection"]["ordering"] = "manual_ids"
+    payload["selection"]["ligand_ids"] = [
+        "TEST_active_L000001",
+        "TEST_active_L000002",
+        "TEST_decoy_L000001",
+        "TEST_decoy_L000002",
+    ]
+    payload["selection"]["receptor_selection"] = {
+        "mode": "manual",
+        "receptors": [
+            {"conformer_id": "FA10_R1", "rcsb_id": "R1"},
+            {"conformer_id": "FA10_R2", "rcsb_id": "R2"},
+        ],
+    }
+    payload["sources"] = {
+        "active_ism": "active.ism",
+        "decoy_ism": "decoy.ism",
+        "reference_receptor_pdb": "reference.pdb",
+        "crystal_ligand": "ligand.mol2",
+        "rcsb_directory": "rcsb",
+    }
+    path = tmp_path / "manual-raw-fixed.json"
+    path.write_text(json.dumps(payload), encoding="utf-8")
+
+    config = load_full_experiment_config(path, data_root=tmp_path)
+
+    assert config.data["selection"]["receptor_selection"]["receptors"][0]["rcsb_id"] == "R1"
+    assert "ligand_manifest" not in config.paths
+    assert "docking_box" not in config.paths
+
+
+def test_raw_manual_receptors_preserve_configured_names_and_order(
+    monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+) -> None:
+    payload = json.loads(_write_config(tmp_path).read_text(encoding="utf-8"))
+    payload["selection"]["receptor_selection"] = {
+        "mode": "manual",
+        "receptors": [
+            {"conformer_id": "FA10_R1", "rcsb_id": "R1"},
+            {"conformer_id": "FA10_R2", "rcsb_id": "R2"},
+        ],
+    }
+    payload["sources"] = {
+        "active_ism": "active.ism",
+        "decoy_ism": "decoy.ism",
+        "reference_receptor_pdb": "reference.pdb",
+        "crystal_ligand": "ligand.mol2",
+        "rcsb_directory": "rcsb",
+    }
+    path = tmp_path / "manual-raw-order.json"
+    path.write_text(json.dumps(payload), encoding="utf-8")
+    config = load_full_experiment_config(path, data_root=tmp_path)
+    observed: dict[str, object] = {}
+
+    def fake_prepare_raw_receptors(**kwargs: object) -> dict[str, object]:
+        observed.update(kwargs)
+        records = []
+        for rcsb_id in ("R2", "R1"):
+            records.append(
+                {
+                    "conformer_id": rcsb_id,
+                    "rcsb_id": rcsb_id,
+                    "source_structure": f"rcsb/{rcsb_id}.cif",
+                    "source_sha256": "source-hash",
+                    "source_pdb": f"run/{rcsb_id}.pdb",
+                    "receptor_pdb": f"run/{rcsb_id}_aligned.pdb",
+                    "receptor_pdbqt": f"run/{rcsb_id}.pdbqt",
+                    "alignment": {
+                        "reference_chain": "A",
+                        "mobile_chain": "A",
+                        "matched_ca_count": 100,
+                        "rmsd_after_angstrom": 0.1,
+                    },
+                }
+            )
+        return {"selected": records, "candidate_count": 2}
+
+    monkeypatch.setattr(experiment_module, "prepare_raw_receptors", fake_prepare_raw_receptors)
+
+    rows, _ = experiment_module._prepare_raw_receptor_manifest(config)
+
+    assert observed["candidate_ids"] == ["R1", "R2"]
+    assert [row["conformer_id"] for row in rows] == ["FA10_R1", "FA10_R2"]
+    assert [row["rcsb_id"] for row in rows] == ["R1", "R2"]

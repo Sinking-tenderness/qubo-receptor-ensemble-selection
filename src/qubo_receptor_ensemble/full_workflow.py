@@ -160,6 +160,63 @@ def select_ism_ligands(
     return selected
 
 
+def select_manual_ligands(
+    active_path: str | Path,
+    decoy_path: str | Path,
+    ligand_ids: object,
+    *,
+    target_id: str,
+    label_counts: Mapping[str, int],
+    ligand_count: int,
+) -> list[dict[str, str]]:
+    """Resolve an explicit ligand ID list against the raw ISM files."""
+    if ligand_count <= 0:
+        raise ConfigError("selection.ligand_count must be positive")
+    if not isinstance(ligand_ids, list) or any(
+        not isinstance(value, str) or not value.strip() for value in ligand_ids
+    ):
+        raise ConfigError("selection.ligand_ids must be a list of non-empty strings")
+    ids = [value.strip() for value in ligand_ids]
+    if len(ids) != ligand_count:
+        raise ConfigError("selection.ligand_ids length must equal selection.ligand_count")
+    if len(set(ids)) != len(ids):
+        raise ConfigError("selection.ligand_ids contains duplicate ligand IDs")
+
+    expected_counts = {str(key): int(value) for key, value in label_counts.items()}
+    if sum(expected_counts.values()) != ligand_count:
+        raise ConfigError("label_counts must sum to selection.ligand_count")
+    raw_rows = [
+        *_read_ism(Path(active_path), "active"),
+        *_read_ism(Path(decoy_path), "decoy"),
+    ]
+    rows_by_id: dict[str, dict[str, str]] = {}
+    for row in raw_rows:
+        label = row["label"]
+        source_line = int(row["source_line_number"])
+        manual_id = f"{target_id}_{label}_L{source_line:06d}"
+        if manual_id in rows_by_id:
+            raise ConfigError(f"raw ISM rows produce duplicate manual ligand ID: {manual_id}")
+        rows_by_id[manual_id] = {
+            **row,
+            "target_id": target_id,
+            "ligand_id": manual_id,
+            "split": "train",
+            "selection_role": "development_train",
+        }
+
+    missing = [ligand_id for ligand_id in ids if ligand_id not in rows_by_id]
+    if missing:
+        raise ConfigError(f"manual ligand selection contains missing IDs: {missing[:5]}")
+    selected = [rows_by_id[ligand_id] for ligand_id in ids]
+    selected_counts = Counter(row["label"] for row in selected)
+    if any(selected_counts.get(label, 0) != count for label, count in expected_counts.items()):
+        raise ConfigError(
+            f"manual ligand selection label_counts={dict(selected_counts)}; "
+            f"expected {expected_counts}"
+        )
+    return selected
+
+
 def select_preselected_ligands(
     manifest_path: str | Path,
     *,
@@ -255,18 +312,25 @@ def select_manual_receptors(
             raise ConfigError(
                 f"selection.receptor_selection.receptors[{index}] must be an object"
             )
-        missing = [
-            key
-            for key in ("conformer_id", "receptor_pdbqt")
-            if not isinstance(value.get(key), str) or not value[key].strip()
-        ]
-        if missing:
+        if not isinstance(value.get("conformer_id"), str) or not value["conformer_id"].strip():
             raise ConfigError(
-                f"manual receptor entry {index} requires non-empty: {missing}"
+                f"manual receptor entry {index} requires non-empty: ['conformer_id']"
+            )
+        receptor_pdbqt = value.get("receptor_pdbqt")
+        rcsb_id = value.get("rcsb_id")
+        has_pdbqt = isinstance(receptor_pdbqt, str) and bool(receptor_pdbqt.strip())
+        has_rcsb = isinstance(rcsb_id, str) and bool(rcsb_id.strip())
+        if not has_pdbqt and not has_rcsb:
+            raise ConfigError(
+                f"manual receptor entry {index} requires non-empty: "
+                "['receptor_pdbqt'] or ['rcsb_id']"
             )
         row = {str(key): str(item) for key, item in value.items()}
         row["conformer_id"] = row["conformer_id"].strip()
-        row["receptor_pdbqt"] = row["receptor_pdbqt"].strip()
+        if "receptor_pdbqt" in row:
+            row["receptor_pdbqt"] = row["receptor_pdbqt"].strip()
+        if "rcsb_id" in row:
+            row["rcsb_id"] = row["rcsb_id"].strip().upper()
         selected.append(row)
 
     ids = [row["conformer_id"] for row in selected]
@@ -332,9 +396,10 @@ def front_input_keys(config: Mapping[str, object], stage: str) -> tuple[str, ...
         if manual_receptors:
             return ligand_sources
         return (*ligand_sources, "receptor_manifest")
+    docking = _mapping(config.get("docking", {}), "docking")
     if stage == "dock" and all(
         key in sources for key in ("reference_receptor_pdb", "crystal_ligand", "rcsb_directory")
-    ):
+    ) and str(_mapping(docking.get("box", {}), "docking.box").get("method", "")) == "ligand_bounds":
         return (*requirements[stage], "docking_box")
     return requirements[stage]
 
@@ -420,11 +485,22 @@ def _validate_selection(config: Mapping[str, object]) -> None:
         "seeded_sample",
         "scaffold_hash_allocation",
         "preselected_manifest",
+        "manual_ids",
     }:
         raise ConfigError(
             "selection.ordering must be manifest_order, seeded_sample, "
-            "scaffold_hash_allocation, or preselected_manifest"
+            "scaffold_hash_allocation, preselected_manifest, or manual_ids"
         )
+    if ordering == "manual_ids":
+        ligand_ids = selection.get("ligand_ids")
+        if not isinstance(ligand_ids, list) or any(
+            not isinstance(value, str) or not value.strip() for value in ligand_ids
+        ):
+            raise ConfigError("selection.ligand_ids must be a list of non-empty strings")
+        if len(ligand_ids) != ligand_count:
+            raise ConfigError("selection.ligand_ids length must equal selection.ligand_count")
+        if len(set(ligand_ids)) != len(ligand_ids):
+            raise ConfigError("selection.ligand_ids contains duplicate ligand IDs")
     if ordering == "scaffold_hash_allocation":
         policy = _mapping(selection.get("allocation", {}), "selection.allocation")
         fold_count = _positive_int(
@@ -696,22 +772,36 @@ def validate_full_experiment_config(
     }
     if mode == "full" and raw_receptor_sources.issubset(sources):
         box = _mapping(docking.get("box"), "docking.box")
-        if box.get("method") != "ligand_bounds":
-            raise ConfigError(
-                "raw full workflow requires docking.box.method=ligand_bounds"
+        method = str(box.get("method", "fixed_snapshot"))
+        if method == "ligand_bounds":
+            try:
+                padding = float(box["padding"])
+                minimum_size = tuple(float(value) for value in box["minimum_size"])
+            except (KeyError, TypeError, ValueError) as exc:
+                raise ConfigError(
+                    "raw full workflow requires numeric docking.box.padding and "
+                    "a three-value docking.box.minimum_size"
+                ) from exc
+            if padding < 0 or len(minimum_size) != 3 or any(value <= 0 for value in minimum_size):
+                raise ConfigError(
+                    "raw full workflow requires non-negative padding and three positive "
+                    "minimum_size values"
+                )
+        elif method == "fixed_snapshot":
+            required_box = (
+                "center_x", "center_y", "center_z", "size_x", "size_y", "size_z"
             )
-        try:
-            padding = float(box["padding"])
-            minimum_size = tuple(float(value) for value in box["minimum_size"])
-        except (KeyError, TypeError, ValueError) as exc:
+            try:
+                values = [float(box[key]) for key in required_box]
+            except (KeyError, TypeError, ValueError) as exc:
+                raise ConfigError(
+                    "fixed_snapshot docking.box requires six numeric center/size values"
+                ) from exc
+            if any(value <= 0 for value in values[3:]):
+                raise ConfigError("fixed_snapshot docking.box sizes must be positive")
+        else:
             raise ConfigError(
-                "raw full workflow requires numeric docking.box.padding and "
-                "a three-value docking.box.minimum_size"
-            ) from exc
-        if padding < 0 or len(minimum_size) != 3 or any(value <= 0 for value in minimum_size):
-            raise ConfigError(
-                "raw full workflow requires non-negative padding and three positive "
-                "minimum_size values"
+                "raw full workflow requires docking.box.method=ligand_bounds or fixed_snapshot"
             )
     selection = _mapping(config.get("selection"), "selection")
     receptor_selection = selection.get("receptor_selection")
@@ -719,9 +809,13 @@ def validate_full_experiment_config(
         isinstance(receptor_selection, dict)
         and str(receptor_selection.get("mode", "")) == "manual"
         and raw_receptor_sources.intersection(sources)
+        and any(
+            not isinstance(item, dict) or not item.get("rcsb_id")
+            for item in receptor_selection.get("receptors", [])
+        )
     ):
         raise ConfigError(
-            "manual receptor selection cannot be combined with raw receptor sources"
+            "raw manual receptor selection requires rcsb_id for every receptor"
         )
     _validate_problem(config)
     solve = _mapping(config.get("solve"), "solve")
