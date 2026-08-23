@@ -11,6 +11,7 @@ from .screening import bedroc, enrichment_factor, roc_auc_pairwise
 
 
 SUPPORTED_ADAPTIVE_METRICS = {"roc_auc", "bedroc", "ef5"}
+SUPPORTED_ADAPTIVE_AGGREGATIONS = {"min_score", "mean_score"}
 ProgressCallback = Callable[[str, Mapping[str, object]], None]
 
 
@@ -52,11 +53,13 @@ class AdaptiveCardinalityDecision:
     transitions: tuple[dict[str, object], ...]
     uses_outer_labels: bool = False
     metric: str = "bedroc"
+    aggregation: str = "mean_score"
 
     def as_dict(self) -> dict[str, object]:
         return {
             "policy": self.policy,
             "metric": self.metric,
+            "aggregation": self.aggregation,
             "selected_k": self.selected_k,
             "need_multi_conformation": self.need_multi_conformation,
             "transitions": [dict(item) for item in self.transitions],
@@ -85,6 +88,15 @@ def _validate_utility_metric(value: object) -> str:
 
 def _metric_gain_key(utility_metric: str) -> str:
     return f"mean_paired_{utility_metric}_gain"
+
+
+def _validate_aggregation(value: object) -> str:
+    aggregation = str(value or "mean_score").strip().lower()
+    if aggregation not in SUPPORTED_ADAPTIVE_AGGREGATIONS:
+        raise AdaptiveCardinalityError(
+            "aggregation must be min_score or mean_score"
+        )
+    return aggregation
 
 
 def _validate_observation(observation: MarginalObservation) -> None:
@@ -249,15 +261,21 @@ def _inner_fold_assignments(
 
 
 def _score_records(
-    rows: Sequence[Mapping[str, object]], subset: Sequence[str]
+    rows: Sequence[Mapping[str, object]],
+    subset: Sequence[str],
+    aggregation: str = "min_score",
 ) -> dict[str, dict[str, object]]:
+    aggregation = _validate_aggregation(aggregation)
     if not subset or len(set(subset)) != len(subset):
         raise AdaptiveCardinalityError("solver returned an invalid receptor subset")
     records: dict[str, dict[str, object]] = {}
     for row in rows:
         ligand_id = str(row["ligand_id"])
+        scores = [float(row[receptor_id]) for receptor_id in subset]
         records[ligand_id] = {
-            "score": min(float(row[receptor_id]) for receptor_id in subset),
+            "score": min(scores)
+            if aggregation == "min_score"
+            else sum(scores) / len(scores),
             "label": str(row["label"]),
         }
     return records
@@ -400,6 +418,7 @@ def estimate_adaptive_cardinality(
     bedroc_alpha: float = 20.0,
     random_seed: int = 0,
     progress: ProgressCallback | None = None,
+    aggregation: str = "mean_score",
 ) -> AdaptiveCardinalityDecision:
     """Estimate cardinality from inner-fold predictions without outer labels."""
 
@@ -432,11 +451,16 @@ def estimate_adaptive_cardinality(
     utility_metric = _validate_utility_metric(
         base_problem_config.get("utility_metric", "bedroc")
     )
+    aggregation = _validate_aggregation(aggregation)
     receptor_names = tuple(str(value) for value in receptor_ids)
     if progress is not None:
         progress(
             "adaptive_started",
-            {"metric": utility_metric, "candidates": list(candidates)},
+            {
+                "metric": utility_metric,
+                "aggregation": aggregation,
+                "candidates": list(candidates),
+            },
         )
 
     if solve_subset is None:
@@ -475,7 +499,7 @@ def estimate_adaptive_cardinality(
         for k in candidates:
             subset = tuple(str(value) for value in solve_subset(train_rows, k))
             records_by_method[str(k)].update(
-                _score_records(validation_rows, subset)
+                _score_records(validation_rows, subset, aggregation)
             )
             if progress is not None:
                 progress(
@@ -533,12 +557,17 @@ def estimate_adaptive_cardinality(
         lower_quantile=lower_quantile,
         random_seed=random_seed,
         utility_metric=utility_metric,
+        aggregation=aggregation,
         progress=progress,
     )
     if progress is not None:
         progress(
             "adaptive_completed",
-            {"metric": utility_metric, "selected_k": decision.selected_k},
+            {
+                "metric": utility_metric,
+                "aggregation": aggregation,
+                "selected_k": decision.selected_k,
+            },
         )
     return decision
 
@@ -568,6 +597,7 @@ def select_adaptive_k(
     lower_quantile: float = 0.025,
     random_seed: int = 0,
     utility_metric: str | None = None,
+    aggregation: str = "mean_score",
     progress: ProgressCallback | None = None,
 ) -> AdaptiveCardinalityDecision:
     """Select the smallest cardinality passing sequential functional gates.
@@ -590,6 +620,7 @@ def select_adaptive_k(
     if utility_metric is None:
         utility_metric = next(iter(transition_metrics), "bedroc")
     utility_metric = _validate_utility_metric(utility_metric)
+    aggregation = _validate_aggregation(aggregation)
     if transition_metrics and transition_metrics != {utility_metric}:
         raise AdaptiveCardinalityError(
             "all transitions must use the configured utility_metric"
@@ -634,6 +665,7 @@ def select_adaptive_k(
                     "from_k": transition.from_k,
                     "to_k": transition.to_k,
                     "metric": utility_metric,
+                    "aggregation": aggregation,
                     "passed": passed,
                 },
             )
@@ -645,6 +677,7 @@ def select_adaptive_k(
     return AdaptiveCardinalityDecision(
         policy="mechanistic_bootstrap_lcb",
         metric=utility_metric,
+        aggregation=aggregation,
         selected_k=selected_k,
         need_multi_conformation=selected_k > 1,
         transitions=tuple(diagnostics),

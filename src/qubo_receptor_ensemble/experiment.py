@@ -798,6 +798,12 @@ def build_problem_stage(
     rows = payload["rows"]
     problem_config = payload["problem_config"]
     assert isinstance(rows, list) and isinstance(problem_config, dict)
+    evaluate_config = config.data.get("evaluate", {})
+    aggregation = (
+        str(evaluate_config.get("aggregation", "mean_score"))
+        if isinstance(evaluate_config, dict)
+        else "mean_score"
+    )
     k_policy = problem_config.get("k_policy")
     adaptive_decision: dict[str, object] | None = None
     if isinstance(k_policy, dict) and k_policy.get("mode") == "adaptive":
@@ -823,6 +829,7 @@ def build_problem_stage(
                 bedroc_alpha=float(problem_config.get("bedroc_alpha", 20.0)),
                 random_seed=int(k_policy.get("random_seed", 0)),
                 progress=progress,
+                aggregation=aggregation,
             )
         except (KeyError, TypeError, ValueError) as exc:
             raise ConfigError(f"adaptive cardinality selection failed: {exc}") from exc
@@ -1077,6 +1084,7 @@ class FullExperimentRunner:
         if event == "adaptive_started":
             print(
                 f"[adaptive] metric={payload['metric']} "
+                f"aggregation={payload['aggregation']} "
                 f"candidates={payload['candidates']}",
                 flush=True,
             )
@@ -1094,12 +1102,15 @@ class FullExperimentRunner:
         elif event == "transition_evaluated":
             print(
                 f"[adaptive] transition={payload['from_k']}->{payload['to_k']} "
-                f"metric={payload['metric']} passed={str(payload['passed']).lower()}",
+                f"metric={payload['metric']} "
+                f"aggregation={payload['aggregation']} "
+                f"passed={str(payload['passed']).lower()}",
                 flush=True,
             )
         elif event == "adaptive_completed":
             print(
                 f"[adaptive] metric={payload['metric']} "
+                f"aggregation={payload['aggregation']} "
                 f"selected_k={payload['selected_k']}",
                 flush=True,
             )

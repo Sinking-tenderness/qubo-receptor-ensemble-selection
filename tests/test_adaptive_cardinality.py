@@ -4,6 +4,7 @@ from qubo_receptor_ensemble.adaptive_cardinality import (
     AdaptiveCardinalityError,
     MarginalObservation,
     TransitionEvidence,
+    _score_records,
     estimate_adaptive_cardinality,
     select_adaptive_k,
 )
@@ -127,6 +128,20 @@ def test_bootstrap_is_deterministic_and_requires_scaffold_groups() -> None:
         select_adaptive_k([invalid])
 
 
+def test_score_records_uses_configured_aggregation() -> None:
+    rows = [
+        {
+            "ligand_id": "L1",
+            "label": "active",
+            "R1": -10.0,
+            "R2": -2.0,
+        }
+    ]
+
+    assert _score_records(rows, ("R1", "R2"), "min_score")["L1"]["score"] == -10.0
+    assert _score_records(rows, ("R1", "R2"), "mean_score")["L1"]["score"] == -6.0
+
+
 def test_estimator_solves_sequential_candidates_from_inner_folds() -> None:
     rows = []
     for outer_fold, suffix in ((0, ("1", "2")), (1, ("3", "4"))):
@@ -223,6 +238,7 @@ def test_estimator_uses_configured_utility_metric_and_reports_progress(
         bootstrap_iterations=100,
         random_seed=13,
         progress=lambda event, payload: events.append((event, dict(payload))),
+        aggregation="mean_score",
     )
 
     transition = decision.transitions[0]
@@ -232,6 +248,7 @@ def test_estimator_uses_configured_utility_metric_and_reports_progress(
         "ef5": 2.1369523809523794,
     }[metric]
     assert decision.metric == metric
+    assert decision.aggregation == "mean_score"
     assert transition["metric"] == metric
     assert gain_key in transition
     assert transition[gain_key] == pytest.approx(expected_mean_gain)
@@ -240,7 +257,11 @@ def test_estimator_uses_configured_utility_metric_and_reports_progress(
     )
     assert events[0] == (
         "adaptive_started",
-        {"metric": metric, "candidates": [1, 2]},
+        {
+            "metric": metric,
+            "aggregation": "mean_score",
+            "candidates": [1, 2],
+        },
     )
     assert any(event == "inner_fold_started" for event, _ in events)
     assert any(event == "candidate_completed" for event, _ in events)

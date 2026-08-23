@@ -117,7 +117,10 @@ def test_full_workflow_persists_adaptive_k_before_building_problem(tmp_path: Pat
                 },
             },
             "solve": {"backend": "exact"},
-            "evaluate": {"metrics": ["bedroc_alpha_20"]},
+            "evaluate": {
+                "aggregation": "mean_score",
+                "metrics": ["bedroc_alpha_20"],
+            },
         },
         paths=paths,
         stages=FULL_WORKFLOW_STAGES,
@@ -135,6 +138,7 @@ def test_full_workflow_persists_adaptive_k_before_building_problem(tmp_path: Pat
     )
 
     assert built["adaptive_cardinality"]["selected_k"] in {1, 2}
+    assert built["adaptive_cardinality"]["aggregation"] == "mean_score"
     assert progress_events[0][0] == "adaptive_started"
     assert progress_events[-1][0] == "adaptive_completed"
     decision_path = run_directory / "adaptive_cardinality.json"
