@@ -15,7 +15,7 @@
   "start_stage": "prepare",
   "end_stage": "persist",
   "selection": {
-    "receptor_count": 16,
+    "receptor_count": 15,
     "ligand_count": 600,
     "label_counts": {
       "active": 120,

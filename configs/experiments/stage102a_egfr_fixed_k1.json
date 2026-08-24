@@ -1,7 +1,7 @@
 {
   "schema_version": "3.0",
-  "experiment_id": "mk14-adaptive-remote",
-  "target_id": "MK14",
+  "experiment_id": "stage102a-egfr-fixed-k1",
+  "target_id": "EGFR",
   "workflow_mode": "full",
   "pipeline": [
     "prepare",
@@ -12,10 +12,10 @@
     "evaluate",
     "persist"
   ],
-  "start_stage": "prepare",
+  "start_stage": "build_problem",
   "end_stage": "persist",
   "selection": {
-    "receptor_count": 15,
+    "receptor_count": 12,
     "ligand_count": 600,
     "label_counts": {
       "active": 120,
@@ -32,11 +32,11 @@
     }
   },
   "sources": {
-    "active_ism": "data/raw/dude/mk14/actives_final.ism",
-    "decoy_ism": "data/raw/dude/mk14/decoys_final.ism",
-    "reference_receptor_pdb": "data/raw/external_targets/mk14_dude/mk14/receptor.pdb",
-    "crystal_ligand": "data/raw/external_targets/mk14_dude/mk14/crystal_ligand.sdf",
-    "rcsb_directory": "data/raw/rcsb/mk14"
+    "active_ism": "data/raw/external_targets/egfr_dude/egfr/actives_final.ism",
+    "decoy_ism": "data/raw/external_targets/egfr_dude/egfr/decoys_final.ism",
+    "reference_receptor_pdb": "data/raw/external_targets/egfr_dude/egfr/receptor.pdb",
+    "crystal_ligand": "data/raw/external_targets/egfr_dude/egfr/crystal_ligand.mol2",
+    "rcsb_directory": "data/raw/rcsb/egfr"
   },
   "receptor_preparation": {
     "reference_chain": "auto",
@@ -63,7 +63,7 @@
       "minimum_size": [
         22.0,
         22.0,
-        28.0
+        30.0
       ]
     },
     "parameters": {
@@ -87,17 +87,6 @@
       "redundancy": 0.25,
       "count": 0.1,
       "size": 10.0
-    },
-    "k_policy": {
-      "mode": "adaptive",
-      "selector": "mechanistic_bootstrap_lcb",
-      "candidates": [1, 2, 3],
-      "scaffold_field": "scaffold_smiles",
-      "inner_fold_count": 3,
-      "bootstrap_iterations": 1000,
-      "lower_quantile": 0.025,
-      "rescue_fractions": [0.01, 0.05],
-      "random_seed": 0
     }
   },
   "solve": {
@@ -116,15 +105,15 @@
     ]
   },
   "paths": {
-    "run_directory": "results/runs/mk14_adaptive_remote",
-    "prepared_ligand_manifest": "results/runs/mk14_adaptive_remote/prepared_ligands.csv",
-    "selected_receptor_manifest": "results/runs/mk14_adaptive_remote/selected_receptors.csv",
-    "docking_box": "results/runs/mk14_adaptive_remote/docking_box.json",
-    "score_tables": "results/runs/mk14_adaptive_remote/score_tables",
-    "matrices": "results/runs/mk14_adaptive_remote/matrices",
-    "primary_matrix": "results/runs/mk14_adaptive_remote/matrices/primary_median_matrix.csv",
-    "problem": "results/runs/mk14_adaptive_remote/problem.json",
-    "selection": "results/runs/mk14_adaptive_remote/selection.json",
-    "evaluation": "results/runs/mk14_adaptive_remote/evaluation.json"
+    "run_directory": "results/runs/stage102a_egfr_fixed_k1",
+    "prepared_ligand_manifest": "results/runs/stage102a_egfr_full_local/prepared_ligands.csv",
+    "selected_receptor_manifest": "results/runs/stage102a_egfr_full_local/selected_receptors.csv",
+    "docking_box": "results/runs/stage102a_egfr_full_local/docking_box.json",
+    "score_tables": "results/runs/stage102a_egfr_full_local/score_tables",
+    "matrices": "results/runs/stage102a_egfr_full_local/matrices",
+    "primary_matrix": "results/runs/stage102a_egfr_full_local/matrices/primary_median_matrix.csv",
+    "problem": "results/runs/stage102a_egfr_fixed_k1/problem.json",
+    "selection": "results/runs/stage102a_egfr_fixed_k1/selection.json",
+    "evaluation": "results/runs/stage102a_egfr_fixed_k1/evaluation.json"
   }
 }
