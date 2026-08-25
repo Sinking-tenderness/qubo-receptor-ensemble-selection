@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import math
 import random
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 from typing import Callable, Iterable, Mapping, Sequence
 
 from .screening import bedroc, enrichment_factor, roc_auc_pairwise
@@ -55,6 +55,8 @@ class AdaptiveCardinalityDecision:
     uses_outer_labels: bool = False
     metric: str = "bedroc"
     aggregation: str = "mean_score"
+    evaluated_candidates: tuple[int, ...] = ()
+    stop_reason: str = "candidate_limit"
 
     def as_dict(self) -> dict[str, object]:
         return {
@@ -65,6 +67,8 @@ class AdaptiveCardinalityDecision:
             "need_multi_conformation": self.need_multi_conformation,
             "transitions": [dict(item) for item in self.transitions],
             "uses_outer_labels": self.uses_outer_labels,
+            "evaluated_candidates": list(self.evaluated_candidates),
+            "stop_reason": self.stop_reason,
         }
 
 
@@ -334,9 +338,9 @@ def _shared_candidate_bootstrap(
     if replicates <= 0:
         raise AdaptiveCardinalityError("bootstrap_iterations must be positive")
     candidate_ids = tuple(sorted(records_by_candidate))
-    if not candidate_ids or candidate_ids[0] != 1:
-        raise AdaptiveCardinalityError("candidate bootstrap must include k=1")
-    ligand_ids = set(records_by_candidate[1])
+    if not candidate_ids:
+        raise AdaptiveCardinalityError("candidate bootstrap requires candidates")
+    ligand_ids = set(records_by_candidate[candidate_ids[0]])
     if any(set(records_by_candidate[candidate]) != ligand_ids for candidate in candidate_ids):
         raise AdaptiveCardinalityError("bootstrap candidates contain different ligand IDs")
     if set(group_by_ligand) != ligand_ids:
@@ -509,9 +513,7 @@ def estimate_adaptive_cardinality(
             return solve_problem(problem, solver_backend).subset
 
     assignments = _inner_fold_assignments(normalized, scaffold_field, inner_fold_count)
-    records_by_method: dict[str, dict[str, dict[str, object]]] = {
-        str(k): {} for k in candidates
-    }
+    folds: list[tuple[list[dict[str, object]], list[dict[str, object]]]] = []
     for inner_fold in range(inner_fold_count):
         if progress is not None:
             progress(
@@ -530,36 +532,55 @@ def estimate_adaptive_cardinality(
         ]
         if not train_rows or not validation_rows:
             raise AdaptiveCardinalityError("inner fold is empty")
-        for k in candidates:
-            subset = tuple(str(value) for value in solve_subset(train_rows, k))
-            records_by_method[str(k)].update(
+        folds.append((train_rows, validation_rows))
+
+    group_by_ligand = {
+        str(row["ligand_id"]): str(row[scaffold_field]) for row in normalized
+    }
+    previous_k = candidates[0]
+    previous_records: dict[str, dict[str, object]] = {}
+    for fold_index, (train_rows, validation_rows) in enumerate(folds):
+        subset = tuple(str(value) for value in solve_subset(train_rows, previous_k))
+        previous_records.update(_score_records(validation_rows, subset, aggregation))
+        if progress is not None:
+            progress(
+                "candidate_completed",
+                {
+                    "fold": fold_index + 1,
+                    "fold_count": inner_fold_count,
+                    "candidate_k": previous_k,
+                },
+            )
+
+    transitions: list[TransitionEvidence] = []
+    evaluated_candidates = [previous_k]
+    uncertain_confirmation_used = False
+    stop_reason = "candidate_limit"
+    for current_k in candidates[1:]:
+        current_records: dict[str, dict[str, object]] = {}
+        for fold_index, (train_rows, validation_rows) in enumerate(folds):
+            subset = tuple(str(value) for value in solve_subset(train_rows, current_k))
+            current_records.update(
                 _score_records(validation_rows, subset, aggregation)
             )
             if progress is not None:
                 progress(
                     "candidate_completed",
                     {
-                        "fold": inner_fold + 1,
+                        "fold": fold_index + 1,
                         "fold_count": inner_fold_count,
-                        "candidate_k": k,
+                        "candidate_k": current_k,
                     },
                 )
 
-    group_by_ligand = {
-        str(row["ligand_id"]): str(row[scaffold_field]) for row in normalized
-    }
-    candidate_samples, candidate_mean_metrics = _shared_candidate_bootstrap(
-        {int(k): records_by_method[str(k)] for k in candidates},
-        group_by_ligand,
-        replicates=bootstrap_iterations,
-        seed=random_seed,
-        utility_metric=utility_metric,
-        alpha=bedroc_alpha,
-    )
-    transitions: list[TransitionEvidence] = []
-    for previous_k, current_k in zip(candidates, candidates[1:]):
-        previous_records = records_by_method[str(previous_k)]
-        current_records = records_by_method[str(current_k)]
+        candidate_samples, candidate_mean_metrics = _shared_candidate_bootstrap(
+            {previous_k: previous_records, current_k: current_records},
+            group_by_ligand,
+            replicates=bootstrap_iterations,
+            seed=random_seed + previous_k,
+            utility_metric=utility_metric,
+            alpha=bedroc_alpha,
+        )
         samples = tuple(
             current_value - previous_value
             for current_value, previous_value in zip(
@@ -593,6 +614,35 @@ def estimate_adaptive_cardinality(
                 utility_metric=utility_metric,
             )
         )
+        evaluated_candidates.append(current_k)
+        interim_decision = select_adaptive_k(
+            transitions,
+            bootstrap_iterations=bootstrap_iterations,
+            lower_quantile=lower_quantile,
+            minimum_effect=minimum_effect,
+            required_probability=required_probability,
+            cost_per_receptor=cost_per_receptor,
+            selection_tie_tolerance=selection_tie_tolerance,
+            require_rescue_contrast=require_rescue_contrast,
+            random_seed=random_seed,
+            utility_metric=utility_metric,
+            aggregation=aggregation,
+        )
+        marginal_state = str(interim_decision.transitions[-1]["marginal_state"])
+        if marginal_state == "harmful":
+            stop_reason = "harmful_transition"
+            break
+        if marginal_state == "uncertain":
+            if uncertain_confirmation_used:
+                stop_reason = "uncertain_confirmation"
+                break
+            uncertain_confirmation_used = True
+        elif uncertain_confirmation_used:
+            stop_reason = "uncertain_confirmation"
+            break
+        previous_k = current_k
+        previous_records = current_records
+
     decision = select_adaptive_k(
         transitions,
         bootstrap_iterations=bootstrap_iterations,
@@ -607,6 +657,11 @@ def estimate_adaptive_cardinality(
         aggregation=aggregation,
         progress=progress,
     )
+    decision = replace(
+        decision,
+        evaluated_candidates=tuple(evaluated_candidates),
+        stop_reason=stop_reason,
+    )
     if progress is not None:
         progress(
             "adaptive_completed",
@@ -614,6 +669,8 @@ def estimate_adaptive_cardinality(
                 "metric": utility_metric,
                 "aggregation": aggregation,
                 "selected_k": decision.selected_k,
+                "evaluated_candidates": list(decision.evaluated_candidates),
+                "stop_reason": decision.stop_reason,
             },
         )
     return decision
@@ -652,11 +709,11 @@ def select_adaptive_k(
     aggregation: str = "mean_score",
     progress: ProgressCallback | None = None,
 ) -> AdaptiveCardinalityDecision:
-    """Select cardinality from adjacent gains without evidence early stopping.
+    """Select cardinality from adjacent gains with a supported-path gate.
 
     Each transition is judged against the immediately preceding cardinality.
-    Candidate utility is accumulated along the transition path, so an
-    uncertain or negative early transition does not discard a later candidate.
+    Candidate utility is accumulated along the transition path, but a
+    non-supported transition permanently blocks larger candidates.
     The bootstrap lower confidence bound remains an audit statistic; the
     configured probability and practical-effect rules control support.
     """
@@ -702,6 +759,7 @@ def select_adaptive_k(
     diagnostics: list[dict[str, object]] = []
     cumulative_samples_by_k: dict[int, tuple[float, ...]] = {1: tuple()}
     cumulative_mean_by_k: dict[int, float] = {1: 0.0}
+    path_blocked = False
     for transition in ordered:
         pair = (transition.from_k, transition.to_k)
         if transition.from_k < 1 or transition.to_k <= transition.from_k:
@@ -756,7 +814,9 @@ def select_adaptive_k(
         else:
             marginal_state = "uncertain"
 
-        path_available = transition.from_k in cumulative_mean_by_k
+        path_available = (
+            not path_blocked and transition.from_k in cumulative_mean_by_k
+        )
         cumulative_samples: tuple[float, ...] = tuple()
         cumulative_mean = math.nan
         cumulative_positive_probability = 0.0
@@ -802,6 +862,9 @@ def select_adaptive_k(
             cumulative_mean_by_k[transition.to_k] = cumulative_mean
 
         candidate_score = cumulative_mean
+        candidate_passed = bool(
+            path_available and marginal_passed and cumulative_passed
+        )
         diagnostics.append(
             {
                 "transition": f"{transition.from_k}->{transition.to_k}",
@@ -822,10 +885,10 @@ def select_adaptive_k(
                 "required_probability": required_probability,
                 "selection_tie_tolerance": selection_tie_tolerance,
                 "require_rescue_contrast": require_rescue_contrast,
-                "eligible_for_selection": path_available,
+                "eligible_for_selection": path_available and marginal_passed,
                 "marginal_state": marginal_state,
                 "passed": marginal_passed,
-                "candidate_passed": cumulative_passed,
+                "candidate_passed": candidate_passed,
                 "cumulative_risk_adjusted_gain": candidate_score,
                 "cumulative_minimum_effect": cumulative_minimum_effect,
                 "cumulative_bootstrap_lcb": cumulative_lcb,
@@ -842,10 +905,10 @@ def select_adaptive_k(
                     "aggregation": aggregation,
                     "passed": marginal_passed,
                     "marginal_state": marginal_state,
-                    "candidate_passed": cumulative_passed,
+                    "candidate_passed": candidate_passed,
                 },
             )
-        if path_available and cumulative_passed:
+        if candidate_passed:
             score = candidate_score
             if score > selected_score + selection_tie_tolerance or (
                 abs(score - selected_score) <= selection_tie_tolerance
@@ -853,6 +916,8 @@ def select_adaptive_k(
             ):
                 selected_k = transition.to_k
                 selected_score = score
+        if not marginal_passed:
+            path_blocked = True
 
     return AdaptiveCardinalityDecision(
         policy="risk_adjusted_oof",

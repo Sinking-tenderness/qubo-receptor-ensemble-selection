@@ -53,7 +53,7 @@ def test_positive_transition_enables_two_conformations() -> None:
     assert decision.uses_outer_labels is False
 
 
-def test_failed_one_to_two_does_not_block_three() -> None:
+def test_failed_one_to_two_blocks_later_candidates() -> None:
     failed = TransitionEvidence(
         from_k=1,
         to_k=2,
@@ -75,12 +75,14 @@ def test_failed_one_to_two_does_not_block_three() -> None:
         [failed, direct_to_three], bootstrap_iterations=200, random_seed=17
     )
 
-    assert decision.selected_k == 3
-    assert decision.need_multi_conformation is True
+    assert decision.selected_k == 1
+    assert decision.need_multi_conformation is False
     assert [item["transition"] for item in decision.transitions] == ["1->2", "2->3"]
     assert decision.transitions[0]["marginal_state"] == "harmful"
     assert decision.transitions[1]["marginal_state"] == "supported"
-    assert decision.transitions[1]["cumulative_risk_adjusted_gain"] > 0
+    assert decision.transitions[0]["candidate_passed"] is False
+    assert decision.transitions[1]["candidate_passed"] is False
+    assert decision.transitions[1]["eligible_for_selection"] is False
 
 
 def test_positive_oof_mean_can_select_candidate_with_negative_lcb() -> None:
@@ -104,8 +106,9 @@ def test_positive_oof_mean_can_select_candidate_with_negative_lcb() -> None:
     assert decision.transitions[0]["risk_adjusted_gain"] > 0
 
 
-def test_estimator_retains_all_adjacent_candidate_transitions() -> None:
+def test_estimator_stops_after_unsupported_transition() -> None:
     rows = []
+    receptor_ids = [f"R{number}" for number in range(1, 6)]
     for number in range(1, 5):
         rows.extend(
             (
@@ -113,42 +116,46 @@ def test_estimator_retains_all_adjacent_candidate_transitions() -> None:
                     "ligand_id": f"A{number}",
                     "label": "active",
                     "scaffold_smiles": f"A{number}",
-                    "R1": -float(10 - number),
-                    "R2": -float(11 - number),
-                    "R3": -float(12 - number),
+                    **{
+                        receptor_id: -float(10 - number + index)
+                        for index, receptor_id in enumerate(receptor_ids)
+                    },
                 },
                 {
                     "ligand_id": f"D{number}",
                     "label": "decoy",
                     "scaffold_smiles": f"D{number}",
-                    "R1": -float(number),
-                    "R2": -float(number + 1),
-                    "R3": -float(number + 2),
+                    **{
+                        receptor_id: -float(number + index)
+                        for index, receptor_id in enumerate(receptor_ids)
+                    },
                 },
             )
         )
 
+    calls: list[int] = []
+
     def solve_subset(train_rows: list[dict[str, object]], k: int) -> tuple[str, ...]:
         del train_rows
-        return tuple(("R1", "R2", "R3")[:k])
+        calls.append(k)
+        return tuple(receptor_ids[:k])
 
     decision = estimate_adaptive_cardinality(
         rows,
-        ["R1", "R2", "R3"],
+        receptor_ids,
         solve_subset=solve_subset,
-        candidate_ks=(1, 2, 3),
+        candidate_ks=(1, 2, 3, 4, 5),
         inner_fold_count=2,
         bootstrap_iterations=100,
         random_seed=17,
     )
 
-    assert [item["transition"] for item in decision.transitions] == [
-        "1->2",
-        "2->3",
-    ]
+    assert len(decision.transitions) < 4
+    assert max(calls) < 5
+    assert decision.evaluated_candidates == tuple(range(1, max(calls) + 1))
 
 
-def test_estimator_accepts_candidate_k_above_three() -> None:
+def test_estimator_stops_before_configured_candidate_limit() -> None:
     rows = []
     receptor_ids = [f"R{number}" for number in range(1, 6)]
     for number in range(1, 5):
@@ -186,12 +193,11 @@ def test_estimator_accepts_candidate_k_above_three() -> None:
         random_seed=17,
     )
 
-    assert set(calls) == {1, 2, 3, 4, 5}
+    assert set(calls) == {1, 2, 3}
+    assert decision.evaluated_candidates == (1, 2, 3)
     assert [item["transition"] for item in decision.transitions] == [
         "1->2",
         "2->3",
-        "3->4",
-        "4->5",
     ]
 
 def test_positive_gain_with_negative_rescue_stops() -> None:
@@ -245,7 +251,7 @@ def test_adjacent_gains_accumulate_for_candidate_selection() -> None:
     assert decision.transitions[1]["cumulative_risk_adjusted_gain"] == pytest.approx(0.14)
 
 
-def test_uncertain_marginal_does_not_block_later_candidate() -> None:
+def test_uncertain_marginal_allows_one_lookahead_but_not_selection() -> None:
     first = TransitionEvidence(
         from_k=1,
         to_k=2,
@@ -267,10 +273,11 @@ def test_uncertain_marginal_does_not_block_later_candidate() -> None:
         [first, second], bootstrap_iterations=10, required_probability=0.8
     )
 
-    assert decision.selected_k == 3
+    assert decision.selected_k == 1
     assert decision.transitions[0]["marginal_state"] == "uncertain"
     assert decision.transitions[0]["passed"] is False
-    assert decision.transitions[1]["candidate_passed"] is True
+    assert decision.transitions[1]["candidate_passed"] is False
+    assert decision.transitions[1]["eligible_for_selection"] is False
 
 
 def test_bootstrap_is_deterministic_and_requires_scaffold_groups() -> None:

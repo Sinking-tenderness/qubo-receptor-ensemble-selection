@@ -104,22 +104,28 @@ prepare -> dock -> aggregate -> build_problem -> solve -> evaluate -> persist
 ### 2.1.7 自适应构象数（可选）
 
 如需让流程先判断目标蛋白是否需要多构象，可在 `problem` 中显式启用
-`k_policy`。该策略从 `k=1` 开始评估候选值，但 `k=1` 只是搜索起点，不是固定的
-最终选择。每个候选都会在 inner scaffold fold 上生成 OOF 预测，并与前一个候选计算
-相邻边际增益。所有候选共享同一组 scaffold bootstrap 抽样，因此不会为每个转换重复
-生成 bootstrap 样本。第 k 步的边际净收益为：
+`k_policy`。该策略从 `k=1` 开始，按候选顺序逐步评估；`k=1` 只是搜索起点，不是固定的
+最终选择。每一步只为当前候选生成 inner scaffold fold 的 OOF 预测，并与前一个候选计算
+相邻边际增益。每个相邻候选对共享该转换自己的 scaffold bootstrap 抽样，不同转换不要求
+共享同一组抽样。第 k 步的边际净收益为：
 
 ```text
 risk_adjusted_gain(k-1 -> k) = mean_OOF_gain(k, k-1) - cost_per_receptor
 ```
 
 每个转换会记录 `supported`、`uncertain` 或 `harmful` 状态。`supported` 要求边际净收益
-超过 `minimum_effect` 且 bootstrap 正收益概率不低于 `required_probability`；一次
-`uncertain` 或 `harmful` 转换不会停止后续候选的计算。最终按从 `k=1` 累计的净收益选择
-候选，差异在 `selection_tie_tolerance` 内时偏好较小 k。`bootstrap_lcb` 和 rescue
+超过 `minimum_effect` 且 bootstrap 正收益概率不低于 `required_probability`；只有当前
+转换为 `supported` 时才继续计算更大的 k。`harmful` 会立即停止，`uncertain` 最多允许
+计算一次后续候选作为 lookahead，随后停止。因而计算会在有证据支持时继续，在风险明确
+或证据不足时控制耗时。
+
+只有从 `k=1` 到该候选的每一条相邻 transition 都为 `supported`，候选才具备选择资格。
+累计净收益只用于完整可用路径上的候选排序，不能跨过 `uncertain` 或 `harmful` transition
+选择更大的 k。差异在 `selection_tie_tolerance` 内时偏好较小 k。`bootstrap_lcb` 和 rescue
 contrast 作为审计指标保存；只有显式设置 `require_rescue_contrast: true` 时，rescue
-contrast 才会成为选择硬门槛。候选 k 不限制为 1、2、3：可以显式配置到更大值；不填写
-`candidates` 时默认检查 `1..selection.receptor_count`。
+contrast 才会成为选择硬门槛。候选 k 不限制为 1、2、3：可以显式配置为从 1 开始的连续更大
+范围；不填写 `candidates` 时默认检查 `1..selection.receptor_count`，但仍会按上述停止规则
+提前结束。
 
 ```json
 "problem": {
@@ -150,8 +156,10 @@ contrast 才会成为选择硬门槛。候选 k 不限制为 1、2、3：可以�
 scaffold fold，不读取 outer/test 标签；当前版本只支持单问题 QUBO，不支持
 `problem.mode: "compare"`。运行目录会保存 `adaptive_cardinality.json`，并在
 `problem.json`、`selection.json`、`evaluation.json`、`summary.json` 和 `manifest.json` 中
-保留相同的决定审计信息，其中包含每个相邻转换、累计候选净收益、bootstrap 状态和 rescue
-诊断。固定 `problem.target_size` 且不配置 `k_policy` 时，旧流程不变。
+保留相同的决定审计信息。其中 `transitions` 保存每个已计算的相邻转换，
+`evaluated_candidates` 保存实际计算到的候选序列，`stop_reason` 说明是达到候选上限、
+遇到 harmful transition，还是完成 uncertain lookahead 后停止；同时保留累计候选净收益、
+bootstrap 状态和 rescue 诊断。固定 `problem.target_size` 且不配置 `k_policy` 时，旧流程不变。
 
 如果需要在同一套 docking 矩阵上比较多个历史 QUBO 方法，可以将 `problem.mode` 设为 `compare` 并列出 `methods`。比较从 `build_problem` 开始即可，不需要重新执行 `prepare`、`dock` 或 `aggregate`。
 
