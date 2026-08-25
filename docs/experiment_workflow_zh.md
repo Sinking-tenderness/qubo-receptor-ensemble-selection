@@ -116,9 +116,10 @@ risk_adjusted_gain(k-1 -> k) = mean_OOF_gain(k, k-1) - cost_per_receptor
 每个转换会记录 `supported`、`uncertain` 或 `harmful` 状态。`supported` 要求边际净收益
 超过 `minimum_effect` 且 bootstrap 正收益概率不低于 `required_probability`；默认
 `required_probability` 为 `0.9`。`harmful` 表示负增益概率严格大于 0.5，会立即停止。
-`uncertain` 不立即否决后续，但最多允许计算一次后续候选作为 lookahead；如果 lookahead
-本身为 `supported`，该候选仍可入选，随后停止。这样可以识别“第一步信号弱、第二步增益
-明确”的协同情况，同时控制额外计算量。
+`uncertain` 不立即否决后续，但只允许紧接着计算一个后续候选作为 lookahead；如果该
+lookahead 为 `supported`，则清除本次确认状态并继续向下探索，而不是立即停止。如果
+lookahead 仍为 `uncertain`，则停止；`harmful` 仍然立即停止。这样可以识别“第一步信号弱、
+第二步增益明确”后仍存在更大构象数收益的情况，同时控制额外计算量。
 
 候选必须位于没有 `harmful` transition 的路径上，且当前 transition 必须为 `supported`；
 累计净收益只用于可用路径上的候选排序，不能跨过 `harmful` transition 选择更大的 k。
@@ -159,7 +160,7 @@ scaffold fold，不读取 outer/test 标签；当前版本只支持单问题 QUB
 `problem.json`、`selection.json`、`evaluation.json`、`summary.json` 和 `manifest.json` 中
 保留相同的决定审计信息。其中 `transitions` 保存每个已计算的相邻转换，
 `evaluated_candidates` 保存实际计算到的候选序列，`stop_reason` 说明是达到候选上限、
-遇到 harmful transition，还是完成 uncertain lookahead 后停止；同时保留累计候选净收益、
+遇到 harmful transition，还是连续不确定确认后停止；同时保留累计候选净收益、
 bootstrap 状态和 rescue 诊断。固定 `problem.target_size` 且不配置 `k_policy` 时，旧流程不变。
 
 如果需要在同一套 docking 矩阵上比较多个历史 QUBO 方法，可以将 `problem.mode` 设为 `compare` 并列出 `methods`。比较从 `build_problem` 开始即可，不需要重新执行 `prepare`、`dock` 或 `aggregate`。

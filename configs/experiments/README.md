@@ -30,8 +30,9 @@ python scripts/run_experiment.py plan \
 - `paths` 控制每个阶段输出和从中间阶段继续时的前置文件位置；
 - `problem.k_policy` 默认不配置。显式设置为 `mode: "adaptive"` 和
   `selector: "risk_adjusted_oof"` 后，流程会在 `build_problem` 阶段从 `k=1`
-  逐步评估全部配置候选，按相邻边际增益和累计净效用选择构象数，并把完整审计结果
-  写入运行目录；候选不会因某一步不确定而提前停止。该模式要求额外存在
+  逐步评估配置候选，按相邻边际增益和累计净效用选择构象数，并把完整审计结果
+  写入运行目录；每个 `uncertain` transition 最多允许紧接着探索一个候选，若该候选
+  `supported` 则继续向下探索，若仍不确定则停止。该模式要求额外存在
   `paths.prepared_ligand_manifest`，且当前不支持 `problem.mode: "compare"`；
 - `start_stage`/`end_stage` 可以在配置中设置，也可以由 CLI 的 `--from`/`--to`
   覆盖；

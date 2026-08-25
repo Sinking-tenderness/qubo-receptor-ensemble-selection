@@ -1,6 +1,8 @@
 import pytest
 
+import qubo_receptor_ensemble.adaptive_cardinality as adaptive_cardinality_module
 from qubo_receptor_ensemble.adaptive_cardinality import (
+    AdaptiveCardinalityDecision,
     AdaptiveCardinalityError,
     MarginalObservation,
     TransitionEvidence,
@@ -199,6 +201,85 @@ def test_estimator_stops_before_configured_candidate_limit() -> None:
         "1->2",
         "2->3",
     ]
+
+
+def test_estimator_continues_after_successful_uncertain_lookahead(monkeypatch) -> None:
+    rows = []
+    receptor_ids = [f"R{number}" for number in range(1, 6)]
+    for number in range(1, 5):
+        rows.extend(
+            (
+                {
+                    "ligand_id": f"A{number}",
+                    "label": "active",
+                    "scaffold_smiles": f"A{number}",
+                    **{
+                        receptor_id: -float(10 - number + index)
+                        for index, receptor_id in enumerate(receptor_ids)
+                    },
+                },
+                {
+                    "ligand_id": f"D{number}",
+                    "label": "decoy",
+                    "scaffold_smiles": f"D{number}",
+                    **{
+                        receptor_id: -float(number + index)
+                        for index, receptor_id in enumerate(receptor_ids)
+                    },
+                },
+            )
+        )
+
+    calls: list[int] = []
+    marginal_states = ("uncertain", "supported", "supported", "harmful")
+
+    def solve_subset(train_rows: list[dict[str, object]], k: int) -> tuple[str, ...]:
+        del train_rows
+        calls.append(k)
+        return tuple(receptor_ids[:k])
+
+    def fake_select_adaptive_k(transitions, **kwargs):
+        del kwargs
+        transition_count = len(transitions)
+        return AdaptiveCardinalityDecision(
+            policy="risk_adjusted_oof",
+            selected_k=3,
+            need_multi_conformation=True,
+            transitions=tuple(
+                {
+                    "transition": f"{index + 1}->{index + 2}",
+                    "marginal_state": marginal_states[index],
+                }
+                for index in range(transition_count)
+            ),
+        )
+
+    monkeypatch.setattr(
+        adaptive_cardinality_module,
+        "select_adaptive_k",
+        fake_select_adaptive_k,
+    )
+
+    decision = estimate_adaptive_cardinality(
+        rows,
+        receptor_ids,
+        solve_subset=solve_subset,
+        candidate_ks=(1, 2, 3, 4, 5),
+        inner_fold_count=2,
+        bootstrap_iterations=100,
+        random_seed=17,
+    )
+
+    assert set(calls) == {1, 2, 3, 4, 5}
+    assert decision.evaluated_candidates == (1, 2, 3, 4, 5)
+    assert [item["transition"] for item in decision.transitions] == [
+        "1->2",
+        "2->3",
+        "3->4",
+        "4->5",
+    ]
+    assert decision.stop_reason == "harmful_transition"
+
 
 def test_positive_gain_with_negative_rescue_stops() -> None:
     transition = TransitionEvidence(

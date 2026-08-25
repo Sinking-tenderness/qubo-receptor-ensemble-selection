@@ -638,9 +638,8 @@ def estimate_adaptive_cardinality(
                 stop_reason = "uncertain_confirmation"
                 break
             uncertain_confirmation_used = True
-        elif uncertain_confirmation_used:
-            stop_reason = "uncertain_confirmation"
-            break
+        else:
+            uncertain_confirmation_used = False
         previous_k = current_k
         previous_records = current_records
 
