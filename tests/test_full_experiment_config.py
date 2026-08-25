@@ -94,27 +94,60 @@ def test_full_config_defaults_problem_selection_to_bedroc20(tmp_path: Path) -> N
     assert config.data["problem"]["bedroc_alpha"] == 20.0
 
 
-def test_full_config_accepts_mechanistic_adaptive_k_policy(tmp_path: Path) -> None:
+def test_full_config_accepts_configurable_adaptive_k_policy(tmp_path: Path) -> None:
     path = _write_config(tmp_path)
     payload = json.loads(path.read_text(encoding="utf-8"))
-    payload["selection"]["receptor_count"] = 3
+    payload["selection"]["receptor_count"] = 4
     payload["problem"]["k_policy"] = {
         "mode": "adaptive",
-        "selector": "mechanistic_bootstrap_lcb",
-        "candidates": [1, 2, 3],
+        "selector": "risk_adjusted_oof",
+        "candidates": [1, 2, 3, 4],
         "scaffold_field": "scaffold_smiles",
         "inner_fold_count": 3,
         "bootstrap_iterations": 100,
-        "lower_quantile": 0.025,
+        "lower_quantile": 0.05,
+        "minimum_effect": 0.0,
+        "required_probability": 0.5,
+        "cost_per_receptor": 0.0,
+        "selection_tie_tolerance": 0.0,
+        "require_rescue_contrast": True,
         "rescue_fractions": [0.01, 0.05],
     }
     path.write_text(json.dumps(payload), encoding="utf-8")
 
     config = load_full_experiment_config(path, data_root=tmp_path)
 
-    assert config.data["problem"]["k_policy"]["selector"] == (
-        "mechanistic_bootstrap_lcb"
-    )
+    assert config.data["problem"]["k_policy"]["selector"] == "risk_adjusted_oof"
+    assert config.data["problem"]["k_policy"]["require_rescue_contrast"] is True
+
+
+def test_full_config_rejects_non_boolean_rescue_gate(tmp_path: Path) -> None:
+    path = _write_config(tmp_path)
+    payload = json.loads(path.read_text(encoding="utf-8"))
+    payload["problem"]["k_policy"] = {
+        "mode": "adaptive",
+        "selector": "risk_adjusted_oof",
+        "require_rescue_contrast": "true",
+    }
+    path.write_text(json.dumps(payload), encoding="utf-8")
+
+    with pytest.raises(ConfigError, match="require_rescue_contrast"):
+        load_full_experiment_config(path, data_root=tmp_path)
+
+
+def test_full_config_allows_implicit_candidate_range(tmp_path: Path) -> None:
+    path = _write_config(tmp_path)
+    payload = json.loads(path.read_text(encoding="utf-8"))
+    payload["selection"]["receptor_count"] = 4
+    payload["problem"]["k_policy"] = {
+        "mode": "adaptive",
+        "selector": "risk_adjusted_oof",
+    }
+    path.write_text(json.dumps(payload), encoding="utf-8")
+
+    config = load_full_experiment_config(path, data_root=tmp_path)
+
+    assert "candidates" not in config.data["problem"]["k_policy"]
 
 
 def test_full_config_rejects_unknown_adaptive_k_policy(tmp_path: Path) -> None:

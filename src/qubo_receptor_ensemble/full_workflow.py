@@ -607,11 +607,17 @@ def _validate_problem(config: Mapping[str, object]) -> None:
                 "problem.k_policy adaptive mode requires problem.strategy=qubo or basic_qubo"
             )
         selector = str(policy.get("selector", ""))
-        if selector != "mechanistic_bootstrap_lcb":
+        if selector not in {"mechanistic_bootstrap_lcb", "risk_adjusted_oof"}:
             raise ConfigError(
-                "problem.k_policy.selector must be mechanistic_bootstrap_lcb"
+                "problem.k_policy.selector must be mechanistic_bootstrap_lcb or risk_adjusted_oof"
             )
-        candidates = policy.get("candidates", [1, 2, 3])
+        selection = _mapping(config.get("selection"), "selection")
+        receptor_count = _positive_int(
+            selection.get("receptor_count"), "selection.receptor_count"
+        )
+        candidates = policy.get(
+            "candidates", list(range(1, receptor_count + 1))
+        )
         if not isinstance(candidates, list) or not candidates:
             raise ConfigError("problem.k_policy.candidates must be a non-empty list")
         if any(
@@ -630,10 +636,6 @@ def _validate_problem(config: Mapping[str, object]) -> None:
                 "problem.k_policy.candidates must be consecutive, unique, ascending, "
                 "and start at 1"
             )
-        selection = _mapping(config.get("selection"), "selection")
-        receptor_count = _positive_int(
-            selection.get("receptor_count"), "selection.receptor_count"
-        )
         if any(value > receptor_count for value in candidates):
             raise ConfigError(
                 "problem.k_policy.candidates cannot exceed selection.receptor_count"
@@ -670,6 +672,41 @@ def _validate_problem(config: Mapping[str, object]) -> None:
             lower_quantile_value
         ):
             raise ConfigError("problem.k_policy.lower_quantile must be between 0 and 1")
+        minimum_effect = policy.get("minimum_effect", 0.0)
+        required_probability = policy.get("required_probability", 0.5)
+        cost_per_receptor = policy.get("cost_per_receptor", 0.0)
+        selection_tie_tolerance = policy.get("selection_tie_tolerance", 0.0)
+        for value, name in (
+            (minimum_effect, "minimum_effect"),
+            (required_probability, "required_probability"),
+            (cost_per_receptor, "cost_per_receptor"),
+            (selection_tie_tolerance, "selection_tie_tolerance"),
+        ):
+            if isinstance(value, bool):
+                raise ConfigError(f"problem.k_policy.{name} must be numeric")
+            try:
+                numeric_value = float(value)
+            except (TypeError, ValueError) as exc:
+                raise ConfigError(f"problem.k_policy.{name} must be numeric") from exc
+            if not math.isfinite(numeric_value):
+                raise ConfigError(f"problem.k_policy.{name} must be finite")
+        if not 0.0 <= float(required_probability) <= 1.0:
+            raise ConfigError(
+                "problem.k_policy.required_probability must be between 0 and 1"
+            )
+        if float(cost_per_receptor) < 0.0:
+            raise ConfigError(
+                "problem.k_policy.cost_per_receptor must be non-negative"
+            )
+        if float(selection_tie_tolerance) < 0.0:
+            raise ConfigError(
+                "problem.k_policy.selection_tie_tolerance must be non-negative"
+            )
+        require_rescue_contrast = policy.get("require_rescue_contrast", False)
+        if not isinstance(require_rescue_contrast, bool):
+            raise ConfigError(
+                "problem.k_policy.require_rescue_contrast must be boolean"
+            )
         rescue_fractions = policy.get("rescue_fractions", [0.01, 0.05])
         if not isinstance(rescue_fractions, list) or not rescue_fractions:
             raise ConfigError(

@@ -105,11 +105,21 @@ prepare -> dock -> aggregate -> build_problem -> solve -> evaluate -> persist
 
 如需让流程先判断目标蛋白是否需要多构象，可在 `problem` 中显式启用
 `k_policy`。该策略从 `k=1` 开始评估候选值，但 `k=1` 只是搜索起点，不是固定的
-最终选择。每个候选都会在 inner scaffold fold 上生成 OOF 预测，并与 `k=1` 做配对
-bootstrap 比较。候选只有在边际收益的单侧 95% 下置信界大于 `minimum_effect`，且
-active 与 decoy 的 top-1%/top-5% rescue 平均差值大于 0 时才可被选择。某个较小
-候选失败不会停止后续候选的评估；最终从通过的候选中选择 bootstrap 下置信界最高者，
-没有更大候选通过时才返回 `k=1`。选中的 `k` 再用于完整开发数据上的正式 QUBO。
+最终选择。每个候选都会在 inner scaffold fold 上生成 OOF 预测，并与前一个候选计算
+相邻边际增益。所有候选共享同一组 scaffold bootstrap 抽样，因此不会为每个转换重复
+生成 bootstrap 样本。第 k 步的边际净收益为：
+
+```text
+risk_adjusted_gain(k-1 -> k) = mean_OOF_gain(k, k-1) - cost_per_receptor
+```
+
+每个转换会记录 `supported`、`uncertain` 或 `harmful` 状态。`supported` 要求边际净收益
+超过 `minimum_effect` 且 bootstrap 正收益概率不低于 `required_probability`；一次
+`uncertain` 或 `harmful` 转换不会停止后续候选的计算。最终按从 `k=1` 累计的净收益选择
+候选，差异在 `selection_tie_tolerance` 内时偏好较小 k。`bootstrap_lcb` 和 rescue
+contrast 作为审计指标保存；只有显式设置 `require_rescue_contrast: true` 时，rescue
+contrast 才会成为选择硬门槛。候选 k 不限制为 1、2、3：可以显式配置到更大值；不填写
+`candidates` 时默认检查 `1..selection.receptor_count`。
 
 ```json
 "problem": {
@@ -119,26 +129,29 @@ active 与 decoy 的 top-1%/top-5% rescue 平均差值大于 0 时才可被选�
   "weights": {"redundancy": 0.25, "count": 0.10, "size": 1.0},
   "k_policy": {
     "mode": "adaptive",
-    "selector": "mechanistic_bootstrap_lcb",
-    "candidates": [1, 2, 3],
+    "selector": "risk_adjusted_oof",
+    "candidates": [1, 2, 3, 4, 5, 6],
     "scaffold_field": "scaffold_smiles",
     "inner_fold_count": 3,
     "bootstrap_iterations": 1000,
     "lower_quantile": 0.05,
     "minimum_effect": 0.0,
+    "required_probability": 0.5,
+    "cost_per_receptor": 0.0,
+    "selection_tie_tolerance": 0.0,
+    "require_rescue_contrast": false,
     "rescue_fractions": [0.01, 0.05],
     "random_seed": 0
   }
 }
 ```
 
-`lower_quantile: 0.05` 表示单侧 95% 下置信界；保留该字段是为了让置信门槛可审计。
-自适应选择只使用开发数据的内层 scaffold fold，不读取 outer/test 标签；当前版本只支持
-单问题 QUBO，不支持 `problem.mode: "compare"`。运行目录会保存
-`adaptive_cardinality.json`，并在 `problem.json`、`selection.json`、`evaluation.json`、
-`summary.json` 和 `manifest.json` 中保留相同的决定审计信息，其中包含所有候选 k 的
-两两转换诊断。固定
-`problem.target_size` 且不配置 `k_policy` 时，旧流程不变。
+`lower_quantile: 0.05` 表示审计用的单侧 95% 下置信界。自适应选择只使用开发数据的内层
+scaffold fold，不读取 outer/test 标签；当前版本只支持单问题 QUBO，不支持
+`problem.mode: "compare"`。运行目录会保存 `adaptive_cardinality.json`，并在
+`problem.json`、`selection.json`、`evaluation.json`、`summary.json` 和 `manifest.json` 中
+保留相同的决定审计信息，其中包含每个相邻转换、累计候选净收益、bootstrap 状态和 rescue
+诊断。固定 `problem.target_size` 且不配置 `k_policy` 时，旧流程不变。
 
 如果需要在同一套 docking 矩阵上比较多个历史 QUBO 方法，可以将 `problem.mode` 设为 `compare` 并列出 `methods`。比较从 `build_problem` 开始即可，不需要重新执行 `prepare`、`dock` 或 `aggregate`。
 

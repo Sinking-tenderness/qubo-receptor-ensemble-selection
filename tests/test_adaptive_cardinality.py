@@ -39,7 +39,9 @@ def test_positive_transition_enables_two_conformations() -> None:
     )
 
     decision = select_adaptive_k(
-        [transition], bootstrap_iterations=200, random_seed=17
+        [transition],
+        bootstrap_iterations=200,
+        random_seed=17,
     )
 
     assert decision.selected_k == 2
@@ -61,7 +63,7 @@ def test_failed_one_to_two_does_not_block_three() -> None:
         ),
     )
     direct_to_three = TransitionEvidence(
-        from_k=1,
+        from_k=2,
         to_k=3,
         observations=tuple(
             _observation("T" + str(index), 0.20, 0.05, 0.05)
@@ -75,10 +77,34 @@ def test_failed_one_to_two_does_not_block_three() -> None:
 
     assert decision.selected_k == 3
     assert decision.need_multi_conformation is True
-    assert [item["transition"] for item in decision.transitions] == ["1->2", "1->3"]
+    assert [item["transition"] for item in decision.transitions] == ["1->2", "2->3"]
+    assert decision.transitions[0]["marginal_state"] == "harmful"
+    assert decision.transitions[1]["marginal_state"] == "supported"
+    assert decision.transitions[1]["cumulative_risk_adjusted_gain"] > 0
 
 
-def test_estimator_retains_all_pairwise_candidate_transitions() -> None:
+def test_positive_oof_mean_can_select_candidate_with_negative_lcb() -> None:
+    transition = TransitionEvidence(
+        from_k=1,
+        to_k=5,
+        observations=tuple(_observation("S" + str(index), 0.0, 0.02, 0.02) for index in range(4)),
+        bootstrap_samples=(-0.02, -0.01, 0.01, 0.02, 0.04, 0.05, 0.06, 0.07, 0.08, 0.09),
+    )
+
+    decision = select_adaptive_k(
+        [transition],
+        bootstrap_iterations=100,
+        required_probability=0.75,
+        random_seed=17,
+    )
+
+    assert decision.selected_k == 5
+    assert decision.transitions[0]["bootstrap_lcb"] < 0
+    assert decision.transitions[0]["mean_paired_bedroc_gain"] > 0
+    assert decision.transitions[0]["risk_adjusted_gain"] > 0
+
+
+def test_estimator_retains_all_adjacent_candidate_transitions() -> None:
     rows = []
     for number in range(1, 5):
         rows.extend(
@@ -118,10 +144,55 @@ def test_estimator_retains_all_pairwise_candidate_transitions() -> None:
 
     assert [item["transition"] for item in decision.transitions] == [
         "1->2",
-        "1->3",
         "2->3",
     ]
 
+
+def test_estimator_accepts_candidate_k_above_three() -> None:
+    rows = []
+    receptor_ids = [f"R{number}" for number in range(1, 6)]
+    for number in range(1, 5):
+        rows.extend(
+            (
+                {
+                    "ligand_id": f"A{number}",
+                    "label": "active",
+                    "scaffold_smiles": f"A{number}",
+                    **{receptor_id: -float(number + index) for index, receptor_id in enumerate(receptor_ids)},
+                },
+                {
+                    "ligand_id": f"D{number}",
+                    "label": "decoy",
+                    "scaffold_smiles": f"D{number}",
+                    **{receptor_id: -float(10 + number + index) for index, receptor_id in enumerate(receptor_ids)},
+                },
+            )
+        )
+
+    calls: list[int] = []
+
+    def solve_subset(train_rows: list[dict[str, object]], k: int) -> tuple[str, ...]:
+        del train_rows
+        calls.append(k)
+        return tuple(receptor_ids[:k])
+
+    decision = estimate_adaptive_cardinality(
+        rows,
+        receptor_ids,
+        solve_subset=solve_subset,
+        candidate_ks=None,
+        inner_fold_count=2,
+        bootstrap_iterations=100,
+        random_seed=17,
+    )
+
+    assert set(calls) == {1, 2, 3, 4, 5}
+    assert [item["transition"] for item in decision.transitions] == [
+        "1->2",
+        "2->3",
+        "3->4",
+        "4->5",
+    ]
 
 def test_positive_gain_with_negative_rescue_stops() -> None:
     transition = TransitionEvidence(
@@ -134,13 +205,72 @@ def test_positive_gain_with_negative_rescue_stops() -> None:
     )
 
     decision = select_adaptive_k(
-        [transition], bootstrap_iterations=200, random_seed=17
+        [transition],
+        bootstrap_iterations=200,
+        random_seed=17,
+        require_rescue_contrast=True,
     )
 
     assert decision.selected_k == 1
     assert decision.transitions[0]["bootstrap_lcb"] > 0
     assert decision.transitions[0]["mean_rescue_contrast"] < 0
     assert decision.transitions[0]["passed"] is False
+
+
+def test_adjacent_gains_accumulate_for_candidate_selection() -> None:
+    first = TransitionEvidence(
+        from_k=1,
+        to_k=2,
+        observations=tuple(
+            _observation(f"S{index}", 0.08, 0.04, 0.02) for index in range(4)
+        ),
+        bootstrap_samples=(0.08,) * 10,
+    )
+    second = TransitionEvidence(
+        from_k=2,
+        to_k=3,
+        observations=tuple(
+            _observation(f"S{index}", 0.06, 0.04, 0.02) for index in range(4)
+        ),
+        bootstrap_samples=(0.06,) * 10,
+    )
+
+    decision = select_adaptive_k(
+        [first, second], bootstrap_iterations=10, required_probability=0.8
+    )
+
+    assert decision.selected_k == 3
+    assert decision.transitions[0]["risk_adjusted_gain"] == pytest.approx(0.08)
+    assert decision.transitions[1]["risk_adjusted_gain"] == pytest.approx(0.06)
+    assert decision.transitions[1]["cumulative_risk_adjusted_gain"] == pytest.approx(0.14)
+
+
+def test_uncertain_marginal_does_not_block_later_candidate() -> None:
+    first = TransitionEvidence(
+        from_k=1,
+        to_k=2,
+        observations=tuple(
+            _observation(f"S{index}", 0.0, 0.04, 0.02) for index in range(4)
+        ),
+        bootstrap_samples=(-0.02, 0.02) * 5,
+    )
+    second = TransitionEvidence(
+        from_k=2,
+        to_k=3,
+        observations=tuple(
+            _observation(f"S{index}", 0.08, 0.04, 0.02) for index in range(4)
+        ),
+        bootstrap_samples=(0.08,) * 10,
+    )
+
+    decision = select_adaptive_k(
+        [first, second], bootstrap_iterations=10, required_probability=0.8
+    )
+
+    assert decision.selected_k == 3
+    assert decision.transitions[0]["marginal_state"] == "uncertain"
+    assert decision.transitions[0]["passed"] is False
+    assert decision.transitions[1]["candidate_passed"] is True
 
 
 def test_bootstrap_is_deterministic_and_requires_scaffold_groups() -> None:
@@ -289,9 +419,9 @@ def test_estimator_uses_configured_utility_metric_and_reports_progress(
 
     transition = decision.transitions[0]
     expected_mean_gain = {
-        "roc_auc": 0.9619196428571426,
-        "bedroc": 0.9765887859760091,
-        "ef5": 2.1369523809523794,
+        "roc_auc": 0.96875,
+        "bedroc": 0.9995339465195752,
+        "ef5": 2.0,
     }[metric]
     assert decision.metric == metric
     assert decision.aggregation == "mean_score"

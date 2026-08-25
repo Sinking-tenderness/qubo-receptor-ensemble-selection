@@ -90,13 +90,17 @@
     },
     "k_policy": {
       "mode": "adaptive",
-      "selector": "mechanistic_bootstrap_lcb",
-      "candidates": [1, 2, 3],
+      "selector": "risk_adjusted_oof",
+      "candidates": [1, 2, 3, 4, 5, 6],
       "scaffold_field": "scaffold_smiles",
       "inner_fold_count": 3,
       "bootstrap_iterations": 1000,
       "lower_quantile": 0.05,
       "minimum_effect": 0.0,
+      "required_probability": 0.5,
+      "cost_per_receptor": 0.0,
+      "selection_tie_tolerance": 0.0,
+      "require_rescue_contrast": false,
       "rescue_fractions": [0.01, 0.05],
       "random_seed": 0
     }

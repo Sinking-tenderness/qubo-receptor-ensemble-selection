@@ -817,12 +817,24 @@ def build_problem_stage(
                 [str(value) for value in problem_config["receptor_ids"]],
                 problem_config=problem_config,
                 solver_backend=str(config.data["solve"]["backend"]),
-                candidate_ks=[int(value) for value in k_policy.get("candidates", [1, 2, 3])],
+                candidate_ks=(
+                    [int(value) for value in k_policy["candidates"]]
+                    if "candidates" in k_policy
+                    else None
+                ),
                 scaffold_field=str(k_policy.get("scaffold_field", "scaffold_smiles")),
                 inner_fold_count=int(k_policy.get("inner_fold_count", 3)),
                 bootstrap_iterations=int(k_policy.get("bootstrap_iterations", 1000)),
                 lower_quantile=float(k_policy.get("lower_quantile", 0.05)),
                 minimum_effect=float(k_policy.get("minimum_effect", 0.0)),
+                required_probability=float(k_policy.get("required_probability", 0.5)),
+                cost_per_receptor=float(k_policy.get("cost_per_receptor", 0.0)),
+                selection_tie_tolerance=float(
+                    k_policy.get("selection_tie_tolerance", 0.0)
+                ),
+                require_rescue_contrast=bool(
+                    k_policy.get("require_rescue_contrast", False)
+                ),
                 rescue_fractions=[
                     float(value)
                     for value in k_policy.get("rescue_fractions", [0.01, 0.05])
@@ -1105,7 +1117,8 @@ class FullExperimentRunner:
                 f"[adaptive] transition={payload['from_k']}->{payload['to_k']} "
                 f"metric={payload['metric']} "
                 f"aggregation={payload['aggregation']} "
-                f"passed={str(payload['passed']).lower()}",
+                f"marginal_state={payload['marginal_state']} "
+                f"candidate_passed={str(payload['candidate_passed']).lower()}",
                 flush=True,
             )
         elif event == "adaptive_completed":

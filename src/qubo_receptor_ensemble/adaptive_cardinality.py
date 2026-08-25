@@ -1,4 +1,4 @@
-"""Auditable sequential selection of receptor/conformation cardinality."""
+"""Auditable OOF selection of receptor/conformation cardinality."""
 
 from __future__ import annotations
 
@@ -33,19 +33,20 @@ class MarginalObservation:
 
 @dataclass(frozen=True)
 class TransitionEvidence:
-    """Evidence for one sequential ``k-1 -> k`` transition."""
+    """Evidence for one adjacent cardinality transition."""
 
     from_k: int
     to_k: int
     observations: tuple[MarginalObservation, ...]
     bootstrap_samples: tuple[float, ...] | None = None
     mean_rescue_contrast_override: float | None = None
+    mean_gain_override: float | None = None
     utility_metric: str = "bedroc"
 
 
 @dataclass(frozen=True)
 class AdaptiveCardinalityDecision:
-    """Auditable output of the bootstrap-LCB cardinality policy."""
+    """Auditable output of the risk-adjusted OOF cardinality policy."""
 
     policy: str
     selected_k: int
@@ -132,6 +133,7 @@ def _bootstrap_transition(
     lower_quantile: float,
     random_seed: int,
     bootstrap_samples: Iterable[float] | None = None,
+    mean_gain_override: float | None = None,
     mean_rescue_contrast_override: float | None = None,
     utility_metric: str = "bedroc",
 ) -> dict[str, float | int]:
@@ -146,7 +148,11 @@ def _bootstrap_transition(
         samples = [_finite(value, "bootstrap sample") for value in bootstrap_samples]
         if not samples:
             raise AdaptiveCardinalityError("bootstrap produced no samples")
-        mean_gain = sum(samples) / len(samples)
+        mean_gain = (
+            _finite(mean_gain_override, "mean_paired_gain")
+            if mean_gain_override is not None
+            else sum(samples) / len(samples)
+        )
         mean_rescue = (
             _finite(mean_rescue_contrast_override, "mean_rescue_contrast")
             if mean_rescue_contrast_override is not None
@@ -313,24 +319,26 @@ def _sampled_metric(
     return float(enrichment_factor(ranked, 0.05)["ef"])
 
 
-def _paired_group_bootstrap(
-    records_by_method: Mapping[str, Mapping[str, Mapping[str, object]]],
+def _shared_candidate_bootstrap(
+    records_by_candidate: Mapping[int, Mapping[str, Mapping[str, object]]],
     group_by_ligand: Mapping[str, str],
     *,
     replicates: int,
     seed: int,
     utility_metric: str = "bedroc",
     alpha: float,
-) -> tuple[float, ...]:
+) -> tuple[dict[int, tuple[float, ...]], dict[int, float]]:
+    """Bootstrap absolute candidate metrics using one shared draw stream."""
+
     utility_metric = _validate_utility_metric(utility_metric)
     if replicates <= 0:
         raise AdaptiveCardinalityError("bootstrap_iterations must be positive")
-    method_ids = list(records_by_method)
-    if len(method_ids) != 2:
-        raise AdaptiveCardinalityError("paired bootstrap requires two methods")
-    ligand_ids = set(records_by_method[method_ids[0]])
-    if any(set(records_by_method[method]) != ligand_ids for method in method_ids):
-        raise AdaptiveCardinalityError("bootstrap methods contain different ligand IDs")
+    candidate_ids = tuple(sorted(records_by_candidate))
+    if not candidate_ids or candidate_ids[0] != 1:
+        raise AdaptiveCardinalityError("candidate bootstrap must include k=1")
+    ligand_ids = set(records_by_candidate[1])
+    if any(set(records_by_candidate[candidate]) != ligand_ids for candidate in candidate_ids):
+        raise AdaptiveCardinalityError("bootstrap candidates contain different ligand IDs")
     if set(group_by_ligand) != ligand_ids:
         raise AdaptiveCardinalityError("bootstrap group map differs from score records")
     grouped_ids: dict[str, list[str]] = {}
@@ -339,30 +347,45 @@ def _paired_group_bootstrap(
     for group in grouped_ids.values():
         group.sort()
     group_ids = sorted(grouped_ids)
+    samples: dict[int, list[float]] = {candidate: [] for candidate in candidate_ids}
+
     rng = random.Random(seed)
-    samples: list[float] = []
     attempts = 0
-    while len(samples) < replicates:
+    while len(next(iter(samples.values()))) < replicates:
         attempts += 1
         if attempts > replicates * 2:
             raise AdaptiveCardinalityError(
                 "too many bootstrap samples lacked both labels"
             )
         sampled_groups = rng.choices(group_ids, k=len(group_ids))
-        values = [
-            _sampled_metric(
-                records_by_method[method_id],
+        values = {
+            candidate: _sampled_metric(
+                records_by_candidate[candidate],
                 grouped_ids,
                 sampled_groups,
                 utility_metric=utility_metric,
                 alpha=alpha,
             )
-            for method_id in method_ids
-        ]
-        if not all(math.isfinite(value) for value in values):
+            for candidate in candidate_ids
+        }
+        if not all(math.isfinite(value) for value in values.values()):
             continue
-        samples.append(values[1] - values[0])
-    return tuple(samples)
+        for candidate in candidate_ids:
+            samples[candidate].append(values[candidate])
+    mean_metrics = {
+        candidate: _sampled_metric(
+            records_by_candidate[candidate],
+            grouped_ids,
+            group_ids,
+            utility_metric=utility_metric,
+            alpha=alpha,
+        )
+        for candidate in candidate_ids
+    }
+    return (
+        {candidate: tuple(values) for candidate, values in samples.items()},
+        mean_metrics,
+    )
 
 
 def _rank_rescue_contrast(
@@ -409,12 +432,16 @@ def estimate_adaptive_cardinality(
     problem_config: Mapping[str, object] | None = None,
     solve_subset: Callable[[list[dict[str, object]], int], Sequence[str]] | None = None,
     solver_backend: str = "exact",
-    candidate_ks: Sequence[int] = (1, 2, 3),
+    candidate_ks: Sequence[int] | None = None,
     scaffold_field: str = "scaffold_smiles",
     inner_fold_count: int = 3,
     bootstrap_iterations: int = 1000,
     lower_quantile: float = 0.05,
     minimum_effect: float = 0.0,
+    required_probability: float = 0.5,
+    cost_per_receptor: float = 0.0,
+    selection_tie_tolerance: float = 0.0,
+    require_rescue_contrast: bool = False,
     rescue_fractions: Sequence[float] = (0.01, 0.05),
     bedroc_alpha: float = 20.0,
     random_seed: int = 0,
@@ -424,9 +451,15 @@ def estimate_adaptive_cardinality(
     """Estimate cardinality from inner-fold predictions without outer labels."""
 
     normalized = _validate_rows(rows, receptor_ids, scaffold_field)
-    if any(isinstance(value, bool) or not isinstance(value, int) for value in candidate_ks):
+    if candidate_ks is not None and any(
+        isinstance(value, bool) or not isinstance(value, int) for value in candidate_ks
+    ):
         raise AdaptiveCardinalityError("candidate_ks must contain integers")
-    candidates = tuple(candidate_ks)
+    candidates = (
+        tuple(range(1, len(receptor_ids) + 1))
+        if candidate_ks is None
+        else tuple(candidate_ks)
+    )
     if (
         not candidates
         or candidates[0] != 1
@@ -515,47 +548,60 @@ def estimate_adaptive_cardinality(
     group_by_ligand = {
         str(row["ligand_id"]): str(row[scaffold_field]) for row in normalized
     }
+    candidate_samples, candidate_mean_metrics = _shared_candidate_bootstrap(
+        {int(k): records_by_method[str(k)] for k in candidates},
+        group_by_ligand,
+        replicates=bootstrap_iterations,
+        seed=random_seed,
+        utility_metric=utility_metric,
+        alpha=bedroc_alpha,
+    )
     transitions: list[TransitionEvidence] = []
-    for previous_index, previous_k in enumerate(candidates[:-1]):
-        for current_k in candidates[previous_index + 1 :]:
-            previous_records = records_by_method[str(previous_k)]
-            current_records = records_by_method[str(current_k)]
-            samples = _paired_group_bootstrap(
-                {"previous": previous_records, "current": current_records},
+    for previous_k, current_k in zip(candidates, candidates[1:]):
+        previous_records = records_by_method[str(previous_k)]
+        current_records = records_by_method[str(current_k)]
+        samples = tuple(
+            current_value - previous_value
+            for current_value, previous_value in zip(
+                candidate_samples[current_k], candidate_samples[previous_k]
+            )
+        )
+        rescue = _rank_rescue_contrast(
+            previous_records, current_records, rescue_fractions
+        )
+        observations = tuple(
+            _observation_from_group(
+                scaffold_id,
+                normalized,
                 group_by_ligand,
-                replicates=bootstrap_iterations,
-                seed=random_seed + previous_k,
+                samples,
+                rescue,
+            )
+            for scaffold_id in sorted(set(group_by_ligand.values()))
+        )
+        transitions.append(
+            TransitionEvidence(
+                from_k=previous_k,
+                to_k=current_k,
+                observations=observations,
+                bootstrap_samples=samples,
+                mean_gain_override=(
+                    candidate_mean_metrics[current_k]
+                    - candidate_mean_metrics[previous_k]
+                ),
+                mean_rescue_contrast_override=rescue,
                 utility_metric=utility_metric,
-                alpha=bedroc_alpha,
             )
-            rescue = _rank_rescue_contrast(
-                previous_records, current_records, rescue_fractions
-            )
-            observations = tuple(
-                _observation_from_group(
-                    scaffold_id,
-                    normalized,
-                    group_by_ligand,
-                    samples,
-                    rescue,
-                )
-                for scaffold_id in sorted(set(group_by_ligand.values()))
-            )
-            transitions.append(
-                TransitionEvidence(
-                    from_k=previous_k,
-                    to_k=current_k,
-                    observations=observations,
-                    bootstrap_samples=samples,
-                    mean_rescue_contrast_override=rescue,
-                    utility_metric=utility_metric,
-                )
-            )
+        )
     decision = select_adaptive_k(
         transitions,
         bootstrap_iterations=bootstrap_iterations,
         lower_quantile=lower_quantile,
         minimum_effect=minimum_effect,
+        required_probability=required_probability,
+        cost_per_receptor=cost_per_receptor,
+        selection_tie_tolerance=selection_tie_tolerance,
+        require_rescue_contrast=require_rescue_contrast,
         random_seed=random_seed,
         utility_metric=utility_metric,
         aggregation=aggregation,
@@ -597,18 +643,22 @@ def select_adaptive_k(
     bootstrap_iterations: int = 1000,
     lower_quantile: float = 0.05,
     minimum_effect: float = 0.0,
+    required_probability: float = 0.5,
+    cost_per_receptor: float = 0.0,
+    selection_tie_tolerance: float = 0.0,
+    require_rescue_contrast: bool = False,
     random_seed: int = 0,
     utility_metric: str | None = None,
     aggregation: str = "mean_score",
     progress: ProgressCallback | None = None,
 ) -> AdaptiveCardinalityDecision:
-    """Select the best candidate passing all baseline-relative functional gates.
+    """Select cardinality from adjacent gains without evidence early stopping.
 
-    A candidate passes only when its scaffold-bootstrap lower confidence bound
-    exceeds ``minimum_effect`` and its mean active-minus-decoy rescue contrast
-    is strictly positive. All transitions are evaluated; only transitions from
-    the starting candidate k=1 can select a final cardinality. Other transitions
-    remain diagnostic evidence.
+    Each transition is judged against the immediately preceding cardinality.
+    Candidate utility is accumulated along the transition path, so an
+    uncertain or negative early transition does not discard a later candidate.
+    The bootstrap lower confidence bound remains an audit statistic; the
+    configured probability and practical-effect rules control support.
     """
 
     if isinstance(bootstrap_iterations, bool) or bootstrap_iterations <= 0:
@@ -616,8 +666,25 @@ def select_adaptive_k(
     if not 0.0 <= lower_quantile <= 1.0:
         raise AdaptiveCardinalityError("lower_quantile must be between 0 and 1")
     minimum_effect = _finite(minimum_effect, "minimum_effect")
+    required_probability = _finite(required_probability, "required_probability")
+    if not 0.0 <= required_probability <= 1.0:
+        raise AdaptiveCardinalityError("required_probability must be between 0 and 1")
+    cost_per_receptor = _finite(cost_per_receptor, "cost_per_receptor")
+    if cost_per_receptor < 0.0:
+        raise AdaptiveCardinalityError("cost_per_receptor must be non-negative")
+    selection_tie_tolerance = _finite(
+        selection_tie_tolerance, "selection_tie_tolerance"
+    )
+    if selection_tie_tolerance < 0.0:
+        raise AdaptiveCardinalityError(
+            "selection_tie_tolerance must be non-negative"
+        )
+    if not isinstance(require_rescue_contrast, bool):
+        raise AdaptiveCardinalityError("require_rescue_contrast must be boolean")
 
-    ordered = list(transitions)
+    ordered = sorted(
+        list(transitions), key=lambda transition: (transition.to_k, transition.from_k)
+    )
     transition_metrics = {
         _validate_utility_metric(transition.utility_metric) for transition in ordered
     }
@@ -630,14 +697,16 @@ def select_adaptive_k(
             "all transitions must use the configured utility_metric"
         )
     selected_k = 1
-    selected_score = -math.inf
+    selected_score = 0.0
     seen_pairs: set[tuple[int, int]] = set()
     diagnostics: list[dict[str, object]] = []
+    cumulative_samples_by_k: dict[int, tuple[float, ...]] = {1: tuple()}
+    cumulative_mean_by_k: dict[int, float] = {1: 0.0}
     for transition in ordered:
         pair = (transition.from_k, transition.to_k)
         if transition.from_k < 1 or transition.to_k <= transition.from_k:
             raise AdaptiveCardinalityError(
-                "transitions must start at k=1 and increase from_k to to_k"
+                "transitions must use positive increasing from_k and to_k"
             )
         if pair in seen_pairs:
             raise AdaptiveCardinalityError("transitions must be unique")
@@ -648,14 +717,91 @@ def select_adaptive_k(
             lower_quantile=lower_quantile,
             random_seed=random_seed + transition.from_k,
             bootstrap_samples=transition.bootstrap_samples,
+            mean_gain_override=transition.mean_gain_override,
             mean_rescue_contrast_override=transition.mean_rescue_contrast_override,
             utility_metric=utility_metric,
         )
-        passed = bool(
-            float(stats["bootstrap_lcb"]) > minimum_effect
-            and float(stats["mean_rescue_contrast"]) > 0.0
+        metric_key = _metric_gain_key(utility_metric)
+        mean_gain = float(stats[metric_key])
+        candidate_cost = cost_per_receptor * (transition.to_k - transition.from_k)
+        risk_adjusted_gain = mean_gain - candidate_cost
+        if transition.bootstrap_samples is not None:
+            net_samples = tuple(
+                _finite(value, "bootstrap sample") - candidate_cost
+                for value in transition.bootstrap_samples
+            )
+        else:
+            net_samples = tuple()
+        if transition.bootstrap_samples is not None:
+            risk_positive_probability = sum(
+                value > minimum_effect for value in net_samples
+            ) / len(net_samples)
+        else:
+            risk_positive_probability = float(risk_adjusted_gain > minimum_effect)
+        risk_negative_probability = (
+            sum(value < -minimum_effect for value in net_samples) / len(net_samples)
+            if net_samples
+            else float(risk_adjusted_gain < -minimum_effect)
         )
-        eligible = transition.from_k == 1
+        rescue_supported = float(stats["mean_rescue_contrast"]) > 0.0
+        marginal_passed = bool(
+            risk_adjusted_gain > minimum_effect
+            and risk_positive_probability >= required_probability
+            and (not require_rescue_contrast or rescue_supported)
+        )
+        if marginal_passed:
+            marginal_state = "supported"
+        elif risk_negative_probability >= required_probability:
+            marginal_state = "harmful"
+        else:
+            marginal_state = "uncertain"
+
+        path_available = transition.from_k in cumulative_mean_by_k
+        cumulative_samples: tuple[float, ...] = tuple()
+        cumulative_mean = math.nan
+        cumulative_positive_probability = 0.0
+        cumulative_passed = False
+        cumulative_lcb = math.nan
+        cumulative_minimum_effect = minimum_effect * (transition.to_k - 1)
+        if path_available:
+            previous_samples = cumulative_samples_by_k[transition.from_k]
+            previous_mean = cumulative_mean_by_k[transition.from_k]
+            if previous_samples and len(previous_samples) != len(net_samples):
+                raise AdaptiveCardinalityError(
+                    "adjacent transitions must use the same bootstrap sample count"
+                )
+            if not previous_samples:
+                cumulative_samples = net_samples
+            elif not net_samples:
+                cumulative_samples = previous_samples
+            else:
+                cumulative_samples = tuple(
+                    previous_value + current_value
+                    for previous_value, current_value in zip(
+                        previous_samples, net_samples
+                    )
+                )
+            cumulative_mean = previous_mean + risk_adjusted_gain
+            cumulative_positive_probability = (
+                sum(value > cumulative_minimum_effect for value in cumulative_samples)
+                / len(cumulative_samples)
+                if cumulative_samples
+                else float(cumulative_mean > cumulative_minimum_effect)
+            )
+            cumulative_lcb = (
+                _quantile(list(cumulative_samples), lower_quantile)
+                if cumulative_samples
+                else cumulative_mean
+            )
+            cumulative_passed = bool(
+                cumulative_mean > cumulative_minimum_effect
+                and cumulative_positive_probability >= required_probability
+                and (not require_rescue_contrast or rescue_supported)
+            )
+            cumulative_samples_by_k[transition.to_k] = cumulative_samples
+            cumulative_mean_by_k[transition.to_k] = cumulative_mean
+
+        candidate_score = cumulative_mean
         diagnostics.append(
             {
                 "transition": f"{transition.from_k}->{transition.to_k}",
@@ -663,11 +809,27 @@ def select_adaptive_k(
                 "to_k": transition.to_k,
                 "metric": utility_metric,
                 **stats,
+                "risk_adjusted_gain": risk_adjusted_gain,
+                "risk_adjusted_lcb": _quantile(list(net_samples), lower_quantile)
+                if net_samples
+                else risk_adjusted_gain,
+                "risk_positive_probability": risk_positive_probability,
+                "risk_negative_probability": risk_negative_probability,
+                "cost_per_receptor": cost_per_receptor,
                 "bootstrap_iterations": bootstrap_iterations,
                 "lower_quantile": lower_quantile,
                 "minimum_effect": minimum_effect,
-                "eligible_for_selection": eligible,
-                "passed": passed,
+                "required_probability": required_probability,
+                "selection_tie_tolerance": selection_tie_tolerance,
+                "require_rescue_contrast": require_rescue_contrast,
+                "eligible_for_selection": path_available,
+                "marginal_state": marginal_state,
+                "passed": marginal_passed,
+                "candidate_passed": cumulative_passed,
+                "cumulative_risk_adjusted_gain": candidate_score,
+                "cumulative_minimum_effect": cumulative_minimum_effect,
+                "cumulative_bootstrap_lcb": cumulative_lcb,
+                "cumulative_positive_probability": cumulative_positive_probability,
             }
         )
         if progress is not None:
@@ -678,19 +840,22 @@ def select_adaptive_k(
                     "to_k": transition.to_k,
                     "metric": utility_metric,
                     "aggregation": aggregation,
-                    "passed": passed,
+                    "passed": marginal_passed,
+                    "marginal_state": marginal_state,
+                    "candidate_passed": cumulative_passed,
                 },
             )
-        if eligible and passed:
-            score = float(stats["bootstrap_lcb"])
-            if score > selected_score or (
-                score == selected_score and transition.to_k < selected_k
+        if path_available and cumulative_passed:
+            score = candidate_score
+            if score > selected_score + selection_tie_tolerance or (
+                abs(score - selected_score) <= selection_tie_tolerance
+                and transition.to_k < selected_k
             ):
                 selected_k = transition.to_k
                 selected_score = score
 
     return AdaptiveCardinalityDecision(
-        policy="mechanistic_bootstrap_lcb",
+        policy="risk_adjusted_oof",
         metric=utility_metric,
         aggregation=aggregation,
         selected_k=selected_k,
