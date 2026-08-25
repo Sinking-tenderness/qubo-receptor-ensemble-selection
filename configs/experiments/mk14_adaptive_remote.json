@@ -95,7 +95,8 @@
       "scaffold_field": "scaffold_smiles",
       "inner_fold_count": 3,
       "bootstrap_iterations": 1000,
-      "lower_quantile": 0.025,
+      "lower_quantile": 0.05,
+      "minimum_effect": 0.0,
       "rescue_fractions": [0.01, 0.05],
       "random_seed": 0
     }

@@ -104,10 +104,12 @@ prepare -> dock -> aggregate -> build_problem -> solve -> evaluate -> persist
 ### 2.1.7 自适应构象数（可选）
 
 如需让流程先判断目标蛋白是否需要多构象，可在 `problem` 中显式启用
-`k_policy`。该策略从 `k=1` 开始逐个尝试候选值；每个增加构象的转换都必须同时满足：
-scaffold 分组 bootstrap 后 BEDROC20 边际收益的 95% 下置信界大于 0，且 active
-与 decoy 的 top-1%/top-5% rescue 平均差值大于 0。第一次失败后停止，最终选中的
-`k` 再用于完整开发数据上的正式 QUBO。
+`k_policy`。该策略从 `k=1` 开始评估候选值，但 `k=1` 只是搜索起点，不是固定的
+最终选择。每个候选都会在 inner scaffold fold 上生成 OOF 预测，并与 `k=1` 做配对
+bootstrap 比较。候选只有在边际收益的单侧 95% 下置信界大于 `minimum_effect`，且
+active 与 decoy 的 top-1%/top-5% rescue 平均差值大于 0 时才可被选择。某个较小
+候选失败不会停止后续候选的评估；最终从通过的候选中选择 bootstrap 下置信界最高者，
+没有更大候选通过时才返回 `k=1`。选中的 `k` 再用于完整开发数据上的正式 QUBO。
 
 ```json
 "problem": {
@@ -122,17 +124,20 @@ scaffold 分组 bootstrap 后 BEDROC20 边际收益的 95% 下置信界大于 0�
     "scaffold_field": "scaffold_smiles",
     "inner_fold_count": 3,
     "bootstrap_iterations": 1000,
-    "lower_quantile": 0.025,
+    "lower_quantile": 0.05,
+    "minimum_effect": 0.0,
     "rescue_fractions": [0.01, 0.05],
     "random_seed": 0
   }
 }
 ```
 
+`lower_quantile: 0.05` 表示单侧 95% 下置信界；保留该字段是为了让置信门槛可审计。
 自适应选择只使用开发数据的内层 scaffold fold，不读取 outer/test 标签；当前版本只支持
 单问题 QUBO，不支持 `problem.mode: "compare"`。运行目录会保存
 `adaptive_cardinality.json`，并在 `problem.json`、`selection.json`、`evaluation.json`、
-`summary.json` 和 `manifest.json` 中保留相同的决定审计信息。固定
+`summary.json` 和 `manifest.json` 中保留相同的决定审计信息，其中包含所有候选 k 的
+两两转换诊断。固定
 `problem.target_size` 且不配置 `k_policy` 时，旧流程不变。
 
 如果需要在同一套 docking 矩阵上比较多个历史 QUBO 方法，可以将 `problem.mode` 设为 `compare` 并列出 `methods`。比较从 `build_problem` 开始即可，不需要重新执行 `prepare`、`dock` 或 `aggregate`。

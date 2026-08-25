@@ -413,7 +413,8 @@ def estimate_adaptive_cardinality(
     scaffold_field: str = "scaffold_smiles",
     inner_fold_count: int = 3,
     bootstrap_iterations: int = 1000,
-    lower_quantile: float = 0.025,
+    lower_quantile: float = 0.05,
+    minimum_effect: float = 0.0,
     rescue_fractions: Sequence[float] = (0.01, 0.05),
     bedroc_alpha: float = 20.0,
     random_seed: int = 0,
@@ -515,46 +516,46 @@ def estimate_adaptive_cardinality(
         str(row["ligand_id"]): str(row[scaffold_field]) for row in normalized
     }
     transitions: list[TransitionEvidence] = []
-    for index in range(1, len(candidates)):
-        previous_k = candidates[index - 1]
-        current_k = candidates[index]
-        previous_records = records_by_method[str(previous_k)]
-        current_records = records_by_method[str(current_k)]
-        samples = _paired_group_bootstrap(
-            {"previous": previous_records, "current": current_records},
-            group_by_ligand,
-            replicates=bootstrap_iterations,
-            seed=random_seed + previous_k,
-            utility_metric=utility_metric,
-            alpha=bedroc_alpha,
-        )
-        rescue = _rank_rescue_contrast(
-            previous_records, current_records, rescue_fractions
-        )
-        observations = tuple(
-            _observation_from_group(
-                scaffold_id,
-                normalized,
+    for previous_index, previous_k in enumerate(candidates[:-1]):
+        for current_k in candidates[previous_index + 1 :]:
+            previous_records = records_by_method[str(previous_k)]
+            current_records = records_by_method[str(current_k)]
+            samples = _paired_group_bootstrap(
+                {"previous": previous_records, "current": current_records},
                 group_by_ligand,
-                samples,
-                rescue,
-            )
-            for scaffold_id in sorted(set(group_by_ligand.values()))
-        )
-        transitions.append(
-            TransitionEvidence(
-                from_k=previous_k,
-                to_k=current_k,
-                observations=observations,
-                bootstrap_samples=samples,
-                mean_rescue_contrast_override=rescue,
+                replicates=bootstrap_iterations,
+                seed=random_seed + previous_k,
                 utility_metric=utility_metric,
+                alpha=bedroc_alpha,
             )
-        )
+            rescue = _rank_rescue_contrast(
+                previous_records, current_records, rescue_fractions
+            )
+            observations = tuple(
+                _observation_from_group(
+                    scaffold_id,
+                    normalized,
+                    group_by_ligand,
+                    samples,
+                    rescue,
+                )
+                for scaffold_id in sorted(set(group_by_ligand.values()))
+            )
+            transitions.append(
+                TransitionEvidence(
+                    from_k=previous_k,
+                    to_k=current_k,
+                    observations=observations,
+                    bootstrap_samples=samples,
+                    mean_rescue_contrast_override=rescue,
+                    utility_metric=utility_metric,
+                )
+            )
     decision = select_adaptive_k(
         transitions,
         bootstrap_iterations=bootstrap_iterations,
         lower_quantile=lower_quantile,
+        minimum_effect=minimum_effect,
         random_seed=random_seed,
         utility_metric=utility_metric,
         aggregation=aggregation,
@@ -594,24 +595,27 @@ def select_adaptive_k(
     transitions: Iterable[TransitionEvidence],
     *,
     bootstrap_iterations: int = 1000,
-    lower_quantile: float = 0.025,
+    lower_quantile: float = 0.05,
+    minimum_effect: float = 0.0,
     random_seed: int = 0,
     utility_metric: str | None = None,
     aggregation: str = "mean_score",
     progress: ProgressCallback | None = None,
 ) -> AdaptiveCardinalityDecision:
-    """Select the smallest cardinality passing sequential functional gates.
+    """Select the best candidate passing all baseline-relative functional gates.
 
-    A transition passes only when its scaffold-bootstrap lower confidence bound
-    and mean active-minus-decoy rescue contrast are both strictly positive.
-    The first failed transition stops the scan, so later evidence cannot rescue
-    an earlier failed addition.
+    A candidate passes only when its scaffold-bootstrap lower confidence bound
+    exceeds ``minimum_effect`` and its mean active-minus-decoy rescue contrast
+    is strictly positive. All transitions are evaluated; only transitions from
+    the starting candidate k=1 can select a final cardinality. Other transitions
+    remain diagnostic evidence.
     """
 
     if isinstance(bootstrap_iterations, bool) or bootstrap_iterations <= 0:
         raise AdaptiveCardinalityError("bootstrap_iterations must be positive")
     if not 0.0 <= lower_quantile <= 1.0:
         raise AdaptiveCardinalityError("lower_quantile must be between 0 and 1")
+    minimum_effect = _finite(minimum_effect, "minimum_effect")
 
     ordered = list(transitions)
     transition_metrics = {
@@ -626,13 +630,18 @@ def select_adaptive_k(
             "all transitions must use the configured utility_metric"
         )
     selected_k = 1
-    expected_from = 1
+    selected_score = -math.inf
+    seen_pairs: set[tuple[int, int]] = set()
     diagnostics: list[dict[str, object]] = []
     for transition in ordered:
-        if transition.from_k != expected_from or transition.to_k <= transition.from_k:
+        pair = (transition.from_k, transition.to_k)
+        if transition.from_k < 1 or transition.to_k <= transition.from_k:
             raise AdaptiveCardinalityError(
-                "transitions must start at 1 and increase sequentially"
+                "transitions must start at k=1 and increase from_k to to_k"
             )
+        if pair in seen_pairs:
+            raise AdaptiveCardinalityError("transitions must be unique")
+        seen_pairs.add(pair)
         stats = _bootstrap_transition(
             transition.observations,
             bootstrap_iterations=bootstrap_iterations,
@@ -643,9 +652,10 @@ def select_adaptive_k(
             utility_metric=utility_metric,
         )
         passed = bool(
-            float(stats["bootstrap_lcb"]) > 0.0
+            float(stats["bootstrap_lcb"]) > minimum_effect
             and float(stats["mean_rescue_contrast"]) > 0.0
         )
+        eligible = transition.from_k == 1
         diagnostics.append(
             {
                 "transition": f"{transition.from_k}->{transition.to_k}",
@@ -655,6 +665,8 @@ def select_adaptive_k(
                 **stats,
                 "bootstrap_iterations": bootstrap_iterations,
                 "lower_quantile": lower_quantile,
+                "minimum_effect": minimum_effect,
+                "eligible_for_selection": eligible,
                 "passed": passed,
             }
         )
@@ -669,10 +681,13 @@ def select_adaptive_k(
                     "passed": passed,
                 },
             )
-        if not passed:
-            break
-        selected_k = transition.to_k
-        expected_from = transition.to_k
+        if eligible and passed:
+            score = float(stats["bootstrap_lcb"])
+            if score > selected_score or (
+                score == selected_score and transition.to_k < selected_k
+            ):
+                selected_k = transition.to_k
+                selected_score = score
 
     return AdaptiveCardinalityDecision(
         policy="mechanistic_bootstrap_lcb",

@@ -47,10 +47,11 @@ def test_positive_transition_enables_two_conformations() -> None:
     assert decision.transitions[0]["passed"] is True
     assert decision.transitions[0]["bootstrap_lcb"] > 0
     assert decision.transitions[0]["mean_rescue_contrast"] > 0
+    assert decision.transitions[0]["lower_quantile"] == 0.05
     assert decision.uses_outer_labels is False
 
 
-def test_failed_transition_stops_before_evaluating_three() -> None:
+def test_failed_one_to_two_does_not_block_three() -> None:
     failed = TransitionEvidence(
         from_k=1,
         to_k=2,
@@ -59,8 +60,8 @@ def test_failed_transition_stops_before_evaluating_three() -> None:
             for index in range(4)
         ),
     )
-    later = TransitionEvidence(
-        from_k=2,
+    direct_to_three = TransitionEvidence(
+        from_k=1,
         to_k=3,
         observations=tuple(
             _observation("T" + str(index), 0.20, 0.05, 0.05)
@@ -69,12 +70,57 @@ def test_failed_transition_stops_before_evaluating_three() -> None:
     )
 
     decision = select_adaptive_k(
-        [failed, later], bootstrap_iterations=200, random_seed=17
+        [failed, direct_to_three], bootstrap_iterations=200, random_seed=17
     )
 
-    assert decision.selected_k == 1
-    assert decision.need_multi_conformation is False
-    assert [item["transition"] for item in decision.transitions] == ["1->2"]
+    assert decision.selected_k == 3
+    assert decision.need_multi_conformation is True
+    assert [item["transition"] for item in decision.transitions] == ["1->2", "1->3"]
+
+
+def test_estimator_retains_all_pairwise_candidate_transitions() -> None:
+    rows = []
+    for number in range(1, 5):
+        rows.extend(
+            (
+                {
+                    "ligand_id": f"A{number}",
+                    "label": "active",
+                    "scaffold_smiles": f"A{number}",
+                    "R1": -float(10 - number),
+                    "R2": -float(11 - number),
+                    "R3": -float(12 - number),
+                },
+                {
+                    "ligand_id": f"D{number}",
+                    "label": "decoy",
+                    "scaffold_smiles": f"D{number}",
+                    "R1": -float(number),
+                    "R2": -float(number + 1),
+                    "R3": -float(number + 2),
+                },
+            )
+        )
+
+    def solve_subset(train_rows: list[dict[str, object]], k: int) -> tuple[str, ...]:
+        del train_rows
+        return tuple(("R1", "R2", "R3")[:k])
+
+    decision = estimate_adaptive_cardinality(
+        rows,
+        ["R1", "R2", "R3"],
+        solve_subset=solve_subset,
+        candidate_ks=(1, 2, 3),
+        inner_fold_count=2,
+        bootstrap_iterations=100,
+        random_seed=17,
+    )
+
+    assert [item["transition"] for item in decision.transitions] == [
+        "1->2",
+        "1->3",
+        "2->3",
+    ]
 
 
 def test_positive_gain_with_negative_rescue_stops() -> None:

@@ -821,7 +821,8 @@ def build_problem_stage(
                 scaffold_field=str(k_policy.get("scaffold_field", "scaffold_smiles")),
                 inner_fold_count=int(k_policy.get("inner_fold_count", 3)),
                 bootstrap_iterations=int(k_policy.get("bootstrap_iterations", 1000)),
-                lower_quantile=float(k_policy.get("lower_quantile", 0.025)),
+                lower_quantile=float(k_policy.get("lower_quantile", 0.05)),
+                minimum_effect=float(k_policy.get("minimum_effect", 0.0)),
                 rescue_fractions=[
                     float(value)
                     for value in k_policy.get("rescue_fractions", [0.01, 0.05])
