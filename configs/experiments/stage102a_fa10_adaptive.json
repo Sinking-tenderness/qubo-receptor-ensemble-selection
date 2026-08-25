@@ -97,7 +97,7 @@
       "bootstrap_iterations": 1000,
       "lower_quantile": 0.05,
       "minimum_effect": 0.0,
-      "required_probability": 0.5,
+      "required_probability": 0.9,
       "cost_per_receptor": 0.0,
       "selection_tie_tolerance": 0.0,
       "require_rescue_contrast": false,

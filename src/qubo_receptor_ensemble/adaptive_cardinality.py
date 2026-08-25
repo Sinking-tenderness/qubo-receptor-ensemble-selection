@@ -12,6 +12,7 @@ from .screening import bedroc, enrichment_factor, roc_auc_pairwise
 
 SUPPORTED_ADAPTIVE_METRICS = {"roc_auc", "bedroc", "ef5"}
 SUPPORTED_ADAPTIVE_AGGREGATIONS = {"min_score", "mean_score"}
+HARMFUL_PROBABILITY = 0.5
 ProgressCallback = Callable[[str, Mapping[str, object]], None]
 
 
@@ -442,7 +443,7 @@ def estimate_adaptive_cardinality(
     bootstrap_iterations: int = 1000,
     lower_quantile: float = 0.05,
     minimum_effect: float = 0.0,
-    required_probability: float = 0.5,
+    required_probability: float = 0.9,
     cost_per_receptor: float = 0.0,
     selection_tie_tolerance: float = 0.0,
     require_rescue_contrast: bool = False,
@@ -700,7 +701,7 @@ def select_adaptive_k(
     bootstrap_iterations: int = 1000,
     lower_quantile: float = 0.05,
     minimum_effect: float = 0.0,
-    required_probability: float = 0.5,
+    required_probability: float = 0.9,
     cost_per_receptor: float = 0.0,
     selection_tie_tolerance: float = 0.0,
     require_rescue_contrast: bool = False,
@@ -712,10 +713,12 @@ def select_adaptive_k(
     """Select cardinality from adjacent gains with a supported-path gate.
 
     Each transition is judged against the immediately preceding cardinality.
-    Candidate utility is accumulated along the transition path, but a
-    non-supported transition permanently blocks larger candidates.
-    The bootstrap lower confidence bound remains an audit statistic; the
-    configured probability and practical-effect rules control support.
+    Candidate utility is accumulated along the transition path. A harmful
+    transition permanently blocks larger candidates. One uncertain
+    transition may be bridged by a later supported transition; the estimator
+    limits that bridge to one lookahead. The bootstrap lower confidence bound
+    remains an audit statistic; the configured probability and
+    practical-effect rules control support.
     """
 
     if isinstance(bootstrap_iterations, bool) or bootstrap_iterations <= 0:
@@ -809,7 +812,7 @@ def select_adaptive_k(
         )
         if marginal_passed:
             marginal_state = "supported"
-        elif risk_negative_probability >= required_probability:
+        elif risk_negative_probability > HARMFUL_PROBABILITY:
             marginal_state = "harmful"
         else:
             marginal_state = "uncertain"
@@ -862,8 +865,12 @@ def select_adaptive_k(
             cumulative_mean_by_k[transition.to_k] = cumulative_mean
 
         candidate_score = cumulative_mean
+        selection_cumulative_passed = bool(
+            cumulative_mean > cumulative_minimum_effect
+            and (not require_rescue_contrast or rescue_supported)
+        )
         candidate_passed = bool(
-            path_available and marginal_passed and cumulative_passed
+            path_available and marginal_passed and selection_cumulative_passed
         )
         diagnostics.append(
             {
@@ -878,6 +885,7 @@ def select_adaptive_k(
                 else risk_adjusted_gain,
                 "risk_positive_probability": risk_positive_probability,
                 "risk_negative_probability": risk_negative_probability,
+                "harmful_probability": HARMFUL_PROBABILITY,
                 "cost_per_receptor": cost_per_receptor,
                 "bootstrap_iterations": bootstrap_iterations,
                 "lower_quantile": lower_quantile,
@@ -889,6 +897,7 @@ def select_adaptive_k(
                 "marginal_state": marginal_state,
                 "passed": marginal_passed,
                 "candidate_passed": candidate_passed,
+                "selection_cumulative_passed": selection_cumulative_passed,
                 "cumulative_risk_adjusted_gain": candidate_score,
                 "cumulative_minimum_effect": cumulative_minimum_effect,
                 "cumulative_bootstrap_lcb": cumulative_lcb,
@@ -916,7 +925,7 @@ def select_adaptive_k(
             ):
                 selected_k = transition.to_k
                 selected_score = score
-        if not marginal_passed:
+        if marginal_state == "harmful":
             path_blocked = True
 
     return AdaptiveCardinalityDecision(

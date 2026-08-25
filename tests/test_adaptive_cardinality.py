@@ -251,7 +251,7 @@ def test_adjacent_gains_accumulate_for_candidate_selection() -> None:
     assert decision.transitions[1]["cumulative_risk_adjusted_gain"] == pytest.approx(0.14)
 
 
-def test_uncertain_marginal_allows_one_lookahead_but_not_selection() -> None:
+def test_supported_lookahead_can_select_after_uncertain_marginal() -> None:
     first = TransitionEvidence(
         from_k=1,
         to_k=2,
@@ -273,11 +273,11 @@ def test_uncertain_marginal_allows_one_lookahead_but_not_selection() -> None:
         [first, second], bootstrap_iterations=10, required_probability=0.8
     )
 
-    assert decision.selected_k == 1
+    assert decision.selected_k == 3
     assert decision.transitions[0]["marginal_state"] == "uncertain"
     assert decision.transitions[0]["passed"] is False
-    assert decision.transitions[1]["candidate_passed"] is False
-    assert decision.transitions[1]["eligible_for_selection"] is False
+    assert decision.transitions[1]["candidate_passed"] is True
+    assert decision.transitions[1]["eligible_for_selection"] is True
 
 
 def test_bootstrap_is_deterministic_and_requires_scaffold_groups() -> None:

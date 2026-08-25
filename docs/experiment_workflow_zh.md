@@ -114,14 +114,15 @@ risk_adjusted_gain(k-1 -> k) = mean_OOF_gain(k, k-1) - cost_per_receptor
 ```
 
 每个转换会记录 `supported`、`uncertain` 或 `harmful` 状态。`supported` 要求边际净收益
-超过 `minimum_effect` 且 bootstrap 正收益概率不低于 `required_probability`；只有当前
-转换为 `supported` 时才继续计算更大的 k。`harmful` 会立即停止，`uncertain` 最多允许
-计算一次后续候选作为 lookahead，随后停止。因而计算会在有证据支持时继续，在风险明确
-或证据不足时控制耗时。
+超过 `minimum_effect` 且 bootstrap 正收益概率不低于 `required_probability`；默认
+`required_probability` 为 `0.9`。`harmful` 表示负增益概率严格大于 0.5，会立即停止。
+`uncertain` 不立即否决后续，但最多允许计算一次后续候选作为 lookahead；如果 lookahead
+本身为 `supported`，该候选仍可入选，随后停止。这样可以识别“第一步信号弱、第二步增益
+明确”的协同情况，同时控制额外计算量。
 
-只有从 `k=1` 到该候选的每一条相邻 transition 都为 `supported`，候选才具备选择资格。
-累计净收益只用于完整可用路径上的候选排序，不能跨过 `uncertain` 或 `harmful` transition
-选择更大的 k。差异在 `selection_tie_tolerance` 内时偏好较小 k。`bootstrap_lcb` 和 rescue
+候选必须位于没有 `harmful` transition 的路径上，且当前 transition 必须为 `supported`；
+累计净收益只用于可用路径上的候选排序，不能跨过 `harmful` transition 选择更大的 k。
+差异在 `selection_tie_tolerance` 内时偏好较小 k。`bootstrap_lcb` 和 rescue
 contrast 作为审计指标保存；只有显式设置 `require_rescue_contrast: true` 时，rescue
 contrast 才会成为选择硬门槛。候选 k 不限制为 1、2、3：可以显式配置为从 1 开始的连续更大
 范围；不填写 `candidates` 时默认检查 `1..selection.receptor_count`，但仍会按上述停止规则
@@ -142,7 +143,7 @@ contrast 才会成为选择硬门槛。候选 k 不限制为 1、2、3：可以�
     "bootstrap_iterations": 1000,
     "lower_quantile": 0.05,
     "minimum_effect": 0.0,
-    "required_probability": 0.5,
+    "required_probability": 0.9,
     "cost_per_receptor": 0.0,
     "selection_tie_tolerance": 0.0,
     "require_rescue_contrast": false,

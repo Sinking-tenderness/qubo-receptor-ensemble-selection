@@ -827,7 +827,7 @@ def build_problem_stage(
                 bootstrap_iterations=int(k_policy.get("bootstrap_iterations", 1000)),
                 lower_quantile=float(k_policy.get("lower_quantile", 0.05)),
                 minimum_effect=float(k_policy.get("minimum_effect", 0.0)),
-                required_probability=float(k_policy.get("required_probability", 0.5)),
+                required_probability=float(k_policy.get("required_probability", 0.9)),
                 cost_per_receptor=float(k_policy.get("cost_per_receptor", 0.0)),
                 selection_tie_tolerance=float(
                     k_policy.get("selection_tie_tolerance", 0.0)
