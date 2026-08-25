@@ -1,0 +1,95 @@
+{
+  "docking": {
+    "box": {
+      "artifact_path": "results/runs/pparg_adaptive_remote/docking_box.json",
+      "center_x": 3.23925,
+      "center_y": 24.24295,
+      "center_z": 16.1076,
+      "method": "ligand_bounds",
+      "minimum_size": [22.0, 22.0, 30.0],
+      "padding": 5.0,
+      "size_x": 22.0,
+      "size_y": 22.0,
+      "size_z": 30.0
+    },
+    "engine": "unidock",
+    "executable": "unidock",
+    "parameters": {
+      "energy_range": 3,
+      "exhaustiveness": 1024,
+      "max_step": 80,
+      "num_modes": 1,
+      "refine_step": 5,
+      "scoring": "vina",
+      "verbosity": 1
+    },
+    "redock": true,
+    "seeds": [20260821, 20260822, 20260823]
+  },
+  "end_stage": "persist",
+  "evaluate": {
+    "aggregation": "mean_score",
+    "metrics": [
+      "bedroc_alpha_20",
+      "roc_auc",
+      "pr_auc_average_precision",
+      "EF1%",
+      "EF5%",
+      "EF10%"
+    ],
+    "primary_metric": "bedroc_alpha_20"
+  },
+  "experiment_id": "pparg_fixed_k4_remote",
+  "paths": {
+    "docking_box": "results/runs/pparg_adaptive_remote/docking_box.json",
+    "evaluation": "results/runs/pparg_fixed_k4_remote/evaluation.json",
+    "matrices": "results/runs/pparg_adaptive_remote/matrices",
+    "prepared_ligand_manifest": "results/runs/pparg_adaptive_remote/prepared_ligands.csv",
+    "primary_matrix": "results/runs/pparg_adaptive_remote/matrices/primary_median_matrix.csv",
+    "problem": "results/runs/pparg_fixed_k4_remote/problem.json",
+    "run_directory": "results/runs/pparg_fixed_k4_remote",
+    "score_tables": "results/runs/pparg_adaptive_remote/score_tables",
+    "selected_receptor_manifest": "results/runs/pparg_adaptive_remote/selected_receptors.csv",
+    "selection": "results/runs/pparg_fixed_k4_remote/selection.json"
+  },
+  "pipeline": ["prepare", "dock", "aggregate", "build_problem", "solve", "evaluate", "persist"],
+  "preparation": {"base_seed": 20260818, "workers": 4},
+  "problem": {
+    "bedroc_alpha": 20.0,
+    "strategy": "qubo",
+    "target_size": 4,
+    "type": "receptor_subset",
+    "utility_metric": "bedroc",
+    "utility_normalization": "none",
+    "weights": {"count": 0.1, "redundancy": 0.25, "size": 10.0}
+  },
+  "receptor_preparation": {
+    "allow_bad_res": true,
+    "minimum_alignment_ca_count": 50,
+    "mobile_chain": "auto",
+    "reference_chain": "auto"
+  },
+  "schema_version": "3.0",
+  "selection": {
+    "allocation": {
+      "hash_namespace": "STAGE102A",
+      "minimum_label_counts_per_outer_fold": {"active": 20, "decoy": 80},
+      "outer_fold_count": 5
+    },
+    "label_counts": {"active": 120, "decoy": 480},
+    "ligand_count": 600,
+    "ordering": "scaffold_hash_allocation",
+    "receptor_count": 15
+  },
+  "solve": {"backend": "exact"},
+  "sources": {
+    "active_ism": "data/raw/external_targets/pparg_dude/pparg/actives_final.ism",
+    "crystal_ligand": "data/raw/external_targets/pparg_dude/pparg/crystal_ligand.mol2",
+    "decoy_ism": "data/raw/external_targets/pparg_dude/pparg/decoys_final.ism",
+    "rcsb_directory": "data/raw/rcsb/pparg",
+    "reference_receptor_pdb": "data/raw/external_targets/pparg_dude/pparg/receptor.pdb"
+  },
+  "start_stage": "build_problem",
+  "target_id": "PPARG",
+  "workflow_mode": "full"
+}
