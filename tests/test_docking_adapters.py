@@ -210,6 +210,71 @@ def test_unidock_retries_with_second_isolated_seed_after_empty_retry(
     assert (tmp_path / "batch" / "retries" / "L1" / "attempt_2" / "unidock.log").is_file()
 
 
+def test_unidock_uses_deep_search_fallback_after_gpu_retries(
+    monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+) -> None:
+    unidock_executable = tmp_path / "unidock"
+    unidock_executable.write_text("", encoding="ascii")
+    receptor = tmp_path / "receptor.pdbqt"
+    receptor.write_text("receptor", encoding="ascii")
+    ligand = tmp_path / "L1.pdbqt"
+    ligand.write_text("ligand", encoding="ascii")
+    unidock_commands: list[list[str]] = []
+
+    def fake_run(
+        command: list[str], **kwargs: object
+    ) -> subprocess.CompletedProcess[str]:
+        del kwargs
+        unidock_commands.append(command)
+        pose_directory = Path(command[command.index("--dir") + 1])
+        pose_directory.mkdir(parents=True, exist_ok=True)
+        content = (
+            "REMARK VINA RESULT:   -7.4  0.0  0.0\n"
+            if command[command.index("--max_step") + 1] == "0"
+            else ""
+        )
+        (pose_directory / "L1_out.pdbqt").write_text(content, encoding="ascii")
+        return subprocess.CompletedProcess(command, 0, "", "")
+
+    monkeypatch.setattr(docking_adapters.subprocess, "run", fake_run)
+
+    rows = UniDockAdapter().run_batch(
+        target_id="TEST",
+        receptor_id="R1",
+        receptor_path=receptor,
+        ligands=[
+            {"ligand_id": "L1", "label": "active", "pdbqt_path": "L1.pdbqt"}
+        ],
+        seed=101,
+        output_dir=tmp_path / "batch",
+        score_table=tmp_path / "scores.csv",
+        config={
+            **_docking_config("unidock"),
+            "docking": {
+                **_docking_config("unidock")["docking"],
+                "executable": str(unidock_executable),
+                "parameters": {
+                    **_docking_config("unidock")["docking"]["parameters"],
+                    "max_step": 80,
+                },
+            },
+        },
+        root=tmp_path,
+    )
+
+    assert rows[0]["docking_score"] == -7.4
+    assert rows[0]["engine"] == "unidock"
+    assert [command[command.index("--seed") + 1] for command in unidock_commands] == [
+        "101",
+        "1000101",
+        "1000102",
+        "1000103",
+    ]
+    deep_command = unidock_commands[-1]
+    assert deep_command[deep_command.index("--max_step") + 1] == "0"
+    assert (tmp_path / "batch" / "retries" / "L1" / "deep_search" / "unidock.log").is_file()
+
+
 def test_unidock_does_not_reuse_stale_pose_after_batch_retry(
     monkeypatch: pytest.MonkeyPatch, tmp_path: Path
 ) -> None:

@@ -479,11 +479,73 @@ def _retry_unidock_ligand(
         return pose_path, score, log_path
 
     last_error = retry_errors[-1] if retry_errors else RuntimeError("no retry attempted")
-    raise RuntimeError(
-        f"Uni-Dock retries produced no valid pose for ligand {ligand['ligand_id']}; "
-        f"retry_attempts={len(retry_errors)}; original_error={original_error}; "
-        f"retry_error={last_error}; see {retry_directory}"
-    ) from last_error
+    deep_seed = _retry_seeds(seed, config, _MAX_UNIDOCK_RETRY_ATTEMPTS + 1)[-1]
+    return _run_unidock_deep_fallback(
+        receptor=receptor,
+        ligand=ligand,
+        executable=executable,
+        seed=deep_seed,
+        output_directory=retry_directory / "deep_search",
+        config=config,
+        root=root,
+        original_error=original_error,
+        retry_error=last_error,
+    )
+
+
+def _run_unidock_deep_fallback(
+    *,
+    receptor: Path,
+    ligand: dict[str, str],
+    executable: str,
+    seed: int,
+    output_directory: Path,
+    config: dict[str, object],
+    root: Path | None,
+    original_error: Exception,
+    retry_error: Exception,
+) -> tuple[Path, float, Path]:
+    output_directory.mkdir(parents=True, exist_ok=True)
+    ligand_path = _relative_or_absolute(ligand["pdbqt_path"], root)
+    ligand_index = output_directory / "ligands.index"
+    ligand_index.write_text(f"{ligand_path}\n", encoding="utf-8")
+    pose_directory = output_directory / "poses"
+    _reset_pose_directory(pose_directory)
+    log_path = output_directory / "unidock.log"
+    docking = config.get("docking", {})
+    docking_config = dict(docking) if isinstance(docking, dict) else {}
+    parameters = docking_config.get("parameters", {})
+    deep_parameters = dict(parameters) if isinstance(parameters, dict) else {}
+    deep_parameters["max_step"] = 0
+    docking_config["parameters"] = deep_parameters
+    deep_config = {**config, "docking": docking_config}
+    command = UniDockAdapter().build_batch_command(
+        executable=executable,
+        receptor=receptor,
+        ligand_index=ligand_index,
+        pose_directory=pose_directory,
+        seed=seed,
+        config=deep_config,
+    )
+    completed = _run_unidock_command(command, log_path=log_path, root=root)
+    if completed.returncode != 0:
+        raise RuntimeError(
+            f"Uni-Dock deep fallback failed for ligand {ligand['ligand_id']}; "
+            f"original_error={original_error}; retry_error={retry_error}; "
+            f"see {log_path}"
+        )
+    try:
+        pose_path = _find_pose(pose_directory, ligand)
+        score = parse_vina_score(
+            pose_path.read_text(encoding="utf-8", errors="replace")
+        )
+    except (FileNotFoundError, ValueError) as exc:
+        raise RuntimeError(
+            f"Uni-Dock deep fallback produced no valid pose for ligand "
+            f"{ligand['ligand_id']}; original_error={original_error}; "
+            f"retry_error={retry_error}; see {log_path}"
+        ) from exc
+    return pose_path, score, log_path
 
 
 def _retry_seed(seed: int, config: dict[str, object]) -> int:
@@ -491,8 +553,14 @@ def _retry_seed(seed: int, config: dict[str, object]) -> int:
     return _retry_seeds(seed, config)[0]
 
 
-def _retry_seeds(seed: int, config: dict[str, object]) -> list[int]:
+def _retry_seeds(
+    seed: int,
+    config: dict[str, object],
+    count: int = _MAX_UNIDOCK_RETRY_ATTEMPTS,
+) -> list[int]:
     """Return bounded retry seeds in a namespace separate from formal seeds."""
+    if count <= 0:
+        return []
     reserved = {seed}
     docking = config.get("docking")
     if isinstance(docking, dict):
@@ -505,7 +573,7 @@ def _retry_seeds(seed: int, config: dict[str, object]) -> list[int]:
             )
     retry_seed = seed + _RETRY_SEED_OFFSET
     retry_seeds: list[int] = []
-    while len(retry_seeds) < _MAX_UNIDOCK_RETRY_ATTEMPTS:
+    while len(retry_seeds) < count:
         while retry_seed in reserved:
             retry_seed += 1
         retry_seeds.append(retry_seed)
