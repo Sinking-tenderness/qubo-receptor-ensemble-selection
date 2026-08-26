@@ -18,6 +18,7 @@ _VINA_RESULT = re.compile(
     re.MULTILINE,
 )
 _RETRY_SEED_OFFSET = 1_000_000
+_MAX_UNIDOCK_RETRY_ATTEMPTS = 2
 
 
 def parse_vina_score(text: str) -> float:
@@ -437,41 +438,61 @@ def _retry_unidock_ligand(
     """Retry one missing/invalid batch pose without dropping the ligand."""
     retry_directory = output_dir / "retries" / safe_filename(ligand["ligand_id"])
     retry_directory.mkdir(parents=True, exist_ok=True)
-    retry_index = retry_directory / "ligands.index"
     ligand_path = _relative_or_absolute(ligand["pdbqt_path"], root)
-    retry_index.write_text(f"{ligand_path}\n", encoding="utf-8")
-    pose_directory = retry_directory / "poses"
-    _reset_pose_directory(pose_directory)
-    log_path = retry_directory / "unidock.log"
-    command = UniDockAdapter().build_batch_command(
-        executable=executable,
-        receptor=receptor,
-        ligand_index=retry_index,
-        pose_directory=pose_directory,
-        seed=_retry_seed(seed, config),
-        config=config,
-    )
-    completed = _run_unidock_command(command, log_path=log_path, root=root)
-    if completed.returncode != 0:
-        raise RuntimeError(
-            f"Uni-Dock retry failed for ligand {ligand['ligand_id']}; "
-            f"original_error={original_error}; see {log_path}"
+    retry_errors: list[Exception] = []
+    for attempt, retry_seed in enumerate(_retry_seeds(seed, config), start=1):
+        attempt_directory = (
+            retry_directory
+            if attempt == 1
+            else retry_directory / f"attempt_{attempt}"
         )
-    try:
-        pose_path = _find_pose(pose_directory, ligand)
-        score = parse_vina_score(
-            pose_path.read_text(encoding="utf-8", errors="replace")
+        attempt_directory.mkdir(parents=True, exist_ok=True)
+        retry_index = attempt_directory / "ligands.index"
+        retry_index.write_text(f"{ligand_path}\n", encoding="utf-8")
+        pose_directory = attempt_directory / "poses"
+        _reset_pose_directory(pose_directory)
+        log_path = attempt_directory / "unidock.log"
+        command = UniDockAdapter().build_batch_command(
+            executable=executable,
+            receptor=receptor,
+            ligand_index=retry_index,
+            pose_directory=pose_directory,
+            seed=retry_seed,
+            config=config,
         )
-    except (FileNotFoundError, ValueError) as exc:
-        raise RuntimeError(
-            f"Uni-Dock retry produced no valid pose for ligand {ligand['ligand_id']}; "
-            f"original_error={original_error}; retry_error={exc}; see {log_path}"
-        ) from exc
-    return pose_path, score, log_path
+        completed = _run_unidock_command(command, log_path=log_path, root=root)
+        if completed.returncode != 0:
+            retry_errors.append(
+                RuntimeError(
+                    f"Uni-Dock retry failed with seed {retry_seed}; see {log_path}"
+                )
+            )
+            continue
+        try:
+            pose_path = _find_pose(pose_directory, ligand)
+            score = parse_vina_score(
+                pose_path.read_text(encoding="utf-8", errors="replace")
+            )
+        except (FileNotFoundError, ValueError) as exc:
+            retry_errors.append(exc)
+            continue
+        return pose_path, score, log_path
+
+    last_error = retry_errors[-1] if retry_errors else RuntimeError("no retry attempted")
+    raise RuntimeError(
+        f"Uni-Dock retries produced no valid pose for ligand {ligand['ligand_id']}; "
+        f"retry_attempts={len(retry_errors)}; original_error={original_error}; "
+        f"retry_error={last_error}; see {retry_directory}"
+    ) from last_error
 
 
 def _retry_seed(seed: int, config: dict[str, object]) -> int:
-    """Choose a deterministic retry seed outside the configured seed series."""
+    """Choose the first deterministic retry seed outside the configured series."""
+    return _retry_seeds(seed, config)[0]
+
+
+def _retry_seeds(seed: int, config: dict[str, object]) -> list[int]:
+    """Return bounded retry seeds in a namespace separate from formal seeds."""
     reserved = {seed}
     docking = config.get("docking")
     if isinstance(docking, dict):
@@ -483,9 +504,14 @@ def _retry_seed(seed: int, config: dict[str, object]) -> int:
                 if isinstance(value, int) and not isinstance(value, bool)
             )
     retry_seed = seed + _RETRY_SEED_OFFSET
-    while retry_seed in reserved:
+    retry_seeds: list[int] = []
+    while len(retry_seeds) < _MAX_UNIDOCK_RETRY_ATTEMPTS:
+        while retry_seed in reserved:
+            retry_seed += 1
+        retry_seeds.append(retry_seed)
+        reserved.add(retry_seed)
         retry_seed += 1
-    return retry_seed
+    return retry_seeds
 
 
 def _reset_pose_directory(directory: Path) -> None:

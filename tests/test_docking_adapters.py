@@ -157,6 +157,59 @@ def test_unidock_retry_seed_skips_configured_seed() -> None:
     ) == 1_000_102
 
 
+def test_unidock_retries_with_second_isolated_seed_after_empty_retry(
+    monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+) -> None:
+    executable = tmp_path / "unidock"
+    executable.write_text("", encoding="ascii")
+    receptor = tmp_path / "receptor.pdbqt"
+    receptor.write_text("receptor", encoding="ascii")
+    ligand = tmp_path / "L1.pdbqt"
+    ligand.write_text("ligand", encoding="ascii")
+    observed_seed_values: list[str] = []
+
+    def fake_run(
+        command: list[str], **kwargs: object
+    ) -> subprocess.CompletedProcess[str]:
+        del kwargs
+        seed = command[command.index("--seed") + 1]
+        observed_seed_values.append(seed)
+        index_path = Path(command[command.index("--ligand_index") + 1])
+        pose_directory = Path(command[command.index("--dir") + 1])
+        pose_directory.mkdir(parents=True, exist_ok=True)
+        pose_path = pose_directory / "L1_out.pdbqt"
+        content = "" if seed in {"101", "1000101"} else "REMARK VINA RESULT:   -7.4  0.0  0.0\n"
+        pose_path.write_text(content, encoding="ascii")
+        assert index_path.read_text(encoding="utf-8").strip().endswith("L1.pdbqt")
+        return subprocess.CompletedProcess(command, 0, "", "")
+
+    monkeypatch.setattr(docking_adapters.subprocess, "run", fake_run)
+
+    rows = UniDockAdapter().run_batch(
+        target_id="TEST",
+        receptor_id="R1",
+        receptor_path=receptor,
+        ligands=[
+            {"ligand_id": "L1", "label": "active", "pdbqt_path": "L1.pdbqt"}
+        ],
+        seed=101,
+        output_dir=tmp_path / "batch",
+        score_table=tmp_path / "scores.csv",
+        config={
+            **_docking_config("unidock"),
+            "docking": {
+                **_docking_config("unidock")["docking"],
+                "executable": str(executable),
+            },
+        },
+        root=tmp_path,
+    )
+
+    assert rows[0]["docking_score"] == -7.4
+    assert observed_seed_values == ["101", "1000101", "1000102"]
+    assert (tmp_path / "batch" / "retries" / "L1" / "attempt_2" / "unidock.log").is_file()
+
+
 def test_unidock_does_not_reuse_stale_pose_after_batch_retry(
     monkeypatch: pytest.MonkeyPatch, tmp_path: Path
 ) -> None:
