@@ -96,6 +96,7 @@ def test_unidock_retries_ligands_with_invalid_batch_poses(
         {"ligand_id": "L2", "label": "decoy", "pdbqt_path": "L2.pdbqt"},
     ]
     calls: list[tuple[Path, list[str]]] = []
+    observed_seed_values: list[str] = []
     observed_omp_values: list[str] = []
 
     def fake_run(
@@ -104,6 +105,7 @@ def test_unidock_retries_ligands_with_invalid_batch_poses(
         environment = kwargs.get("env")
         assert isinstance(environment, dict)
         observed_omp_values.append(str(environment["OMP_NUM_THREADS"]))
+        observed_seed_values.append(command[command.index("--seed") + 1])
         index_path = Path(command[command.index("--ligand_index") + 1])
         pose_directory = Path(command[command.index("--dir") + 1])
         indexed_paths = [Path(line) for line in index_path.read_text().splitlines()]
@@ -145,7 +147,14 @@ def test_unidock_retries_ligands_with_invalid_batch_poses(
     assert [row["ligand_id"] for row in rows] == ["L1", "L2"]
     assert calls[0][1] == ["L1", "L2"]
     assert calls[1][1] == ["L2"]
+    assert observed_seed_values == ["101", "1000101"]
     assert observed_omp_values == ["1", "1"]
+
+
+def test_unidock_retry_seed_skips_configured_seed() -> None:
+    assert docking_adapters._retry_seed(
+        101, {"docking": {"seeds": [101, 1_000_101]}}
+    ) == 1_000_102
 
 
 def test_unidock_does_not_reuse_stale_pose_after_batch_retry(

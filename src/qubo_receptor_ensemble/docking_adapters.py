@@ -17,6 +17,7 @@ _VINA_RESULT = re.compile(
     r"([-+]?(?:\d+(?:\.\d*)?|\.\d+)(?:[Ee][-+]?\d+)?)",
     re.MULTILINE,
 )
+_RETRY_SEED_OFFSET = 1_000_000
 
 
 def parse_vina_score(text: str) -> float:
@@ -447,7 +448,7 @@ def _retry_unidock_ligand(
         receptor=receptor,
         ligand_index=retry_index,
         pose_directory=pose_directory,
-        seed=seed,
+        seed=_retry_seed(seed, config),
         config=config,
     )
     completed = _run_unidock_command(command, log_path=log_path, root=root)
@@ -467,6 +468,24 @@ def _retry_unidock_ligand(
             f"original_error={original_error}; retry_error={exc}; see {log_path}"
         ) from exc
     return pose_path, score, log_path
+
+
+def _retry_seed(seed: int, config: dict[str, object]) -> int:
+    """Choose a deterministic retry seed outside the configured seed series."""
+    reserved = {seed}
+    docking = config.get("docking")
+    if isinstance(docking, dict):
+        configured_seeds = docking.get("seeds", [])
+        if isinstance(configured_seeds, list):
+            reserved.update(
+                value
+                for value in configured_seeds
+                if isinstance(value, int) and not isinstance(value, bool)
+            )
+    retry_seed = seed + _RETRY_SEED_OFFSET
+    while retry_seed in reserved:
+        retry_seed += 1
+    return retry_seed
 
 
 def _reset_pose_directory(directory: Path) -> None:
