@@ -1,0 +1,119 @@
+{
+    "schema_version":  "3.0",
+    "experiment_id":  "esr1_fixed_k5_remote",
+    "target_id":  "ESR1",
+    "workflow_mode":  "full",
+    "pipeline":  [
+                     "prepare",
+                     "dock",
+                     "aggregate",
+                     "build_problem",
+                     "solve",
+                     "evaluate",
+                     "persist"
+                 ],
+    "start_stage":  "build_problem",
+    "end_stage":  "persist",
+    "selection":  {
+                      "receptor_count":  15,
+                      "ligand_count":  600,
+                      "label_counts":  {
+                                           "active":  120,
+                                           "decoy":  480
+                                       },
+                      "ordering":  "scaffold_hash_allocation",
+                      "allocation":  {
+                                         "hash_namespace":  "STAGE102A",
+                                         "outer_fold_count":  5,
+                                         "minimum_label_counts_per_outer_fold":  {
+                                                                                     "active":  20,
+                                                                                     "decoy":  80
+                                                                                 }
+                                     }
+                  },
+    "sources":  {
+                    "active_ism":  "/root/autodl-tmp/qubo_data_root/data/raw/external_targets/esr1_dude/esr1/actives_final.ism",
+                    "decoy_ism":  "/root/autodl-tmp/qubo_data_root/data/raw/external_targets/esr1_dude/esr1/decoys_final.ism",
+                    "reference_receptor_pdb":  "/root/autodl-tmp/qubo_data_root/data/raw/external_targets/esr1_dude/esr1/receptor.pdb",
+                    "crystal_ligand":  "/root/autodl-tmp/qubo_data_root/data/raw/external_targets/esr1_dude/esr1/crystal_ligand.mol2",
+                    "rcsb_directory":  "/root/autodl-tmp/qubo_data_root/data/raw/rcsb/esr1"
+                },
+    "receptor_preparation":  {
+                                 "reference_chain":  "auto",
+                                 "mobile_chain":  "auto",
+                                 "minimum_alignment_ca_count":  50,
+                                 "allow_bad_res":  true
+                             },
+    "preparation":  {
+                        "workers":  4,
+                        "base_seed":  20260818
+                    },
+    "docking":  {
+                    "redock":  true,
+                    "engine":  "unidock",
+                    "executable":  "unidock",
+                    "seeds":  [
+                                  20260821,
+                                  20260822,
+                                  20260823
+                              ],
+                    "box":  {
+                                "method":  "ligand_bounds",
+                                "padding":  5.0,
+                                "minimum_size":  [
+                                                     22.0,
+                                                     22.0,
+                                                     30.0
+                                                 ]
+                            },
+                    "parameters":  {
+                                       "scoring":  "vina",
+                                       "exhaustiveness":  1024,
+                                       "max_step":  80,
+                                       "refine_step":  5,
+                                       "num_modes":  1,
+                                       "energy_range":  3,
+                                       "verbosity":  1
+                                   }
+                },
+    "problem":  {
+                    "type":  "receptor_subset",
+                    "strategy":  "qubo",
+                    "target_size":  5,
+                    "utility_metric":  "bedroc",
+                    "bedroc_alpha":  20.0,
+                    "utility_normalization":  "none",
+                    "weights":  {
+                                    "redundancy":  0.25,
+                                    "count":  0.1,
+                                    "size":  10.0
+                                }
+                },
+    "solve":  {
+                  "backend":  "exact"
+              },
+    "evaluate":  {
+                     "aggregation":  "mean_score",
+                     "primary_metric":  "bedroc_alpha_20",
+                     "metrics":  [
+                                     "bedroc_alpha_20",
+                                     "roc_auc",
+                                     "pr_auc_average_precision",
+                                     "EF1%",
+                                     "EF5%",
+                                     "EF10%"
+                                 ]
+                 },
+    "paths":  {
+                  "run_directory":  "/root/autodl-tmp/qubo_data_root/results/runs/esr1_fixed_k5_remote",
+                  "prepared_ligand_manifest":  "/root/autodl-tmp/qubo_data_root/results/runs/esr1_adaptive_remote/prepared_ligands.csv",
+                  "selected_receptor_manifest":  "/root/autodl-tmp/qubo_data_root/results/runs/esr1_adaptive_remote/selected_receptors.csv",
+                  "docking_box":  "/root/autodl-tmp/qubo_data_root/results/runs/esr1_adaptive_remote/docking_box.json",
+                  "score_tables":  "/root/autodl-tmp/qubo_data_root/results/runs/esr1_adaptive_remote/score_tables",
+                  "matrices":  "/root/autodl-tmp/qubo_data_root/results/runs/esr1_adaptive_remote/matrices",
+                  "primary_matrix":  "/root/autodl-tmp/qubo_data_root/results/runs/esr1_adaptive_remote/matrices/primary_median_matrix.csv",
+                  "problem":  "/root/autodl-tmp/qubo_data_root/results/runs/esr1_fixed_k5_remote/problem.json",
+                  "selection":  "/root/autodl-tmp/qubo_data_root/results/runs/esr1_fixed_k5_remote/selection.json",
+                  "evaluation":  "/root/autodl-tmp/qubo_data_root/results/runs/esr1_fixed_k5_remote/evaluation.json"
+              }
+}
