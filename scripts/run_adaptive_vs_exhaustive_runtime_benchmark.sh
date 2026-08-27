@@ -125,7 +125,7 @@ for spec in specs:
     run_directory = Path(str(paths["run_directory"]))
     if not run_directory.is_absolute():
         run_directory = data_root / run_directory
-    fixed_k = ""
+    fixed_k = "adaptive"
     problem = payload.get("problem")
     if not isinstance(problem, dict):
         raise SystemExit(f"missing problem object: {config_path}")
@@ -365,7 +365,7 @@ for item in manifest_rows:
         {
             "target_id": item["target_id"],
             "mode": item["mode"],
-            "fixed_k": item["fixed_k"],
+            "fixed_k": "" if item["mode"] == "adaptive" else item["fixed_k"],
             "experiment_id": item["experiment_id"],
             "config_rel": item["config_rel"],
             "status": "completed" if completed else ("failed" if exit_status not in {"", "running", "0"} else "incomplete"),

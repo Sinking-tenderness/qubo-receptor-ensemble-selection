@@ -72,6 +72,13 @@ def test_runtime_script_emits_both_runtime_csv_reports() -> None:
     assert "status" in text
 
 
+def test_runtime_script_keeps_adaptive_manifest_columns_aligned() -> None:
+    text = SCRIPT.read_text(encoding="utf-8")
+
+    assert 'fixed_k = "adaptive"' in text
+    assert '    fixed_k = ""' not in text
+
+
 def test_runtime_script_has_valid_bash_syntax_when_bash_is_available() -> None:
     bash = shutil.which("bash")
     if os.name == "nt" or bash is None or not SCRIPT.is_file():
