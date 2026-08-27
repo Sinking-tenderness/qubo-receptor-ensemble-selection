@@ -128,7 +128,7 @@ def subset_metrics(rows: list[dict[str, object]], subset: list[str], alpha: floa
 
 def inner_cv_mean_utility(train_rows: list[dict[str, object]], receptor_ids: list[str],
                           candidate_ks: range, inner_fold_count: int,
-                          redundancy_weight: float) -> dict[int, float]:
+                          redundancy_weight: float) -> tuple[dict[int, float], dict[int, list[list[str]]]]:
     """Mean OOF BEDROC per candidate k over deterministic scaffold folds."""
 
     scaffolds = sorted({str(row["scaffold_smiles"]) for row in train_rows})
@@ -137,6 +137,7 @@ def inner_cv_mean_utility(train_rows: list[dict[str, object]], receptor_ids: lis
         for index, scaffold in enumerate(scaffolds)
     }
     totals: dict[int, list[float]] = {k: [] for k in candidate_ks}
+    fold_subsets: dict[int, list[list[str]]] = {k: [] for k in candidate_ks}
     for fold in range(inner_fold_count):
         held = [row for row in train_rows if assignment[str(row["scaffold_smiles"])] == fold]
         part = [row for row in train_rows if assignment[str(row["scaffold_smiles"])] != fold]
@@ -144,9 +145,20 @@ def inner_cv_mean_utility(train_rows: list[dict[str, object]], receptor_ids: lis
             raise SystemExit("inner fold is empty; reduce --inner-fold-count")
         for k in candidate_ks:
             subset = solve_subset(part, receptor_ids, k, redundancy_weight)
+            fold_subsets[k].append(subset)
             value, _ = subset_metrics(held, subset)
             totals[k].append(value)
-    return {k: sum(values) / len(values) for k, values in totals.items()}
+    means = {k: sum(values) / len(values) for k, values in totals.items()}
+    return means, fold_subsets
+
+
+def jaccard_mean(subsets: list[list[str]]) -> float:
+    sets = [set(s) for s in subsets]
+    pairs = [(a, b) for i, a in enumerate(sets) for b in sets[i + 1:]]
+    if not pairs:
+        return 1.0
+    scores = [len(a & b) / len(a | b) for a, b in pairs]
+    return sum(scores) / len(scores)
 
 
 def main() -> None:
@@ -204,7 +216,7 @@ def main() -> None:
         )
         adaptive_k = estimator.selected_k
 
-        inner_means = inner_cv_mean_utility(
+        inner_means, enum_fold_subsets = inner_cv_mean_utility(
             train, receptors, candidates, args.inner_fold_count, args.redundancy_weight
         )
         best_inner = max(inner_means.values())
@@ -257,6 +269,13 @@ def main() -> None:
                 for k, block in (
                     estimator.candidate_diagnostics.get("candidates") or {}
                 ).items()
+            },
+            "enumerate_stability": {
+                str(k): {
+                    "fold_subsets": subsets_k,
+                    "subset_jaccard_mean": round(jaccard_mean(subsets_k), 6),
+                }
+                for k, subsets_k in sorted(enum_fold_subsets.items())
             },
         })
         print(f"  adaptive->k={adaptive_k} ({estimator.stop_reason}) | "
