@@ -505,16 +505,18 @@ def _absolute_metric_for_records(
     labels = [binary_label for _, _, binary_label in ranked]
     try:
         if utility_metric == "roc_auc":
-            return float(
+            value = float(
                 roc_auc_pairwise(labels, [-score for score, _, _ in ranked])
             )
-        if utility_metric == "bedroc":
-            return float(bedroc([{"binary_label": item} for item in labels], alpha))
-        return float(
-            enrichment_factor([{"binary_label": item} for item in labels], 0.05)["ef"]
-        )
+        elif utility_metric == "bedroc":
+            value = float(bedroc([{"binary_label": item} for item in labels], alpha))
+        else:
+            value = float(
+                enrichment_factor([{"binary_label": item} for item in labels], 0.05)["ef"]
+            )
     except (ValueError, ZeroDivisionError):
         return None
+    return value if math.isfinite(value) else None
 
 
 def estimate_adaptive_cardinality(
@@ -648,7 +650,15 @@ def estimate_adaptive_cardinality(
         )
     for ligands in group_ligand_ids.values():
         ligands.sort()
+    all_ligand_ids: list[str] = sorted(
+        {str(row["ligand_id"]) for row in normalized}
+    )
+    excluded_ids_by_group: dict[str, list[str]] = {
+        scaffold_id: sorted(set(all_ligand_ids) - set(ligands))
+        for scaffold_id, ligands in group_ligand_ids.items()
+    }
     absolute_group_metrics_by_k: dict[int, dict[str, float | None]] = {}
+    full_metric_by_k: dict[int, float | None] = {}
 
     def _register_fold_subsets(k: int, subsets: dict[int, tuple[str, ...]]) -> None:
         fold_subsets_by_k[k] = dict(subsets)
@@ -657,16 +667,31 @@ def estimate_adaptive_cardinality(
         k: int,
         records: Mapping[str, Mapping[str, object]],
     ) -> dict[str, float | None]:
+        """Leave-one-scaffold-out OOF metrics for candidate k.
+
+        Each entry removes that scaffold's rows from the full OOF ranking and
+        re-scores the global utility metric. Scaffold groups are nearly always
+        single-label in this pipeline (decoys sharing active scaffolds are
+        dropped at selection time), so a within-group metric would be
+        degenerate; the leave-one-out delta is the usable attribution signal.
+        """
+
         cached = absolute_group_metrics_by_k.get(k)
         if cached is None:
+            full_metric_by_k[k] = _absolute_metric_for_records(
+                records,
+                all_ligand_ids,
+                utility_metric=utility_metric,
+                alpha=bedroc_alpha,
+            )
             cached = {
                 scaffold_id: _absolute_metric_for_records(
                     records,
-                    ligand_ids,
+                    excluded_ids_by_group[scaffold_id],
                     utility_metric=utility_metric,
                     alpha=bedroc_alpha,
                 )
-                for scaffold_id, ligand_ids in sorted(group_ligand_ids.items())
+                for scaffold_id in sorted(group_ligand_ids)
             }
             absolute_group_metrics_by_k[k] = cached
         return cached
@@ -736,13 +761,28 @@ def estimate_adaptive_cardinality(
         )
         previous_group_metrics = _group_metrics_for_k(previous_k, previous_records)
         current_group_metrics = _group_metrics_for_k(current_k, current_records)
+        previous_full = full_metric_by_k.get(previous_k)
+        current_full = full_metric_by_k.get(current_k)
         group_gains: dict[str, float] = {}
-        for scaffold_id in sorted(group_ligand_ids):
-            previous_value = previous_group_metrics.get(scaffold_id)
-            current_value = current_group_metrics.get(scaffold_id)
-            if previous_value is None or current_value is None:
-                continue
-            group_gains[scaffold_id] = current_value - previous_value
+        if (
+            previous_full is not None
+            and current_full is not None
+            and math.isfinite(previous_full)
+            and math.isfinite(current_full)
+        ):
+            for scaffold_id in sorted(group_ligand_ids):
+                previous_excluded = previous_group_metrics.get(scaffold_id)
+                current_excluded = current_group_metrics.get(scaffold_id)
+                if previous_excluded is None or current_excluded is None:
+                    continue
+                if not (
+                    math.isfinite(previous_excluded) and math.isfinite(current_excluded)
+                ):
+                    continue
+                contribution = (current_full - current_excluded) - (
+                    previous_full - previous_excluded
+                )
+                group_gains[scaffold_id] = contribution
         transition_group_gains[f"{previous_k}->{current_k}"] = dict(
             sorted(group_gains.items(), key=lambda item: item[1])
         )
@@ -850,6 +890,11 @@ def estimate_adaptive_cardinality(
             "aggregation": aggregation,
             "inner_folds": fold_profiles,
             "candidates": candidate_blocks,
+            "oof_absolute_metrics": {
+                str(candidate_k): full_metric_by_k.get(int(candidate_k))
+                for candidate_k in sorted(fold_subsets_by_k)
+                if int(candidate_k) in full_metric_by_k
+            },
             "uses_outer_labels": False,
         },
     )
