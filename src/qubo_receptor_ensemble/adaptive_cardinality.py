@@ -502,6 +502,9 @@ def _absolute_metric_for_records(
         )
     if not ranked:
         return None
+    # Ranking conventions match _sampled_metric: lower docking score is better
+    # and list position encodes rank, so sort ascending before scoring.
+    ranked.sort(key=lambda value: (value[0], value[1]))
     labels = [binary_label for _, _, binary_label in ranked]
     try:
         if utility_metric == "roc_auc":
