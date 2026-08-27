@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import math
 import random
-from dataclasses import dataclass, replace
+from dataclasses import dataclass, field, replace
 from typing import Callable, Iterable, Mapping, Sequence
 
 from .screening import bedroc, enrichment_factor, roc_auc_pairwise
@@ -58,6 +58,7 @@ class AdaptiveCardinalityDecision:
     aggregation: str = "mean_score"
     evaluated_candidates: tuple[int, ...] = ()
     stop_reason: str = "candidate_limit"
+    candidate_diagnostics: dict[str, object] = field(default_factory=dict)
 
     def as_dict(self) -> dict[str, object]:
         return {
@@ -70,6 +71,7 @@ class AdaptiveCardinalityDecision:
             "uses_outer_labels": self.uses_outer_labels,
             "evaluated_candidates": list(self.evaluated_candidates),
             "stop_reason": self.stop_reason,
+            "candidate_diagnostics": dict(self.candidate_diagnostics),
         }
 
 
@@ -430,6 +432,91 @@ def _rank_rescue_contrast(
     return sum(contrasts) / len(contrasts)
 
 
+def _sample_summary(samples: Sequence[float]) -> dict[str, float]:
+    """Audit quantiles for one bootstrap sample vector."""
+
+    if not samples:
+        return {}
+    values = [float(value) for value in samples]
+    mean = sum(values) / len(values)
+    variance = (
+        sum((value - mean) ** 2 for value in values) / (len(values) - 1)
+        if len(values) > 1
+        else 0.0
+    )
+    summary: dict[str, float] = {
+        "mean": mean,
+        "std": math.sqrt(max(variance, 0.0)),
+    }
+    quantile_keys = (
+        (0.01, "p01"),
+        (0.025, "p025"),
+        (0.05, "p05"),
+        (0.25, "p25"),
+        (0.5, "p50"),
+        (0.75, "p75"),
+        (0.95, "p95"),
+        (0.975, "p975"),
+        (0.99, "p99"),
+    )
+    for probability, key in quantile_keys:
+        summary[key] = _quantile(values, probability)
+    return summary
+
+
+def _jaccard_mean(subsets: Sequence[Sequence[str]]) -> float:
+    normalized = [set(str(value) for value in subset) for subset in subsets]
+    pairs = [
+        (first, second)
+        for index, first in enumerate(normalized)
+        for second in normalized[index + 1 :]
+    ]
+    if not pairs:
+        return 1.0
+    scores = [
+        len(first & second) / len(first | second)
+        for first, second in pairs
+        if first or second
+    ]
+    return sum(scores) / len(scores) if scores else 1.0
+
+
+def _absolute_metric_for_records(
+    records: Mapping[str, Mapping[str, object]],
+    ligand_ids: Iterable[str],
+    *,
+    utility_metric: str,
+    alpha: float,
+) -> float | None:
+    """Utility metric restricted to an explicit ligand set."""
+
+    ranked: list[tuple[float, str, int]] = []
+    for ligand_id in sorted(ligand_ids):
+        record = records[ligand_id]
+        ranked.append(
+            (
+                float(record["score"]),
+                ligand_id,
+                int(str(record["label"]) == "active"),
+            )
+        )
+    if not ranked:
+        return None
+    labels = [binary_label for _, _, binary_label in ranked]
+    try:
+        if utility_metric == "roc_auc":
+            return float(
+                roc_auc_pairwise(labels, [-score for score, _, _ in ranked])
+            )
+        if utility_metric == "bedroc":
+            return float(bedroc([{"binary_label": item} for item in labels], alpha))
+        return float(
+            enrichment_factor([{"binary_label": item} for item in labels], 0.05)["ef"]
+        )
+    except (ValueError, ZeroDivisionError):
+        return None
+
+
 def estimate_adaptive_cardinality(
     rows: Sequence[Mapping[str, object]],
     receptor_ids: Sequence[str],
@@ -535,14 +622,65 @@ def estimate_adaptive_cardinality(
             raise AdaptiveCardinalityError("inner fold is empty")
         folds.append((train_rows, validation_rows))
 
+    fold_profiles: list[dict[str, object]] = []
+    for inner_fold, (train_rows, validation_rows) in enumerate(folds):
+        fold_profiles.append(
+            {
+                "fold": inner_fold + 1,
+                "train_rows": len(train_rows),
+                "validation_rows": len(validation_rows),
+                "validation_active": sum(
+                    str(row["label"]) == "active" for row in validation_rows
+                ),
+                "validation_decoy": sum(
+                    str(row["label"]) == "decoy" for row in validation_rows
+                ),
+                "validation_scaffolds": len(
+                    {str(row[scaffold_field]) for row in validation_rows}
+                ),
+            }
+        )
+    fold_subsets_by_k: dict[int, dict[int, tuple[str, ...]]] = {}
+    group_ligand_ids: dict[str, list[str]] = {}
+    for row in normalized:
+        group_ligand_ids.setdefault(str(row[scaffold_field]), []).append(
+            str(row["ligand_id"])
+        )
+    for ligands in group_ligand_ids.values():
+        ligands.sort()
+    absolute_group_metrics_by_k: dict[int, dict[str, float | None]] = {}
+
+    def _register_fold_subsets(k: int, subsets: dict[int, tuple[str, ...]]) -> None:
+        fold_subsets_by_k[k] = dict(subsets)
+
+    def _group_metrics_for_k(
+        k: int,
+        records: Mapping[str, Mapping[str, object]],
+    ) -> dict[str, float | None]:
+        cached = absolute_group_metrics_by_k.get(k)
+        if cached is None:
+            cached = {
+                scaffold_id: _absolute_metric_for_records(
+                    records,
+                    ligand_ids,
+                    utility_metric=utility_metric,
+                    alpha=bedroc_alpha,
+                )
+                for scaffold_id, ligand_ids in sorted(group_ligand_ids.items())
+            }
+            absolute_group_metrics_by_k[k] = cached
+        return cached
+
     group_by_ligand = {
         str(row["ligand_id"]): str(row[scaffold_field]) for row in normalized
     }
     previous_k = candidates[0]
     previous_records: dict[str, dict[str, object]] = {}
+    previous_fold_subsets: dict[int, tuple[str, ...]] = {}
     for fold_index, (train_rows, validation_rows) in enumerate(folds):
         subset = tuple(str(value) for value in solve_subset(train_rows, previous_k))
         previous_records.update(_score_records(validation_rows, subset, aggregation))
+        previous_fold_subsets[fold_index] = subset
         if progress is not None:
             progress(
                 "candidate_completed",
@@ -552,18 +690,22 @@ def estimate_adaptive_cardinality(
                     "candidate_k": previous_k,
                 },
             )
+    _register_fold_subsets(previous_k, previous_fold_subsets)
 
     transitions: list[TransitionEvidence] = []
+    transition_group_gains: dict[str, dict[str, float]] = {}
     evaluated_candidates = [previous_k]
     uncertain_confirmation_used = False
     stop_reason = "candidate_limit"
     for current_k in candidates[1:]:
         current_records: dict[str, dict[str, object]] = {}
+        current_fold_subsets: dict[int, tuple[str, ...]] = {}
         for fold_index, (train_rows, validation_rows) in enumerate(folds):
             subset = tuple(str(value) for value in solve_subset(train_rows, current_k))
             current_records.update(
                 _score_records(validation_rows, subset, aggregation)
             )
+            current_fold_subsets[fold_index] = subset
             if progress is not None:
                 progress(
                     "candidate_completed",
@@ -573,6 +715,7 @@ def estimate_adaptive_cardinality(
                         "candidate_k": current_k,
                     },
                 )
+        _register_fold_subsets(current_k, current_fold_subsets)
 
         candidate_samples, candidate_mean_metrics = _shared_candidate_bootstrap(
             {previous_k: previous_records, current_k: current_records},
@@ -590,6 +733,18 @@ def estimate_adaptive_cardinality(
         )
         rescue = _rank_rescue_contrast(
             previous_records, current_records, rescue_fractions
+        )
+        previous_group_metrics = _group_metrics_for_k(previous_k, previous_records)
+        current_group_metrics = _group_metrics_for_k(current_k, current_records)
+        group_gains: dict[str, float] = {}
+        for scaffold_id in sorted(group_ligand_ids):
+            previous_value = previous_group_metrics.get(scaffold_id)
+            current_value = current_group_metrics.get(scaffold_id)
+            if previous_value is None or current_value is None:
+                continue
+            group_gains[scaffold_id] = current_value - previous_value
+        transition_group_gains[f"{previous_k}->{current_k}"] = dict(
+            sorted(group_gains.items(), key=lambda item: item[1])
         )
         observations = tuple(
             _observation_from_group(
@@ -661,6 +816,42 @@ def estimate_adaptive_cardinality(
         decision,
         evaluated_candidates=tuple(evaluated_candidates),
         stop_reason=stop_reason,
+    )
+    final_transitions: list[dict[str, object]] = []
+    for entry in decision.transitions:
+        enriched = dict(entry)
+        gains = transition_group_gains.get(str(enriched.get("transition", "")))
+        if gains is not None:
+            enriched["scaffold_group_oof_gains"] = dict(gains)
+        final_transitions.append(enriched)
+    candidate_blocks: dict[str, object] = {}
+    for candidate_k, fold_subsets in sorted(fold_subsets_by_k.items()):
+        subsets = [list(fold_subsets[index]) for index in range(inner_fold_count)]
+        frequency: dict[str, float] = {}
+        for subset in subsets:
+            for receptor_id in subset:
+                frequency[receptor_id] = frequency.get(receptor_id, 0) + 1
+        fold_total = float(max(inner_fold_count, 1))
+        candidate_blocks[str(candidate_k)] = {
+            "fold_subsets": subsets,
+            "inclusion_frequency": {
+                receptor_id: count / fold_total
+                for receptor_id, count in sorted(frequency.items())
+            },
+            "subset_jaccard_mean": round(
+                _jaccard_mean([tuple(subset) for subset in subsets]), 6
+            ),
+        }
+    decision = replace(
+        decision,
+        transitions=tuple(final_transitions),
+        candidate_diagnostics={
+            "utility_metric": utility_metric,
+            "aggregation": aggregation,
+            "inner_folds": fold_profiles,
+            "candidates": candidate_blocks,
+            "uses_outer_labels": False,
+        },
     )
     if progress is not None:
         progress(
@@ -884,6 +1075,8 @@ def select_adaptive_k(
                 else risk_adjusted_gain,
                 "risk_positive_probability": risk_positive_probability,
                 "risk_negative_probability": risk_negative_probability,
+                "bootstrap_samples": [float(value) for value in net_samples],
+                "bootstrap_summary": _sample_summary(net_samples),
                 "harmful_probability": HARMFUL_PROBABILITY,
                 "cost_per_receptor": cost_per_receptor,
                 "bootstrap_iterations": bootstrap_iterations,
@@ -901,6 +1094,10 @@ def select_adaptive_k(
                 "cumulative_minimum_effect": cumulative_minimum_effect,
                 "cumulative_bootstrap_lcb": cumulative_lcb,
                 "cumulative_positive_probability": cumulative_positive_probability,
+                "cumulative_bootstrap_samples": [
+                    float(value) for value in cumulative_samples
+                ],
+                "cumulative_bootstrap_summary": _sample_summary(cumulative_samples),
             }
         )
         if progress is not None:

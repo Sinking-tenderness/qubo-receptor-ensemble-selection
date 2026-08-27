@@ -530,3 +530,110 @@ def test_estimator_uses_configured_utility_metric_and_reports_progress(
     assert any(event == "inner_fold_started" for event, _ in events)
     assert any(event == "candidate_completed" for event, _ in events)
     assert events[-1][0] == "adaptive_completed"
+
+
+def _diagnostic_rows() -> list[dict[str, object]]:
+    receptor_ids = [f"R{number}" for number in range(1, 6)]
+    rows: list[dict[str, object]] = []
+    for number in range(1, 5):
+        rows.extend(
+            (
+                {
+                    "ligand_id": f"A{number}",
+                    "label": "active",
+                    "scaffold_smiles": f"A{number}",
+                    **{
+                        receptor_id: -float(10 - number + index)
+                        for index, receptor_id in enumerate(receptor_ids)
+                    },
+                },
+                {
+                    "ligand_id": f"D{number}",
+                    "label": "decoy",
+                    "scaffold_smiles": f"D{number}",
+                    **{
+                        receptor_id: -float(number + index)
+                        for index, receptor_id in enumerate(receptor_ids)
+                    },
+                },
+            )
+        )
+    return rows
+
+
+def test_candidate_diagnostics_persist_fold_subsets_and_inclusion() -> None:
+    rows = _diagnostic_rows()
+    receptor_ids = [f"R{number}" for number in range(1, 6)]
+
+    def solve_subset(train_rows: list[dict[str, object]], k: int) -> tuple[str, ...]:
+        del train_rows
+        return tuple(receptor_ids[:k])
+
+    decision = estimate_adaptive_cardinality(
+        rows,
+        receptor_ids,
+        solve_subset=solve_subset,
+        candidate_ks=(1, 2),
+        inner_fold_count=2,
+        bootstrap_iterations=50,
+        random_seed=17,
+    )
+
+    diagnostics = decision.as_dict()["candidate_diagnostics"]
+    assert diagnostics["uses_outer_labels"] is False
+    assert diagnostics["utility_metric"] == "bedroc"
+    assert [fold["fold"] for fold in diagnostics["inner_folds"]] == [1, 2]
+    assert all(
+        {"train_rows", "validation_rows", "validation_active", "validation_decoy"}
+        <= set(fold)
+        for fold in diagnostics["inner_folds"]
+    )
+    block = diagnostics["candidates"]["2"]
+    assert len(block["fold_subsets"]) == 2
+    assert block["fold_subsets"][0] == receptor_ids[:2]
+    assert set(block["inclusion_frequency"].values()) == {1.0}
+    assert 0.0 <= block["subset_jaccard_mean"] <= 1.0
+
+
+def test_transition_diagnostics_carry_bootstrap_samples_and_quantiles() -> None:
+    samples = (-0.02, -0.01, 0.01, 0.02)
+    transition = TransitionEvidence(
+        from_k=1,
+        to_k=2,
+        observations=tuple(_observation("S" + str(index), 0.0, 0.01, 0.01) for index in range(3)),
+        bootstrap_samples=samples,
+    )
+
+    decision = select_adaptive_k([transition], bootstrap_iterations=10, random_seed=17)
+
+    entry = decision.transitions[0]
+    assert entry["bootstrap_samples"] == [-0.02, -0.01, 0.01, 0.02]
+    summary = entry["bootstrap_summary"]
+    for key in ("mean", "std", "p01", "p05", "p25", "p50", "p75", "p95", "p975", "p99"):
+        assert key in summary
+    assert summary["p25"] < summary["p50"] < summary["p75"]
+    assert summary["p50"] == pytest.approx(0.0)
+
+
+def test_estimator_attaches_scaffold_group_oof_gains() -> None:
+    rows = _diagnostic_rows()
+    receptor_ids = [f"R{number}" for number in range(1, 6)]
+
+    def solve_subset(train_rows: list[dict[str, object]], k: int) -> tuple[str, ...]:
+        del train_rows
+        return tuple(receptor_ids[:k])
+
+    decision = estimate_adaptive_cardinality(
+        rows,
+        receptor_ids,
+        solve_subset=solve_subset,
+        candidate_ks=(1, 2),
+        inner_fold_count=2,
+        bootstrap_iterations=50,
+        random_seed=17,
+    )
+
+    entry = dict(decision.transitions[-1])
+    gains = entry.get("scaffold_group_oof_gains")
+    assert isinstance(gains, dict) and gains
+    assert all(isinstance(value, float) for value in gains.values())
