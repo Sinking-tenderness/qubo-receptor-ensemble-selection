@@ -235,6 +235,29 @@ def main() -> None:
             "enumerate_selected_k": enumerate_k,
             "inner_mean_utilities": {str(k): round(v, 6) for k, v in inner_means.items()},
             "fold_subsets": {str(k): subsets[k] for k in candidates},
+            "adaptive_transition_briefs": [
+                {
+                    "transition": entry.get("transition"),
+                    "marginal_state": entry.get("marginal_state"),
+                    "passed": entry.get("passed"),
+                    "candidate_passed": entry.get("candidate_passed"),
+                    "mean_paired_bedroc_gain": entry.get("mean_paired_bedroc_gain"),
+                    "risk_positive_probability": entry.get("risk_positive_probability"),
+                    "bootstrap_lcb": entry.get("bootstrap_lcb"),
+                    "bootstrap_summary_p50": (entry.get("bootstrap_summary") or {}).get("p50"),
+                }
+                for entry in estimator.transitions
+            ],
+            "candidate_stability": {
+                str(k): {
+                    "fold_subsets": block.get("fold_subsets"),
+                    "subset_jaccard_mean": block.get("subset_jaccard_mean"),
+                    "inclusion_frequency": block.get("inclusion_frequency"),
+                }
+                for k, block in (
+                    estimator.candidate_diagnostics.get("candidates") or {}
+                ).items()
+            },
         })
         print(f"  adaptive->k={adaptive_k} ({estimator.stop_reason}) | "
               f"enum_select->k={enumerate_k}", flush=True)
