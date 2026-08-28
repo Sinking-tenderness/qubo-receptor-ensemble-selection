@@ -89,7 +89,18 @@ def _make_matching_runs(tmp_path: Path) -> tuple[Path, Path]:
             encoding="utf-8",
         )
         (run / "config.snapshot.json").write_text(
-            json.dumps({"target_id": "PPARA", "docking": {"seeds": list(SEEDS)}}),
+            json.dumps(
+                {
+                    "target_id": "PPARA",
+                    "docking": {
+                        "seeds": list(SEEDS),
+                        "box": {
+                            "method": "ligand_bounds",
+                            "artifact_path": str(run / "docking_box.json"),
+                        },
+                    },
+                }
+            ),
             encoding="utf-8",
         )
     _write_receptor_audit(source, ("R01", "R02"))

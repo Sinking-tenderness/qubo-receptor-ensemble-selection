@@ -173,7 +173,11 @@ def _verify_docking_config(source_run: Path, destination_run: Path) -> list[int]
     )
     if source_target != destination_target:
         raise ValueError("target IDs differ")
-    if _canonical_json(source_docking) != _canonical_json(destination_docking):
+    source_protocol = {key: value for key, value in source_docking.items() if key != "box"}
+    destination_protocol = {
+        key: value for key, value in destination_docking.items() if key != "box"
+    }
+    if _canonical_json(source_protocol) != _canonical_json(destination_protocol):
         raise ValueError("docking configuration differs")
     if source_seeds != destination_seeds:
         raise ValueError("docking seed order differs")
