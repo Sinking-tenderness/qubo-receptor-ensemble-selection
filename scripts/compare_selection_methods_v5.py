@@ -55,7 +55,10 @@ def load_problem(path: Path) -> tuple[str, list[dict[str, object]], list[str]]:
         normalized_row = dict(row)
         normalized_row["ligand_id"] = str(row["ligand_id"])
         normalized_row["label"] = str(row["label"])
-        normalized_row["outer_fold"] = int(float(row["outer_fold"]))
+        if "outer_fold" in row:
+            normalized_row["outer_fold"] = int(float(row["outer_fold"]))
+        else:
+            normalized_row["outer_fold"] = 0
         for receptor_id in receptor_ids:
             normalized_row[receptor_id] = float(row[receptor_id])
         normalized.append(normalized_row)
@@ -64,6 +67,9 @@ def load_problem(path: Path) -> tuple[str, list[dict[str, object]], list[str]]:
         raise ValueError(f"problem rows have inconsistent target IDs: {path}")
     if {str(row["label"]) for row in normalized} != {"active", "decoy"}:
         raise ValueError(f"problem rows must contain active and decoy labels: {path}")
+    has_outer_fold = ["outer_fold" in row for row in rows]
+    if any(has_outer_fold) and not all(has_outer_fold):
+        raise ValueError(f"problem rows inconsistently include outer_fold: {path}")
     return target_ids.pop(), normalized, receptor_ids
 
 
@@ -221,6 +227,9 @@ def evaluate_target(
 ) -> tuple[list[dict[str, object]], dict[str, object]]:
     target_id, rows, receptor_ids = load_problem(problem_path)
     folds = sorted({int(row["outer_fold"]) for row in rows})
+    full_data = folds == [0]
+    if full_data and fixed_k is None:
+        raise ValueError("fixed_k is required for a problem without outer folds")
     if fixed_k is None:
         if decision_log_path is None:
             raise ValueError("decision_log_path is required unless fixed_k is set")
@@ -232,8 +241,12 @@ def evaluate_target(
     records: list[dict[str, object]] = []
     selected_by_method: dict[str, list[tuple[str, ...]]] = {method: [] for method in METHODS}
     for fold in folds:
-        train_rows = [row for row in rows if int(row["outer_fold"]) != fold]
-        test_rows = [row for row in rows if int(row["outer_fold"]) == fold]
+        if full_data:
+            train_rows = rows
+            test_rows = rows
+        else:
+            train_rows = [row for row in rows if int(row["outer_fold"]) != fold]
+            test_rows = [row for row in rows if int(row["outer_fold"]) == fold]
         k = adaptive_ks[fold]
         selected = select_methods(train_rows, receptor_ids, k, redundancy_weight)
         for method in METHODS:
@@ -262,6 +275,7 @@ def evaluate_target(
         "receptor_count": len(receptor_ids),
         "adaptive_ks": {str(fold): adaptive_ks[fold] for fold in folds},
         "fixed_k": fixed_k,
+        "comparison_scope": "full_data" if full_data else "outer_fold",
         "selection_jaccard_mean": {
             method: _mean_pairwise_jaccard(selected_by_method[method])
             for method in METHODS
@@ -409,10 +423,11 @@ def main() -> int:
         json.dumps(
             {
                 "protocol": {
-                    "primary_comparison": "QUBO, linear, and direct BEDROC greedy use the same outer-fold adaptive k",
+                    "primary_comparison": "QUBO, linear, and direct BEDROC greedy use the same fixed k or outer-fold adaptive k",
                     "single_baseline": "best singleton receptor selected on outer-training rows",
-                    "selection_data": "outer-training rows only",
-                    "evaluation_data": "the same held-out outer fold for every method",
+                    "selection_data": "outer-training rows; full-data fixed-k replay uses the complete matrix",
+                    "evaluation_data": "held-out outer fold, or the complete matrix for full-data fixed-k replay",
+                    "full_data_replay_boundary": "development-only; selection and evaluation reuse the same matrix",
                     "aggregation": "mean_score",
                     "primary_metric": "BEDROC20",
                     "redundancy_weight": args.redundancy_weight,
