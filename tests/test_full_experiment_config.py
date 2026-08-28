@@ -13,6 +13,12 @@ from qubo_receptor_ensemble.full_workflow import (
 )
 
 
+REPO_ROOT = Path(__file__).resolve().parents[1]
+PPARA_POOL30_REMOTE_CONFIG = (
+    REPO_ROOT / "configs" / "experiments" / "ppara_pool30_adaptive_remote.json"
+)
+
+
 def _write_config(tmp_path: Path, **overrides: object) -> Path:
     payload: dict[str, object] = {
         "schema_version": "3.0",
@@ -175,6 +181,29 @@ def test_full_config_resolves_external_data_root_without_sha_requirements(
     assert config.paths["active_ism"] == (
         tmp_path / "external" / "raw" / "active.ism"
     ).resolve()
+
+
+def test_ppara_pool30_remote_config_uses_isolated_remote_paths() -> None:
+    payload = json.loads(PPARA_POOL30_REMOTE_CONFIG.read_text(encoding="utf-8"))
+
+    config = load_full_experiment_config(
+        PPARA_POOL30_REMOTE_CONFIG,
+        data_root=Path("/root/autodl-tmp/qubo_data_root"),
+    )
+
+    assert payload["experiment_id"] == "ppara-pool30-adaptive-remote"
+    assert payload["selection"]["receptor_count"] == 30
+    assert payload["sources"]["rcsb_directory"] == (
+        "/root/autodl-tmp/qubo_data_root/data/raw/rcsb/ppara"
+    )
+    assert payload["paths"]["run_directory"] == (
+        "/root/autodl-tmp/qubo_data_root/results/runs/ppara_pool30_adaptive_remote"
+    )
+    assert all(
+        str(value).startswith("/root/autodl-tmp/qubo_data_root/")
+        for value in payload["paths"].values()
+    )
+    assert config.data["selection"]["receptor_count"] == 30
 
 
 def test_partial_config_requires_front_input_paths(tmp_path: Path) -> None:
