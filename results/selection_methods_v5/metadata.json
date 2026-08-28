@@ -1,0 +1,128 @@
+{
+  "protocol": {
+    "primary_comparison": "QUBO, linear, and direct BEDROC greedy use the same outer-fold adaptive k",
+    "single_baseline": "best singleton receptor selected on outer-training rows",
+    "selection_data": "outer-training rows only",
+    "evaluation_data": "the same held-out outer fold for every method",
+    "aggregation": "mean_score",
+    "primary_metric": "BEDROC20",
+    "redundancy_weight": 0.25
+  },
+  "targets": [
+    {
+      "target_id": "MK14",
+      "problem_path": "E:\\Quant\\remote_runs\\mk14_adaptive_remote\\problem.json",
+      "problem_sha256": "7f9550065852a611932b631196819096345049bcdabf3cdffa02a50f9a2bd30c",
+      "decision_log_path": "E:\\Quant\\nested_v5\\mk14\\decision_log.json",
+      "outer_fold_count": 5,
+      "ligand_count": 600,
+      "active_count": 120,
+      "receptor_count": 15,
+      "adaptive_ks": {
+        "1": 2,
+        "2": 1,
+        "3": 2,
+        "4": 2,
+        "5": 1
+      },
+      "selection_jaccard_mean": {
+        "qubo": 0.7,
+        "linear": 0.5666666666666667,
+        "greedy": 0.7,
+        "single": 1.0
+      }
+    },
+    {
+      "target_id": "BACE1",
+      "problem_path": "E:\\Quant\\remote_runs\\bace1_adaptive_remote\\problem.json",
+      "problem_sha256": "b587a7c595b72a14705fce25fd87c6e085737e447b4497bf1c1b516afb4df9aa",
+      "decision_log_path": "E:\\Quant\\remote_runs\\nested_v5\\bace1\\decision_log.json",
+      "outer_fold_count": 5,
+      "ligand_count": 600,
+      "active_count": 120,
+      "receptor_count": 15,
+      "adaptive_ks": {
+        "1": 1,
+        "2": 1,
+        "3": 2,
+        "4": 1,
+        "5": 1
+      },
+      "selection_jaccard_mean": {
+        "qubo": 0.8,
+        "linear": 0.8,
+        "greedy": 0.8,
+        "single": 1.0
+      }
+    },
+    {
+      "target_id": "ESR1",
+      "problem_path": "E:\\Quant\\remote_runs\\esr1_adaptive_remote\\problem.json",
+      "problem_sha256": "7c57b83b752042f9d9476d614882e0b4b14515f7488bc6e70502e18bb07138f9",
+      "decision_log_path": "E:\\Quant\\remote_runs\\nested_v5\\esr1\\decision_log.json",
+      "outer_fold_count": 5,
+      "ligand_count": 600,
+      "active_count": 120,
+      "receptor_count": 15,
+      "adaptive_ks": {
+        "1": 1,
+        "2": 1,
+        "3": 1,
+        "4": 2,
+        "5": 2
+      },
+      "selection_jaccard_mean": {
+        "qubo": 0.7,
+        "linear": 0.7,
+        "greedy": 0.7,
+        "single": 0.4
+      }
+    },
+    {
+      "target_id": "PPARA",
+      "problem_path": "E:\\Quant\\remote_runs\\ppara_adaptive_remote\\problem.json",
+      "problem_sha256": "3ea19face92472aea1266e21ffe83837c7b20046ea119195abd5060b2ba097f1",
+      "decision_log_path": "E:\\Quant\\remote_runs\\nested_v5\\ppara\\decision_log.json",
+      "outer_fold_count": 5,
+      "ligand_count": 600,
+      "active_count": 120,
+      "receptor_count": 15,
+      "adaptive_ks": {
+        "1": 4,
+        "2": 3,
+        "3": 2,
+        "4": 4,
+        "5": 1
+      },
+      "selection_jaccard_mean": {
+        "qubo": 0.35333333333333333,
+        "linear": 0.38333333333333336,
+        "greedy": 0.4333333333333333,
+        "single": 0.1
+      }
+    },
+    {
+      "target_id": "PPARG",
+      "problem_path": "E:\\Quant\\remote_runs\\pparg_adaptive_remote\\problem.json",
+      "problem_sha256": "1ceccc8c843d0fb6551a1442ef56e9043e958e614e7d770f14a623f427bf5fb3",
+      "decision_log_path": "E:\\Quant\\remote_runs\\nested_v5\\pparg\\decision_log.json",
+      "outer_fold_count": 5,
+      "ligand_count": 600,
+      "active_count": 120,
+      "receptor_count": 16,
+      "adaptive_ks": {
+        "1": 1,
+        "2": 1,
+        "3": 2,
+        "4": 3,
+        "5": 1
+      },
+      "selection_jaccard_mean": {
+        "qubo": 0.6166666666666667,
+        "linear": 0.6166666666666667,
+        "greedy": 0.6166666666666667,
+        "single": 0.6
+      }
+    }
+  ]
+}
