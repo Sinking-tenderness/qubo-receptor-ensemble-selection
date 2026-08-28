@@ -17,6 +17,9 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 PPARA_POOL30_REMOTE_CONFIG = (
     REPO_ROOT / "configs" / "experiments" / "ppara_pool30_adaptive_remote.json"
 )
+PPARA_POOL30_FIXED_K4_REMOTE_CONFIG = (
+    REPO_ROOT / "configs" / "experiments" / "ppara_pool30_fixed_k4_remote.json"
+)
 
 
 def _write_config(tmp_path: Path, **overrides: object) -> Path:
@@ -204,6 +207,26 @@ def test_ppara_pool30_remote_config_uses_isolated_remote_paths() -> None:
         for value in payload["paths"].values()
     )
     assert config.data["selection"]["receptor_count"] == 30
+
+
+def test_ppara_pool30_fixed_k4_remote_config_reuses_pool30_matrix() -> None:
+    payload = json.loads(PPARA_POOL30_FIXED_K4_REMOTE_CONFIG.read_text(encoding="utf-8"))
+
+    config = load_full_experiment_config(
+        PPARA_POOL30_FIXED_K4_REMOTE_CONFIG,
+        data_root=Path("/root/autodl-tmp/qubo_data_root"),
+    )
+
+    assert payload["problem"]["target_size"] == 4
+    assert payload["problem"]["fixed_cardinality"] is True
+    assert payload["paths"]["primary_matrix"].endswith(
+        "/ppara_pool30_adaptive_remote/matrices/primary_median_matrix.csv"
+    )
+    assert config.start_stage == "build_problem"
+    assert all(
+        str(value).startswith("/root/autodl-tmp/qubo_data_root/")
+        for value in payload["paths"].values()
+    )
 
 
 def test_partial_config_requires_front_input_paths(tmp_path: Path) -> None:

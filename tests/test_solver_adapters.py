@@ -17,6 +17,15 @@ def _rows() -> list[dict[str, object]]:
     ]
 
 
+def _three_receptor_rows() -> list[dict[str, object]]:
+    return [
+        {"ligand_id": "A1", "label": "active", "R1": -10.0, "R2": -9.0, "R3": -8.0},
+        {"ligand_id": "A2", "label": "active", "R1": -9.0, "R2": -8.0, "R3": -7.0},
+        {"ligand_id": "D1", "label": "decoy", "R1": -5.0, "R2": -4.0, "R3": -3.0},
+        {"ligand_id": "D2", "label": "decoy", "R1": -4.0, "R2": -3.0, "R3": -2.0},
+    ]
+
+
 def test_exact_adapter_returns_standard_solver_result() -> None:
     problem = build_problem(
         _rows(),
@@ -38,6 +47,27 @@ def test_exact_adapter_returns_standard_solver_result() -> None:
     assert result.objective == result.metadata["objective"]
     assert result.metadata["states_evaluated"] == 4
     assert "linear_coefficients" in result.coefficients
+
+
+def test_exact_adapter_enumerates_only_fixed_cardinality_states() -> None:
+    problem = build_problem(
+        _three_receptor_rows(),
+        {
+            "type": "receptor_subset",
+            "strategy": "qubo",
+            "receptor_ids": ["R1", "R2", "R3"],
+            "target_size": 2,
+            "fixed_cardinality": True,
+            "utility_metric": "roc_auc",
+            "weights": {"redundancy": 0.0, "count": 0.0, "size": 10.0},
+        },
+    )
+
+    result = solve_problem(problem, "exact")
+
+    assert len(result.subset) == 2
+    assert result.metadata["states_evaluated"] == 3
+    assert result.metadata["fixed_cardinality"] is True
 
 
 def test_normalized_exact_adapter_wraps_existing_algorithm() -> None:

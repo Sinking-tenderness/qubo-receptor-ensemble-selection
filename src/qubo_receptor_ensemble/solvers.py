@@ -170,6 +170,7 @@ def build_problem(
             str(parameters.get("utility_metric", "bedroc")),
             str(parameters.get("utility_normalization", "none")),
             _float_parameter(parameters, "bedroc_alpha", 20.0),
+            bool(parameters.get("fixed_cardinality", False)),
         )
         qubo["method_id"] = method_id
         formulation = {"qubo": qubo}
@@ -215,6 +216,7 @@ def build_problem(
                 str(parameters.get("utility_metric", "bedroc")),
                 str(parameters.get("utility_normalization", "none")),
                 _float_parameter(parameters, "bedroc_alpha", 20.0),
+                bool(parameters.get("fixed_cardinality", False)),
             )
             qubo["method_id"] = method_id
             formulation = {"qubo": qubo, "method": spec.as_dict()}

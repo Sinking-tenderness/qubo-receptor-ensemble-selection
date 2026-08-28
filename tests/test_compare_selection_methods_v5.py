@@ -5,6 +5,7 @@ from scripts.compare_selection_methods_v5 import (
     select_linear,
     select_methods,
     select_single,
+    resolve_fixed_k_by_fold,
 )
 
 
@@ -44,3 +45,7 @@ def test_matched_k_methods_share_k_but_single_stays_single() -> None:
     assert len(selected["greedy"]) == 2
     assert len(selected["single"]) == 1
     assert selected["single"] == select_single(rows, ["A", "B", "C"])
+
+
+def test_fixed_k_is_applied_to_every_outer_fold() -> None:
+    assert resolve_fixed_k_by_fold([1, 2, 5], 4) == {1: 4, 2: 4, 5: 4}

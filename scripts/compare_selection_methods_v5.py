@@ -1,9 +1,9 @@
 """Compare receptor-set selection methods under the existing V5 outer folds.
 
 The primary comparison fixes the cardinality per outer fold to the k selected
-by the frozen adaptive controller. QUBO, linear top-k, and direct BEDROC
-greedy therefore compete at the same set size. The single-receptor baseline
-always selects one receptor.
+    by the frozen adaptive controller, or to ``--fixed-k`` for a fixed-k replay.
+    QUBO, linear top-k, and direct BEDROC greedy therefore compete at the same set
+    size. The single-receptor baseline always selects one receptor.
 """
 
 from __future__ import annotations
@@ -82,6 +82,13 @@ def load_adaptive_ks(path: Path) -> dict[int, int]:
             raise ValueError(f"duplicate outer fold {fold}: {path}")
         result[fold] = selected_k
     return result
+
+
+def resolve_fixed_k_by_fold(folds: list[int], fixed_k: int) -> dict[int, int]:
+    """Assign one validated cardinality to every outer fold."""
+    if isinstance(fixed_k, bool) or not isinstance(fixed_k, int) or fixed_k < 1:
+        raise ValueError("fixed_k must be a positive integer")
+    return {int(fold): fixed_k for fold in folds}
 
 
 def subset_metrics(
@@ -171,6 +178,7 @@ def select_qubo(
             "count": 0.1,
             "size": 10.0,
         },
+        "fixed_cardinality": True,
         "receptor_ids": list(receptor_ids),
     }
     problem = build_problem(train_rows, config)
@@ -207,12 +215,18 @@ def _compact_metrics(metrics: dict[str, object]) -> dict[str, float]:
 
 def evaluate_target(
     problem_path: Path,
-    decision_log_path: Path,
+    decision_log_path: Path | None = None,
     redundancy_weight: float = 0.25,
+    fixed_k: int | None = None,
 ) -> tuple[list[dict[str, object]], dict[str, object]]:
     target_id, rows, receptor_ids = load_problem(problem_path)
-    adaptive_ks = load_adaptive_ks(decision_log_path)
     folds = sorted({int(row["outer_fold"]) for row in rows})
+    if fixed_k is None:
+        if decision_log_path is None:
+            raise ValueError("decision_log_path is required unless fixed_k is set")
+        adaptive_ks = load_adaptive_ks(decision_log_path)
+    else:
+        adaptive_ks = resolve_fixed_k_by_fold(folds, fixed_k)
     if set(folds) != set(adaptive_ks):
         raise ValueError(f"decision log folds differ from problem rows: {target_id}")
     records: list[dict[str, object]] = []
@@ -241,12 +255,13 @@ def evaluate_target(
         "target_id": target_id,
         "problem_path": str(problem_path),
         "problem_sha256": hashlib.sha256(problem_path.read_bytes()).hexdigest(),
-        "decision_log_path": str(decision_log_path),
+        "decision_log_path": str(decision_log_path) if decision_log_path else None,
         "outer_fold_count": len(folds),
         "ligand_count": len(rows),
         "active_count": sum(row["label"] == "active" for row in rows),
         "receptor_count": len(receptor_ids),
         "adaptive_ks": {str(fold): adaptive_ks[fold] for fold in folds},
+        "fixed_k": fixed_k,
         "selection_jaccard_mean": {
             method: _mean_pairwise_jaccard(selected_by_method[method])
             for method in METHODS
@@ -346,18 +361,36 @@ def parse_args() -> argparse.Namespace:
         action="append",
         nargs=3,
         metavar=("TARGET", "PROBLEM_JSON", "DECISION_LOG_JSON"),
-        required=True,
     )
+    parser.add_argument(
+        "--target-fixed",
+        action="append",
+        nargs=2,
+        metavar=("TARGET", "PROBLEM_JSON"),
+    )
+    parser.add_argument("--fixed-k", type=int)
     return parser.parse_args()
 
 
 def main() -> int:
     args = parse_args()
+    if not args.target and not args.target_fixed:
+        raise SystemExit("at least one --target or --target-fixed is required")
+    if args.target_fixed and args.fixed_k is None:
+        raise SystemExit("--target-fixed requires --fixed-k")
     all_records: list[dict[str, object]] = []
     target_metadata: list[dict[str, object]] = []
-    for target_id, problem_path, decision_log_path in args.target:
+    targets = [
+        (target_id, problem_path, Path(decision_log_path), None)
+        for target_id, problem_path, decision_log_path in (args.target or [])
+    ]
+    targets.extend(
+        (target_id, problem_path, None, args.fixed_k)
+        for target_id, problem_path in (args.target_fixed or [])
+    )
+    for target_id, problem_path, decision_log_path, fixed_k in targets:
         records, metadata = evaluate_target(
-            Path(problem_path), Path(decision_log_path), args.redundancy_weight
+            Path(problem_path), decision_log_path, args.redundancy_weight, fixed_k
         )
         if str(metadata["target_id"]).upper() != str(target_id).upper():
             raise ValueError(

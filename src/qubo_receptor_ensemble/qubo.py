@@ -31,6 +31,7 @@ def build_qubo(
     utility_metric: str = "bedroc",
     utility_normalization: str = "none",
     bedroc_alpha: float = 20.0,
+    fixed_cardinality: bool = False,
 ) -> dict[str, object]:
     if utility_metric not in {"roc_auc", "bedroc", "ef5"}:
         raise ValueError(f"unsupported utility metric: {utility_metric}")
@@ -80,6 +81,7 @@ def build_qubo(
 
     return {
         "target_size": target_size,
+        "fixed_cardinality": bool(fixed_cardinality),
         "utility_metric": utility_metric,
         "utility_normalization": utility_normalization,
         "bedroc_alpha": float(bedroc_alpha),
